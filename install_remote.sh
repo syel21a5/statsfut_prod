@@ -47,7 +47,10 @@ else
 fi
 
 # 5. Build e Subida
-echo "🚀 Construindo e subindo containers..."
+echo "� Ajustando permissões do entrypoint..."
+chmod +x entrypoint.sh
+
+echo "�🚀 Construindo e subindo containers..."
 docker compose -f $COMPOSE_FILE up -d --build
 
 # 6. Verificação
