@@ -2,9 +2,9 @@
 
 # Aguardar o banco de dados estar pronto
 echo "Aguardando banco de dados..."
-while ! nc -z $DB_HOST $DB_PORT; do
-  sleep 0.5
-done
+# while ! nc -z $DB_HOST $DB_PORT; do
+#   sleep 0.5
+# done
 echo "Banco de dados iniciado!"
 
 # Rodar migrações
