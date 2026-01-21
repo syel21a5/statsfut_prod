@@ -1,0 +1,338 @@
+/* SoccerStats Theme - Wide & Vivid */
+body {
+    background-color: #101524 !important;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+/* Utility classes to avoid inline style syntax errors */
+.hidden {
+    display: none;
+}
+
+.bg-positive {
+    background: #d4edda;
+}
+
+.bg-negative {
+    background: #f8d7da;
+}
+
+.bg-row-odd {
+    background: #eee;
+}
+
+.bg-row-even {
+    background: #fff;
+}
+
+.main-container {
+    max-width: 1180px;
+    margin: 20px auto;
+    padding: 0 10px;
+}
+
+/* New Structure: 2-Column Parent */
+.dashboard-wrapper {
+    display: grid;
+    /* Left Group (Col 1+2) approx 2.1fr, Right Sidebar (Col 3) 1.05fr */
+    grid-template-columns: minmax(580px, 2.1fr) minmax(300px, 1.05fr);
+    gap: 15px;
+    align-items: start;
+}
+
+/* Left Group Internal Grid */
+.left-inner-grid {
+    display: grid;
+    /* Ratios matching previous: 1.25fr and 0.85fr */
+    grid-template-columns: minmax(330px, 1.25fr) minmax(250px, 0.85fr);
+    gap: 15px;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .left-inner-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .left-inner-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ss-card {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.ss-card-header {
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #333;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.ss-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.ss-table thead th {
+    background: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+    padding: 6px 4px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.ss-table td {
+    padding: 5px 4px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+/* Vivid Row Colors */
+.row-win {
+    background-color: #d1e7dd !important;
+}
+
+.row-draw {
+    background-color: #fff3cd !important;
+}
+
+.row-loss {
+    background-color: #f8d7da !important;
+}
+
+.score-badge {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 1px 0;
+    width: 35px;
+    font-weight: bold;
+    color: #0000ff;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.h2h-cell {
+    width: 28px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: normal;
+    margin: 0 auto;
+}
+
+.bg-win {
+    background-color: #cfc;
+}
+
+.bg-draw {
+    background-color: #ffc;
+}
+
+.bg-loss {
+    background-color: #fcc;
+}
+
+.btn-h2h {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+    font-size: 0.7rem;
+    padding: 1px 4px;
+    text-decoration: none;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.team-active {
+    color: #0000ff !important;
+    font-weight: bold;
+}
+
+/* Segmented Bar (W D L) */
+.segmented-bar {
+    display: flex;
+    width: 100%;
+    height: 10px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 2px;
+    background: #eee;
+}
+
+.bar-w {
+    background-color: #28a745;
+}
+
+.bar-d {
+    background-color: #ffc107;
+}
+
+.bar-l {
+    background-color: #dc3545;
+}
+
+/* PPG Lines */
+.ppg-line-container {
+    flex-grow: 1;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    margin: 0 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.ppg-line {
+    height: 100%;
+    background: #0056b3;
+    border-radius: 4px 0 0 4px;
+}
+
+.ppg-line-gray {
+    background: #ccc;
+}
+
+.clr-gf {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.clr-ga {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Stats grid */
+.fw-bold {
+    font-weight: bold;
+}
+
+.fw-normal {
+    font-weight: normal;
+}
+
+.color-dark {
+    color: #000;
+}
+
+.color-muted {
+    color: #555;
+}
+
+.bg-gf {
+    background-color: #f0fff4;
+}
+
+.bg-ga {
+    background-color: #fff5f5;
+}
+
+/* Relative form specific */
+.diff-pos {
+    background-color: #bef5cb;
+    color: #155724;
+    font-weight: bold;
+}
+
+.diff-neg {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+}
+
+/* Header Colors */
+.th-w {
+    color: #28a745;
+}
+
+.th-d {
+    color: #ffc107;
+}
+
+.th-l {
+    color: #dc3545;
+}
+
+/* Stat Box Styling */
+.stat-box {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    min-width: 32px;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.box-gp {
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+}
+
+.box-total-w {
+    background: #d4edda;
+    color: #155724;
+}
+
+.box-total-d {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.box-total-l {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Additional utility classes extracted from deeper in the file */
+.bg-success-light {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+}
+
+.bg-danger-light {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+}
+
+.bg-warning-light {
+    background-color: #fff3cd;
+    color: #856404;
+    font-weight: bold;
+}
+
+.bg-success-pale {
+    background-color: #e6ffec;
+}
+
+.bg-danger-pale {
+    background-color: #ffe6e6;
+}
+
+.bg-warning-pale {
+    background-color: #fffde6;
+}

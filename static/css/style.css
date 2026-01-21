@@ -1,0 +1,341 @@
+:root {
+    /* Color Palette - Cyberpunk/Dark Premium */
+    --bg-app: #0b1120;
+    /* Deepest Navy */
+    --bg-panel: #1e293b;
+    /* Card Background */
+    --bg-sidebar: #0f172a;
+    /* Sidebar Background */
+
+    --primary: #06b6d4;
+    /* Cyan Neon */
+    --primary-glow: rgba(6, 182, 212, 0.4);
+
+    --accent: #ec4899;
+    /* Pink Neon */
+    --success: #10b981;
+    /* Green Neon */
+
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    --glass: rgba(30, 41, 59, 0.7);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: fixed;
+    height: 100vh;
+    z-index: 50;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 2.5rem;
+    color: var(--text-main);
+}
+
+.brand i {
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.menu-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.nav-link.active {
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.15), transparent);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+}
+
+.nav-link i {
+    width: 20px;
+    text-align: center;
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.page-title h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.date-badge {
+    background: var(--bg-panel);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* --- CARDS GRID --- */
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+}
+
+.match-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.match-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(6, 182, 212, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.league {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.teams-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.team {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.team-logo {
+    width: 24px;
+    height: 24px;
+    background: #334155;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: #fff;
+}
+
+.score {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.score-accent {
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.card-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.tag-over {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.tag-under {
+    background: rgba(236, 72, 153, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+/* --- LIVE INDICATOR --- */
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--success);
+    animation: pulse 1.5s infinite;
+}
+
+
+/* --- TABS & FILTERS --- */
+.tabs-container {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--bg-panel);
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    width: fit-content;
+}
+
+.tab-btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background: var(--bg-app);
+    color: var(--text-main);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.status-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.4rem 1.2rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.status-btn.active {
+    background: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+    font-weight: 700;
+}
+
+/* --- AD SLOTS --- */
+.ad-slot {
+    border: 1px dashed var(--border);
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.ad-slot-leaderboard {
+    max-width: 970px;
+    height: 90px;
+    margin: 1.5rem auto 0;
+}
+
+.ad-slot-inline {
+    width: 100%;
+    max-width: 728px;
+    height: 90px;
+    margin: 1.5rem 0;
+}
+
+.ad-slot-rectangle {
+    width: 100%;
+    max-width: 300px;
+    height: 250px;
+    margin: 1rem auto;
+}
+
+@media (max-width: 768px) {
+    .ad-slot-leaderboard,
+    .ad-slot-inline {
+        max-width: 100%;
+        height: 100px;
+    }
+
+    .ad-slot-rectangle {
+        max-width: 100%;
+        height: 250px;
+    }
+}

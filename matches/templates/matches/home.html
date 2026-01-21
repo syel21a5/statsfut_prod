@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{{ page_title }}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="ad-slot ad-slot-inline">
+    Home banner – 728x90 (or 320x100 mobile)
+</div>
+
+<div class="tabs-container" style="margin-bottom: 2rem;">
+    <a href="?filter=today" class="tab-btn {% if current_filter == 'today' %}active{% endif %}">Today</a>
+    <a href="?filter=tomorrow" class="tab-btn {% if current_filter == 'tomorrow' %}active{% endif %}">Tomorrow</a>
+    <a href="?filter=next_round" class="tab-btn {% if current_filter == 'next_round' %}active{% endif %}">Next Round</a>
+</div>
+
+<div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+    <button onclick="filterStatus('all')" class="status-btn active" id="btn-all">All</button>
+    <button onclick="filterStatus('live')" class="status-btn" id="btn-live">Live</button>
+    <button onclick="filterStatus('finished')" class="status-btn" id="btn-finished">Finished</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // If viewing next round or tomorrow, force "All" filter
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterType = urlParams.get('filter');
+
+        if (filterType === 'next_round' || filterType === 'tomorrow') {
+            filterStatus('all');
+        }
+    });
+
+    function filterStatus(status) {
+        // Update buttons
+        document.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + status).classList.add('active');
+
+        // Filter cards
+        const cards = document.querySelectorAll('.match-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const cardStatus = card.getAttribute('data-status');
+            let shouldShow = false;
+
+            if (status === 'all') {
+                shouldShow = true;
+            } else if (status === 'live') {
+                shouldShow = (cardStatus === 'Live' || cardStatus === '1H' || cardStatus === '2H' || cardStatus === 'HT');
+            } else if (status === 'finished') {
+                shouldShow = (cardStatus === 'Finished' || cardStatus === 'FT');
+            }
+
+            card.style.display = shouldShow ? 'block' : 'none';
+            if (shouldShow) visibleCount++;
+        });
+
+        // Show message if no cards visible
+        const emptyMsg = document.getElementById('empty-message');
+        if (visibleCount === 0 && cards.length > 0) {
+            if (!emptyMsg) {
+                const div = document.createElement('div');
+                div.id = 'empty-message';
+                div.style = "grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-muted); background: var(--bg-panel); border-radius: 1rem; border: 1px dashed var(--border);";
+                div.innerHTML = '<i class="fa-solid fa-filter" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>No matches with this status.</p>';
+                document.querySelector('.matches-grid').appendChild(div);
+            } else {
+                emptyMsg.style.display = 'block';
+            }
+        } else if (emptyMsg) {
+            emptyMsg.style.display = 'none';
+        }
+    }
+</script>
+
+<div class="matches-grid">
+    {% for match in matches %}
+    <a href="{% url 'matches:match_detail' match.pk %}" style="text-decoration: none; color: inherit; display: block;">
+        <div class="match-card" data-status="{{ match.status }}">
+            <div class="card-header">
+                <div class="league">
+                    <i class="fa-solid fa-circle-notch"></i> {{ match.league.name }}
+                </div>
+                <div class="time">
+                    {% if match.status == 'Live' %}
+                    <span style="color: var(--success); font-weight: 700;">{{ match.elapsed_time }}' </span>
+                    <span class="live-dot" style="display: inline-block; vertical-align: middle;"></span>
+                    {% elif match.status == 'Scheduled' %}
+                    {{ match.date|date:"H:i" }}
+                    {% else %}
+                    <span style="color: var(--text-muted)">{{ match.status }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="teams-container">
+                <div class="teams-row">
+                    <div class="team">
+                        <div class="team-logo">{{ match.home_team.name|slice:":1" }}</div>
+                        {{ match.home_team.name }}
+                    </div>
+                    <div class="score {% if match.home_score > match.away_score %}score-accent{% endif %}">
+                        {% if match.status == 'Scheduled' %}
+                            {{ match.home_score|default:"-" }}
+                        {% else %}
+                            {{ match.home_score|default:"0" }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="teams-row">
+                    <div class="team">
+                        <div class="team-logo" style="background: #475569">{{ match.away_team.name|slice:":1" }}</div>
+                        {{ match.away_team.name }}
+                    </div>
+                    <div class="score {% if match.away_score > match.home_score %}score-accent{% endif %}">
+                        {% if match.status == 'Scheduled' %}
+                            {{ match.away_score|default:"-" }}
+                        {% else %}
+                            {{ match.away_score|default:"0" }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <div class="tag tag-over">OVER 2.5: {{ match.over_25_prob }}%</div>
+                <div class="tag tag-under">UNDER 1.5: {{ match.under_15_prob }}%</div>
+            </div>
+        </div>
+        {% empty %}
+        <div
+            style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-muted); background: var(--bg-panel); border-radius: 1rem; border: 1px dashed var(--border);">
+            <i class="fa-solid fa-ghost" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+            <p>No matches found.</p>
+            <p style="font-size: 0.9rem;">Check if the scraper has run recently.</p>
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}

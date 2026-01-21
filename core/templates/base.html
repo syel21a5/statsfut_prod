@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetStats Pro | Analytics</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>BetStats<span style="color:var(--primary)">.AI</span></span>
+        </div>
+
+        <div class="menu-label">Main</div>
+        <a href="/" class="nav-link active">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+        <a href="{% url 'matches:live_matches' %}" class="nav-link {% if request.resolver_match.view_name == 'matches:live_matches' %}active{% endif %}">
+            <i class="fa-solid fa-satellite-dish"></i> Live <span class="live-dot" style="margin-left:auto"></span>
+        </a>
+        <a href="#" class="nav-link">
+            <i class="fa-solid fa-star"></i> Favorites
+        </a>
+
+        <div class="menu-label">Leagues</div>
+        <a href="{% url 'matches:league_stats' league_name='premier-league' %}" class="nav-link">
+            <i class="fa-solid fa-trophy"></i> Premier League
+        </a>
+        <a href="{% url 'matches:league_detail' 2 %}" class="nav-link">
+            <i class="fa-solid fa-futbol"></i> Brazilian League
+        </a>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="header">
+            <div class="page-title">
+                {% block header %}
+                <h1>Overview</h1>
+                {% endblock %}
+            </div>
+            <div class="date-badge">
+                <i class="fa-regular fa-clock"></i> {% now "M d, Y, H:i" %}
+            </div>
+        </header>
+
+        <div class="ad-slot ad-slot-leaderboard">
+            Top banner – 970x90 / 728x90 (or 320x100 mobile)
+        </div>
+
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+
+</html>

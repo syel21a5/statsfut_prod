@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<div style="display: flex; align-items: center; gap: 1rem;">
+    <a href="javascript:history.back()" style="color: var(--text-muted); text-decoration: none; font-size: 1.2rem;">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <h1>Detalhes da Partida</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="match-detail-container" style="max-width: 800px; margin: 0 auto;">
+
+    <!-- Placar Principal -->
+    <div class="match-card" style="margin-bottom: 2rem; cursor: default;">
+        <div class="card-header" style="justify-content: center; gap: 1rem;">
+            <div class="league">
+                <i class="fa-solid fa-trophy"></i> {{ match.league.name }}
+            </div>
+            <span style="color: var(--text-muted)">•</span>
+            <div class="time">
+                {{ match.date|date:"d/m/Y H:i" }}
+            </div>
+            <span style="color: var(--text-muted)">•</span>
+            <div class="status" style="color: var(--primary)">
+                {{ match.status }}
+            </div>
+        </div>
+
+        <div class="teams-container" style="padding: 2rem 0;">
+            <div class="teams-row" style="justify-content: space-around;">
+                <div class="team" style="flex-direction: column; font-size: 1.5rem;">
+                    <div class="team-logo" style="width: 80px; height: 80px; font-size: 2rem; margin-bottom: 1rem;">
+                        {{ match.home_team.name|slice:":1" }}
+                    </div>
+                    {{ match.home_team.name }}
+                </div>
+
+                <div class="score-board" style="font-size: 3rem; font-weight: 800; color: var(--text-main);">
+                    {% if match.status == 'Scheduled' %}
+                    vs
+                    {% else %}
+                    {{ match.home_score }} - {{ match.away_score }}
+                    {% endif %}
+                </div>
+
+                <div class="team" style="flex-direction: column; font-size: 1.5rem;">
+                    <div class="team-logo"
+                        style="width: 80px; height: 80px; font-size: 2rem; margin-bottom: 1rem; background: #475569;">
+                        {{ match.away_team.name|slice:":1" }}
+                    </div>
+                    {{ match.away_team.name }}
+                </div>
+            </div>
+
+            {% if match.status == 'Live' %}
+            <div style="text-align: center; margin-top: 1rem;">
+                <span style="color: var(--success); font-weight: 700; font-size: 1.2rem;">
+                    <span class="live-dot" style="display: inline-block;"></span>
+                    {% if match.elapsed_time %}
+                    {% if match.elapsed_time %}
+                    {{ match.elapsed_time }}' Played
+                    {% else %}
+                    In Play
+                    {% endif %}
+                    {% else %}
+                    Live
+                    {% endif %}
+
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="ad-slot ad-slot-inline">
+        Match banner – 728x90 (or 320x100 mobile)
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-container" style="margin-bottom: 2rem; border-bottom: 1px solid var(--border);">
+        <button class="tab-btn active" onclick="openTab(event, 'predictions')">Predictions</button>
+        <button class="tab-btn" onclick="openTab(event, 'stats')">Statistics</button>
+        <button class="tab-btn" onclick="openTab(event, 'h2h')">H2H</button>
+    </div>
+
+    <!-- Tabs Content -->
+
+    <!-- TAB: Predictions -->
+    <div id="predictions" class="tab-content" style="display: block;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+
+            <!-- Winner -->
+            <div class="stats-panel">
+                <h3><i class="fa-solid fa-crown"></i> Win Probability</h3>
+                {% if match.predictions_data %}
+                <div style="display: flex; align-items: center; margin-bottom: 1rem; margin-top: 1rem;">
+                    <div style="width: 50px; font-weight: bold;">HOME</div>
+                    <div
+                        style="flex: 1; height: 10px; background: #334155; border-radius: 5px; margin: 0 1rem; overflow: hidden;">
+                        <div class="js-width" style="height: 100%; background: var(--primary);"
+                            data-width="{{ match.predictions_data.predictions.percent.home }}">
+                        </div>
+                    </div>
+                    <div style="width: 40px; text-align: right;">{{ match.predictions_data.predictions.percent.home }}
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="width: 50px; font-weight: bold;">DRAW</div>
+                    <div
+                        style="flex: 1; height: 10px; background: #334155; border-radius: 5px; margin: 0 1rem; overflow: hidden;">
+                        <div class="js-width" style="height: 100%; background: var(--text-muted);"
+                            data-width="{{ match.predictions_data.predictions.percent.draw }}">
+                        </div>
+                    </div>
+                    <div style="width: 40px; text-align: right;">{{ match.predictions_data.predictions.percent.draw }}
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 50px; font-weight: bold;">AWAY</div>
+                    <div
+                        style="flex: 1; height: 10px; background: #334155; border-radius: 5px; margin: 0 1rem; overflow: hidden;">
+                        <div class="js-width" style="height: 100%; background: var(--accent);"
+                            data-width="{{ match.predictions_data.predictions.percent.away }}">
+                        </div>
+                    </div>
+                    <div style="width: 40px; text-align: right;">{{ match.predictions_data.predictions.percent.away }}
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 2rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 0.5rem; text-align: center;">
+                    <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">SYSTEM SUGGESTION</span>
+                    <strong style="font-size: 1.2rem; color: var(--primary);">{{
+                        match.predictions_data.predictions.winner.name }}</strong>
+                    <div style="font-size: 0.9rem;">{{ match.predictions_data.predictions.advice }}</div>
+                </div>
+                {% else %}
+                <p style="color: var(--text-muted); text-align: center; padding: 2rem;">Not enough data for prediction.
+                </p>
+                {% endif %}
+            </div>
+
+            <!-- Goals -->
+            <div class="stats-panel">
+                <h3><i class="fa-solid fa-futbol"></i> Goals Market</h3>
+
+                <!-- Internal Model (Database) -->
+                {% if match.over_25_prob %}
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">INTERNAL MODEL</h4>
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Over 2.5</span>
+                            <span style="color: var(--success); font-weight: 700;">{{ match.over_25_prob }}%</span>
+                        </div>
+                        <div style="height: 6px; background: #334155; border-radius: 3px;">
+                            <div class="js-width" style="height: 100%; background: var(--success);"
+                                data-width="{{ match.over_25_prob }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Under 1.5</span>
+                            <span style="color: var(--danger); font-weight: 700;">{{ match.under_15_prob }}%</span>
+                        </div>
+                        <div style="height: 6px; background: #334155; border-radius: 3px;">
+                            <div class="js-width" style="height: 100%; background: var(--danger);"
+                                data-width="{{ match.under_15_prob }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- API Data -->
+                {% if match.predictions_data.predictions.goals %}
+                <div>
+                    <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">API PROJECTION</h4>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-main); border-radius: 0.5rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">HOME</div>
+                            <div style="font-weight: bold;">{{ match.predictions_data.predictions.goals.home|default:"-"
+                                }}</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">AWAY</div>
+                            <div style="font-weight: bold;">{{ match.predictions_data.predictions.goals.away|default:"-"
+                                }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: Statistics (Placeholder) -->
+    <div id="stats" class="tab-content" style="display: none;">
+        <div class="stats-panel" style="text-align: center;">
+            <i class="fa-solid fa-chart-bar" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+            <p>Detailed post-match statistics</p>
+        </div>
+    </div>
+
+    <!-- TAB: H2H -->
+    <div id="h2h" class="tab-content" style="display: none;">
+        <div class="stats-panel">
+            <h3><i class="fa-solid fa-handshake"></i> Recent Head to Head</h3>
+            <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+                Coming soon: Last 5 head-to-head clashes.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Apply dynamic widths to avoid CSS linting errors with Django templates
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.js-width').forEach(el => {
+            let width = el.getAttribute('data-width');
+            if (width) {
+                // Remove % if present and ensure it's a valid number
+                width = width.replace('%', '').replace(',', '.');
+                el.style.width = width + '%';
+            }
+        });
+    });
+</script>
+
+<style>
+    .stats-panel {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+    }
+
+    .stats-panel h3 {
+        margin-bottom: 1.5rem;
+        color: var(--text-main);
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+</style>
+
+</div>
+{% endblock %}
