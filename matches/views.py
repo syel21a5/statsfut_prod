@@ -9,6 +9,23 @@ from .api_manager import APIManager
 import json
 
 
+from django.http import HttpResponse
+
+def debug_leagues(request):
+    leagues = League.objects.all()
+    html = "<h1>Debug: Ligas no Banco de Dados</h1>"
+    html += "<p>Se esta lista estiver vazia, o banco de dados não tem dados populados.</p>"
+    html += "<ul>"
+    count = 0
+    for l in leagues:
+        count += 1
+        slug_provavel = l.name.replace(' ', '-').lower()
+        html += f"<li>ID: {l.id} | <strong>Nome Original: '{l.name}'</strong> | Slug (para URL): '{slug_provavel}'</li>"
+    html += "</ul>"
+    if count == 0:
+        html += "<p style='color:red; font-weight:bold;'>NENHUMA LIGA ENCONTRADA! Execute 'python seed.py' no servidor.</p>"
+    return HttpResponse(html)
+
 class MatchDetailView(DetailView):
     model = Match
     template_name = 'matches/match_detail.html'
