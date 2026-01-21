@@ -11,5 +11,5 @@ urlpatterns = [
     path('stats/<str:league_name>/', views.LeagueDetailView.as_view(), name='league_stats'),
     path('stats/<str:league_name>/<str:team_name>/', views.TeamDetailView.as_view(), name='team_stats'),
     path('live/', views.LiveMatchesView.as_view(), name='live_matches'),
-    path('debug-leagues/', views.debug_leagues, name='debug_leagues'),
+    path('debug-leagues/', views.debug_leagues_wrapper, name='debug_leagues'),
 ]
