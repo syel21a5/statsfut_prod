@@ -13,41 +13,103 @@ from django.http import HttpResponse
 
 def debug_leagues(request):
     try:
+        from .models import League, Team, Match, Season, LeagueStanding
+        
         # Seeding Logic triggered by button
         if request.method == "POST" and request.POST.get('action') == 'seed':
-            # 1. Create Leagues
+            
+            # 1. Create Season
+            season_2025, _ = Season.objects.get_or_create(year=2025)
+
+            # 2. Create Leagues
             premier, _ = League.objects.get_or_create(name="Premier League", country="Inglaterra")
             brasileirao, _ = League.objects.get_or_create(name="Brasileirão", country="Brasil")
             
-            # 2. Create Teams
+            # 3. Create Teams
             arsenal, _ = Team.objects.get_or_create(name="Arsenal", league=premier)
             city, _ = Team.objects.get_or_create(name="Man City", league=premier)
             liverpool, _ = Team.objects.get_or_create(name="Liverpool", league=premier)
             palmeiras, _ = Team.objects.get_or_create(name="Palmeiras", league=brasileirao)
             flamengo, _ = Team.objects.get_or_create(name="Flamengo", league=brasileirao)
             
-            # 3. Create Matches
+            # 4. Create Matches (Future and Past)
             now = timezone.now()
-            Match.objects.get_or_create(league=premier, home_team=arsenal, away_team=city, date=now + timedelta(hours=2))
-            Match.objects.get_or_create(league=brasileirao, home_team=palmeiras, away_team=flamengo, date=now + timedelta(hours=5))
             
-            return HttpResponse("<h1>Dados Semeados com Sucesso!</h1><p><a href='/debug-leagues/'>Voltar</a></p>")
+            # Future Match (Scheduled)
+            Match.objects.get_or_create(
+                league=premier, 
+                season=season_2025,
+                home_team=arsenal, 
+                away_team=city, 
+                defaults={'date': now + timedelta(days=2), 'status': 'Scheduled'}
+            )
+            
+            # Past Match (Finished)
+            m_past, created = Match.objects.get_or_create(
+                league=premier, 
+                season=season_2025,
+                home_team=liverpool, 
+                away_team=arsenal, 
+                defaults={
+                    'date': now - timedelta(days=5), 
+                    'status': 'Finished',
+                    'home_score': 2,
+                    'away_score': 1
+                }
+            )
+            
+            # 5. Create Standings (Table)
+            # Arsenal
+            LeagueStanding.objects.get_or_create(
+                league=premier,
+                season=season_2025,
+                team=arsenal,
+                defaults={
+                    'position': 2, 'played': 1, 'won': 0, 'drawn': 0, 'lost': 1,
+                    'goals_for': 1, 'goals_against': 2, 'points': 0
+                }
+            )
+            # Liverpool
+            LeagueStanding.objects.get_or_create(
+                league=premier,
+                season=season_2025,
+                team=liverpool,
+                defaults={
+                    'position': 1, 'played': 1, 'won': 1, 'drawn': 0, 'lost': 0,
+                    'goals_for': 2, 'goals_against': 1, 'points': 3
+                }
+            )
+
+            return HttpResponse("<h1>Dados Completos Semeados! (Ligas, Times, Jogos, Tabela)</h1><p><a href='/debug-leagues/'>Voltar</a></p>")
 
         # Display Logic
         leagues = League.objects.all()
-        html = "<h1>Debug: Ligas no Banco de Dados</h1>"
-        html += "<p>Se esta lista estiver vazia, clique no botão abaixo para criar os dados iniciais.</p>"
+        teams = Team.objects.all()
+        matches = Match.objects.all().order_by('-date')
+        standings = LeagueStanding.objects.all()
+
+        html = "<h1>Debug: Banco de Dados Completo</h1>"
         
-        html += "<ul>"
-        count = 0
+        html += "<h2>Ligas</h2><ul>"
         for l in leagues:
-            count += 1
-            slug_provavel = l.name.replace(' ', '-').lower()
-            html += f"<li>ID: {l.id} | <strong>Nome Original: '{l.name}'</strong> | Slug (para URL): '{slug_provavel}'</li>"
+            slug = l.name.replace(' ', '-').lower()
+            html += f"<li>{l.name} ({l.country}) | Slug: {slug}</li>"
         html += "</ul>"
-        
-        if count == 0:
-            html += "<p style='color:red; font-weight:bold;'>NENHUMA LIGA ENCONTRADA!</p>"
+
+        html += "<h2>Times</h2><ul>"
+        for t in teams:
+            html += f"<li>{t.name} ({t.league.name})</li>"
+        html += "</ul>"
+
+        html += "<h2>Partidas</h2><ul>"
+        for m in matches:
+            html += f"<li>{m.date}: {m.home_team} vs {m.away_team} [{m.status}] (Season: {m.season})</li>"
+        html += "</ul>"
+
+        html += "<h2>Tabela (Standings)</h2><ul>"
+        for s in standings:
+            html += f"<li>{s.league.name} - {s.team.name}: Pos {s.position}, Pts {s.points}</li>"
+        html += "</ul>"
         
         # Form to trigger seeding
         html += """
@@ -56,13 +118,12 @@ def debug_leagues(request):
                 <input type="hidden" name="action" value="seed">
                 <input type="hidden" name="csrfmiddlewaretoken" value="">
                 <button type="submit" style="padding: 10px 20px; background: green; color: white; font-size: 16px; cursor: pointer;">
-                    CRIAR DADOS DE TESTE (SEED)
+                    CRIAR DADOS COMPLETOS (SEED)
                 </button>
-                <p><small>Nota: O CSRF pode falhar se não configurado, mas tente.</small></p>
+                <p><small>Clique para gerar tabela e jogos.</small></p>
             </form>
         """
         
-        # CSRF Exemption (quick fix for debug view only)
         return HttpResponse(html)
     except Exception as e:
         import traceback
