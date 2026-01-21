@@ -1,10 +1,12 @@
 #!/bin/sh
+set -e
 
 # Aguardar o banco de dados estar pronto
-echo "Aguardando banco de dados..."
-# while ! nc -z $DB_HOST $DB_PORT; do
-#   sleep 0.5
-# done
+echo "Aguardando banco de dados ($DB_HOST:$DB_PORT)..."
+while ! python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.connect(('$DB_HOST', int('$DB_PORT')))" 2>/dev/null; do
+  echo "Aguardando MySQL em $DB_HOST:$DB_PORT..."
+  sleep 2
+done
 echo "Banco de dados iniciado!"
 
 # Rodar migrações
