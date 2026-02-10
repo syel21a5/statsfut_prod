@@ -25,14 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ag%%ixyoe(tcagidf45lbnq^&af%wlosgc0ogh4#b+g!4$@^3h'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-ag%%ixyoe(tcagidf45lbnq^&af%wlosgc0ogh4#b+g!4$@^3h')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', '*').split(',') if host.strip()]
+ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', 'statsfut.com,www.statsfut.com,localhost,127.0.0.1').split(',') if host.strip()]
 
-CSRF_TRUSTED_ORIGINS = [url.strip() for url in os.getenv('CSRF_TRUSTED_ORIGINS', 'https://statsfut.com,https://www.statsfut.com,https://teste1.statsfut.com').split(',') if url.strip()]
+CSRF_TRUSTED_ORIGINS = [url.strip() for url in os.getenv('CSRF_TRUSTED_ORIGINS', 'https://statsfut.com,https://www.statsfut.com').split(',') if url.strip()]
 
 # Ensure proper host/SSL handling behind reverse proxies (e.g., Cloudflare, Nginx)
 USE_X_FORWARDED_HOST = True
