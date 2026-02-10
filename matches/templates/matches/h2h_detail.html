@@ -1,0 +1,1925 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load matches_extras %}
+
+{% block content %}
+<style>
+    /* SoccerStats Integration with Site Theme */
+    .h2h-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Top Navigation Link */
+    .nav-link-back {
+        font-size: 14px;
+        color: var(--primary, #06b6d4);
+        text-decoration: none;
+        margin-bottom: 20px;
+        display: inline-block;
+        font-weight: 500;
+    }
+    .nav-link-back:hover {
+        text-decoration: underline;
+    }
+
+    /* Grid System */
+    .ss-grid {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+    }
+    
+    .ss-col {
+        flex: 1;
+        width: 50%;
+    }
+
+    /* Headers */
+    .team-header {
+        background: var(--bg-panel, #1e293b); /* Use site panel color */
+        color: var(--text-main, #fff);
+        font-weight: bold;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 8px;
+        border: 1px solid var(--border, rgba(255,255,255,0.1));
+    }
+    .team-sub {
+        font-size: 12px;
+        color: var(--text-muted, #ccc);
+        font-weight: normal;
+    }
+
+    /* Standard SoccerStats Container (White Card Style) */
+    .ss-box {
+        background: #ffffff;
+        color: #000000;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .ss-box-header {
+        background: #f1f5f9; /* Slate-100 */
+        color: #0f172a; /* Slate-900 */
+        font-weight: bold;
+        text-align: center;
+        padding: 5px;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Tables */
+    .ss-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+
+    .ss-table th {
+        background: #f8fafc; /* Slate-50 */
+        border-bottom: 1px solid #e2e8f0;
+        border-right: 1px solid #e2e8f0;
+        padding: 4px 6px;
+        text-align: center;
+        font-weight: 600;
+        color: #475569; /* Slate-600 */
+    }
+    
+    .ss-table td {
+        padding: 4px 6px;
+        text-align: center;
+        border-bottom: 1px solid #e2e8f0;
+        border-right: 1px solid #e2e8f0;
+        color: #334155; /* Slate-700 */
+    }
+
+    /* Status Colors */
+    .stat-good-bg { background: #dcfce7 !important; }
+    .stat-good-text { color: #166534 !important; }
+    .stat-good-bar { background: #22c55e !important; }
+    
+    .stat-bad-bg { background: #fee2e2 !important; }
+    .stat-bad-text { color: #991b1b !important; }
+    .stat-bad-bar { background: #ef4444 !important; }
+
+    .stat-neutral-bg { background: #f8fafc !important; }
+    .stat-neutral-text { color: #64748b !important; }
+    .stat-neutral-bar { background: #94a3b8 !important; }
+
+    /* Highlight Row */
+    .highlight-row { font-weight: bold; background: #fff; }
+
+    /* Dynamic Width Helper */
+    .bar-dynamic { width: var(--w); height: 100%; }
+    .w-dynamic { width: var(--w); }
+    
+    .bar-green { background: #15803d; }
+    .bar-red { background: #b91c1c; }
+    .bar-blue { background: #3b82f6; }
+    .radius-3 { border-radius: 3px; }
+
+    /* Streak Colors */
+    .stk-win { background-color: #dcfce7 !important; }
+    .stk-draw { background-color: #fef08a !important; }
+    .stk-loss { background-color: #fee2e2 !important; }
+    .stk-gray { background-color: #e2e8f0; }
+    .stk-header { background-color: #64748b; color: white; }
+
+    .ss-table tr:last-child td {
+        border-bottom: none;
+    }
+    .ss-table td:last-child, .ss-table th:last-child {
+        border-right: none;
+    }
+
+    /* Striped Rows */
+    .ss-table tbody tr:nth-child(even) {
+        background-color: #f8fafc; /* Slate-50 */
+    }
+
+    /* Badges for Total Row */
+    .stat-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: #000;
+        font-weight: bold;
+        min-width: 24px;
+        text-align: center;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .stat-badge-w { background-color: #dcfce7; border: 1px solid #bbf7d0; color: #166534; } /* Green */
+    .stat-badge-d { background-color: #fef9c3; border: 1px solid #fde047; color: #854d0e; } /* Yellow */
+    .stat-badge-l { background-color: #fee2e2; border: 1px solid #fecaca; color: #991b1b; } /* Red */
+
+    /* Specific Row Styles */
+    .row-total {
+        background: #fff !important; /* Override stripe */
+        font-weight: bold;
+        border-top: 2px solid #e2e8f0;
+    }
+    
+    .row-label {
+        text-align: left !important;
+        padding-left: 8px !important;
+        font-weight: 500;
+        color: #64748b;
+    }
+
+    /* PPG Section */
+    .ppg-section {
+        padding: 10px 15px;
+        font-size: 12px;
+        background: #fff;
+    }
+    .ppg-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        color: #334155;
+    }
+    .ppg-line:last-child {
+        margin-bottom: 0;
+        font-weight: bold;
+        color: #0f172a;
+        font-size: 13px;
+    }
+    .ppg-label { width: 90px; }
+    .ppg-bar-container {
+        flex: 1;
+        background: #f1f5f9;
+        height: 8px;
+        border-radius: 4px;
+        margin: 0 10px;
+        overflow: hidden;
+    }
+    .ppg-bar-fill {
+        height: 100%;
+        background: #0284c7; /* Sky-600 */
+        border-radius: 4px;
+    }
+    .ppg-value { width: 30px; text-align: right; }
+    
+    /* Relative Form Diff Colors */
+    .diff-pos {
+        background-color: #dcfce7 !important; /* Green-100 */
+        color: #166534 !important; /* Green-700 */
+        font-weight: 600 !important;
+    }
+    .diff-neg {
+        background-color: #fee2e2 !important; /* Red-100 */
+        color: #991b1b !important; /* Red-800 */
+        font-weight: 600 !important;
+    }
+    .val-blue {
+        color: #2563eb !important; /* Blue-600 */
+        font-weight: bold !important;
+    }
+    .val-green {
+        color: #16a34a !important; /* Green-600 */
+        font-weight: bold !important;
+    }
+    .val-red {
+        color: #dc2626 !important; /* Red-600 */
+        font-weight: bold !important;
+    }
+
+    /* Progression Chart */
+    .progression-container {
+        padding: 15px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        margin-top: 10px;
+        position: relative;
+    }
+    .progression-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #64748b;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+    .progression-chart {
+        display: flex;
+        align-items: center;
+        height: 80px;
+        position: relative;
+        border-bottom: 1px solid #cbd5e1;
+        padding-bottom: 0;
+    }
+    .progression-axis {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #cbd5e1;
+        z-index: 0;
+    }
+    .prog-bar-wrapper {
+        flex: 1;
+        height: 100%;
+        margin: 0 2px;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .prog-bar {
+        width: 100%;
+        max-width: 12px;
+        border-radius: 2px;
+    }
+    .prog-win {
+        height: 60%; /* +2 equivalent */
+        background: #16a34a; /* Green */
+        margin-bottom: 50%; /* Push up from center */
+        transform: translateY(50%);
+    }
+    .prog-draw {
+        height: 15%; /* 0 equivalent (small) */
+        background: #f59e0b; /* Amber/Orange */
+    }
+    .prog-loss {
+        height: 40%; /* -1 equivalent */
+        background: #dc2626; /* Red */
+        margin-top: 50%; /* Push down from center */
+        transform: translateY(-50%);
+    }
+    .prog-legend {
+        font-size: 11px;
+        margin-top: 8px;
+        text-align: center;
+        color: #64748b;
+    }
+    .legend-item { margin: 0 5px; }
+    .legend-w { color: #16a34a; font-weight: bold; }
+    .legend-d { color: #f59e0b; font-weight: bold; }
+    .legend-l { color: #dc2626; font-weight: bold; }
+
+    /* Results Table New Style */
+    .match-date { 
+        color: #64748b; 
+        width: 50px; 
+        white-space: nowrap;
+        font-size: 11px;
+    }
+    
+    /* Row Backgrounds */
+    .row-win-bg { background-color: #dcfce7 !important; } /* Green-100 */
+    .row-draw-bg { background-color: #fef9c3 !important; } /* Yellow-100 */
+    .row-loss-bg { background-color: #fee2e2 !important; } /* Red-100 */
+
+    /* Score Box White */
+    .score-box-white {
+        background: #fff;
+        border: 1px solid #94a3b8;
+        color: #2563eb; /* Blue-600 */
+        font-weight: bold;
+        padding: 1px 6px;
+        border-radius: 3px;
+        display: inline-block;
+        min-width: 35px;
+        font-size: 12px;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+
+    /* Team Names */
+    .team-name-cell {
+        font-size: 12px;
+        color: #0f172a;
+    }
+    .team-name-bold {
+        font-weight: 700;
+        color: #000;
+    }
+
+    /* Stats Columns */
+    .stat-col {
+        width: 30px;
+        text-align: center;
+        font-size: 11px;
+        color: #334155;
+    }
+    .stat-col-header {
+        background: #334155; /* Slate-700 */
+        color: #fff !important;
+        font-weight: normal !important;
+        font-size: 10px !important;
+        padding: 2px !important;
+        border: none !important;
+    }
+    .header-dark-row th {
+        background: #334155; /* Slate-700 */
+        color: #fff;
+        border: none;
+        padding: 4px;
+    }
+    
+    .icon-chart {
+        color: #3b82f6; /* Blue-500 */
+        font-size: 12px;
+        cursor: pointer;
+    }
+    
+    /* Specific overrides for this table */
+    .results-table td {
+        padding: 6px 4px;
+        border: none; /* Clean look */
+        border-bottom: 1px solid rgba(255,255,255,0.5); /* Subtle separator */
+        vertical-align: middle;
+    }
+    
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+
+    /* Direct H2H at Bottom */
+    .h2h-history-box {
+        margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+        .ss-grid { flex-direction: column; }
+        .ss-col { width: 100%; }
+        .h2h-wrapper { width: 100%; padding: 10px; }
+    }
+</style>
+
+<div class="h2h-wrapper">
+    <a href="/" class="nav-link-back">&laquo; Back to League</a>
+
+    <div class="ss-grid">
+        <!-- TEAM 1 COLUMN -->
+        <div class="ss-col">
+            <div class="team-header">
+                <span>{{ team1.name }}</span>
+                <span class="team-sub">(this season)</span>
+            </div>
+
+    <!-- Moved to end -->
+
+            <!-- CONTAINER 1: Seasonal Match Statistics -->
+            <div class="ss-box">
+                <div class="ss-box-header">Seasonal match statistics</div>
+                <table class="ss-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>GP</th>
+                            <th>W</th>
+                            <th>D</th>
+                            <th>L</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">Home</td>
+                            <td style="font-weight: bold;">{{ t1_stats.home.gp }}</td>
+                            <td class="val-green">{{ t1_stats.home.w }}</td>
+                            <td>{{ t1_stats.home.d }}</td>
+                            <td class="val-red">{{ t1_stats.home.l }}</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Away</td>
+                            <td style="font-weight: bold;">{{ t1_stats.away.gp }}</td>
+                            <td class="val-green">{{ t1_stats.away.w }}</td>
+                            <td>{{ t1_stats.away.d }}</td>
+                            <td class="val-red">{{ t1_stats.away.l }}</td>
+                        </tr>
+                        <tr class="row-total">
+                            <td class="row-label">Total</td>
+                            <td style="font-weight: bold;">{{ t1_stats.total.gp }}</td>
+                            <td><span class="stat-badge stat-badge-w">{{ t1_stats.total.w }}</span></td>
+                            <td><span class="stat-badge stat-badge-d">{{ t1_stats.total.d }}</span></td>
+                            <td><span class="stat-badge stat-badge-l">{{ t1_stats.total.l }}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="ppg-section">
+                    <div class="ppg-line">
+                        <span class="ppg-label">PPG (Home):</span>
+                        <div class="ppg-bar-container">
+                            <div class="ppg-bar-fill w-dynamic" style="--w: {{ t1_stats.home.ppg_pct }}%;"></div>
+                        </div>
+                        <span class="ppg-value">{{ t1_stats.home.ppg }}</span>
+                    </div>
+                    <div class="ppg-line">
+                        <span class="ppg-label">PPG (Away):</span>
+                        <div class="ppg-bar-container">
+                            <div class="ppg-bar-fill w-dynamic" style="--w: {{ t1_stats.away.ppg_pct }}%;"></div>
+                        </div>
+                        <span class="ppg-value">{{ t1_stats.away.ppg }}</span>
+                    </div>
+                    <div class="ppg-line">
+                        <span class="ppg-label">PPG (Total):</span>
+                        <div class="ppg-bar-container">
+                            <div class="ppg-bar-fill w-dynamic" style="--w: {{ t1_stats.total.ppg_pct }}%;"></div>
+                        </div>
+                        <span class="ppg-value">{{ t1_stats.total.ppg }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTAINER 2: Relative Form -->
+            <div class="ss-box">
+                <div class="ss-box-header">Relative form</div>
+                <table class="ss-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>All</th>
+                            <th>Last 8</th>
+                            <th>Diff.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">Points per Game</td>
+                            <td>{{ t1_stats.total.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t1_stats.last_8.ppg|floatformat:2 }}</td>
+                            <td class="{% if t1_stats.diff.ppg >= 0 %}diff-pos{% else %}diff-neg{% endif %}">
+                                {{ t1_stats.diff.ppg }}%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">AVG Goals For</td>
+                            <td>{{ t1_stats.total.avg_gf|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t1_stats.last_8.avg_gf|floatformat:2 }}</td>
+                            <td class="{% if t1_stats.diff.avg_gf >= 0 %}diff-pos{% else %}diff-neg{% endif %}">
+                                {{ t1_stats.diff.avg_gf }}%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">AVG Goals Against</td>
+                            <td>{{ t1_stats.total.avg_ga|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t1_stats.last_8.avg_ga|floatformat:2 }}</td>
+                            <td class="{% if t1_stats.diff.avg_ga <= 0 %}diff-pos{% else %}diff-neg{% endif %}">
+                                {{ t1_stats.diff.avg_ga }}%
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- CONTAINER 2b: Progression -->
+            <div class="progression-container">
+                <div class="progression-title">{{ team1.name }}'s progression (home & away)</div>
+                <div class="progression-chart">
+                    <div class="progression-axis"></div>
+                    {% for m in t1_matches|slice:":20" reversed %}
+                        <div class="prog-bar-wrapper">
+                            {% if m.home_team == team1 %}
+                                {% if m.home_score > m.away_score %}
+                                    <div class="prog-bar prog-win" title="Win vs {{ m.away_team.name }}"></div>
+                                {% elif m.home_score == m.away_score %}
+                                    <div class="prog-bar prog-draw" title="Draw vs {{ m.away_team.name }}"></div>
+                                {% else %}
+                                    <div class="prog-bar prog-loss" title="Loss vs {{ m.away_team.name }}"></div>
+                                {% endif %}
+                            {% else %}
+                                {% if m.away_score > m.home_score %}
+                                    <div class="prog-bar prog-win" title="Win @ {{ m.home_team.name }}"></div>
+                                {% elif m.away_score == m.home_score %}
+                                    <div class="prog-bar prog-draw" title="Draw @ {{ m.home_team.name }}"></div>
+                                {% else %}
+                                    <div class="prog-bar prog-loss" title="Loss @ {{ m.home_team.name }}"></div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="prog-legend">
+                    <span class="legend-item legend-w">win:+2</span>
+                    <span class="legend-item legend-d">draw:0</span>
+                    <span class="legend-item legend-l">defeat:-1</span>
+                </div>
+            </div>
+
+            <!-- CONTAINER 3: Results -->
+            <div class="ss-box">
+                <div class="ss-box-header">Results</div>
+                <!-- Match Table -->
+                <table class="ss-table results-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr class="header-dark-row">
+                            <th colspan="4" style="text-align: left; padding-left: 10px; font-size: 1rem; background: #fff; color: #333; font-weight: bold;">Results</th>
+                            <th class="stat-col-header">2.5+</th>
+                            <th class="stat-col-header">CS</th>
+                            <th class="stat-col-header">FTS</th>
+                            <th class="stat-col-header">HT</th>
+                            <th class="stat-col-header" style="width: 20px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in t1_matches|slice:":20" %}
+                        {% with is_home=m.home_team|is_team:team1 %}
+                            <!-- Logic for row color -->
+                            <tr class="{% if m.home_score == m.away_score %}row-draw-bg{% elif is_home and m.home_score > m.away_score %}row-win-bg{% elif not is_home and m.away_score > m.home_score %}row-win-bg{% else %}row-loss-bg{% endif %}">
+                                <td class="match-date">{{ m.date|date:"d M" }}</td>
+                                
+                                <td class="team-name-cell text-right {% if is_home %}team-name-bold{% endif %}" style="width: 35%;">
+                                    {{ m.home_team.name }}
+                                </td>
+                                
+                                <td class="text-center" style="width: 60px;">
+                                    <span class="score-box-white">{{ m.home_score }}:{{ m.away_score }}</span>
+                                </td>
+                                
+                                <td class="team-name-cell text-left {% if not is_home %}team-name-bold{% endif %}" style="width: 35%;">
+                                    {{ m.away_team.name }}
+                                </td>
+                                
+                                <!-- 2.5+ -->
+                                <td class="stat-col">
+                                    {% if m.home_score|add:m.away_score > 2.5 %}+{% else %}-{% endif %}
+                                </td>
+
+                                <!-- CS (Clean Sheet) -->
+                                <td class="stat-col">
+                                    {% if is_home and m.away_score == 0 %}+{% elif not is_home and m.home_score == 0 %}+{% else %}-{% endif %}
+                                </td>
+
+                                <!-- FTS (Failed To Score) -->
+                                <td class="stat-col">
+                                    {% if is_home and m.home_score == 0 %}+{% elif not is_home and m.away_score == 0 %}+{% else %}-{% endif %}
+                                </td>
+
+                                <!-- HT Score -->
+                                <td class="stat-col">
+                                    {% if m.ht_home_score is not None %}{{ m.ht_home_score }}-{{ m.ht_away_score }}{% else %}-{% endif %}
+                                </td>
+
+                                <!-- Icon -->
+                                <td class="stat-col">
+                                    <i class="fa-solid fa-chart-simple icon-chart"></i>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TEAM 2 COLUMN -->
+        <div class="ss-col">
+            <div class="team-header">
+                <span>{{ team2.name }}</span>
+                <span class="team-sub">(this season)</span>
+            </div>
+
+            <!-- CONTAINER 1: Seasonal Match Statistics -->
+            <div class="ss-box">
+                <div class="ss-box-header">Seasonal match statistics</div>
+                <table class="ss-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>GP</th>
+                            <th>W</th>
+                            <th>D</th>
+                            <th>L</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">Home</td>
+                            <td style="font-weight: bold;">{{ t2_stats.home.gp }}</td>
+                            <td class="val-green">{{ t2_stats.home.w }}</td>
+                            <td>{{ t2_stats.home.d }}</td>
+                            <td class="val-red">{{ t2_stats.home.l }}</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Away</td>
+                            <td style="font-weight: bold;">{{ t2_stats.away.gp }}</td>
+                            <td class="val-green">{{ t2_stats.away.w }}</td>
+                            <td>{{ t2_stats.away.d }}</td>
+                            <td class="val-red">{{ t2_stats.away.l }}</td>
+                        </tr>
+                        <tr class="row-total">
+                            <td class="row-label">Total</td>
+                            <td style="font-weight: bold;">{{ t2_stats.total.gp }}</td>
+                            <td><span class="stat-badge stat-badge-w">{{ t2_stats.total.w }}</span></td>
+                            <td><span class="stat-badge stat-badge-d">{{ t2_stats.total.d }}</span></td>
+                            <td><span class="stat-badge stat-badge-l">{{ t2_stats.total.l }}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="ppg-section">
+                    <div class="ppg-line">
+                        <span class="ppg-label">PPG (Home):</span>
+                        <div class="ppg-bar-container">
+                            <div class="ppg-bar-fill w-dynamic" style="--w: {{ t2_stats.home.ppg_pct }}%;"></div>
+                        </div>
+                        <span class="ppg-value">{{ t2_stats.home.ppg }}</span>
+                    </div>
+                    <div class="ppg-line">
+                        <span class="ppg-label">PPG (Away):</span>
+                        <div class="ppg-bar-container">
+                            <div class="ppg-bar-fill w-dynamic" style="--w: {{ t2_stats.away.ppg_pct }}%;"></div>
+                        </div>
+                        <span class="ppg-value">{{ t2_stats.away.ppg }}</span>
+                    </div>
+                    <div class="ppg-line">
+                        <span class="ppg-label">PPG (Total):</span>
+                        <div class="ppg-bar-container">
+                            <div class="ppg-bar-fill w-dynamic" style="--w: {{ t2_stats.total.ppg_pct }}%;"></div>
+                        </div>
+                        <span class="ppg-value">{{ t2_stats.total.ppg }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTAINER 2: Relative Form -->
+            <div class="ss-box">
+                <div class="ss-box-header">Relative form</div>
+                <table class="ss-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>All</th>
+                            <th>Last 8</th>
+                            <th>Diff.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-label">Points per Game</td>
+                            <td>{{ t2_stats.total.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t2_stats.last_8.ppg|floatformat:2 }}</td>
+                            <td class="{% if t2_stats.diff.ppg >= 0 %}diff-pos{% else %}diff-neg{% endif %}">
+                                {{ t2_stats.diff.ppg }}%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">AVG Goals For</td>
+                            <td>{{ t2_stats.total.avg_gf|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t2_stats.last_8.avg_gf|floatformat:2 }}</td>
+                            <td class="{% if t2_stats.diff.avg_gf >= 0 %}diff-pos{% else %}diff-neg{% endif %}">
+                                {{ t2_stats.diff.avg_gf }}%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">AVG Goals Against</td>
+                            <td>{{ t2_stats.total.avg_ga|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t2_stats.last_8.avg_ga|floatformat:2 }}</td>
+                            <td class="{% if t2_stats.diff.avg_ga <= 0 %}diff-pos{% else %}diff-neg{% endif %}">
+                                {{ t2_stats.diff.avg_ga }}%
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CONTAINER 2b: Progression -->
+            <div class="progression-container">
+                <div class="progression-title">{{ team2.name }}'s progression (home & away)</div>
+                <div class="progression-chart">
+                    <div class="progression-axis"></div>
+                    {% for m in t2_matches|slice:":20" reversed %}
+                        <div class="prog-bar-wrapper">
+                            {% if m.home_team == team2 %}
+                                {% if m.home_score > m.away_score %}
+                                    <div class="prog-bar prog-win" title="Win vs {{ m.away_team.name }}"></div>
+                                {% elif m.home_score == m.away_score %}
+                                    <div class="prog-bar prog-draw" title="Draw vs {{ m.away_team.name }}"></div>
+                                {% else %}
+                                    <div class="prog-bar prog-loss" title="Loss vs {{ m.away_team.name }}"></div>
+                                {% endif %}
+                            {% else %}
+                                {% if m.away_score > m.home_score %}
+                                    <div class="prog-bar prog-win" title="Win @ {{ m.home_team.name }}"></div>
+                                {% elif m.away_score == m.home_score %}
+                                    <div class="prog-bar prog-draw" title="Draw @ {{ m.home_team.name }}"></div>
+                                {% else %}
+                                    <div class="prog-bar prog-loss" title="Loss @ {{ m.home_team.name }}"></div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="prog-legend">
+                    <span class="legend-item legend-w">win:+2</span>
+                    <span class="legend-item legend-d">draw:0</span>
+                    <span class="legend-item legend-l">defeat:-1</span>
+                </div>
+            </div>
+
+            <!-- CONTAINER 3: Results -->
+            <div class="ss-box">
+                <div class="ss-box-header">Results</div>
+                <!-- Match Table -->
+                <table class="ss-table results-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr class="header-dark-row">
+                            <th colspan="4" style="text-align: left; padding-left: 10px; font-size: 1rem; background: #fff; color: #333; font-weight: bold;">Results</th>
+                            <th class="stat-col-header">2.5+</th>
+                            <th class="stat-col-header">CS</th>
+                            <th class="stat-col-header">FTS</th>
+                            <th class="stat-col-header">HT</th>
+                            <th class="stat-col-header" style="width: 20px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in t2_matches|slice:":20" %}
+                        {% with is_home=m.home_team|is_team:team2 %}
+                            <!-- Logic for row color -->
+                            <tr class="{% if m.home_score == m.away_score %}row-draw-bg{% elif is_home and m.home_score > m.away_score %}row-win-bg{% elif not is_home and m.away_score > m.home_score %}row-win-bg{% else %}row-loss-bg{% endif %}">
+                                <td class="match-date">{{ m.date|date:"d M" }}</td>
+                                
+                                <td class="team-name-cell text-right {% if is_home %}team-name-bold{% endif %}" style="width: 35%;">
+                                    {{ m.home_team.name }}
+                                </td>
+                                
+                                <td class="text-center" style="width: 60px;">
+                                    <span class="score-box-white">{{ m.home_score }}:{{ m.away_score }}</span>
+                                </td>
+                                
+                                <td class="team-name-cell text-left {% if not is_home %}team-name-bold{% endif %}" style="width: 35%;">
+                                    {{ m.away_team.name }}
+                                </td>
+
+                                <!-- 2.5+ -->
+                                <td class="stat-col">
+                                    {% if m.home_score|add:m.away_score > 2.5 %}+{% else %}-{% endif %}
+                                </td>
+
+                                <!-- CS (Clean Sheet) -->
+                                <td class="stat-col">
+                                    {% if is_home and m.away_score == 0 %}+{% elif not is_home and m.home_score == 0 %}+{% else %}-{% endif %}
+                                </td>
+
+                                <!-- FTS (Failed To Score) -->
+                                <td class="stat-col">
+                                    {% if is_home and m.home_score == 0 %}+{% elif not is_home and m.away_score == 0 %}+{% else %}-{% endif %}
+                                </td>
+
+                                <!-- HT Score -->
+                                <td class="stat-col">
+                                    {% if m.ht_home_score is not None %}{{ m.ht_home_score }}-{{ m.ht_away_score }}{% else %}-{% endif %}
+                                </td>
+
+                                <!-- Icon -->
+                                <td class="stat-col">
+                                    <i class="fa-solid fa-chart-simple icon-chart"></i>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- POINTS PER GAME (REMAINING MATCHES) CONTAINER -->
+    <div class="ss-box" style="margin-top: 20px;">
+        <div class="ss-box-header">Points Per Game (Remaining Matches Analysis)</div>
+        <div class="ss-grid" style="padding: 15px;">
+            <!-- TEAM 1 REMAINING -->
+            <div class="ss-col">
+                <table class="ss-table results-table">
+                    <thead>
+                        <tr class="header-dark-row">
+                            <th colspan="2"></th>
+                            <th class="stat-col-header">Home</th>
+                            <th class="stat-col-header">Away</th>
+                            <th class="stat-col-header">Opponent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in t1_fixtures|slice:":10" %}
+                        <tr>
+                            <td class="match-date">{{ item.match.date|date:"d M" }}</td>
+                            
+                            <td style="text-align: center; width: 55%;">
+                                <div style="border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px; background: #fff;">
+                                    {% if item.is_home %}
+                                        <strong>{{ item.match.home_team.name }}</strong> vs {{ item.match.away_team.name }}
+                                    {% else %}
+                                        {{ item.match.home_team.name }} vs <strong>{{ item.match.away_team.name }}</strong>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            
+                            <td class="stat-col" style="color: #2563eb; font-weight: bold;">
+                                {% if item.is_home %}{{ item.my_ppg|floatformat:2 }}{% else %}{{ item.opp_ppg|floatformat:2 }}{% endif %}
+                            </td>
+                            
+                            <td class="stat-col" style="color: #2563eb; font-weight: bold;">
+                                {% if item.is_home %}{{ item.opp_ppg|floatformat:2 }}{% else %}{{ item.my_ppg|floatformat:2 }}{% endif %}
+                            </td>
+                            
+                            <td style="width: 60px; vertical-align: middle;">
+                                <div style="background: #e2e8f0; height: 6px; width: 100%; border-radius: 3px; overflow: hidden;">
+                                    <div class="bar-dynamic bar-blue" style="--w: {{ item.bar_width }}%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5">No scheduled matches found.</td></tr>
+                        {% endfor %}
+                        
+                        <!-- Average Row -->
+                        <tr style="border-top: 2px solid #e2e8f0;">
+                            <td colspan="4" style="text-align: right; font-weight: bold; color: #475569; padding: 10px;">
+                                Average of Opponent PPG values above
+                            </td>
+                            <td style="font-weight: bold; color: #2563eb; font-size: 13px;">
+                                {{ t1_avg_opp_ppg|floatformat:2 }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TEAM 2 REMAINING -->
+            <div class="ss-col">
+                <table class="ss-table results-table">
+                    <thead>
+                        <tr class="header-dark-row">
+                            <th colspan="2"></th>
+                            <th class="stat-col-header">Home</th>
+                            <th class="stat-col-header">Away</th>
+                            <th class="stat-col-header">Opponent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in t2_fixtures|slice:":10" %}
+                        <tr>
+                            <td class="match-date">{{ item.match.date|date:"d M" }}</td>
+                            
+                            <td style="text-align: center; width: 55%;">
+                                <div style="border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px; background: #fff;">
+                                    {% if item.is_home %}
+                                        <strong>{{ item.match.home_team.name }}</strong> vs {{ item.match.away_team.name }}
+                                    {% else %}
+                                        {{ item.match.home_team.name }} vs <strong>{{ item.match.away_team.name }}</strong>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            
+                            <td class="stat-col" style="color: #2563eb; font-weight: bold;">
+                                {% if item.is_home %}{{ item.my_ppg|floatformat:2 }}{% else %}{{ item.opp_ppg|floatformat:2 }}{% endif %}
+                            </td>
+                            
+                            <td class="stat-col" style="color: #2563eb; font-weight: bold;">
+                                {% if item.is_home %}{{ item.opp_ppg|floatformat:2 }}{% else %}{{ item.my_ppg|floatformat:2 }}{% endif %}
+                            </td>
+                            
+                            <td style="width: 60px; vertical-align: middle;">
+                                <div style="background: #e2e8f0; height: 6px; width: 100%; border-radius: 3px; overflow: hidden;">
+                                    <div class="bar-dynamic bar-blue" style="--w: {{ item.bar_width }}%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5">No scheduled matches found.</td></tr>
+                        {% endfor %}
+
+                        <!-- Average Row -->
+                        <tr style="border-top: 2px solid #e2e8f0;">
+                            <td colspan="4" style="text-align: right; font-weight: bold; color: #475569; padding: 10px;">
+                                Average of Opponent PPG values above
+                            </td>
+                            <td style="font-weight: bold; color: #2563eb; font-size: 13px;">
+                                {{ t2_avg_opp_ppg|floatformat:2 }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div style="padding: 10px 20px; font-size: 11px; color: #64748b; background: #f8fafc; border-top: 1px solid #e2e8f0;">
+            The Points Per Game values are calculated based on Home results only for the home team and away results only for the visiting team.
+        </div>
+    </div>
+
+    <!-- Moved First Goal Container to bottom -->
+
+    <!-- Direct Head-to-Head History -->
+    <div class="ss-box h2h-history-box" style="margin-top: 20px;">
+        <div class="ss-box-header">Direct Head-to-Head History</div>
+        
+        <!-- Summary Stats -->
+        <div style="padding: 15px; border-bottom: 1px solid #e2e8f0; background: #fff;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; font-weight: bold; color: #64748b;">
+                <span>{{ team1.name }} Wins</span>
+                <span>Draws</span>
+                <span>{{ team2.name }} Wins</span>
+            </div>
+            <div style="display: flex; height: 20px; border-radius: 4px; overflow: hidden; background: #f1f5f9; border: 1px solid #e2e8f0;">
+                {% if h2h_stats.gp > 0 %}
+                    <div class="bar-dynamic" style="--w: {{ h2h_stats.t1_win_pct }}%; background: #22c55e;" title="{{ h2h_stats.t1_wins }} Wins"></div>
+                    <div class="bar-dynamic" style="--w: {{ h2h_stats.draw_pct }}%; background: #eab308;" title="{{ h2h_stats.draws }} Draws"></div>
+                    <div class="bar-dynamic" style="--w: {{ h2h_stats.t2_win_pct }}%; background: #ef4444;" title="{{ h2h_stats.t2_wins }} Wins"></div>
+                {% else %}
+                     <div style="width: 100%; text-align: center; color: #94a3b8; line-height: 20px; font-size: 11px;">No Data</div>
+                {% endif %}
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 13px; font-weight: bold;">
+                <span style="color: #16a34a;">{{ h2h_stats.t1_wins }}</span>
+                <span style="color: #ca8a04;">{{ h2h_stats.draws }}</span>
+                <span style="color: #dc2626;">{{ h2h_stats.t2_wins }}</span>
+            </div>
+            
+            <div style="margin-top: 10px; font-size: 12px; color: #64748b; text-align: center;">
+                Total Matches: <strong>{{ h2h_stats.gp }}</strong> 
+                <span style="margin: 0 5px;">|</span>
+                Total Goals: <strong>{{ h2h_stats.t1_goals|add:h2h_stats.t2_goals }}</strong> 
+                <span style="margin: 0 5px;">|</span> 
+                Avg Goals: <strong>{{ h2h_stats.avg_goals }}</strong>
+            </div>
+        </div>
+
+        <table class="ss-table">
+            <thead>
+                <tr class="header-dark-row">
+                    <th>Date</th>
+                    <th style="text-align: right;">Home</th>
+                    <th>Score</th>
+                    <th style="text-align: left;">Away</th>
+                    <th>Competition</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in matches %}
+                {% with is_t1_home=m.home_team|is_team:team1 %}
+                <tr class="{% if m.home_score == m.away_score %}row-draw-bg{% elif is_t1_home and m.home_score > m.away_score %}row-win-bg{% elif not is_t1_home and m.away_score > m.home_score %}row-win-bg{% else %}row-loss-bg{% endif %}">
+                    <td class="match-date">{{ m.date|date:"d M Y" }}</td>
+                    
+                    {% if is_t1_home %}
+                        <!-- Team 1 is Home -->
+                        <td class="team-home-cell" style="text-align: right; font-weight: bold; color: #0f172a;">
+                            {{ m.home_team.name }}
+                        </td>
+                        <td style="font-weight: bold;">
+                            <span class="score-box-white" style="border: 1px solid #cbd5e1;">
+                                {{ m.home_score }} - {{ m.away_score }}
+                            </span>
+                        </td>
+                        <td class="team-away-cell" style="text-align: left; color: #475569;">
+                            {{ m.away_team.name }}
+                        </td>
+                    {% else %}
+                        <!-- Team 1 is Away (Team 2 is Home) -->
+                        <td class="team-home-cell" style="text-align: right; color: #475569;">
+                            {{ m.home_team.name }}
+                        </td>
+                        <td style="font-weight: bold;">
+                            <span class="score-box-white" style="border: 1px solid #cbd5e1;">
+                                {{ m.home_score }} - {{ m.away_score }}
+                            </span>
+                        </td>
+                        <td class="team-away-cell" style="text-align: left; font-weight: bold; color: #0f172a;">
+                            {{ m.away_team.name }}
+                        </td>
+                    {% endif %}
+                    
+                    <td style="font-size: 11px; color: #64748b;">{{ m.league.name }}</td>
+                </tr>
+                {% endwith %}
+                {% empty %}
+                <tr><td colspan="5">No recorded matches between these teams.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- NEW CONTAINERS ROW -->
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+        
+        <!-- Historical Statistics: TEAM 1 -->
+        <div class="ss-col">
+            <div class="ss-box-header" style="margin-bottom: 10px;">Historical statistics</div>
+            
+            <div class="ss-box">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                    <img src="{{ team1.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                    {{ team1.name }} <span style="font-weight: normal; font-size: 12px; color: #64748b;">(current season vs completed previous season)</span>
+                </div>
+                <table class="ss-table" style="font-size: 12px;">
+                    <thead>
+                        <tr style="background: #64748b; color: white;">
+                            <th style="text-align: left;">Season</th>
+                            <th>Pld</th>
+                            <th>Avg Pts</th>
+                            <th>Avg GF</th>
+                            <th>Avg GA</th>
+                            <th>W</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Total -->
+                        <tr>
+                            <td style="font-weight: bold;">{{ latest_season.year }}</td>
+                            <td style="font-weight: bold;">{{ t1_stats.total.gp }}</td>
+                            <td class="{% if t1_prev_stats and t1_stats.total.ppg > t1_prev_stats.total.ppg %}diff-pos{% elif t1_prev_stats and t1_stats.total.ppg < t1_prev_stats.total.ppg %}diff-neg{% endif %}" style="font-weight: bold;">{{ t1_stats.total.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t1_stats.total.avg_gf|floatformat:2 }}</td>
+                            <td class="val-red">{{ t1_stats.total.avg_ga|floatformat:2 }}</td>
+                            <td class="val-green">{{ t1_stats.total.win_pct }}%</td>
+                        </tr>
+                        {% if t1_prev_stats %}
+                        <tr style="color: #64748b;">
+                            <td>{{ t1_prev_season.year }}</td>
+                            <td>{{ t1_prev_stats.total.gp }}</td>
+                            <td>{{ t1_prev_stats.total.ppg|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.total.avg_gf|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.total.avg_ga|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.total.win_pct }}%</td>
+                        </tr>
+                        {% endif %}
+                        <tr><td colspan="6" style="height: 10px; background: #f8fafc;"></td></tr>
+                        
+                        <!-- Home -->
+                        <tr>
+                            <td style="font-weight: bold;">{{ latest_season.year }} (home)</td>
+                            <td style="font-weight: bold;">{{ t1_stats.home.gp }}</td>
+                            <td class="{% if t1_prev_stats and t1_stats.home.ppg > t1_prev_stats.home.ppg %}diff-pos{% elif t1_prev_stats and t1_stats.home.ppg < t1_prev_stats.home.ppg %}diff-neg{% endif %}" style="font-weight: bold;">{{ t1_stats.home.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t1_stats.home.avg_gf|floatformat:2 }}</td>
+                            <td class="val-red">{{ t1_stats.home.avg_ga|floatformat:2 }}</td>
+                            <td class="val-green">{{ t1_stats.home.win_pct }}%</td>
+                        </tr>
+                        {% if t1_prev_stats %}
+                        <tr style="color: #64748b;">
+                            <td>{{ t1_prev_season.year }} (home)</td>
+                            <td>{{ t1_prev_stats.home.gp }}</td>
+                            <td>{{ t1_prev_stats.home.ppg|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.home.avg_gf|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.home.avg_ga|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.home.win_pct }}%</td>
+                        </tr>
+                        {% endif %}
+                        <tr><td colspan="6" style="height: 10px; background: #f8fafc;"></td></tr>
+
+                        <!-- Away -->
+                        <tr>
+                            <td style="font-weight: bold;">{{ latest_season.year }} (away)</td>
+                            <td style="font-weight: bold;">{{ t1_stats.away.gp }}</td>
+                            <td class="{% if t1_prev_stats and t1_stats.away.ppg > t1_prev_stats.away.ppg %}diff-pos{% elif t1_prev_stats and t1_stats.away.ppg < t1_prev_stats.away.ppg %}diff-neg{% endif %}" style="font-weight: bold;">{{ t1_stats.away.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t1_stats.away.avg_gf|floatformat:2 }}</td>
+                            <td class="val-red">{{ t1_stats.away.avg_ga|floatformat:2 }}</td>
+                            <td class="val-green">{{ t1_stats.away.win_pct }}%</td>
+                        </tr>
+                        {% if t1_prev_stats %}
+                        <tr style="color: #64748b;">
+                            <td>{{ t1_prev_season.year }} (away)</td>
+                            <td>{{ t1_prev_stats.away.gp }}</td>
+                            <td>{{ t1_prev_stats.away.ppg|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.away.avg_gf|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.away.avg_ga|floatformat:2 }}</td>
+                            <td>{{ t1_prev_stats.away.win_pct }}%</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Comparison with past seasons: TEAM 1 -->
+            <div style="margin-top: 20px;">
+                <div class="ss-box-header" style="margin-bottom: 10px;">Comparison with past seasons (first {{ t1_stats.total.gp }} matches)</div>
+                <div class="ss-box">
+                    <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                        <img src="{{ team1.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;">
+                        {{ team1.name }}'s record <span style="font-weight: normal; font-size: 12px; color: #64748b;">after {{ t1_stats.total.gp }} matches in the same league/division</span>
+                    </div>
+                    <table class="ss-table" style="font-size: 12px;">
+                        <thead>
+                            <tr style="background: #64748b; color: white;">
+                                <th></th>
+                                <th>GP</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>Pts *</th>
+                                <th>Comparison</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rec in t1_past_records %}
+                            <tr class="{% if rec.season == latest_season %}highlight-row{% endif %}">
+                                <td style="font-weight: bold;">{{ rec.season.year }}</td>
+                                <td style="font-weight: bold;">{{ rec.gp }}</td>
+                                <td class="val-green">{{ rec.w }}</td>
+                                <td>{{ rec.d }}</td>
+                                <td class="val-red">{{ rec.l }}</td>
+                                <td class="val-blue">{{ rec.gf }}</td>
+                                <td class="val-red">{{ rec.ga }}</td>
+                                <td style="font-weight: bold;">{{ rec.pts }}</td>
+                                
+                                {% if rec.season == latest_season %}
+                                    <td>-</td>
+                                {% else %}
+                                    <td class="{% if rec.diff > 0 %}diff-pos{% elif rec.diff < 0 %}diff-neg{% else %}diff-neutral{% endif %}" style="font-weight: bold;">
+                                        {% if rec.diff > 0 %}+{{ rec.diff }}{% else %}{{ rec.diff }}{% endif %} pts
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                     <div style="padding: 10px; font-size: 11px; background: #e2e8f0; color: #475569;">
+                        * Pts: any deducted or added points are NOT taken into account
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Historical Statistics: TEAM 2 -->
+        <div class="ss-col">
+            <div class="ss-box-header" style="margin-bottom: 10px;">Historical statistics</div>
+            
+             <div class="ss-box">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                    <img src="{{ team2.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                    {{ team2.name }} <span style="font-weight: normal; font-size: 12px; color: #64748b;">(current season vs completed previous season)</span>
+                </div>
+                <table class="ss-table" style="font-size: 12px;">
+                    <thead>
+                        <tr style="background: #64748b; color: white;">
+                            <th style="text-align: left;">Season</th>
+                            <th>Pld</th>
+                            <th>Avg Pts</th>
+                            <th>Avg GF</th>
+                            <th>Avg GA</th>
+                            <th>W</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Total -->
+                        <tr>
+                            <td style="font-weight: bold;">{{ latest_season.year }}</td>
+                            <td style="font-weight: bold;">{{ t2_stats.total.gp }}</td>
+                            <td class="{% if t2_prev_stats and t2_stats.total.ppg > t2_prev_stats.total.ppg %}diff-pos{% elif t2_prev_stats and t2_stats.total.ppg < t2_prev_stats.total.ppg %}diff-neg{% endif %}" style="font-weight: bold;">{{ t2_stats.total.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t2_stats.total.avg_gf|floatformat:2 }}</td>
+                            <td class="val-red">{{ t2_stats.total.avg_ga|floatformat:2 }}</td>
+                            <td class="val-green">{{ t2_stats.total.win_pct }}%</td>
+                        </tr>
+                        {% if t2_prev_stats %}
+                        <tr style="color: #64748b;">
+                            <td>{{ t2_prev_season.year }}</td>
+                            <td>{{ t2_prev_stats.total.gp }}</td>
+                            <td>{{ t2_prev_stats.total.ppg|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.total.avg_gf|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.total.avg_ga|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.total.win_pct }}%</td>
+                        </tr>
+                        {% endif %}
+                        <tr><td colspan="6" style="height: 10px; background: #f8fafc;"></td></tr>
+                        
+                        <!-- Home -->
+                        <tr>
+                            <td style="font-weight: bold;">{{ latest_season.year }} (home)</td>
+                            <td style="font-weight: bold;">{{ t2_stats.home.gp }}</td>
+                            <td class="{% if t2_prev_stats and t2_stats.home.ppg > t2_prev_stats.home.ppg %}diff-pos{% elif t2_prev_stats and t2_stats.home.ppg < t2_prev_stats.home.ppg %}diff-neg{% endif %}" style="font-weight: bold;">{{ t2_stats.home.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t2_stats.home.avg_gf|floatformat:2 }}</td>
+                            <td class="val-red">{{ t2_stats.home.avg_ga|floatformat:2 }}</td>
+                            <td class="val-green">{{ t2_stats.home.win_pct }}%</td>
+                        </tr>
+                        {% if t2_prev_stats %}
+                        <tr style="color: #64748b;">
+                            <td>{{ t2_prev_season.year }} (home)</td>
+                            <td>{{ t2_prev_stats.home.gp }}</td>
+                            <td>{{ t2_prev_stats.home.ppg|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.home.avg_gf|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.home.avg_ga|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.home.win_pct }}%</td>
+                        </tr>
+                        {% endif %}
+                        <tr><td colspan="6" style="height: 10px; background: #f8fafc;"></td></tr>
+
+                        <!-- Away -->
+                        <tr>
+                            <td style="font-weight: bold;">{{ latest_season.year }} (away)</td>
+                            <td style="font-weight: bold;">{{ t2_stats.away.gp }}</td>
+                            <td class="{% if t2_prev_stats and t2_stats.away.ppg > t2_prev_stats.away.ppg %}diff-pos{% elif t2_prev_stats and t2_stats.away.ppg < t2_prev_stats.away.ppg %}diff-neg{% endif %}" style="font-weight: bold;">{{ t2_stats.away.ppg|floatformat:2 }}</td>
+                            <td class="val-blue">{{ t2_stats.away.avg_gf|floatformat:2 }}</td>
+                            <td class="val-red">{{ t2_stats.away.avg_ga|floatformat:2 }}</td>
+                            <td class="val-green">{{ t2_stats.away.win_pct }}%</td>
+                        </tr>
+                        {% if t2_prev_stats %}
+                        <tr style="color: #64748b;">
+                            <td>{{ t2_prev_season.year }} (away)</td>
+                            <td>{{ t2_prev_stats.away.gp }}</td>
+                            <td>{{ t2_prev_stats.away.ppg|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.away.avg_gf|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.away.avg_ga|floatformat:2 }}</td>
+                            <td>{{ t2_prev_stats.away.win_pct }}%</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Comparison with past seasons: TEAM 2 -->
+            <div style="margin-top: 20px;">
+                <div class="ss-box-header" style="margin-bottom: 10px;">Comparison with past seasons (first {{ t2_stats.total.gp }} matches)</div>
+                <div class="ss-box">
+                    <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                        <img src="{{ team2.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;">
+                        {{ team2.name }}'s record <span style="font-weight: normal; font-size: 12px; color: #64748b;">after {{ t2_stats.total.gp }} matches in the same league/division</span>
+                    </div>
+                    <table class="ss-table" style="font-size: 12px;">
+                        <thead>
+                            <tr style="background: #64748b; color: white;">
+                                <th></th>
+                                <th>GP</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>Pts *</th>
+                                <th>Comparison</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rec in t2_past_records %}
+                            <tr class="{% if rec.season == latest_season %}highlight-row{% endif %}">
+                                <td style="font-weight: bold;">{{ rec.season.year }}</td>
+                                <td style="font-weight: bold;">{{ rec.gp }}</td>
+                                <td class="val-green">{{ rec.w }}</td>
+                                <td>{{ rec.d }}</td>
+                                <td class="val-red">{{ rec.l }}</td>
+                                <td class="val-blue">{{ rec.gf }}</td>
+                                <td class="val-red">{{ rec.ga }}</td>
+                                <td style="font-weight: bold;">{{ rec.pts }}</td>
+                                
+                                {% if rec.season == latest_season %}
+                                    <td>-</td>
+                                {% else %}
+                                    <td class="{% if rec.diff > 0 %}diff-pos{% elif rec.diff < 0 %}diff-neg{% else %}diff-neutral{% endif %}" style="font-weight: bold;">
+                                        {% if rec.diff > 0 %}+{{ rec.diff }}{% else %}{{ rec.diff }}{% endif %} pts
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                     <div style="padding: 10px; font-size: 11px; background: #e2e8f0; color: #475569;">
+                        * Pts: any deducted or added points are NOT taken into account
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Current Streaks & Sequences -->
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+        
+        <!-- Team 1 Streaks -->
+        <div class="ss-col">
+            <div class="ss-box-header" style="margin-bottom: 10px;">Current streaks & sequences</div>
+            <div class="ss-box">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                    <img src="{{ team1.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                    {{ team1.name }}
+                </div>
+                <table class="ss-table" style="font-size: 12px;">
+                    <thead>
+                        <tr class="stk-header">
+                            <th style="text-align: left;">Statistic</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% with s=t1_streaks %}
+                        <tr><td class="stk-gray" style="text-align: right;">Wins</td>
+                            <td class="{% if s.home.wins > 0 %}stk-win{% endif %}">{% if s.home.wins > 0 %}{{ s.home.wins }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.wins > 0 %}stk-win{% endif %}">{% if s.away.wins > 0 %}{{ s.away.wins }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.wins > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.wins > 0 %}{{ s.total.wins }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Draws</td>
+                            <td class="{% if s.home.draws > 0 %}stk-draw{% endif %}">{% if s.home.draws > 0 %}{{ s.home.draws }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.draws > 0 %}stk-draw{% endif %}">{% if s.away.draws > 0 %}{{ s.away.draws }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.draws > 0 %}stk-draw{% endif %}" style="font-weight: bold;">{% if s.total.draws > 0 %}{{ s.total.draws }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Defeats</td>
+                            <td class="{% if s.home.defeats > 0 %}stk-loss{% endif %}">{% if s.home.defeats > 0 %}{{ s.home.defeats }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.defeats > 0 %}stk-loss{% endif %}">{% if s.away.defeats > 0 %}{{ s.away.defeats }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.defeats > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.defeats > 0 %}{{ s.total.defeats }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">No win</td>
+                            <td class="{% if s.home.no_win > 0 %}stk-loss{% endif %}">{% if s.home.no_win > 0 %}{{ s.home.no_win }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_win > 0 %}stk-loss{% endif %}">{% if s.away.no_win > 0 %}{{ s.away.no_win }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_win > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.no_win > 0 %}{{ s.total.no_win }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">No draw</td>
+                            <td>{% if s.home.no_draw > 0 %}{{ s.home.no_draw }}{% else %}-{% endif %}</td>
+                            <td>{% if s.away.no_draw > 0 %}{{ s.away.no_draw }}{% else %}-{% endif %}</td>
+                            <td style="font-weight: bold;">{% if s.total.no_draw > 0 %}{{ s.total.no_draw }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">No defeat</td>
+                            <td class="{% if s.home.no_defeat > 0 %}stk-win{% endif %}">{% if s.home.no_defeat > 0 %}{{ s.home.no_defeat }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_defeat > 0 %}stk-win{% endif %}">{% if s.away.no_defeat > 0 %}{{ s.away.no_defeat }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_defeat > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.no_defeat > 0 %}{{ s.total.no_defeat }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Scored 1+ goals</td>
+                            <td class="{% if s.home.score_1plus > 0 %}stk-win{% endif %}">{% if s.home.score_1plus > 0 %}{{ s.home.score_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.score_1plus > 0 %}stk-win{% endif %}">{% if s.away.score_1plus > 0 %}{{ s.away.score_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.score_1plus > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.score_1plus > 0 %}{{ s.total.score_1plus }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Conceded 1+ goals</td>
+                            <td class="{% if s.home.concede_1plus > 0 %}stk-loss{% endif %}">{% if s.home.concede_1plus > 0 %}{{ s.home.concede_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.concede_1plus > 0 %}stk-loss{% endif %}">{% if s.away.concede_1plus > 0 %}{{ s.away.concede_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.concede_1plus > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.concede_1plus > 0 %}{{ s.total.concede_1plus }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Did not score</td>
+                            <td class="{% if s.home.no_score > 0 %}stk-loss{% endif %}">{% if s.home.no_score > 0 %}{{ s.home.no_score }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_score > 0 %}stk-loss{% endif %}">{% if s.away.no_score > 0 %}{{ s.away.no_score }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_score > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.no_score > 0 %}{{ s.total.no_score }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Did not concede</td>
+                            <td class="{% if s.home.no_concede > 0 %}stk-win{% endif %}">{% if s.home.no_concede > 0 %}{{ s.home.no_concede }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_concede > 0 %}stk-win{% endif %}">{% if s.away.no_concede > 0 %}{{ s.away.no_concede }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_concede > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.no_concede > 0 %}{{ s.total.no_concede }}{% else %}-{% endif %}</td></tr>
+                        {% endwith %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Team 2 Streaks -->
+        <div class="ss-col">
+            <div class="ss-box-header" style="margin-bottom: 10px;">Current streaks & sequences</div>
+            <div class="ss-box">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                    <img src="{{ team2.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                    {{ team2.name }}
+                </div>
+                <table class="ss-table" style="font-size: 12px;">
+                    <thead>
+                        <tr class="stk-header">
+                            <th style="text-align: left;">Statistic</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% with s=t2_streaks %}
+                        <tr><td class="stk-gray" style="text-align: right;">Wins</td>
+                            <td class="{% if s.home.wins > 0 %}stk-win{% endif %}">{% if s.home.wins > 0 %}{{ s.home.wins }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.wins > 0 %}stk-win{% endif %}">{% if s.away.wins > 0 %}{{ s.away.wins }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.wins > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.wins > 0 %}{{ s.total.wins }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Draws</td>
+                            <td class="{% if s.home.draws > 0 %}stk-draw{% endif %}">{% if s.home.draws > 0 %}{{ s.home.draws }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.draws > 0 %}stk-draw{% endif %}">{% if s.away.draws > 0 %}{{ s.away.draws }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.draws > 0 %}stk-draw{% endif %}" style="font-weight: bold;">{% if s.total.draws > 0 %}{{ s.total.draws }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Defeats</td>
+                            <td class="{% if s.home.defeats > 0 %}stk-loss{% endif %}">{% if s.home.defeats > 0 %}{{ s.home.defeats }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.defeats > 0 %}stk-loss{% endif %}">{% if s.away.defeats > 0 %}{{ s.away.defeats }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.defeats > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.defeats > 0 %}{{ s.total.defeats }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">No win</td>
+                            <td class="{% if s.home.no_win > 0 %}stk-loss{% endif %}">{% if s.home.no_win > 0 %}{{ s.home.no_win }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_win > 0 %}stk-loss{% endif %}">{% if s.away.no_win > 0 %}{{ s.away.no_win }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_win > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.no_win > 0 %}{{ s.total.no_win }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">No draw</td>
+                            <td>{% if s.home.no_draw > 0 %}{{ s.home.no_draw }}{% else %}-{% endif %}</td>
+                            <td>{% if s.away.no_draw > 0 %}{{ s.away.no_draw }}{% else %}-{% endif %}</td>
+                            <td style="font-weight: bold;">{% if s.total.no_draw > 0 %}{{ s.total.no_draw }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">No defeat</td>
+                            <td class="{% if s.home.no_defeat > 0 %}stk-win{% endif %}">{% if s.home.no_defeat > 0 %}{{ s.home.no_defeat }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_defeat > 0 %}stk-win{% endif %}">{% if s.away.no_defeat > 0 %}{{ s.away.no_defeat }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_defeat > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.no_defeat > 0 %}{{ s.total.no_defeat }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Scored 1+ goals</td>
+                            <td class="{% if s.home.score_1plus > 0 %}stk-win{% endif %}">{% if s.home.score_1plus > 0 %}{{ s.home.score_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.score_1plus > 0 %}stk-win{% endif %}">{% if s.away.score_1plus > 0 %}{{ s.away.score_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.score_1plus > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.score_1plus > 0 %}{{ s.total.score_1plus }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Conceded 1+ goals</td>
+                            <td class="{% if s.home.concede_1plus > 0 %}stk-loss{% endif %}">{% if s.home.concede_1plus > 0 %}{{ s.home.concede_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.concede_1plus > 0 %}stk-loss{% endif %}">{% if s.away.concede_1plus > 0 %}{{ s.away.concede_1plus }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.concede_1plus > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.concede_1plus > 0 %}{{ s.total.concede_1plus }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Did not score</td>
+                            <td class="{% if s.home.no_score > 0 %}stk-loss{% endif %}">{% if s.home.no_score > 0 %}{{ s.home.no_score }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_score > 0 %}stk-loss{% endif %}">{% if s.away.no_score > 0 %}{{ s.away.no_score }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_score > 0 %}stk-loss{% endif %}" style="font-weight: bold;">{% if s.total.no_score > 0 %}{{ s.total.no_score }}{% else %}-{% endif %}</td></tr>
+                        <tr><td class="stk-gray" style="text-align: right;">Did not concede</td>
+                            <td class="{% if s.home.no_concede > 0 %}stk-win{% endif %}">{% if s.home.no_concede > 0 %}{{ s.home.no_concede }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.away.no_concede > 0 %}stk-win{% endif %}">{% if s.away.no_concede > 0 %}{{ s.away.no_concede }}{% else %}-{% endif %}</td>
+                            <td class="{% if s.total.no_concede > 0 %}stk-win{% endif %}" style="font-weight: bold;">{% if s.total.no_concede > 0 %}{{ s.total.no_concede }}{% else %}-{% endif %}</td></tr>
+                        {% endwith %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Comparison with league average -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+        
+        <!-- Team 1 Comparison -->
+        <div style="min-width: 0;">
+            <div class="ss-box-header" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span>Comparison with league average</span>
+                <div style="display: flex; gap: 5px; font-size: 10px;">
+                    <span style="background: #334155; color: white; padding: 2px 6px; border-radius: 4px;">Total</span>
+                    <span style="background: #e2e8f0; color: #64748b; padding: 2px 6px; border-radius: 4px;">Home</span>
+                    <span style="background: #e2e8f0; color: #64748b; padding: 2px 6px; border-radius: 4px;">Away</span>
+                </div>
+            </div>
+            <div class="ss-box">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                    <img src="{{ team1.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                    {{ team1.name }}
+                </div>
+                <table class="ss-table" style="font-size: 11px; width: 100%;">
+                    <thead>
+                        <tr class="stk-header">
+                            <th style="text-align: left; padding-left: 10px;">Statistic</th>
+                            <th style="width: 50px;">Team</th>
+                            <th style="width: 80px;"></th>
+                            <th style="width: 50px;">League</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in t1_league_comparison %}
+                        <tr>
+                            <td style="text-align: right; background: #f8fafc; color: #64748b; padding-right: 10px;">{{ row.label }}</td>
+                            <td class="stat-{{ row.status_class }}-bg stat-{{ row.status_class }}-text" style="font-weight: bold; text-align: center;">
+                                {{ row.team_val|floatformat:row.decimals }}{% if row.is_pct %}%{% endif %}
+                            </td>
+                            <td style="vertical-align: middle; padding: 4px 8px;">
+                                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; position: relative; overflow: hidden;">
+                                    <div class="stat-{{ row.status_class }}-bar bar-dynamic" style="--w: {{ row.team_width }}%;"></div>
+                                </div>
+                                <div style="height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 2px; overflow: hidden;">
+                                    <div class="bar-dynamic" style="--w: {{ row.league_width }}%; background: #94a3b8;"></div>
+                                </div>
+                            </td>
+                            <td style="color: #64748b; text-align: center;">
+                                {{ row.league_val|floatformat:row.decimals }}{% if row.is_pct %}%{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Team 2 Comparison -->
+        <div style="min-width: 0;">
+            <div class="ss-box-header" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span>Comparison with league average</span>
+                <div style="display: flex; gap: 5px; font-size: 10px;">
+                    <span style="background: #334155; color: white; padding: 2px 6px; border-radius: 4px;">Total</span>
+                    <span style="background: #e2e8f0; color: #64748b; padding: 2px 6px; border-radius: 4px;">Home</span>
+                    <span style="background: #e2e8f0; color: #64748b; padding: 2px 6px; border-radius: 4px;">Away</span>
+                </div>
+            </div>
+            <div class="ss-box">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                    <img src="{{ team2.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                    {{ team2.name }}
+                </div>
+                <table class="ss-table" style="font-size: 11px; width: 100%;">
+                    <thead>
+                        <tr class="stk-header">
+                            <th style="text-align: left; padding-left: 10px;">Statistic</th>
+                            <th style="width: 50px;">Team</th>
+                            <th style="width: 80px;"></th>
+                            <th style="width: 50px;">League</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in t2_league_comparison %}
+                        <tr>
+                            <td style="text-align: right; background: #f8fafc; color: #64748b; padding-right: 10px;">{{ row.label }}</td>
+                            <td class="stat-{{ row.status_class }}-bg stat-{{ row.status_class }}-text" style="font-weight: bold; text-align: center;">
+                                {{ row.team_val|floatformat:row.decimals }}{% if row.is_pct %}%{% endif %}
+                            </td>
+                            <td style="vertical-align: middle; padding: 4px 8px;">
+                                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; position: relative; overflow: hidden;">
+                                    <div class="stat-{{ row.status_class }}-bar bar-dynamic" style="--w: {{ row.team_width }}%;"></div>
+                                </div>
+                                <div style="height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 2px; overflow: hidden;">
+                                    <div class="bar-dynamic" style="--w: {{ row.league_width }}%; background: #94a3b8;"></div>
+                                </div>
+                            </td>
+                            <td style="color: #64748b; text-align: center;">
+                                {{ row.league_val|floatformat:row.decimals }}{% if row.is_pct %}%{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- First Goal, Leading & Trailing Container (Moved to Bottom) -->
+    <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        
+        <!-- TEAM 1 -->
+        <div style="min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="font-size: 16px; font-weight: bold; color: #334155;">First goal, leading & trailing</div>
+                <div style="display: flex; gap: 5px;">
+                    <div style="padding: 4px 10px; background: #334155; border-radius: 15px; font-weight: bold; color: white; cursor: pointer; font-size: 11px;">Total</div>
+                    <div style="padding: 4px 10px; background: #e2e8f0; border-radius: 15px; color: #64748b; cursor: pointer; font-size: 11px;">Home</div>
+                    <div style="padding: 4px 10px; background: #e2e8f0; border-radius: 15px; color: #64748b; cursor: pointer; font-size: 11px;">Away</div>
+                </div>
+            </div>
+            
+            <div class="ss-box">
+                    <div style="padding: 10px; background: #e2e8f0; font-weight: bold; margin-bottom: 10px; border-radius: 4px;">
+                         <img src="{{ team1.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                         {{ team1.name }}
+                         <div style="font-size: 11px; color: #64748b; font-weight: normal;">Leading & trailing (total)</div>
+                    </div>
+                    
+                    <!-- OPENING GOALS -->
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">OPENING GOALS (total) <span style="float: right; font-weight: normal;">Matches</span></div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Team scored first</td>
+                            <td style="width: 60px; text-align: center; background: #dcfce7;">{{ t1_leading_trailing_stats.team_scored_first }} / {{ t1_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #dcfce7;">
+                                <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-green radius-3" style="--w: {{ t1_leading_trailing_stats.pct_scored_first|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #dcfce7;">{{ t1_leading_trailing_stats.pct_scored_first|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Opponent scored first</td>
+                            <td style="width: 60px; text-align: center; background: #fee2e2;">{{ t1_leading_trailing_stats.opponent_scored_first }} / {{ t1_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #fee2e2;">
+                                <div style="height: 6px; background: #fecaca; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-red radius-3" style="--w: {{ t1_leading_trailing_stats.pct_opp_scored_first|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #fee2e2;">{{ t1_leading_trailing_stats.pct_opp_scored_first|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Avg. minute scored first</td>
+                            <td style="text-align: center;">{{ t1_leading_trailing_stats.avg_minute_scored_first|floatformat:0 }}'</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Avg. minute conceded first</td>
+                            <td style="text-align: center;">{{ t1_leading_trailing_stats.avg_minute_conceded_first|floatformat:0 }}'</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+
+                    <!-- HALF-TIME LEAD -->
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">HALF-TIME LEAD (total) <span style="float: right; font-weight: normal;">Matches</span></div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Team was leading at HT</td>
+                            <td style="width: 60px; text-align: center; background: #dcfce7;">{{ t1_leading_trailing_stats.leading_at_ht }} / {{ t1_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #dcfce7;">
+                                <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-green radius-3" style="--w: {{ t1_leading_trailing_stats.pct_leading_ht|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #dcfce7;">{{ t1_leading_trailing_stats.pct_leading_ht|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Opponent was leading at HT</td>
+                            <td style="width: 60px; text-align: center; background: #fee2e2;">{{ t1_leading_trailing_stats.opponent_leading_at_ht }} / {{ t1_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #fee2e2;">
+                                <div style="height: 6px; background: #fecaca; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-red radius-3" style="--w: {{ t1_leading_trailing_stats.pct_opp_leading_ht|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #fee2e2;">{{ t1_leading_trailing_stats.pct_opp_leading_ht|floatformat:0 }}%</td>
+                        </tr>
+                    </table>
+
+                    <!-- AVERAGE DURATIONS -->
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">AVERAGE DURATIONS (total) <span style="float: right; font-weight: normal;">per match</span></div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Average minutes leading</td>
+                            <td style="width: 80px; text-align: right; background: #dcfce7;">{{ t1_leading_trailing_stats.avg_minutes_leading|floatformat:1 }} min.</td>
+                            <td style="width: 50px; background: #dcfce7;">
+                                <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-green radius-3" style="--w: {{ t1_leading_trailing_stats.pct_leading|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #dcfce7;">{{ t1_leading_trailing_stats.pct_leading|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Average minutes level in goals</td>
+                            <td style="width: 80px; text-align: right;">{{ t1_leading_trailing_stats.avg_minutes_level|floatformat:1 }} min.</td>
+                            <td style="width: 50px;">
+                                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-blue radius-3" style="--w: {{ t1_leading_trailing_stats.pct_level|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold;">{{ t1_leading_trailing_stats.pct_level|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Average minutes trailing</td>
+                            <td style="width: 80px; text-align: right; background: #fee2e2;">{{ t1_leading_trailing_stats.avg_minutes_trailing|floatformat:1 }} min.</td>
+                            <td style="width: 50px; background: #fee2e2;">
+                                <div style="height: 6px; background: #fecaca; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-red radius-3" style="--w: {{ t1_leading_trailing_stats.pct_trailing|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #fee2e2;">{{ t1_leading_trailing_stats.pct_trailing|floatformat:0 }}%</td>
+                        </tr>
+                    </table>
+
+                    <div style="font-size: 11px; color: #64748b; margin: 15px 0; line-height: 1.4; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+                        Note: in the table above, to allow for averaging duration values based on a total of 90 minutes per game, goals scored on the 45th minute and during added time of the first half are all considered to be scored on the 45th minute, and goals scored on the 90th minute and during added time of the second half are also considered scored on the 90th minute.
+                        <br><br>
+                        In this example, <strong>{{ team1.name }}</strong> have been in the lead for an average duration of <span style="color: #2563eb; font-weight: bold;">{{ t1_leading_trailing_stats.avg_minutes_leading|floatformat:1 }} minutes per match</span> (based on a 90-minute match duration).
+                    </div>
+
+                    <!-- EQUALIZER / DEFENDING -->
+                    <div style="padding: 10px; background: #e2e8f0; font-weight: bold; margin-bottom: 10px; border-radius: 4px;">
+                         <img src="{{ team1.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                         {{ team1.name }}
+                         <div style="font-size: 11px; color: #64748b; font-weight: normal;">Equalizer goals (total)</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; font-size: 12px;">
+                        Matches played <span style="float: right; font-weight: bold;">{{ t1_leading_trailing_stats.matches_played }}</span>
+                    </div>
+
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">DEFENDING THE LEAD (total)</div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Goals giving the lead</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">{{ t1_leading_trailing_stats.goals_giving_lead }}</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Equalizer goals conceded</td>
+                            <td style="text-align: right; background: #fee2e2; font-weight: bold;">{{ t1_leading_trailing_stats.equalizer_goals_conceded }}</td>
+                        </tr>
+                         <tr>
+                            <td class="row-label" style="background: #dcfce7;">Lead defending rate * (1)</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">
+                                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+                                    <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 50px;">
+                                        <div class="bar-dynamic bar-green radius-3" style="--w: {{ t1_leading_trailing_stats.lead_defending_rate|floatformat:0 }}%;"></div>
+                                    </div>
+                                    {{ t1_leading_trailing_stats.lead_defending_rate|floatformat:0 }}%
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">EQUALIZING (total)</div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Goals giving lead to opponent</td>
+                            <td style="text-align: right; background: #fee2e2; font-weight: bold;">{{ t1_leading_trailing_stats.goals_giving_lead_to_opponent }}</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Equalizer goals scored</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">{{ t1_leading_trailing_stats.equalizer_goals_scored }}</td>
+                        </tr>
+                         <tr>
+                            <td class="row-label" style="background: #dcfce7;">Equalizing rate * (2)</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">
+                                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+                                    <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 50px;">
+                                        <div class="bar-dynamic bar-green radius-3" style="--w: {{ t1_leading_trailing_stats.equalizing_rate|floatformat:0 }}%;"></div>
+                                    </div>
+                                    {{ t1_leading_trailing_stats.equalizing_rate|floatformat:0 }}%
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+        </div>
+
+        <!-- TEAM 2 -->
+        <div style="min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="font-size: 16px; font-weight: bold; color: #334155;">First goal, leading & trailing</div>
+                <div style="display: flex; gap: 5px;">
+                    <div style="padding: 4px 10px; background: #334155; border-radius: 15px; font-weight: bold; color: white; cursor: pointer; font-size: 11px;">Total</div>
+                    <div style="padding: 4px 10px; background: #e2e8f0; border-radius: 15px; color: #64748b; cursor: pointer; font-size: 11px;">Home</div>
+                    <div style="padding: 4px 10px; background: #e2e8f0; border-radius: 15px; color: #64748b; cursor: pointer; font-size: 11px;">Away</div>
+                </div>
+            </div>
+            <div class="ss-box">
+                    <div style="padding: 10px; background: #e2e8f0; font-weight: bold; margin-bottom: 10px; border-radius: 4px;">
+                         <img src="{{ team2.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                         {{ team2.name }}
+                         <div style="font-size: 11px; color: #64748b; font-weight: normal;">Leading & trailing (total)</div>
+                    </div>
+                    
+                    <!-- OPENING GOALS -->
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">OPENING GOALS (total) <span style="float: right; font-weight: normal;">Matches</span></div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Team scored first</td>
+                            <td style="width: 60px; text-align: center; background: #dcfce7;">{{ t2_leading_trailing_stats.team_scored_first }} / {{ t2_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #dcfce7;">
+                                <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-green radius-3" style="--w: {{ t2_leading_trailing_stats.pct_scored_first|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #dcfce7;">{{ t2_leading_trailing_stats.pct_scored_first|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Opponent scored first</td>
+                            <td style="width: 60px; text-align: center; background: #fee2e2;">{{ t2_leading_trailing_stats.opponent_scored_first }} / {{ t2_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #fee2e2;">
+                                <div style="height: 6px; background: #fecaca; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-red radius-3" style="--w: {{ t2_leading_trailing_stats.pct_opp_scored_first|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #fee2e2;">{{ t2_leading_trailing_stats.pct_opp_scored_first|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Avg. minute scored first</td>
+                            <td style="text-align: center;">{{ t2_leading_trailing_stats.avg_minute_scored_first|floatformat:0 }}'</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Avg. minute conceded first</td>
+                            <td style="text-align: center;">{{ t2_leading_trailing_stats.avg_minute_conceded_first|floatformat:0 }}'</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+
+                    <!-- HALF-TIME LEAD -->
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">HALF-TIME LEAD (total) <span style="float: right; font-weight: normal;">Matches</span></div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Team was leading at HT</td>
+                            <td style="width: 60px; text-align: center; background: #dcfce7;">{{ t2_leading_trailing_stats.leading_at_ht }} / {{ t2_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #dcfce7;">
+                                <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-green radius-3" style="--w: {{ t2_leading_trailing_stats.pct_leading_ht|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #dcfce7;">{{ t2_leading_trailing_stats.pct_leading_ht|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Opponent was leading at HT</td>
+                            <td style="width: 60px; text-align: center; background: #fee2e2;">{{ t2_leading_trailing_stats.opponent_leading_at_ht }} / {{ t2_leading_trailing_stats.matches_played }}</td>
+                            <td style="width: 50px; background: #fee2e2;">
+                                <div style="height: 6px; background: #fecaca; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-red radius-3" style="--w: {{ t2_leading_trailing_stats.pct_opp_leading_ht|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #fee2e2;">{{ t2_leading_trailing_stats.pct_opp_leading_ht|floatformat:0 }}%</td>
+                        </tr>
+                    </table>
+
+                    <!-- AVERAGE DURATIONS -->
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">AVERAGE DURATIONS (total) <span style="float: right; font-weight: normal;">per match</span></div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Average minutes leading</td>
+                            <td style="width: 80px; text-align: right; background: #dcfce7;">{{ t2_leading_trailing_stats.avg_minutes_leading|floatformat:1 }} min.</td>
+                            <td style="width: 50px; background: #dcfce7;">
+                                <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-green radius-3" style="--w: {{ t2_leading_trailing_stats.pct_leading|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #dcfce7;">{{ t2_leading_trailing_stats.pct_leading|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label">Average minutes level in goals</td>
+                            <td style="width: 80px; text-align: right;">{{ t2_leading_trailing_stats.avg_minutes_level|floatformat:1 }} min.</td>
+                            <td style="width: 50px;">
+                                <div style="height: 6px; background: #e2e8f0; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-blue radius-3" style="--w: {{ t2_leading_trailing_stats.pct_level|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold;">{{ t2_leading_trailing_stats.pct_level|floatformat:0 }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Average minutes trailing</td>
+                            <td style="width: 80px; text-align: right; background: #fee2e2;">{{ t2_leading_trailing_stats.avg_minutes_trailing|floatformat:1 }} min.</td>
+                            <td style="width: 50px; background: #fee2e2;">
+                                <div style="height: 6px; background: #fecaca; border-radius: 3px; width: 100%;">
+                                    <div class="bar-dynamic bar-red radius-3" style="--w: {{ t2_leading_trailing_stats.pct_trailing|floatformat:0 }}%;"></div>
+                                </div>
+                            </td>
+                            <td style="width: 40px; font-weight: bold; background: #fee2e2;">{{ t2_leading_trailing_stats.pct_trailing|floatformat:0 }}%</td>
+                        </tr>
+                    </table>
+
+                    <div style="font-size: 11px; color: #64748b; margin: 15px 0; line-height: 1.4; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+                        Note: in the table above, to allow for averaging duration values based on a total of 90 minutes per game, goals scored on the 45th minute and during added time of the first half are all considered to be scored on the 45th minute, and goals scored on the 90th minute and during added time of the second half are also considered scored on the 90th minute.
+                        <br><br>
+                        In this example, <strong>{{ team2.name }}</strong> have been in the lead for an average duration of <span style="color: #2563eb; font-weight: bold;">{{ t2_leading_trailing_stats.avg_minutes_leading|floatformat:1 }} minutes per match</span> (based on a 90-minute match duration).
+                    </div>
+
+                    <!-- EQUALIZER / DEFENDING -->
+                    <div style="padding: 10px; background: #e2e8f0; font-weight: bold; margin-bottom: 10px; border-radius: 4px;">
+                         <img src="{{ team2.logo_url }}" style="height: 20px; vertical-align: middle; margin-right: 5px;"> 
+                         {{ team2.name }}
+                         <div style="font-size: 11px; color: #64748b; font-weight: normal;">Equalizer goals (total)</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px; font-size: 12px;">
+                        Matches played <span style="float: right; font-weight: bold;">{{ t2_leading_trailing_stats.matches_played }}</span>
+                    </div>
+
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">DEFENDING THE LEAD (total)</div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Goals giving the lead</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">{{ t2_leading_trailing_stats.goals_giving_lead }}</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Equalizer goals conceded</td>
+                            <td style="text-align: right; background: #fee2e2; font-weight: bold;">{{ t2_leading_trailing_stats.equalizer_goals_conceded }}</td>
+                        </tr>
+                         <tr>
+                            <td class="row-label" style="background: #dcfce7;">Lead defending rate * (1)</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">
+                                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+                                    <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 50px;">
+                                        <div class="bar-dynamic bar-green radius-3" style="--w: {{ t2_leading_trailing_stats.lead_defending_rate|floatformat:0 }}%;"></div>
+                                    </div>
+                                    {{ t2_leading_trailing_stats.lead_defending_rate|floatformat:0 }}%
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="font-weight: bold; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">EQUALIZING (total)</div>
+                    <table class="ss-table" style="font-size: 12px; margin-bottom: 15px;">
+                        <tr>
+                            <td class="row-label" style="background: #fee2e2;">Goals giving lead to opponent</td>
+                            <td style="text-align: right; background: #fee2e2; font-weight: bold;">{{ t2_leading_trailing_stats.goals_giving_lead_to_opponent }}</td>
+                        </tr>
+                        <tr>
+                            <td class="row-label" style="background: #dcfce7;">Equalizer goals scored</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">{{ t2_leading_trailing_stats.equalizer_goals_scored }}</td>
+                        </tr>
+                         <tr>
+                            <td class="row-label" style="background: #dcfce7;">Equalizing rate * (2)</td>
+                            <td style="text-align: right; background: #dcfce7; font-weight: bold;">
+                                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+                                    <div style="height: 6px; background: #bbf7d0; border-radius: 3px; width: 50px;">
+                                        <div class="bar-dynamic bar-green radius-3" style="--w: {{ t2_leading_trailing_stats.equalizing_rate|floatformat:0 }}%;"></div>
+                                    </div>
+                                    {{ t2_leading_trailing_stats.equalizing_rate|floatformat:0 }}%
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 class League(models.Model):
     name = models.CharField(max_length=100)
@@ -90,6 +91,10 @@ class Match(models.Model):
         h = self.home_team.get_stats("under15")
         a = self.away_team.get_stats("under15")
         return (h + a) // 2
+
+    @property
+    def slug(self):
+        return slugify(f"{self.home_team.name}-vs-{self.away_team.name}")
 
     def __str__(self):
         return f"{self.home_team} {self.home_score} x {self.away_score} {self.away_team}"

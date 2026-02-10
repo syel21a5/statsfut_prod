@@ -92,7 +92,15 @@ class Command(BaseCommand):
                             f.write(resp.text)
                     except Exception as e:
                         self.stdout.write(self.style.ERROR(f"Erro ao salvar {path}: {e}"))
-                reader = csv.DictReader(StringIO(resp.text))
+                
+                # Handle BOM correctly by forcing utf-8-sig
+                try:
+                    content = resp.content.decode('utf-8-sig')
+                except UnicodeDecodeError:
+                    # Fallback if it fails
+                    content = resp.text
+
+                reader = csv.DictReader(StringIO(content))
                 r, c, u = self._process_reader(reader, division, min_year, league)
                 total_rows += r
                 created_matches += c
@@ -122,6 +130,15 @@ class Command(BaseCommand):
             if not match_date:
                 continue
 
+            # Parse Time
+            time_str = row.get("Time")
+            if time_str:
+                try:
+                    hour, minute = map(int, time_str.split(":"))
+                    match_date = match_date.replace(hour=hour, minute=minute)
+                except ValueError:
+                    pass
+
             season_year = self._season_year_from_date(match_date)
             if season_year < min_year:
                 continue
@@ -132,6 +149,22 @@ class Command(BaseCommand):
             away_name = row.get("AwayTeam") or row.get("Away")
             if not home_name or not away_name:
                 continue
+
+            # Mapeamento de nomes para evitar duplicatas
+            mappings = {
+                "Wolves": "Wolverhampton",
+                "Man City": "Manchester City",
+                "Man United": "Manchester Utd",
+                "Newcastle": "Newcastle Utd",
+                "Nott'm Forest": "Nottm Forest",
+                "West Ham": "West Ham Utd",
+                "Leeds": "Leeds Utd",
+                "Sunderland AFC": "Sunderland",
+                "Nottingham Forest FC": "Nottm Forest",
+            }
+            
+            home_name = mappings.get(home_name, home_name)
+            away_name = mappings.get(away_name, away_name)
 
             home_team, _ = Team.objects.get_or_create(name=home_name, league=league)
             away_team, _ = Team.objects.get_or_create(name=away_name, league=league)
@@ -158,8 +191,13 @@ class Command(BaseCommand):
             hr = self._to_int(row.get("HR"))
             ar = self._to_int(row.get("AR"))
 
+            status = "Scheduled"
+            if fthg is not None and ftag is not None:
+                status = "Finished"
+
             defaults = {
                 "date": match_date_aware,
+                "status": status,
             }
 
             if fthg is not None:
@@ -196,19 +234,28 @@ class Command(BaseCommand):
             if ar is not None:
                 defaults["away_red"] = ar
 
-            match, created_flag = Match.objects.update_or_create(
+            # Try to find match by date (ignoring time)
+            match = Match.objects.filter(
                 league=league,
-                season=season,
                 home_team=home_team,
                 away_team=away_team,
-                date=match_date_aware,
-                defaults=defaults,
-            )
+                date__date=match_date_aware.date()
+            ).first()
 
-            if created_flag:
-                created += 1
-            else:
+            if match:
+                for key, value in defaults.items():
+                    setattr(match, key, value)
+                match.save()
                 updated += 1
+            else:
+                Match.objects.create(
+                    league=league,
+                    season=season,
+                    home_team=home_team,
+                    away_team=away_team,
+                    **defaults
+                )
+                created += 1
 
         return rows, created, updated
 

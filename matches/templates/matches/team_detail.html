@@ -55,7 +55,7 @@
                                         {% if m.is_home %}{{ m.opponent.name }}{% else %}{{ team.name }}{% endif %}
                                     </td>
                                     <td style="text-align: center;">
-                                        <a href="#" class="btn-h2h">h2h</a>
+                                        <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=m.opponent.name|slugify %}" class="btn-h2h">h2h</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -555,7 +555,7 @@
                                     <td style="text-align: center;">
                                         <span
                                             style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ league_avg|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}%
+                                            {{ rates|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}%
                                         </span>
                                     </td>
                                     <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}</span>%</td>
@@ -566,7 +566,7 @@
                                             <div
                                                 style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
                                                 <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}">
+                                                    data-width="{{ rates|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}">
                                                 </div>
                                             </div>
                                             <div
@@ -585,7 +585,7 @@
                                     <td style="text-align: center;">
                                         <span
                                             style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ league_avg|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}%
+                                            {{ rates|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}%
                                         </span>
                                     </td>
                                     <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}</span>%</td>
@@ -596,7 +596,7 @@
                                             <div
                                                 style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
                                                 <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}">
+                                                    data-width="{{ rates|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}">
                                                 </div>
                                             </div>
                                             <div
@@ -615,7 +615,7 @@
                                     <td style="text-align: center;">
                                         <span
                                             style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ league_avg|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}%
+                                            {{ rates|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}%
                                         </span>
                                     </td>
                                     <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}</span>%
@@ -627,7 +627,7 @@
                                             <div
                                                 style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
                                                 <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}">
+                                                    data-width="{{ rates|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}">
                                                 </div>
                                             </div>
                                             <div
@@ -646,11 +646,11 @@
                                     <td style="text-align: center;">
                                         <span
                                             style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ league_avg|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}%
+                                            {{ rates|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}%
                                         </span>
                                     </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}</span>%</td>
-
+                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}</span>%
+                                    </td>
                                 </tr>
                                 <tr style="background: #f9f9f9;">
                                     <td colspan="3" style="padding: 3px 10px;">
@@ -658,7 +658,7 @@
                                             <div
                                                 style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
                                                 <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}">
+                                                    data-width="{{ rates|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}">
                                                 </div>
                                             </div>
                                             <div
@@ -674,7 +674,7 @@
                                 <!-- Average minute scored first -->
                                 <tr>
                                     <td style="text-align: left; padding-left: 10px;">Average minute scored first</td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_min_scored_first'|floatformat:0 }}</span></td>
+                                    <td style="text-align: center;"><span>{{ stats|get_item:cat|get_item:'avg_min_scored_first'|floatformat:0 }}</span></td>
 
                                     <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_min_scored_first'|floatformat:0 }}</span></td>
 
@@ -684,8 +684,8 @@
                                         <div style="display: flex; align-items: center; gap: 5px;">
                                             <div
                                                 style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{% widthratio league_avg|get_item:cat|get_item:'avg_min_scored_first' 90 100 %}">
+                                                <div style="height: 100%; background: #28a745"
+                                                    data-width="{% widthratio stats|get_item:cat|get_item:'avg_min_scored_first' 90 100 %}">
                                                 </div>
                                             </div>
                                             <div
@@ -701,7 +701,7 @@
                                 <!-- Average minute conceded first -->
                                 <tr>
                                     <td style="text-align: left; padding-left: 10px;">Average minute conceded first</td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_min_conceded_first'|floatformat:0 }}</span></td>
+                                    <td style="text-align: center;"><span>{{ stats|get_item:cat|get_item:'avg_min_conceded_first'|floatformat:0 }}</span></td>
 
                                     <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_min_conceded_first'|floatformat:0 }}</span></td>
 
@@ -711,8 +711,8 @@
                                         <div style="display: flex; align-items: center; gap: 5px;">
                                             <div
                                                 style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{% widthratio league_avg|get_item:cat|get_item:'avg_min_conceded_first' 90 100 %}">
+                                                <div style="height: 100%; background: #28a745"
+                                                    data-width="{% widthratio stats|get_item:cat|get_item:'avg_min_conceded_first' 90 100 %}">
                                                 </div>
                                             </div>
                                             <div
@@ -1126,9 +1126,27 @@
                         {% for match in run_in.matches|slice:":13" %}
                         <tr style="border-bottom: 1px solid #eee;">
                             <td style="color: #666; font-size: 0.75rem;">{{ match.match.date|date:"j M" }}</td>
-                            <td style="text-align: left;">{% if match.is_home %}<strong>{{ team.name }}</strong> <span style="color:#999">vs</span> {{ match.opponent.name }}{% else %}{{ match.opponent.name }} <span style="color:#999">vs</span> <strong>{{ team.name }}</strong>{% endif %}</td>
-                            <td>{% if match.is_home %}<strong style="color: #333">{{ match.col_home_ppg }}</strong>{% else %}<span style="color:#aaa">{{ match.col_home_ppg }}</span>{% endif %}</td>
-                            <td>{% if not match.is_home %}<strong style="color: #333">{{ match.col_away_ppg }}</strong>{% else %}<span style="color:#aaa">{{ match.col_away_ppg }}</span>{% endif %}</td>
+                            <td style="text-align: left;">
+                                {% if match.is_home %}
+                                    <strong>{{ team.name }}</strong> <span style="color:#999">vs</span> {{ match.opponent.name }}
+                                {% else %}
+                                    {{ match.opponent.name }} <span style="color:#999">vs</span> <strong>{{ team.name }}</strong>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if match.is_home %}
+                                    <strong style="color: #333">{{ match.col_home_ppg }}</strong>
+                                {% else %}
+                                    <span style="color:#aaa">{{ match.col_home_ppg }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not match.is_home %}
+                                    <strong style="color: #333">{{ match.col_away_ppg }}</strong>
+                                {% else %}
+                                    <span style="color:#aaa">{{ match.col_away_ppg }}</span>
+                                {% endif %}
+                            </td>
                             <td style="vertical-align: middle;">
                                 <div style="display: flex; align-items: center; justify-content: start;">
                                     <div style="background: #e0e0e0; height: 6px; width: 60px; border-radius: 3px; overflow: hidden; margin-right: 5px;">
@@ -1180,10 +1198,10 @@
                         <tr>
                             <th style="width: 25px; background: #666; color: #fff;"></th>
                             <th style="text-align: left; background: #666; color: #fff;">Team</th>
-                            <th style="width: 25px; background: #666; color: #fff;">GP</th>
-                            <th style="width: 25px; background: #666; color: #fff;">Pts</th>
-                            <th style="width: 35px; background: #f0f0f0; color: #333; font-weight: normal;">Home</th>
-                            <th style="width: 35px; background: #f0f0f0; color: #333; font-weight: normal;">Away</th>
+                            <th style="width: 20px; background: #666; color: #fff;">GP</th>
+                            <th style="width: 20px; background: #666; color: #fff;">Pts</th>
+                            <th style="width: 45px; background: #f0f0f0; color: #333; font-weight: normal;">Home</th>
+                            <th style="width: 45px; background: #f0f0f0; color: #333; font-weight: normal;">Away</th>
                             <th style="width: 30px; background: #fff;"></th>
                         </tr>
                     </thead>
@@ -1211,7 +1229,11 @@
                                     {{ h.away.score }}
                                 </div>
                             </td>
-                            <td style="text-align: center;"><a href="#" class="btn-h2h">h2h</a></td>
+                            <td style="text-align: center;">
+                                {% if h.standing.team != team %}
+                                <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=h.standing.team.name|slugify %}" class="btn-h2h">h2h</a>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -1293,7 +1315,7 @@
                             matches that the <u>over under stats</u> indicate had a total number of goals over 2.5 this
                             season in <span>{{ league.name }}</span>.
                             <div style="text-align: center; margin-top: 10px;">
-                                <a href="#"
+                                <a href="{% url 'matches:league_goals' league_name=league.name|slugify %}"
                                     style="display: inline-block; padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: #333; text-decoration: none; font-size: 0.75rem;">League
                                     goals statistics</a>
                             </div>
@@ -1504,6 +1526,73 @@
                 </div>
             </div>
 
+            <!-- Timing of goals -->
+            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
+                Timing of goals
+            </div>
+            <div class="ss-card" style="margin-bottom: 20px;">
+                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
+                    <thead>
+                        <tr style="background: #666; color: #fff;">
+                            <th style="text-align: left; padding-left: 10px;">Time Period</th>
+                            <th>0-15</th>
+                            <th>16-30</th>
+                            <th>31-45</th>
+                            <th>46-60</th>
+                            <th>61-75</th>
+                            <th>76-90+</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #d4edda;">
+                            <td style="text-align: left; padding-left: 10px;">Scored</td>
+                            {% for c in timing_stats.scored.total %}
+                            <td>{{ c }}</td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="background: #f8d7da;">
+                            <td style="text-align: left; padding-left: 10px;">Conceded</td>
+                            {% for c in timing_stats.conceded.total %}
+                            <td>{{ c }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Goal types -->
+            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
+                Goal types
+            </div>
+            <div class="ss-card" style="margin-bottom: 20px;">
+                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
+                    <thead>
+                        <tr style="background: #666; color: #fff;">
+                            <th style="text-align: left; padding-left: 10px;">Type</th>
+                            <th>Scored</th>
+                            <th>Conceded</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #eee;">
+                            <td style="text-align: left; padding-left: 10px;">Regular Play</td>
+                            <td style="color: green; font-weight: bold;">{{ goal_types.scored.total.regular }}</td>
+                            <td style="color: red; font-weight: bold;">{{ goal_types.conceded.total.regular }}</td>
+                        </tr>
+                        <tr style="background: #eee;">
+                            <td style="text-align: left; padding-left: 10px;">Penalty</td>
+                            <td style="color: green; font-weight: bold;">{{ goal_types.scored.total.penalty }}</td>
+                            <td style="color: red; font-weight: bold;">{{ goal_types.conceded.total.penalty }}</td>
+                        </tr>
+                        <tr style="background: #eee;">
+                            <td style="text-align: left; padding-left: 10px;">Own Goal</td>
+                            <td style="color: green; font-weight: bold;">{{ goal_types.scored.total.own_goal }}</td>
+                            <td style="color: red; font-weight: bold;">{{ goal_types.conceded.total.own_goal }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <!-- 2. Goal Margins -->
             <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
                 Goal margins
@@ -1575,7 +1664,9 @@
                 </table>
                 {% with one_goal=margin_stats.wins.total|get_item:1 two_goal=margin_stats.wins.total|get_item:2 three_goal=margin_stats.wins.total|get_item:3 four_plus=margin_stats.wins.total|get_item:4 %}
                 <div style="padding: 10px; font-size: 0.8rem; background: #eee; line-height: 1.4; color: #333;">
-                    A majority of {{ team.name }}'s wins have been obtained with a one-goal margin ({{ one_goal }} wins), while {{ two_goal|add:three_goal|add:four_plus }} of their wins had a margin of 2 goals or more.
+                    A majority of {{ team.name }}'s wins have been obtained with a one-goal margin ({{ one_goal }}
+                    wins), while {{ two_goal|add:three_goal|add:four_plus }} of their wins had a margin of 2 goals or
+                    more.
                 </div>
                 {% endwith %}
                 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
@@ -1690,6 +1781,83 @@
                         style="background: #fff; border: 1px solid #ccc; padding: 3px 10px; border-radius: 4px; text-decoration: none; color: #333; font-size: 0.75rem;">League
                         Half-time stats</a>
                 </div>
+            </div>
+
+            <!-- HT/FT Matrix -->
+            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
+                Half-time / Full-time
+            </div>
+            <div class="ss-card" style="margin-bottom: 20px;">
+                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
+                    <thead>
+                        <tr style="background: #666; color: #fff;">
+                            <th style="text-align: left; padding-left: 10px;">HT \ FT</th>
+                            <th>Win</th>
+                            <th>Draw</th>
+                            <th>Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- HT Win -->
+                        <tr style="background: #d4edda;">
+                            <td style="text-align: left; padding-left: 10px;">HT Win</td>
+                            <td>{{ ht_ft_matrix.total.0.0 }}</td> <!-- HT Win / FT Win -->
+                            <td>{{ ht_ft_matrix.total.0.1 }}</td> <!-- HT Win / FT Draw -->
+                            <td>{{ ht_ft_matrix.total.0.2 }}</td> <!-- HT Win / FT Loss -->
+                        </tr>
+                        <!-- HT Draw -->
+                        <tr style="background: #fff3cd;">
+                            <td style="text-align: left; padding-left: 10px;">HT Draw</td>
+                            <td>{{ ht_ft_matrix.total.1.0 }}</td> <!-- HT Draw / FT Win -->
+                            <td>{{ ht_ft_matrix.total.1.1 }}</td> <!-- HT Draw / FT Draw -->
+                            <td>{{ ht_ft_matrix.total.1.2 }}</td> <!-- HT Draw / FT Loss -->
+                        </tr>
+                        <!-- HT Loss -->
+                        <tr style="background: #f8d7da;">
+                            <td style="text-align: left; padding-left: 10px;">HT Loss</td>
+                            <td>{{ ht_ft_matrix.total.2.0 }}</td> <!-- HT Loss / FT Win -->
+                            <td>{{ ht_ft_matrix.total.2.1 }}</td> <!-- HT Loss / FT Draw -->
+                            <td>{{ ht_ft_matrix.total.2.2 }}</td> <!-- HT Loss / FT Loss -->
+                        </tr>
+                    </tbody>
+                </table>
+                 <div style="padding: 5px; font-size: 0.75rem; color: #555; text-align: center;">
+                    (Total matches)
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
+                Cards
+            </div>
+            <div class="ss-card" style="margin-bottom: 20px;">
+                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
+                    <thead>
+                        <tr style="background: #666; color: #fff;">
+                            <th style="text-align: left; padding-left: 10px;">Type</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Total</th>
+                            <th>Avg</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr style="background: #fff3cd;">
+                            <td style="text-align: left; padding-left: 10px;">Yellow Cards</td>
+                            <td>{{ card_stats.yellow.home }}</td>
+                            <td>{{ card_stats.yellow.away }}</td>
+                            <td style="font-weight: bold;">{{ card_stats.yellow.total }}</td>
+                            <td style="color: blue;">{{ card_avgs.yellow.total }}</td>
+                        </tr>
+                        <tr style="background: #f8d7da;">
+                            <td style="text-align: left; padding-left: 10px;">Red Cards</td>
+                            <td>{{ card_stats.red.home }}</td>
+                            <td>{{ card_stats.red.away }}</td>
+                            <td style="font-weight: bold;">{{ card_stats.red.total }}</td>
+                            <td style="color: blue;">{{ card_avgs.red.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <!-- 5. Corners -->

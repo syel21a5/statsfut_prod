@@ -131,13 +131,13 @@ body {
 }
 
 .h2h-cell {
-    width: 28px;
-    height: 18px;
-    line-height: 18px;
+    width: 54px;
+    height: 26px;
+    line-height: 26px;
     text-align: center;
     border: 1px solid #dedede;
     border-radius: 2px;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: normal;
     margin: 0 auto;
 }

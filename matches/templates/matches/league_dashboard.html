@@ -124,7 +124,7 @@
                             {{ match.away_team.name }}
                         </td>
                         <td style="padding: 4px; text-align: right;">
-                            <a href="{% url 'matches:match_detail' match.id %}"
+                            <a href="{% url 'matches:match_detail' match.id match.slug %}"
                                 style="display: inline-block; padding: 2px 6px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); text-decoration: none; font-size: 0.75rem; background: var(--bg-panel);">
                                 <i class="fa-solid fa-chart-simple"></i>
                             </a>
@@ -170,7 +170,7 @@
                             {{ match.away_team.name }}
                         </td>
                         <td style="padding: 4px; text-align: right;">
-                            <a href="{% url 'matches:match_detail' match.id %}"
+                            <a href="{% url 'matches:match_detail' match.id match.slug %}"
                                 style="display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); text-decoration: none; font-size: 0.75rem; background: var(--bg-panel);">
                                 stats
                             </a>

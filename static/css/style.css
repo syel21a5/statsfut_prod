@@ -29,6 +29,26 @@
     box-sizing: border-box;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-app); 
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-sidebar); 
+    border-radius: 5px;
+    border: 1px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary); 
+}
+
 body {
     font-family: 'Outfit', sans-serif;
     background-color: var(--bg-app);

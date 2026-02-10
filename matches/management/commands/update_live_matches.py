@@ -44,6 +44,42 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar próximos jogos: {e}'))
 
+    def _get_or_create_team(self, name, league, api_id):
+        # 1. Tenta buscar pelo api_id se existir
+        if api_id:
+            try:
+                return Team.objects.get(api_id=str(api_id))
+            except Team.DoesNotExist:
+                pass
+
+        # 2. Se não achou pelo api_id, busca por nome e liga
+        try:
+            team = Team.objects.get(name=name, league=league)
+            if api_id:
+                # Se achou e tem api_id novo, atualiza (sabemos que api_id está livre pois passo 1 falhou)
+                team.api_id = str(api_id)
+                team.save()
+            return team
+        except Team.DoesNotExist:
+            pass
+
+        # 3. Se ainda não tem time, cria um novo
+        try:
+            return Team.objects.create(
+                name=name,
+                league=league,
+                api_id=str(api_id) if api_id else None
+            )
+        except Exception as e:
+            # Se der erro de duplicata, tenta buscar de novo pelo api_id (pode ter sido criado em paralelo ou inconsistência)
+            if 'Duplicate entry' in str(e) and api_id:
+                try:
+                    return Team.objects.get(api_id=str(api_id))
+                except Team.DoesNotExist:
+                    pass
+            raise e
+
+
     def process_fixtures(self, fixtures, is_live=False):
         """Processa fixtures e salva/atualiza no banco"""
         
@@ -75,10 +111,6 @@ class Command(BaseCommand):
                 else:
                     continue  # Pula ligas desconhecidas
                 
-                # Busca ou cria times
-                if 'Manchester' in fixture['home_team'] or 'Manchester' in fixture['away_team']:
-                    print(f"DEBUG: Processing {fixture['home_team']} (ID: {fixture.get('home_team_id')}) vs {fixture['away_team']} (ID: {fixture.get('away_team_id')})")
-
                 # Mapping names from Football-Data.org to local DB
                 name_mapping = {
                     'Manchester United FC': 'Manchester Utd',
@@ -112,26 +144,18 @@ class Command(BaseCommand):
                 home_name = name_mapping.get(home_name, home_name)
                 away_name = name_mapping.get(away_name, away_name)
 
-                home_team, _ = Team.objects.get_or_create(
-                    name=home_name,
-                    league=league_obj,
-                    defaults={'api_id': str(fixture.get('home_team_id')) if fixture.get('home_team_id') else None}
+                # Busca ou cria times usando o método seguro
+                home_team = self._get_or_create_team(
+                    home_name, 
+                    league_obj, 
+                    fixture.get('home_team_id')
                 )
                 
-                # Se já existia, atualiza o api_id se não estiver setado
-                if not home_team.api_id and fixture.get('home_team_id'):
-                    home_team.api_id = str(fixture.get('home_team_id'))
-                    home_team.save()
-                
-                away_team, _ = Team.objects.get_or_create(
-                    name=away_name,
-                    league=league_obj,
-                    defaults={'api_id': str(fixture.get('away_team_id')) if fixture.get('away_team_id') else None}
+                away_team = self._get_or_create_team(
+                    away_name, 
+                    league_obj, 
+                    fixture.get('away_team_id')
                 )
-
-                if not away_team.api_id and fixture.get('away_team_id'):
-                    away_team.api_id = str(fixture.get('away_team_id'))
-                    away_team.save()
                 
                 # Parse data
                 try:
@@ -176,26 +200,47 @@ class Command(BaseCommand):
                 status = status_map.get(fixture['status'], 'Scheduled')
                 
                 # Dados para salvar
+                match_api_id = str(fixture['id']) if fixture.get('id') else None
+                
                 defaults = {
                     'date': match_date,
                     'status': status,
                     'home_score': fixture['home_score'],
                     'away_score': fixture['away_score'],
                     'elapsed_time': fixture.get('elapsed'),
-                    'api_id': str(fixture['id']) if fixture.get('id') else None
+                    'api_id': match_api_id
                 }
                 
-                # Tenta encontrar jogo existente
-                # Incluímos api_id no update, mas para evitar duplicatas erradas,
-                # o ideal seria usar api_id no lookup se já existir, mas vamos manter
-                # a lógica de times/data por enquanto e apenas enriquecer com o ID.
-                match_obj, created = Match.objects.update_or_create(
-                    league=league_obj,
-                    season=season_obj,
-                    home_team=home_team,
-                    away_team=away_team,
-                    defaults=defaults
-                )
+                # Lógica segura para Match: Prioriza busca por api_id
+                match_obj = None
+                created = False
+                if match_api_id:
+                    try:
+                        match_obj = Match.objects.get(api_id=match_api_id)
+                        # Atualiza campos
+                        for key, value in defaults.items():
+                            setattr(match_obj, key, value)
+                        # Atualiza relacionamentos
+                        match_obj.league = league_obj
+                        match_obj.season = season_obj
+                        match_obj.home_team = home_team
+                        match_obj.away_team = away_team
+                        match_obj.save()
+                    except Match.DoesNotExist:
+                        pass
+                
+                if not match_obj:
+                    # Se não achou por ID, tenta por chaves naturais (mas cuidado com api_id duplicado no defaults)
+                    # Se formos criar, precisamos garantir que o api_id não colida (o que não deve acontecer se o passo acima falhou)
+                    match_obj, created = Match.objects.update_or_create(
+                        league=league_obj,
+                        season=season_obj,
+                        home_team=home_team,
+                        away_team=away_team,
+                        defaults=defaults
+                    )
+                
+
                 
                 if created:
                     count_new += 1

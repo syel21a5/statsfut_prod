@@ -135,8 +135,7 @@
                 <div
                     style="margin-top: 2rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 0.5rem; text-align: center;">
                     <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">SYSTEM SUGGESTION</span>
-                    <strong style="font-size: 1.2rem; color: var(--primary);">{{
-                        match.predictions_data.predictions.winner.name }}</strong>
+                    <strong style="font-size: 1.2rem; color: var(--primary);">{{ match.predictions_data.predictions.winner.name }}</strong>
                     <div style="font-size: 0.9rem;">{{ match.predictions_data.predictions.advice }}</div>
                 </div>
                 {% else %}
@@ -186,13 +185,11 @@
                         style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-main); border-radius: 0.5rem;">
                         <div style="text-align: center;">
                             <div style="font-size: 0.8rem; color: var(--text-muted);">HOME</div>
-                            <div style="font-weight: bold;">{{ match.predictions_data.predictions.goals.home|default:"-"
-                                }}</div>
+                            <div style="font-weight: bold;">{{ match.predictions_data.predictions.goals.home|default:"-" }}</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 0.8rem; color: var(--text-muted);">AWAY</div>
-                            <div style="font-weight: bold;">{{ match.predictions_data.predictions.goals.away|default:"-"
-                                }}</div>
+                            <div style="font-weight: bold;">{{ match.predictions_data.predictions.goals.away|default:"-" }}</div>
                         </div>
                     </div>
                 </div>

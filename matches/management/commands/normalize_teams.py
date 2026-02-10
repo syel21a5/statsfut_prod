@@ -24,10 +24,23 @@ class Command(BaseCommand):
             return
 
         mappings = {
-            "Sunderland AFC": "Sunderland",
+            "Wolves": "Wolverhampton",
+            "Man City": "Manchester City",
+            "Man United": "Manchester Utd",
+            "Manchester United": "Manchester Utd",  # Added alias
+            "Newcastle": "Newcastle Utd",
+            "Newcastle United": "Newcastle Utd",    # Added alias
+            "Nott'm Forest": "Nottm Forest",
+            "Nottingham Forest": "Nottm Forest",    # Added alias
             "West Ham": "West Ham Utd",
+            "West Ham United": "West Ham Utd",      # Added alias
             "Leeds": "Leeds Utd",
+            "Leeds United": "Leeds Utd",            # Added alias
+            "Sunderland AFC": "Sunderland",
             "Nottingham Forest FC": "Nottm Forest",
+            "Leicester City": "Leicester",          # Standardizing
+            "Luton Town": "Luton",
+            "Ipswich Town": "Ipswich",
         }
 
         for alias_name, canonical_name in mappings.items():

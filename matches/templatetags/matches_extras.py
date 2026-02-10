@@ -49,3 +49,7 @@ def country_en(value):
     if not value:
         return ""
     return COUNTRY_EN_MAP.get(str(value), value)
+
+@register.filter
+def is_team(team, target):
+    return team == target
