@@ -32,5 +32,4 @@ def check_arsenal():
     except Exception as e:
         print(f"Error: {e}")
 
-if __name__ == "__main__":
-    check_arsenal()
+check_arsenal()
