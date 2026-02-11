@@ -321,9 +321,11 @@ class LeagueDetailView(DetailView):
             status__in=['Scheduled', 'Not Started']
         ).order_by('date')[:15]
         
+        # Include all statuses that indicate a finished match
+        finished_statuses = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
         context['latest_results'] = Match.objects.filter(
             league=league,
-            status='Finished',
+            status__in=finished_statuses,
             date__lte=now
         ).order_by('-date')[:15]
         
