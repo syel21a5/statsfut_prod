@@ -14,6 +14,42 @@ from matches.models import League, Team, Match, Season
 class Command(BaseCommand):
     help = "Importa dados históricos da football-data.co.uk para o banco"
 
+    DIVISIONS = {
+        # England
+        "E0": ("Premier League", "Inglaterra"),
+        "E1": ("Championship", "Inglaterra"),
+        "E2": ("League One", "Inglaterra"),
+        "E3": ("League Two", "Inglaterra"),
+        "EC": ("Conference", "Inglaterra"),
+        # Scotland
+        "SC0": ("Scottish Premiership", "Escócia"),
+        "SC1": ("Scottish Championship", "Escócia"),
+        "SC2": ("Scottish League One", "Escócia"),
+        "SC3": ("Scottish League Two", "Escócia"),
+        # Germany
+        "D1": ("Bundesliga", "Alemanha"),
+        "D2": ("2. Bundesliga", "Alemanha"),
+        # Italy
+        "I1": ("Serie A", "Itália"),
+        "I2": ("Serie B", "Itália"),
+        # Spain
+        "SP1": ("La Liga", "Espanha"),
+        "SP2": ("La Liga 2", "Espanha"),
+        # France
+        "F1": ("Ligue 1", "França"),
+        "F2": ("Ligue 2", "França"),
+        # Netherlands
+        "N1": ("Eredivisie", "Holanda"),
+        # Belgium
+        "B1": ("Jupiler League", "Bélgica"),
+        # Portugal
+        "P1": ("Primeira Liga", "Portugal"),
+        # Turkey
+        "T1": ("Süper Lig", "Turquia"),
+        # Greece
+        "G1": ("Super League", "Grécia"),
+    }
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--root",
@@ -24,7 +60,7 @@ class Command(BaseCommand):
             "--division",
             type=str,
             default="E0",
-            help="Código da divisão na football-data (padrão: E0 = Premier League)",
+            help="Código da divisão (ex: E0, E1, D1...) ou 'ALL' para todas.",
         )
         parser.add_argument(
             "--min_year",
@@ -35,80 +71,95 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         root = options.get("root")
-        division = options["division"]
+        division_arg = options["division"]
         min_year = options["min_year"]
 
-        league, _ = League.objects.get_or_create(
-            name="Premier League", country="Inglaterra"
-        )
+        if division_arg.upper() == "ALL":
+            divisions_to_process = self.DIVISIONS.keys()
+        else:
+            divisions_to_process = [division_arg]
 
         total_files = 0
         total_rows = 0
         created_matches = 0
         updated_matches = 0
 
-        use_files = (
-            root
-            and os.path.isdir(root)
-            and any(fname.lower().endswith(".csv") for fname in os.listdir(root))
-        )
+        for div_code in divisions_to_process:
+            if div_code not in self.DIVISIONS:
+                self.stdout.write(self.style.WARNING(f"Divisão desconhecida: {div_code}, pulando..."))
+                continue
 
-        if use_files:
-            for fname in os.listdir(root):
-                if not fname.lower().endswith(".csv"):
-                    continue
-                path = os.path.join(root, fname)
-                total_files += 1
-                self.stdout.write(self.style.SUCCESS(f"Processando arquivo: {fname}"))
-                with open(path, newline="", encoding="utf-8") as f:
-                    reader = csv.DictReader(f)
-                    r, c, u = self._process_reader(
-                        reader, division, min_year, league
-                    )
+            league_name, country = self.DIVISIONS[div_code]
+            self.stdout.write(self.style.SUCCESS(f"=== Processando {league_name} ({country}) [{div_code}] ==="))
+            
+            league, _ = League.objects.get_or_create(
+                name=league_name, country=country
+            )
+
+            use_files = (
+                root
+                and os.path.isdir(root)
+                and any(fname.lower().endswith(".csv") for fname in os.listdir(root))
+            )
+
+            if use_files:
+                for fname in os.listdir(root):
+                    if not fname.lower().endswith(".csv"):
+                        continue
+                    # Check if file matches division pattern generally (optional, usually folder based)
+                    # For now processing all files in root if provided
+                    path = os.path.join(root, fname)
+                    total_files += 1
+                    # self.stdout.write(self.style.SUCCESS(f"Processando arquivo: {fname}"))
+                    with open(path, newline="", encoding="utf-8") as f:
+                        reader = csv.DictReader(f)
+                        r, c, u = self._process_reader(
+                            reader, div_code, min_year, league
+                        )
+                        total_rows += r
+                        created_matches += c
+                        updated_matches += u
+            else:
+                current_year = timezone.now().year
+                end_year = current_year + 1
+                for season_year in range(min_year, end_year + 1):
+                    url, code = self._build_url(season_year, div_code)
+                    try:
+                        resp = requests.get(url, timeout=15)
+                    except Exception as e:
+                        self.stdout.write(self.style.ERROR(f"Erro ao buscar {url}: {e}"))
+                        continue
+                    if resp.status_code != 200 or "404" in resp.text[:100]:
+                        # self.stdout.write(self.style.WARNING(f"Não encontrado: {url}"))
+                        continue
+                    
+                    total_files += 1
+                    self.stdout.write(f"Baixando: {url}")
+                    
+                    if root and os.path.isdir(root):
+                        fname = f"{div_code}_{code}.csv"
+                        path = os.path.join(root, fname)
+                        try:
+                            with open(path, "w", encoding="utf-8", newline="") as f:
+                                f.write(resp.text)
+                        except Exception as e:
+                            self.stdout.write(self.style.ERROR(f"Erro ao salvar {path}: {e}"))
+                    
+                    # Handle BOM correctly by forcing utf-8-sig
+                    try:
+                        content = resp.content.decode('utf-8-sig')
+                    except UnicodeDecodeError:
+                        content = resp.text
+
+                    reader = csv.DictReader(StringIO(content))
+                    r, c, u = self._process_reader(reader, div_code, min_year, league)
                     total_rows += r
                     created_matches += c
                     updated_matches += u
-        else:
-            current_year = timezone.now().year
-            end_year = current_year + 1
-            for season_year in range(min_year, end_year + 1):
-                url, code = self._build_url(season_year, division)
-                try:
-                    resp = requests.get(url, timeout=15)
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f"Erro ao buscar {url}: {e}"))
-                    continue
-                if resp.status_code != 200 or "404" in resp.text[:100]:
-                    continue
-                total_files += 1
-                self.stdout.write(
-                    self.style.SUCCESS(f"Processando temporada {season_year}: {url}")
-                )
-                if root and os.path.isdir(root):
-                    fname = f"{division}_{code}.csv"
-                    path = os.path.join(root, fname)
-                    try:
-                        with open(path, "w", encoding="utf-8", newline="") as f:
-                            f.write(resp.text)
-                    except Exception as e:
-                        self.stdout.write(self.style.ERROR(f"Erro ao salvar {path}: {e}"))
-                
-                # Handle BOM correctly by forcing utf-8-sig
-                try:
-                    content = resp.content.decode('utf-8-sig')
-                except UnicodeDecodeError:
-                    # Fallback if it fails
-                    content = resp.text
-
-                reader = csv.DictReader(StringIO(content))
-                r, c, u = self._process_reader(reader, division, min_year, league)
-                total_rows += r
-                created_matches += c
-                updated_matches += u
 
         self.stdout.write("")
-        self.stdout.write(self.style.SUCCESS("Importação concluída"))
-        self.stdout.write(f"Arquivos CSV processados: {total_files}")
+        self.stdout.write(self.style.SUCCESS("Importação concluída (Todas as ligas processadas)"))
+        self.stdout.write(f"Arquivos/URLs processados: {total_files}")
         self.stdout.write(f"Linhas lidas: {total_rows}")
         self.stdout.write(f"Jogos criados: {created_matches}")
         self.stdout.write(f"Jogos atualizados: {updated_matches}")
