@@ -31,6 +31,10 @@ python manage.py import_football_data --division E0 --min_year 2024 >> "$LOG_FIL
 echo "Running update_live_matches (API)..." >> "$LOG_FILE"
 python manage.py update_live_matches --mode both >> "$LOG_FILE" 2>&1
 
+# 3. Update Recent Results (Get yesterday's matches)
+echo "Updating recent results..." >> "$LOG_FILE"
+python3 manage.py update_recent_results --days 7 >> "$LOG_FILE" 2>&1
+
 # 3. Fix Match Statuses (Ensure matches with scores are marked as Finished)
 echo "Fixing match statuses..." >> "$LOG_FILE"
 python manage.py fix_match_status >> "$LOG_FILE" 2>&1
