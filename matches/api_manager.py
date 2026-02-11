@@ -243,11 +243,16 @@ class APIManager:
         if status == 'live':
             params['live'] = 'all'
         else:
-            # Próximos jogos
-            date_from = datetime.now().date()
-            date_to = date_from + timedelta(days=days_ahead)
-            params['from'] = date_from.isoformat()
-            params['to'] = date_to.isoformat()
+            # Próximos jogos ou passados
+            today = datetime.now().date()
+            target_date = today + timedelta(days=days_ahead)
+            
+            if days_ahead >= 0:
+                params['from'] = today.isoformat()
+                params['to'] = target_date.isoformat()
+            else:
+                params['from'] = target_date.isoformat()
+                params['to'] = today.isoformat()
         
         if league_ids:
             # Faz uma request por liga para economizar
@@ -284,6 +289,12 @@ class APIManager:
             else:
                 raise Exception(f"API retornou status {response.status_code}")
     
+    def get_recent_finished_matches(self, league_ids=None, days_back=30, exclude_apis=None):
+        """Busca resultados dos últimos X dias"""
+        exclude_apis = exclude_apis or []
+        # Usa days_ahead negativo para buscar no passado
+        return self.get_upcoming_fixtures(league_ids=league_ids, days_ahead=-days_back, exclude_apis=exclude_apis)
+
     def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7):
         """Busca fixtures da Football-Data.org"""
         headers = {
@@ -298,10 +309,16 @@ class APIManager:
         for comp_id in competitions:
             params = {}
             if status != 'live':
-                date_from = datetime.now().date()
-                date_to = date_from + timedelta(days=days_ahead)
-                params['dateFrom'] = date_from.isoformat()
-                params['dateTo'] = date_to.isoformat()
+                today = datetime.now().date()
+                target_date = today + timedelta(days=days_ahead)
+                
+                if days_ahead >= 0:
+                    params['dateFrom'] = today.isoformat()
+                    params['dateTo'] = target_date.isoformat()
+                else:
+                    # Busca no passado: dateFrom deve ser a data antiga, dateTo hoje
+                    params['dateFrom'] = target_date.isoformat()
+                    params['dateTo'] = today.isoformat()
         
             response = requests.get(
                 f"{api_config['base_url']}/competitions/{comp_id}/matches",
