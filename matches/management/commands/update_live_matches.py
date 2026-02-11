@@ -13,13 +13,7 @@ class Command(BaseCommand):
             '--mode',
             type=str,
             default='both',
-            help='Modo: live (ao vivo), upcoming (próximos), recent (passados) ou both (todos)'
-        )
-        parser.add_argument(
-            '--days',
-            type=int,
-            default=30,
-            help='Dias para buscar para trás (modo recent/both)'
+            help='Modo: live (ao vivo), upcoming (próximos), ou both (ambos)'
         )
 
     def handle(self, *args, **options):
@@ -49,17 +43,6 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f'✅ {len(upcoming_fixtures)} próximos jogos processados'))
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar próximos jogos: {e}'))
-                
-        if mode in ['recent', 'both']:
-            # Busca jogos dos últimos 30 dias para garantir atualização
-            days = options.get('days', 30)
-            self.stdout.write(self.style.SUCCESS(f'🔙 Buscando resultados dos últimos {days} dias...'))
-            try:
-                recent_fixtures = api_manager.get_recent_finished_matches(league_ids=league_ids, days_back=days)
-                self.process_fixtures(recent_fixtures, is_live=False)
-                self.stdout.write(self.style.SUCCESS(f'✅ {len(recent_fixtures)} resultados passados processados'))
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar resultados passados: {e}'))
 
     def _get_or_create_team(self, name, league, api_id):
         # 1. Tenta buscar pelo api_id se existir

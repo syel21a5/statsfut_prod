@@ -195,24 +195,22 @@ class MatchDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         match = self.object
         
-        # DESABILITADO: Chamadas automáticas de API causavam crash loop no Gunicorn
-        # TODO: Implementar busca de predictions via comando management ou task agendada
         # Se não tem predictions e o jogo não é passado (ou é recente?), busca na API
-        # if not match.predictions_data:
-        #     # So busca se tiver api_id (salvo pelo scraper)
-        #     if match.api_id:
-        #         print(f"Fetching predictions for match API_ID {match.api_id}...")
-        #         api_manager = APIManager()
-        #         
-        #         try:
-        #             preds = api_manager.get_predictions(match.api_id)
-        #             if preds:
-        #                 match.predictions_data = preds[0] # API retorna lista
-        #                 match.save()
-        #         except Exception as e:
-        #             print(f"Erro ao atualizar predictions: {e}")
-        #     else:
-        #         print(f"Match {match.id} sem API_ID. Ignorando fetch de predictions.")
+        if not match.predictions_data:
+            # So busca se tiver api_id (salvo pelo scraper)
+            if match.api_id:
+                print(f"Fetching predictions for match API_ID {match.api_id}...")
+                api_manager = APIManager()
+                
+                try:
+                    preds = api_manager.get_predictions(match.api_id)
+                    if preds:
+                        match.predictions_data = preds[0] # API retorna lista
+                        match.save()
+                except Exception as e:
+                    print(f"Erro ao atualizar predictions: {e}")
+            else:
+                print(f"Match {match.id} sem API_ID. Ignorando fetch de predictions.")
         
         return context
 

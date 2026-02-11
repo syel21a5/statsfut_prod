@@ -15,59 +15,32 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.stdout.write("Iniciando normalização...")
         league_name = options["league_name"]
 
         try:
-            league = League.objects.get(name=league_name, country="Inglaterra")
+            league = League.objects.get(name=league_name)
         except League.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (Inglaterra) não encontrada"))
+            self.stdout.write(self.style.ERROR(f"Liga '{league_name}' não encontrada"))
             return
-        except League.MultipleObjectsReturned:
-            league = League.objects.filter(name=league_name, country="Inglaterra").first()
-            self.stdout.write(self.style.WARNING(f"Múltiplas ligas encontradas, usando a primeira: {league}"))
 
         mappings = {
             "Wolves": "Wolverhampton",
             "Man City": "Manchester City",
             "Man United": "Manchester Utd",
-            "Manchester United": "Manchester Utd",
+            "Manchester United": "Manchester Utd",  # Added alias
             "Newcastle": "Newcastle Utd",
-            "Newcastle United": "Newcastle Utd",
+            "Newcastle United": "Newcastle Utd",    # Added alias
             "Nott'm Forest": "Nottm Forest",
-            "Nottingham Forest": "Nottm Forest",
+            "Nottingham Forest": "Nottm Forest",    # Added alias
             "West Ham": "West Ham Utd",
-            "West Ham United": "West Ham Utd",
+            "West Ham United": "West Ham Utd",      # Added alias
             "Leeds": "Leeds Utd",
-            "Leeds United": "Leeds Utd",
+            "Leeds United": "Leeds Utd",            # Added alias
             "Sunderland AFC": "Sunderland",
             "Nottingham Forest FC": "Nottm Forest",
-            "Leicester City": "Leicester",
+            "Leicester City": "Leicester",          # Standardizing
             "Luton Town": "Luton",
             "Ipswich Town": "Ipswich",
-            # Mapeamentos adicionais para remover sufixo FC e unificar
-            "Arsenal FC": "Arsenal",
-            "Liverpool FC": "Liverpool",
-            "Manchester United FC": "Manchester Utd",
-            "Manchester City FC": "Manchester City",
-            "Chelsea FC": "Chelsea",
-            "Tottenham Hotspur FC": "Tottenham",
-            "Tottenham Hotspur": "Tottenham",
-            "Everton FC": "Everton",
-            "Aston Villa FC": "Aston Villa",
-            "Wolverhampton Wanderers FC": "Wolverhampton",
-            "Wolverhampton Wanderers": "Wolverhampton",
-            "Brighton & Hove Albion FC": "Brighton",
-            "Brighton & Hove Albion": "Brighton",
-            "Brentford FC": "Brentford",
-            "Fulham FC": "Fulham",
-            "Crystal Palace FC": "Crystal Palace",
-            "Burnley FC": "Burnley",
-            "Sheffield United FC": "Sheffield Utd",
-            "Sheffield United": "Sheffield Utd",
-            "Luton Town FC": "Luton",
-            "Bournemouth AFC": "Bournemouth",
-            "AFC Bournemouth": "Bournemouth",
         }
 
         for alias_name, canonical_name in mappings.items():
