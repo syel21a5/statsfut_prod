@@ -27,20 +27,38 @@ class Command(BaseCommand):
             "Wolves": "Wolverhampton",
             "Man City": "Manchester City",
             "Man United": "Manchester Utd",
-            "Manchester United": "Manchester Utd",  # Added alias
+            "Manchester United": "Manchester Utd",
+            "Manchester United FC": "Manchester Utd",
+            "Manchester City FC": "Manchester City",
             "Newcastle": "Newcastle Utd",
-            "Newcastle United": "Newcastle Utd",    # Added alias
+            "Newcastle United": "Newcastle Utd",
+            "Newcastle United FC": "Newcastle Utd",
             "Nott'm Forest": "Nottm Forest",
-            "Nottingham Forest": "Nottm Forest",    # Added alias
-            "West Ham": "West Ham Utd",
-            "West Ham United": "West Ham Utd",      # Added alias
-            "Leeds": "Leeds Utd",
-            "Leeds United": "Leeds Utd",            # Added alias
-            "Sunderland AFC": "Sunderland",
+            "Nottingham Forest": "Nottm Forest",
             "Nottingham Forest FC": "Nottm Forest",
-            "Leicester City": "Leicester",          # Standardizing
+            "West Ham": "West Ham Utd",
+            "West Ham United": "West Ham Utd",
+            "West Ham United FC": "West Ham Utd",  # Match API usage
+            "Leeds": "Leeds Utd",
+            "Leeds United": "Leeds Utd",
+            "Leeds United FC": "Leeds Utd",
+            "Sunderland AFC": "Sunderland",
+            "Leicester City": "Leicester",
+            "Leicester City FC": "Leicester",
             "Luton Town": "Luton",
+            "Luton Town FC": "Luton",
             "Ipswich Town": "Ipswich",
+            "Ipswich Town FC": "Ipswich",
+            "Tottenham Hotspur": "Tottenham",
+            "Tottenham Hotspur FC": "Tottenham",
+            "Spurs": "Tottenham",
+            "Wolverhampton Wanderers": "Wolverhampton",
+            "Wolverhampton Wanderers FC": "Wolverhampton",
+            "Brighton & Hove Albion": "Brighton",
+            "Brighton & Hove Albion FC": "Brighton",
+            "AFC Bournemouth": "Bournemouth",
+            "Sheffield United": "Sheffield Utd",
+            "Sheffield United FC": "Sheffield Utd",
         }
 
         for alias_name, canonical_name in mappings.items():
