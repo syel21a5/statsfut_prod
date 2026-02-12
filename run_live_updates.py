@@ -12,7 +12,7 @@ def job_live():
     print(f"[{datetime.now()}] 🔴 Iniciando atualização de jogos AO VIVO...")
     try:
         # Busca apenas jogos ao vivo (leve e rápido)
-        subprocess.run(["python3", "manage.py", "update_live_matches", "--mode", "live"], check=True)
+        subprocess.run([sys.executable, "manage.py", "update_live_matches", "--mode", "live"], check=True)
         print(f"[{datetime.now()}] ✅ Jogos ao vivo atualizados.")
     except subprocess.CalledProcessError as e:
         print(f"[{datetime.now()}] ❌ Erro na atualização ao vivo: {e}")
