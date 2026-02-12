@@ -318,7 +318,7 @@ class LeagueDetailView(DetailView):
         context['upcoming_matches'] = Match.objects.filter(
             league=league,
             date__gte=now,
-            status__in=['Scheduled', 'Not Started']
+            status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC']
         ).order_by('date')[:15]
         
         # Include all statuses that indicate a finished match
