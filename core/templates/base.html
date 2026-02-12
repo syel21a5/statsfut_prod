@@ -16,6 +16,8 @@
 
     <!-- Main Style -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/7.1.0/css/flag-icons.min.css">
 </head>
 
 <body>
@@ -24,7 +26,7 @@
     <aside class="sidebar">
         <div class="brand">
             <i class="fa-solid fa-chart-simple"></i>
-            <span>BetStats<span style="color:var(--primary)">.AI</span></span>
+            <span>statsfut<span style="color:var(--primary)">.com</span></span>
         </div>
 
         <div class="menu-label">Main</div>
@@ -49,6 +51,53 @@
 
     <!-- Main Content Area -->
     <main class="main-content">
+        <!-- SoccerSTATS Style Header -->
+        <div class="stats-header-container">
+            <div class="stats-top-nav">
+                <div class="stats-logo">
+                    <i class="fa-solid fa-chart-column"></i> statsfut.com
+                </div>
+                <div class="stats-menu-items">
+                    <a href="#" class="stats-btn">LEAGUES</a>
+                    <a href="{% url 'matches:live_matches' %}" class="stats-btn">MATCHES</a>
+                    <a href="#" class="stats-btn">STATS</a>
+                    <a href="#" class="stats-btn">FAV</a>
+                    <a href="#" class="stats-btn">BLOG</a>
+                    <div class="stats-dropdown">
+                        <span>Premier League ▼</span>
+                    </div>
+                    <a href="#" class="stats-btn btn-login">MEMBER LOGIN</a>
+                </div>
+            </div>
+            
+            <div class="stats-flags-strip">
+                <a href="#" title="Argentina"><span class="fi fi-ar"></span> AR</a>
+                <a href="#" title="Austria"><span class="fi fi-at"></span> AT</a>
+                <a href="#" title="Australia"><span class="fi fi-au"></span> AU</a>
+                <a href="#" title="Belgium"><span class="fi fi-be"></span> BE</a>
+                <a href="#" title="Brazil"><span class="fi fi-br"></span> BR</a>
+                <a href="#" title="Switzerland"><span class="fi fi-ch"></span> CH</a>
+                <a href="#" title="Czech Republic"><span class="fi fi-cz"></span> CZ</a>
+                <a href="#" title="Germany"><span class="fi fi-de"></span> DE</a>
+                <a href="#" title="Denmark"><span class="fi fi-dk"></span> DK</a>
+                <a href="#" title="England"><span class="fi fi-gb-eng"></span> EN</a>
+                <a href="#" title="Spain"><span class="fi fi-es"></span> ES</a>
+                <a href="#" title="Finland"><span class="fi fi-fi"></span> FI</a>
+                <a href="#" title="France"><span class="fi fi-fr"></span> FR</a>
+                <a href="#" title="Greece"><span class="fi fi-gr"></span> GR</a>
+                <a href="#" title="Netherlands"><span class="fi fi-nl"></span> NL</a>
+                <a href="#" title="Italy"><span class="fi fi-it"></span> IT</a>
+                <a href="#" title="Japan"><span class="fi fi-jp"></span> JP</a>
+                <a href="#" title="Norway"><span class="fi fi-no"></span> NO</a>
+                <a href="#" title="Poland"><span class="fi fi-pl"></span> PL</a>
+                <a href="#" title="Portugal"><span class="fi fi-pt"></span> PT</a>
+                <a href="#" title="Russia"><span class="fi fi-ru"></span> RU</a>
+                <a href="#" title="Sweden"><span class="fi fi-se"></span> SE</a>
+                <a href="#" title="Turkey"><span class="fi fi-tr"></span> TR</a>
+                <a href="#" title="Ukraine"><span class="fi fi-ua"></span> UA</a>
+            </div>
+        </div>
+
         <header class="header">
             <div class="page-title">
                 {% block header %}
