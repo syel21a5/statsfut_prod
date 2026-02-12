@@ -2,29 +2,53 @@ import time
 import subprocess
 import schedule
 from datetime import datetime
+import sys
+import os
 
-def job():
-    print(f"[{datetime.now()}] Iniciando atualização de jogos ao vivo e próximos...")
+# Garante que o output seja flushado para logs
+sys.stdout.reconfigure(line_buffering=True)
+
+def job_live():
+    print(f"[{datetime.now()}] 🔴 Iniciando atualização de jogos AO VIVO...")
     try:
-        # Executa o comando Django para atualizar jogos
-        # --mode both busca tanto ao vivo quanto próximos 14 dias
-        subprocess.run(["python3", "manage.py", "update_live_matches", "--mode", "both"], check=True)
-        print(f"[{datetime.now()}] Atualização concluída com sucesso.")
+        # Busca apenas jogos ao vivo (leve e rápido)
+        subprocess.run(["python3", "manage.py", "update_live_matches", "--mode", "live"], check=True)
+        print(f"[{datetime.now()}] ✅ Jogos ao vivo atualizados.")
     except subprocess.CalledProcessError as e:
-        print(f"[{datetime.now()}] Erro na atualização: {e}")
+        print(f"[{datetime.now()}] ❌ Erro na atualização ao vivo: {e}")
 
-# Configuração do agendamento
-# A cada 15 minutos para pegar gols e resultados rápidos
-# Respeita limite de APIs: 
-# API-Football: 200 req/dia. 15 min = 4 req/hora * 24 = 96 reqs (OK)
-# Football-Data: 10 req/min. 1 req a cada 15 min é muito tranquilo.
-schedule.every(15).minutes.do(job)
+def job_upcoming():
+    print(f"[{datetime.now()}] 📅 Iniciando atualização de PRÓXIMOS jogos (15 dias)...")
+    try:
+        # Busca próximos jogos (mais pesado, roda menos vezes)
+        subprocess.run(["python3", "manage.py", "update_live_matches", "--mode", "upcoming"], check=True)
+        print(f"[{datetime.now()}] ✅ Próximos jogos atualizados.")
+    except subprocess.CalledProcessError as e:
+        print(f"[{datetime.now()}] ❌ Erro na atualização de próximos jogos: {e}")
 
-print("Iniciando agendador de atualizações ao vivo...")
+# --- Configuração do Agendamento ---
+
+# 1. Jogos AO VIVO: A cada 15 minutos
+# Motivo: Atualizar placares e status em tempo real
+schedule.every(15).minutes.do(job_live)
+
+# 2. Próximos Jogos: A cada 4 horas
+# Motivo: Atualizar odds, horários e novas marcações (não muda tanto quanto ao vivo)
+# Isso economiza MUITAS requisições das APIs
+schedule.every(4).hours.do(job_upcoming)
+
+print("========================================================")
+print("🚀 AGENDADOR DE ATUALIZAÇÕES API INICIADO")
+print("========================================================")
+print("Configuração:")
+print("   - Ao Vivo: a cada 15 minutos")
+print("   - Próximos (15 dias): a cada 4 horas")
+print("========================================================")
 print("Pressione Ctrl+C para parar.")
 
-# Executa uma vez imediatamente ao iniciar
-job()
+# Executa uma vez imediatamente ao iniciar para garantir dados frescos
+job_live()
+job_upcoming()
 
 while True:
     schedule.run_pending()

@@ -36,9 +36,9 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos ao vivo: {e}'))
         
         if mode in ['upcoming', 'both']:
-            self.stdout.write(self.style.SUCCESS('📅 Buscando próximos jogos (14 dias)...'))
+            self.stdout.write(self.style.SUCCESS('📅 Buscando próximos jogos (15 dias)...'))
             try:
-                upcoming_fixtures = api_manager.get_upcoming_fixtures(league_ids=league_ids, days_ahead=14)
+                upcoming_fixtures = api_manager.get_upcoming_fixtures(league_ids=league_ids, days_ahead=15)
                 self.process_fixtures(upcoming_fixtures, is_live=False)
                 self.stdout.write(self.style.SUCCESS(f'✅ {len(upcoming_fixtures)} próximos jogos processados'))
             except Exception as e:
