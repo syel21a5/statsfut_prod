@@ -8,19 +8,19 @@ def job():
     try:
         # 1. Importa dados históricos e resultados recentes
         print("Importando CSVs...")
-        subprocess.run(["python3", "manage.py", "import_football_data", "--min_year", "2026"], check=True)
+        subprocess.run([sys.executable, "manage.py", "import_football_data", "--min_year", "2026"], check=True)
         
         # 2. Normaliza times (caso venha nome novo)
         print("Normalizando times...")
-        subprocess.run(["python3", "manage.py", "normalize_teams", "--league_name", "Premier League"], check=True)
+        subprocess.run([sys.executable, "manage.py", "normalize_teams", "--league_name", "Premier League"], check=True)
         
         # 3. Limpa duplicatas
         print("Limpando duplicatas...")
-        subprocess.run(["python3", "manage.py", "remove_match_duplicates"], check=True)
+        subprocess.run([sys.executable, "manage.py", "remove_match_duplicates"], check=True)
         
         # 4. Recalcula tabela
         print("Recalculando tabela...")
-        subprocess.run(["python3", "manage.py", "recalculate_standings", "--league_name", "Premier League"], check=True)
+        subprocess.run([sys.executable, "manage.py", "recalculate_standings", "--league_name", "Premier League"], check=True)
         
         print(f"[{datetime.now()}] Atualização diária concluída.")
         

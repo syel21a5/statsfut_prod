@@ -21,7 +21,7 @@ def job_upcoming():
     print(f"[{datetime.now()}] 📅 Iniciando atualização de PRÓXIMOS jogos (15 dias)...")
     try:
         # Busca próximos jogos (mais pesado, roda menos vezes)
-        subprocess.run(["python3", "manage.py", "update_live_matches", "--mode", "upcoming"], check=True)
+        subprocess.run([sys.executable, "manage.py", "update_live_matches", "--mode", "upcoming"], check=True)
         print(f"[{datetime.now()}] ✅ Próximos jogos atualizados.")
     except subprocess.CalledProcessError as e:
         print(f"[{datetime.now()}] ❌ Erro na atualização de próximos jogos: {e}")
