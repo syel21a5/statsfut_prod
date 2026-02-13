@@ -44,103 +44,25 @@
         <div class="menu-label">Countries & Leagues</div>
         
         <div class="accordion accordion-flush sidebar-accordion" id="accordionLeagues">
-            <!-- England -->
+            {% for country in sidebar_countries %}
             <div class="accordion-item bg-transparent border-0">
-                <h2 class="accordion-header" id="headingEng">
-                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEng" aria-expanded="false" aria-controls="collapseEng">
-                        <span class="fi fi-gb-eng me-2"></span> England
+                <h2 class="accordion-header" id="heading{{ country.slug }}">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ country.slug }}" aria-expanded="false" aria-controls="collapse{{ country.slug }}">
+                        <span class="fi fi-{{ country.flag_code }} me-2"></span> {{ country.name }}
                     </button>
                 </h2>
-                <div id="collapseEng" class="accordion-collapse collapse" aria-labelledby="headingEng" data-bs-parent="#accordionLeagues">
+                <div id="collapse{{ country.slug }}" class="accordion-collapse collapse" aria-labelledby="heading{{ country.slug }}" data-bs-parent="#accordionLeagues">
                     <div class="accordion-body py-1 ps-4">
-                        <a href="{% url 'matches:country_league_stats' 'england' 'premier-league' %}" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Premier League</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Championship</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">League One</a>
+                        {% for league in country.leagues %}
+                        <a href="{% url 'matches:country_league_stats' country.slug league.slug %}" class="nav-link-sub text-muted d-block py-1 text-decoration-none">{{ league.name }}</a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-
-            <!-- Spain -->
-            <div class="accordion-item bg-transparent border-0">
-                <h2 class="accordion-header" id="headingEsp">
-                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEsp" aria-expanded="false" aria-controls="collapseEsp">
-                        <span class="fi fi-es me-2"></span> Spain
-                    </button>
-                </h2>
-                <div id="collapseEsp" class="accordion-collapse collapse" aria-labelledby="headingEsp" data-bs-parent="#accordionLeagues">
-                    <div class="accordion-body py-1 ps-4">
-                        <a href="{% url 'matches:country_league_stats' 'spain' 'la-liga' %}" class="nav-link-sub text-muted d-block py-1 text-decoration-none">La Liga</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Segunda División</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Brazil -->
-            <div class="accordion-item bg-transparent border-0">
-                <h2 class="accordion-header" id="headingBra">
-                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBra" aria-expanded="false" aria-controls="collapseBra">
-                        <span class="fi fi-br me-2"></span> Brazil
-                    </button>
-                </h2>
-                <div id="collapseBra" class="accordion-collapse collapse" aria-labelledby="headingBra" data-bs-parent="#accordionLeagues">
-                    <div class="accordion-body py-1 ps-4">
-                        <a href="{% url 'matches:country_league_stats' 'brazil' 'brasileirao' %}" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Série A</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Série B</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Italy -->
-            <div class="accordion-item bg-transparent border-0">
-                <h2 class="accordion-header" id="headingIta">
-                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIta" aria-expanded="false" aria-controls="collapseIta">
-                        <span class="fi fi-it me-2"></span> Italy
-                    </button>
-                </h2>
-                <div id="collapseIta" class="accordion-collapse collapse" aria-labelledby="headingIta" data-bs-parent="#accordionLeagues">
-                    <div class="accordion-body py-1 ps-4">
-                        <a href="{% url 'matches:country_league_stats' 'italy' 'serie-a' %}" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Serie A</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Serie B</a>
-                    </div>
-                </div>
-            </div>
-                    <div class="accordion-body py-1 ps-4">
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Serie A</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Serie B</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Germany -->
-            <div class="accordion-item bg-transparent border-0">
-                <h2 class="accordion-header" id="headingGer">
-                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGer" aria-expanded="false" aria-controls="collapseGer">
-                        <span class="fi fi-de me-2"></span> Germany
-                    </button>
-                </h2>
-                <div id="collapseGer" class="accordion-collapse collapse" aria-labelledby="headingGer" data-bs-parent="#accordionLeagues">
-                    <div class="accordion-body py-1 ps-4">
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Bundesliga</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">2. Bundesliga</a>
-                    </div>
-                </div>
-            </div>
-            
-             <!-- France -->
-            <div class="accordion-item bg-transparent border-0">
-                <h2 class="accordion-header" id="headingFra">
-                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFra" aria-expanded="false" aria-controls="collapseFra">
-                        <span class="fi fi-fr me-2"></span> France
-                    </button>
-                </h2>
-                <div id="collapseFra" class="accordion-collapse collapse" aria-labelledby="headingFra" data-bs-parent="#accordionLeagues">
-                    <div class="accordion-body py-1 ps-4">
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Ligue 1</a>
-                        <a href="#" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Ligue 2</a>
-                    </div>
-                </div>
-            </div>
-
+            {% empty %}
+            <!-- Fallback if no leagues found in DB (e.g. during migration) -->
+            <div class="px-3 py-2 text-muted small">Loading leagues...</div>
+            {% endfor %}
         </div>
     </aside>
 

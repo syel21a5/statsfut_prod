@@ -374,6 +374,14 @@ class StatsDispatchView(View):
         # (Idealmente, teríamos uma lista de países ou consulta exata)
         is_country = League.objects.filter(country__iexact=slug1).exists()
         
+        # Fallback: Slugify Match (robust against accents/formatting)
+        if not is_country:
+            from django.utils.text import slugify
+            for l in League.objects.values('country').distinct():
+                if slugify(l['country']) == arg1:
+                    is_country = True
+                    break
+        
         # Se for país, assume estrutura Country/League
         if is_country:
             view = LeagueDetailView.as_view()
@@ -536,10 +544,35 @@ class LeagueDetailView(DetailView):
 
         # CASO 1: Rota com País e Liga explícitos (ex: /stats/brazil/brasileirao/)
         if country_slug and league_slug:
-             queryset = queryset.filter(country__iexact=country_slug.replace('-', ' '))
+             # Tenta filtrar por país (com fallback)
+             country_clean = country_slug.replace('-', ' ')
+             if not queryset.filter(country__iexact=country_clean).exists():
+                 # Fallback slugify
+                 from django.utils.text import slugify
+                 target_country = None
+                 for c in queryset.values_list('country', flat=True).distinct():
+                     if slugify(c) == country_slug:
+                         target_country = c
+                         break
+                 if target_country:
+                     queryset = queryset.filter(country=target_country)
+                 else:
+                     queryset = queryset.none()
+             else:
+                 queryset = queryset.filter(country__iexact=country_clean)
+
              name_query = league_slug.replace('-', ' ')
              league = queryset.filter(name__iexact=name_query).first() or \
                       queryset.filter(name__icontains=name_query).first()
+            
+             # Fallback League Slugify
+             if not league:
+                 from django.utils.text import slugify
+                 for l in queryset:
+                     if slugify(l.name) == league_slug:
+                         league = l
+                         break
+
              if league:
                  return league
              from django.http import Http404
@@ -1273,23 +1306,41 @@ class TeamDetailView(DetailView):
         league_name_query = league_slug.replace('-', ' ')
         team_name_query = team_slug.replace('-', ' ')
         
-        # Busca Time diretamente pela liga (evita erro se houver ligas duplicadas no DB)
-        # Tenta match exato do time primeiro
-        qs = Team.objects.filter(
-            league__name__icontains=league_name_query, 
-            name__iexact=team_name_query
-        )
-        team = qs.first()
+        # 1. Resolve League First (Robust)
+        league = League.objects.filter(name__iexact=league_name_query).first() or \
+                 League.objects.filter(name__icontains=league_name_query).first()
+        
+        if not league:
+            from django.utils.text import slugify
+            for l in League.objects.all():
+                if slugify(l.name) == league_slug:
+                    league = l
+                    break
+        
+        qs = Team.objects.all()
+        if league:
+            qs = qs.filter(league=league)
+        else:
+            qs = qs.filter(league__name__icontains=league_name_query)
+
+        # 2. Resolve Team
+        team = qs.filter(name__iexact=team_name_query).first()
         
         if not team:
-            # Tenta match aproximado do time
-             team = get_object_or_404(
-                 Team, 
-                 league__name__icontains=league_name_query, 
-                 name__icontains=team_name_query
-             )
+             team = qs.filter(name__icontains=team_name_query).first()
              
-        return team
+        if not team:
+             from django.utils.text import slugify
+             for t in qs:
+                 if slugify(t.name) == team_slug:
+                     team = t
+                     break
+
+        if team:
+            return team
+            
+        from django.http import Http404
+        raise Http404(f"Team '{team_slug}' not found in '{league_slug}'")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
