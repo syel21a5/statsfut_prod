@@ -601,8 +601,17 @@ class LeagueDetailView(DetailView):
                 return league
                 
             # 2.2 Se não achou liga, tenta achar PAÍS e retorna a primeira liga dele
-            # Verifica se existe alguma liga com esse país
-            country_league = queryset.filter(country__iexact=slug_clean).first()
+            # Tenta tradução reversa primeiro (English Slug -> Portuguese DB Name)
+            # Ex: 'czech-republic' -> 'republica tcheca'
+            db_country_name = COUNTRY_REVERSE_TRANSLATIONS.get(slug_clean.lower())
+            
+            if db_country_name:
+                # Usa o nome traduzido
+                country_league = queryset.filter(country__iexact=db_country_name).first()
+            else:
+                # Usa o nome original (fallback)
+                country_league = queryset.filter(country__iexact=slug_clean).first()
+
             if country_league:
                 return country_league
                 
