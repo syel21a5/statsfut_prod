@@ -7,27 +7,92 @@ def sidebar_context(request):
     """
     leagues = League.objects.all().order_by('country', 'name')
     
+    # Translation Map (PT -> EN)
+    # This is useful if the DB has Portuguese names but we want English display
+    country_translations = {
+        'Inglaterra': 'England',
+        'Espanha': 'Spain',
+        'Brasil': 'Brazil',
+        'Italia': 'Italy',
+        'Itália': 'Italy',
+        'Alemanha': 'Germany',
+        'Franca': 'France',
+        'França': 'France',
+        'Holanda': 'Netherlands',
+        'Belgica': 'Belgium',
+        'Bélgica': 'Belgium',
+        'Estados Unidos': 'USA',
+        'Turquia': 'Turkey',
+        'Russia': 'Russia',
+        'Rússia': 'Russia',
+        'Ucrania': 'Ukraine',
+        'Ucrânia': 'Ukraine',
+        'Suecia': 'Sweden',
+        'Suécia': 'Sweden',
+        'Noruega': 'Norway',
+        'Dinamarca': 'Denmark',
+        'Finlandia': 'Finland',
+        'Finlândia': 'Finland',
+        'Grecia': 'Greece',
+        'Grécia': 'Greece',
+        'Japao': 'Japan',
+        'Japão': 'Japan',
+        'Coreia do Sul': 'South Korea',
+        'China': 'China',
+        'Australia': 'Australia',
+        'Argentina': 'Argentina',
+        'Austria': 'Austria',
+        'Áustria': 'Austria',
+        'Suica': 'Switzerland',
+        'Suíça': 'Switzerland',
+        'Republica Tcheca': 'Czech Republic',
+        'República Tcheca': 'Czech Republic',
+        'Polonia': 'Poland',
+        'Polônia': 'Poland',
+        'Escocia': 'Scotland',
+        'Escócia': 'Scotland',
+        'Gales': 'Wales',
+        'Irlanda': 'Ireland',
+        'Colombia': 'Colombia',
+        'Chile': 'Chile',
+        'Mexico': 'Mexico',
+        'México': 'Mexico',
+        'Uruguai': 'Uruguay',
+    }
+
     # Group by Country
     countries_map = {}
     for league in leagues:
-        country_name = league.country
-        if country_name not in countries_map:
-            countries_map[country_name] = {
-                'name': country_name,
-                'slug': slugify(country_name),
+        db_country_name = league.country
+        
+        # Translate name for Display
+        display_name = country_translations.get(db_country_name, db_country_name)
+        
+        # Use English name for grouping/sorting if possible, or fallback to DB name
+        group_key = display_name 
+
+        if group_key not in countries_map:
+            countries_map[group_key] = {
+                'name': display_name,
+                'slug': slugify(display_name), # Slugify the English name for consistency
                 'leagues': [],
-                'flag_code': get_flag_code(country_name)
+                'flag_code': get_flag_code(display_name) # Use translated name to find flag
             }
         
-        countries_map[country_name]['leagues'].append({
+        # Use slugify on the ORIGINAL DB name for the URL to ensure it matches the DB query in views
+        # OR use robust view logic (which we implemented). 
+        # Let's stick to slugifying the DB name for the URL param to be safe.
+        # UPDATE: Since we want robust matching, passing the slug of the DB name is safer for lookup.
+        # But wait, our view logic now tries to match the slug against slugified DB names.
+        # So slugify(db_name) is the correct key.
+        
+        countries_map[group_key]['leagues'].append({
             'name': league.name,
             'slug': slugify(league.name),
-            'url_slug': slugify(league.name) # Use slugify for URL
+            'url_slug': slugify(league.name)
         })
     
-    # Sort countries? Or keep specific order?
-    # For now, sort alphabetically, or maybe prioritize major ones if needed.
-    # Let's just sort by name for now.
+    # Sort alphabetically by Display Name
     sorted_countries = sorted(countries_map.values(), key=lambda x: x['name'])
     
     return {'sidebar_countries': sorted_countries}

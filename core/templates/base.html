@@ -43,7 +43,7 @@
 
         <div class="menu-label">Countries & Leagues</div>
         
-        <div class="accordion accordion-flush sidebar-accordion" id="accordionLeagues">
+        <div class="accordion accordion-flush sidebar-accordion" id="accordionLeagues" style="max-height: 70vh; overflow-y: auto;">
             {% for country in sidebar_countries %}
             <div class="accordion-item bg-transparent border-0">
                 <h2 class="accordion-header" id="heading{{ country.slug }}">
