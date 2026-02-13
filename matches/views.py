@@ -603,7 +603,11 @@ class LeagueDetailView(DetailView):
             # 2.2 Se não achou liga, tenta achar PAÍS e retorna a primeira liga dele
             # Tenta tradução reversa primeiro (English Slug -> Portuguese DB Name)
             # Ex: 'czech-republic' -> 'republica tcheca'
-            db_country_name = COUNTRY_REVERSE_TRANSLATIONS.get(slug_clean.lower())
+            
+            # Normaliza o slug: substitui hifens por espaços para buscar no dicionário
+            # Ex: 'czech-republic' vira 'czech republic', que bate com a chave do dicionário
+            clean_name = slug_clean.replace('-', ' ')
+            db_country_name = COUNTRY_REVERSE_TRANSLATIONS.get(clean_name.lower())
             
             if db_country_name:
                 # Usa o nome traduzido
