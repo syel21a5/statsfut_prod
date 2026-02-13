@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load matches_extras %}
+{% load flag_tags %}
 
 {% block content %}
 <div class="container-fluid py-4">
@@ -46,7 +48,7 @@
             <div class="league-header sticky-top bg-dark border-bottom border-secondary border-opacity-25 py-2 px-3 d-flex align-items-center justify-content-between z-2 shadow-sm" style="top: 0;">
                 <div class="d-flex align-items-center gap-2">
                     {% if data.league.country %}
-                    <span class="fi fi-{{ data.league.country|lower|slice:':2' }} rounded-1"></span>
+                    <img src="{{ data.league.country|country_en|get_flag_url }}" alt="{{ data.league.country|country_en }}" class="rounded-1" style="height: 15px; width: auto;">
                     {% endif %}
                     <span class="text-white fw-bold text-uppercase small tracking-wide">{{ league_name }}</span>
                 </div>

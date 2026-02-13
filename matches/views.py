@@ -7,6 +7,7 @@ from django.db.models import Q
 from datetime import datetime, timedelta
 from .models import Match, League, Team, Season, LeagueStanding, Goal
 from django.db import models
+from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
 
 from .api_manager import APIManager
 import json
@@ -20,15 +21,19 @@ class GlobalSearchView(View):
         query = request.GET.get('q', '')
         results = []
         
+        from matches.utils import COUNTRY_TRANSLATIONS
+
         if len(query) >= 2:
             # Search Leagues
             leagues = League.objects.filter(name__icontains=query)[:5]
             for league in leagues:
-                # Use stats_dispatch compatible URL
-                url = f"/stats/{slugify(league.country)}/{slugify(league.name)}/"
+                # Use stats_dispatch compatible URL with English Country
+                country_en = COUNTRY_TRANSLATIONS.get(league.country, league.country)
+                url = f"/stats/{slugify(country_en)}/{slugify(league.name)}/"
+                
                 results.append({
                     'type': 'League',
-                    'name': f"{league.name} ({league.country})",
+                    'name': f"{league.name} ({country_en})",
                     'url': url,
                     'icon': 'fa-trophy'
                 })
@@ -36,11 +41,12 @@ class GlobalSearchView(View):
             # Search Teams
             teams = Team.objects.filter(name__icontains=query).select_related('league')[:5]
             for team in teams:
-                # Use stats_dispatch compatible URL
+                # Use stats_dispatch compatible URL (League/Team)
+                country_en = COUNTRY_TRANSLATIONS.get(team.league.country, team.league.country)
                 url = f"/stats/{slugify(team.league.name)}/{slugify(team.name)}/"
                 results.append({
                     'type': 'Team',
-                    'name': team.name,
+                    'name': f"{team.name} ({country_en})",
                     'url': url,
                     'icon': 'fa-shirt'
                 })
@@ -371,8 +377,10 @@ class StatsDispatchView(View):
         slug2 = arg2.replace('-', ' ')
 
         # 1. Tenta identificar se arg1 é um PAÍS
-        # (Idealmente, teríamos uma lista de países ou consulta exata)
-        is_country = League.objects.filter(country__iexact=slug1).exists()
+        # Check Reverse Translation first (English -> DB Name)
+        db_country = COUNTRY_REVERSE_TRANSLATIONS.get(slug1.lower(), slug1)
+        
+        is_country = League.objects.filter(country__iexact=db_country).exists()
         
         # Fallback: Slugify Match (robust against accents/formatting)
         if not is_country:
@@ -546,6 +554,10 @@ class LeagueDetailView(DetailView):
         if country_slug and league_slug:
              # Tenta filtrar por país (com fallback)
              country_clean = country_slug.replace('-', ' ')
+             
+             # Resolve English -> DB Name
+             country_clean = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+
              if not queryset.filter(country__iexact=country_clean).exists():
                  # Fallback slugify
                  from django.utils.text import slugify

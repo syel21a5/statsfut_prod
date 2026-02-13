@@ -9,11 +9,11 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="text-white fw-bold mb-0">
-                <img src="{{ league.country|get_flag_url }}" alt="{{ league.country }}" style="height: 30px; margin-right: 10px;">
+                <img src="{{ league.country|country_en|get_flag_url }}" alt="{{ league.country|country_en }}" style="height: 30px; margin-right: 10px;">
                 {{ league.name }}
             </h2>
             <p class="text-secondary mb-0 mt-1">
-                <span class="text-info">{{ league.country }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> League Stats
+                <span class="text-info">{{ league.country|country_en }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> League Stats
             </p>
         </div>
         <div>

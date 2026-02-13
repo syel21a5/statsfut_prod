@@ -1,4 +1,5 @@
 from django import template
+from matches.utils import COUNTRY_TRANSLATIONS
 
 register = template.Library()
 
@@ -33,22 +34,11 @@ def split(value, arg):
     return value.split(arg)
 
 
-COUNTRY_EN_MAP = {
-    "Inglaterra": "England",
-    "Brasil": "Brazil",
-    "Espanha": "Spain",
-    "Alemanha": "Germany",
-    "Itália": "Italy",
-    "França": "France",
-    "Portugal": "Portugal",
-}
-
-
 @register.filter
 def country_en(value):
     if not value:
         return ""
-    return COUNTRY_EN_MAP.get(str(value), value)
+    return COUNTRY_TRANSLATIONS.get(str(value), value)
 
 @register.filter
 def is_team(team, target):

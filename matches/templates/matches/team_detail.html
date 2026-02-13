@@ -12,7 +12,7 @@
                 {% if team.logo %}
                 <img src="{{ team.logo }}" alt="{{ team.name }}" style="height: 40px; margin-right: 10px;">
                 {% else %}
-                <img src="{{ team.league.country|get_flag_url }}" alt="{{ team.league.country }}" style="height: 30px; margin-right: 10px;">
+                <img src="{{ team.league.country|country_en|get_flag_url }}" alt="{{ team.league.country|country_en }}" style="height: 30px; margin-right: 10px;">
                 {% endif %}
                 {{ team.name }}
             </h2>

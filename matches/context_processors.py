@@ -1,5 +1,6 @@
 from .models import League
 from django.utils.text import slugify
+from matches.utils import COUNTRY_TRANSLATIONS
 
 def sidebar_context(request):
     """
@@ -9,56 +10,7 @@ def sidebar_context(request):
     
     # Translation Map (PT -> EN)
     # This is useful if the DB has Portuguese names but we want English display
-    country_translations = {
-        'Inglaterra': 'England',
-        'Espanha': 'Spain',
-        'Brasil': 'Brazil',
-        'Italia': 'Italy',
-        'Itália': 'Italy',
-        'Alemanha': 'Germany',
-        'Franca': 'France',
-        'França': 'France',
-        'Holanda': 'Netherlands',
-        'Belgica': 'Belgium',
-        'Bélgica': 'Belgium',
-        'Estados Unidos': 'USA',
-        'Turquia': 'Turkey',
-        'Russia': 'Russia',
-        'Rússia': 'Russia',
-        'Ucrania': 'Ukraine',
-        'Ucrânia': 'Ukraine',
-        'Suecia': 'Sweden',
-        'Suécia': 'Sweden',
-        'Noruega': 'Norway',
-        'Dinamarca': 'Denmark',
-        'Finlandia': 'Finland',
-        'Finlândia': 'Finland',
-        'Grecia': 'Greece',
-        'Grécia': 'Greece',
-        'Japao': 'Japan',
-        'Japão': 'Japan',
-        'Coreia do Sul': 'South Korea',
-        'China': 'China',
-        'Australia': 'Australia',
-        'Argentina': 'Argentina',
-        'Austria': 'Austria',
-        'Áustria': 'Austria',
-        'Suica': 'Switzerland',
-        'Suíça': 'Switzerland',
-        'Republica Tcheca': 'Czech Republic',
-        'República Tcheca': 'Czech Republic',
-        'Polonia': 'Poland',
-        'Polônia': 'Poland',
-        'Escocia': 'Scotland',
-        'Escócia': 'Scotland',
-        'Gales': 'Wales',
-        'Irlanda': 'Ireland',
-        'Colombia': 'Colombia',
-        'Chile': 'Chile',
-        'Mexico': 'Mexico',
-        'México': 'Mexico',
-        'Uruguai': 'Uruguay',
-    }
+    country_translations = COUNTRY_TRANSLATIONS
 
     # Group by Country
     countries_map = {}
