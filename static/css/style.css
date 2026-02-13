@@ -262,7 +262,7 @@ body {
 /* Override dark mode for this specific block to match "print" */
 .stats-header-container * {
     /* Garante que dentro deste bloco seja tema claro */
-}
+    color: inherit;
 }
 
 
