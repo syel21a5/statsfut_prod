@@ -1,61 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load flag_tags %}
 {% load matches_extras %}
+{% load flag_tags %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'matches/css/team_detail.css' %}">
-
-<div class="main-container">
-    <!-- Header Info -->
-    <div class="ss-card" style="padding: 10px 15px; margin-bottom: 20px; display: flex; align-items: center;">
-        <div style="font-size: 1.5rem; font-weight: bold; display: flex; align-items: center;">
-            <img src="https://flagcdn.com/24x18/gb-eng.png" style="margin-right: 10px; border: 1px solid #ddd;">
-            {{ team.name }}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white fw-bold mb-0">
+                {% if team.logo %}
+                <img src="{{ team.logo }}" alt="{{ team.name }}" style="height: 40px; margin-right: 10px;">
+                {% else %}
+                <img src="{{ team.league.country|get_flag_url }}" alt="{{ team.league.country }}" style="height: 30px; margin-right: 10px;">
+                {% endif %}
+                {{ team.name }}
+            </h2>
+            <p class="text-secondary mb-0 mt-1">
+                <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> Team Stats
+            </p>
         </div>
-        <div style="margin-left: auto; color: #666; font-size: 0.9rem;">(this season in the league)</div>
+        <a href="{% url 'matches:league_goals' league_name=league.name|slugify %}" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to League
+        </a>
     </div>
 
-    <div class="dashboard-wrapper">
-
-        <!-- LEFT MAIN GROUP (Col 1 & 2 + Chart) -->
-        <div class="left-group">
-
-            <div class="left-inner-grid">
-                <!-- COLUMN 1: LATEST MATCHES -->
-                <div>
-                    <!-- Blank header -->
-                    <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">Latest matches
-                    </div>
-                    <div class="ss-card">
-                        <table class="ss-table" style="table-layout: fixed;">
-                            <colgroup>
-                                <col style="width: 50px;">
-                                <col style="width: 1fr;"> <!-- Home -->
-                                <col style="width: 45px;"> <!-- Score -->
-                                <col style="width: 1fr;"> <!-- Away -->
-                                <col style="width: 40px;"> <!-- H2H -->
-                            </colgroup>
+    <!-- Top Row: Latest & Upcoming Matches -->
+    <div class="row g-4 mb-4">
+        <!-- Latest Matches -->
+        <div class="col-lg-6">
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Latest Matches</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                            <thead class="sticky-top bg-dark">
+                                <tr class="text-secondary">
+                                    <th>Date</th>
+                                    <th class="text-end">Home</th>
+                                    <th>Score</th>
+                                    <th class="text-start">Away</th>
+                                    <th>H2H</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {% for m in matches_list %}
-                                <tr
-                                    class="{{ m.result_class }} {% if m.result == 'W' %}row-win{% elif m.result == 'L' %}row-loss{% else %}row-draw{% endif %}">
-                                    <td style="color: #666; font-size: 0.7rem; padding-left: 5px;">
-                                        {{ m.date|date:"j M" }}
-                                    </td>
-                                    <td style="text-align: right; padding-right: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                                        class="{% if m.is_home %}fw-bold color-dark{% else %}fw-normal color-muted{% endif %}">
+                                <tr>
+                                    <td class="text-secondary">{{ m.date|date:"j M" }}</td>
+                                    <td class="text-end {% if m.is_home %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                         {% if m.is_home %}{{ team.name }}{% else %}{{ m.opponent.name }}{% endif %}
                                     </td>
-                                    <td style="text-align: center;">
-                                        <div class="score-badge" style="color: #0000ff;">{{ m.score }}</div>
+                                    <td>
+                                        <span class="badge {% if m.result == 'W' %}bg-success{% elif m.result == 'L' %}bg-danger{% else %}bg-warning text-dark{% endif %}">
+                                            {{ m.score }}
+                                        </span>
                                     </td>
-                                    <td style="text-align: left; padding-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                                        class="{% if not m.is_home %}fw-bold color-dark{% else %}fw-normal color-muted{% endif %}">
+                                    <td class="text-start {% if not m.is_home %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                         {% if m.is_home %}{{ m.opponent.name }}{% else %}{{ team.name }}{% endif %}
                                     </td>
-                                    <td style="text-align: center;">
-                                        <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=m.opponent.name|slugify %}" class="btn-h2h">h2h</a>
+                                    <td>
+                                        <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=m.opponent.name|slugify %}" class="btn btn-xs btn-outline-info py-0 px-1" style="font-size: 0.7rem;">H2H</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -63,1967 +69,906 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- COLUMN 2: SEASONAL STATS + RELATIVE FORM -->
-                <div>
-                    <!-- Seasonal Match Statistics -->
-                    <div
-                        style="text-align: center; font-weight: bold; margin-bottom: 8px; color: #fff; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Seasonal match statistics</div>
-
-                    <div class="ss-card" style="padding: 10px;">
-                        <table class="ss-table" style="font-size: 0.8rem;">
-                            <thead>
+        <!-- Upcoming Matches -->
+        <div class="col-lg-6">
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Upcoming Matches</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        {% if upcoming_matches %}
+                        <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                            <thead class="sticky-top bg-dark">
+                                <tr class="text-secondary">
+                                    <th>Date</th>
+                                    <th class="text-end">Home</th>
+                                    <th>vs</th>
+                                    <th class="text-start">Away</th>
+                                    <th>H2H</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in upcoming_matches %}
                                 <tr>
+                                    <td class="text-secondary">{{ m.date|date:"j M" }}</td>
+                                    <td class="text-end {% if m.home_team == team %}fw-bold text-white{% else %}text-secondary{% endif %}">
+                                        {{ m.home_team.name }}
+                                    </td>
+                                    <td class="text-muted">vs</td>
+                                    <td class="text-start {% if m.away_team == team %}fw-bold text-white{% else %}text-secondary{% endif %}">
+                                        {{ m.away_team.name }}
+                                    </td>
+                                    <td>
+                                        {% with opp=m.away_team|default:m.home_team %}
+                                            {% if m.home_team == team %}
+                                                {% with opponent=m.away_team %}
+                                                <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=opponent.name|slugify %}" class="btn btn-xs btn-outline-info py-0 px-1" style="font-size: 0.7rem;">H2H</a>
+                                                {% endwith %}
+                                            {% else %}
+                                                {% with opponent=m.home_team %}
+                                                <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=opponent.name|slugify %}" class="btn btn-xs btn-outline-info py-0 px-1" style="font-size: 0.7rem;">H2H</a>
+                                                {% endwith %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <div class="p-4 text-center text-secondary">
+                            <i class="fa-regular fa-calendar-xmark fa-2x mb-2"></i>
+                            <p class="mb-0">No upcoming matches scheduled.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- LEFT COLUMN (Main Stats) -->
+        <div class="col-lg-8">
+            
+            <!-- 1. Seasonal Match Statistics -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Seasonal Match Statistics</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0 text-center small">
+                            <thead>
+                                <tr class="text-secondary">
                                     <th></th>
                                     <th>GP</th>
                                     <th>W</th>
                                     <th>D</th>
                                     <th>L</th>
-                                    <th style="width: 80px;"><span class="th-w">W</span> <span class="th-d">D</span>
-                                        <span class="th-l">L</span> %
-                                    </th>
+                                    <th>W%</th>
+                                    <th>D%</th>
+                                    <th>L%</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for c in cats %}
-                                <tr>
-                                    <td style="text-align: left; padding-left: 5px;"
-                                        class="{% if c == 'total' %}fw-bold{% endif %}">
-                                        {{ c|capfirst }}
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span class="{% if c == 'total' %}stat-box box-gp{% else %}fw-bold{% endif %}">
-                                            {{ stats|get_item:c|get_item:'gp' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span class="{% if c == 'total' %}stat-box box-total-w{% endif %}">
-                                            {{ stats|get_item:c|get_item:'w' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span class="{% if c == 'total' %}stat-box box-total-d{% endif %}">
-                                            {{ stats|get_item:c|get_item:'d' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <span class="{% if c == 'total' %}stat-box box-total-l{% endif %}">
-                                            {{ stats|get_item:c|get_item:'l' }}
-                                        </span>
-                                    </td>
-                                    <td style="vertical-align: middle;">
-                                        <div class="segmented-bar" style="height: 14px;">
-                                            <div class="bar-w js-width"
-                                                data-width="{{ stats|get_item:c|get_item:'w_pct' }}"></div>
-                                            <div class="bar-d js-width"
-                                                data-width="{{ stats|get_item:c|get_item:'d_pct' }}"></div>
-                                            <div class="bar-l js-width"
-                                                data-width="{{ stats|get_item:c|get_item:'l_pct' }}"></div>
+                                <tr class="{% if c == 'total' %}bg-white bg-opacity-10 fw-bold{% endif %}">
+                                    <td class="text-start ps-3 text-secondary text-capitalize">{{ c }}</td>
+                                    <td>{{ stats|get_item:c|get_item:'gp' }}</td>
+                                    <td class="text-success">{{ stats|get_item:c|get_item:'w' }}</td>
+                                    <td class="text-warning">{{ stats|get_item:c|get_item:'d' }}</td>
+                                    <td class="text-danger">{{ stats|get_item:c|get_item:'l' }}</td>
+                                    <td>
+                                        <div class="progress" style="height: 6px; width: 60px; margin: 0 auto;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="--w-pct: {{ stats|get_item:c|get_item:'w_pct' }}%; width: var(--w-pct);"></div>
                                         </div>
+                                        <span style="font-size: 0.7rem;">{{ stats|get_item:c|get_item:'w_pct'|floatformat:0 }}%</span>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 6px; width: 60px; margin: 0 auto;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="--d-pct: {{ stats|get_item:c|get_item:'d_pct' }}%; width: var(--d-pct);"></div>
+                                        </div>
+                                        <span style="font-size: 0.7rem;">{{ stats|get_item:c|get_item:'d_pct'|floatformat:0 }}%</span>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 6px; width: 60px; margin: 0 auto;">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="--l-pct: {{ stats|get_item:c|get_item:'l_pct' }}%; width: var(--l-pct);"></div>
+                                        </div>
+                                        <span style="font-size: 0.7rem;">{{ stats|get_item:c|get_item:'l_pct'|floatformat:0 }}%</span>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-
-                        <div style="margin-top: 20px; font-size: 0.8rem;">
-                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                                <span style="width: 80px;">PPG (Home):</span>
-                                <div class="ppg-line-container">
-                                    <div class="ppg-line js-width" data-width="{% widthratio stats.home.ppg 3 100 %}">
-                                    </div>
-                                </div>
-                                <span style="font-weight: bold; width: 45px; text-align: right;">{{ stats.home.ppg|floatformat:2 }}</span>
+                    </div>
+                    <!-- PPG Bars -->
+                    <div class="p-3 border-top border-secondary border-opacity-25">
+                        <div class="d-flex align-items-center mb-2 small">
+                            <div style="width: 100px;" class="text-secondary">PPG (Home):</div>
+                            <div class="flex-grow-1 mx-2 bg-secondary bg-opacity-25 rounded-pill" style="height: 6px;">
+                                <div class="bg-info rounded-pill" style="--ppg-home: {% widthratio stats.home.ppg 3 100 %}%; width: var(--ppg-home); height: 100%;"></div>
                             </div>
-                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                                <span style="width: 80px;">PPG (Away):</span>
-                                <div class="ppg-line-container">
-                                    <div class="ppg-line js-width" data-width="{% widthratio stats.away.ppg 3 100 %}">
-                                    </div>
-                                </div>
-                                <span style="font-weight: bold; width: 45px; text-align: right;">{{ stats.away.ppg|floatformat:2 }}</span>
+                            <div class="fw-bold" style="width: 40px; text-align: right;">{{ stats.home.ppg|floatformat:2 }}</div>
+                        </div>
+                        <div class="d-flex align-items-center mb-2 small">
+                            <div style="width: 100px;" class="text-secondary">PPG (Away):</div>
+                            <div class="flex-grow-1 mx-2 bg-secondary bg-opacity-25 rounded-pill" style="height: 6px;">
+                                <div class="bg-info rounded-pill" style="--ppg-away: {% widthratio stats.away.ppg 3 100 %}%; width: var(--ppg-away); height: 100%;"></div>
                             </div>
-                            <div style="display: flex; align-items: center; margin-bottom: 8px; margin-top: 15px;">
-                                <span style="width: 80px; font-weight: bold;">PPG (Total):</span>
-                                <div class="ppg-line-container" style="height: 10px;">
-                                    <div class="ppg-line js-width" data-width="{% widthratio stats.total.ppg 3 100 %}">
-                                    </div>
-                                </div>
-                                <span style="font-weight: bold; font-size: 1.1rem; width: 45px; text-align: right;">{{ stats.total.ppg|floatformat:2 }}</span>
+                            <div class="fw-bold" style="width: 40px; text-align: right;">{{ stats.away.ppg|floatformat:2 }}</div>
+                        </div>
+                         <div class="d-flex align-items-center mb-2 small">
+                            <div style="width: 100px;" class="text-secondary fw-bold">PPG (Total):</div>
+                            <div class="flex-grow-1 mx-2 bg-secondary bg-opacity-25 rounded-pill" style="height: 8px;">
+                                <div class="bg-primary rounded-pill" style="--ppg-total: {% widthratio stats.total.ppg 3 100 %}%; width: var(--ppg-total); height: 100%;"></div>
                             </div>
+                            <div class="fw-bold" style="width: 40px; text-align: right;">{{ stats.total.ppg|floatformat:2 }}</div>
                         </div>
                     </div>
-
-                    <!-- Spacer -->
-                    <div style="margin-top: 25px;"></div>
-
-                    <!-- Relative Form -->
-                    <div
-                        style="text-align: center; font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                        Relative form</div>
-                    <div class="ss-card">
-                        <table class="ss-table" style="font-size: 0.8rem;">
-                            <colgroup>
-                                <col style="width: 1fr;">
-                                <col style="width: 50px;">
-                                <col style="width: 50px;">
-                                <col style="width: 55px;">
-                            </colgroup>
-                            <thead style="background: #f5f5f5;">
-                                <tr>
-                                    <th></th>
-                                    <th>All</th>
-                                    <th>Last 8</th>
-                                    <th>Diff.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="text-align: right; font-weight: bold; padding-right: 10px;">Points per
-                                        Game</td>
-                                    <td style="text-align: center;">{{ relative_form.ppg.all }}</td>
-                                    <td style="text-align: center; color: #0000ff; font-weight: bold;">{{ relative_form.ppg.l8 }}</td>
-                                    <td style="text-align: center;"
-                                        class="{% if relative_form.ppg.diff > 0 %}diff-pos{% elif relative_form.ppg.diff < 0 %}diff-neg{% endif %}">
-                                        {% if relative_form.ppg.diff > 0 %}+{% endif %}{{ relative_form.ppg.diff }}%
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right; padding-right: 10px;">AVG Goals For</td>
-                                    <td style="text-align: center;">{{ relative_form.avg_gf.all }}</td>
-                                    <td style="text-align: center; color: #0000ff;">{{ relative_form.avg_gf.l8 }}</td>
-                                    <td style="text-align: center;"
-                                        class="{% if relative_form.avg_gf.diff > 0 %}diff-pos{% elif relative_form.avg_gf.diff < 0 %}diff-neg{% endif %}">
-                                        {% if relative_form.avg_gf.diff > 0 %}+{% endif %}{{ relative_form.avg_gf.diff }}%
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right; padding-right: 10px;">AVG Goals Against</td>
-                                    <td style="text-align: center;">{{ relative_form.avg_ga.all }}</td>
-                                    <td style="text-align: center; color: #0000ff;">{{ relative_form.avg_ga.l8 }}</td>
-                                    <td style="text-align: center;"
-                                        class="{% if relative_form.avg_ga.diff > 0 %}diff-neg{% elif relative_form.avg_ga.diff < 0 %}diff-pos{% endif %}">
-                                        {% if relative_form.avg_ga.diff > 0 %}+{% endif %}{{ relative_form.avg_ga.diff }}%
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Spacer -->
-                    <div style="margin-top: 25px;"></div>
-
-                    <!-- No goal scored / conceded -->
-                    <div
-                        style="text-align: center; font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                        No goal scored / conceded</div>
-                    <div class="ss-card">
-                        <table class="ss-table" style="font-size: 0.75rem;">
-                            <colgroup>
-                                <col style="width: 1fr;">
-                                <col style="width: 45px;">
-                                <col style="width: 45px;">
-                                <col style="width: 45px;">
-                            </colgroup>
-                            <thead style="background: #555; color: #fff;">
-                                <tr>
-                                    <th style="text-align: left; padding-left: 8px;"></th>
-                                    <th>Home</th>
-                                    <th>Away</th>
-                                    <th>All</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="background: #d4edda;">
-                                    <td style="text-align: left; padding-left: 8px; font-weight: bold;">Clean sheets
-                                    </td>
-                                    <td style="text-align: center;">{{ rates.home.cs_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.away.cs_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.total.cs_pct }}%</td>
-                                </tr>
-                                <tr style="background: #d4edda;">
-                                    <td style="text-align: left; padding-left: 8px;">Won-to-nil</td>
-                                    <td style="text-align: center;">{{ rates.home.wtn_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.away.wtn_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.total.wtn_pct }}%</td>
-                                </tr>
-                                <tr style="background: #fff3cd;">
-                                    <td style="text-align: left; padding-left: 8px;">Failed to score</td>
-                                    <td style="text-align: center;">{{ rates.home.fts_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.away.fts_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.total.fts_pct }}%</td>
-                                </tr>
-                                <tr style="background: #f8d7da;">
-                                    <td style="text-align: left; padding-left: 8px;">Lost-to-nil</td>
-                                    <td style="text-align: center;">{{ rates.home.ltn_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.away.ltn_pct }}%</td>
-                                    <td style="text-align: center;">{{ rates.total.ltn_pct }}%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div
-                            style="text-align: center; font-size: 0.7rem; color: #666; padding: 8px; border-top: 1px solid #eee;">
-                            League Scored in Both Halves stats
-                        </div>
-                    </div>
-
-
-                </div>
-            </div> <!-- End Left Inner Grid -->
-
-            <!-- PROGRESSION CHART (Wide) -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.9rem;">{{ team.name }}'s
-                progression (home & away)</div>
-            <div class="ss-card" style="padding: 10px;">
-                <div style="height: 180px;"><canvas id="progressionChart"
-                        data-chart='{{ chart_data_json|safe }}'></canvas>
-                </div>
-                <div
-                    style="text-align: center; color: #666; font-size: 0.8rem; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">
-                    <span style="color: #0000ff;">Line graph variation:</span>
-                    <span style="color: #28a745;">win:+2</span>
-                    <span style="color: #ffc107;">draw:0</span>
-                    <span style="color: #dc3545;">defeat:-1</span>
                 </div>
             </div>
 
-            <!-- COMPARISON WITH LEAGUE AVERAGE BOX -->
-            <div style="margin-top: 25px;">
-                <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.9rem;">Comparison with
-                    league average</div>
-                <div class="ss-card" style="padding: 0;">
+            <!-- 2. Relative Form -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Relative Form</h6>
+                </div>
+                <div class="card-body p-0">
+                     <table class="table table-dark table-sm mb-0 text-center small">
+                        <thead>
+                            <tr class="text-secondary">
+                                <th></th>
+                                <th>All</th>
+                                <th>Last 8</th>
+                                <th>Diff</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-start ps-3 text-secondary">Points per Game</td>
+                                <td>{{ relative_form.ppg.all }}</td>
+                                <td class="text-info fw-bold">{{ relative_form.ppg.l8 }}</td>
+                                <td class="{% if relative_form.ppg.diff > 0 %}text-success{% elif relative_form.ppg.diff < 0 %}text-danger{% endif %} fw-bold">
+                                    {% if relative_form.ppg.diff > 0 %}+{% endif %}{{ relative_form.ppg.diff }}%
+                                </td>
+                            </tr>
+                             <tr>
+                                <td class="text-start ps-3 text-secondary">AVG Goals For</td>
+                                <td>{{ relative_form.avg_gf.all }}</td>
+                                <td class="text-info fw-bold">{{ relative_form.avg_gf.l8 }}</td>
+                                <td class="{% if relative_form.avg_gf.diff > 0 %}text-success{% elif relative_form.avg_gf.diff < 0 %}text-danger{% endif %} fw-bold">
+                                    {% if relative_form.avg_gf.diff > 0 %}+{% endif %}{{ relative_form.avg_gf.diff }}%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3 text-secondary">AVG Goals Against</td>
+                                <td>{{ relative_form.avg_ga.all }}</td>
+                                <td class="text-info fw-bold">{{ relative_form.avg_ga.l8 }}</td>
+                                <td class="{% if relative_form.avg_ga.diff > 0 %}text-danger{% elif relative_form.avg_ga.diff < 0 %}text-success{% endif %} fw-bold">
+                                    {% if relative_form.avg_ga.diff > 0 %}+{% endif %}{{ relative_form.avg_ga.diff }}%
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. No Goal Scored / Conceded -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Clean Sheets & Failure to Score</h6>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0 text-center small">
+                        <thead>
+                            <tr class="text-secondary">
+                                <th></th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>All</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-start ps-3 text-success">Clean Sheets</td>
+                                <td>{{ rates.home.cs_pct }}%</td>
+                                <td>{{ rates.away.cs_pct }}%</td>
+                                <td>{{ rates.total.cs_pct }}%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3 text-info">Both Teams Scored</td>
+                                <td>{{ rates.home.bts_pct }}%</td>
+                                <td>{{ rates.away.bts_pct }}%</td>
+                                <td>{{ rates.total.bts_pct }}%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3 text-success">Won-to-Nil</td>
+                                <td>{{ rates.home.wtn_pct }}%</td>
+                                <td>{{ rates.away.wtn_pct }}%</td>
+                                <td>{{ rates.total.wtn_pct }}%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3 text-warning">Failed to Score</td>
+                                <td>{{ rates.home.fts_pct }}%</td>
+                                <td>{{ rates.away.fts_pct }}%</td>
+                                <td>{{ rates.total.fts_pct }}%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3 text-danger">Lost-to-Nil</td>
+                                <td>{{ rates.home.ltn_pct }}%</td>
+                                <td>{{ rates.away.ltn_pct }}%</td>
+                                <td>{{ rates.total.ltn_pct }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Progression Chart -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">{{ team.name }}'s Progression</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div style="height: 200px;">
+                        <canvas id="progressionChart" data-chart='{{ chart_data_json|safe }}'></canvas>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3 mt-2 small">
+                        <span class="text-success"><i class="fa-solid fa-circle small"></i> Win (+2)</span>
+                        <span class="text-warning"><i class="fa-solid fa-circle small"></i> Draw (0)</span>
+                        <span class="text-danger"><i class="fa-solid fa-circle small"></i> Loss (-1)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Comparison with League Average -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Comparison with League Average</h6>
+                </div>
+                <div class="card-body p-0">
                     <!-- Tabs -->
-                    <div style="display: flex; border-bottom: 1px solid #ddd; background: #f5f5f5;">
-                        <button class="comparison-tab active" data-tab="total"
-                            style="flex: 1; padding: 8px; border: none; background: #fff; cursor: pointer; font-weight: bold; border-bottom: 2px solid #0066cc;">Total</button>
-                        <button class="comparison-tab" data-tab="home"
-                            style="flex: 1; padding: 8px; border: none; background: transparent; cursor: pointer; font-weight: normal;">Home</button>
-                        <button class="comparison-tab" data-tab="away"
-                            style="flex: 1; padding: 8px; border: none; background: transparent; cursor: pointer; font-weight: normal;">Away</button>
-                    </div>
-
-                    <!-- Tab Content -->
-                    {% for cat in cats %}
-                    {% with team_stats=stats|get_item:cat %}
-                    {% with league_stats=league_avg|get_item:cat %}
-                    {% with team_rates=rates|get_item:cat %}
-                    <div class="comparison-content {% if cat != 'total' %}hidden{% endif %}" data-content="{{ cat }}">
-                        <div
-                            style="padding: 5px 0; text-align: center; font-size: 0.75rem; color: #666; background: #f9f9f9;">
-                            {{ team.name }} ({{ team_stats.gp }} matches) vs league average
+                    <ul class="nav nav-tabs nav-fill border-secondary border-opacity-25" id="comparisonTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active text-white bg-transparent" id="comp-total-tab" data-bs-toggle="tab" data-bs-target="#comp-total" type="button" role="tab">Total</button>
+                        </li>
+                         <li class="nav-item" role="presentation">
+                            <button class="nav-link text-white bg-transparent" id="comp-home-tab" data-bs-toggle="tab" data-bs-target="#comp-home" type="button" role="tab">Home</button>
+                        </li>
+                         <li class="nav-item" role="presentation">
+                            <button class="nav-link text-white bg-transparent" id="comp-away-tab" data-bs-toggle="tab" data-bs-target="#comp-away" type="button" role="tab">Away</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-0" id="comparisonTabContent">
+                        {% for cat in cats %}
+                             <!-- Note: Implementing tabs via JS logic inside the loop or repeating the loop inside tabs. 
+                                  To keep it simple, I will assume we can just list the stats. 
+                                  Actually, the original had tabs for Total/Home/Away but the content was similar. 
+                                  I will just show TOTAL here for brevity or implement a simple toggle if needed.
+                                  Let's stick to showing Total for now or use the loop variable 'cat' effectively. 
+                                  Wait, 'cats' is ['total', 'home', 'away']. Ah! So I should loop through 'cats' and create tab panes.
+                             -->
+                        {% endfor %}
+                        
+                        {% for c in cats %}
+                        <div class="tab-pane fade {% if c == 'total' %}show active{% endif %}" id="comp-{{ c }}" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary text-center">
+                                            <th class="text-start ps-3">Stat</th>
+                                            <th>{{ team.name }}</th>
+                                            <th>League Avg</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Wins -->
+                                        <tr>
+                                            <td class="text-start ps-3">% Wins</td>
+                                            <td class="text-center"><span class="badge bg-success">{{ stats|get_item:c|get_item:'win_pct' }}%</span></td>
+                                            <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'win_pct'|floatformat:0 }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="px-3 pb-2 pt-0">
+                                                <div class="progress" style="height: 4px;">
+                                                    <div class="progress-bar bg-success" style="--win-pct: {{ stats|get_item:c|get_item:'win_pct' }}%; width: var(--win-pct);"></div>
+                                                    <div class="progress-bar bg-secondary opacity-25" style="--league-win-pct: {{ league_avg|get_item:c|get_item:'win_pct' }}%; width: var(--league-win-pct);"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                         <!-- Draws -->
+                                        <tr>
+                                            <td class="text-start ps-3">% Draws</td>
+                                            <td class="text-center"><span class="badge bg-warning text-dark">{{ stats|get_item:c|get_item:'draw_pct' }}%</span></td>
+                                            <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'draw_pct'|floatformat:0 }}%</td>
+                                        </tr>
+                                         <!-- Loss -->
+                                        <tr>
+                                            <td class="text-start ps-3">% Defeats</td>
+                                            <td class="text-center"><span class="badge bg-danger">{{ stats|get_item:c|get_item:'loss_pct' }}%</span></td>
+                                            <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'loss_pct'|floatformat:0 }}%</td>
+                                        </tr>
+                                        <!-- Goals Scored -->
+                                        <tr>
+                                            <td class="text-start ps-3">Goals Scored / Match</td>
+                                            <td class="text-center fw-bold text-success">{{ stats|get_item:c|get_item:'avg_gf' }}</td>
+                                            <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'avg_gf' }}</td>
+                                        </tr>
+                                         <!-- Goals Conceded -->
+                                        <tr>
+                                            <td class="text-start ps-3">Goals Conceded / Match</td>
+                                            <td class="text-center fw-bold text-danger">{{ stats|get_item:c|get_item:'avg_ga' }}</td>
+                                            <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'avg_ga' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
-                        <table class="ss-table" style="font-size: 0.75rem;">
-                            <thead style="background: #666; color: #fff;">
-                                <tr>
-                                    <th style="text-align: left; padding-left: 10px; width: 40%;">(overall)</th>
-                                    <th style="width: 30%;">{{ team.name }}</th>
-                                    <th style="width: 30%;">League AVG</th>
+            <!-- 6. Current Streaks -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Current Streaks</h6>
+                </div>
+                <div class="card-body p-0">
+                     <table class="table table-dark table-sm mb-0 text-center small">
+                        <thead>
+                            <tr class="text-secondary">
+                                <th class="text-start ps-3">Sequence</th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-start ps-3">Wins</td>
+                                <td class="{% if streaks.home.win > 0 %}text-success fw-bold{% endif %}">{{ streaks.home.win }}</td>
+                                <td class="{% if streaks.away.win > 0 %}text-success fw-bold{% endif %}">{{ streaks.away.win }}</td>
+                                <td class="{% if streaks.total.win > 0 %}text-success fw-bold{% endif %}">{{ streaks.total.win }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3">Unbeaten (No Defeat)</td>
+                                <td class="{% if streaks.home.no_defeat > 0 %}text-success fw-bold{% endif %}">{{ streaks.home.no_defeat }}</td>
+                                <td class="{% if streaks.away.no_defeat > 0 %}text-success fw-bold{% endif %}">{{ streaks.away.no_defeat }}</td>
+                                <td class="{% if streaks.total.no_defeat > 0 %}text-success fw-bold{% endif %}">{{ streaks.total.no_defeat }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3">Draws</td>
+                                <td class="{% if streaks.home.draw > 0 %}text-warning fw-bold{% endif %}">{{ streaks.home.draw }}</td>
+                                <td class="{% if streaks.away.draw > 0 %}text-warning fw-bold{% endif %}">{{ streaks.away.draw }}</td>
+                                <td class="{% if streaks.total.draw > 0 %}text-warning fw-bold{% endif %}">{{ streaks.total.draw }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3">Defeats</td>
+                                <td class="{% if streaks.home.loss > 0 %}text-danger fw-bold{% endif %}">{{ streaks.home.loss }}</td>
+                                <td class="{% if streaks.away.loss > 0 %}text-danger fw-bold{% endif %}">{{ streaks.away.loss }}</td>
+                                <td class="{% if streaks.total.loss > 0 %}text-danger fw-bold{% endif %}">{{ streaks.total.loss }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3">No Win</td>
+                                <td class="{% if streaks.home.no_win > 0 %}text-danger fw-bold{% endif %}">{{ streaks.home.no_win }}</td>
+                                <td class="{% if streaks.away.no_win > 0 %}text-danger fw-bold{% endif %}">{{ streaks.away.no_win }}</td>
+                                <td class="{% if streaks.total.no_win > 0 %}text-danger fw-bold{% endif %}">{{ streaks.total.no_win }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 6.5. Run-In Difficulty -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Upcoming Opponents (Difficulty)</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                            <thead>
+                                <tr class="text-secondary">
+                                    <th class="text-start ps-3">Date</th>
+                                    <th class="text-start">Opponent</th>
+                                    <th>Venue</th>
+                                    <th>Strength (PPG)</th>
+                                    <th>Difficulty</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Points per game -->
+                                {% for m in run_in.matches %}
                                 <tr>
-                                    <td style="text-align: left; padding-left: 10px;">Points per game</td>
-                                    <td style="text-align: center;">
-                                        <div
-                                            style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                            <div style="height: 100%; background: #28a745"
-                                                data-width="{% widthratio stats|get_item:cat|get_item:'ppg' 3 100 %}">
-                                            </div>
-                                        </div>
+                                    <td class="text-start ps-3 text-secondary">{{ m.match.date|date:"d/m" }}</td>
+                                    <td class="text-start">
+                                        <img src="{{ m.opponent.league.country|get_flag_url }}" alt="{{ m.opponent.league.country }}" style="height: 12px; margin-right: 4px;">
+                                        {{ m.opponent.name }}
                                     </td>
-                                    <td style="text-align: center;">
-                                        <div
-                                            style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                            <div style="height: 100%; background: #999"
-                                                data-width="{% widthratio league_avg|get_item:cat|get_item:'ppg' 3 100 %}">
+                                    <td>
+                                        {% if m.is_home %}
+                                        <span class="badge bg-success bg-opacity-25 text-success">H</span>
+                                        {% else %}
+                                        <span class="badge bg-warning bg-opacity-25 text-warning">A</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{% if m.is_home %}{{ m.col_away_ppg }}{% else %}{{ m.col_home_ppg }}{% endif %}</td>
+                                    <td>
+                                        <div class="progress" style="height: 6px; width: 60px; margin: 0 auto;">
+                                            <div class="progress-bar 
+                                                {% if m.opp_strength_pct < 33 %}bg-success
+                                                {% elif m.opp_strength_pct < 66 %}bg-warning
+                                                {% else %}bg-danger{% endif %}" 
+                                                role="progressbar" 
+                                                style="--opp-strength: {{ m.opp_strength_pct }}%; width: var(--opp-strength);">
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-
-                                <!-- % Wins -->
+                                {% empty %}
                                 <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Wins</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ stats|get_item:cat|get_item:'win_pct'|floatformat:0 }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'win_pct'|floatformat:0 }}</span>%</td>
+                                    <td colspan="5" class="text-secondary py-3">No matches scheduled.</td>
                                 </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ stats|get_item:cat|get_item:'win_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'win_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-2 border-top border-secondary border-opacity-25 d-flex justify-content-around small">
+                         <div>
+                            <span class="text-secondary">Avg Opp (Home):</span>
+                            <span class="fw-bold text-white">{{ run_in.avg_opp_ppg_home }}</span>
+                         </div>
+                         <div>
+                            <span class="text-secondary">Avg Opp (Away):</span>
+                            <span class="fw-bold text-white">{{ run_in.avg_opp_ppg_away }}</span>
+                         </div>
+                    </div>
+                </div>
+            </div>
 
-                                <!-- % Draws -->
+            <!-- 7. Scoring & Conceding Rates -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Scoring & Conceding Rates</h6>
+                </div>
+                 <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0 text-center small">
+                        <thead>
+                             <tr class="text-secondary">
+                                <th></th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr>
+                                <td class="text-start ps-3 text-success">Scoring Rate</td>
+                                <td>{{ rates.home.scoring_rate_pct }}%</td>
+                                <td>{{ rates.away.scoring_rate_pct }}%</td>
+                                <td class="fw-bold">{{ rates.total.scoring_rate_pct }}%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3 text-success">Scoring Rate 1st Half</td>
+                                <td>{{ rates.home.score_1h_pct }}%</td>
+                                <td>{{ rates.away.score_1h_pct }}%</td>
+                                <td class="fw-bold">{{ rates.total.score_1h_pct }}%</td>
+                            </tr>
+                             <tr>
+                                <td class="text-start ps-3 text-success">Scoring Rate 2nd Half</td>
+                                <td>{{ rates.home.score_2h_pct }}%</td>
+                                <td>{{ rates.away.score_2h_pct }}%</td>
+                                <td class="fw-bold">{{ rates.total.score_2h_pct }}%</td>
+                            </tr>
+                             <tr>
+                                <td class="text-start ps-3 text-success">Scored in Both Halves</td>
+                                <td>{{ rates.home.score_both_pct }}%</td>
+                                <td>{{ rates.away.score_both_pct }}%</td>
+                                <td class="fw-bold">{{ rates.total.score_both_pct }}%</td>
+                            </tr>
+                             <tr class="bg-white bg-opacity-10">
+                                <td class="text-start ps-3 text-warning">Both Teams Scored</td>
+                                <td>{{ rates.home.bts_pct }}%</td>
+                                <td>{{ rates.away.bts_pct }}%</td>
+                                <td class="fw-bold">{{ rates.total.bts_pct }}%</td>
+                            </tr>
+                             <tr>
+                                <td class="text-start ps-3 text-danger">Conceding Rate</td>
+                                <td>{{ rates.home.conceding_rate_pct }}%</td>
+                                <td>{{ rates.away.conceding_rate_pct }}%</td>
+                                <td class="fw-bold">{{ rates.total.conceding_rate_pct }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 8. Timing of Goals -->
+             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Timing of Goals</h6>
+                </div>
+                 <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0 text-center small">
+                            <thead>
+                                <tr class="text-secondary">
+                                    <th class="text-start ps-3">Period</th>
+                                    <th>0-15</th>
+                                    <th>16-30</th>
+                                    <th>31-45</th>
+                                    <th>46-60</th>
+                                    <th>61-75</th>
+                                    <th>76-90+</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Draws</td>
-                                    <td style="text-align: center;"><span>{{ stats|get_item:cat|get_item:'draw_pct'|floatformat:0 }}</span>%</td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'draw_pct'|floatformat:0 }}</span>%</td>
+                                    <td class="text-start ps-3 text-success">Scored</td>
+                                    {% for c in timing_stats.scored.total %}
+                                    <td>{{ c }}</td>
+                                    {% endfor %}
                                 </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ stats|get_item:cat|get_item:'draw_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'draw_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Defeats -->
                                 <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Defeats</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ stats|get_item:cat|get_item:'loss_pct'|floatformat:0 }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'loss_pct'|floatformat:0 }}</span>%</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ stats|get_item:cat|get_item:'loss_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'loss_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Goals scored per game -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">Goals scored per game</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ stats|get_item:cat|get_item:'avg_gf' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_gf' }}</span></td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{% widthratio stats|get_item:cat|get_item:'avg_gf' 3 100 %}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{% widthratio league_avg|get_item:cat|get_item:'avg_gf' 3 100 %}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Goals conceded per game -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">Goals conceded per game</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ stats|get_item:cat|get_item:'avg_ga' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_ga' }}</span></td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{% widthratio stats|get_item:cat|get_item:'avg_ga' 3 100 %}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{% widthratio league_avg|get_item:cat|get_item:'avg_ga' 3 100 %}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Clean sheets -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Clean sheets</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ rates|get_item:cat|get_item:'cs_pct' }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'cs_pct'|floatformat:0 }}</span>%</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ rates|get_item:cat|get_item:'cs_pct' }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'cs_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Failed To Score -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Failed To Score</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ rates|get_item:cat|get_item:'fts_pct' }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'fts_pct'|floatformat:0 }}</span>%</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ rates|get_item:cat|get_item:'fts_pct' }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'fts_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Won To Nil -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Won To Nil</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ rates|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}</span>%</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ rates|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'wtn_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Lost To Nil -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Lost To Nil</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ rates|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}</span>%</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ rates|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'ltn_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Team scored first -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Team scored first</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ rates|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}</span>%
-                                    </td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ rates|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'scored_first_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- % Opponent scored first -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">% Opponent scored first</td>
-                                    <td style="text-align: center;">
-                                        <span
-                                            style="background: #28a745; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: bold;">
-                                            {{ rates|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}%
-                                        </span>
-                                    </td>
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}</span>%
-                                    </td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{{ rates|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{{ league_avg|get_item:cat|get_item:'conceded_first_pct'|floatformat:0 }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Average minute scored first -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">Average minute scored first</td>
-                                    <td style="text-align: center;"><span>{{ stats|get_item:cat|get_item:'avg_min_scored_first'|floatformat:0 }}</span></td>
-
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_min_scored_first'|floatformat:0 }}</span></td>
-
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{% widthratio stats|get_item:cat|get_item:'avg_min_scored_first' 90 100 %}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{% widthratio league_avg|get_item:cat|get_item:'avg_min_scored_first' 90 100 %}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Average minute conceded first -->
-                                <tr>
-                                    <td style="text-align: left; padding-left: 10px;">Average minute conceded first</td>
-                                    <td style="text-align: center;"><span>{{ stats|get_item:cat|get_item:'avg_min_conceded_first'|floatformat:0 }}</span></td>
-
-                                    <td style="text-align: center;"><span>{{ league_avg|get_item:cat|get_item:'avg_min_conceded_first'|floatformat:0 }}</span></td>
-
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td colspan="3" style="padding: 3px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 5px;">
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #28a745"
-                                                    data-width="{% widthratio stats|get_item:cat|get_item:'avg_min_conceded_first' 90 100 %}">
-                                                </div>
-                                            </div>
-                                            <div
-                                                style="flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden;">
-                                                <div style="height: 100%; background: #999"
-                                                    data-width="{% widthratio league_avg|get_item:cat|get_item:'avg_min_conceded_first' 90 100 %}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <td class="text-start ps-3 text-danger">Conceded</td>
+                                    {% for c in timing_stats.conceded.total %}
+                                    <td>{{ c }}</td>
+                                    {% endfor %}
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    {% endwith %}
-                    {% endwith %}
-                    {% endwith %}
-                    {% endfor %}
                 </div>
             </div>
 
+        </div>
 
-            <!-- Comparison with Past Seasons Box -->
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd; background: #fff;">
-                    Comparison with past seasons (first {{ current_gp_comparison }} matches)
+        <!-- RIGHT COLUMN -->
+        <div class="col-lg-4">
+            
+            <!-- 1. League Table Snippet (Results Table) -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">League Table</h6>
                 </div>
-                <div style="background: #f9f9f9; padding: 5px 10px; font-size: 0.85rem; border-bottom: 1px solid #ddd;">
-                    <span style="font-weight: bold; color: #d00;">+</span> <strong>{{ team.name }}'s record</strong>
-                    after {{ current_gp_comparison }} matches in the same league/division
-                </div>
-                <table class="ss-table" style="font-size: 0.85rem; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">Season</th>
-                            <th>GP</th>
-                            <th>W</th>
-                            <th>D</th>
-                            <th>L</th>
-                            <th>GF</th>
-                            <th>GA</th>
-                            <th>Pts *</th>
-                            <th>Comparison</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Current Season -->
-                        <tr style="font-weight: bold; background: #fff;">
-                            <td style="text-align: left; padding-left: 10px;">{{ standing.season.year|add:"-1" }}-{{ standing.season.year }}</td>
-                            <td style="color: #28a745;">{{ standing.played }}</td>
-                            <td>{{ standing.won }}</td>
-                            <td>{{ standing.drawn }}</td>
-                            <td>{{ standing.lost }}</td>
-                            <td style="color: #0000ff;">{{ standing.goals_for }}</td>
-                            <td style="color: #dc3545;">{{ standing.goals_against }}</td>
-                            <td style="color: #000;">{{ standing.points }}</td>
-                            <td>-</td>
-                        </tr>
-
-                        <!-- Past Seasons -->
-                        {% for item in past_seasons_data %}
-                        <tr class="{% if forloop.counter|divisibleby:2 %}row-gray{% else %}row-white{% endif %}">
-                            <td style="text-align: left; padding-left: 10px;">{{ item.season_year|add:"-1" }}-{{ item.season_year }}</td>
-                            <td style="color: #28a745;">{{ item.gp }}</td>
-                            <td>{{ item.w }}</td>
-                            <td>{{ item.d }}</td>
-                            <td>{{ item.l }}</td>
-                            <td style="color: #0000ff;">{{ item.gf }}</td>
-                            <td style="color: #dc3545;">{{ item.ga }}</td>
-                            <td style="font-weight: bold;">{{ item.pts }}</td>
-
-                            <!-- Comparison Column -->
-                            <td class="{% if item.diff > 0 %}bg-positive{% elif item.diff < 0 %}bg-negative{% endif %}"
-                                style="font-weight: bold;">
-                                {% if item.diff > 0 %}
-                                +{{ item.diff }} pts
-                                {% elif item.diff < 0 %} {{ item.diff }} pts {% else %} +0 pts {% endif %} </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div style="padding: 5px 10px; background: #ddd; font-size: 0.75rem; color: #333;">
-                    * Pts: any deducted or added points are NOT taken into account
-                </div>
-                <div
-                    style="padding: 10px; font-size: 0.8rem; background: #eee; line-height: 1.4; border-top: 1px solid #ccc;">
-                    With <strong>{{ standing.points }} points</strong> so far this season, {{ team.name }} have picked
-                    up...
+                <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                        <thead>
+                            <tr class="text-secondary">
+                                <th>#</th>
+                                <th class="text-start">Team</th>
+                                <th>GP</th>
+                                <th>Pts</th>
+                                <th>H</th>
+                                <th>A</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for h in league_h2h %}
+                            <tr class="{% if h.standing.team == team %}bg-primary bg-opacity-25{% endif %}">
+                                <td class="text-secondary">{{ h.standing.position }}</td>
+                                <td class="text-start">
+                                    <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=h.standing.team.name|slugify %}" class="text-decoration-none text-white">
+                                        {{ h.standing.team.name }}
+                                    </a>
+                                </td>
+                                <td class="text-secondary">{{ h.standing.played }}</td>
+                                <td class="fw-bold">{{ h.standing.points }}</td>
+                                <td>
+                                    <span class="badge {{ h.home.bg }} text-dark p-1" style="min-width: 25px;">{{ h.home.score }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge {{ h.away.bg }} text-dark p-1" style="min-width: 25px;">{{ h.away.score }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-
-            <!-- Current Streaks & Sequences -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem; margin-top: 20px;">
-                Current Streaks &
-                Sequences</div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: right; padding-right: 15px; width: 40%; font-weight: normal;">CURRENT
-                                SEQUENCES
-                            </th>
-                            <th style="font-weight: normal;">Home</th>
-                            <th style="font-weight: normal;">Away</th>
-                            <th style="font-weight: normal;">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">Consecutive wins</td>
-                            <td class="{% if streaks.home.win != '-' %}bg-success-light{% endif %}">{{ streaks.home.win }}</td>
-                            <td class="{% if streaks.away.win != '-' %}bg-success-light{% endif %}">{{ streaks.away.win }}</td>
-                            <td class="{% if streaks.total.win != '-' %}bg-success-light{% endif %}"><strong>{{ streaks.total.win }}</strong></td>
-
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">Consecutive draws</td>
-                            <td class="{% if streaks.home.draw != '-' %}bg-warning-light{% endif %}">{{ streaks.home.draw }}</td>
-                            <td class="{% if streaks.away.draw != '-' %}bg-warning-light{% endif %}">{{ streaks.away.draw }}</td>
-                            <td class="{% if streaks.total.draw != '-' %}bg-warning-light{% endif %}"><strong>{{ streaks.total.draw }}</strong></td>
-
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">Consecutive defeats</td>
-                            <td class="{% if streaks.home.loss != '-' %}bg-danger-light{% endif %}">{{ streaks.home.loss }}</td>
-                            <td class="{% if streaks.away.loss != '-' %}bg-danger-light{% endif %}">{{ streaks.away.loss }}</td>
-                            <td class="{% if streaks.total.loss != '-' %}bg-danger-light{% endif %}"><strong>{{ streaks.total.loss }}</strong></td>
-
-                        </tr>
-
-                        <tr style="background: #f9f9f9; border-top: 10px solid #fff;">
-                            <td style="text-align: right; padding-right: 15px;">No win</td>
-                            <td class="{% if streaks.home.no_win != '-' %}bg-danger-light{% endif %}">{{ streaks.home.no_win }}</td>
-                            <td class="{% if streaks.away.no_win != '-' %}bg-danger-light{% endif %}">{{ streaks.away.no_win }}</td>
-                            <td class="{% if streaks.total.no_win != '-' %}bg-danger-light{% endif %}"><strong>{{ streaks.total.no_win }}</strong></td>
-                        </tr>
-                        <tr style="background: #f9f9f9;">
-                            <td style="text-align: right; padding-right: 15px;">No draw</td>
-                            <td>{{ streaks.home.no_draw }}</td>
-                            <td>{{ streaks.away.no_draw }}</td>
-                            <td><strong>{{ streaks.total.no_draw }}</strong></td>
-                        </tr>
-                        <tr style="background: #f9f9f9;">
-                            <td style="text-align: right; padding-right: 15px;">No defeat</td>
-                            <td class="{% if streaks.home.no_defeat != '-' %}bg-success-light{% endif %}">{{ streaks.home.no_defeat }}</td>
-
-                            <td class="{% if streaks.away.no_defeat != '-' %}bg-success-light{% endif %}">{{ streaks.away.no_defeat }}</td>
-
-                            <td class="{% if streaks.total.no_defeat != '-' %}bg-success-light{% endif %}"><strong>{{ streaks.total.no_defeat }}</strong></td>
-                        </tr>
-
-                        <tr style="background: #e9e9e9; border-top: 10px solid #fff;">
-                            <td style="text-align: right; padding-right: 15px;">1 goal scored or more</td>
-                            <td class="{% if streaks.home.scored_1plus != '-' %}bg-success-light{% endif %}">{{ streaks.home.scored_1plus }}</td>
-                            <td class="{% if streaks.away.scored_1plus != '-' %}bg-success-light{% endif %}">{{ streaks.away.scored_1plus }}</td>
-                            <td class="{% if streaks.total.scored_1plus != '-' %}bg-success-light{% endif %}"><strong>{{ streaks.total.scored_1plus }}</strong></td>
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">1 goal conceded or more</td>
-                            <td class="{% if streaks.home.conceded_1plus != '-' %}bg-danger-light{% endif %}">{{ streaks.home.conceded_1plus }}</td>
-                            <td class="{% if streaks.away.conceded_1plus != '-' %}bg-danger-light{% endif %}">{{ streaks.away.conceded_1plus }}</td>
-                            <td class="{% if streaks.total.conceded_1plus != '-' %}bg-danger-light{% endif %}">
-                                <strong>{{ streaks.total.conceded_1plus }}</strong>
-                            </td>
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">No goal scored</td>
-                            <td class="{% if streaks.home.no_goal_scored != '-' %}bg-danger-light{% endif %}">{{ streaks.home.no_goal_scored }}</td>
-                            <td class="{% if streaks.away.no_goal_scored != '-' %}bg-danger-light{% endif %}">{{ streaks.away.no_goal_scored }}</td>
-                            <td class="{% if streaks.total.no_goal_scored != '-' %}bg-danger-light{% endif %}">
-                                <strong>{{ streaks.total.no_goal_scored }}</strong>
-                            </td>
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">No goal conceded</td>
-                            <td class="{% if streaks.home.no_goal_conceded != '-' %}bg-success-light{% endif %}">{{ streaks.home.no_goal_conceded }}</td>
-                            <td class="{% if streaks.away.no_goal_conceded != '-' %}bg-success-light{% endif %}">{{ streaks.away.no_goal_conceded }}</td>
-                            <td class="{% if streaks.total.no_goal_conceded != '-' %}bg-success-light{% endif %}">
-                                <strong>{{ streaks.total.no_goal_conceded }}</strong>
-                            </td>
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">GF+GA over 2.5</td>
-                            <td>{{ streaks.home.over_25 }}</td>
-                            <td>{{ streaks.away.over_25 }}</td>
-                            <td><strong>{{ streaks.total.over_25 }}</strong></td>
-                        </tr>
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: right; padding-right: 15px;">GF+GA under 2.5</td>
-                            <td>{{ streaks.home.under_25 }}</td>
-                            <td>{{ streaks.away.under_25 }}</td>
-                            <td><strong>{{ streaks.total.under_25 }}</strong></td>
-                        </tr>
-                        <tr style="background: #e9e9e9; border-bottom: 2px solid #ccc;">
-                            <td style="text-align: right; padding-right: 15px;">Scored at least twice</td>
-                            <td class="{% if streaks.home.scored_2plus != '-' %}bg-success-light{% endif %}">{{ streaks.home.scored_2plus }}</td>
-                            <td class="{% if streaks.away.scored_2plus != '-' %}bg-success-light{% endif %}">{{ streaks.away.scored_2plus }}</td>
-                            <td class="{% if streaks.total.scored_2plus != '-' %}bg-success-light{% endif %}"><strong>{{ streaks.total.scored_2plus }}</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="text-align: center; padding: 5px;">
-                    <button
-                        style="border: 1px solid #ccc; background: #fff; padding: 2px 10px; border-radius: 4px; font-size: 0.75rem;">Current
-                        Sequences table</button>
+            <!-- 2. Goals Scored & Conceded -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Goals Scored & Conceded</h6>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0 text-center small">
+                         <thead>
+                            <tr class="text-secondary">
+                                <th></th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr>
+                                <td class="text-start ps-3 text-success">Goals For (GF)</td>
+                                <td>{{ stats.home.gf }}</td>
+                                <td>{{ stats.away.gf }}</td>
+                                <td class="fw-bold">{{ stats.total.gf }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3">GF per match</td>
+                                <td>{{ stats.home.avg_gf|floatformat:2 }}</td>
+                                <td>{{ stats.away.avg_gf|floatformat:2 }}</td>
+                                <td class="fw-bold">{{ stats.total.avg_gf|floatformat:2 }}</td>
+                            </tr>
+                             <tr>
+                                <td class="text-start ps-3 text-danger">Goals Against (GA)</td>
+                                <td>{{ stats.home.ga }}</td>
+                                <td>{{ stats.away.ga }}</td>
+                                <td class="fw-bold">{{ stats.total.ga }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start ps-3">GA per match</td>
+                                <td>{{ stats.home.avg_ga|floatformat:2 }}</td>
+                                <td>{{ stats.away.avg_ga|floatformat:2 }}</td>
+                                <td class="fw-bold">{{ stats.total.avg_ga|floatformat:2 }}</td>
+                            </tr>
+                             <tr class="bg-white bg-opacity-10">
+                                <td class="text-start ps-3">GF + GA per match</td>
+                                <td>{{ stats.home.avg_total_goals|floatformat:2 }}</td>
+                                <td>{{ stats.away.avg_total_goals|floatformat:2 }}</td>
+                                <td class="fw-bold">{{ stats.total.avg_total_goals|floatformat:2 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- Historical Statistics -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">Historical statistics
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px; padding: 0;">
-                <div
-                    style="padding: 10px; background: #f0f0f0; font-weight: bold; font-size: 0.85rem; border-bottom: 1px solid #ddd;">
-                    <img src="{{ team.logo }}" style="height: 16px; vertical-align: middle; margin-right: 5px;">
-                    {{ team.name }} (current season vs completed previous season)
+            <!-- 3. Over / Under Stats -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Match Total Goals Stats</h6>
                 </div>
-
-                <table class="ss-table" style="font-size: 0.8rem; width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="font-weight: normal;">Season</th>
-                            <th style="font-weight: normal;">Pld</th>
-                            <th style="font-weight: normal;">Avg Pts</th>
-                            <th style="font-weight: normal;">Avg GF</th>
-                            <th style="font-weight: normal;">Avg GA</th>
-                            <th style="font-weight: normal;">W</th>
-                            <th style="font-weight: normal;">D</th>
-                            <th style="font-weight: normal;">L</th>
-                            <th style="font-weight: normal;">CS</th>
-                            <th style="font-weight: normal;">FTS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Overall -->
-                        <tr style="background: #fff; font-weight: bold;">
-                            <td>{{ historical_stats.season_name }}</td>
-                            <td>{{ historical_stats.current.overall.pld }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.overall.avg_pts|floatformat:2 }}
-                            </td>
-                            <td class="bg-success-pale">{{ historical_stats.current.overall.avg_gf|floatformat:2 }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.overall.avg_ga|floatformat:2 }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.overall.w_pct }}%</td>
-                            <td class="bg-warning-pale">{{ historical_stats.current.overall.d_pct }}%</td>
-                            <td class="bg-danger-pale">{{ historical_stats.current.overall.l_pct }}%</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.overall.cs_pct }}%</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.overall.fts_pct }}%</td>
-                        </tr>
-                        <tr style="background: #fff; font-weight: bold; border-bottom: 15px solid #f8f9fa;">
-                            <td>{{ historical_stats.prev_season_name }}</td>
-                            <td>{{ historical_stats.previous.overall.pld }}</td>
-                            <td>{{ historical_stats.previous.overall.avg_pts|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.overall.avg_gf|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.overall.avg_ga|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.overall.w_pct }}%</td>
-                            <td>{{ historical_stats.previous.overall.d_pct }}%</td>
-                            <td>{{ historical_stats.previous.overall.l_pct }}%</td>
-                            <td>{{ historical_stats.previous.overall.cs_pct }}%</td>
-                            <td>{{ historical_stats.previous.overall.fts_pct }}%</td>
-                        </tr>
-
-                        <!-- Home -->
-                        <tr style="background: #fdfdfd; font-weight: bold;">
-                            <td>{{ historical_stats.season_name }} (home)</td>
-                            <td>{{ historical_stats.current.home.pld }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.home.avg_pts|floatformat:2 }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.home.avg_gf|floatformat:2 }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.home.avg_ga|floatformat:2 }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.home.w_pct }}%</td>
-                            <td class="bg-warning-pale">{{ historical_stats.current.home.d_pct }}%</td>
-                            <td class="bg-danger-pale">{{ historical_stats.current.home.l_pct }}%</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.home.cs_pct }}%</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.home.fts_pct }}%</td>
-                        </tr>
-                        <tr style="background: #fdfdfd; font-weight: bold; border-bottom: 15px solid #f8f9fa;">
-                            <td>{{ historical_stats.prev_season_name }} (home)</td>
-                            <td>{{ historical_stats.previous.home.pld }}</td>
-                            <td>{{ historical_stats.previous.home.avg_pts|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.home.avg_gf|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.home.avg_ga|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.home.w_pct }}%</td>
-                            <td>{{ historical_stats.previous.home.d_pct }}%</td>
-                            <td>{{ historical_stats.previous.home.l_pct }}%</td>
-                            <td>{{ historical_stats.previous.home.cs_pct }}%</td>
-                            <td>{{ historical_stats.previous.home.fts_pct }}%</td>
-                        </tr>
-
-                        <!-- Away -->
-                        <tr style="background: #fff; font-weight: bold;">
-                            <td>{{ historical_stats.season_name }} (away)</td>
-                            <td>{{ historical_stats.current.away.pld }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.away.avg_pts|floatformat:2 }}</td>
-                            <td class="bg-danger-pale">{{ historical_stats.current.away.avg_gf|floatformat:2 }}</td>
-                            <td class="bg-danger-pale">{{ historical_stats.current.away.avg_ga|floatformat:2 }}</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.away.w_pct }}%</td>
-                            <td class="bg-warning-pale">{{ historical_stats.current.away.d_pct }}%</td>
-                            <td class="bg-danger-pale">{{ historical_stats.current.away.l_pct }}%</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.away.cs_pct }}%</td>
-                            <td class="bg-success-pale">{{ historical_stats.current.away.fts_pct }}%</td>
-                        </tr>
-                        <tr style="background: #fff; font-weight: bold;">
-                            <td>{{ historical_stats.prev_season_name }} (away)</td>
-                            <td>{{ historical_stats.previous.away.pld }}</td>
-                            <td>{{ historical_stats.previous.away.avg_pts|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.away.avg_gf|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.away.avg_ga|floatformat:2 }}</td>
-                            <td>{{ historical_stats.previous.away.w_pct }}%</td>
-                            <td>{{ historical_stats.previous.away.d_pct }}%</td>
-                            <td>{{ historical_stats.previous.away.l_pct }}%</td>
-                            <td>{{ historical_stats.previous.away.cs_pct }}%</td>
-                            <td>{{ historical_stats.previous.away.fts_pct }}%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
-            <!-- Player Stats -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem; margin-top: 20px;">
-                Player stats {{ historical_stats.season_name }}
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px; padding: 0;">
-                <table class="ss-table" style="font-size: 0.8rem; width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background: #f0f0f0; color: #333; font-weight: bold;">
-                            <th style="text-align: left; padding-left: 10px; width: 200px;">Player</th>
-                            <th>Goals</th>
-                            <th style="color: #0000ff;">Home</th>
-                            <th style="color: #008000;">Away</th>
-                            <th>Last</th>
-                            <th>% team</th>
-                            <th>Age</th>
-                            <th style="width: 50px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for p in top_scorers %}
-                        <tr style="background: #fff; border-bottom: 1px solid #eee;">
-                            <!-- Player Name -->
-                            <td style="text-align: left; padding-left: 10px; vertical-align: middle;">
-                                {% if p.nationality %}
-                                <img src="{{ p.nationality|get_flag_url }}"
-                                    style="height: 12px; margin-right: 5px; vertical-align: middle; border: 1px solid #ddd;"
-                                    title="{{ p.nationality }}">
-                                {% else %}
-                                <span
-                                    style="display: inline-block; width: 15px; margin-right: 5px; text-align: center;">&#9917;</span>
-                                {% endif %}
-                                {{ p.name }}
-                            </td>
-
-                            <!-- Goals -->
-                            <td style="font-weight: bold; text-align: center; font-size: 0.9rem;">{{ p.total }}</td>
-
-                            <!-- Home -->
-                            <td style="color: #0000ff; text-align: center;">{{ p.home }}</td>
-
-                            <!-- Away -->
-                            <td style="color: #008000; text-align: center;">{{ p.away }}</td>
-
-                            <!-- Last Date -->
-                            <td style="text-align: center; color: #333;">
-                                {% if p.last_date %}{{ p.last_date|date:"j M" }}{% else %}-{% endif %}
-                            </td>
-
-                            <!-- % Team -->
-                            <td style="text-align: center;">
-                                {{ p.pct }}%
-                            </td>
-
-                            <!-- Age -->
-                            <td style="text-align: center; color: #999;">
-                                {{ p.age }}
-                            </td>
-
-                            <!-- Stats Button -->
-                            <td style="text-align: center;">
-                                <button
-                                    style="border: 1px solid #ccc; background: #fff; border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; cursor: pointer;">stats</button>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="8" style="padding: 10px; text-align: center; color: #999;">No goal data
-                                available for this season.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-
-            <!-- Points Per Game / Run-in Analysis -->
-            <div class="ss-card" style="padding: 10px; margin-top: 20px;">
-                <div style="font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; color: #fff;">Points Per Game
+                <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0 text-center small">
+                        <thead>
+                            <tr class="text-secondary">
+                                <th class="text-start ps-3">Threshold</th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for t in thresholds %}
+                            <tr>
+                                <td class="text-start ps-3">Over {{ t }} Goals</td>
+                                <td>{{ goal_stats.match_total.home|get_key_pct:t }}%</td>
+                                <td>{{ goal_stats.match_total.away|get_key_pct:t }}%</td>
+                                <td class="fw-bold">{{ goal_stats.match_total.total|get_key_pct:t }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                <table class="ss-table" style="font-size: 0.8rem; margin-bottom: 15px;">
-                    <thead>
-                        <tr style="background: #eee;">
-                            <th></th>
-                            <th style="text-align: left; width: 40%"></th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>Opponent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for match in run_in.matches|slice:":13" %}
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="color: #666; font-size: 0.75rem;">{{ match.match.date|date:"j M" }}</td>
-                            <td style="text-align: left;">
-                                {% if match.is_home %}
-                                    <strong>{{ team.name }}</strong> <span style="color:#999">vs</span> {{ match.opponent.name }}
-                                {% else %}
-                                    {{ match.opponent.name }} <span style="color:#999">vs</span> <strong>{{ team.name }}</strong>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if match.is_home %}
-                                    <strong style="color: #333">{{ match.col_home_ppg }}</strong>
-                                {% else %}
-                                    <span style="color:#aaa">{{ match.col_home_ppg }}</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if not match.is_home %}
-                                    <strong style="color: #333">{{ match.col_away_ppg }}</strong>
-                                {% else %}
-                                    <span style="color:#aaa">{{ match.col_away_ppg }}</span>
-                                {% endif %}
-                            </td>
-                            <td style="vertical-align: middle;">
-                                <div style="display: flex; align-items: center; justify-content: start;">
-                                    <div style="background: #e0e0e0; height: 6px; width: 60px; border-radius: 3px; overflow: hidden; margin-right: 5px;">
-                                        <div class="js-width" data-width="{{ match.opp_strength_pct }}" style="height: 100%; background: #007bff;"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        <tr style="background: #fff; border-top: 2px solid #ddd;">
-                            <td colspan="4" style="text-align: right; padding-right: 15px; font-weight: bold;">Average
-                                of Opponent PPG values above</td>
-                            <td style="font-weight: bold; color: #0056b3;">{{ run_in.avg_total_opp_ppg }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div style="font-size: 0.8rem; line-height: 1.5; color: #333; padding: 5px;">
-                    <div style="font-weight: bold; margin-bottom: 5px;">Run-in overview</div>
-                    <p style="margin-bottom: 10px;">
-                        {% autoescape off %}{{ run_in.analysis }}{% endautoescape %}
-                    </p>
-                    <p>
-                        {{ team.name }}'s opponents to be played in home games currently have a combined average of
-                        <strong style="color: #000080">{{ run_in.avg_opp_ppg_home }} Points Per Game</strong> in their
-                        away matches played so far this season in the league. As for the hosts that {{ team.name }} will
-                        be visiting, so far this season they have a combined average of <strong
-                            style="color: #000080">{{ run_in.avg_opp_ppg_away }} Points Per Game</strong> at home in the
-                        league.
-                    </p>
-
-                    <div style="text-align: center; margin-top: 15px;">
-                        <a href="#"
-                            style="display: inline-block; padding: 6px 15px; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: #333; text-decoration: none; font-size: 0.8rem;">View
-                            opponents PPG values for all teams</a>
+            <!-- 4. Corners For -->
+             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Total Corners (For)</h6>
+                </div>
+                <div class="card-body p-0">
+                     <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0 text-center small text-nowrap">
+                            <thead>
+                                <tr class="text-secondary">
+                                    <th class="text-start ps-3"></th>
+                                    <th>Avg</th>
+                                    {% for t in corner_thresholds %}
+                                    <th>{{ t }}+</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-start ps-3">Home</td>
+                                    <td class="text-info">{{ corner_data.for.home.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.for.home.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                                 <tr>
+                                    <td class="text-start ps-3">Away</td>
+                                    <td class="text-info">{{ corner_data.for.away.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.for.away.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                                 <tr class="fw-bold bg-white bg-opacity-10">
+                                    <td class="text-start ps-3">Total</td>
+                                    <td class="text-info">{{ corner_data.for.total.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.for.total.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-        </div> <!-- End Left Group -->
-
-        <!-- COLUMN 3: RESULTS TABLE (Right Sidebar) -->
-        <div>
-            <!-- Blank header -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">Results table</div>
-            <div class="ss-card" style="margin-bottom: 15px;">
-                <table class="ss-table" style="font-size: 0.75rem;">
-                    <thead>
-                        <tr>
-                            <th style="width: 25px; background: #666; color: #fff;"></th>
-                            <th style="text-align: left; background: #666; color: #fff;">Team</th>
-                            <th style="width: 20px; background: #666; color: #fff;">GP</th>
-                            <th style="width: 20px; background: #666; color: #fff;">Pts</th>
-                            <th style="width: 45px; background: #f0f0f0; color: #333; font-weight: normal;">Home</th>
-                            <th style="width: 45px; background: #f0f0f0; color: #333; font-weight: normal;">Away</th>
-                            <th style="width: 30px; background: #fff;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for h in league_h2h %}
-                        <tr>
-                            <td style="color: #666; text-align: right; font-weight: bold;">{{ h.standing.position }}
-                            </td>
-                            <td style="text-align: left;">
-                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=h.standing.team.name|slugify %}"
-                                    style="text-decoration: none; color: #0000ff; font-weight: bold;"
-                                    class="{% if h.standing.team == team %}team-active{% endif %}">
-                                    {{ h.standing.team.name }}
-                                </a>
-                            </td>
-                            <td style="text-align: center; color: #666;">{{ h.standing.played }}</td>
-                            <td style="text-align: center; font-weight: bold; color: #000;">{{ h.standing.points }}</td>
-                            <td style="padding: 1px;">
-                                <div class="h2h-cell {{ h.home.bg }}">
-                                    {{ h.home.score }}
-                                </div>
-                            </td>
-                            <td style="padding: 1px;">
-                                <div class="h2h-cell {{ h.away.bg }}">
-                                    {{ h.away.score }}
-                                </div>
-                            </td>
-                            <td style="text-align: center;">
-                                {% if h.standing.team != team %}
-                                <a href="{% url 'matches:h2h_detail' league_name=league.name|slugify team1_name=team.name|slugify team2_name=h.standing.team.name|slugify %}" class="btn-h2h">h2h</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="ad-slot ad-slot-rectangle">
-                Team sidebar – 300x250
-            </div>
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">Goals scored & conceded
-            </div>
-            <div class="ss-card" style="margin-bottom: 15px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px; font-weight: normal;">SCORING</th>
-                            <th style="font-weight: normal;">Home</th>
-                            <th style="font-weight: normal;">Away</th>
-                            <th style="font-weight: normal;">All</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">Goals scored (GF)</td>
-                            <td class="clr-gf">{{ stats.home.gf }}</td>
-                            <td class="clr-gf">{{ stats.away.gf }}</td>
-                            <td class="clr-gf"><strong>{{ stats.total.gf }}</strong></td>
-                        </tr>
-                        <tr style="background: #d4edda; border-bottom: 2px solid #fff;">
-                            <td style="text-align: left; padding-left: 10px;">GF per match</td>
-                            <td>{{ stats.home.avg_gf|floatformat:2 }}</td>
-                            <td>{{ stats.away.avg_gf|floatformat:2 }}</td>
-                            <td><strong>{{ stats.total.avg_gf|floatformat:2 }}</strong></td>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Goals conceded (GA)</td>
-                            <td class="clr-ga">{{ stats.home.ga }}</td>
-                            <td class="clr-ga">{{ stats.away.ga }}</td>
-                            <td class="clr-ga"><strong>{{ stats.total.ga }}</strong></td>
-                        </tr>
-                        <tr style="background: #f8d7da; border-bottom: 2px solid #fff;">
-                            <td style="text-align: left; padding-left: 10px;">GA per match</td>
-                            <td>{{ stats.home.avg_ga|floatformat:2 }}</td>
-                            <td>{{ stats.away.avg_ga|floatformat:2 }}</td>
-                            <td><strong>{{ stats.total.avg_ga|floatformat:2 }}</strong></td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">GF + GA per match</td>
-                            <td>{{ stats.home.avg_total_goals|floatformat:2 }}</td>
-                            <td>{{ stats.away.avg_total_goals|floatformat:2 }}</td>
-                            <td><strong>{{ stats.total.avg_total_goals|floatformat:2 }}</strong></td>
-                        </tr>
-
-                        {% for t in thresholds %}
-                        <tr class="{% if forloop.counter|divisibleby:2 %}bg-row-even{% else %}bg-row-odd{% endif %}">
-                            <td style="text-align: left; padding-left: 10px;">GF+GA over {{ t }}</td>
-                            <td><span>{{ goal_stats.match_total.home|get_key_pct:t }}</span>%</td>
-                            <td><span>{{ goal_stats.match_total.away|get_key_pct:t }}</span>%</td>
-                            <td><strong><span>{{ goal_stats.match_total.total|get_key_pct:t }}</span>%</strong></td>
-                        </tr>
-                        {% endfor %}
-
-                        {% for t in ht_thresholds %}
-                        <tr class="{% if forloop.counter|divisibleby:2 %}bg-row-even{% else %}bg-row-odd{% endif %}">
-                            <td style="text-align: left; padding-left: 10px;">GF+GA over {{ t }} at HT</td>
-                            <td><span>{{ goal_stats.ht_match_total.home|get_key_pct:t }}</span>%</td>
-                            <td><span>{{ goal_stats.ht_match_total.away|get_key_pct:t }}</span>%</td>
-                            <td><strong><span>{{ goal_stats.ht_match_total.total|get_key_pct:t }}</span>%</strong></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div
-                    style="padding: 10px; font-size: 0.8rem; background: #eee; line-height: 1.4; border-top: 1px solid #ddd;">
-                    <span>{{ team.name }}</span> over 2.5 stats indicate a <strong><span>{{ goal_stats.match_total.total|get_key_pct:2.5 }}</span>%</strong> value for the proportion of
-                    matches involving the team that had a total of over 2.5 goals, which is <span>
-                        {% if goal_stats.match_total.total|get_key_pct:2.5 < league_over25_pct %} lower {% else %}
-                            higher {% endif %} </span> than the league average value of <span>{{ league_over25_pct }}</span>% of league
-                            matches that the <u>over under stats</u> indicate had a total number of goals over 2.5 this
-                            season in <span>{{ league.name }}</span>.
-                            <div style="text-align: center; margin-top: 10px;">
-                                <a href="{% url 'matches:league_goals' league_name=league.name|slugify %}"
-                                    style="display: inline-block; padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: #333; text-decoration: none; font-size: 0.75rem;">League
-                                    goals statistics</a>
-                            </div>
+            <!-- 5. Corners Against -->
+             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Total Corners (Against)</h6>
                 </div>
-            </div>
-
-            <!-- Scoring & Conceding Rates Table -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem; margin-top: 20px;">
-                Scoring & Conceding rates
-            </div>
-            <div class="ss-card" style="margin-bottom: 15px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;"></th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>All</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- SCORING SECTION (GREEN) -->
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">Scoring Rate</td>
-                            <td>{{ rates.home.scoring_rate_pct }}%</td>
-                            <td>{{ rates.away.scoring_rate_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.scoring_rate_pct }}%</td>
-                        </tr>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">Scoring Rate 1st-H.</td>
-                            <td>{{ rates.home.score_1h_pct }}%</td>
-                            <td>{{ rates.away.score_1h_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.score_1h_pct }}%</td>
-                        </tr>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">Scoring Rate 2nd-H.</td>
-                            <td>{{ rates.home.score_2h_pct }}%</td>
-                            <td>{{ rates.away.score_2h_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.score_2h_pct }}%</td>
-                        </tr>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">Scored in both halves</td>
-                            <td>{{ rates.home.score_both_pct }}%</td>
-                            <td>{{ rates.away.score_both_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.score_both_pct }}%</td>
-                        </tr>
-
-                        <!-- BOTH TEAMS SCORED (GRAY) -->
-                        <tr style="background: #e9e9e9;">
-                            <td style="text-align: left; padding-left: 10px;">Both teams scored</td>
-                            <td>{{ rates.home.bts_pct }}%</td>
-                            <td>{{ rates.away.bts_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.bts_pct }}%</td>
-                        </tr>
-
-                        <!-- CONCEDING SECTION (RED) -->
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Conceding Rate</td>
-                            <td>{{ rates.home.conceding_rate_pct }}%</td>
-                            <td>{{ rates.away.conceding_rate_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.conceding_rate_pct }}%</td>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Conceding Rate 1st-Half</td>
-                            <td>{{ rates.home.concede_1h_pct }}%</td>
-                            <td>{{ rates.away.concede_1h_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.concede_1h_pct }}%</td>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Conceding Rate 2nd-Half</td>
-                            <td>{{ rates.home.concede_2h_pct }}%</td>
-                            <td>{{ rates.away.concede_2h_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.concede_2h_pct }}%</td>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Conceded in both halves</td>
-                            <td>{{ rates.home.concede_both_pct }}%</td>
-                            <td>{{ rates.away.concede_both_pct }}%</td>
-                            <td style="font-weight: bold;">{{ rates.total.concede_both_pct }}%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Description Text -->
-            <div style="font-size: 0.9rem; color: #ccc; margin-bottom: 20px; line-height: 1.4;">
-                <strong style="color: #fff;">Scoring rate:</strong> percentage of matches where the team scored at least
-                one goal<br>
-                <strong style="color: #fff;">Conceding rate:</strong> percentage of matches where the team conceded at
-                least one goal
-            </div>
-
-            <!-- Goals Scored / Goals Conceded Table -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Goals scored / Goals conceded
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #555; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;"></th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>All</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- GF Over X (Green) -->
-                        {% for t in thresholds|slice:":5" %}
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">GF over {{ t }}</td>
-                            <td>{{ goal_stats.scored.home|get_key_pct:t }}%</td>
-                            <td>{{ goal_stats.scored.away|get_key_pct:t }}%</td>
-                            <td style="font-weight: bold;">{{ goal_stats.scored.total|get_key_pct:t }}%</td>
-                        </tr>
-                        {% endfor %}
-
-                        <!-- GA Over X (Red) -->
-                        {% for t in thresholds|slice:":5" %}
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">GA over {{ t }}</td>
-                            <td>{{ goal_stats.conceded.home|get_key_pct:t }}%</td>
-                            <td>{{ goal_stats.conceded.away|get_key_pct:t }}%</td>
-                            <td style="font-weight: bold;">{{ goal_stats.conceded.total|get_key_pct:t }}%</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div
-                    style="padding: 10px; font-size: 0.8rem; background: #fff; line-height: 1.4; border-top: 1px solid #ddd;">
-                    <strong style="color: #000;">GF:</strong> goals scored<br>
-                    <strong style="color: #000;">GA:</strong> goals conceded
-                </div>
-            </div>
-
-            <!-- 1. Total Goals in Matches -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Total goals in {{ team.name }} matches
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #555; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">SCORED + CONCEDED</th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>All</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for i in "01234"|make_list %}
-                        <tr class="{% if forloop.counter|divisibleby:2 %}bg-row-even{% else %}bg-row-odd{% endif %}">
-                            <td style="text-align: left; padding-left: 10px;">Match total goals = {{ i }}{% if i == "4" %}+{% endif %}</td>
-                            <td>{{ total_goals_dist.home|get_key_pct:i }}%</td>
-                            <td>{{ total_goals_dist.away|get_key_pct:i }}%</td>
-                            <td style="font-weight: bold;">{{ total_goals_dist.total|get_key_pct:i }}%</td>
-                        </tr>
-                        {% endfor %}
-                        <tr class="bg-row-even">
-                            <td style="text-align: left; padding-left: 10px;">Match total goals = 5+</td>
-                            <td>{{ total_goals_dist.home|get_key_pct:5 }}%</td>
-                            <td>{{ total_goals_dist.away|get_key_pct:5 }}%</td>
-                            <td style="font-weight: bold;">{{ total_goals_dist.total|get_key_pct:5 }}%</td>
-                        </tr>
-                        <!-- Aggregated Rows -->
-                        <tr style="background: #eee; border-top: 2px solid #ddd;">
-                            <td style="text-align: left; padding-left: 10px;">Match total goals = 0 or 1</td>
-                            {% with p0=total_goals_dist.home|get_key_pct:0 p1=total_goals_dist.home|get_key_pct:1 %}
-                            <td>{{ p0|add:p1 }}%</td>
-                            {% endwith %}
-                            {% with p0=total_goals_dist.away|get_key_pct:0 p1=total_goals_dist.away|get_key_pct:1 %}
-                            <td>{{ p0|add:p1 }}%</td>
-                            {% endwith %}
-                            {% with p0=total_goals_dist.total|get_key_pct:0 p1=total_goals_dist.total|get_key_pct:1 %}
-                            <td style="font-weight: bold;">{{ p0|add:p1 }}%</td>
-                            {% endwith %}
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Match total goals = 2 or 3</td>
-                            {% with p2=total_goals_dist.home|get_key_pct:2 p3=total_goals_dist.home|get_key_pct:3 %}
-                            <td>{{ p2|add:p3 }}%</td>
-                            {% endwith %}
-                            {% with p2=total_goals_dist.away|get_key_pct:2 p3=total_goals_dist.away|get_key_pct:3 %}
-                            <td>{{ p2|add:p3 }}%</td>
-                            {% endwith %}
-                            {% with p2=total_goals_dist.total|get_key_pct:2 p3=total_goals_dist.total|get_key_pct:3 %}
-                            <td style="font-weight: bold;">{{ p2|add:p3 }}%</td>
-                            {% endwith %}
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Match total goals = 4+</td>
-                            {% with p4=total_goals_dist.home|get_key_pct:4 p5=total_goals_dist.home|get_key_pct:5 %}
-                            <td>{{ p4|add:p5 }}%</td>
-                            {% endwith %}
-                            {% with p4=total_goals_dist.away|get_key_pct:4 p5=total_goals_dist.away|get_key_pct:5 %}
-                            <td>{{ p4|add:p5 }}%</td>
-                            {% endwith %}
-                            {% with p4=total_goals_dist.total|get_key_pct:4 p5=total_goals_dist.total|get_key_pct:5 %}
-                            <td style="font-weight: bold;">{{ p4|add:p5 }}%</td>
-                            {% endwith %}
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                    <a href="#"
-                        style="background: #fff; border: 1px solid #ccc; padding: 3px 10px; border-radius: 4px; text-decoration: none; color: #333; font-size: 0.75rem;">League
-                        Total Goals stats</a>
-                </div>
-            </div>
-
-            <!-- Timing of goals -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Timing of goals
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">Time Period</th>
-                            <th>0-15</th>
-                            <th>16-30</th>
-                            <th>31-45</th>
-                            <th>46-60</th>
-                            <th>61-75</th>
-                            <th>76-90+</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">Scored</td>
-                            {% for c in timing_stats.scored.total %}
-                            <td>{{ c }}</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Conceded</td>
-                            {% for c in timing_stats.conceded.total %}
-                            <td>{{ c }}</td>
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Goal types -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Goal types
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">Type</th>
-                            <th>Scored</th>
-                            <th>Conceded</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Regular Play</td>
-                            <td style="color: green; font-weight: bold;">{{ goal_types.scored.total.regular }}</td>
-                            <td style="color: red; font-weight: bold;">{{ goal_types.conceded.total.regular }}</td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Penalty</td>
-                            <td style="color: green; font-weight: bold;">{{ goal_types.scored.total.penalty }}</td>
-                            <td style="color: red; font-weight: bold;">{{ goal_types.conceded.total.penalty }}</td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Own Goal</td>
-                            <td style="color: green; font-weight: bold;">{{ goal_types.scored.total.own_goal }}</td>
-                            <td style="color: red; font-weight: bold;">{{ goal_types.conceded.total.own_goal }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 2. Goal Margins -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Goal margins
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #555; color: #fff;">
-                            <th style="text-align: center;">WINNING MARGINS</th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4+</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: right; padding-right: 15px;">Home wins</td>
-                            <td>{{ margin_stats.wins.home|get_item:1 }}</td>
-                            <td>{{ margin_stats.wins.home|get_item:2 }}</td>
-                            <td>{{ margin_stats.wins.home|get_item:3 }}</td>
-                            <td>{{ margin_stats.wins.home|get_item:4 }}</td>
-                        </tr>
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: right; padding-right: 15px;">Away wins</td>
-                            <td>{{ margin_stats.wins.away|get_item:1 }}</td>
-                            <td>{{ margin_stats.wins.away|get_item:2 }}</td>
-                            <td>{{ margin_stats.wins.away|get_item:3 }}</td>
-                            <td>{{ margin_stats.wins.away|get_item:4 }}</td>
-                        </tr>
-                        <tr style="background: #c3e6cb;">
-                            <td style="text-align: right; padding-right: 15px; font-weight: bold;">Home & Away wins</td>
-                            <td style="font-weight: bold;">{{ margin_stats.wins.total|get_item:1 }}</td>
-                            <td style="font-weight: bold;">{{ margin_stats.wins.total|get_item:2 }}</td>
-                            <td style="font-weight: bold;">{{ margin_stats.wins.total|get_item:3 }}</td>
-                            <td style="font-weight: bold;">{{ margin_stats.wins.total|get_item:4 }}</td>
-                        </tr>
-
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: center;">LOSING MARGINS</th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4+</th>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: right; padding-right: 15px;">Home defeats</td>
-                            <td>{{ margin_stats.defeats.home|get_item:1 }}</td>
-                            <td>{{ margin_stats.defeats.home|get_item:2 }}</td>
-                            <td>{{ margin_stats.defeats.home|get_item:3 }}</td>
-                            <td>{{ margin_stats.defeats.home|get_item:4 }}</td>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: right; padding-right: 15px;">Away defeats</td>
-                            <td>{{ margin_stats.defeats.away|get_item:1 }}</td>
-                            <td>{{ margin_stats.defeats.away|get_item:2 }}</td>
-                            <td>{{ margin_stats.defeats.away|get_item:3 }}</td>
-                            <td>{{ margin_stats.defeats.away|get_item:4 }}</td>
-                        </tr>
-                        <tr style="background: #f5c6cb;">
-                            <td style="text-align: right; padding-right: 15px; font-weight: bold;">Home & Away defeats
-                            </td>
-                            <td style="font-weight: bold;">{{ margin_stats.defeats.total|get_item:1 }}</td>
-                            <td style="font-weight: bold;">{{ margin_stats.defeats.total|get_item:2 }}</td>
-                            <td style="font-weight: bold;">{{ margin_stats.defeats.total|get_item:3 }}</td>
-                            <td style="font-weight: bold;">{{ margin_stats.defeats.total|get_item:4 }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                {% with one_goal=margin_stats.wins.total|get_item:1 two_goal=margin_stats.wins.total|get_item:2 three_goal=margin_stats.wins.total|get_item:3 four_plus=margin_stats.wins.total|get_item:4 %}
-                <div style="padding: 10px; font-size: 0.8rem; background: #eee; line-height: 1.4; color: #333;">
-                    A majority of {{ team.name }}'s wins have been obtained with a one-goal margin ({{ one_goal }}
-                    wins), while {{ two_goal|add:three_goal|add:four_plus }} of their wins had a margin of 2 goals or
-                    more.
-                </div>
-                {% endwith %}
-                <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                    <a href="#"
-                        style="background: #fff; border: 1px solid #ccc; padding: 3px 10px; border-radius: 4px; text-decoration: none; color: #333; font-size: 0.75rem;">League
-                        Goal Margin stats</a>
-                </div>
-            </div>
-
-            <!-- 3. Home vs Away Comparisons -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Home vs Away comparisons
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px; padding: 0;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; width: 100%;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">Home / Away points</th>
-                            <th>Home</th>
-                            <th>Away</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">% Points</td>
-                            <td style="text-align: right;">{{ stats.home.points_pct_share }}% <span
-                                    style="display:inline-block; width: 30px; height: 10px; background: #ccc; margin-left: 5px;"></span>
-                            </td>
-                            <td style="text-align: right;">{{ stats.away.points_pct_share }}% <span
-                                    style="display:inline-block; width: 30px; height: 10px; background: #ccc; margin-left: 5px;"></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- Simplification: Skipping bars for now as they require complex inline CSS logic, just showing PPG -->
-                <table class="ss-table"
-                    style="font-size: 0.8rem; border-collapse: collapse; width: 100%; margin-top: 10px;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">Home / Away PPG</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Points Per Game at Home (PPGH)</td>
-                            <td style="color: #28a745; font-weight: bold; text-align: right; padding-right: 15px;">{{ stats.home.ppg }}</td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Points Per Game Away (PPGA)</td>
-                            <td style="color: #007bff; font-weight: bold; text-align: right; padding-right: 15px;">{{ stats.away.ppg }}</td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td
-                                style="text-align: left; padding-left: 10px; font-weight: bold; text-decoration: underline;">
-                                Home advantage (PPGH - PPGA)</td>
-                            <td style="color: green; font-weight: bold; text-align: right; padding-right: 15px;">+{{ stats.home.ppg|add:stats.away.ppg|stringformat:"f" }}</td>
-                            <!-- Can't do substraction easily in template filter, handled in View ideally -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 4. Half-time lead -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Half-time lead
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: center;">Half-time</th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Leading at HT</td>
-                            <td style="font-weight: bold;">{{ ht_stats.leading.home }}</td>
-                            <td style="font-weight: bold;">{{ ht_stats.leading.away }}</td>
-                            <td style="font-weight: bold; color: green;">{{ ht_stats.leading.total }}</td>
-                            <td style="font-weight: bold; color: green;">{{ ht_stats.leading.total_pct }}%</td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Drawing at HT</td>
-                            <td style="font-weight: bold;">{{ ht_stats.drawing.home }}</td>
-                            <td style="font-weight: bold;">{{ ht_stats.drawing.away }}</td>
-                            <td style="font-weight: bold; color: orange;">{{ ht_stats.drawing.total }}</td>
-                            <td style="font-weight: bold; color: orange;">{{ ht_stats.drawing.total_pct }}%</td>
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Losing at HT</td>
-                            <td style="font-weight: bold;">{{ ht_stats.losing.home }}</td>
-                            <td style="font-weight: bold;">{{ ht_stats.losing.away }}</td>
-                            <td style="font-weight: bold; color: #dc3545;">{{ ht_stats.losing.total }}</td>
-                            <td style="font-weight: bold; color: #dc3545;">{{ ht_stats.losing.total_pct }}%</td>
-                        </tr>
-                        <tr style="background: #e0e0e0; border-top: 1px solid #ccc;">
-                            <td style="text-align: left; padding-left: 10px; font-weight: bold;">Total</td>
-                            <td style="font-weight: bold; color: #0000ff;">{{ stats.home.gp }}</td>
-                            <td style="font-weight: bold; color: #0000ff;">{{ stats.away.gp }}</td>
-                            <td style="font-weight: bold; color: #0000ff;">{{ stats.total.gp }}</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-                    <a href="#"
-                        style="background: #fff; border: 1px solid #ccc; padding: 3px 10px; border-radius: 4px; text-decoration: none; color: #333; font-size: 0.75rem;">League
-                        Half-time stats</a>
-                </div>
-            </div>
-
-            <!-- HT/FT Matrix -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Half-time / Full-time
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">HT \ FT</th>
-                            <th>Win</th>
-                            <th>Draw</th>
-                            <th>Loss</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- HT Win -->
-                        <tr style="background: #d4edda;">
-                            <td style="text-align: left; padding-left: 10px;">HT Win</td>
-                            <td>{{ ht_ft_matrix.total.0.0 }}</td> <!-- HT Win / FT Win -->
-                            <td>{{ ht_ft_matrix.total.0.1 }}</td> <!-- HT Win / FT Draw -->
-                            <td>{{ ht_ft_matrix.total.0.2 }}</td> <!-- HT Win / FT Loss -->
-                        </tr>
-                        <!-- HT Draw -->
-                        <tr style="background: #fff3cd;">
-                            <td style="text-align: left; padding-left: 10px;">HT Draw</td>
-                            <td>{{ ht_ft_matrix.total.1.0 }}</td> <!-- HT Draw / FT Win -->
-                            <td>{{ ht_ft_matrix.total.1.1 }}</td> <!-- HT Draw / FT Draw -->
-                            <td>{{ ht_ft_matrix.total.1.2 }}</td> <!-- HT Draw / FT Loss -->
-                        </tr>
-                        <!-- HT Loss -->
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">HT Loss</td>
-                            <td>{{ ht_ft_matrix.total.2.0 }}</td> <!-- HT Loss / FT Win -->
-                            <td>{{ ht_ft_matrix.total.2.1 }}</td> <!-- HT Loss / FT Draw -->
-                            <td>{{ ht_ft_matrix.total.2.2 }}</td> <!-- HT Loss / FT Loss -->
-                        </tr>
-                    </tbody>
-                </table>
-                 <div style="padding: 5px; font-size: 0.75rem; color: #555; text-align: center;">
-                    (Total matches)
-                </div>
-            </div>
-
-            <!-- Cards -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Cards
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th style="text-align: left; padding-left: 10px;">Type</th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>Total</th>
-                            <th>Avg</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                         <tr style="background: #fff3cd;">
-                            <td style="text-align: left; padding-left: 10px;">Yellow Cards</td>
-                            <td>{{ card_stats.yellow.home }}</td>
-                            <td>{{ card_stats.yellow.away }}</td>
-                            <td style="font-weight: bold;">{{ card_stats.yellow.total }}</td>
-                            <td style="color: blue;">{{ card_avgs.yellow.total }}</td>
-                        </tr>
-                        <tr style="background: #f8d7da;">
-                            <td style="text-align: left; padding-left: 10px;">Red Cards</td>
-                            <td>{{ card_stats.red.home }}</td>
-                            <td>{{ card_stats.red.away }}</td>
-                            <td style="font-weight: bold;">{{ card_stats.red.total }}</td>
-                            <td style="color: blue;">{{ card_avgs.red.total }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 5. Corners -->
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Corners For
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th></th>
-                            <th>Avg</th>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <th>{{ t|add:0.5|floatformat:0 }}+</th>
-                            <!-- Hack to display 2.5 as 3+ ? No, wait, reference says 2.5+ -->
-                            <!-- Re-reading image: Reference says "2.5+", "3.5+". Ok. -->
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #666; color: #fff; font-size: 0.7rem;"> <!-- Sub-header equivalent -->
-                            <td></td>
-                            <td></td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td></td>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <!-- Ideally we want all thresholds but horizontal space is limited. I'll show first 5 -->
-                    <!-- Actually replacing header row with loop -->
-                    <thead style="display: none;"></thead> <!-- Clean reset -->
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th></th>
-                            <th>Avg</th>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <th>{{ t }}+</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Home</td>
-                            <td style="color: blue;">{{ corner_data.for.home.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.for.home.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Away</td>
-                            <td style="color: blue;">{{ corner_data.for.away.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.for.away.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #e0e0e0; font-weight: bold;">
-                            <td style="text-align: left; padding-left: 10px;">Total</td>
-                            <td style="color: blue;">{{ corner_data.for.total.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.for.total.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Corners Against
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th></th>
-                            <th>Avg</th>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <th>{{ t }}+</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Home</td>
-                            <td style="color: #dc3545;">{{ corner_data.against.home.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.against.home.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Away</td>
-                            <td style="color: #dc3545;">{{ corner_data.against.away.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.against.away.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #e0e0e0; font-weight: bold;">
-                            <td style="text-align: left; padding-left: 10px;">Total</td>
-                            <td style="color: #dc3545;">{{ corner_data.against.total.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.against.total.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div style="font-weight: bold; margin-bottom: 5px; color: #fff; font-size: 0.85rem;">
-                Total corners (team + opponents)
-            </div>
-            <div class="ss-card" style="margin-bottom: 20px;">
-                <table class="ss-table" style="font-size: 0.8rem; border-collapse: collapse; text-align: center;">
-                    <thead>
-                        <tr style="background: #666; color: #fff;">
-                            <th></th>
-                            <th>Avg</th>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <th>{{ t }}+</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Home</td>
-                            <td style="color: #28a745;">{{ corner_data.total.home.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.total.home.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #eee;">
-                            <td style="text-align: left; padding-left: 10px;">Away</td>
-                            <td style="color: #28a745;">{{ corner_data.total.away.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.total.away.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                        <tr style="background: #e0e0e0; font-weight: bold;">
-                            <td style="text-align: left; padding-left: 10px;">Total</td>
-                            <td style="color: #28a745;">{{ corner_data.total.total.avg }}</td>
-                            {% for t in corner_thresholds|slice:":5" %}
-                            <td>{{ corner_data.total.total.thresholds|get_item:t }}%</td>
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="padding: 10px; font-size: 0.75rem; color: #555; border-top: 1px solid #eee;">
-                    <div style="margin-bottom: 8px;">
-                        The average of
-                        <span style="font-weight: bold; color: #28a745;">{{ corner_data.total.total.avg }}</span>
-                        total corners for {{ team.name }} refers to how the corner stats evaluate the total number of
-                        corners per match (corners awarded + corners conceded) in matches involving the team this season
-                        in the league.
-                    </div>
-                    <div style="text-align: center; margin-top: 5px;">
-                        <a href="#"
-                            style="background: #fff; border: 1px solid #ccc; padding: 3px 10px; border-radius: 4px; text-decoration: none; color: #333; font-size: 0.75rem;">
-                            Corner Stats for all teams
-                        </a>
+                <div class="card-body p-0">
+                     <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0 text-center small text-nowrap">
+                            <thead>
+                                <tr class="text-secondary">
+                                    <th class="text-start ps-3"></th>
+                                    <th>Avg</th>
+                                    {% for t in corner_thresholds %}
+                                    <th>{{ t }}+</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-start ps-3">Home</td>
+                                    <td class="text-info">{{ corner_data.against.home.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.against.home.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                                 <tr>
+                                    <td class="text-start ps-3">Away</td>
+                                    <td class="text-info">{{ corner_data.against.away.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.against.away.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                                 <tr class="fw-bold bg-white bg-opacity-10">
+                                    <td class="text-start ps-3">Total</td>
+                                    <td class="text-info">{{ corner_data.against.total.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.against.total.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-
-
+            <!-- 6. Match Corners (Total) -->
+             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Match Corners (Total)</h6>
+                </div>
+                <div class="card-body p-0">
+                     <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0 text-center small text-nowrap">
+                            <thead>
+                                <tr class="text-secondary">
+                                    <th class="text-start ps-3"></th>
+                                    <th>Avg</th>
+                                    {% for t in corner_thresholds %}
+                                    <th>{{ t }}+</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-start ps-3">Home</td>
+                                    <td class="text-info">{{ corner_data.total.home.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.total.home.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                                 <tr>
+                                    <td class="text-start ps-3">Away</td>
+                                    <td class="text-info">{{ corner_data.total.away.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.total.away.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                                 <tr class="fw-bold bg-white bg-opacity-10">
+                                    <td class="text-start ps-3">Total</td>
+                                    <td class="text-info">{{ corner_data.total.total.avg }}</td>
+                                    {% for t in corner_thresholds %}
+                                    <td>{{ corner_data.total.total.thresholds|get_item:t }}%</td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+             <!-- Cards -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Cards</h6>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0 text-center small">
+                         <thead>
+                            <tr class="text-secondary">
+                                <th></th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-start ps-3 text-warning">Yellow Cards</td>
+                                <td>{{ card_stats.yellow.home }}</td>
+                                <td>{{ card_stats.yellow.away }}</td>
+                                <td class="fw-bold">{{ card_stats.yellow.total }}</td>
+                            </tr>
+                             <tr>
+                                <td class="text-start ps-3 text-danger">Red Cards</td>
+                                <td>{{ card_stats.red.home }}</td>
+                                <td>{{ card_stats.red.away }}</td>
+                                <td class="fw-bold">{{ card_stats.red.total }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{% static 'matches/js/team_detail.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('progressionChart');
+        if (ctx) {
+            const chartData = JSON.parse(ctx.dataset.chart);
+            
+            // Extract data
+            const labels = chartData.map(d => d.round);
+            const dataPoints = chartData.map(d => d.cumulative_points);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Points Progression',
+                        data: dataPoints,
+                        borderColor: '#0dcaf0', // Bootstrap info color
+                        backgroundColor: 'rgba(13, 202, 240, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true,
+                        pointBackgroundColor: '#0dcaf0'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#adb5bd' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#adb5bd' }
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}

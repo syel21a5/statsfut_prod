@@ -1,25 +1,32 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{{ page_title }}</h1>
+<h1 class="h2 fw-bold text-white mb-0">{{ page_title }}</h1>
 {% endblock %}
 
 {% block content %}
 
-<div class="ad-slot ad-slot-inline">
+<!-- Home Banner -->
+<div class="ad-slot-inline mb-4 p-4 text-center text-muted border border-dashed border-secondary rounded" style="background: rgba(30, 41, 59, 0.5);">
     Home banner – 728x90 (or 320x100 mobile)
 </div>
 
-<div class="tabs-container" style="margin-bottom: 2rem;">
-    <a href="?filter=today" class="tab-btn {% if current_filter == 'today' %}active{% endif %}">Today</a>
-    <a href="?filter=tomorrow" class="tab-btn {% if current_filter == 'tomorrow' %}active{% endif %}">Tomorrow</a>
-    <a href="?filter=next_round" class="tab-btn {% if current_filter == 'next_round' %}active{% endif %}">Next Round</a>
-</div>
+<!-- Filters Row -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    
+    <!-- Date Filters -->
+    <div class="bg-dark p-1 rounded-3 d-inline-flex">
+        <a href="?filter=today" class="btn btn-sm {% if current_filter == 'today' %}btn-dark active text-white fw-bold{% else %}btn-link text-decoration-none text-muted{% endif %} px-3 rounded-2">Today</a>
+        <a href="?filter=tomorrow" class="btn btn-sm {% if current_filter == 'tomorrow' %}btn-dark active text-white fw-bold{% else %}btn-link text-decoration-none text-muted{% endif %} px-3 rounded-2">Tomorrow</a>
+        <a href="?filter=next_round" class="btn btn-sm {% if current_filter == 'next_round' %}btn-dark active text-white fw-bold{% else %}btn-link text-decoration-none text-muted{% endif %} px-3 rounded-2">Next Round</a>
+    </div>
 
-<div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
-    <button onclick="filterStatus('all')" class="status-btn active" id="btn-all">All</button>
-    <button onclick="filterStatus('live')" class="status-btn" id="btn-live">Live</button>
-    <button onclick="filterStatus('finished')" class="status-btn" id="btn-finished">Finished</button>
+    <!-- Status Filters -->
+    <div class="d-flex gap-2">
+        <button onclick="filterStatus('all')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn active" id="btn-all">All</button>
+        <button onclick="filterStatus('live')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-live">Live</button>
+        <button onclick="filterStatus('finished')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-finished">Finished</button>
+    </div>
 </div>
 
 <script>
@@ -35,14 +42,37 @@
 
     function filterStatus(status) {
         // Update buttons
-        document.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-' + status).classList.add('active');
+        document.querySelectorAll('.status-btn').forEach(btn => {
+            btn.classList.remove('active', 'btn-cyan', 'text-white');
+            btn.classList.add('btn-outline-secondary', 'text-muted');
+            // Remove specific styling for active state if present
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+        });
+        
+        const activeBtn = document.getElementById('btn-' + status);
+        activeBtn.classList.remove('btn-outline-secondary', 'text-muted');
+        activeBtn.classList.add('active', 'text-white');
+        
+        // Manual styling for active state to match theme
+        if (status === 'all') {
+            activeBtn.style.backgroundColor = 'var(--primary)';
+            activeBtn.style.borderColor = 'var(--primary)';
+            activeBtn.style.color = '#000';
+        } else {
+             activeBtn.style.backgroundColor = 'rgba(255,255,255,0.1)';
+             activeBtn.style.borderColor = 'rgba(255,255,255,0.2)';
+             activeBtn.style.color = '#fff';
+        }
+
 
         // Filter cards
-        const cards = document.querySelectorAll('.match-card');
+        const cards = document.querySelectorAll('.match-card-wrapper');
         let visibleCount = 0;
 
-        cards.forEach(card => {
+        cards.forEach(wrapper => {
+            const card = wrapper.querySelector('.match-card');
             const cardStatus = card.getAttribute('data-status');
             let shouldShow = false;
 
@@ -54,55 +84,61 @@
                 shouldShow = (cardStatus === 'Finished' || cardStatus === 'FT');
             }
 
-            card.style.display = shouldShow ? 'block' : 'none';
+            wrapper.style.display = shouldShow ? 'block' : 'none';
             if (shouldShow) visibleCount++;
         });
 
         // Show message if no cards visible
         const emptyMsg = document.getElementById('empty-message');
-        if (visibleCount === 0 && cards.length > 0) {
-            if (!emptyMsg) {
-                const div = document.createElement('div');
-                div.id = 'empty-message';
-                div.style = "grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-muted); background: var(--bg-panel); border-radius: 1rem; border: 1px dashed var(--border);";
-                div.innerHTML = '<i class="fa-solid fa-filter" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>No matches with this status.</p>';
-                document.querySelector('.matches-grid').appendChild(div);
-            } else {
-                emptyMsg.style.display = 'block';
-            }
-        } else if (emptyMsg) {
-            emptyMsg.style.display = 'none';
+        if (visibleCount === 0) {
+             emptyMsg.classList.remove('d-none');
+        } else {
+             emptyMsg.classList.add('d-none');
         }
     }
 </script>
 
+<style>
+    /* Custom override for buttons */
+    .btn-link:hover { color: var(--text-main) !important; }
+    
+    /* Ensure grid works with Bootstrap */
+    .matches-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+</style>
+
 <div class="matches-grid">
     {% for match in matches %}
-    <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" style="text-decoration: none; color: inherit; display: block;">
-        <div class="match-card" data-status="{{ match.status }}">
-            <div class="card-header">
-                <div class="league">
+    <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="text-decoration-none text-inherit match-card-wrapper">
+        <div class="match-card p-3 rounded-4 border border-secondary bg-dark-subtle position-relative overflow-hidden hover-effect" data-status="{{ match.status }}">
+            <div class="d-flex justify-content-between mb-3 small text-muted">
+                <div class="d-flex align-items-center gap-2 text-primary fw-bold">
                     <i class="fa-solid fa-circle-notch"></i> {{ match.league.name }}
                 </div>
-                <div class="time">
+                <div class="fw-bold">
                     {% if match.status == 'Live' %}
-                    <span style="color: var(--success); font-weight: 700;">{{ match.elapsed_time }}' </span>
-                    <span class="live-dot" style="display: inline-block; vertical-align: middle;"></span>
+                    <span class="text-success">{{ match.elapsed_time }}' </span>
+                    <span class="live-dot d-inline-block align-middle bg-success rounded-circle" style="width: 6px; height: 6px;"></span>
                     {% elif match.status == 'Scheduled' %}
                     {{ match.date|date:"H:i" }}
                     {% else %}
-                    <span style="color: var(--text-muted)">{{ match.status }}</span>
+                    <span class="text-muted">{{ match.status }}</span>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="teams-container">
-                <div class="teams-row">
-                    <div class="team">
-                        <div class="team-logo">{{ match.home_team.name|slice:":1" }}</div>
+            <div class="d-flex flex-column gap-2 mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2 text-white fw-medium">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 24px; height: 24px; background: #475569;">
+                            {{ match.home_team.name|slice:":1" }}
+                        </div>
                         {{ match.home_team.name }}
                     </div>
-                    <div class="score {% if match.home_score > match.away_score %}score-accent{% endif %}">
+                    <div class="fw-bold {% if match.home_score > match.away_score %}text-info{% else %}text-white{% endif %}">
                         {% if match.status == 'Scheduled' %}
                             {{ match.home_score|default:"-" }}
                         {% else %}
@@ -111,12 +147,14 @@
                     </div>
                 </div>
 
-                <div class="teams-row">
-                    <div class="team">
-                        <div class="team-logo" style="background: #475569">{{ match.away_team.name|slice:":1" }}</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2 text-white fw-medium">
+                         <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 24px; height: 24px; background: #475569;">
+                            {{ match.away_team.name|slice:":1" }}
+                        </div>
                         {{ match.away_team.name }}
                     </div>
-                    <div class="score {% if match.away_score > match.home_score %}score-accent{% endif %}">
+                    <div class="fw-bold {% if match.away_score > match.home_score %}text-info{% else %}text-white{% endif %}">
                         {% if match.status == 'Scheduled' %}
                             {{ match.away_score|default:"-" }}
                         {% else %}
@@ -126,18 +164,27 @@
                 </div>
             </div>
 
-            <div class="card-footer">
-                <div class="tag tag-over">OVER 2.5: {{ match.over_25_prob }}%</div>
-                <div class="tag tag-under">UNDER 1.5: {{ match.under_15_prob }}%</div>
+            <div class="d-flex gap-2 text-xs fw-bold">
+                <div class="badge bg-dark border border-secondary text-success p-2">OVER 2.5: {{ match.over_25_prob }}%</div>
+                <div class="badge bg-dark border border-secondary text-danger p-2">UNDER 1.5: {{ match.under_15_prob }}%</div>
             </div>
         </div>
-        {% empty %}
-        <div
-            style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-muted); background: var(--bg-panel); border-radius: 1rem; border: 1px dashed var(--border);">
-            <i class="fa-solid fa-ghost" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-            <p>No matches found.</p>
-            <p style="font-size: 0.9rem;">Check if the scraper has run recently.</p>
-        </div>
-        {% endfor %}
+    </a>
+    {% empty %}
+    <!-- Empty State -->
+    {% endfor %}
+    
+    <!-- Hidden Empty Message for Filter -->
+    <div id="empty-message" class="d-none text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="grid-column: 1 / -1; background: var(--bg-panel);">
+        <i class="fa-solid fa-ghost mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+        <p class="mb-1">No matches found.</p>
+        <p class="small opacity-75">Check if the scraper has run recently.</p>
+    </div>
 </div>
+
+<style>
+.hover-effect { transition: transform 0.2s, box-shadow 0.2s; }
+.hover-effect:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: var(--primary) !important; }
+</style>
+
 {% endblock %}

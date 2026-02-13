@@ -1,6 +1,9 @@
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, View
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.text import slugify
+from django.http import JsonResponse
+from django.db.models import Q
 from datetime import datetime, timedelta
 from .models import Match, League, Team, Season, LeagueStanding, Goal
 from django.db import models
@@ -10,6 +13,39 @@ import json
 
 
 from django.http import HttpResponse
+
+
+class GlobalSearchView(View):
+    def get(self, request):
+        query = request.GET.get('q', '')
+        results = []
+        
+        if len(query) >= 2:
+            # Search Leagues
+            leagues = League.objects.filter(name__icontains=query)[:5]
+            for league in leagues:
+                # Use stats_dispatch compatible URL
+                url = f"/stats/{slugify(league.country)}/{slugify(league.name)}/"
+                results.append({
+                    'type': 'League',
+                    'name': f"{league.name} ({league.country})",
+                    'url': url,
+                    'icon': 'fa-trophy'
+                })
+                
+            # Search Teams
+            teams = Team.objects.filter(name__icontains=query).select_related('league')[:5]
+            for team in teams:
+                # Use stats_dispatch compatible URL
+                url = f"/stats/{slugify(team.league.name)}/{slugify(team.name)}/"
+                results.append({
+                    'type': 'Team',
+                    'name': team.name,
+                    'url': url,
+                    'icon': 'fa-shirt'
+                })
+                
+        return JsonResponse({'results': results})
 
 def debug_leagues(request):
     try:
@@ -34,8 +70,32 @@ def debug_leagues(request):
             season_2025, _ = Season.objects.get_or_create(year=2025)
 
             # 2. Create Leagues
-            premier, _ = League.objects.get_or_create(name="Premier League", country="Inglaterra")
-            brasileirao, _ = League.objects.get_or_create(name="Brasileirão", country="Brasil")
+            premier, _ = League.objects.get_or_create(name="Premier League", country="England")
+            brasileirao, _ = League.objects.get_or_create(name="Brasileirao", country="Brazil")
+            la_liga, _ = League.objects.get_or_create(name="La Liga", country="Spain")
+            serie_a, _ = League.objects.get_or_create(name="Serie A", country="Italy")
+            bundesliga, _ = League.objects.get_or_create(name="Bundesliga", country="Germany")
+            ligue_1, _ = League.objects.get_or_create(name="Ligue 1", country="France")
+            
+            # Other European Leagues (Seed)
+            League.objects.get_or_create(name="Liga Profesional", country="Argentina")
+            League.objects.get_or_create(name="Bundesliga", country="Austria")
+            League.objects.get_or_create(name="A League", country="Australia")
+            League.objects.get_or_create(name="Pro League", country="Belgium")
+            League.objects.get_or_create(name="Super League", country="Switzerland")
+            League.objects.get_or_create(name="First League", country="Czech Republic")
+            League.objects.get_or_create(name="Superliga", country="Denmark")
+            League.objects.get_or_create(name="Veikkausliiga", country="Finland")
+            League.objects.get_or_create(name="Super League", country="Greece")
+            League.objects.get_or_create(name="Eredivisie", country="Netherlands")
+            League.objects.get_or_create(name="J1 League", country="Japan")
+            League.objects.get_or_create(name="Eliteserien", country="Norway")
+            League.objects.get_or_create(name="Ekstraklasa", country="Poland")
+            League.objects.get_or_create(name="Primeira Liga", country="Portugal")
+            League.objects.get_or_create(name="Premier League", country="Russia")
+            League.objects.get_or_create(name="Allsvenskan", country="Sweden")
+            League.objects.get_or_create(name="Super Lig", country="Turkey")
+            League.objects.get_or_create(name="Premier League", country="Ukraine")
             
             # 3. Create Teams
             arsenal, _ = Team.objects.get_or_create(name="Arsenal", league=premier)
@@ -283,6 +343,180 @@ class LiveMatchesView(ListView):
         context['page_title'] = 'Live Matches'
         return context
 
+class StatsDispatchView(View):
+    """
+    Dispatcher para rotas ambíguas /stats/<arg1>/<arg2>/
+    Pode ser:
+    1. /stats/Country/League/ -> LeagueDetailView
+    2. /stats/League/Team/ -> TeamDetailView
+    """
+    def get(self, request, arg1=None, arg2=None, **kwargs):
+        # Fallback para pegar argumentos nomeados se arg1/arg2 não vierem posicionais
+        if not arg1:
+            arg1 = kwargs.get('country_name') or kwargs.get('league_name')
+        
+        if not arg2:
+            # Se temos country_name, arg2 é league_name
+            if kwargs.get('country_name'):
+                arg2 = kwargs.get('league_name')
+            # Se temos league_name (e não country_name), arg2 é team_name
+            elif kwargs.get('league_name'):
+                arg2 = kwargs.get('team_name')
+
+        if not arg1 or not arg2:
+             from django.http import Http404
+             raise Http404("Invalid URL arguments")
+
+        slug1 = arg1.replace('-', ' ')
+        slug2 = arg2.replace('-', ' ')
+
+        # 1. Tenta identificar se arg1 é um PAÍS
+        # (Idealmente, teríamos uma lista de países ou consulta exata)
+        is_country = League.objects.filter(country__iexact=slug1).exists()
+        
+        # Se for país, assume estrutura Country/League
+        if is_country:
+            view = LeagueDetailView.as_view()
+            # Passa kwargs esperados pela LeagueDetailView
+            return view(request, country_name=arg1, league_name=arg2)
+
+        # 2. Se não for país, assume que é LIGA e arg2 é TIME
+        # Verifica se existe liga com esse nome
+        is_league = League.objects.filter(name__icontains=slug1).exists()
+        
+        if is_league:
+            view = TeamDetailView.as_view()
+            # Passa kwargs esperados pela TeamDetailView
+            return view(request, league_name=arg1, team_name=arg2)
+            
+        # 3. Se nenhum match óbvio, tenta fallback agressivo
+        # Tenta achar o time arg2 em qualquer liga que pareça arg1
+        league = League.objects.filter(name__icontains=slug1).first()
+        if league:
+             team = Team.objects.filter(league=league, name__icontains=slug2).exists()
+             if team:
+                 view = TeamDetailView.as_view()
+                 return view(request, league_name=arg1, team_name=arg2)
+        
+        # 4. Última tentativa: talvez arg1 seja país e arg2 seja liga, mas o check 'is_country' falhou por case/formatação?
+        # Deixa o LeagueDetailView tentar resolver ou dar 404
+        view = LeagueDetailView.as_view()
+        return view(request, country_name=arg1, league_name=arg2)
+
+
+def calculate_team_season_stats(team, league, season):
+    """
+    Helper to calculate comprehensive stats for a team in a season.
+    Returns a dict with 'overall', 'home', 'away' and 'last_8' stats.
+    """
+    # Get all finished matches for the team in the season
+    matches = Match.objects.filter(
+        league=league,
+        season=season,
+        status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
+    ).filter(
+        models.Q(home_team=team) | models.Q(away_team=team)
+    ).order_by('date')
+
+    # Helper to calculate stats for a list of matches
+    def calc_stats(match_list, filter_type='all'):
+        gp = len(match_list)
+        if gp == 0:
+            return {
+                'gp': 0, 'w': 0, 'd': 0, 'l': 0, 
+                'gf': 0, 'ga': 0, 'pts': 0, 'ppg': 0.0,
+                'ppg_pct': 0,
+                'w_pct': 0, 'd_pct': 0, 'l_pct': 0,
+                'gf_avg': 0.0, 'ga_avg': 0.0, 'tg_avg': 0.0,
+                'over_25_pct': 0,
+                'form': []
+            }
+
+        w = 0; d = 0; l = 0; gf = 0; ga = 0; pts = 0
+        over_25 = 0
+        form = []
+
+        # Sort matches by date descending for form
+        sorted_matches = sorted(match_list, key=lambda x: (x.date if x.date else timezone.now(), x.id), reverse=True)
+
+        # Calculate aggregates
+        for m in match_list:
+            is_home = m.home_team == team
+            
+            # Skip if filtering by home/away and match doesn't match
+            if filter_type == 'home' and not is_home: continue
+            if filter_type == 'away' and is_home: continue
+
+            team_score = m.home_score if is_home else m.away_score
+            opp_score = m.away_score if is_home else m.home_score
+            
+            # Handle None
+            team_score = team_score or 0
+            opp_score = opp_score or 0
+
+            gf += team_score
+            ga += opp_score
+            
+            if team_score > opp_score: 
+                w += 1; pts += 3
+            elif team_score == opp_score: 
+                d += 1; pts += 1
+            else: 
+                l += 1
+            
+            if (team_score + opp_score) > 2.5:
+                over_25 += 1
+
+        # Calculate Form (Last 4)
+        # Note: sorted_matches is already descending
+        last_4_matches = sorted_matches[:4]
+        for m in last_4_matches:
+            is_home = m.home_team == team
+            if filter_type == 'home' and not is_home: continue
+            if filter_type == 'away' and is_home: continue
+            
+            ts = m.home_score if is_home else m.away_score
+            os = m.away_score if is_home else m.home_score
+            ts = ts or 0; os = os or 0
+            
+            if ts > os: form.append('W')
+            elif ts == os: form.append('D')
+            else: form.append('L')
+        
+        # Averages
+        ppg = pts / gp
+        return {
+            'gp': gp, 'w': w, 'd': d, 'l': l,
+            'gf': gf, 'ga': ga, 'pts': pts,
+            'ppg': round(ppg, 2),
+            'ppg_pct': int((ppg / 3) * 100),
+            'w_pct': int((w / gp) * 100),
+            'd_pct': int((d / gp) * 100),
+            'l_pct': int((l / gp) * 100),
+            'gf_avg': round(gf / gp, 2),
+            'ga_avg': round(ga / gp, 2),
+            'tg_avg': round((gf + ga) / gp, 2),
+            'over_25_pct': int((over_25 / gp) * 100),
+            'form': form
+        }
+
+    # Filter lists
+    home_matches = [m for m in matches if m.home_team == team]
+    away_matches = [m for m in matches if m.away_team == team]
+    
+    # Last 8 matches (overall)
+    # Convert queryset to list and sort
+    all_matches_sorted = sorted(matches, key=lambda x: (x.date if x.date else timezone.now(), x.id), reverse=True)
+    last_8_matches = all_matches_sorted[:8]
+
+    return {
+        'overall': calc_stats(matches),
+        'home': calc_stats(home_matches),
+        'away': calc_stats(away_matches),
+        'last_8': calc_stats(last_8_matches)
+    }
+
+
 class LeagueDetailView(DetailView):
     model = League
     template_name = 'matches/league_dashboard.html'
@@ -293,22 +527,43 @@ class LeagueDetailView(DetailView):
         if 'pk' in self.kwargs:
             return super().get_object()
             
-        # Busca por nome (slug)
-        league_slug = self.kwargs.get('league_name')
+        # Parâmetros da URL
+        league_slug = self.kwargs.get('league_name') or self.kwargs.get('slug')
+        country_slug = self.kwargs.get('country_name') # Para rota composta (país/liga)
+        
+        # Base query
+        queryset = League.objects.all()
+
+        # CASO 1: Rota com País e Liga explícitos (ex: /stats/brazil/brasileirao/)
+        if country_slug and league_slug:
+             queryset = queryset.filter(country__iexact=country_slug.replace('-', ' '))
+             name_query = league_slug.replace('-', ' ')
+             league = queryset.filter(name__iexact=name_query).first() or \
+                      queryset.filter(name__icontains=name_query).first()
+             if league:
+                 return league
+             from django.http import Http404
+             raise Http404(f"League '{league_slug}' not found in {country_slug}")
+
+        # CASO 2: Rota genérica com um slug (ex: /stats/brazil/ OU /stats/premier-league/)
         if league_slug:
-            name_query = league_slug.replace('-', ' ')
-            # Tenta busca exata (insensível a maiúsculas)
-            league = League.objects.filter(name__iexact=name_query).first()
-            if not league:
-                 # Tenta contem
-                 league = League.objects.filter(name__icontains=name_query).first()
+            slug_clean = league_slug.replace('-', ' ')
             
+            # 2.1 Tenta achar LIGA primeiro
+            league = queryset.filter(name__iexact=slug_clean).first() or \
+                     queryset.filter(name__icontains=slug_clean).first()
             if league:
                 return league
                 
-        # Fallback (não deve acontecer se configurado certo)
+            # 2.2 Se não achou liga, tenta achar PAÍS e retorna a primeira liga dele
+            # Verifica se existe alguma liga com esse país
+            country_league = queryset.filter(country__iexact=slug_clean).first()
+            if country_league:
+                return country_league
+                
+        # Fallback
         from django.http import Http404
-        raise Http404("League not found")
+        raise Http404(f"No league or country found matching: {league_slug}")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -613,9 +868,59 @@ class LeagueDetailView(DetailView):
             for i, row in enumerate(home_table, 1): row['position'] = i
             for i, row in enumerate(away_table, 1): row['position'] = i
 
+            # --- LEAGUE WIDE STATS (New Cards) ---
+            total_matches_played = len(all_matches)
+            if total_matches_played > 0:
+                total_goals = sum((m.home_score or 0) + (m.away_score or 0) for m in all_matches)
+                btts_count = sum(1 for m in all_matches if (m.home_score or 0) > 0 and (m.away_score or 0) > 0)
+                over15_count = sum(1 for m in all_matches if ((m.home_score or 0) + (m.away_score or 0)) > 1.5)
+                over25_count = sum(1 for m in all_matches if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                home_wins = sum(1 for m in all_matches if (m.home_score or 0) > (m.away_score or 0))
+                draws = sum(1 for m in all_matches if (m.home_score or 0) == (m.away_score or 0))
+                away_wins = sum(1 for m in all_matches if (m.away_score or 0) > (m.home_score or 0))
+                
+                context['league_stats'] = {
+                    'avg_goals_match': round(total_goals / total_matches_played, 2),
+                    'btts_pct': round((btts_count / total_matches_played) * 100, 1),
+                    'over15_pct': round((over15_count / total_matches_played) * 100, 1),
+                    'over25_pct': round((over25_count / total_matches_played) * 100, 1),
+                    'home_win_pct': round((home_wins / total_matches_played) * 100, 1),
+                    'draw_pct': round((draws / total_matches_played) * 100, 1),
+                    'away_win_pct': round((away_wins / total_matches_played) * 100, 1),
+                }
+                
+                # Common Scores
+                from collections import Counter
+                scores = [f"{m.home_score}-{m.away_score}" for m in all_matches]
+                common_scores = Counter(scores).most_common(5)
+                context['common_scores'] = [{'score': s, 'count': c, 'pct': round(c/total_matches_played*100, 1)} for s, c in common_scores]
+            else:
+                context['league_stats'] = {}
+                context['common_scores'] = []
+
             context['standings'] = standings
             context['home_table'] = home_table
             context['away_table'] = away_table
+            
+            # Get upcoming matches_qs (Moved up for Pre-Match Analysis)
+            upcoming_matches_qs = Match.objects.filter(
+                league=league,
+                status__in=['Scheduled', 'Not Started'],
+                date__gte=timezone.now()
+            ).select_related('home_team', 'away_team').order_by('date')[:100]
+
+            # --- PRE-MATCH ANALYSIS STATS ---
+            pre_match_data = []
+            for m in upcoming_matches_qs:
+                h_stats = calculate_team_season_stats(m.home_team, league, latest_season)
+                a_stats = calculate_team_season_stats(m.away_team, league, latest_season)
+                if h_stats and a_stats:
+                    pre_match_data.append({
+                        'match': m,
+                        'home': h_stats,
+                        'away': a_stats
+                    })
+            context['pre_match_analysis'] = pre_match_data
             
             # Relative Home/Away Performance Table
             relative_table = []
@@ -624,21 +929,40 @@ class LeagueDetailView(DetailView):
                 row['team'] = data['team']
                 row['team_slug'] = data['team_slug']
                 row['league_slug'] = data['league_slug']
-                row['gph'] = data['home']['gp']
-                row['gpa'] = data['away']['gp']
-                row['pts'] = data['home']['pts'] + data['away']['pts']
                 
-                # Calculate PPGs
-                ppg_home = round(data['home']['pts'] / data['home']['gp'], 2) if data['home']['gp'] > 0 else 0
-                ppg_away = round(data['away']['pts'] / data['away']['gp'], 2) if data['away']['gp'] > 0 else 0
+                h = data['home']
+                a = data['away']
+                
+                # Relative Home Performance
+                # Recompute total ppg
+                total_pts = h['pts'] + a['pts']
+                total_gp = h['gp'] + a['gp']
+                total_ppg = total_pts / total_gp if total_gp > 0 else 0
+                
+                h_ppg = h['ppg']
+                h_rel = ((h_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
+                row['home_rel'] = round(h_rel, 1)
+                
+                # Relative Away Performance
+                a_ppg = a['ppg']
+                a_rel = ((a_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
+                row['away_rel'] = round(a_rel, 1)
+
+                # PPG Difference (Home vs Away)
+                ppg_home = round(h['pts'] / h['gp'], 2) if h['gp'] > 0 else 0
+                ppg_away = round(a['pts'] / a['gp'], 2) if a['gp'] > 0 else 0
                 
                 row['ppg_home'] = ppg_home
                 row['ppg_away'] = ppg_away
                 row['ppg_diff'] = round(ppg_home - ppg_away, 2)
                 row['ppg_diff_abs'] = abs(row['ppg_diff'])
                 
-                # Bar width (max diff usually around 2.0, so scaling to 100px or %)
-                # Using 80px as max width base
+                # Stats needed for relative table display
+                row['gph'] = h['gp']
+                row['gpa'] = a['gp']
+                row['pts'] = total_pts
+                
+                # Bar width
                 row['bar_width'] = min(int(abs(row['ppg_diff']) * 40), 100)
                 
                 relative_table.append(row)
@@ -650,15 +974,8 @@ class LeagueDetailView(DetailView):
             for i, row in enumerate(relative_table, 1): row['position'] = i
             
             context['relative_table'] = relative_table
-            
-            # Get upcoming matches_qs
-            upcoming_matches_qs = Match.objects.filter(
-                league=league,
-                status__in=['Scheduled', 'Not Started'],
-                date__gte=timezone.now()
-            ).select_related('home_team', 'away_team').order_by('date')[:100]
-            
-            # Group upcoming matches and calculate stats for each team
+
+            # Group upcoming matches and calculate stats for each team (for Standings table)
             for standing in standings:
                 team_id = standing.team.id
                 team_matches = [m for m in upcoming_matches_qs if m.home_team_id == team_id or m.away_team_id == team_id][:5]
@@ -953,17 +1270,24 @@ class TeamDetailView(DetailView):
         team_slug = self.kwargs.get('team_name')
         
         # Converte slugs para busca aproximada (ex: premier-league -> Premier League)
-        # remove hífens e tenta buscar
         league_name_query = league_slug.replace('-', ' ')
         team_name_query = team_slug.replace('-', ' ')
         
-        # Busca Liga
-        league = get_object_or_404(League, name__icontains=league_name_query)
+        # Busca Time diretamente pela liga (evita erro se houver ligas duplicadas no DB)
+        # Tenta match exato do time primeiro
+        qs = Team.objects.filter(
+            league__name__icontains=league_name_query, 
+            name__iexact=team_name_query
+        )
+        team = qs.first()
         
-        # Busca Time (tenta nome exato, depois contem)
-        team = Team.objects.filter(league=league, name__iexact=team_name_query).first()
         if not team:
-             team = get_object_or_404(Team, league=league, name__icontains=team_name_query)
+            # Tenta match aproximado do time
+             team = get_object_or_404(
+                 Team, 
+                 league__name__icontains=league_name_query, 
+                 name__icontains=team_name_query
+             )
              
         return team
 
@@ -1409,7 +1733,7 @@ class TeamDetailView(DetailView):
                 card_avgs['red'][c] = round(card_stats['red'][c] / gp, 2)
 
         # Corner Stats Percentages & Avgs
-        corner_thresholds = [2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5]
+        corner_thresholds = [2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5, 12.5, 13.5, 14.5, 15.5]
         corner_data = {
             'for': {c: {'avg': 0, 'thresholds': {t: 0 for t in corner_thresholds}} for c in cats},
             'against': {c: {'avg': 0, 'thresholds': {t: 0 for t in corner_thresholds}} for c in cats},
@@ -1454,6 +1778,17 @@ class TeamDetailView(DetailView):
         context['ht_thresholds'] = ht_thresholds
         # Últimos 20 jogos apenas (recorte da lista, em ordem do mais recente para o mais antigo)
         context['matches_list'] = matches_data[-20:][::-1]
+        
+        # Upcoming Matches
+        upcoming_matches = Match.objects.filter(
+            league=league,
+            season=latest_season,
+            status='Scheduled'
+        ).filter(
+            models.Q(home_team=team) | models.Q(away_team=team)
+        ).order_by('date')[:10] # Next 10 matches
+        context['upcoming_matches'] = upcoming_matches
+
         context['chart_data_json'] = json.dumps(chart_data)
 
         # --- League Averages for Descriptive Text ---
@@ -1877,6 +2212,9 @@ class TeamDetailView(DetailView):
             'avg_total_opp_ppg': avg_total_opp_ppg,
             'analysis': "Analysis placeholder..." # We can elaborate this later or use the template logic
         }
+
+        # Calculate streaks
+        context['streaks'] = self.calculate_streaks(all_matches, team)
 
         return context
 
@@ -2633,7 +2971,7 @@ def calculate_team_season_stats(team, league, season):
         'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0,
         'ppg': 0.0, 'avg_gf': 0.0, 'avg_ga': 0.0,
         'cs': 0, 'fts': 0, 'bts': 0,
-        'over_25': 0,
+        'over_05': 0, 'over_15': 0, 'over_25': 0, 'over_35': 0,
         'form': []
     } for c in cats}
 
@@ -2676,7 +3014,11 @@ def calculate_team_season_stats(team, league, season):
             if ga == 0: s['cs'] += 1
             if gf == 0: s['fts'] += 1
             if gf > 0 and ga > 0: s['bts'] += 1
+            
+            if match_total > 0.5: s['over_05'] += 1
+            if match_total > 1.5: s['over_15'] += 1
             if match_total > 2.5: s['over_25'] += 1
+            if match_total > 3.5: s['over_35'] += 1
 
     # Process Last 8
     for m in last_8_matches:
@@ -2701,7 +3043,10 @@ def calculate_team_season_stats(team, league, season):
             s['avg_gf'] = round(s['gf'] / s['gp'], 2)
             s['avg_ga'] = round(s['ga'] / s['gp'], 2)
             if 'over_25' in s:
+                s['over_05_pct'] = int((s['over_05'] / s['gp']) * 100)
+                s['over_15_pct'] = int((s['over_15'] / s['gp']) * 100)
                 s['over_25_pct'] = int((s['over_25'] / s['gp']) * 100)
+                s['over_35_pct'] = int((s['over_35'] / s['gp']) * 100)
                 s['cs_pct'] = int((s['cs'] / s['gp']) * 100)
                 s['fts_pct'] = int((s['fts'] / s['gp']) * 100)
                 s['bts_pct'] = int((s['bts'] / s['gp']) * 100)

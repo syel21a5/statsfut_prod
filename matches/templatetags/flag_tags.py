@@ -26,6 +26,14 @@ COUNTRY_CODES = {
     'Wales': 'gb-wls',
     'Ireland': 'ie',
     'Northern Ireland': 'gb-nir',
+    'Austria': 'at',
+    'Australia': 'au',
+    'Czech': 'cz',
+    'Denmark': 'dk',
+    'Finland': 'fi',
+    'Greece': 'gr',
+    'Russia': 'ru',
+    'Turkey': 'tr',
     # Add more as needed
 }
 

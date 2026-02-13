@@ -53,3 +53,13 @@ def country_en(value):
 @register.filter
 def is_team(team, target):
     return team == target
+
+@register.filter
+def probability_label(val1, val2):
+    try:
+        avg = (float(val1) + float(val2)) / 2
+        if avg >= 65: return "High"
+        if avg >= 40: return "Medium"
+        return "Low"
+    except (ValueError, TypeError):
+        return "-"

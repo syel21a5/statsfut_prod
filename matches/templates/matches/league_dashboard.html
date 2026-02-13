@@ -1,1700 +1,954 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load matches_extras %}
+{% load flag_tags %}
 
 {% block content %}
-<style>
-    /* Form Tooltip Styles */
-    .form-container {
-        position: relative;
-        display: inline-block;
-    }
-
-    .form-tooltip {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 8px;
-        background: var(--bg-panel, #1a1d2e);
-        border: 1px solid var(--border, #2d3142);
-        border-radius: 6px;
-        padding: 8px;
-        min-width: 250px;
-        z-index: 1000;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .form-container:hover .form-tooltip {
-        display: block;
-    }
-
-    .form-tooltip-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 4px 8px;
-        font-size: 0.85rem;
-        border-bottom: 1px solid var(--border, #2d3142);
-    }
-
-    .form-tooltip-row:last-child {
-        border-bottom: none;
-    }
-
-    .form-tooltip-date {
-        color: var(--text-muted, #8b92a7);
-        min-width: 50px;
-        font-size: 0.8rem;
-    }
-
-    .form-tooltip-opponent {
-        flex: 1;
-        padding: 0 8px;
-        color: var(--text-main, #e0e0e0);
-    }
-
-    .form-tooltip-score {
-        font-weight: bold;
-        min-width: 40px;
-        text-align: right;
-    }
-
-    .text-success {
-        color: #4ade80 !important;
-    }
-
-    .text-warning {
-        color: #fbbf24 !important;
-    }
-
-    .text-danger {
-        color: #f87171 !important;
-    }
-</style>
-<div class="league-dashboard" style="max-width: 1200px; margin: 0 auto; padding: 1rem;">
-
-    <!-- League Header -->
-    <div class="dashboard-header"
-        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">
-        <h1 style="font-size: 1.5rem; margin: 0;">
-            <i class="fa-solid fa-trophy" style="color: var(--primary); margin-right: 0.5rem;"></i>
-            {{ league.name }} <span style="font-weight: 300; font-size: 1.2rem; color: var(--text-muted);">{{ league.country|country_en }}</span>
-        </h1>
-        <div class="season-badge"
-            style="background: var(--bg-panel); padding: 0.2rem 0.8rem; border-radius: 1rem; border: 1px solid var(--border); font-size: 0.9rem;">
-            {{ latest_season }}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white fw-bold mb-0">
+                <img src="{{ league.country|get_flag_url }}" alt="{{ league.country }}" style="height: 30px; margin-right: 10px;">
+                {{ league.name }}
+            </h2>
+            <p class="text-secondary mb-0 mt-1">
+                <span class="text-info">{{ league.country }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> League Stats
+            </p>
+        </div>
+        <div>
+             <a href="{% url 'matches:league_goals' league_name=league.name|slugify %}" class="btn btn-outline-info btn-sm">
+                <i class="fa-solid fa-chart-pie me-1"></i> Goals Stats
+            </a>
         </div>
     </div>
 
-    <div class="ad-slot ad-slot-inline">
-        League banner – 728x90 (or 320x100 mobile)
-    </div>
+    <div class="row">
+        <!-- Main Content Column (75% Width) -->
+        <div class="col-lg-9">
+            
+            <!-- Horizontal Ad Slot (Top) -->
+            <div class="card border-0 bg-transparent mb-4 d-none d-md-block">
+                <div class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
+                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal Banner)</span>
+                    <!-- Insert Ad Code Here -->
+                </div>
+            </div>
 
-    <!-- Main Grid -->
-    <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-
-        <!-- Left Column: Upcoming Matches -->
-        <div class="panel-upcoming">
-            <h3
-                style="font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.5rem; color: var(--text-main);">
-                Matches
-            </h3>
-
-            <div class="panel-scroll">
-                <table class="dense-table" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                    {% for match in upcoming_matches %}
-                    {% ifchanged match.date|date:"Y-m-d" %}
-                    <tr class="date-group-row">
-                        <td colspan="5" style="padding: 6px 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);">
-                            {{ match.date|date:"D j M" }}
-                        </td>
-                    </tr>
-                    {% endifchanged %}
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <td style="padding: 4px; color: var(--text-muted); width: 80px;">
-                            <div style="font-size: 0.8rem; color: var(--success);">{{ match.date|date:"H:i" }}</div>
-                        </td>
-                        <td style="padding: 4px; text-align: right; width: 40%;">
-                            {{ match.home_team.name }}
-                        </td>
-                        <td style="padding: 4px; text-align: center; width: 40px; color: var(--text-muted);">v</td>
-                        <td style="padding: 4px; text-align: left; width: 40%;">
-                            {{ match.away_team.name }}
-                        </td>
-                        <td style="padding: 4px; text-align: right;">
-                            <a href="{% url 'matches:match_detail' match.id match.slug %}"
-                                style="display: inline-block; padding: 2px 6px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); text-decoration: none; font-size: 0.75rem; background: var(--bg-panel);">
-                                <i class="fa-solid fa-chart-simple"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="5" style="padding: 1rem; text-align: center; color: var(--text-muted);">No
-                            scheduled
-                            matches.</td>
-                    </tr>
-                    {% endfor %}
-                </table>
+            <!-- League Averages Summary -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Avg PPG</h6>
+                        <h3 class="fw-bold mb-0">{{ avg_ppg|floatformat:2 }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Avg Goals/Team</h6>
+                        <h3 class="fw-bold mb-0 text-info">{{ avg_gf|floatformat:1 }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Clean Sheets %</h6>
+                        <h3 class="fw-bold mb-0 text-success">{{ avg_cs|floatformat:1 }}%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Scoring Rate</h6>
+                        <h3 class="fw-bold mb-0 text-warning">{{ avg_sr|floatformat:1 }}%</h3>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Right Column: Latest Results -->
-        <div class="panel-results">
-            <h3
-                style="font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.5rem; color: var(--text-main);">
-                Results
-            </h3>
-
-            <div class="panel-scroll">
-                <table class="dense-table" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                    {% for match in latest_results %}
-                    {% ifchanged match.date|date:"Y-m-d" %}
-                    <tr class="date-group-row">
-                        <td colspan="4" style="padding: 6px 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);">
-                            {{ match.date|date:"D j M" }}
-                        </td>
-                    </tr>
-                    {% endifchanged %}
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <td style="padding: 4px; text-align: right; width: 40%;">
-                            {{ match.home_team.name }}
-                        </td>
-                        <td
-                            style="padding: 4px; text-align: center; font-weight: bold; color: var(--text-main); background: rgba(0,0,0,0.2); border-radius: 4px;">
-                            {{ match.home_score }}:{{ match.away_score }}
-                        </td>
-                        <td style="padding: 4px; text-align: left; width: 40%;">
-                            {{ match.away_team.name }}
-                        </td>
-                        <td style="padding: 4px; text-align: right;">
-                            <a href="{% url 'matches:match_detail' match.id match.slug %}"
-                                style="display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-main); text-decoration: none; font-size: 0.75rem; background: var(--bg-panel);">
-                                stats
-                            </a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="5" style="padding: 1rem; text-align: center; color: var(--text-muted);">No recent
-                            results.</td>
-                    </tr>
-                    {% endfor %}
-                </table>
+        <!-- Goals & Outcomes (New Section) -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Over 1.5 Goals</h6>
+                        <h3 class="fw-bold mb-0 text-info">{{ league_stats.over15_pct }}%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Over 2.5 Goals</h6>
+                        <h3 class="fw-bold mb-0 text-primary">{{ league_stats.over25_pct }}%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">BTTS</h6>
+                        <h3 class="fw-bold mb-0 text-warning">{{ league_stats.btts_pct }}%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-body py-3 text-center">
+                        <h6 class="text-secondary text-uppercase small mb-1">Avg Match Goals</h6>
+                        <h3 class="fw-bold mb-0">{{ league_stats.avg_goals_match }}</h3>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Tabs Navigation -->
-    <div class="tabs-nav" style="margin-top: 2rem; border-bottom: 2px solid var(--border); display: flex; gap: 1rem;">
-        <button class="tab-btn active" onclick="openTab(event, 'tab-main')">Table</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-homeaway')">Home / Away</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-form')">Relative Form</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-perf')">Relative Performance</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-runin')">Run-in</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-projected')">Projected Points</button>
-    </div>
-
-    <!-- TAB 1: Main Table -->
-    <div id="tab-main" class="tab-content active" style="margin-top: 1rem;">
-        <!-- SoccerStats Style Table (Light Theme Card) -->
-        <div
-            style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: fit-content;">
-            <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-                <h4 style="margin: 0; color: #333;">League Table</h4>
+        <!-- Win Distribution & Common Scores -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                 <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
+                    <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25">
+                        <h6 class="mb-0">Match Outcomes Distribution</h6>
+                    </div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <div class="progress w-100" style="height: 25px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="--w-home: {{ league_stats.home_win_pct }}%; width: var(--w-home);" title="Home Wins: {{ league_stats.home_win_pct }}%">
+                                {{ league_stats.home_win_pct }}%
+                            </div>
+                            <div class="progress-bar bg-secondary" role="progressbar" style="--w-draw: {{ league_stats.draw_pct }}%; width: var(--w-draw);" title="Draws: {{ league_stats.draw_pct }}%">
+                                {{ league_stats.draw_pct }}%
+                            </div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="--w-away: {{ league_stats.away_win_pct }}%; width: var(--w-away);" title="Away Wins: {{ league_stats.away_win_pct }}%">
+                                {{ league_stats.away_win_pct }}%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between small text-muted">
+                        <span><i class="fa-solid fa-square text-success"></i> Home Win</span>
+                        <span><i class="fa-solid fa-square text-secondary"></i> Draw</span>
+                        <span><i class="fa-solid fa-square text-danger"></i> Away Win</span>
+                    </div>
+                 </div>
             </div>
-            <table class="ss-table">
-                <thead>
-                    <tr>
-                        <th class="ss-th-rank">#</th>
-                        <th class="ss-th-team">Team</th>
-                        <th class="ss-th-stat" style="color: var(--ss-green);">GP</th>
-                        <th class="ss-th-stat">W</th>
-                        <th class="ss-th-stat">D</th>
-                        <th class="ss-th-stat">L</th>
-                        <th class="ss-th-stat" style="color: var(--ss-blue);">GF</th>
-                        <th class="ss-th-stat" style="color: var(--ss-red);">GA</th>
-                        <th class="ss-th-stat">GD</th>
-                        <th class="ss-th-pts">Pts</th>
-                        <th class="ss-th-form">Form</th>
-                        <th class="ss-th-stat">PPG</th>
-                        <th class="ss-th-stat" style="color: var(--ss-green);">last 8</th>
-                        <th class="ss-th-stat">CS</th>
-                        <th class="ss-th-stat">SR</th>
-                        <th class="ss-th-stat">MPP</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for standing in standings %}
-                    <tr class="{% cycle 'row-odd' 'row-even' %}">
-                        <td
-                            class="ss-td-rank {% if standing.position <= 4 %}zone-ucl{% elif standing.position == 5 %}zone-europa{% elif standing.position >= 18 %}zone-relegation{% endif %}">
-                            {{ standing.position }}
-                        </td>
-                        <td class="ss-td-team">
-                            <a href="{% url 'matches:team_stats' league_name=standing.league_slug team_name=standing.team_slug %}"
-                                style="text-decoration: none; color: inherit;">
-                                {{ standing.team.name }}
-                            </a>
-                        </td>
-                        <td class="ss-td-stat ss-green">{{ standing.played }}</td>
-                        <td class="ss-td-stat ss-box">{{ standing.won }}</td>
-                        <td class="ss-td-stat ss-box">{{ standing.drawn }}</td>
-                        <td class="ss-td-stat ss-box">{{ standing.lost }}</td>
-                        <td class="ss-td-stat ss-blue">{{ standing.goals_for }}</td>
-                        <td class="ss-td-stat ss-red">{{ standing.goals_against }}</td>
-                        <td class="ss-td-stat font-bold">{{ standing.goal_diff|stringformat:"+d" }}</td>
-                        <td class="ss-td-pts font-bold">{{ standing.points }}</td>
-                        <td class="ss-td-form">
-                            <div class="form-container" style="position: relative;">
-                                {% for outcome in standing.form_history %}
-                                <div
-                                    class="form-bar {% if outcome == 'W' %}bar-w{% elif outcome == 'D' %}bar-d{% else %}bar-l{% endif %}">
-                                </div>
-                                {% empty %}
-                                <span class="text-muted">-</span>
-                                {% endfor %}
+            <div class="col-md-6">
+                <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
+                   <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25">
+                       <h6 class="mb-0">Most Common Scores</h6>
+                   </div>
+                   <div class="card-body">
+                       <div class="d-flex justify-content-between text-center">
+                           {% for score in common_scores %}
+                           <div>
+                               <h5 class="fw-bold mb-0">{{ score.score }}</h5>
+                               <small class="text-muted">{{ score.pct }}%</small>
+                           </div>
+                           {% endfor %}
+                       </div>
+                   </div>
+                </div>
+           </div>
+        </div>
 
-                                <!-- Tooltip with match details -->
-                                {% if standing.form_details %}
-                                <div class="form-tooltip">
-                                    {% for match in standing.form_details %}
-                                    <div class="form-tooltip-row">
-                                        <span class="form-tooltip-date">{{ match.date }}</span>
-                                        <span class="form-tooltip-opponent">
-                                            {{ standing.team.name }} - {{ match.opponent }}
-                                        </span>
-                                        <span
-                                            class="form-tooltip-score {% if match.result == 'W' %}text-success{% elif match.result == 'D' %}text-warning{% else %}text-danger{% endif %}">
-                                            {{ match.score }}
-                                        </span>
+            <!-- Matches & Results Row -->
+            <div class="row g-4 mb-4">
+                <!-- Upcoming Matches -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2 d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0 fw-bold">Matches</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto;">
+                                <div class="list-group list-group-flush bg-transparent">
+                                    {% for match in upcoming_matches %}
+                                    <div class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-secondary">
+                                                {{ match.date|date:"D d M" }}<br>
+                                                <span class="text-success">{{ match.date|date:"H:i" }}</span>
+                                            </div>
+                                            <div class="col-7 text-center">
+                                                <div class="d-flex justify-content-end align-items-center mb-1">
+                                                    <span class="me-2">{{ match.home_team.name }}</span>
+                                                    {% if match.home_team.logo %}
+                                                        <img src="{{ match.home_team.logo }}" height="16">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="d-flex justify-content-start align-items-center">
+                                                    {% if match.away_team.logo %}
+                                                        <img src="{{ match.away_team.logo }}" height="16" class="me-2">
+                                                    {% endif %}
+                                                    <span>{{ match.away_team.name }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-end">
+                                                <a href="#" class="text-secondary"><i class="fa-solid fa-chart-simple"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="list-group-item bg-transparent text-secondary text-center py-3">
+                                        No upcoming matches.
                                     </div>
                                     {% endfor %}
                                 </div>
-                                {% endif %}
                             </div>
-                        </td>
-                        <td class="ss-td-stat">{{ standing.ppg_season }}</td>
-                        <td
-                            class="ss-td-stat {% if standing.ppg_8 > standing.ppg_season %}ss-green{% elif standing.ppg_8 < standing.ppg_season %}ss-red{% endif %}">
-                            {{ standing.ppg_8 }}
-                        </td>
-                        <td class="ss-td-stat">{{ standing.clean_sheets|default:"0" }}</td>
-                        <td class="ss-td-stat">{{ standing.scoring_rate|default:"0%" }}</td>
-                        <td class="ss-td-stat">{{ standing.max_possible_points|default:"0" }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="16" style="padding: 1rem;">Loading...</td>
-                    </tr>
-                    {% endfor %}
-                    <!-- Average Row -->
-                    <tr style="border-top: 2px solid #ddd; background: #f9f9f9; font-weight: bold;">
-                        <td colspan="2" class="ss-td-team" style="text-align: right; padding-right: 20px;">Average</td>
-                        <td class="ss-td-stat">{{ avg_played|floatformat:1 }}</td>
-                        <td class="ss-td-stat">{{ avg_won|floatformat:1 }}</td>
-                        <td class="ss-td-stat">{{ avg_drawn|floatformat:1 }}</td>
-                        <td class="ss-td-stat">{{ avg_lost|floatformat:1 }}</td>
-                        <td class="ss-td-stat">{{ avg_gf|floatformat:1 }}</td>
-                        <td class="ss-td-stat">{{ avg_ga|floatformat:1 }}</td>
-                        <td class="ss-td-stat">{{ avg_gd|floatformat:1 }}</td>
-                        <td class="ss-td-pts">{{ avg_pts|floatformat:1 }}</td>
-                        <td class="ss-td-form"></td>
-                        <td class="ss-td-stat">{{ avg_ppg|floatformat:2 }}</td>
-                        <td class="ss-td-stat">{{ avg_ppg8|floatformat:2 }}</td>
-                        <td class="ss-td-stat">{{ avg_cs|floatformat:1 }}%</td>
-                        <td class="ss-td-stat">{{ avg_sr|floatformat:1 }}%</td>
-                        <td class="ss-td-stat"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div
-                style="padding: 0.75rem 1rem; background: #f9f9f9; border-top: 1px solid #eee; font-size: 0.75rem; color: #666;">
-                <strong>PPG:</strong> Points Per Game, <strong>Last 8:</strong> PPG last 8 matches, <strong>CS:</strong>
-                Clean Sheets, <strong>SR:</strong> Scoring Rate, <strong>MPP:</strong> Maximum Possible Points
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 2: Home / Away Tables -->
-    <div id="tab-homeaway" class="tab-content" style="display: none; margin-top: 1rem;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-
-            <!-- Home Table -->
-            <div
-                style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-                    <h4 style="margin: 0; color: #333;">Home table</h4>
+                        </div>
+                    </div>
                 </div>
-                <table class="ss-table">
-                    <thead>
-                        <tr>
-                            <th class="ss-th-rank">#</th>
-                            <th class="ss-th-team">Team</th>
-                            <th class="ss-th-stat" style="color: var(--ss-green);">GP</th>
-                            <th class="ss-th-stat">W</th>
-                            <th class="ss-th-stat">D</th>
-                            <th class="ss-th-stat">L</th>
-                            <th class="ss-th-stat" style="color: var(--ss-blue);">GF</th>
-                            <th class="ss-th-stat" style="color: var(--ss-red);">GA</th>
-                            <th class="ss-th-stat">GD</th>
-                            <th class="ss-th-pts">Pts</th>
-                            <th class="ss-th-stat">PPG</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in home_table %}
-                        <tr class="{% cycle 'row-odd' 'row-even' %}">
-                            <td class="ss-td-rank">{{ row.position }}</td>
-                            <td class="ss-td-team">
-                                <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
-                                    style="text-decoration: none; color: inherit;">
-                                    {{ row.team.name }}
-                                </a>
-                            </td>
-                            <td class="ss-td-stat ss-green">{{ row.gp }}</td>
-                            <td class="ss-td-stat">{{ row.w }}</td>
-                            <td class="ss-td-stat">{{ row.d }}</td>
-                            <td class="ss-td-stat">{{ row.l }}</td>
-                            <td class="ss-td-stat ss-blue">{{ row.gf }}</td>
-                            <td class="ss-td-stat ss-red">{{ row.ga }}</td>
-                            <td class="ss-td-stat font-bold">{{ row.gd|stringformat:"+d" }}</td>
-                            <td class="ss-td-pts font-bold">{{ row.pts }}</td>
-                            <td class="ss-td-stat">{{ row.ppg }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
 
-            <!-- Away Table -->
-            <div
-                style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-                    <h4 style="margin: 0; color: #333;">Away table</h4>
-                </div>
-                <table class="ss-table">
-                    <thead>
-                        <tr>
-                            <th class="ss-th-rank">#</th>
-                            <th class="ss-th-team">Team</th>
-                            <th class="ss-th-stat" style="color: var(--ss-green);">GP</th>
-                            <th class="ss-th-stat">W</th>
-                            <th class="ss-th-stat">D</th>
-                            <th class="ss-th-stat">L</th>
-                            <th class="ss-th-stat" style="color: var(--ss-blue);">GF</th>
-                            <th class="ss-th-stat" style="color: var(--ss-red);">GA</th>
-                            <th class="ss-th-stat">GD</th>
-                            <th class="ss-th-pts">Pts</th>
-                            <th class="ss-th-stat">PPG</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in away_table %}
-                        <tr class="{% cycle 'row-odd' 'row-even' %}">
-                            <td class="ss-td-rank">{{ row.position }}</td>
-                            <td class="ss-td-team">
-                                <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
-                                    style="text-decoration: none; color: inherit;">
-                                    {{ row.team.name }}
-                                </a>
-                            </td>
-                            <td class="ss-td-stat ss-green">{{ row.gp }}</td>
-                            <td class="ss-td-stat">{{ row.w }}</td>
-                            <td class="ss-td-stat">{{ row.d }}</td>
-                            <td class="ss-td-stat">{{ row.l }}</td>
-                            <td class="ss-td-stat ss-blue">{{ row.gf }}</td>
-                            <td class="ss-td-stat ss-red">{{ row.ga }}</td>
-                            <td class="ss-td-stat font-bold">{{ row.gd|stringformat:"+d" }}</td>
-                            <td class="ss-td-pts font-bold">{{ row.pts }}</td>
-                            <td class="ss-td-stat">{{ row.ppg }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
-        <!-- Grid for Lower Section -->
-        <div
-            style="display: grid; grid-template-columns: min-content 1fr; gap: 1.5rem; margin-top: 1.5rem; align-items: start;">
-
-            <!-- Relative Home / Away Performance -->
-            <div
-                style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: fit-content;">
-                <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-                    <h4 style="margin: 0; color: #333; white-space: nowrap;">Relative Home / Away Performance</h4>
-                </div>
-                <table class="ss-table">
-                    <thead>
-                        <tr>
-                            <th class="ss-th-rank">#</th>
-                            <th class="ss-th-team">Team</th>
-                            <th class="ss-th-stat">GPh</th>
-                            <th class="ss-th-stat">GPa</th>
-                            <th class="ss-th-pts">Pts</th>
-                            <th class="ss-th-stat" style="color: var(--ss-green);">PPG home</th>
-                            <th class="ss-th-stat" style="color: var(--ss-blue);">PPG away</th>
-                            <th class="ss-th-stat" colspan="2" style="text-align: left; padding-left: 20px;">PPG
-                                Difference</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in relative_table %}
-                        <tr class="{% cycle 'row-odd' 'row-even' %}">
-                            <td class="ss-td-rank">{{ row.position }}</td>
-                            <td class="ss-td-team">
-                                <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
-                                    style="text-decoration: none; color: inherit;">
-                                    {{ row.team.name }}
-                                </a>
-                            </td>
-                            <td class="ss-td-stat" style="color: #666;">{{ row.gph }}</td>
-                            <td class="ss-td-stat" style="color: #666;">{{ row.gpa }}</td>
-                            <td class="ss-td-pts font-bold">{{ row.pts }}</td>
-                            <td class="ss-td-stat ss-green">{{ row.ppg_home }}</td>
-                            <td class="ss-td-stat ss-blue">{{ row.ppg_away }}</td>
-                            <td class="ss-td-stat {% if row.ppg_diff > 0 %}color-green{% elif row.ppg_diff < 0 %}color-blue{% else %}color-dark{% endif %}"
-                                style="font-weight: bold; text-align: right; width: 60px;">
-                                {{ row.ppg_diff|stringformat:"+0.2f" }}
-                            </td>
-                            <td class="ss-td-stat" style="text-align: left; padding-left: 10px; width: 120px;">
-                                {% if row.ppg_diff != 0 %}
-                                <div class="{% if row.ppg_diff > 0 %}bg-green{% else %}bg-blue{% endif %}"
-                                    style="height: 10px;" data-width="{{ row.bar_width }}px">
+                <!-- Latest Results -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold">Results</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto;">
+                                <div class="list-group list-group-flush bg-transparent">
+                                    {% for match in latest_results %}
+                                    <div class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-secondary">
+                                                {{ match.date|date:"D d M" }}
+                                            </div>
+                                            <div class="col-7">
+                                                <div class="d-flex justify-content-between align-items-center px-2">
+                                                    <span class="text-end w-50 pe-2">{{ match.home_team.name }}</span>
+                                                    <span class="badge bg-white bg-opacity-25 text-white px-2">{{ match.home_score }} : {{ match.away_score }}</span>
+                                                    <span class="text-start w-50 ps-2">{{ match.away_team.name }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-end">
+                                                <a href="{% url 'matches:match_detail' match.id match.slug %}" class="btn btn-sm btn-outline-secondary" style="font-size: 0.7rem; padding: 1px 5px;">stats</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="list-group-item bg-transparent text-secondary text-center py-3">
+                                        No recent results.
+                                    </div>
+                                    {% endfor %}
                                 </div>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Statistics Box -->
-            <div
-                style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <div style="padding: 1rem; background: #fff; border-bottom: 1px solid #eee;">
-                    <h4 style="margin: 0 0 1rem 0; color: #333;">Statistics</h4>
-                    <!-- Sub-tabs -->
-                    <div style="margin-bottom: 1rem;">
-                        <div class="ss-tabs" style="display: flex; gap: 2px;">
-                            <button id="tab-btn-homeaway" class="ss-tab-button active"
-                                onclick="openStatsTab('homeaway')"
-                                style="padding: 5px 15px; background: transparent; border: none; width: auto; cursor: pointer; border-bottom: 3px solid transparent;">Home
-                                / Away</button>
-                            <button id="tab-btn-overall" class="ss-tab-button" onclick="openStatsTab('overall')"
-                                style="padding: 5px 15px; background: transparent; border: none; width: auto; cursor: pointer; border-bottom: 3px solid transparent;">Overall</button>
-                            <button id="tab-btn-last8" class="ss-tab-button" onclick="openStatsTab('last8')"
-                                style="padding: 5px 15px; background: transparent; border: none; width: auto; cursor: pointer; border-bottom: 3px solid transparent;">Last
-                                8
-                                matches</button>
+            <!-- Pre-Match Analysis Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold"><i class="fa-solid fa-chart-simple me-2"></i>Pre-Match Analysis</h5>
+                            <ul class="nav nav-pills card-header-pills small" id="preMatchTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active py-1 px-3" id="home-away-tab" data-bs-toggle="tab" data-bs-target="#home-away" type="button" role="tab" aria-selected="true">Home / Away</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link py-1 px-3" id="overall-tab" data-bs-toggle="tab" data-bs-target="#overall" type="button" role="tab" aria-selected="false">Overall</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link py-1 px-3" id="last-8-tab" data-bs-toggle="tab" data-bs-target="#last-8" type="button" role="tab" aria-selected="false">Last 8 Matches</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="tab-content" id="preMatchTabsContent">
+                                
+                                <!-- Tab 1: Home / Away -->
+                                <div class="tab-pane fade show active" id="home-away" role="tabpanel" aria-labelledby="home-away-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                            <thead>
+                                                <tr class="text-secondary text-uppercase">
+                                                    <th class="ps-3 text-start">Match</th>
+                                                    <th class="text-start">Team</th>
+                                                    <th>PPG</th>
+                                                    <th>W%</th>
+                                                    <th>D%</th>
+                                                    <th>L%</th>
+                                                    <th>GF</th>
+                                                    <th>GA</th>
+                                                    <th>TG</th>
+                                                    <th>2.5+</th>
+                                                    <th class="pe-3 text-end">Last 4</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in pre_match_analysis %}
+                                                <tr class="border-bottom-0">
+                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
+                                                        <div class="d-flex flex-column">
+                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
+                                                    <td class="fw-bold {% if item.home.home.ppg >= 2.0 %}text-success{% elif item.home.home.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.home.home.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.home.home.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.home.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.home.l_pct }}%</td>
+                                                    <td class="text-info">{{ item.home.home.gf_avg }}</td>
+                                                    <td class="text-danger">{{ item.home.home.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.home.home.tg_avg }}</td>
+                                                    <td class="{% if item.home.home.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.home.home.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.home.home.form %}
+                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-secondary border-opacity-25">
+                                                    <td class="text-start fw-bold text-white"><span class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
+                                                    <td class="fw-bold {% if item.away.away.ppg >= 2.0 %}text-success{% elif item.away.away.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.away.away.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.away.away.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.away.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.away.l_pct }}%</td>
+                                                    <td class="text-info">{{ item.away.away.gf_avg }}</td>
+                                                    <td class="text-danger">{{ item.away.away.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.away.away.tg_avg }}</td>
+                                                    <td class="{% if item.away.away.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.away.away.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.away.away.form %}
+                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr><td colspan="11" class="text-center py-4 text-muted">No upcoming matches analysis available.</td></tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Tab 2: Overall -->
+                                <div class="tab-pane fade" id="overall" role="tabpanel" aria-labelledby="overall-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                            <thead>
+                                                <tr class="text-secondary text-uppercase">
+                                                    <th class="ps-3 text-start">Match</th>
+                                                    <th class="text-start">Team</th>
+                                                    <th>PPG</th>
+                                                    <th>W%</th>
+                                                    <th>D%</th>
+                                                    <th>L%</th>
+                                                    <th>GF</th>
+                                                    <th>GA</th>
+                                                    <th>TG</th>
+                                                    <th>2.5+</th>
+                                                    <th class="pe-3 text-end">Last 4</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in pre_match_analysis %}
+                                                <tr class="border-bottom-0">
+                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
+                                                        <div class="d-flex flex-column">
+                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
+                                                    <td class="fw-bold {% if item.home.overall.ppg >= 2.0 %}text-success{% elif item.home.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.home.overall.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.home.overall.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.overall.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.overall.l_pct }}%</td>
+                                                    <td class="text-info">{{ item.home.overall.gf_avg }}</td>
+                                                    <td class="text-danger">{{ item.home.overall.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.home.overall.tg_avg }}</td>
+                                                    <td class="{% if item.home.overall.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.home.overall.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.home.overall.form %}
+                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-secondary border-opacity-25">
+                                                    <td class="text-start fw-bold text-white"><span class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
+                                                    <td class="fw-bold {% if item.away.overall.ppg >= 2.0 %}text-success{% elif item.away.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.away.overall.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.away.overall.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.overall.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.overall.l_pct }}%</td>
+                                                    <td class="text-info">{{ item.away.overall.gf_avg }}</td>
+                                                    <td class="text-danger">{{ item.away.overall.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.away.overall.tg_avg }}</td>
+                                                    <td class="{% if item.away.overall.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.away.overall.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.away.overall.form %}
+                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr><td colspan="11" class="text-center py-4 text-muted">No upcoming matches analysis available.</td></tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Tab 3: Last 8 -->
+                                <div class="tab-pane fade" id="last-8" role="tabpanel" aria-labelledby="last-8-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                            <thead>
+                                                <tr class="text-secondary text-uppercase">
+                                                    <th class="ps-3 text-start">Match</th>
+                                                    <th class="text-start">Team</th>
+                                                    <th>PPG</th>
+                                                    <th>W%</th>
+                                                    <th>D%</th>
+                                                    <th>L%</th>
+                                                    <th>GF</th>
+                                                    <th>GA</th>
+                                                    <th>TG</th>
+                                                    <th>2.5+</th>
+                                                    <th class="pe-3 text-end">Last 4</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in pre_match_analysis %}
+                                                <tr class="border-bottom-0">
+                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
+                                                        <div class="d-flex flex-column">
+                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
+                                                    <td class="fw-bold {% if item.home.last_8.ppg >= 2.0 %}text-success{% elif item.home.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.home.last_8.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.home.last_8.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.last_8.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.last_8.l_pct }}%</td>
+                                                    <td class="text-info">{{ item.home.last_8.gf_avg }}</td>
+                                                    <td class="text-danger">{{ item.home.last_8.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.home.last_8.tg_avg }}</td>
+                                                    <td class="{% if item.home.last_8.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.home.last_8.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.home.last_8.form %}
+                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-secondary border-opacity-25">
+                                                    <td class="text-start fw-bold text-white"><span class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
+                                                    <td class="fw-bold {% if item.away.last_8.ppg >= 2.0 %}text-success{% elif item.away.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.away.last_8.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.away.last_8.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.last_8.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.last_8.l_pct }}%</td>
+                                                    <td class="text-info">{{ item.away.last_8.gf_avg }}</td>
+                                                    <td class="text-danger">{{ item.away.last_8.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.away.last_8.tg_avg }}</td>
+                                                    <td class="{% if item.away.last_8.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.away.last_8.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.away.last_8.form %}
+                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr><td colspan="11" class="text-center py-4 text-muted">No upcoming matches analysis available.</td></tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Tab Content: Home / Away -->
-                    <div id="tab-content-homeaway">
-                        <div
-                            style="padding: 0.5rem 1rem; background: #f9f9f9; font-size: 0.85rem; color: #555; border-bottom: 1px solid #eee;">
-                            Pre-match stats based on: Home results of home team / Away results of away team
+            <!-- Main League Table -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">League Table</h5>
                         </div>
-
-                        <table class="ss-table" style="width: 100%;">
-                            <thead>
-                                <tr
-                                    style="background: #eee; border-bottom: 1px solid #ddd; font-size: 11px; color: #444;">
-                                    <th class="ss-th-team" style="text-align: center; color: #444; font-weight: bold;">
-                                        Home /
-                                        Away</th>
-                                    <th class="ss-th-stat" colspan="2"
-                                        style="text-align: left; color: #444; font-weight: bold;">% Points per game</th>
-                                    <th class="ss-th-stat" style="width: 60px; color: #444; font-weight: bold;"><span
-                                            style="color:green">W</span> <span style="color:orange">D</span> <span
-                                            style="color:red">L</span></th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">GF</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">GA</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">TG</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">2.5+</th>
-                                    <th class="ss-th-stat" style="width: 50px; color: #444; font-weight: bold;">Last 4
-                                    </th>
-                                    <th class="ss-th-stat"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if stats_entries %}
-                                {% for entry in stats_entries %}
-                                <tr class="{% cycle 'row-odd' 'row-even' %}" style="border-bottom: 1px solid #eee;">
-                                    <!-- Date/Team Column -->
-                                    <td style="padding: 6px 8px; vertical-align: middle;">
-                                        <div
-                                            style="display: grid; grid-template-columns: 60px 30px 1fr; gap: 8px; align-items: center; margin-bottom: 4px;">
-                                            <div
-                                                style="font-size: 11px; color: #333; text-align: center; line-height: 1.2;">
-                                                {{ entry.match.date|date:"D d M" }}<br><span style="color: #009900;">{{ entry.match.date|date:"H:i" }}</span>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">#</th>
+                                        <th class="text-start">Team</th>
+                                        <th class="text-success">GP</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th class="text-info">GF</th>
+                                        <th class="text-danger">GA</th>
+                                        <th>GD</th>
+                                        <th class="fw-bold text-white" style="font-size: 1rem;">PTS</th>
+                                        <th>Form</th>
+                                        <th>PPG</th>
+                                        <th class="text-success">Last 8</th>
+                                        <th>CS</th>
+                                        <th>SR</th>
+                                        <th>MPP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings %}
+                                    <tr>
+                                        <td class="ps-3 text-start">
+                                            <span class="badge {% if row.position <= 4 %}bg-success{% elif row.position >= 18 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.position }}</span>
+                                        </td>
+                                        <td class="text-start fw-bold">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {% if row.team.logo %}
+                                                    <img src="{{ row.team.logo }}" height="20" class="me-2">
+                                                {% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-success fw-bold">{{ row.played }}</td>
+                                        <td>{{ row.won }}</td>
+                                        <td>{{ row.drawn }}</td>
+                                        <td>{{ row.lost }}</td>
+                                        <td class="text-info">{{ row.goals_for }}</td>
+                                        <td class="text-danger">{{ row.goals_against }}</td>
+                                        <td>{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
+                                        <td class="fw-bold fs-6">{{ row.points }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-1">
+                                                {% for res in row.form_history %}
+                                                    <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 6px; height: 10px; display: inline-block;"></span>
+                                                {% endfor %}
                                             </div>
-                                            <div style="font-size: 11px; color: #999; text-align: right;">home</div>
-                                            <div
-                                                style="font-size: 12px; font-weight: normal; color: #000; text-align: right;">
-                                                <a href="{% url 'matches:team_detail' entry.home_team.id %}"
-                                                    style="text-decoration: none; color: inherit;">
-                                                    {{ entry.home_team.name }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="display: grid; grid-template-columns: 60px 30px 1fr; gap: 8px; align-items: center;">
-                                            <div style="text-align: center;"></div>
-                                            <div style="font-size: 11px; color: #999; text-align: right;">away</div>
-                                            <div
-                                                style="font-size: 12px; font-weight: normal; color: #000; text-align: right;">
-                                                <a href="{% url 'matches:team_detail' entry.away_team.id %}"
-                                                    style="text-decoration: none; color: inherit;">
-                                                    {{ entry.away_team.name }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- PPG % Bars -->
-                                    <td style="width: 50px; padding: 0 5px; vertical-align: middle;">
-                                        <div
-                                            style="height: 10px; background: #ddd; width: 100%; margin-bottom: 8px; position: relative; border: 1px solid #ccc;">
-                                            <div class="ss-bar-grey" style="height: 100%;"
-                                                data-width="{{ entry.h_ppg_pct }}">
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="height: 10px; background: #ddd; width: 100%; position: relative; border: 1px solid #ccc;">
-                                            <div class="ss-bar-grey" style="height: 100%;"
-                                                data-width="{{ entry.a_ppg_pct }}">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td
-                                        style="width: 30px; text-align: left; padding: 0 5px; vertical-align: middle; font-size: 10px; color: #666;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_ppg_pct }}%</div>
-                                        <div>{{ entry.a_ppg_pct }}%</div>
-                                    </td>
-
-                                    <!-- WDL Bars -->
-                                    <td style="padding: 0 2px; vertical-align: middle;">
-                                        <div
-                                            style="display: flex; gap: 2px; height: 10px; width: 100%; margin-bottom: 8px;">
-                                            <div class="ss-bar-w" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.w }}"></div>
-                                            <div class="ss-bar-d" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.d }}"></div>
-                                            <div class="ss-bar-l" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.l }}"></div>
-                                        </div>
-                                        <div style="display: flex; gap: 2px; height: 10px; width: 100%;">
-                                            <div class="ss-bar-w" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.w }}"></div>
-                                            <div class="ss-bar-d" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.d }}"></div>
-                                            <div class="ss-bar-l" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.l }}"></div>
-                                        </div>
-                                    </td>
-
-                                    <!-- GF/GA/TG -->
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #0000ff; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.gf|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.gf|floatformat:2 }}</div>
-                                    </td>
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #dd0000; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.ga|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.ga|floatformat:2 }}</div>
-                                    </td>
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #009900; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.tg|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.tg|floatformat:2 }}</div>
-                                    </td>
-
-                                    <!-- 2.5+ -->
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #009900; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_over_25 }}%</div>
-                                        <div>{{ entry.a_over_25 }}%</div>
-                                    </td>
-
-                                    <!-- Last 4 -->
-                                    <td style="padding: 0 5px; vertical-align: middle;">
-                                        <div style="display: flex; gap: 1px; margin-bottom: 8px;">
-                                            {% for r in entry.h_last_4 %}
-                                            <div class="{% if r == 'W' %}ss-bar-w{% elif r == 'D' %}ss-bar-d{% else %}ss-bar-l{% endif %}"
-                                                style="width: 4px; height: 10px;">
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                        <div style="display: flex; gap: 1px;">
-                                            {% for r in entry.a_last_4 %}
-                                            <div class="{% if r == 'W' %}ss-bar-w{% elif r == 'D' %}ss-bar-d{% else %}ss-bar-l{% endif %}"
-                                                style="width: 4px; height: 10px;">
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </td>
-
-                                    <!-- Stats Button -->
-                                    <td style="padding: 0 5px; vertical-align: middle; text-align: right;">
-                                        <a href="#" class="ss-button-small">stats</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                {% else %}
-                                <tr>
-                                    <td colspan="10" style="padding: 1rem; text-align: center;">No upcoming matches
-                                        scheduled.</td>
-                                </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Tab Content: Overall -->
-                    <div id="tab-content-overall" style="display: none;">
-                        <div
-                            style="padding: 0.5rem 1rem; background: #f9f9f9; font-size: 0.85rem; color: #555; border-bottom: 1px solid #eee;">
-                            Pre-match stats based on: all results for each team
+                                        </td>
+                                        <td>{{ row.ppg_season }}</td>
+                                        <td class="fw-bold {% if row.ppg_8 > row.ppg_season %}text-success{% elif row.ppg_8 < row.ppg_season %}text-danger{% else %}text-warning{% endif %}">
+                                            {{ row.ppg_8 }}
+                                        </td>
+                                        <td>{{ row.clean_sheets }}</td>
+                                        <td>{{ row.scoring_rate }}</td>
+                                        <td class="text-secondary">{{ row.max_possible_points }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
-
-                        <table class="ss-table" style="width: 100%;">
-                            <thead>
-                                <tr
-                                    style="background: #eee; border-bottom: 1px solid #ddd; font-size: 11px; color: #444;">
-                                    <th class="ss-th-team" style="text-align: center; color: #444; font-weight: bold;">
-                                        Overall</th>
-                                    <th class="ss-th-stat" colspan="2"
-                                        style="text-align: left; color: #444; font-weight: bold;">% Points per game</th>
-                                    <th class="ss-th-stat" style="width: 60px; color: #444; font-weight: bold;"><span
-                                            style="color:green">W</span> <span style="color:orange">D</span> <span
-                                            style="color:red">L</span></th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">GF</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">GA</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">TG</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">2.5+</th>
-                                    <th class="ss-th-stat" style="width: 50px; color: #444; font-weight: bold;">Last 4
-                                    </th>
-                                    <th class="ss-th-stat"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if stats_entries_overall %}
-                                {% for entry in stats_entries_overall %}
-                                <tr class="{% cycle 'row-odd' 'row-even' %}" style="border-bottom: 1px solid #eee;">
-                                    <!-- Date/Team Column -->
-                                    <td style="padding: 6px 8px; vertical-align: middle;">
-                                        <div
-                                            style="display: grid; grid-template-columns: 60px 30px 1fr; gap: 8px; align-items: center; margin-bottom: 4px;">
-                                            <div
-                                                style="font-size: 11px; color: #333; text-align: center; line-height: 1.2;">
-                                                {{ entry.match.date|date:"D d M" }}<br><span style="color: #009900;">{{ entry.match.date|date:"H:i" }}</span>
-                                            </div>
-                                            <div style="font-size: 11px; color: #999; text-align: right;">all</div>
-                                            <div
-                                                style="font-size: 12px; font-weight: normal; color: #000; text-align: right;">
-                                                <a href="{% url 'matches:team_detail' entry.home_team.id %}"
-                                                    style="text-decoration: none; color: inherit;">
-                                                    {{ entry.home_team.name }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="display: grid; grid-template-columns: 60px 30px 1fr; gap: 8px; align-items: center;">
-                                            <div style="text-align: center;"></div>
-                                            <div style="font-size: 11px; color: #999; text-align: right;">all</div>
-                                            <div
-                                                style="font-size: 12px; font-weight: normal; color: #000; text-align: right;">
-                                                <a href="{% url 'matches:team_detail' entry.away_team.id %}"
-                                                    style="text-decoration: none; color: inherit;">
-                                                    {{ entry.away_team.name }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- PPG % Bars -->
-                                    <td style="width: 50px; padding: 0 5px; vertical-align: middle;">
-                                        <div
-                                            style="height: 10px; background: #ddd; width: 100%; margin-bottom: 8px; position: relative; border: 1px solid #ccc;">
-                                            <div class="ss-bar-grey" style="height: 100%;"
-                                                data-width="{{ entry.h_ppg_pct }}">
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="height: 10px; background: #ddd; width: 100%; position: relative; border: 1px solid #ccc;">
-                                            <div class="ss-bar-grey" style="height: 100%;"
-                                                data-width="{{ entry.a_ppg_pct }}">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td
-                                        style="width: 30px; text-align: left; padding: 0 5px; vertical-align: middle; font-size: 10px; color: #666;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_ppg_pct }}%</div>
-                                        <div>{{ entry.a_ppg_pct }}%</div>
-                                    </td>
-
-                                    <!-- WDL Bars -->
-                                    <td style="padding: 0 2px; vertical-align: middle;">
-                                        <div
-                                            style="display: flex; gap: 2px; height: 10px; width: 100%; margin-bottom: 8px;">
-                                            <div class="ss-bar-w" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.w }}"></div>
-                                            <div class="ss-bar-d" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.d }}"></div>
-                                            <div class="ss-bar-l" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.l }}"></div>
-                                        </div>
-                                        <div style="display: flex; gap: 2px; height: 10px; width: 100%;">
-                                            <div class="ss-bar-w" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.w }}"></div>
-                                            <div class="ss-bar-d" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.d }}"></div>
-                                            <div class="ss-bar-l" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.l }}"></div>
-                                        </div>
-                                    </td>
-
-                                    <!-- GF/GA/TG -->
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #0000ff; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.gf|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.gf|floatformat:2 }}</div>
-                                    </td>
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #dd0000; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.ga|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.ga|floatformat:2 }}</div>
-                                    </td>
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #009900; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.tg|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.tg|floatformat:2 }}</div>
-                                    </td>
-
-                                    <!-- 2.5+ -->
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #009900; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_over_25 }}%</div>
-                                        <div>{{ entry.a_over_25 }}%</div>
-                                    </td>
-
-                                    <!-- Last 4 -->
-                                    <td style="padding: 0 5px; vertical-align: middle;">
-                                        <div style="display: flex; gap: 1px; margin-bottom: 8px;">
-                                            {% for r in entry.h_last_4 %}
-                                            <div class="{% if r == 'W' %}ss-bar-w{% elif r == 'D' %}ss-bar-d{% else %}ss-bar-l{% endif %}"
-                                                style="width: 4px; height: 10px;">
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                        <div style="display: flex; gap: 1px;">
-                                            {% for r in entry.a_last_4 %}
-                                            <div class="{% if r == 'W' %}ss-bar-w{% elif r == 'D' %}ss-bar-d{% else %}ss-bar-l{% endif %}"
-                                                style="width: 4px; height: 10px;">
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </td>
-
-                                    <!-- Stats Button -->
-                                    <td style="padding: 0 5px; vertical-align: middle; text-align: right;">
-                                        <a href="#" class="ss-button-small">stats</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                {% else %}
-                                <tr>
-                                    <td colspan="10" style="padding: 1rem; text-align: center;">No upcoming matches
-                                        scheduled.</td>
-                                </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Tab Content: Last 8 Matches -->
-                    <div id="tab-content-last8" style="display: none;">
-                        <div
-                            style="padding: 0.5rem 1rem; background: #f9f9f9; font-size: 0.85rem; color: #555; border-bottom: 1px solid #eee;">
-                            Pre-match stats based on: last 8 results for each team
+            <!-- Home / Away Tables -->
+            <div class="row g-4 mb-4">
+                <!-- Home Table -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold text-center">Home Table</h6>
                         </div>
-
-                        <table class="ss-table" style="width: 100%;">
-                            <thead>
-                                <tr
-                                    style="background: #eee; border-bottom: 1px solid #ddd; font-size: 11px; color: #444;">
-                                    <th class="ss-th-team" style="text-align: center; color: #444; font-weight: bold;">
-                                        Last 8 matches</th>
-                                    <th class="ss-th-stat" colspan="2"
-                                        style="text-align: left; color: #444; font-weight: bold;">% Points per game</th>
-                                    <th class="ss-th-stat" style="width: 60px; color: #444; font-weight: bold;"><span
-                                            style="color:green">W</span> <span style="color:orange">D</span> <span
-                                            style="color:red">L</span></th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">GF</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">GA</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">TG</th>
-                                    <th class="ss-th-stat" style="color: #444; font-weight: bold;">2.5+</th>
-                                    <th class="ss-th-stat" style="width: 50px; color: #444; font-weight: bold;">Last 4
-                                    </th>
-                                    <th class="ss-th-stat"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if stats_entries_last8 %}
-                                {% for entry in stats_entries_last8 %}
-                                <tr class="{% cycle 'row-odd' 'row-even' %}" style="border-bottom: 1px solid #eee;">
-                                    <!-- Date/Team Column -->
-                                    <td style="padding: 6px 8px; vertical-align: middle;">
-                                        <div
-                                            style="display: grid; grid-template-columns: 60px 30px 1fr; gap: 8px; align-items: center; margin-bottom: 4px;">
-                                            <div
-                                                style="font-size: 11px; color: #333; text-align: center; line-height: 1.2;">
-                                                {{ entry.match.date|date:"D d M" }}<br><span style="color: #009900;">{{ entry.match.date|date:"H:i" }}</span>
-                                            </div>
-                                            <div style="font-size: 11px; color: #999; text-align: right;">last 8</div>
-                                            <div
-                                                style="font-size: 12px; font-weight: normal; color: #000; text-align: right;">
-                                                <a href="{% url 'matches:team_detail' entry.home_team.id %}"
-                                                    style="text-decoration: none; color: inherit;">
-                                                    {{ entry.home_team.name }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="display: grid; grid-template-columns: 60px 30px 1fr; gap: 8px; align-items: center;">
-                                            <div style="text-align: center;"></div>
-                                            <div style="font-size: 11px; color: #999; text-align: right;">last 8</div>
-                                            <div
-                                                style="font-size: 12px; font-weight: normal; color: #000; text-align: right;">
-                                                <a href="{% url 'matches:team_detail' entry.away_team.id %}"
-                                                    style="text-decoration: none; color: inherit;">
-                                                    {{ entry.away_team.name }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <!-- PPG % Bars -->
-                                    <td style="width: 50px; padding: 0 5px; vertical-align: middle;">
-                                        <div
-                                            style="height: 10px; background: #ddd; width: 100%; margin-bottom: 8px; position: relative; border: 1px solid #ccc;">
-                                            <div class="ss-bar-grey" style="height: 100%;"
-                                                data-width="{{ entry.h_ppg_pct }}">
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="height: 10px; background: #ddd; width: 100%; position: relative; border: 1px solid #ccc;">
-                                            <div class="ss-bar-grey" style="height: 100%;"
-                                                data-width="{{ entry.a_ppg_pct }}">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td
-                                        style="width: 30px; text-align: left; padding: 0 5px; vertical-align: middle; font-size: 10px; color: #666;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_ppg_pct }}%</div>
-                                        <div>{{ entry.a_ppg_pct }}%</div>
-                                    </td>
-
-                                    <!-- WDL Bars -->
-                                    <td style="padding: 0 2px; vertical-align: middle;">
-                                        <div
-                                            style="display: flex; gap: 2px; height: 10px; width: 100%; margin-bottom: 8px;">
-                                            <div class="ss-bar-w" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.w }}"></div>
-                                            <div class="ss-bar-d" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.d }}"></div>
-                                            <div class="ss-bar-l" style="height: 100%;"
-                                                data-width="{{ entry.h_wdl.l }}"></div>
-                                        </div>
-                                        <div style="display: flex; gap: 2px; height: 10px; width: 100%;">
-                                            <div class="ss-bar-w" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.w }}"></div>
-                                            <div class="ss-bar-d" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.d }}"></div>
-                                            <div class="ss-bar-l" style="height: 100%;"
-                                                data-width="{{ entry.a_wdl.l }}"></div>
-                                        </div>
-                                    </td>
-
-                                    <!-- GF/GA/TG -->
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #0000ff; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.gf|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.gf|floatformat:2 }}</div>
-                                    </td>
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #dd0000; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.ga|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.ga|floatformat:2 }}</div>
-                                    </td>
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #009900; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_goals.tg|floatformat:2 }}</div>
-                                        <div>{{ entry.a_goals.tg|floatformat:2 }}</div>
-                                    </td>
-
-                                    <!-- 2.5+ -->
-                                    <td class="ss-td-stat"
-                                        style="vertical-align: middle; color: #009900; font-weight: normal; font-size: 11px;">
-                                        <div style="margin-bottom: 8px;">{{ entry.h_over_25 }}%</div>
-                                        <div>{{ entry.a_over_25 }}%</div>
-                                    </td>
-
-                                    <!-- Last 4 -->
-                                    <td style="padding: 0 5px; vertical-align: middle;">
-                                        <div style="display: flex; gap: 1px; margin-bottom: 8px;">
-                                            {% for r in entry.h_last_4 %}
-                                            <div class="{% if r == 'W' %}ss-bar-w{% elif r == 'D' %}ss-bar-d{% else %}ss-bar-l{% endif %}"
-                                                style="width: 4px; height: 10px;">
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                        <div style="display: flex; gap: 1px;">
-                                            {% for r in entry.a_last_4 %}
-                                            <div class="{% if r == 'W' %}ss-bar-w{% elif r == 'D' %}ss-bar-d{% else %}ss-bar-l{% endif %}"
-                                                style="width: 4px; height: 10px;">
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </td>
-
-                                    <!-- Stats Button -->
-                                    <td style="padding: 0 5px; vertical-align: middle; text-align: right;">
-                                        <a href="#" class="ss-button-small">stats</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                {% else %}
-                                <tr>
-                                    <td colspan="10" style="padding: 1rem; text-align: center;">No upcoming matches
-                                        scheduled.</td>
-                                </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small">
+                                <thead>
+                                    <tr class="text-secondary">
+                                        <th class="ps-2 text-start">#</th>
+                                        <th class="text-start">Team</th>
+                                        <th>GP</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th>GF</th>
+                                        <th>GA</th>
+                                        <th>GD</th>
+                                        <th class="fw-bold text-white">Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in home_table %}
+                                    <tr>
+                                        <td class="ps-2 text-start text-secondary">{{ row.position }}</td>
+                                        <td class="text-start">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ row.gp }}</td>
+                                        <td class="text-success">{{ row.w }}</td>
+                                        <td class="text-warning">{{ row.d }}</td>
+                                        <td class="text-danger">{{ row.l }}</td>
+                                        <td>{{ row.gf }}</td>
+                                        <td>{{ row.ga }}</td>
+                                        <td>{{ row.gd }}</td>
+                                        <td class="fw-bold">{{ row.pts }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
+                <!-- Away Table -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold text-center">Away Table</h6>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small">
+                                <thead>
+                                    <tr class="text-secondary">
+                                        <th class="ps-2 text-start">#</th>
+                                        <th class="text-start">Team</th>
+                                        <th>GP</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th>GF</th>
+                                        <th>GA</th>
+                                        <th>GD</th>
+                                        <th class="fw-bold text-white">Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in away_table %}
+                                    <tr>
+                                        <td class="ps-2 text-start text-secondary">{{ row.position }}</td>
+                                        <td class="text-start">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ row.gp }}</td>
+                                        <td class="text-success">{{ row.w }}</td>
+                                        <td class="text-warning">{{ row.d }}</td>
+                                        <td class="text-danger">{{ row.l }}</td>
+                                        <td>{{ row.gf }}</td>
+                                        <td>{{ row.ga }}</td>
+                                        <td>{{ row.gd }}</td>
+                                        <td class="fw-bold">{{ row.pts }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <script>
-                        function openStatsTab(tabName) {
-                            // Hide all tab content
-                            document.getElementById('tab-content-homeaway').style.display = 'none';
-                            document.getElementById('tab-content-overall').style.display = 'none';
-                            document.getElementById('tab-content-last8').style.display = 'none';
+            <!-- Relative Form & Performance -->
+            <div class="row g-4 mb-4">
+                <!-- Relative Form -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Relative Form (Last 8 Matches)</h5>
+                            <small class="text-secondary">Comparing PPG in last 8 matches vs Season Average</small>
+                        </div>
+                        <div class="table-responsive">
+                             <table class="table table-dark table-hover table-sm mb-0 align-middle small">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3">Team</th>
+                                        <th class="text-center">Season PPG</th>
+                                        <th class="text-center">Last 8 PPG</th>
+                                        <th class="text-center">Diff</th>
+                                        <th class="ps-4">Performance Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings %}
+                                    <tr>
+                                        <td class="ps-3 fw-bold">
+                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center text-secondary">{{ row.ppg_season }}</td>
+                                        <td class="text-center fw-bold">{{ row.ppg_8 }}</td>
+                                        <td class="text-center">
+                                            {% if row.ppg_diff > 0 %}
+                                                <span class="text-success">+{{ row.ppg_diff }}</span>
+                                            {% elif row.ppg_diff < 0 %}
+                                                <span class="text-danger">{{ row.ppg_diff }}</span>
+                                            {% else %}
+                                                <span class="text-secondary">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="ps-4">
+                                            <div class="progress" style="height: 12px; max-width: 200px;">
+                                                {% if row.ppg_diff > 0 %}
+                                                    <div class="progress-bar bg-success" role="progressbar" style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);"></div>
+                                                {% else %}
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);"></div>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
 
-                            // Remove active class from all buttons
-                            document.getElementById('tab-btn-homeaway').classList.remove('active');
-                            document.getElementById('tab-btn-overall').classList.remove('active');
-                            document.getElementById('tab-btn-last8').classList.remove('active');
+                <!-- Relative Performance -->
+                <div class="col-lg-6">
+                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Relative Performance</h5>
+                            <small class="text-secondary">Index = Team PPG x Opponents PPG (Strength of Schedule)</small>
+                        </div>
+                        <div class="table-responsive">
+                             <table class="table table-dark table-hover table-sm mb-0 align-middle small">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3">Team</th>
+                                        <th class="text-center">Team PPG</th>
+                                        <th class="text-center">Opp. PPG</th>
+                                        <th class="text-center">Index</th>
+                                        <th class="ps-4">Performance Index</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings %}
+                                    <tr>
+                                        <td class="ps-3 fw-bold">
+                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center">{{ row.ppg_season }}</td>
+                                        <td class="text-center text-info">{{ row.opponents_ppg }}</td>
+                                        <td class="text-center fw-bold">{{ row.performance_index }}</td>
+                                        <td class="ps-4">
+                                            <div class="progress" style="height: 8px; max-width: 200px;">
+                                                <div class="progress-bar bg-info" role="progressbar" style="--w-pct: {{ row.perf_width_pct }}%; width: var(--w-pct);"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            // Show current tab and add active class to button
-                            document.getElementById('tab-content-' + tabName).style.display = 'block';
-                            document.getElementById('tab-btn-' + tabName).classList.add('active');
-                        }
-                    </script>
+            <!-- Run-in & Projected -->
+            <div class="row g-4 mb-4">
+                <!-- Run-in Difficulty -->
+                <div class="col-lg-6">
+                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Run-in Difficulty</h5>
+                            <small class="text-secondary">Opponent strength for played matches vs remaining matches</small>
+                        </div>
+                        <div class="table-responsive">
+                             <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">Team</th>
+                                        <th>Played Opp PPG</th>
+                                        <th>Remaining Opp PPG</th>
+                                        <th>Diff %</th>
+                                        <th>Next 4 Opp PPG</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings %}
+                                    <tr>
+                                        <td class="ps-3 text-start fw-bold">
+                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.opp_played_ppg }}</td>
+                                        <td class="fw-bold">{{ row.opp_remaining_ppg }}</td>
+                                        <td>
+                                            {% if row.runin_diff_pct > 0 %}
+                                                <span class="text-danger fw-bold">+{{ row.runin_diff_pct }}% (Harder)</span>
+                                            {% elif row.runin_diff_pct < 0 %}
+                                                <span class="text-success fw-bold">{{ row.runin_diff_pct }}% (Easier)</span>
+                                            {% else %}
+                                                <span class="text-secondary">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="badge {% if row.next_4_ppg > 1.5 %}bg-danger{% elif row.next_4_ppg < 1.0 %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                                {{ row.next_4_ppg }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projected Points -->
+                <div class="col-lg-6">
+                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Projected Final Standings</h5>
+                            <small class="text-secondary">Based on current PPG and remaining schedule difficulty</small>
+                        </div>
+                        <div class="table-responsive">
+                             <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">Team</th>
+                                        <th>Current Pts</th>
+                                        <th>Games Left</th>
+                                        <th>Proj. Ratio</th>
+                                        <th>Proj. PPG</th>
+                                        <th class="text-info fw-bold">Proj. Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings %}
+                                    <tr>
+                                        <td class="ps-3 text-start fw-bold">
+                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ row.points }}</td>
+                                        <td>{{ row.games_remaining }}</td>
+                                        <td class="text-secondary">{{ row.proj_ratio }}</td>
+                                        <td>{{ row.proj_ppg }}</td>
+                                        <td class="text-info fw-bold fs-6">{{ row.proj_total|floatformat:0 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Home vs Away Dependency -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Home vs Away Performance Dependency</h5>
+                            <small class="text-secondary">Which teams rely most on home advantage? Positive Diff = Stronger at Home.</small>
+                        </div>
+                        <div class="table-responsive">
+                             <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">Team</th>
+                                        <th>Home PPG</th>
+                                        <th>Away PPG</th>
+                                        <th>Diff</th>
+                                        <th class="ps-4 text-start">Home/Away Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in relative_table %}
+                                    <tr>
+                                        <td class="ps-3 text-start fw-bold">
+                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-success">{{ row.ppg_home }}</td>
+                                        <td class="text-warning">{{ row.ppg_away }}</td>
+                                        <td class="fw-bold">
+                                            {% if row.ppg_diff > 0 %}
+                                                <span class="text-success">+{{ row.ppg_diff }}</span>
+                                            {% elif row.ppg_diff < 0 %}
+                                                <span class="text-info">{{ row.ppg_diff }}</span>
+                                            {% else %}
+                                                <span class="text-secondary">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="ps-4 text-start">
+                                            <div class="progress" style="height: 10px; max-width: 300px;">
+                                                {% if row.ppg_diff > 0 %}
+                                                    <div class="progress-bar bg-success" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="Better at Home"></div>
+                                                {% elif row.ppg_diff < 0 %}
+                                                     <div class="progress-bar bg-info" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="Better Away"></div>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Sidebar (25% Width) for Ads -->
+        <div class="col-lg-3">
+            <div class="sticky-top" style="top: 20px; z-index: 100;">
+                
+                <!-- Vertical Ad Slot 1 -->
+                <div class="card border-0 bg-transparent mb-4">
+                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
+                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
+                        <!-- Insert Ad Code Here -->
+                    </div>
+                </div>
+
+                <!-- Vertical Ad Slot 2 (Tall Skyscraper) -->
+                <div class="card border-0 bg-transparent mb-4">
+                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 600px;">
+                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement (Skyscraper)</span>
+                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>
+                        <!-- Insert Ad Code Here -->
+                    </div>
                 </div>
 
             </div>
-
         </div>
     </div>
-
-    <!-- TAB 3: Relative Form -->
-    <div id="tab-form" class="tab-content" style="display: none; margin-top: 1rem;">
-        <div
-            style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: fit-content;">
-            <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-                <h4 style="margin: 0; color: #333;">Relative Form</h4>
-            </div>
-            <table class="ss-table" style="min-width: 800px;">
-                <thead>
-                    <tr>
-                        <th class="ss-th-rank" rowspan="2">#</th>
-                        <th class="ss-th-team" rowspan="2">Team</th>
-                        <th class="ss-th-stat" rowspan="2" style="color: #666; padding: 0 15px;">GP</th>
-                        <th class="ss-th-stat" rowspan="2" style="font-weight: bold; color: #000; padding: 0 15px;">Pts
-                        </th>
-                        <th class="ss-th-stat" colspan="2"
-                            style="text-align: center; border-bottom: 1px solid #ddd; background: #eee;">Points Per Game
-                        </th>
-                        <th class="ss-th-stat" colspan="1"
-                            style="text-align: center; border-bottom: 1px solid #ddd; background: #eee;">Relative Form
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="ss-th-stat" style="color: var(--ss-green); padding: 5px 15px;">Last 8</th>
-                        <th class="ss-th-stat" style="color: #333; padding: 5px 15px;">All</th>
-                        <th class="ss-th-stat" style="font-weight: normal; font-size: 0.8rem; color: #555;">(PPG last 8
-                            vs PPG all)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for standing in standings %}
-                    <tr class="{% cycle 'row-odd' 'row-even' %}">
-                        <td class="ss-td-rank">{{ standing.position }}</td>
-                        <td class="ss-td-team">
-                            <a href="{% url 'matches:team_detail' standing.team.id %}"
-                                style="text-decoration: none; color: inherit;">
-                                {{ standing.team.name }}
-                            </a>
-                        </td>
-                        <td class="ss-td-stat" style="color: #999;">{{ standing.played }}</td>
-                        <td class="ss-td-stat font-bold" style="color: #000;">{{ standing.points }}</td>
-                        <td class="ss-td-stat" style="color: var(--ss-green);">{{ standing.ppg_8 }}</td>
-                        <td class="ss-td-stat" style="color: #333;">{{ standing.ppg_season }}</td>
-                        <td style="padding: 0 10px;">
-                            <div style="display: flex; align-items: center; justify-content: center; height: 24px;">
-                                <!-- Negative side (Left) -->
-                                <div
-                                    style="flex: 1; display: flex; justify-content: flex-end; align-items: center; padding-right: 8px; border-right: 1px solid #ddd;">
-                                    {% if standing.relative_form_pct < 0 %} <div
-                                        style="height: 12px; background: var(--ss-red); border-radius: 1px;"
-                                        data-width-px="{{ standing.relative_form_bar_width }}">
-                                </div>
-                                <span
-                                    style="color: var(--ss-red); font-weight: bold; margin-left: 6px; font-size: 0.9rem;">{{ standing.relative_form_pct }}%</span>
-                                {% endif %}
-                                {% if standing.relative_form_pct == 0 %}
-                                <span style="color: #333; font-weight: bold; font-size: 0.9rem;">-0%</span>
-                                {% endif %}
-                            </div>
-                            <!-- Positive side (Right) -->
-                            <div
-                                style="flex: 1; display: flex; justify-content: flex-start; align-items: center; padding-left: 8px;">
-                                {% if standing.relative_form_pct > 0 %}
-                                <span
-                                    style="color: var(--ss-green); font-weight: bold; margin-right: 6px; font-size: 0.9rem;">+{{ standing.relative_form_pct }}%</span>
-                                <div style="height: 12px; background: var(--ss-green); border-radius: 1px;"
-                                    data-width-px="{{ standing.relative_form_bar_width }}">
-                                </div>
-                                {% endif %}
-                            </div>
-        </div>
-        </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-        </table>
-    </div>
-    <div style="margin-top: 10px; color: #666; font-size: 0.85rem;">
-        Note: The 'Relative Form' table is calculated based on each team's Points Per Game (PPG) in the last 8
-        matches and the team's PPG in all matches.
-    </div>
-</div>
-
-<div id="tab-perf" class="tab-content" style="display: none; margin-top: 1rem;">
-    <div
-        style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: fit-content;">
-
-        <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-            <h4 style="margin: 0; color: #333;">Points Performance Index</h4>
-        </div>
-        <table class="ss-table">
-            <thead>
-                <tr>
-                    <th class="ss-th-rank">#</th>
-                    <th class="ss-th-team">Team</th>
-                    <th class="ss-th-stat" style="padding: 0 20px;">GP</th>
-                    <th class="ss-th-stat" style="padding: 0 20px;">Pts</th>
-                    <th class="ss-th-stat" style="padding: 0 20px;">Team<br>PPG</th>
-                    <th class="ss-th-stat" style="padding: 0 20px;">Opponents<br>PPG</th>
-                    <th class="ss-th-stat" style="text-align: left; padding-left: 20px;">
-                        Points Performance Index<br>
-                        <span style="font-weight: normal; font-size: 0.75rem; color: #666;">(Team PPG x
-                            Opponents
-                            PPG)</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for standing in standings %}
-                <tr class="{% cycle 'row-odd' 'row-even' %}">
-                    <td class="ss-td-rank">{{ standing.position }}</td>
-                    <td class="ss-td-team">
-                        <a href="{% url 'matches:team_detail' standing.team.id %}"
-                            style="text-decoration: none; color: inherit;">
-                            {{ standing.team.name }}
-                        </a>
-                    </td>
-                    <td class="ss-td-stat ss-green" style="padding: 6px 20px;">{{ standing.played }}</td>
-                    <td class="ss-td-stat font-bold" style="padding: 6px 20px;">{{ standing.points }}</td>
-                    <td class="ss-td-stat font-bold" style="padding: 6px 20px;">{{ standing.ppg_season }}</td>
-                    <td class="ss-td-stat" style="color: #333; padding: 6px 20px;">{{ standing.opponents_ppg }}
-                    </td>
-                    <td style="padding: 6px 20px;">
-                        <div class="perf-index-container">
-                            <div class="perf-index-bg">
-                                <div class="perf-index-fill" data-width="{{ standing.perf_width_pct }}"></div>
-                            </div>
-                            <span class="perf-index-value">{{ standing.performance_index }}</span>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- TAB 5: Run-in -->
-<div id="tab-runin" class="tab-content" style="display: none; margin-top: 1rem;">
-    <div
-        style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: fit-content;">
-        <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-            <h4 style="margin: 0; color: #333;">Run-in analysis</h4>
-        </div>
-        <table class="ss-table">
-            <thead>
-                <tr>
-                    <th class="ss-th-rank">#</th>
-                    <th class="ss-th-team">Team</th>
-                    <th class="ss-th-stat" style="color: var(--ss-green); padding: 0 25px;">GP</th>
-                    <th class="ss-th-stat" style="padding: 0 25px;">Pts</th>
-                    <th class="ss-th-stat" style="padding: 0 25px;">PPG</th>
-                    <th class="ss-th-stat" style="padding: 0 25px;">Opponents<br>played PPG</th>
-                    <th class="ss-th-stat" style="text-align: left; padding-left: 20px; color: var(--ss-blue);">
-                        Opponents<br>remaining PPG
-                    </th>
-                    <th class="ss-th-stat" style="padding: 0 15px;">Played vs<br>Remaining</th>
-                    <th class="ss-th-stat" style="padding: 0 15px;">Next 4<br>opponents</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for standing in standings %}
-                <tr class="{% cycle 'row-odd' 'row-even' %}">
-                    <td class="ss-td-rank">{{ standing.position }}</td>
-                    <td class="ss-td-team">
-                        <a href="{% url 'matches:team_stats' league_name=standing.league_slug team_name=standing.team_slug %}"
-                            style="text-decoration: none; color: inherit;">
-                            {{ standing.team.name }}
-                        </a>
-                    </td>
-                    <td class="ss-td-stat ss-green" style="font-weight: bold; padding: 6px 25px;">{{ standing.played }}
-                    </td>
-                    <td class="ss-td-stat font-bold" style="font-size: 1.1rem; padding: 6px 25px;">{{ standing.points }}
-                    </td>
-                    <td class="ss-td-stat" style="color: #666; padding: 6px 25px;">{{ standing.ppg_season }}
-                    </td>
-                    <td class="ss-td-stat" style="color: #666; padding: 6px 25px;">{{ standing.opp_played_ppg }}
-                    </td>
-                    <td style="padding: 6px 20px;">
-                        <div class="perf-index-container">
-                            <div class="perf-index-bg" style="width: 120px;">
-                                <div class="perf-index-fill" data-width="{{ standing.runin_width_pct }}"></div>
-                            </div>
-                            <span class="perf-index-value" style="color: var(--ss-blue);">{{ standing.opp_remaining_ppg }}</span>
-                        </div>
-                    </td>
-                    <td class="ss-td-stat {% if standing.runin_diff_pct > 0 %}ss-green{% else %}ss-red{% endif %}"
-                        style="font-weight: bold;">
-                        {% if standing.runin_diff_pct > 0 %}+{% endif %}{{ standing.runin_diff_pct }}%
-                    </td>
-                    <td class="ss-td-stat" style="background: rgba(0,0,0,0.02); font-weight: bold;">
-                        {{ standing.next_4_ppg }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- TAB 6: Projected Points -->
-<div id="tab-projected" class="tab-content" style="display: none; margin-top: 1rem;">
-    <div
-        style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: fit-content;">
-        <div style="padding: 1rem; background: #f9f9f9; border-bottom: 1px solid #eee; margin-bottom: 0;">
-            <h4 style="margin: 0; color: #333;">Projected Points</h4>
-        </div>
-        <table class="ss-table">
-            <thead>
-                <tr>
-                    <th class="ss-th-rank" rowspan="2">#</th>
-                    <th class="ss-th-team" rowspan="2">Team</th>
-                    <th class="ss-th-stat" colspan="3" style="text-align: center; border-bottom: 1px solid #ddd;">
-                        Team PPG</th>
-                    <th class="ss-th-stat" colspan="2"
-                        style="text-align: center; border-bottom: 1px solid #ddd; color: var(--ss-blue);">
-                        Opponents
-                        PPG</th>
-                    <th class="ss-th-stat" colspan="2"
-                        style="text-align: center; border-bottom: 1px solid #ddd; color: var(--ss-blue);">
-                        Projected
-                        PPG (pPPG)</th>
-                    <th class="ss-th-stat" colspan="2"
-                        style="text-align: center; border-bottom: 1px solid #ddd; color: var(--ss-green);">
-                        Projected
-                        Points (pPts)</th>
-                    <th class="ss-th-stat" rowspan="2" style="padding: 0 15px;">Sum<br><span
-                            style="font-weight: normal; font-size: 0.75rem; color: #666;">Pts+pPts</span></th>
-                </tr>
-                <tr>
-                    <th class="ss-th-stat" style="color: var(--ss-green); padding: 0 15px;">GP</th>
-                    <th class="ss-th-stat" style="padding: 0 15px;">Pts</th>
-                    <th class="ss-th-stat" style="padding: 0 15px;">PPG</th>
-                    <th class="ss-th-stat" style="color: var(--ss-blue); padding: 0 15px;">Played</th>
-                    <th class="ss-th-stat" style="color: var(--ss-blue); padding: 0 15px;">Remaining</th>
-                    <th class="ss-th-stat" style="color: var(--ss-blue); padding: 0 15px;">Ratio</th>
-                    <th class="ss-th-stat" style="color: var(--ss-blue); padding: 0 15px;">pPPG</th>
-                    <th class="ss-th-stat" style="color: var(--ss-green); padding: 0 15px;">GR</th>
-                    <th class="ss-th-stat" style="color: var(--ss-green); padding: 0 15px;">pPts</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for standing in standings %}
-                <tr class="{% cycle 'row-odd' 'row-even' %}">
-                    <td class="ss-td-rank">{{ standing.position }}</td>
-                    <td class="ss-td-team">
-                        <a href="{% url 'matches:team_stats' league_name=standing.league_slug team_name=standing.team_slug %}"
-                            style="text-decoration: none; color: inherit;">
-                            {{ standing.team.name }}
-                        </a>
-                    </td>
-                    <td class="ss-td-stat ss-green" style="font-weight: bold; padding: 6px 15px;">{{ standing.played }}
-                    </td>
-                    <td class="ss-td-stat font-bold" style="font-size: 1.1rem; padding: 6px 15px;">{{ standing.points }}
-                    </td>
-                    <td class="ss-td-stat font-bold" style="padding: 6px 15px;">{{ standing.ppg_season }}</td>
-                    <td class="ss-td-stat" style="color: var(--ss-blue); padding: 6px 15px;">{{ standing.opp_played_ppg }}</td>
-                    <td class="ss-td-stat" style="color: var(--ss-blue); padding: 6px 15px;">{{ standing.opp_remaining_ppg }}</td>
-                    <td class="ss-td-stat font-bold" style="color: var(--ss-blue); padding: 6px 15px;">{{ standing.proj_ratio }}</td>
-                    <td class="ss-td-stat" style="color: var(--ss-blue); padding: 6px 15px;">{{ standing.proj_ppg }}
-                    </td>
-                    <td class="ss-td-stat ss-green" style="padding: 6px 15px;">{{ standing.games_remaining }}
-                    </td>
-                    <td class="ss-td-stat" style="color: var(--ss-green); padding: 6px 15px;">{{ standing.proj_points }}
-                    </td>
-                    <td class="ss-td-stat font-bold" style="font-size: 1.1rem; padding: 6px 15px;">{{ standing.proj_total|floatformat:2 }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-    function openTab(evt, tabName) {
-        // Hide all tab content
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        // Remove active class from buttons
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        // Show current tab and add active class to button
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-    // Generic function to apply widths from data attributes
-    function applyDynamicWidths() {
-        document.querySelectorAll('[data-width]').forEach(function (el) {
-            const width = el.getAttribute('data-width');
-            if (width) el.style.width = width + '%';
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        applyDynamicWidths();
-    });
-</script>
-
 </div>
 
 <style>
-    /* SoccerStats "Professional" Light Theme Styles */
-    :root {
-        --ss-bg-header: #f0f0f0;
-        --ss-text-header: #333;
-        --ss-border: #e0e0e0;
-        --ss-row-even: #ffffff;
-        --ss-row-odd: #f9f9f9;
-        --ss-green: #2ecc71;
-        --ss-red: #e74c3c;
-        --ss-orange: #f39c12;
-        --ss-blue: #3498db;
+    /* Custom Scrollbar for tables and lists */
+    .table-responsive::-webkit-scrollbar,
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 6px;
+        width: 6px; /* Added width for vertical scrollbar */
     }
-
-    /* Utility Classes for Dynamic Colors */
-    .color-green {
-        color: var(--ss-green) !important;
-    }
-
-    .color-blue {
-        color: var(--ss-blue) !important;
-    }
-
-    .color-dark {
-        color: #333 !important;
-    }
-
-    .bg-green {
-        background-color: var(--ss-green) !important;
-    }
-
-    .bg-blue {
-        background-color: var(--ss-blue) !important;
-    }
-
-    /* Bar Colors */
-    .ss-bar-w {
-        background-color: #009900;
-    }
-
-    .ss-bar-d {
-        background-color: #ff9900;
-    }
-
-    .ss-bar-l {
-        background-color: #dd0000;
-    }
-
-    .ss-bar-grey {
-        background-color: #999;
-    }
-
-    .ss-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-family: 'Outfit', sans-serif;
-        font-size: 0.9rem;
-        color: #333;
-    }
-
-    .ss-table thead th {
-        background: var(--ss-bg-header);
-        color: var(--ss-text-header);
-        padding: 10px 6px;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        font-weight: 700;
-        border-bottom: 2px solid #ccc;
-    }
-
-    .ss-table tbody tr {
-        border-bottom: 1px solid var(--ss-border);
-    }
-
-    .ss-table tbody tr:last-child {
-        border-bottom: none;
-    }
-
-    .row-odd {
-        background: var(--ss-row-odd);
-    }
-
-    .row-even {
-        background: var(--ss-row-even);
-    }
-
-    .ss-td-rank {
-        text-align: center;
-        font-weight: bold;
-        width: 30px;
-        color: #fff;
-        background: #999;
-    }
-
-    .ss-td-team {
-        text-align: left;
-        padding: 6px 10px;
-        font-weight: 600;
-    }
-
-    .ss-td-stat {
-        text-align: center;
-        padding: 6px 4px;
-    }
-
-    .ss-td-pts {
-        text-align: center;
-        padding: 6px 8px;
-        font-weight: 800;
-        font-size: 1rem;
-        color: #000;
-        background: rgba(0, 0, 0, 0.03);
-    }
-
-    .ss-td-form {
-        text-align: center;
-        padding: 6px 8px;
-        width: 80px;
-    }
-
-    /* Special Columns */
-    .ss-box {
-        color: #555;
-    }
-
-    .ss-blue {
-        color: var(--ss-blue);
-    }
-
-    .ss-red {
-        color: var(--ss-red);
-    }
-
-    .font-bold {
-        font-weight: 700;
-    }
-
-    /* Zones */
-    .zone-ucl {
-        background: var(--ss-green) !important;
-        color: #fff !important;
-    }
-
-    .zone-europa {
-        background: #b8e6b8 !important;
-        color: #333 !important;
-    }
-
-    .zone-relegation {
-        background: var(--ss-red) !important;
-        color: #fff !important;
-    }
-
-    .ss-green {
-        color: var(--ss-green) !important;
-    }
-
-    .ss-red {
-        color: var(--ss-red) !important;
-    }
-
-    /* Form Bars */
-    .form-container {
-        display: flex;
-        gap: 2px;
-        justify-content: center;
-    }
-
-    .form-bar {
-        width: 8px;
-        height: 14px;
-        border-radius: 2px;
-    }
-
-    .bar-w {
-        background: var(--ss-green);
-    }
-
-    .bar-d {
-        background: var(--ss-orange);
-    }
-
-    /* Orange for Draw per SoccerStats */
-    .bar-l {
-        background: var(--ss-red);
-    }
-
-    .text-muted {
-        color: #ccc;
-        font-size: 0.8rem;
-    }
-
-    .perf-index-container {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .perf-index-bg {
-        flex-grow: 0;
-        width: 180px;
-        background: #f0f0f0;
-        height: 12px;
-        border-radius: 2px;
-        overflow: hidden;
-    }
-
-    .perf-index-fill {
-        background: #5c9dff;
-        height: 100%;
-        border-radius: 2px;
-    }
-
-    .perf-index-value {
-        font-weight: bold;
-        color: #36c;
-        font-size: 1rem;
-    }
-
-    /* Upcoming/Results Panels (Keep Dark/Panel style or match? Keeping panel style for now but cleaner) */
-    .panel-upcoming,
-    .panel-results {
-        background: var(--bg-panel);
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .panel-scroll {
-        margin-top: 0.5rem;
-        max-height: 360px;
-        overflow-y: auto;
-        padding-right: 0.25rem;
-        scrollbar-width: thin;
-        scrollbar-color: var(--border) transparent;
-    }
-
-    .panel-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .panel-scroll::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .panel-scroll::-webkit-scrollbar-thumb {
-        background-color: var(--border);
-        border-radius: 3px;
-    }
-
-    /* Tab styles */
-    .tab-btn {
-        background: none;
-        border: none;
-        outline: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-family: 'Outfit', sans-serif;
-        font-weight: 600;
-        color: var(--text-muted);
-        border-bottom: 3px solid transparent;
-        transition: 0.2s;
-    }
-
-    .tab-btn:hover {
-        color: var(--text-main);
-    }
-
-    .tab-btn.active {
-        color: var(--text-main);
-        border-bottom: 3px solid var(--text-main);
+    .table-responsive::-webkit-scrollbar-track,
+    .custom-scrollbar::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.05);
     }
-
-    /* Utility colors for bars */
-    .ss-bar-grey {
-        background-color: #bbbbbb;
+    .table-responsive::-webkit-scrollbar-thumb,
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
     }
-
-    .ss-bar-w {
-        background-color: #009900;
+    .table-responsive::-webkit-scrollbar-thumb:hover,
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.4);
     }
-
-    .ss-bar-d {
-        background-color: #ff9900;
-    }
-
-    .ss-bar-l {
-        background-color: #dd0000;
-    }
-
-    .color-green {
-        color: #009900 !important;
-    }
-
-    .color-blue {
-        color: #0000ff !important;
-    }
-
-    .color-dark {
-        color: #333333 !important;
-    }
-
-    .bg-green {
-        background-color: #009900 !important;
-    }
-
-    .bg-blue {
-        background-color: #0000ff !important;
+    .letter-spacing-2 {
+        letter-spacing: 2px;
     }
 </style>
-
-<script>
-    function openTab(evt, tabName) {
-        var i, tabContent, tabBtns;
-        tabContent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabContent.length; i++) {
-            tabContent[i].style.display = "none";
-            tabContent[i].classList.remove("active");
-        }
-        tabBtns = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tabBtns.length; i++) {
-            tabBtns[i].classList.remove("active");
-        }
-        document.getElementById(tabName).style.display = "block";
-        document.getElementById(tabName).classList.add("active");
-        evt.currentTarget.classList.add("active");
-
-        // Ensure widths are applied if the newly opened tab contains bars
-        applyDynamicWidths();
-    }
-
-    function openStatsTab(tabName) {
-        document.getElementById('tab-content-homeaway').style.display = 'none';
-        document.getElementById('tab-content-overall').style.display = 'none';
-        document.getElementById('tab-content-last8').style.display = 'none';
-
-        document.getElementById('tab-btn-homeaway').classList.remove('active');
-        document.getElementById('tab-btn-overall').classList.remove('active');
-        document.getElementById('tab-btn-last8').classList.remove('active');
-        document.getElementById('tab-btn-homeaway').style.borderBottom = '3px solid transparent';
-        document.getElementById('tab-btn-overall').style.borderBottom = '3px solid transparent';
-        document.getElementById('tab-btn-last8').style.borderBottom = '3px solid transparent';
-
-        document.getElementById('tab-content-' + tabName).style.display = 'block';
-        document.getElementById('tab-btn-' + tabName).classList.add('active');
-        document.getElementById('tab-btn-' + tabName).style.borderBottom = '3px solid #333';
-
-        applyDynamicWidths();
-    }
-
-    function applyDynamicWidths() {
-        // Handle Percentage Widths
-        document.querySelectorAll('[data-width]').forEach(el => {
-            let val = el.getAttribute('data-width');
-            if (val) {
-                // If it doesn't have a unit, default to %
-                if (!val.includes('%') && !val.includes('px')) {
-                    val = val + '%';
-                }
-                el.style.width = val;
-            }
-        });
-
-        // Handle Pixel Widths
-        document.querySelectorAll('[data-width-px]').forEach(el => {
-            let val = el.getAttribute('data-width-px');
-            if (val) {
-                // If it doesn't have a unit, default to px
-                if (!val.includes('%') && !val.includes('px')) {
-                    val = val + 'px';
-                }
-                el.style.width = val;
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        applyDynamicWidths();
-    });
-</script>
 {% endblock %}
