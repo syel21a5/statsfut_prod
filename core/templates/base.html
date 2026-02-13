@@ -146,58 +146,16 @@
 
     <!-- Main Content Area -->
     <main class="main-content">
-        <!-- SoccerSTATS Style Header -->
-        <div class="stats-header-container">
-            <div class="stats-top-nav">
-                <div class="stats-logo">
-                    <i class="fa-solid fa-chart-column"></i> statsfut.com
+        <!-- Top Header Bar -->
+        <header class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+            <!-- Global Search -->
+            <div class="position-relative w-50" style="max-width: 500px;">
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-end-0"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="global-search" class="form-control bg-dark border-secondary border-opacity-25 text-white shadow-none border-start-0" placeholder="Search teams, leagues..." autocomplete="off">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-start-0 small" style="font-size: 0.75rem;">Ctrl+K</span>
                 </div>
-                <div class="stats-menu-items">
-                    <a href="#" class="stats-btn">LEAGUES</a>
-                    <a href="{% url 'matches:live_matches' %}" class="stats-btn">MATCHES</a>
-                    <a href="#" class="stats-btn">STATS</a>
-                    <a href="#" class="stats-btn">FAV</a>
-                    <a href="#" class="stats-btn">BLOG</a>
-                    <div class="stats-dropdown">
-                        <span>Premier League ▼</span>
-                    </div>
-                    <a href="#" class="stats-btn btn-login">MEMBER LOGIN</a>
-                </div>
-            </div>
-            
-            <div class="stats-flags-strip">
-                <a href="#" title="Argentina"><span class="fi fi-ar"></span> AR</a>
-                <a href="#" title="Austria"><span class="fi fi-at"></span> AT</a>
-                <a href="#" title="Australia"><span class="fi fi-au"></span> AU</a>
-                <a href="#" title="Belgium"><span class="fi fi-be"></span> BE</a>
-                <a href="#" title="Brazil"><span class="fi fi-br"></span> BR</a>
-                <a href="#" title="Switzerland"><span class="fi fi-ch"></span> CH</a>
-                <a href="#" title="Czech Republic"><span class="fi fi-cz"></span> CZ</a>
-                <a href="#" title="Germany"><span class="fi fi-de"></span> DE</a>
-                <a href="#" title="Denmark"><span class="fi fi-dk"></span> DK</a>
-                <a href="#" title="England"><span class="fi fi-gb-eng"></span> EN</a>
-                <a href="#" title="Spain"><span class="fi fi-es"></span> ES</a>
-                <a href="#" title="Finland"><span class="fi fi-fi"></span> FI</a>
-                <a href="#" title="France"><span class="fi fi-fr"></span> FR</a>
-                <a href="#" title="Greece"><span class="fi fi-gr"></span> GR</a>
-                <a href="#" title="Netherlands"><span class="fi fi-nl"></span> NL</a>
-                <a href="#" title="Italy"><span class="fi fi-it"></span> IT</a>
-                <a href="#" title="Japan"><span class="fi fi-jp"></span> JP</a>
-                <a href="#" title="Norway"><span class="fi fi-no"></span> NO</a>
-                <a href="#" title="Poland"><span class="fi fi-pl"></span> PL</a>
-                <a href="#" title="Portugal"><span class="fi fi-pt"></span> PT</a>
-                <a href="#" title="Russia"><span class="fi fi-ru"></span> RU</a>
-                <a href="#" title="Sweden"><span class="fi fi-se"></span> SE</a>
-                <a href="#" title="Turkey"><span class="fi fi-tr"></span> TR</a>
-                <a href="#" title="Ukraine"><span class="fi fi-ua"></span> UA</a>
-            </div>
-        </div>
-
-        <header class="header">
-            <div class="page-title">
-                {% block header %}
-                <h1>Overview</h1>
-                {% endblock %}
+                <div id="search-results" class="list-group position-absolute mt-1 shadow-lg d-none w-100" style="z-index: 1050;"></div>
             </div>
 
             <!-- User / Date -->
@@ -239,8 +197,13 @@
 
         <!-- Header & Banner Layout -->
         <div class="row align-items-center mb-4">
-            <!-- Left: Page Title (Removed to avoid duplicate block header) -->
+            <!-- Left: Page Title -->
             <div class="col-md-3">
+                <div class="page-title">
+                    {% block header %}
+                    <h1 class="h3 mb-0 text-white">Overview</h1>
+                    {% endblock %}
+                </div>
             </div>
 
             <!-- Center: Banner -->
