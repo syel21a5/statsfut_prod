@@ -125,11 +125,16 @@ class Command(BaseCommand):
                 if not mapped_league:
                     continue  # Pula ligas desconhecidas
                 
-                # Busca ou cria liga
-                league_obj, _ = League.objects.get_or_create(
-                    name=mapped_league['name'],
-                    defaults={'country': mapped_league['country']}
-                )
+                # Busca ou cria liga (com tratamento de erro para duplicatas)
+                try:
+                    league_obj, _ = League.objects.get_or_create(
+                        name=mapped_league['name'],
+                        defaults={'country': mapped_league['country']}
+                    )
+                except League.MultipleObjectsReturned:
+                    # Se houver múltiplas, pega a primeira (deveríamos limpar duplicatas depois)
+                    league_obj = League.objects.filter(name=mapped_league['name']).first()
+                    self.stdout.write(self.style.WARNING(f"Aviso: Múltiplas ligas encontradas para '{mapped_league['name']}'. Usando a primeira (ID: {league_obj.id})."))
                 
                 # Mapping names from Football-Data.org to local DB
                 name_mapping = {
