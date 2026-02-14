@@ -18,10 +18,17 @@ class Command(BaseCommand):
         league_name = options["league_name"]
 
         try:
-            league = League.objects.get(name=league_name)
+            # Normalização é focada na Premier League Inglesa por enquanto
+            if league_name == "Premier League":
+                league = League.objects.get(name=league_name, country="Inglaterra")
+            else:
+                league = League.objects.get(name=league_name)
         except League.DoesNotExist:
             self.stdout.write(self.style.ERROR(f"Liga '{league_name}' não encontrada"))
             return
+        except League.MultipleObjectsReturned:
+             self.stdout.write(self.style.ERROR(f"Múltiplas ligas encontradas com nome '{league_name}'. Especifique melhor."))
+             return
 
         mappings = {
             "Wolves": "Wolverhampton",

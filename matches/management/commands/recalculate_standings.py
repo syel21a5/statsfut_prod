@@ -15,6 +15,12 @@ class Command(BaseCommand):
             help="Nome da liga para recalcular a tabela",
         )
         parser.add_argument(
+            "--country",
+            type=str,
+            default=None,
+            help="País da liga (opcional, para desambiguação)",
+        )
+        parser.add_argument(
             "--season_year",
             type=int,
             help="Ano de término da temporada (ex: 2026 para 2025/2026). Se omitido, usa a temporada mais recente com jogos",
@@ -22,12 +28,24 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         league_name = options["league_name"]
+        country = options["country"]
         season_year = options.get("season_year")
 
         try:
-            league = League.objects.get(name=league_name)
+            if country:
+                league = League.objects.get(name=league_name, country=country)
+            else:
+                # Tenta buscar exato, se der erro de múltiplos, tenta filtrar por Inglaterra primeiro (comum)
+                try:
+                    league = League.objects.get(name=league_name)
+                except League.MultipleObjectsReturned:
+                    # Fallback para Premier League Inglesa se for o caso comum
+                    if league_name == "Premier League":
+                        league = League.objects.get(name=league_name, country="Inglaterra")
+                    else:
+                        raise
         except League.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f"Liga '{league_name}' não encontrada"))
+            self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
             return
 
         if season_year:

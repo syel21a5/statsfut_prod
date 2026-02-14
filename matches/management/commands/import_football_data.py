@@ -38,8 +38,31 @@ class Command(BaseCommand):
         division = options["division"]
         min_year = options["min_year"]
 
+        # Mapeamento Divisão -> (Liga, País)
+        # Fonte: https://www.football-data.co.uk/notes.txt
+        LEAGUE_MAPPING = {
+            'E0': ('Premier League', 'Inglaterra'),
+            'SP1': ('La Liga', 'Espanha'),
+            'D1': ('Bundesliga', 'Alemanha'),
+            'I1': ('Serie A', 'Italia'),
+            'F1': ('Ligue 1', 'Franca'),
+            'N1': ('Eredivisie', 'Holanda'),
+            'B1': ('Pro League', 'Belgica'),
+            'P1': ('Primeira Liga', 'Portugal'),
+            'T1': ('Super Lig', 'Turquia'),
+            'G1': ('Super League', 'Grecia'),
+        }
+
+        if division not in LEAGUE_MAPPING:
+            self.stdout.write(self.style.ERROR(f"Divisão '{division}' não mapeada. Adicione ao LEAGUE_MAPPING."))
+            return
+
+        league_name, country_name = LEAGUE_MAPPING[division]
+        
+        self.stdout.write(self.style.WARNING(f"Importando para: {league_name} ({country_name})"))
+
         league, _ = League.objects.get_or_create(
-            name="Premier League", country="Inglaterra"
+            name=league_name, country=country_name
         )
 
         total_files = 0
