@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from matches.models import League, Team, Match, Season
 from matches.api_manager import APIManager
 from django.utils import timezone
@@ -15,21 +16,31 @@ class Command(BaseCommand):
             default='both',
             help='Modo: live (ao vivo), upcoming (próximos), ou both (ambos)'
         )
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            help='Força execução mesmo em DEBUG'
+        )
 
     def handle(self, *args, **options):
+        if settings.DEBUG and not options['force']:
+            self.stdout.write(self.style.ERROR("ERRO: Este comando consome API e não deve ser executado em ambiente de desenvolvimento (DEBUG=True). Use --force se realmente necessário."))
+            return
+
         mode = options['mode']
         
         api_manager = APIManager()
         
-        # IDs das ligas na API-Football
-        # 39 = Premier League
-        # 71 = Brasileirão Série A
-        league_ids = [39, 71]
+        # Coleta IDs da API-Football de todas as ligas mapeadas
+        all_api_football_ids = []
+        for m in api_manager.LEAGUE_MAPPINGS.values():
+            all_api_football_ids.extend(m['api_football'])
         
         if mode in ['live', 'both']:
-            self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO...'))
+            self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Todas as Ligas)...'))
             try:
-                live_fixtures = api_manager.get_live_fixtures(league_ids=league_ids)
+                # Se não passar league_ids, busca de todas as ligas configuradas/suportadas
+                live_fixtures = api_manager.get_live_fixtures()
                 self.process_fixtures(live_fixtures, is_live=True)
                 self.stdout.write(self.style.SUCCESS(f'✅ {len(live_fixtures)} jogos ao vivo processados'))
             except Exception as e:
@@ -37,12 +48,19 @@ class Command(BaseCommand):
         
         if mode in ['upcoming', 'both']:
             self.stdout.write(self.style.SUCCESS('📅 Buscando próximos jogos (15 dias)...'))
-            try:
-                upcoming_fixtures = api_manager.get_upcoming_fixtures(league_ids=league_ids, days_ahead=15)
-                self.process_fixtures(upcoming_fixtures, is_live=False)
-                self.stdout.write(self.style.SUCCESS(f'✅ {len(upcoming_fixtures)} próximos jogos processados'))
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar próximos jogos: {e}'))
+            
+            # Itera sobre cada liga mapeada para garantir uso correto das APIs
+            for league_name in api_manager.LEAGUE_MAPPINGS.keys():
+                self.stdout.write(f"  > Processando {league_name}...")
+                try:
+                    upcoming_fixtures = api_manager.get_upcoming_fixtures(league_name=league_name, days_ahead=15)
+                    if upcoming_fixtures:
+                        self.process_fixtures(upcoming_fixtures, is_live=False)
+                        self.stdout.write(self.style.SUCCESS(f'    ✅ {len(upcoming_fixtures)} jogos encontrados para {league_name}'))
+                    else:
+                        self.stdout.write(f"    Nenhum jogo encontrado para {league_name}")
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
     def _get_or_create_team(self, name, league, api_id):
         # 1. Tenta buscar pelo api_id se existir
@@ -88,28 +106,30 @@ class Command(BaseCommand):
         
         for fixture in fixtures:
             try:
-                # Mapeia nome da liga
-                league_name_map = {
-                    'Premier League': 'Premier League',
-                    'Brasileirão Série A': 'Brasileirão',
-                    'Serie A': 'Brasileirão',
+                raw_league_name = fixture['league']
+                
+                # Mapa robusto de nomes de ligas das APIs para o Banco
+                league_map = {
+                    'Premier League': {'name': 'Premier League', 'country': 'Inglaterra'},
+                    'Primera Division': {'name': 'La Liga', 'country': 'Espanha'},
+                    'La Liga': {'name': 'La Liga', 'country': 'Espanha'},
+                    'Bundesliga': {'name': 'Bundesliga', 'country': 'Alemanha'},
+                    'Serie A': {'name': 'Serie A', 'country': 'Italia'},
+                    'Ligue 1': {'name': 'Ligue 1', 'country': 'Franca'},
+                    'Campeonato Brasileiro Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
+                    'Brasileirão Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
                 }
                 
-                league_name = league_name_map.get(fixture['league'], fixture['league'])
+                mapped_league = league_map.get(raw_league_name)
+                
+                if not mapped_league:
+                    continue  # Pula ligas desconhecidas
                 
                 # Busca ou cria liga
-                if 'Premier' in league_name:
-                    league_obj, _ = League.objects.get_or_create(
-                        name='Premier League',
-                        country='Inglaterra'
-                    )
-                elif 'Brasil' in league_name or 'Serie A' in league_name:
-                    league_obj, _ = League.objects.get_or_create(
-                        name='Brasileirão',
-                        country='Brasil'
-                    )
-                else:
-                    continue  # Pula ligas desconhecidas
+                league_obj, _ = League.objects.get_or_create(
+                    name=mapped_league['name'],
+                    defaults={'country': mapped_league['country']}
+                )
                 
                 # Mapping names from Football-Data.org to local DB
                 name_mapping = {

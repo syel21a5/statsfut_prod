@@ -4,6 +4,7 @@ Uso: python manage.py sync_fixtures
 """
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+from django.conf import settings
 from datetime import timedelta
 from matches.models import League, Season, Team, Match
 from matches.api_manager import APIManager
@@ -24,12 +25,21 @@ class Command(BaseCommand):
             default='Premier League',
             help='Nome da liga (padrão: Premier League)'
         )
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            help='Força execução mesmo em DEBUG'
+        )
 
     def handle(self, *args, **options):
+        if settings.DEBUG and not options['force']:
+            self.stdout.write(self.style.ERROR("ERRO: Este comando consome API e não deve ser executado em ambiente de desenvolvimento (DEBUG=True). Use --force se realmente necessário."))
+            return
+
         days_ahead = options['days']
         league_name = options['league']
         
-        self.stdout.write(f"Sincronizando fixtures dos próximos {days_ahead} dias...")
+        self.stdout.write(f"Sincronizando fixtures dos próximos {days_ahead} dias para {league_name}...")
         
         # Get league
         try:
@@ -45,21 +55,11 @@ class Command(BaseCommand):
         # Initialize API Manager
         api_manager = APIManager()
         
-        # Map league to API ID (Premier League = 39 na API-Football)
-        league_api_ids = {
-            'Premier League': [39],
-            'La Liga': [140],
-            'Bundesliga': [78],
-            # Adicione mais conforme necessário
-        }
-        
-        api_league_ids = league_api_ids.get(league_name, [39])
-        
         try:
             # Fetch upcoming fixtures from API
             self.stdout.write("Buscando fixtures da API...")
             fixtures = api_manager.get_upcoming_fixtures(
-                league_ids=api_league_ids,
+                league_name=league_name,
                 days_ahead=days_ahead
             )
             

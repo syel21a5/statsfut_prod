@@ -10,6 +10,15 @@ class APIManager:
     Faz rotação automática e fallback entre APIs
     """
     
+    LEAGUE_MAPPINGS = {
+        'Premier League': {'api_football': [39], 'football_data': [2021]},
+        'La Liga': {'api_football': [140], 'football_data': [2014]},
+        'Bundesliga': {'api_football': [78], 'football_data': [2002]},
+        'Serie A': {'api_football': [135], 'football_data': [2019]},
+        'Ligue 1': {'api_football': [61], 'football_data': [2015]},
+        'Brasileirao': {'api_football': [71], 'football_data': [2013]},
+    }
+
     def __init__(self):
         self.apis = {
             'football_data_1': {
@@ -169,16 +178,26 @@ class APIManager:
         print(f"[APIManager] Live fixtures via {api_af} ({api_config['name']})")
         return self._get_api_football_fixtures(api_af, api_config, status='live', league_ids=league_ids)
     
-    def get_upcoming_fixtures(self, league_ids=None, days_ahead=7, exclude_apis=None):
+    def get_upcoming_fixtures(self, league_ids=None, days_ahead=7, exclude_apis=None, league_name=None):
         """Busca próximos jogos (próximos X dias)"""
         exclude_apis = exclude_apis or []
+        
+        fd_ids = []
+        af_ids = league_ids or []
+        
+        if league_name and league_name in self.LEAGUE_MAPPINGS:
+            mapping = self.LEAGUE_MAPPINGS[league_name]
+            fd_ids = mapping['football_data']
+            if not af_ids:
+                af_ids = mapping['api_football']
+        
         fd_keys = [f'football_data_{i}' for i in range(1, 9)]
         api_fd = self._choose_best_api_from_list(fd_keys, exclude_apis=exclude_apis)
         if api_fd:
             api_config = self.apis[api_fd]
             try:
                 print(f"[APIManager] Upcoming fixtures via {api_fd} ({api_config['name']})")
-                fixtures = self._get_football_data_fixtures(api_fd, api_config, status='scheduled', days_ahead=days_ahead)
+                fixtures = self._get_football_data_fixtures(api_fd, api_config, status='scheduled', days_ahead=days_ahead, league_ids=fd_ids)
                 if fixtures:
                     return fixtures
             except Exception as e:
@@ -192,7 +211,7 @@ class APIManager:
         
         api_config = self.apis[api_af]
         print(f"[APIManager] Upcoming fixtures via {api_af} ({api_config['name']})")
-        return self._get_api_football_fixtures(api_af, api_config, status='scheduled', league_ids=league_ids, days_ahead=days_ahead)
+        return self._get_api_football_fixtures(api_af, api_config, status='scheduled', league_ids=af_ids, days_ahead=days_ahead)
     
     def get_league_season_fixtures(self, league_id, season_year, exclude_apis=None):
         """
@@ -284,14 +303,20 @@ class APIManager:
             else:
                 raise Exception(f"API retornou status {response.status_code}")
     
-    def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7):
+    def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7, league_ids=None):
         """Busca fixtures da Football-Data.org"""
         headers = {
             'X-Auth-Token': api_config['key']
         }
         
         # Football-Data usa IDs diferentes: PL=2021, Brasileirão=2013
-        competitions = [2021, 2013]  # Premier League, Brasileirão
+        # Se league_ids for fornecido, usa-o. Senão, usa todos os mapeados
+        if league_ids:
+            competitions = league_ids
+        else:
+            competitions = []
+            for m in self.LEAGUE_MAPPINGS.values():
+                competitions.extend(m['football_data'])
         
         all_fixtures = []
         
