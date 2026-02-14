@@ -167,8 +167,15 @@ class Command(BaseCommand):
                 
                 # Update API ID if target is empty
                 if source_team.api_id and not target_team.api_id:
-                    target_team.api_id = source_team.api_id
-                    target_team.save()
+                    # Verifica se já existe outro time com este api_id (que não seja o target)
+                    if not Team.objects.filter(api_id=source_team.api_id).exclude(id=target_team.id).exists():
+                        target_team.api_id = source_team.api_id
+                        try:
+                            target_team.save()
+                        except Exception as e:
+                            self.stdout.write(self.style.WARNING(f"  ! Não foi possível migrar api_id {source_team.api_id}: {e}"))
+                    else:
+                        self.stdout.write(self.style.WARNING(f"  ! api_id {source_team.api_id} já está em uso por outro time. Ignorando migração."))
                 
                 source_team.delete()
                 count_merged += 1
