@@ -610,14 +610,14 @@ class LeagueDetailView(DetailView):
             db_country_name = COUNTRY_REVERSE_TRANSLATIONS.get(clean_name.lower())
             
             if db_country_name:
-                # Usa o nome traduzido
-                country_league = queryset.filter(country__iexact=db_country_name).first()
+                candidates = queryset.filter(country__iexact=db_country_name)
             else:
-                # Usa o nome original (fallback)
-                country_league = queryset.filter(country__iexact=slug_clean).first()
+                candidates = queryset.filter(country__iexact=slug_clean)
 
-            if country_league:
-                return country_league
+            if candidates.exists():
+                league = candidates.annotate(s_count=models.Count('standings')).order_by('-s_count').first()
+                if league:
+                    return league
                 
         # Fallback
         from django.http import Http404
@@ -1330,10 +1330,73 @@ class TeamDetailView(DetailView):
         # Converte slugs para busca aproximada (ex: premier-league -> Premier League)
         league_name_query = league_slug.replace('-', ' ')
         team_name_query = team_slug.replace('-', ' ')
+        team_key = team_name_query.strip().lower()
         
-        # 1. Resolve League First (Robust)
-        league = League.objects.filter(name__iexact=league_name_query).first() or \
-                 League.objects.filter(name__icontains=league_name_query).first()
+        name_map = {
+            'la liga': {
+                'barcelona': 'Barcelona',
+                'real madrid': 'Real Madrid',
+                'atletico madrid': 'Ath Madrid',
+                'atlético madrid': 'Ath Madrid',
+                'athletic bilbao': 'Ath Bilbao',
+                'real sociedad': 'Sociedad',
+                'espanyol': 'Espanol',
+                'sevilla': 'Sevilla',
+                'villarreal': 'Villarreal',
+                'betis': 'Betis',
+                'celta vigo': 'Celta',
+                'alaves': 'Alaves',
+                'mallorca': 'Mallorca',
+                'osasuna': 'Osasuna',
+                'getafe': 'Getafe',
+                'granada': 'Granada',
+                'valencia': 'Valencia',
+                'rayo vallecano': 'Rayo Vallecano',
+                'las palmas': 'Las Palmas',
+            },
+            'serie a': {
+                'juventus': 'Juventus',
+                'inter': 'Inter',
+                'internazionale': 'Inter',
+                'ac milan': 'Milan',
+                'milan': 'Milan',
+                'as roma': 'Roma',
+                'roma': 'Roma',
+                'napoli': 'Napoli',
+                'lazio': 'Lazio',
+                'atalanta': 'Atalanta',
+                'fiorentina': 'Fiorentina',
+                'bologna': 'Bologna',
+                'torino': 'Torino',
+                'udinese': 'Udinese',
+                'sassuolo': 'Sassuolo',
+                'lecce': 'Lecce',
+                'empoli': 'Empoli',
+                'genoa': 'Genoa',
+                'monza': 'Monza',
+                'cagliari': 'Cagliari',
+                'verona': 'Verona',
+                'hellas verona': 'Verona',
+            }
+        }
+        
+        league_key = league_name_query.strip().lower()
+        if league_key in name_map and team_key in name_map[league_key]:
+            team_name_query = name_map[league_key][team_key]
+        
+        # 1. Resolve League First (Robust com desambiguação)
+        leagues_qs = League.objects.filter(name__iexact=league_name_query)
+        if not leagues_qs.exists():
+            leagues_qs = League.objects.filter(name__icontains=league_name_query)
+        
+        league = None
+        if leagues_qs.exists():
+            # Prioriza liga com mais times; empate quebra por ter standings
+            from django.db.models import Count
+            league = leagues_qs.annotate(
+                team_count=Count('teams'),
+                s_count=Count('standings')
+            ).order_by('-team_count', '-s_count').first()
         
         if not league:
             from django.utils.text import slugify
@@ -1360,6 +1423,12 @@ class TeamDetailView(DetailView):
                  if slugify(t.name) == team_slug:
                      team = t
                      break
+         
+        if not team:
+             team = Team.objects.filter(name__iexact=team_name_query).first() or \
+                    Team.objects.filter(name__icontains=team_name_query).first()
+             if team:
+                 league = team.league
 
         if team:
             return team
@@ -2407,9 +2476,16 @@ class LeagueGoalsView(TemplateView):
         
         # Get League
         name_query = league_slug.replace('-', ' ')
-        league = League.objects.filter(name__iexact=name_query).first()
-        if not league:
-            league = League.objects.filter(name__icontains=name_query).first()
+        
+        # New Logic: Prioritize League with Data (Standings)
+        # annotations allow us to count related objects
+        from django.db.models import Count
+        
+        candidates = League.objects.filter(name__iexact=name_query).annotate(s_count=Count('standings')).order_by('-s_count')
+        if not candidates.exists():
+             candidates = League.objects.filter(name__icontains=name_query).annotate(s_count=Count('standings')).order_by('-s_count')
+        
+        league = candidates.first()
         
         context['league'] = league
         if not league:
@@ -2420,18 +2496,27 @@ class LeagueGoalsView(TemplateView):
         context['season'] = latest_season
 
         # Get Standings
-        standings = LeagueStanding.objects.filter(
-            league=league,
-            season=latest_season
-        ).select_related('team').order_by('position')
+        if latest_season:
+            standings = LeagueStanding.objects.filter(
+                league=league,
+                season=latest_season
+            ).select_related('team').order_by('position')
+        else:
+            standings = LeagueStanding.objects.none()
         context['standings'] = standings
         
         # Get all finished matches ordered by date
-        matches = Match.objects.filter(
-            league=league, 
-            season=latest_season, 
-            status='Finished'
-        ).select_related('home_team', 'away_team').order_by('date')
+        if latest_season:
+            matches = Match.objects.filter(
+                league=league, 
+                season=latest_season, 
+                status='Finished'
+            ).select_related('home_team', 'away_team').order_by('date')
+        else:
+            matches = Match.objects.filter(
+                league=league, 
+                status='Finished'
+            ).select_related('home_team', 'away_team').order_by('date')
 
         # Helper to init stats
         def init_stats():
@@ -3048,6 +3133,8 @@ def calculate_team_season_stats(team, league, season):
         'ppg': 0.0, 'avg_gf': 0.0, 'avg_ga': 0.0,
         'cs': 0, 'fts': 0, 'bts': 0,
         'over_05': 0, 'over_15': 0, 'over_25': 0, 'over_35': 0,
+        'over_05_pct': 0, 'over_15_pct': 0, 'over_25_pct': 0, 'over_35_pct': 0,
+        'cs_pct': 0, 'fts_pct': 0, 'bts_pct': 0, 'win_pct': 0,
         'form': []
     } for c in cats}
 
@@ -3161,25 +3248,38 @@ class HeadToHeadView(TemplateView):
         team2_slug = self.kwargs.get('team2_name')
 
         # Helper to find team by slug/name
-        def get_team(slug):
+        def get_league(slug):
             if not slug: return None
             name = slug.replace('-', ' ')
+            
+            # Robust Selection: Prioritize League with Data (Standings)
+            from django.db.models import Count
+            candidates = League.objects.filter(name__iexact=name).annotate(s_count=Count('standings')).order_by('-s_count')
+            if not candidates.exists():
+                 candidates = League.objects.filter(name__icontains=name).annotate(s_count=Count('standings')).order_by('-s_count')
+            
+            return candidates.first()
+
+        def get_team(slug, league=None):
+            if not slug: return None
+            name = slug.replace('-', ' ')
+            
+            # 1. Try finding in the specific league first
+            if league:
+                t = Team.objects.filter(league=league, name__iexact=name).first()
+                if not t:
+                    t = Team.objects.filter(league=league, name__icontains=name).first()
+                if t: return t
+            
+            # 2. Global Fallback
             t = Team.objects.filter(name__iexact=name).first()
             if not t:
                 t = Team.objects.filter(name__icontains=name).first()
             return t
 
-        def get_league(slug):
-            if not slug: return None
-            name = slug.replace('-', ' ')
-            l = League.objects.filter(name__iexact=name).first()
-            if not l:
-                l = League.objects.filter(name__icontains=name).first()
-            return l
-
         league = get_league(league_slug)
-        team1 = get_team(team1_slug)
-        team2 = get_team(team2_slug)
+        team1 = get_team(team1_slug, league)
+        team2 = get_team(team2_slug, league)
 
         context['league'] = league
         context['team1'] = team1
@@ -3242,6 +3342,81 @@ class HeadToHeadView(TemplateView):
             if latest_season:
                 context['t1_stats'] = calculate_team_season_stats(team1, league, latest_season)
                 context['t2_stats'] = calculate_team_season_stats(team2, league, latest_season)
+            else:
+                def calc_team_stats_no_season(team, lg):
+                    ms = Match.objects.filter(
+                        league=lg,
+                        status='Finished'
+                    ).filter(
+                        models.Q(home_team=team) | models.Q(away_team=team)
+                    ).order_by('date')
+                    
+                    def calc_stats(match_qs, filter_type='all'):
+                        lst = list(match_qs)
+                        gp = 0; w = 0; d = 0; l = 0; gf = 0; ga = 0; pts = 0
+                        cs = 0; fts = 0; bts = 0
+                        over_05 = 0; over_15 = 0; over_25 = 0; over_35 = 0
+
+                        for m in lst:
+                            is_home = (m.home_team_id == team.id)
+                            if filter_type == 'home' and not is_home: 
+                                continue
+                            if filter_type == 'away' and is_home: 
+                                continue
+                            team_score = m.home_score if is_home else m.away_score
+                            opp_score = m.away_score if is_home else m.home_score
+                            team_score = team_score or 0
+                            opp_score = opp_score or 0
+                            
+                            total_g = team_score + opp_score
+
+                            gp += 1
+                            gf += team_score
+                            ga += opp_score
+                            if team_score > opp_score: 
+                                w += 1; pts += 3
+                            elif team_score == opp_score: 
+                                d += 1; pts += 1
+                            else: 
+                                l += 1
+                            
+                            if opp_score == 0: cs += 1
+                            if team_score == 0: fts += 1
+                            if team_score > 0 and opp_score > 0: bts += 1
+                            
+                            if total_g > 0.5: over_05 += 1
+                            if total_g > 1.5: over_15 += 1
+                            if total_g > 2.5: over_25 += 1
+                            if total_g > 3.5: over_35 += 1
+
+                        ppg = round(pts / gp, 2) if gp > 0 else 0.0
+                        avg_gf = round(gf / gp, 2) if gp > 0 else 0.0
+                        avg_ga = round(ga / gp, 2) if gp > 0 else 0.0
+                        
+                        return {
+                            'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga, 'pts': pts, 'ppg': ppg,
+                            'avg_gf': avg_gf, 'avg_ga': avg_ga,
+                            'cs': cs, 'fts': fts, 'bts': bts,
+                            'over_05': over_05, 'over_15': over_15, 'over_25': over_25, 'over_35': over_35,
+                            'over_05_pct': int((over_05 / gp) * 100) if gp > 0 else 0,
+                            'over_15_pct': int((over_15 / gp) * 100) if gp > 0 else 0,
+                            'over_25_pct': int((over_25 / gp) * 100) if gp > 0 else 0,
+                            'over_35_pct': int((over_35 / gp) * 100) if gp > 0 else 0,
+                            'cs_pct': int((cs / gp) * 100) if gp > 0 else 0,
+                            'fts_pct': int((fts / gp) * 100) if gp > 0 else 0,
+                            'bts_pct': int((bts / gp) * 100) if gp > 0 else 0,
+                            'win_pct': int((w / gp) * 100) if gp > 0 else 0,
+                        }
+                    
+                    overall = calc_stats(ms)
+                    home = calc_stats(ms, 'home')
+                    away = calc_stats(ms, 'away')
+                    desc = sorted(ms, key=lambda x: (x.date if x.date else timezone.now(), x.id), reverse=True)
+                    last_8 = calc_stats(desc[:8])
+                    return {'overall': overall, 'home': home, 'away': away, 'last_8': last_8, 'total': overall}
+                
+                context['t1_stats'] = calc_team_stats_no_season(team1, league)
+                context['t2_stats'] = calc_team_stats_no_season(team2, league)
                 
                 # Standings Positions
                 s1 = LeagueStanding.objects.filter(league=league, season=latest_season, team=team1).first()
@@ -3251,11 +3426,18 @@ class HeadToHeadView(TemplateView):
                 
                 # Full Match Lists (Played)
                 def get_matches(team, status='Finished'):
-                    qs = Match.objects.filter(
-                        league=league, season=latest_season
-                    ).filter(
-                        models.Q(home_team=team) | models.Q(away_team=team)
-                    )
+                    if latest_season:
+                        qs = Match.objects.filter(
+                            league=league, season=latest_season
+                        ).filter(
+                            models.Q(home_team=team) | models.Q(away_team=team)
+                        )
+                    else:
+                        qs = Match.objects.filter(
+                            league=league
+                        ).filter(
+                            models.Q(home_team=team) | models.Q(away_team=team)
+                        )
                     if status == 'Finished':
                         # Reverse order for played matches (newest first)
                         return list(qs.filter(status='Finished').order_by('-date'))
@@ -4226,4 +4408,3 @@ class HeadToHeadView(TemplateView):
             context['matches'] = []
 
         return context
-
