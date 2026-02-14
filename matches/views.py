@@ -13,6 +13,9 @@ from .api_manager import APIManager
 import json
 
 
+FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
+
+
 from django.http import HttpResponse
 
 
@@ -259,7 +262,6 @@ class MatchDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
         match = self.object
         
         # Se não tem predictions e o jogo não é passado (ou é recente?), busca na API
@@ -636,10 +638,9 @@ class LeagueDetailView(DetailView):
         ).order_by('date')[:15]
         
         # Include all statuses that indicate a finished match
-        finished_statuses = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
         context['latest_results'] = Match.objects.filter(
             league=league,
-            status__in=finished_statuses,
+            status__in=FINISHED_STATUSES,
             date__lte=now
         ).order_by('-date')[:15]
         
