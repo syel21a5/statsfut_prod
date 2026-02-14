@@ -1,4 +1,5 @@
 
+import os
 import time
 import random
 import requests
@@ -15,11 +16,18 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--years', nargs='+', type=int, help='Years to scrape (e.g. 2024 for 2023/24)')
+        parser.add_argument('--csv_only', action='store_true', help='Save to CSV only, do not import to DB')
 
     def handle(self, *args, **kwargs):
-        # Default to last 5 years if not specified
-        years = kwargs['years'] or [2020, 2021, 2022, 2023, 2024, 2025]
+        # Default to 2010-2025 if not specified
+        years = kwargs['years'] or list(range(2010, 2026))
+        csv_only = kwargs['csv_only']
         
+        # Ensure export directory exists
+        base_dir = "csv_exports"
+        if not os.path.exists(base_dir):
+            os.makedirs(base_dir)
+
         # We process England and Brazil
         # SoccerStats URL patterns:
         # England: https://www.soccerstats.com/results.asp?league=england_2024 (for 2023/24)
@@ -45,12 +53,17 @@ class Command(BaseCommand):
         }
 
         for league_conf in leagues:
+            if league_conf['name'] != 'Brasileirão': # Only process Brazil for now as requested
+                continue
+
             self.stdout.write(self.style.SUCCESS(f"--- Processing {league_conf['name']} ---"))
             
-            league_obj, _ = League.objects.get_or_create(
-                name=league_conf['name'], 
-                country=league_conf['country']
-            )
+            league_obj = None
+            if not csv_only:
+                league_obj, _ = League.objects.get_or_create(
+                    name=league_conf['name'], 
+                    country=league_conf['country']
+                )
 
             for year in years:
                 # Construct URL
@@ -96,7 +109,13 @@ class Command(BaseCommand):
                         target_df = max(dfs, key=len)
 
                     if target_df is not None:
-                        self.process_table(target_df, league_obj, year)
+                        # Save CSV
+                        filename = f"{base_dir}/{league_conf['name'].lower()}_{year}.csv"
+                        target_df.to_csv(filename, index=False, encoding='utf-8')
+                        self.stdout.write(self.style.SUCCESS(f"Saved CSV: {filename}"))
+                        
+                        if not csv_only:
+                            self.process_table(target_df, league_obj, year)
                     else:
                         self.stdout.write(self.style.WARNING("No suitable data table found."))
                     

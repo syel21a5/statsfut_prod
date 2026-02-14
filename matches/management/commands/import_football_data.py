@@ -51,6 +51,7 @@ class Command(BaseCommand):
             'P1': ('Primeira Liga', 'Portugal'),
             'T1': ('Super Lig', 'Turquia'),
             'G1': ('Super League', 'Grecia'),
+            'BRA': ('Brasileirão', 'Brasil'), # Added for Brazil
         }
 
         if division not in LEAGUE_MAPPING:
@@ -140,10 +141,34 @@ class Command(BaseCommand):
         rows = 0
         created = 0
         updated = 0
-        for row in reader:
+        
+        # Determine expected division value
+        # BRA.csv usually has 'Serie A' or 'BRA' in League column?
+        # Based on file check: "League" column had "Serie A"
+        # "Country" had "Brazil"
+        
+        # We need to adapt because standard football-data.co.uk uses 'Div' column (E0, etc.)
+        # But BRA.csv uses 'League' and 'Country'
+        
+        # Read all rows first to handle iterator
+        rows_list = list(reader)
+        
+        for row in rows_list:
             rows += 1
+            
+            # Check division/league match
             div = row.get("Div")
-            if div != division:
+            if not div:
+                 # Fallback for BRA.csv which uses 'League'
+                 div = row.get("League")
+                 # Also check Country if needed
+                 if div == "Serie A" and row.get("Country") == "Brazil" and division == "BRA":
+                     pass # Match
+                 elif div != division:
+                     # Strict check for standard leagues
+                     if division != 'BRA':
+                        continue
+            elif div != division and division != 'BRA':
                 continue
 
             date_str = row.get("Date") or row.get("DATE")
@@ -158,11 +183,25 @@ class Command(BaseCommand):
             if time_str:
                 try:
                     hour, minute = map(int, time_str.split(":"))
+                    # date is timezone aware (UTC) from _parse_date
+                    # replace needs naive or aware? _parse_date returns aware
+                    # But replacing hour/minute on aware datetime works if timezone is preserved
+                    # match_date is likely UTC. 
                     match_date = match_date.replace(hour=hour, minute=minute)
                 except ValueError:
                     pass
 
-            season_year = self._season_year_from_date(match_date)
+            # Season determination
+            # BRA.csv has explicit 'Season' column!
+            season_val = row.get("Season")
+            if season_val:
+                try:
+                    season_year = int(season_val)
+                except:
+                     season_year = self._season_year_from_date(match_date)
+            else:
+                season_year = self._season_year_from_date(match_date)
+            
             if season_year < min_year:
                 continue
 
@@ -298,10 +337,23 @@ class Command(BaseCommand):
         return year
 
     def _build_url(self, season_year, division):
-        prev = (season_year - 1) % 100
-        cur = season_year % 100
-        code = f"{prev:02d}{cur:02d}"
-        return f"https://www.football-data.co.uk/mmz4281/{code}/{division}.csv", code
+        # Format: 2425 for 2024/2025
+        # 2024 -> 2324 ? No, usually season_year is the END year for spanning leagues
+        # For Brazil (calendar year), it might be just YYYY?
+        # But football-data.co.uk uses standard directory structure mm/div.csv
+        # However, for Extra leagues like BRA, it's often a single file 'new/BRA.csv'
+        
+        if division == 'BRA':
+            # Special case for Brazil: single file URL
+            return "https://www.football-data.co.uk/new/BRA.csv", "BRA"
+
+        yy_end = season_year % 100
+        yy_start = (season_year - 1) % 100
+        code = f"{yy_start:02d}{yy_end:02d}"
+        
+        base = "https://www.football-data.co.uk/mmz4281"
+        url = f"{base}/{code}/{division}.csv"
+        return url, code
 
     def _to_int(self, value):
         if value is None:
