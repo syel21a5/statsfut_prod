@@ -1456,6 +1456,7 @@ class TeamDetailView(DetailView):
 
         # --- Comparison with Past Seasons Logic ---
         past_seasons_data = []
+        past_seasons = Season.objects.none()  # Initialize to avoid UnboundLocalError
         if standing:
             current_gp = standing.played
             current_pts = standing.points

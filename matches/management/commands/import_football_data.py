@@ -84,14 +84,18 @@ class Command(BaseCommand):
                 path = os.path.join(root, fname)
                 total_files += 1
                 self.stdout.write(self.style.SUCCESS(f"Processando arquivo: {fname}"))
-                with open(path, newline="", encoding="utf-8") as f:
-                    reader = csv.DictReader(f)
-                    r, c, u = self._process_reader(
-                        reader, division, min_year, league
-                    )
-                    total_rows += r
-                    created_matches += c
-                    updated_matches += u
+                try:
+                    with open(path, newline="", encoding="utf-8-sig") as f:
+                        reader = csv.DictReader(f)
+                        r, c, u = self._process_reader(
+                            reader, division, min_year, league
+                        )
+                        total_rows += r
+                        created_matches += c
+                        updated_matches += u
+                except Exception as e:
+                     self.stdout.write(self.style.ERROR(f"Erro ao processar {fname}: {e}"))
+
         else:
             current_year = timezone.now().year
             end_year = current_year + 1
@@ -158,18 +162,32 @@ class Command(BaseCommand):
             
             # Check division/league match
             div = row.get("Div")
-            if not div:
-                 # Fallback for BRA.csv which uses 'League'
-                 div = row.get("League")
-                 # Also check Country if needed
-                 if div == "Serie A" and row.get("Country") == "Brazil" and division == "BRA":
-                     pass # Match
-                 elif div != division:
-                     # Strict check for standard leagues
-                     if division != 'BRA':
-                        continue
-            elif div != division and division != 'BRA':
-                continue
+            
+            if division == 'BRA':
+                # Special handling for Brazil: requires League="Serie A" (or Country="Brazil")
+                # BRA.csv usually has League="Serie A" and Country="Brazil"
+                # Some rows might be other leagues if the file is mixed, but usually it's one league per file or specified
+                
+                # Check for explicit "Serie A" in League column
+                league_col = row.get("League")
+                country_col = row.get("Country")
+                
+                # If neither Div nor League is present, it's likely a bad row or different CSV format
+                if not div and not league_col:
+                    continue
+
+                # If it's a standard football-data file, it might have Div='BRA' (unlikely, usually separate file)
+                # But our target file has League='Serie A'
+                if league_col == "Serie A" and country_col == "Brazil":
+                    pass # Valid
+                elif div == "BRA": 
+                    pass # Valid if they add Div column later
+                else:
+                    continue # Skip invalid rows for BRA division
+            else:
+                # Standard handling for European leagues
+                if div != division:
+                    continue
 
             date_str = row.get("Date") or row.get("DATE")
             if not date_str:
@@ -235,8 +253,17 @@ class Command(BaseCommand):
             if timezone.is_naive(match_date_aware):
                 match_date_aware = timezone.make_aware(match_date_aware, pytz.UTC)
 
-            fthg = self._to_int(row.get("FTHG"))
-            ftag = self._to_int(row.get("FTAG"))
+            # Tenta pegar FTHG/FTAG (padrão europeu) ou HG/AG (padrão sul-americano)
+            raw_fthg = row.get("FTHG") or row.get("HG")
+            raw_ftag = row.get("FTAG") or row.get("AG")
+            
+            fthg = self._to_int(raw_fthg)
+            ftag = self._to_int(raw_ftag)
+
+            # Debug Brazil
+            if league.country == "Brasil" and home_name == "Palmeiras" and away_name == "Portuguesa":
+                self.stdout.write(f"DEBUG: Found Palmeiras vs Portuguesa. Raw scores: HG={row.get('HG')}, AG={row.get('AG')}, FTHG={row.get('FTHG')}, FTAG={row.get('FTAG')}")
+                self.stdout.write(f"DEBUG: Parsed scores: {fthg}-{ftag}")
             hthg = self._to_int(row.get("HTHG"))
             htag = self._to_int(row.get("HTAG"))
 
