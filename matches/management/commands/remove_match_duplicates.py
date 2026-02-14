@@ -18,10 +18,13 @@ class Command(BaseCommand):
             .filter(count__gt=1)
         )
         
-        self.stdout.write(f"Encontrados {duplicates_strict.count()} grupos de duplicatas exatas (data/home/away).")
-        
         count_strict = 0
-        for item in duplicates_strict:
+        total_items = duplicates_strict.count()
+        self.stdout.write(f"Encontrados {total_items} grupos de duplicatas exatas (data/home/away).")
+
+        for i, item in enumerate(duplicates_strict):
+            if i % 100 == 0:
+                self.stdout.write(f"Processando grupo {i}/{total_items}...")
             matches = Match.objects.filter(
                 date=item['date'],
                 home_team=item['home_team'],
