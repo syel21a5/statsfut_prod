@@ -216,9 +216,9 @@ class Command(BaseCommand):
                 try:
                     season_year = int(season_val)
                 except:
-                     season_year = self._season_year_from_date(match_date)
+                     season_year = self._season_year_from_date(match_date, division)
             else:
-                season_year = self._season_year_from_date(match_date)
+                season_year = self._season_year_from_date(match_date, division)
             
             if season_year < min_year:
                 continue
@@ -330,6 +330,9 @@ class Command(BaseCommand):
             if match:
                 for key, value in defaults.items():
                     setattr(match, key, value)
+                # Atualiza a temporada caso tenha mudado (ex: correção de lógica)
+                if match.season != season:
+                    match.season = season
                 match.save()
                 updated += 1
             else:
@@ -353,8 +356,13 @@ class Command(BaseCommand):
                 continue
         return None
 
-    def _season_year_from_date(self, dt):
+    def _season_year_from_date(self, dt, division=None):
         year = dt.year
+        # Se for Brasil, a temporada é o ano civil (Jan-Dez)
+        if division == 'BRA':
+            return year
+            
+        # Para ligas europeias (Ago-Maio), se for Ago+, é a temporada do ano seguinte
         if dt.month >= 8:
             return year + 1
         return year

@@ -86,49 +86,32 @@ class Command(BaseCommand):
                     response = requests.get(url, headers=headers, timeout=15)
                     if response.status_code != 200:
                          self.stdout.write(self.style.ERROR(f"Failed {url}: {response.status_code}"))
-                         continue
+                         # Still try subpages if it's a recent year
 
-                    # Parse HTML tables
-                    # SoccerStats tables are often nested. We look for the one with proper headers.
-                    # Expected cols: Date, Home, Score, Away...
+                    # For the current year, let's try to fetch by month to get everything
+                    # Monthly subpages: tid=m1, tid=m2, etc. (1-12)
+                    # We'll try common active months for Brazil (Jan to May if it's early year)
+                    urls_to_try = [url]
+                    if year >= 2025: # Recent or current
+                        for m in range(1, 6): # Try Jan to May
+                            urls_to_try.append(f"{url}&tid=m{m}")
                     
-                    dfs = pd.read_html(StringIO(response.text))
-                    
-                    target_df = None
-                    for df in dfs:
-                        # Clean cols
-                        cols = [str(c).lower() for c in df.columns]
-                        # Check for presence of score-like columns or team names
-                        # SoccerStats often has no clear headers in the `read_html` output because they use complex headers.
-                        # But the data rows usually look like: [Date] [Home] [Score] [Away] ...
-                        
-                        # Heuristic: verify if column 0 looks like a date or has many rows
-                        # Brazil 2026 might have fewer rows if just started
-                        if len(df) > 10: 
-                             # Check if it has team names roughly
-                             sample_row = df.iloc[0].astype(str).str.cat()
-                             if ' - ' in sample_row or '-' in sample_row or '–' in sample_row:
-                                 target_df = df
-                                 break # Found a likely match table
+                    for attempt_url in urls_to_try:
+                        try:
+                            self.stdout.write(f"Scraping: {attempt_url}")
+                            resp = requests.get(attempt_url, headers=headers)
+                            if resp.status_code != 200: continue
+                            
+                            dfs_list = pd.read_html(StringIO(resp.text))
+                            for df_item in dfs_list:
+                                if df_item.shape[1] >= 4:
+                                    self.process_table(df_item, league_obj, year)
+                            
+                        except Exception as e:
+                            self.stdout.write(self.style.WARNING(f"Failed to scrape month subpage {attempt_url}: {e}"))
 
-                    if target_df is None and dfs:
-                        # Fallback to largest table if specific pattern not found
-                        target_df = max(dfs, key=len)
-
-                    if target_df is not None:
-                        # Save CSV
-                        filename = f"{base_dir}/{league_conf['name'].lower()}_{year}.csv"
-                        target_df.to_csv(filename, index=False, encoding='utf-8')
-                        self.stdout.write(self.style.SUCCESS(f"Saved CSV: {filename}"))
-                        
-                        if not csv_only:
-                            self.process_table(target_df, league_obj, year)
-                    else:
-                        self.stdout.write(self.style.WARNING("No suitable data table found."))
-                    
-                    # Sleep to avoid block
-                    sleep_sec = random.uniform(3, 6)
-                    self.stdout.write(f"Sleeping {sleep_sec:.1f}s...")
+                    # End of year processing
+                    sleep_sec = random.uniform(2, 4)
                     time.sleep(sleep_sec)
 
                 except Exception as e:
@@ -144,6 +127,9 @@ class Command(BaseCommand):
         
         season_obj, _ = Season.objects.get_or_create(year=year)
         
+        if df.shape[1] < 4: return # Ensure it has enough columns to be a match table
+        
+        # This is likely a results table
         for idx, row in df.iterrows():
             try:
                 # SoccerStats structure varies.
@@ -177,49 +163,61 @@ class Command(BaseCommand):
                     'Atletico PR': 'CA Paranaense',
                     'Atlético Mineiro': 'CA Mineiro',
                     'Atletico-MG': 'CA Mineiro',
+                    'CA Paranaense': 'CA Paranaense',
                     'Atletico MG': 'CA Mineiro',
+                    'Atletico-MG': 'CA Mineiro',
+                    'Atlético Mineiro': 'CA Mineiro',
                     'Atlético-MG': 'CA Mineiro',
-                    'Botafogo RJ': 'Botafogo',
-                    'Botafogo FR': 'Botafogo',
+                    'CA Mineiro': 'CA Mineiro',
                     'Bragantino': 'RB Bragantino',
                     'Red Bull Bragantino': 'RB Bragantino',
-                    'Chapecoense': 'Chapecoense AF',
-                    'Chapecoense-SC': 'Chapecoense AF',
-                    'Coritiba': 'Coritiba FBC',
-                    'Flamengo': 'Flamengo',
+                    'RB Bragantino': 'RB Bragantino',
+                    'SC Corinthians Paulista': 'Corinthians',
+                    'Sport Club Corinthians Paulista': 'Corinthians',
+                    'Corinthians': 'Corinthians',
                     'Flamengo RJ': 'Flamengo',
                     'CR Flamengo': 'Flamengo',
+                    'Flamengo': 'Flamengo',
                     'Vasco da Gama': 'Vasco',
-                    'Vasco': 'Vasco',
                     'CR Vasco da Gama': 'Vasco',
-                    'Vitoria': 'Vitoria',
+                    'Vasco': 'Vasco',
                     'EC Vitória': 'Vitoria',
                     'Vitoria BA': 'Vitoria',
-                    'Internacional': 'Internacional',
+                    'Vitoria': 'Vitoria',
+                    'Chapecoense': 'Chapecoense AF',
+                    'Chapecoense-SC': 'Chapecoense AF',
+                    'Chapecoense AF': 'Chapecoense AF',
+                    'Coritiba': 'Coritiba FBC',
+                    'Coritiba FBC': 'Coritiba FBC',
                     'SC Internacional': 'Internacional',
-                    'Fluminense': 'Fluminense',
+                    'Internacional': 'Internacional',
                     'Fluminense FC': 'Fluminense',
-                    'Sao Paulo': 'Sao Paulo',
+                    'Fluminense': 'Fluminense',
                     'São Paulo': 'Sao Paulo',
                     'São Paulo FC': 'Sao Paulo',
-                    'Cruzeiro': 'Cruzeiro',
+                    'Sao Paulo': 'Sao Paulo',
                     'Cruzeiro EC': 'Cruzeiro',
+                    'Cruzeiro': 'Cruzeiro',
                     'Mirassol': 'Mirassol FC',
+                    'Mirassol FC': 'Mirassol FC',
                     'Remo': 'Clube do Remo',
-                    'Palmeiras': 'Palmeiras',
+                    'Clube do Remo': 'Clube do Remo',
                     'SE Palmeiras': 'Palmeiras',
-                    'Goias': 'Goias',
+                    'Palmeiras': 'Palmeiras',
                     'Goias EC': 'Goias',
-                    'Cuiaba': 'Cuiaba',
+                    'Goias': 'Goias',
                     'Cuiaba EC': 'Cuiaba',
-                    'Fortaleza': 'Fortaleza',
+                    'Cuiaba': 'Cuiaba',
                     'Fortaleza EC': 'Fortaleza',
-                    'America MG': 'America MG',
+                    'Fortaleza': 'Fortaleza',
                     'America-MG': 'America MG',
-                    'Atletico GO': 'Atletico GO',
+                    'America MG': 'America MG',
                     'Atletico-GO': 'Atletico GO',
-                    'Juventude': 'Juventude',
+                    'Atletico GO': 'Atletico GO',
                     'EC Juventude': 'Juventude',
+                    'Juventude': 'Juventude',
+                    'Grêmio FBPA': 'Gremio',
+                    'Gremio': 'Gremio',
                 }
                 
                 home = team_mapping.get(home, home)
@@ -227,9 +225,20 @@ class Command(BaseCommand):
                 
                 # Check if it looks like a match row
                 # Score usually "1 - 0", "1:0" or "2-2"
+                # If it's a time (e.g. 00:30), it's Scheduled.
+                
+                # Dynamic column check: vals[5] is usually HT score "(1-0)" for finished games
+                is_finished = False
+                ht_val = vals[5] if len(vals) > 5 else ""
+                if '(' in ht_val and ')' in ht_val:
+                    is_finished = True
+                elif '-' in score_val and not (len(score_val) == 5 and score_val[2] == ':'): # Not HH:MM
+                     # Fallback check
+                     is_finished = True
+
                 score_val = score_val.replace('–', '-').replace(':', '-')
                 
-                if '-' not in score_val:
+                if '-' not in score_val or not is_finished:
                     # Maybe it's a date or time (scheduled)
                     h_score = None
                     a_score = None
