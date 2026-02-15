@@ -838,8 +838,8 @@ class LeagueDetailView(DetailView):
                 else:
                     standing.runin_diff_pct = 0
                 
-                # Next 4 Opponents average
-                upcoming_scheduled.sort(key=lambda x: (x['match'].date if x['match'].date else timezone.now().date(), x['match'].id))
+                # Next 4 Opponents average - use datetime-compatible epoch for sorting
+                upcoming_scheduled.sort(key=lambda x: (x['match'].date if x['match'].date else epoch, x['match'].id))
                 next_4 = upcoming_scheduled[:4]
                 next_4_sum = sum(item['opp_ppg'] for item in next_4)
                 standing.next_4_ppg = round(next_4_sum / len(next_4), 2) if next_4 else 0
