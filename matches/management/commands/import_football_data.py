@@ -260,10 +260,6 @@ class Command(BaseCommand):
             fthg = self._to_int(raw_fthg)
             ftag = self._to_int(raw_ftag)
 
-            # Debug Brazil
-            if league.country == "Brasil" and home_name == "Palmeiras" and away_name == "Portuguesa":
-                self.stdout.write(f"DEBUG: Found Palmeiras vs Portuguesa. Raw scores: HG={row.get('HG')}, AG={row.get('AG')}, FTHG={row.get('FTHG')}, FTAG={row.get('FTAG')}")
-                self.stdout.write(f"DEBUG: Parsed scores: {fthg}-{ftag}")
             hthg = self._to_int(row.get("HTHG"))
             htag = self._to_int(row.get("HTAG"))
 
