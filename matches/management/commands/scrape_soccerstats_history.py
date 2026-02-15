@@ -70,8 +70,11 @@ class Command(BaseCommand):
                 # For current season (2025), use the base URL without year suffix
                 # For historical seasons, use the _YEAR format
                 
-                if year == 2025:
-                    # Current season - use base URL
+                if league_conf['name'] == 'Brasileirão' and year == 2026:
+                    # Force URL for current Brazil season
+                    url = "https://www.soccerstats.com/results.asp?league=brazil"
+                elif year == 2025:
+                    # Current season generic
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 else:
                     # Historical season
@@ -100,12 +103,16 @@ class Command(BaseCommand):
                         # But the data rows usually look like: [Date] [Home] [Score] [Away] ...
                         
                         # Heuristic: verify if column 0 looks like a date or has many rows
-                        if len(df) > 50: # A league season has 380 games
-                             target_df = df
-                             # Just taking the largest is often safest in simple scraper
-                             break
-                    
+                        # Brazil 2026 might have fewer rows if just started
+                        if len(df) > 10: 
+                             # Check if it has team names roughly
+                             sample_row = df.iloc[0].astype(str).str.cat()
+                             if ' - ' in sample_row or '-' in sample_row or '–' in sample_row:
+                                 target_df = df
+                                 break # Found a likely match table
+
                     if target_df is None and dfs:
+                        # Fallback to largest table if specific pattern not found
                         target_df = max(dfs, key=len)
 
                     if target_df is not None:
@@ -149,13 +156,8 @@ class Command(BaseCommand):
                 
                 if len(vals) < 4: continue
                 
-                # Check if it looks like a match row
-                # Score usually "1 - 0" or "2-2"
+                # Score val is at index 2
                 score_val = vals[2]
-                if '-' not in score_val and '–' not in score_val:
-                    # Maybe shifted?
-                    # Let's try to find the score column dynamically?
-                    continue
 
                 date_raw = vals[0]
                 home = vals[1]
@@ -163,18 +165,87 @@ class Command(BaseCommand):
                 
                 if not home or not away or home == 'nan' or away == 'nan': continue
                 
-                # Parse Score
-                score_clean = score_val.replace('–', '-')
-                try:
-                    parts = score_clean.split('-')
-                    h_score = int(parts[0])
-                    a_score = int(parts[1])
-                    status = 'Finished'
-                except:
-                    # Might be postponed or invalid
+                # Standardize Team Names for Brazil
+                # SoccerStats might use different names. We map them to our DB names.
+                team_mapping = {
+                    'Corinthians': 'Corinthians',
+                    'Sport Club Corinthians Paulista': 'Corinthians',
+                    'SC Corinthians Paulista': 'Corinthians',
+                    'Athletico Paranaense': 'CA Paranaense',
+                    'Athletico-PR': 'CA Paranaense',
+                    'Athletico PR': 'CA Paranaense',
+                    'Atletico PR': 'CA Paranaense',
+                    'Atlético Mineiro': 'CA Mineiro',
+                    'Atletico-MG': 'CA Mineiro',
+                    'Atletico MG': 'CA Mineiro',
+                    'Atlético-MG': 'CA Mineiro',
+                    'Botafogo RJ': 'Botafogo',
+                    'Botafogo FR': 'Botafogo',
+                    'Bragantino': 'RB Bragantino',
+                    'Red Bull Bragantino': 'RB Bragantino',
+                    'Chapecoense': 'Chapecoense AF',
+                    'Chapecoense-SC': 'Chapecoense AF',
+                    'Coritiba': 'Coritiba FBC',
+                    'Flamengo': 'Flamengo',
+                    'Flamengo RJ': 'Flamengo',
+                    'CR Flamengo': 'Flamengo',
+                    'Vasco da Gama': 'Vasco',
+                    'Vasco': 'Vasco',
+                    'CR Vasco da Gama': 'Vasco',
+                    'Vitoria': 'Vitoria',
+                    'EC Vitória': 'Vitoria',
+                    'Vitoria BA': 'Vitoria',
+                    'Internacional': 'Internacional',
+                    'SC Internacional': 'Internacional',
+                    'Fluminense': 'Fluminense',
+                    'Fluminense FC': 'Fluminense',
+                    'Sao Paulo': 'Sao Paulo',
+                    'São Paulo': 'Sao Paulo',
+                    'São Paulo FC': 'Sao Paulo',
+                    'Cruzeiro': 'Cruzeiro',
+                    'Cruzeiro EC': 'Cruzeiro',
+                    'Mirassol': 'Mirassol FC',
+                    'Remo': 'Clube do Remo',
+                    'Palmeiras': 'Palmeiras',
+                    'SE Palmeiras': 'Palmeiras',
+                    'Goias': 'Goias',
+                    'Goias EC': 'Goias',
+                    'Cuiaba': 'Cuiaba',
+                    'Cuiaba EC': 'Cuiaba',
+                    'Fortaleza': 'Fortaleza',
+                    'Fortaleza EC': 'Fortaleza',
+                    'America MG': 'America MG',
+                    'America-MG': 'America MG',
+                    'Atletico GO': 'Atletico GO',
+                    'Atletico-GO': 'Atletico GO',
+                    'Juventude': 'Juventude',
+                    'EC Juventude': 'Juventude',
+                }
+                
+                home = team_mapping.get(home, home)
+                away = team_mapping.get(away, away)
+                
+                # Check if it looks like a match row
+                # Score usually "1 - 0", "1:0" or "2-2"
+                score_val = score_val.replace('–', '-').replace(':', '-')
+                
+                if '-' not in score_val:
+                    # Maybe it's a date or time (scheduled)
                     h_score = None
                     a_score = None
                     status = 'Scheduled'
+                else:
+                    # Parse Score
+                    try:
+                        parts = score_val.split('-')
+                        h_score = int(parts[0])
+                        a_score = int(parts[1])
+                        status = 'Finished'
+                    except:
+                        # Might be postponed or invalid (e.g. "pp.")
+                        h_score = None
+                        a_score = None
+                        status = 'Scheduled'
 
                 # Date
                 # SoccerStats date is usually "Sat 12 Aug". Needs Year appended.
@@ -183,18 +254,25 @@ class Command(BaseCommand):
                 
                 match_date = None
                 try:
-                    # This is tricky without strict parsing logic. 
-                    # For now, we will save it. Improvements can be made to accurate date parsing.
-                    # Simple heuristic:
-                    pass
+                    # Parse "Sat 29 Jan" -> datetime
+                    # If date_raw has no year, append 'year'
+                    if len(date_raw) > 3:
+                         # Attempt parse: "Sat 29 Jan"
+                         # Python strptime '%a %d %b'
+                         # We need to handle portuguese/english? SoccerStats is usually English.
+                         # But let's check content.
+                         pass
                 except:
                     pass
                 
+                home_team, _ = Team.objects.get_or_create(name=home, league=league_obj)
+                away_team, _ = Team.objects.get_or_create(name=away, league=league_obj)
+
                 Match.objects.update_or_create(
                     league=league_obj,
                     season=season_obj,
-                    home_team=Team.objects.get_or_create(name=home, league=league_obj)[0],
-                    away_team=Team.objects.get_or_create(name=away, league=league_obj)[0],
+                    home_team=home_team,
+                    away_team=away_team,
                     defaults={
                         'home_score': h_score,
                         'away_score': a_score,
