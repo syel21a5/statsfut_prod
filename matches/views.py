@@ -687,8 +687,8 @@ class LeagueDetailView(DetailView):
 
                 # Calculate Form (Last 5 for main table, Last 8 for Form tab)
                 team_matches = [m for m in all_matches if m.home_team_id == team_id or m.away_team_id == team_id]
-                # Sort by date/id descending
-                team_matches.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                # Sort by date/id descending - handle missing dates safely with compatible epoch
+                team_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 
                 # Last 5 for Main Table
                 # --- NEW: POPULATE TEAM STATS (Home/Away Tables) ---
