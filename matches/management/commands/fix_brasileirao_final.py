@@ -80,12 +80,12 @@ class Command(BaseCommand):
             return gt
 
         for bad_name, good_name in dupes_map.items():
-            self.stdout.write(f"\nProcessing {bad_name} -> {good_name}...")
+            # self.stdout.write(f"\nProcessing {bad_name} -> {good_name}...")
             
             # Find bad team(s)
             bad_teams = Team.objects.filter(name=bad_name)
             if not bad_teams.exists():
-                self.stdout.write(f"  {bad_name} not found. Skipping.")
+                # self.stdout.write(f"  {bad_name} not found. Skipping.")
                 continue
 
             # Find good team
@@ -160,4 +160,30 @@ class Command(BaseCommand):
                 garbage_count += 1
         
         self.stdout.write(f"Deleted {garbage_count} garbage teams.")
+
+        # 5. Check Active Teams Count (2026)
+        self.stdout.write("\nChecking active teams for 2026...")
+        season_2026 = Season.objects.filter(year=2026).first()
+        if season_2026:
+            # Find teams with matches in 2026
+            teams_2026 = Team.objects.filter(
+                Q(home_matches__season=season_2026, home_matches__league=league) | 
+                Q(away_matches__season=season_2026, away_matches__league=league)
+            ).distinct()
+            
+            count = teams_2026.count()
+            self.stdout.write(f"Teams with matches in 2026: {count}")
+            
+            if count < 20:
+                self.stdout.write(self.style.WARNING(f"WARNING: Only {count} teams found! Expecting 20."))
+                # List missing teams logic could be added here if we had a master list
+                current_names = [t.name for t in teams_2026]
+                self.stdout.write(f"Current teams: {sorted(current_names)}")
+            elif count > 20:
+                self.stdout.write(self.style.WARNING(f"WARNING: {count} teams found! Expecting 20 (Duplicates likely)."))
+                current_names = [t.name for t in teams_2026]
+                self.stdout.write(f"Current teams: {sorted(current_names)}")
+            else:
+                self.stdout.write(self.style.SUCCESS("Correct number of teams (20) found."))
+        
         self.stdout.write("Fix completed.")
