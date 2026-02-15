@@ -14,6 +14,9 @@
    
    # Update live matches every hour during match days (Friday-Monday)
    0 * * * 5-1 cd /www/wwwroot/statsfut.com && /www/wwwroot/statsfut.com/venv/bin/python manage.py update_live_matches --mode both >> /www/wwwroot/statsfut.com/logs/live_updates.log 2>&1
+
+   # Update Brasileirão Data (Sofascore Robot) - Every 4 hours
+   0 */4 * * * /www/wwwroot/statsfut.com/scripts/update_brasileirao.sh >> /www/wwwroot/statsfut.com/logs/cron_brasileirao.log 2>&1
    ```
 
 3. **Verify cron is running:**
@@ -36,6 +39,12 @@
 - Updates upcoming fixtures (next 14 days)
 - **Runs:** Every hour on Friday through Monday (when most matches happen)
 
+### Brasileirão Robot (Every 4 Hours)
+- Scrapes detailed stats from Sofascore for Brasileirão
+- Runs duplicate fix to ensure data integrity
+- Recalculates standings specifically for Brasileirão
+- **Runs:** Every 4 hours
+
 ## Manual Execution
 
 To run updates manually:
@@ -44,6 +53,10 @@ To run updates manually:
 # Full update (CSV + API + cleanup)
 cd /www/wwwroot/statsfut.com
 ./scripts/update_data.sh
+
+# Brasileirão Robot
+cd /www/wwwroot/statsfut.com
+./scripts/update_brasileirao.sh
 
 # Just live matches
 cd /www/wwwroot/statsfut.com
@@ -54,5 +67,6 @@ python manage.py update_live_matches --mode both
 ## Logs
 
 - Full updates: `/www/wwwroot/statsfut.com/logs/update.log`
+- Brasileirão updates: `/www/wwwroot/statsfut.com/logs/update_brasileirao.log`
 - Cron execution: `/www/wwwroot/statsfut.com/logs/cron.log`
 - Live updates: `/www/wwwroot/statsfut.com/logs/live_updates.log`

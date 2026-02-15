@@ -216,11 +216,11 @@ class Command(BaseCommand):
             "Sport Recife": "Sport Recife", 
             "Red Bull Bragantino": "Bragantino", # DB has Bragantino and RB Bragantino
             "Vasco da Gama": "Vasco",
-            "Botafogo": "Botafogo RJ", # DB has Botafogo RJ
+            "Botafogo": "Botafogo", # Canonical is Botafogo
             "Atlético Goianiense": "Atletico GO", # DB has Atletico GO
             "Cuiabá": "Cuiaba",
             "Avaí": "Avai",
-            "Flamengo": "Flamengo RJ", # DB has Flamengo RJ
+            "Flamengo": "Flamengo", # Canonical is Flamengo
             "Fluminense": "Fluminense",
             "Palmeiras": "Palmeiras",
             "Santos": "Santos",
