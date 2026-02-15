@@ -31,9 +31,12 @@ class Command(BaseCommand):
 
         # Setup requests session with browser impersonation
         self.session = requests.Session()
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+        self.session.headers = {
             'Referer': 'https://www.sofascore.com/',
+            'Origin': 'https://www.sofascore.com',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
         }
 
         # Iterate through rounds (1 to 38)
@@ -48,7 +51,7 @@ class Command(BaseCommand):
         url = f"https://api.sofascore.com/api/v1/unique-tournament/{tournament_id}/season/{season_id}/events/round/{round_num}"
         
         try:
-            response = requests.get(url, impersonate="chrome110", timeout=15)
+            response = self.session.get(url, impersonate="chrome120", timeout=15)
             if response.status_code != 200:
                 self.stdout.write(self.style.ERROR(f"Failed to fetch round {round_num}: {response.status_code}"))
                 return
