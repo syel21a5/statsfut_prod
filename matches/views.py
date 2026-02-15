@@ -658,6 +658,8 @@ class LeagueDetailView(DetailView):
             ).select_related('home_team', 'away_team')
 
             # Initialize data structures for Home/Away tables
+            from datetime import datetime
+            epoch = timezone.make_aware(datetime(1900, 1, 1))
             team_stats = {} # Key: team_id, Value: {home_stats, away_stats}
 
             # Pre-calculate PPG for all teams for Relative Performance calculation
