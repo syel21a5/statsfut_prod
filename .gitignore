@@ -26,3 +26,12 @@ Thumbs.db
 
 # Tutorial (documentação local)
 tutorial/
+
+# Temporary maintenance scripts
+fix_*.py
+create_brasileirao_seasons.py
+debug_*.py
+test_*.py
+check_score.py
+scrape_error.txt
+*.csv

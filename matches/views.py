@@ -642,7 +642,7 @@ class LeagueDetailView(DetailView):
             league=league,
             status__in=FINISHED_STATUSES,
             date__lte=now
-        ).order_by('-date')[:15]
+        ).order_by('-date')[:10]
         
         latest_season = league.standings.order_by('-season__year').first().season if league.standings.exists() else None
         context['latest_season'] = latest_season
@@ -965,11 +965,12 @@ class LeagueDetailView(DetailView):
             context['away_table'] = away_table
             
             # Get upcoming matches_qs (Moved up for Pre-Match Analysis)
+            # Limit to next 10 matches (approx 1 round) to avoid overcrowding the dashboard
             upcoming_matches_qs = Match.objects.filter(
                 league=league,
                 status__in=['Scheduled', 'Not Started'],
                 date__gte=timezone.now()
-            ).select_related('home_team', 'away_team').order_by('date')[:100]
+            ).select_related('home_team', 'away_team').order_by('date')[:10]
 
             # --- PRE-MATCH ANALYSIS STATS ---
             pre_match_data = []
@@ -2997,21 +2998,42 @@ class LeagueGoalsView(TemplateView):
         home_first_goal_mins = []
         away_first_goal_mins = []
 
+        # New: Correct Score & Timing
+        correct_score_counts = {}
+        timing_counts = {
+            '0-15': 0, '16-30': 0, '31-45': 0,
+            '46-60': 0, '61-75': 0, '76-90+': 0
+        }
+
         for m in all_matches_qs:
             if m.home_score is not None and m.away_score is not None:
                 total_goals += m.home_score + m.away_score
                 home_goals_total += m.home_score
                 away_goals_total += m.away_score
 
+                # Correct Score
+                score_str = f"{m.home_score}-{m.away_score}"
+                correct_score_counts[score_str] = correct_score_counts.get(score_str, 0) + 1
+
                 if m.home_score == 0 and m.away_score == 0:
                     no_goal_scored += 1
 
-                # Determine who scored first
+                # Determine who scored first & Timing
                 match_goals = list(m.goals.all())
                 # Sort by minute just in case, though usually insertion order or Meta ordering handles it
                 # Assuming Meta ordering might not be set for minute, let's sort
                 match_goals.sort(key=lambda g: g.minute)
                 
+                for g in match_goals:
+                    # Timing
+                    minute = g.minute
+                    if minute <= 15: timing_counts['0-15'] += 1
+                    elif minute <= 30: timing_counts['16-30'] += 1
+                    elif minute <= 45: timing_counts['31-45'] += 1
+                    elif minute <= 60: timing_counts['46-60'] += 1
+                    elif minute <= 75: timing_counts['61-75'] += 1
+                    else: timing_counts['76-90+'] += 1
+
                 if match_goals:
                     first_goal = match_goals[0]
                     # Check if home or away team scored first
@@ -3042,6 +3064,29 @@ class LeagueGoalsView(TemplateView):
         # Calculate Averages for First Goal Minutes
         avg_home_first_min = sum(home_first_goal_mins) / len(home_first_goal_mins) if home_first_goal_mins else 0
         avg_away_first_min = sum(away_first_goal_mins) / len(away_first_goal_mins) if away_first_goal_mins else 0
+
+        # Process Correct Score Stats
+        sorted_scores = sorted(correct_score_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        correct_score_stats = []
+        for score, count in sorted_scores:
+            correct_score_stats.append({
+                'score': score,
+                'count': count,
+                'pct': (count / total_matches_played) * 100 if total_matches_played > 0 else 0
+            })
+        context['correct_score_stats'] = correct_score_stats
+
+        # Process Timing Stats
+        total_goals_timing = sum(timing_counts.values())
+        timing_stats_list = []
+        for period in ['0-15', '16-30', '31-45', '46-60', '61-75', '76-90+']:
+            count = timing_counts.get(period, 0)
+            timing_stats_list.append({
+                'period': period,
+                'count': count,
+                'pct': (count / total_goals_timing) * 100 if total_goals_timing > 0 else 0
+            })
+        context['timing_stats_list'] = timing_stats_list
 
         # Prepare context data
         if total_matches_played > 0:

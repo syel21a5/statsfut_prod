@@ -4,7 +4,7 @@
 
 {% block content %}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         updateProgressBars();
     });
 
@@ -23,7 +23,7 @@
         event.preventDefault();
         const url = element.getAttribute('href');
         const container = document.getElementById(containerId);
-        
+
         // Add loading state
         container.style.opacity = '0.6';
         container.style.pointerEvents = 'none';
@@ -35,19 +35,19 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newContent = doc.getElementById(containerId).innerHTML;
-                
+
                 // Update container
                 container.innerHTML = newContent;
-                
+
                 // Initialize progress bars in the new content
                 updateProgressBars();
-                
+
                 // Restore state
                 container.style.opacity = '1';
                 container.style.pointerEvents = 'auto';
-                
+
                 // Update URL without reload
-                window.history.pushState({path: url}, '', url);
+                window.history.pushState({ path: url }, '', url);
             })
             .catch(err => {
                 console.error('Error loading stats:', err);
@@ -69,22 +69,64 @@
     <div class="row g-4">
         <!-- Main Content -->
         <div class="col-lg-9" id="stats-content">
-            
+
             <!-- Horizontal Ad Slot (Top) -->
             <div class="card border-0 bg-transparent mb-4 d-none d-md-block">
-                <div class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
-                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal Banner)</span>
+                <div
+                    class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
+                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal
+                        Banner)</span>
                     <!-- Insert Ad Code Here -->
                 </div>
             </div>
 
             <!-- League Summary Cards -->
+            {% if league_stats %}
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-body p-3">
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-between text-secondary small text-uppercase mb-1">
+                                <span>Home Wins</span>
+                                <span>{{ league_stats.home_wins_pct|floatformat:0 }}%</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                    data-width="{{ league_stats.home_wins_pct }}%" style="width: 0;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 border-start border-end border-secondary border-opacity-25">
+                            <div class="d-flex justify-content-between text-secondary small text-uppercase mb-1">
+                                <span>Draws</span>
+                                <span>{{ league_stats.draws_pct|floatformat:0 }}%</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" role="progressbar"
+                                    data-width="{{ league_stats.draws_pct }}%" style="width: 0;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-between text-secondary small text-uppercase mb-1">
+                                <span>Away Wins</span>
+                                <span>{{ league_stats.away_wins_pct|floatformat:0 }}%</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-danger" role="progressbar"
+                                    data-width="{{ league_stats.away_wins_pct }}%" style="width: 0;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
             {% if league_avg_row %}
             <div class="row g-3 mb-4">
                 <div class="col-6 col-md-3">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-body text-center py-3">
-                            <h6 class="text-secondary text-uppercase small mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Avg Goals</h6>
+                            <h6 class="text-secondary text-uppercase small mb-1"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Avg Goals</h6>
                             <h3 class="fw-bold text-info mb-0">{{ league_avg_row.avg_total|floatformat:2 }}</h3>
                         </div>
                     </div>
@@ -92,7 +134,8 @@
                 <div class="col-6 col-md-3">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-body text-center py-3">
-                            <h6 class="text-secondary text-uppercase small mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">BTTS %</h6>
+                            <h6 class="text-secondary text-uppercase small mb-1"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">BTTS %</h6>
                             <h3 class="fw-bold text-warning mb-0">{{ league_avg_row.bts_pct|floatformat:0 }}%</h3>
                         </div>
                     </div>
@@ -100,7 +143,8 @@
                 <div class="col-6 col-md-3">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-body text-center py-3">
-                            <h6 class="text-secondary text-uppercase small mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Over 2.5 %</h6>
+                            <h6 class="text-secondary text-uppercase small mb-1"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Over 2.5 %</h6>
                             <h3 class="fw-bold text-white mb-0">{{ league_avg_row.over25_pct|floatformat:0 }}%</h3>
                         </div>
                     </div>
@@ -108,7 +152,8 @@
                 <div class="col-6 col-md-3">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-body text-center py-3">
-                            <h6 class="text-secondary text-uppercase small mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Clean Sheets %</h6>
+                            <h6 class="text-secondary text-uppercase small mb-1"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Clean Sheets %</h6>
                             <h3 class="fw-bold text-success mb-0">{{ league_avg_row.cs_pct|floatformat:0 }}%</h3>
                         </div>
                     </div>
@@ -116,22 +161,123 @@
             </div>
             {% endif %}
 
+            <!-- New Stats: Correct Score & Timing -->
+            <div class="row g-4 mb-4">
+                <!-- Correct Score -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i
+                                    class="fa-solid fa-bullseye me-2 text-info"></i>Most Common Scores</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">Score</th>
+                                            <th>Count</th>
+                                            <th class="text-end pe-3">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in correct_score_stats %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">{{ item.score }}</td>
+                                            <td>{{ item.count }}</td>
+                                            <td class="text-end pe-3">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <span>{{ item.pct|floatformat:1 }}%</span>
+                                                    <div class="progress" style="width: 50px; height: 4px;">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            data-width="{{ item.pct }}%" style="width: 0;"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timing of Goals -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i
+                                    class="fa-regular fa-clock me-2 text-warning"></i>Timing of Goals</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">Period</th>
+                                            <th>Goals</th>
+                                            <th class="text-end pe-3">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in timing_stats_list %}
+                                        <tr>
+                                            <td class="text-start ps-3 text-secondary">{{ item.period }}</td>
+                                            <td>{{ item.count }}</td>
+                                            <td class="text-end pe-3">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <span>{{ item.pct|floatformat:1 }}%</span>
+                                                    <div class="progress" style="width: 50px; height: 4px;">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            data-width="{{ item.pct }}%" style="width: 0;"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div
+                                class="p-3 border-top border-secondary border-opacity-25 small text-center text-secondary">
+                                <span class="me-3"><i class="fa-solid fa-flag-checkered me-1"></i>Avg First Goal (Home):
+                                    <strong class="text-white">{{ league_stats.avg_home_first_min|floatformat:0 }}'</strong></span>
+                                <span><i class="fa-solid fa-flag-checkered me-1"></i>Avg First Goal (Away): <strong
+                                        class="text-white">{{ league_stats.avg_away_first_min|floatformat:0 }}'</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Full Time Stats Block -->
             <div id="match-goals-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                 <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                        <h4 class="mb-0 fw-bold">Match Goals Stats <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 ms-2 rounded-pill">{{ stats_type|default:"Total"|title }}</span></h4>
+                        <h4 class="mb-0 fw-bold">Match Goals Stats <span
+                                class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 ms-2 rounded-pill">{{ stats_type|default:"Total"|title }}</span></h4>
                         <nav class="nav nav-pills nav-sm">
-                            <a href="?type=total&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if stats_type == 'total' or not stats_type %}active{% else %}text-secondary{% endif %}">Total</a>
-                            <a href="?type=last8&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if stats_type == 'last8' %}active{% else %}text-secondary{% endif %}">Last 8</a>
-                            <a href="?type=home&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if stats_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
-                            <a href="?type=away&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if stats_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
+                            <a href="?type=total&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if stats_type == 'total' or not stats_type %}active{% else %}text-secondary{% endif %}">Total</a>
+                            <a href="?type=last8&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if stats_type == 'last8' %}active{% else %}text-secondary{% endif %}">Last
+                                8</a>
+                            <a href="?type=home&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if stats_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
+                            <a href="?type=away&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if stats_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
                         </nav>
                     </div>
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
-                        <table class="table table-dark table-hover mb-0 align-middle text-center" style="font-size: 0.9rem;">
+                        <table class="table table-dark table-hover mb-0 align-middle text-center"
+                            style="font-size: 0.9rem;">
                             <thead class="bg-dark bg-opacity-50">
                                 <tr>
                                     <th class="text-start ps-3" style="min-width: 150px;">Team</th>
@@ -154,7 +300,8 @@
                                 {% for row in goal_stats_rows %}
                                 <tr>
                                     <td class="text-start ps-3 fw-medium">
-                                        <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-decoration-none text-white">
+                                        <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                            class="text-decoration-none text-white">
                                             {{ row.team.name }}
                                         </a>
                                     </td>
@@ -173,7 +320,7 @@
                                     <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
                                 </tr>
                                 {% endfor %}
-                                
+
                                 {% if league_avg_row %}
                                 <tr class="bg-secondary bg-opacity-10 fw-bold border-top border-secondary">
                                     <td class="text-start ps-3 text-warning">League Average</td>
@@ -195,9 +342,10 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <!-- Legend -->
-                    <div class="mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-3 small text-secondary">
+                    <div
+                        class="mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-3 small text-secondary">
                         <div class="d-flex flex-wrap gap-3">
                             <span><strong class="text-white">GP:</strong> Games Played</span>
                             <span><strong class="text-white">Avg:</strong> Average Total Goals</span>
@@ -215,17 +363,25 @@
             <div id="half-time-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                 <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                        <h4 class="mb-0 fw-bold">Half-Time Stats <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 ms-2 rounded-pill">{{ ht_stats_type|default:"Total"|title }}</span></h4>
+                        <h4 class="mb-0 fw-bold">Half-Time Stats <span
+                                class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 ms-2 rounded-pill">{{ ht_stats_type|default:"Total"|title }}</span></h4>
                         <nav class="nav nav-pills nav-sm">
-                            <a href="?type={{ stats_type|default:'total' }}&ht_type=total&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if ht_stats_type == 'total' or not ht_stats_type %}active{% else %}text-secondary{% endif %}">Total</a>
-                            <a href="?type={{ stats_type|default:'total' }}&ht_type=home&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if ht_stats_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
-                            <a href="?type={{ stats_type|default:'total' }}&ht_type=away&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link {% if ht_stats_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
+                            <a href="?type={{ stats_type|default:'total' }}&ht_type=total&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if ht_stats_type == 'total' or not ht_stats_type %}active{% else %}text-secondary{% endif %}">Total</a>
+                            <a href="?type={{ stats_type|default:'total' }}&ht_type=home&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if ht_stats_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
+                            <a href="?type={{ stats_type|default:'total' }}&ht_type=away&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
+                                onclick="loadStats(event, this, 'stats-content')"
+                                class="nav-link {% if ht_stats_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
                         </nav>
                     </div>
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
-                        <table class="table table-dark table-hover mb-0 align-middle text-center" style="font-size: 0.9rem;">
+                        <table class="table table-dark table-hover mb-0 align-middle text-center"
+                            style="font-size: 0.9rem;">
                             <thead class="bg-dark bg-opacity-50">
                                 <tr>
                                     <th class="text-start ps-3" style="min-width: 150px;">Team</th>
@@ -248,7 +404,8 @@
                                 {% for row in ht_goal_stats_rows %}
                                 <tr>
                                     <td class="text-start ps-3 fw-medium">
-                                        <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-decoration-none text-white">
+                                        <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                            class="text-decoration-none text-white">
                                             {{ row.team.name }}
                                         </a>
                                     </td>
@@ -278,12 +435,19 @@
                 <!-- BTS Stats -->
                 <div class="col-md-6">
                     <div id="bts-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                        <div class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
+                        <div
+                            class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">Both Teams to Score</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=total&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if bts_type == 'total' or not bts_type %}active{% else %}text-secondary{% endif %}">Total</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=home&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if bts_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=away&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if bts_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=total&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if bts_type == 'total' or not bts_type %}active{% else %}text-secondary{% endif %}">Total</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=home&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if bts_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=away&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if bts_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
                             </nav>
                         </div>
                         <div class="card-body p-3">
@@ -301,7 +465,8 @@
                                         {% for row in bts_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-white text-decoration-none">
+                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -309,8 +474,10 @@
                                             <td class="text-center text-secondary">{{ row.gp }}</td>
                                             <td class="text-end pe-2">
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
-                                                    <div class="progress bg-secondary bg-opacity-25" style="height: 6px; width: 60px;">
-                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0;" data-width="{{ row.bts_pct }}%"></div>
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: 0;" data-width="{{ row.bts_pct }}%"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.bts_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -327,12 +494,19 @@
                 <!-- Clean Sheets Stats -->
                 <div class="col-md-6">
                     <div id="cs-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                        <div class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
+                        <div
+                            class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">Clean Sheets</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=total&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if cs_type == 'total' or not cs_type %}active{% else %}text-secondary{% endif %}">Total</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=home&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if cs_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=away&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if cs_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=total&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if cs_type == 'total' or not cs_type %}active{% else %}text-secondary{% endif %}">Total</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=home&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if cs_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=away&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if cs_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
                             </nav>
                         </div>
                         <div class="card-body p-3">
@@ -350,7 +524,8 @@
                                         {% for row in cs_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-white text-decoration-none">
+                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -358,8 +533,10 @@
                                             <td class="text-center text-secondary">{{ row.gp }}</td>
                                             <td class="text-end pe-2">
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
-                                                    <div class="progress bg-secondary bg-opacity-25" style="height: 6px; width: 60px;">
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 0;" data-width="{{ row.cs_pct }}%"></div>
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: 0;" data-width="{{ row.cs_pct }}%"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.cs_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -373,15 +550,22 @@
                     </div>
                 </div>
 
-                 <!-- Failed to Score Stats -->
-                 <div class="col-md-6">
+                <!-- Failed to Score Stats -->
+                <div class="col-md-6">
                     <div id="fts-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                        <div class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
+                        <div
+                            class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">Failed to Score</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=total&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if fts_type == 'total' or not fts_type %}active{% else %}text-secondary{% endif %}">Total</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=home&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if fts_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=away&wtn_type={{ wtn_type }}" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if fts_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=total&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if fts_type == 'total' or not fts_type %}active{% else %}text-secondary{% endif %}">Total</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=home&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if fts_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=away&wtn_type={{ wtn_type }}"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if fts_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
                             </nav>
                         </div>
                         <div class="card-body p-3">
@@ -399,7 +583,8 @@
                                         {% for row in fts_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-white text-decoration-none">
+                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -407,8 +592,10 @@
                                             <td class="text-center text-secondary">{{ row.gp }}</td>
                                             <td class="text-end pe-2">
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
-                                                    <div class="progress bg-secondary bg-opacity-25" style="height: 6px; width: 60px;">
-                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0;" data-width="{{ row.fts_pct }}%"></div>
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-danger" role="progressbar"
+                                                            style="width: 0;" data-width="{{ row.fts_pct }}%"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.fts_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -422,15 +609,22 @@
                     </div>
                 </div>
 
-                 <!-- Win to Nil Stats -->
-                 <div class="col-md-6">
+                <!-- Win to Nil Stats -->
+                <div class="col-md-6">
                     <div id="wtn-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                        <div class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
+                        <div
+                            class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">Win to Nil</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=total" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if wtn_type == 'total' or not wtn_type %}active{% else %}text-secondary{% endif %}">Total</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=home" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if wtn_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=away" onclick="loadStats(event, this, 'stats-content')" class="nav-link py-1 px-2 {% if wtn_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=total"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if wtn_type == 'total' or not wtn_type %}active{% else %}text-secondary{% endif %}">Total</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=home"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if wtn_type == 'home' %}active{% else %}text-secondary{% endif %}">Home</a>
+                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=away"
+                                    onclick="loadStats(event, this, 'stats-content')"
+                                    class="nav-link py-1 px-2 {% if wtn_type == 'away' %}active{% else %}text-secondary{% endif %}">Away</a>
                             </nav>
                         </div>
                         <div class="card-body p-3">
@@ -448,7 +642,8 @@
                                         {% for row in wtn_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-white text-decoration-none">
+                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -456,8 +651,10 @@
                                             <td class="text-center text-secondary">{{ row.gp }}</td>
                                             <td class="text-end pe-2">
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
-                                                    <div class="progress bg-secondary bg-opacity-25" style="height: 6px; width: 60px;">
-                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 0;" data-width="{{ row.wtn_pct }}%"></div>
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: 0;" data-width="{{ row.wtn_pct }}%"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.wtn_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -476,58 +673,23 @@
 
         <!-- Right Sidebar (Ads + Table) -->
         <div class="col-lg-3">
-             <div class="sticky-top" style="top: 20px; z-index: 100;">
-                
+            <div class="sticky-top" style="top: 20px; z-index: 100;">
+
                 <!-- Vertical Ad Slot 1 -->
                 <div class="card border-0 bg-transparent mb-4">
-                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
+                        style="min-height: 250px;">
                         <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
                         <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
                     </div>
                 </div>
 
-                <!-- League Table (Moved) -->
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
-                    <div class="card-header bg-dark bg-opacity-75 border-bottom border-secondary border-opacity-25 fw-bold text-uppercase small tracking-wide">
-                        League Table
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-dark table-sm table-hover mb-0" style="font-size: 0.85rem;">
-                                <thead>
-                                    <tr class="text-secondary">
-                                        <th class="ps-3">#</th>
-                                        <th>Team</th>
-                                        <th class="text-center">GP</th>
-                                        <th class="text-center pe-3">Pts</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for standing in standings %}
-                                    <tr>
-                                        <td class="ps-3 text-secondary">{{ standing.position }}</td>
-                                        <td>
-                                            <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=standing.team.name|slugify %}" class="text-decoration-none text-white fw-medium">
-                                                {{ standing.team.name }}
-                                            </a>
-                                        </td>
-                                        <td class="text-center text-secondary">{{ standing.played }}</td>
-                                        <td class="text-center fw-bold pe-3 text-info">{{ standing.points }}</td>
-                                    </tr>
-                                    {% empty %}
-                                    <tr>
-                                        <td colspan="4" class="text-center py-3 text-muted">No standings available</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Vertical Ad Slot 2 (Tall) -->
                 <div class="card border-0 bg-transparent mb-4">
-                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 600px;">
+                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
+                        style="min-height: 600px;">
                         <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
                         <!-- Insert Ad Code Here -->
                         <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>

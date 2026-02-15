@@ -171,18 +171,21 @@
                                                 {{ match.date|date:"D d M" }}<br>
                                                 <span class="text-success">{{ match.date|date:"H:i" }}</span>
                                             </div>
-                                            <div class="col-7 text-center">
-                                                <div class="d-flex justify-content-end align-items-center mb-1">
-                                                    <span class="me-2">{{ match.home_team.name }}</span>
-                                                    {% if match.home_team.logo %}
-                                                        <img src="{{ match.home_team.logo }}" height="16">
-                                                    {% endif %}
-                                                </div>
-                                                <div class="d-flex justify-content-start align-items-center">
-                                                    {% if match.away_team.logo %}
-                                                        <img src="{{ match.away_team.logo }}" height="16" class="me-2">
-                                                    {% endif %}
-                                                    <span>{{ match.away_team.name }}</span>
+                                            <div class="col-7">
+                                                <div class="d-flex justify-content-between align-items-center px-2">
+                                                    <div class="d-flex justify-content-end align-items-center w-50 pe-2">
+                                                        <span class="text-end text-truncate">{{ match.home_team.name }}</span>
+                                                        {% if match.home_team.logo %}
+                                                            <img src="{{ match.home_team.logo }}" height="16" class="ms-2">
+                                                        {% endif %}
+                                                    </div>
+                                                    <span class="badge bg-secondary bg-opacity-25 text-white px-2" style="font-size: 0.65rem;">vs</span>
+                                                    <div class="d-flex justify-content-start align-items-center w-50 ps-2">
+                                                        {% if match.away_team.logo %}
+                                                            <img src="{{ match.away_team.logo }}" height="16" class="me-2">
+                                                        {% endif %}
+                                                        <span class="text-start text-truncate">{{ match.away_team.name }}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-2 text-end">
@@ -245,7 +248,10 @@
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 fw-bold"><i class="fa-solid fa-chart-simple me-2"></i>Pre-Match Analysis</h5>
+                            <h5 class="mb-0 fw-bold">
+                                <i class="fa-solid fa-chart-simple me-2"></i>Pre-Match Analysis 
+                                <span class="badge bg-info text-dark ms-2" style="font-size: 0.65rem; vertical-align: middle;">Next 10 Matches</span>
+                            </h5>
                             <ul class="nav nav-pills card-header-pills small" id="preMatchTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active py-1 px-3" id="home-away-tab" data-bs-toggle="tab" data-bs-target="#home-away" type="button" role="tab" aria-selected="true">Home / Away</button>
@@ -269,15 +275,15 @@
                                                 <tr class="text-secondary text-uppercase">
                                                     <th class="ps-3 text-start">Match</th>
                                                     <th class="text-start">Team</th>
-                                                    <th>PPG</th>
-                                                    <th>W%</th>
-                                                    <th>D%</th>
-                                                    <th>L%</th>
-                                                    <th>GF</th>
-                                                    <th>GA</th>
-                                                    <th>TG</th>
-                                                    <th>2.5+</th>
-                                                    <th class="pe-3 text-end">Last 4</th>
+                                                    <th title="Points Per Game" data-bs-toggle="tooltip">PPG</th>
+                                                    <th title="Win Percentage" data-bs-toggle="tooltip">W%</th>
+                                                    <th title="Draw Percentage" data-bs-toggle="tooltip">D%</th>
+                                                    <th title="Loss Percentage" data-bs-toggle="tooltip">L%</th>
+                                                    <th title="Avg Goals Scored" data-bs-toggle="tooltip">GF</th>
+                                                    <th title="Avg Goals Conceded" data-bs-toggle="tooltip">GA</th>
+                                                    <th title="Avg Total Goals (GF+GA)" data-bs-toggle="tooltip">TG</th>
+                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+</th>
+                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)" data-bs-toggle="tooltip">Last 4</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -340,15 +346,15 @@
                                                 <tr class="text-secondary text-uppercase">
                                                     <th class="ps-3 text-start">Match</th>
                                                     <th class="text-start">Team</th>
-                                                    <th>PPG</th>
-                                                    <th>W%</th>
-                                                    <th>D%</th>
-                                                    <th>L%</th>
-                                                    <th>GF</th>
-                                                    <th>GA</th>
-                                                    <th>TG</th>
-                                                    <th>2.5+</th>
-                                                    <th class="pe-3 text-end">Last 4</th>
+                                                    <th title="Points Per Game" data-bs-toggle="tooltip">PPG</th>
+                                                    <th title="Win Percentage" data-bs-toggle="tooltip">W%</th>
+                                                    <th title="Draw Percentage" data-bs-toggle="tooltip">D%</th>
+                                                    <th title="Loss Percentage" data-bs-toggle="tooltip">L%</th>
+                                                    <th title="Avg Goals Scored" data-bs-toggle="tooltip">GF</th>
+                                                    <th title="Avg Goals Conceded" data-bs-toggle="tooltip">GA</th>
+                                                    <th title="Avg Total Goals (GF+GA)" data-bs-toggle="tooltip">TG</th>
+                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+</th>
+                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)" data-bs-toggle="tooltip">Last 4</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -411,15 +417,15 @@
                                                 <tr class="text-secondary text-uppercase">
                                                     <th class="ps-3 text-start">Match</th>
                                                     <th class="text-start">Team</th>
-                                                    <th>PPG</th>
-                                                    <th>W%</th>
-                                                    <th>D%</th>
-                                                    <th>L%</th>
-                                                    <th>GF</th>
-                                                    <th>GA</th>
-                                                    <th>TG</th>
-                                                    <th>2.5+</th>
-                                                    <th class="pe-3 text-end">Last 4</th>
+                                                    <th title="Points Per Game" data-bs-toggle="tooltip">PPG</th>
+                                                    <th title="Win Percentage" data-bs-toggle="tooltip">W%</th>
+                                                    <th title="Draw Percentage" data-bs-toggle="tooltip">D%</th>
+                                                    <th title="Loss Percentage" data-bs-toggle="tooltip">L%</th>
+                                                    <th title="Avg Goals Scored" data-bs-toggle="tooltip">GF</th>
+                                                    <th title="Avg Goals Conceded" data-bs-toggle="tooltip">GA</th>
+                                                    <th title="Avg Total Goals (GF+GA)" data-bs-toggle="tooltip">TG</th>
+                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+</th>
+                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)" data-bs-toggle="tooltip">Last 4</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

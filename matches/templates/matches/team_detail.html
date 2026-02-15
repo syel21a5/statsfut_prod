@@ -25,7 +25,9 @@
         </a>
     </div>
 
-    <!-- Top Row: Latest & Upcoming Matches -->
+    <div class="row">
+        <div class="col-lg-9">
+            <!-- Top Row: Latest & Upcoming Matches -->
     <div class="row g-4 mb-4">
         <!-- Latest Matches -->
         <div class="col-lg-6">
@@ -487,7 +489,9 @@
                                 <tr>
                                     <td class="text-start ps-3 text-secondary">{{ m.match.date|date:"d/m" }}</td>
                                     <td class="text-start">
+                                        {% if m.opponent.league.country != team.league.country %}
                                         <img src="{{ m.opponent.league.country|get_flag_url }}" alt="{{ m.opponent.league.country }}" style="height: 12px; margin-right: 4px;">
+                                        {% endif %}
                                         {{ m.opponent.name }}
                                     </td>
                                     <td>
@@ -622,6 +626,77 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Cards & Corners -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Cards & Corners (Average)</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div class="col-md-6 border-end border-secondary border-opacity-25">
+                            <div class="p-2 text-center text-secondary small text-uppercase fw-bold border-bottom border-secondary border-opacity-25">Cards</div>
+                            <table class="table table-dark table-sm mb-0 text-center small">
+                                <thead>
+                                    <tr class="text-secondary">
+                                        <th class="text-start ps-3">Type</th>
+                                        <th>Home</th>
+                                        <th>Away</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-start ps-3 text-warning">Yellow</td>
+                                        <td>{{ card_avgs.yellow.home }}</td>
+                                        <td>{{ card_avgs.yellow.away }}</td>
+                                        <td class="fw-bold">{{ card_avgs.yellow.total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start ps-3 text-danger">Red</td>
+                                        <td>{{ card_avgs.red.home }}</td>
+                                        <td>{{ card_avgs.red.away }}</td>
+                                        <td class="fw-bold">{{ card_avgs.red.total }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                             <div class="p-2 text-center text-secondary small text-uppercase fw-bold border-bottom border-secondary border-opacity-25">Corners</div>
+                             <table class="table table-dark table-sm mb-0 text-center small">
+                                <thead>
+                                    <tr class="text-secondary">
+                                        <th class="text-start ps-3">Type</th>
+                                        <th>Home</th>
+                                        <th>Away</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-start ps-3 text-success">For</td>
+                                        <td>{{ corner_data.for.home.avg }}</td>
+                                        <td>{{ corner_data.for.away.avg }}</td>
+                                        <td class="fw-bold">{{ corner_data.for.total.avg }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start ps-3 text-danger">Against</td>
+                                        <td>{{ corner_data.against.home.avg }}</td>
+                                        <td>{{ corner_data.against.away.avg }}</td>
+                                        <td class="fw-bold">{{ corner_data.against.total.avg }}</td>
+                                    </tr>
+                                     <tr>
+                                        <td class="text-start ps-3 text-info">Total Match</td>
+                                        <td>{{ corner_data.total.home.avg }}</td>
+                                        <td>{{ corner_data.total.away.avg }}</td>
+                                        <td class="fw-bold">{{ corner_data.total.total.avg }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -919,6 +994,33 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+        </div>
+
+        <!-- Right Sidebar (25% Width) for Ads -->
+        <div class="col-lg-3">
+            <div class="sticky-top" style="top: 20px; z-index: 100;">
+                
+                <!-- Vertical Ad Slot 1 -->
+                <div class="card border-0 bg-transparent mb-4">
+                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
+                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
+                        <!-- Insert Ad Code Here -->
+                    </div>
+                </div>
+
+                <!-- Vertical Ad Slot 2 (Tall Skyscraper) -->
+                <div class="card border-0 bg-transparent mb-4">
+                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 600px;">
+                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement (Skyscraper)</span>
+                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>
+                        <!-- Insert Ad Code Here -->
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
