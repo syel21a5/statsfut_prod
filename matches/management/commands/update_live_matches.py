@@ -120,6 +120,7 @@ class Command(BaseCommand):
                     'Brasileirão Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
                     'Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'Jupiler Pro League': {'name': 'Pro League', 'country': 'Belgica'},
+                    'First Division A': {'name': 'Pro League', 'country': 'Belgica'},
                 }
                 
                 mapped_league = league_map.get(raw_league_name)
