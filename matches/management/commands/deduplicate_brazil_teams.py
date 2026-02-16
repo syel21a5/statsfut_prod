@@ -22,14 +22,20 @@ class Command(BaseCommand):
             return
 
         self.stdout.write(f"Iniciando deduplicação para a liga: {league.name} (ID: {league.id})")
+        self.stdout.write(f"DEBUG: Carregados {len(mappings)} mapeamentos.")
 
         with transaction.atomic():
             # Itera sobre TODOS os times da liga para garantir que pegamos mesmo com espaços extras
             all_teams = Team.objects.filter(league=league)
+            self.stdout.write(f"DEBUG: Encontrados {all_teams.count()} times na liga.")
             
             for team in all_teams:
                 # Normaliza o nome do time atual (remove espaços extras)
                 clean_name = team.name.strip()
+                
+                # Debug específico para America MG
+                if "America" in clean_name:
+                    self.stdout.write(f"DEBUG: Analisando '{clean_name}' (ID: {team.id})")
                 
                 # Verifica se esse nome está na lista de "nomes ruins"
                 if clean_name in mappings:
