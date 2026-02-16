@@ -49,6 +49,21 @@ TEAM_NAME_MAPPINGS = {
     # "River Plate ...": "River Plate",
 }
 
+COUNTRY_TRANSLATIONS = {
+    "Inglaterra": "England",
+    "Espanha": "Spain",
+    "Alemanha": "Germany",
+    "Italia": "Italy",
+    "Franca": "France",
+    "Holanda": "Netherlands",
+    "Belgica": "Belgium",
+    "Portugal": "Portugal",
+    "Turquia": "Turkey",
+    "Grecia": "Greece",
+    "Brasil": "Brazil",
+    "Argentina": "Argentina",
+}
+
 def normalize_team_name(name):
     """
     Retorna o nome padronizado do time, se existir no mapeamento.
