@@ -24,7 +24,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("Liga 'Brasileirão' não encontrada no banco"))
             return
 
-        season, _ = Season.objects.get_or_create(year=2026)
+        # Define a temporada atual dinamicamente (ano atual)
+        current_year = timezone.now().year
+        season, _ = Season.objects.get_or_create(year=current_year)
 
         url = "https://v3.football.api-sports.io/fixtures"
         params = {"league": 71, "season": season.year}
@@ -33,7 +35,7 @@ class Command(BaseCommand):
             "x-rapidapi-key": api_key,
         }
 
-        self.stdout.write(self.style.SUCCESS("Buscando jogos do Brasileirão 2026 na API-Football..."))
+        self.stdout.write(self.style.SUCCESS(f"Buscando jogos do Brasileirão {season.year} na API-Football..."))
         try:
             response = requests.get(url, headers=headers, params=params, timeout=20)
         except Exception as e:
