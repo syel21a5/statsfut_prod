@@ -55,6 +55,9 @@ class Command(BaseCommand):
             'BRA': ('Brasileirão', 'Brasil'),
             'ARG': ('Liga Profesional', 'Argentina'),
             'AUT': ('Bundesliga', 'Austria'),
+            'AUS1': ('A League', 'Australia'),
+            'SUI1': ('Super League', 'Suica'),
+            'CZE1': ('First League', 'Republica Tcheca'),
         }
 
         if division not in LEAGUE_MAPPING:

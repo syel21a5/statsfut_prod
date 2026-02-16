@@ -93,6 +93,9 @@ COUNTRY_TRANSLATIONS = {
     "Austria": "Austria",
     "Brasil": "Brazil",
     "Argentina": "Argentina",
+    "Australia": "Australia",
+    "Suica": "Switzerland",
+    "Republica Tcheca": "Czech Republic",
 }
 
 COUNTRY_REVERSE_TRANSLATIONS = {v: k for k, v in COUNTRY_TRANSLATIONS.items()}
