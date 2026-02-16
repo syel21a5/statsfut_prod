@@ -60,6 +60,7 @@ COUNTRY_TRANSLATIONS = {
     "Portugal": "Portugal",
     "Turquia": "Turkey",
     "Grecia": "Greece",
+    "Austria": "Austria",
     "Brasil": "Brazil",
     "Argentina": "Argentina",
 }

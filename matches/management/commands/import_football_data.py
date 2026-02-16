@@ -54,6 +54,7 @@ class Command(BaseCommand):
             'G1': ('Super League', 'Grecia'),
             'BRA': ('Brasileirão', 'Brasil'),
             'ARG': ('Liga Profesional', 'Argentina'),
+            'AUT': ('Bundesliga', 'Austria'),
         }
 
         if division not in LEAGUE_MAPPING:
@@ -101,7 +102,7 @@ class Command(BaseCommand):
         else:
             current_year = timezone.now().year
             
-            if division in ['BRA', 'ARG']:
+            if division in ['BRA', 'ARG', 'AUT']:
                 # Arquivo único com todo o histórico (new/XXX.csv)
                 seasons_to_process = [current_year]
                 self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
@@ -175,7 +176,7 @@ class Command(BaseCommand):
             # Check division/league match
             div = row.get("Div")
             
-            if division in ['BRA', 'ARG']:
+            if division in ['BRA', 'ARG', 'AUT']:
                 # Special handling for Single File CSVs
                 league_col = row.get("League")
                 country_col = row.get("Country")
@@ -184,21 +185,23 @@ class Command(BaseCommand):
                     continue
 
                 if division == 'BRA':
-                    # Brazil check
                     if (league_col == "Serie A" and country_col == "Brazil") or div == "BRA":
                         pass
                     else:
                         continue
                 elif division == 'ARG':
-                    # Argentina check
-                    # "Liga Profesional" or "Liga Profesional " (trim might be needed)
-                    # Based on my check: League="Liga Profesional " (with space) or "Liga Profesional"
-                    # Country="Argentina"
-                    
                     l_val = (league_col or "").strip()
                     c_val = (country_col or "").strip()
                     
                     if (l_val == "Liga Profesional" and c_val == "Argentina") or div == "ARG":
+                        pass
+                    else:
+                        continue
+                elif division == 'AUT':
+                    l_val = (league_col or "").strip()
+                    c_val = (country_col or "").strip()
+                    
+                    if (l_val == "Bundesliga" and c_val == "Austria") or div == "AUT":
                         pass
                     else:
                         continue
@@ -387,7 +390,7 @@ class Command(BaseCommand):
         # Format: 2425 for 2024/2025
         # For Brazil and Argentina: single file URL under /new/
         
-        if division in ['BRA', 'ARG']:
+        if division in ['BRA', 'ARG', 'AUT']:
             return f"https://www.football-data.co.uk/new/{division}.csv", division
 
         yy_end = season_year % 100
