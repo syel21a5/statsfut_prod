@@ -104,7 +104,7 @@ class Command(BaseCommand):
         else:
             current_year = timezone.now().year
             
-            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE']:
+            if division in ['BRA', 'ARG', 'AUT']:
                 # Arquivo único com todo o histórico (new/{division}.csv)
                 seasons_to_process = [current_year]
                 self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
