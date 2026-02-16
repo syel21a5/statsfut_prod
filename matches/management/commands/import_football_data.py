@@ -105,12 +105,9 @@ class Command(BaseCommand):
             current_year = timezone.now().year
             
             if division in ['BRA', 'ARG', 'AUT']:
-                # Arquivo único com todo o histórico (new/{division}.csv)
                 seasons_to_process = [current_year]
                 self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
             else:
-                # Europa: arquivos por temporada.
-                # Ligas europeias terminam no ano seguinte (ex: 2025/2026 -> 2026)
                 end_year = current_year + 1
                 seasons_to_process = range(min_year, end_year + 1)
 
