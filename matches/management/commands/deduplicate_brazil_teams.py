@@ -9,27 +9,17 @@ class Command(BaseCommand):
         # Mapeamento (Nome Incorreto -> Nome Correto)
         # Mesma lista do import_football_data.py
         mappings = {
-            "Flamengo RJ": "Flamengo",
-            "Botafogo RJ": "Botafogo",
-            "CA Mineiro": "Atletico-MG",
-            "Atletico Mineiro": "Atletico-MG",
-            "CA Paranaense": "Athletico-PR",
-            "Club Athletico Paranaense": "Athletico-PR",
-            "Coritiba FBC": "Coritiba",
-            "Chapecoense AF": "Chapecoense",
             "Chapecoense-SC": "Chapecoense",
             "Clube do Remo": "Remo",
             "Mirassol FC": "Mirassol",
             "RB Bragantino": "Bragantino",
             "Red Bull Bragantino": "Bragantino",
-            "Sao Paulo FC": "Sao Paulo",
-            "Santos FC": "Santos",
-            "Gremio FBPA": "Gremio",
-            "Cruzeiro EC": "Cruzeiro",
+            "Coritiba FBC": "Coritiba",
+            "CA Mineiro": "Atletico-MG",
+            "CA Paranaense": "Athletico-PR",
+            "Club Athletico Paranaense": "Athletico-PR",
             "EC Vitoria": "Vitoria",
-            "Vasco da Gama": "Vasco",
-            "Cuiaba Esporte Clube": "Cuiaba",
-            "America FC": "America-MG", 
+            "America FC": "America-MG",
             "America MG": "America-MG",
             "Goias EC": "Goias",
             "Ceara SC": "Ceara",
@@ -40,6 +30,14 @@ class Command(BaseCommand):
             "Juventude RS": "Juventude",
             "CSA": "CSA",
             "Chapecoense AF": "Chapecoense", # Adicionado explicitamente
+            "Vasco da Gama": "Vasco",
+            "Cruzeiro EC": "Cruzeiro",
+            "Santos FC": "Santos",
+            "Sao Paulo FC": "Sao Paulo",
+            "Gremio FBPA": "Gremio",
+            "Botafogo RJ": "Botafogo",
+            "Flamengo RJ": "Flamengo",
+            "Cuiaba Esporte Clube": "Cuiaba",
         }
 
         league_name = "Brasileirão"
