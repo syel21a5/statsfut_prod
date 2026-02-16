@@ -1,20 +1,54 @@
 from django.core.management.base import BaseCommand
 from django.db.models import Count
-from matches.models import Match
+from matches.models import Match, League, Season
 
 class Command(BaseCommand):
     help = "Remove jogos duplicados (mesma temporada, mandante e visitante)"
 
-    def handle(self, *args, **options):
-        # Passo 1: Remover jogos sem mandante ou visitante (dados corrompidos)
-        Match.objects.filter(home_team__isnull=True).delete()
-        Match.objects.filter(away_team__isnull=True).delete()
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--league_name",
+            type=str,
+            default=None,
+            help="Nome da liga para filtrar (opcional)",
+        )
+        parser.add_argument(
+            "--country",
+            type=str,
+            default=None,
+            help="País da liga para filtrar (opcional)",
+        )
+        parser.add_argument(
+            "--season_year",
+            type=int,
+            default=None,
+            help="Ano da temporada para filtrar (opcional)",
+        )
 
-        # Passo 2: Duplicatas estritas (mesma data, mesmo home, mesmo away)
-        # Isso corrige importações múltiplas do mesmo jogo exato
+    def handle(self, *args, **options):
+        league_name = options.get("league_name")
+        country = options.get("country")
+        season_year = options.get("season_year")
+
+        qs = Match.objects.all()
+
+        if league_name:
+            league_filters = {"name": league_name}
+            if country:
+                league_filters["country"] = country
+            leagues = League.objects.filter(**league_filters)
+            qs = qs.filter(league__in=leagues)
+
+        if season_year:
+            seasons = Season.objects.filter(year=season_year)
+            qs = qs.filter(season__in=seasons)
+
+        qs.filter(home_team__isnull=True).delete()
+        qs.filter(away_team__isnull=True).delete()
+
         duplicates_strict = (
-            Match.objects.values('date', 'home_team', 'away_team')
-            .annotate(count=Count('id'))
+            qs.values("date", "home_team", "away_team")
+            .annotate(count=Count("id"))
             .filter(count__gt=1)
         )
         
@@ -25,11 +59,11 @@ class Command(BaseCommand):
         for i, item in enumerate(duplicates_strict):
             if i % 100 == 0:
                 self.stdout.write(f"Processando grupo {i}/{total_items}...")
-            matches = Match.objects.filter(
-                date=item['date'],
-                home_team=item['home_team'],
-                away_team=item['away_team']
-            ).order_by('-api_id', '-id') # Prioriza quem tem API ID e ID mais alto
+            matches = qs.filter(
+                date=item["date"],
+                home_team=item["home_team"],
+                away_team=item["away_team"],
+            ).order_by("-api_id", "-id")
             
             # Mantém o primeiro, deleta o resto
             for m in matches[1:]:
@@ -38,11 +72,9 @@ class Command(BaseCommand):
                 
         self.stdout.write(f"Removidas {count_strict} duplicatas exatas.")
 
-        # Passo 3: Duplicatas lógicas (mesma temporada, mandante e visitante)
-        # Isso garante que times joguem apenas UMA vez com mando de campo por temporada
         duplicates = (
-            Match.objects.values('season', 'home_team', 'away_team')
-            .annotate(count=Count('id'))
+            qs.values("season", "home_team", "away_team")
+            .annotate(count=Count("id"))
             .filter(count__gt=1)
         )
 
@@ -52,10 +84,10 @@ class Command(BaseCommand):
         self.stdout.write(f"Encontrados {total_groups} confrontos duplicados (mesma temporada/mandante/visitante).")
 
         for item in duplicates:
-            matches = Match.objects.filter(
-                season=item['season'],
-                home_team=item['home_team'],
-                away_team=item['away_team']
+            matches = qs.filter(
+                season=item["season"],
+                home_team=item["home_team"],
+                away_team=item["away_team"],
             )
             
             # Critério de desempate para manter o "melhor" jogo:
