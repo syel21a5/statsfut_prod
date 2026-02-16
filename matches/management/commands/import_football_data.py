@@ -51,7 +51,8 @@ class Command(BaseCommand):
             'P1': ('Primeira Liga', 'Portugal'),
             'T1': ('Super Lig', 'Turquia'),
             'G1': ('Super League', 'Grecia'),
-            'BRA': ('Brasileirão', 'Brasil'), # Added for Brazil
+            'BRA': ('Brasileirão', 'Brasil'),
+            'ARG': ('Liga Profesional', 'Argentina'),
         }
 
         if division not in LEAGUE_MAPPING:
@@ -99,10 +100,10 @@ class Command(BaseCommand):
         else:
             current_year = timezone.now().year
             
-            if division == 'BRA':
-                # Brasil: arquivo único com todo o histórico. Processar apenas uma vez.
+            if division in ['BRA', 'ARG']:
+                # Arquivo único com todo o histórico (new/XXX.csv)
                 seasons_to_process = [current_year]
-                self.stdout.write(self.style.WARNING("Modo Brasil detectado: Processando arquivo único histórico (BRA.csv)."))
+                self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
             else:
                 # Europa: arquivos por temporada.
                 # Ligas europeias terminam no ano seguinte (ex: 2025/2026 -> 2026)
@@ -173,27 +174,33 @@ class Command(BaseCommand):
             # Check division/league match
             div = row.get("Div")
             
-            if division == 'BRA':
-                # Special handling for Brazil: requires League="Serie A" (or Country="Brazil")
-                # BRA.csv usually has League="Serie A" and Country="Brazil"
-                # Some rows might be other leagues if the file is mixed, but usually it's one league per file or specified
-                
-                # Check for explicit "Serie A" in League column
+            if division in ['BRA', 'ARG']:
+                # Special handling for Single File CSVs
                 league_col = row.get("League")
                 country_col = row.get("Country")
                 
-                # If neither Div nor League is present, it's likely a bad row or different CSV format
                 if not div and not league_col:
                     continue
 
-                # If it's a standard football-data file, it might have Div='BRA' (unlikely, usually separate file)
-                # But our target file has League='Serie A'
-                if league_col == "Serie A" and country_col == "Brazil":
-                    pass # Valid
-                elif div == "BRA": 
-                    pass # Valid if they add Div column later
-                else:
-                    continue # Skip invalid rows for BRA division
+                if division == 'BRA':
+                    # Brazil check
+                    if (league_col == "Serie A" and country_col == "Brazil") or div == "BRA":
+                        pass
+                    else:
+                        continue
+                elif division == 'ARG':
+                    # Argentina check
+                    # "Liga Profesional" or "Liga Profesional " (trim might be needed)
+                    # Based on my check: League="Liga Profesional " (with space) or "Liga Profesional"
+                    # Country="Argentina"
+                    
+                    l_val = (league_col or "").strip()
+                    c_val = (country_col or "").strip()
+                    
+                    if (l_val == "Liga Profesional" and c_val == "Argentina") or div == "ARG":
+                        pass
+                    else:
+                        continue
             else:
                 # Standard handling for European leagues
                 if div != division:
@@ -220,15 +227,25 @@ class Command(BaseCommand):
                     pass
 
             # Season determination
-            # BRA.csv has explicit 'Season' column!
             season_val = row.get("Season")
+            season_year = None
+            
             if season_val:
                 try:
+                    # Try plain integer (e.g. "2026")
                     season_year = int(season_val)
-                except:
-                     season_year = self._season_year_from_date(match_date, division)
-            else:
-                season_year = self._season_year_from_date(match_date, division)
+                except ValueError:
+                    # Try split format (e.g. "2012/2013") -> use the second year
+                    if "/" in season_val:
+                        parts = season_val.split("/")
+                        if len(parts) == 2:
+                            try:
+                                season_year = int(parts[1])
+                            except ValueError:
+                                pass
+            
+            if not season_year:
+                 season_year = self._season_year_from_date(match_date, division)
             
             if season_year < min_year:
                 continue
@@ -411,14 +428,10 @@ class Command(BaseCommand):
 
     def _build_url(self, season_year, division):
         # Format: 2425 for 2024/2025
-        # 2024 -> 2324 ? No, usually season_year is the END year for spanning leagues
-        # For Brazil (calendar year), it might be just YYYY?
-        # But football-data.co.uk uses standard directory structure mm/div.csv
-        # However, for Extra leagues like BRA, it's often a single file 'new/BRA.csv'
+        # For Brazil and Argentina: single file URL under /new/
         
-        if division == 'BRA':
-            # Special case for Brazil: single file URL
-            return "https://www.football-data.co.uk/new/BRA.csv", "BRA"
+        if division in ['BRA', 'ARG']:
+            return f"https://www.football-data.co.uk/new/{division}.csv", division
 
         yy_end = season_year % 100
         yy_start = (season_year - 1) % 100
