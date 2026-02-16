@@ -17,6 +17,7 @@ class APIManager:
         'Serie A': {'api_football': [135], 'football_data': [2019]},
         'Ligue 1': {'api_football': [61], 'football_data': [2015]},
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
+        'Pro League': {'api_football': [144], 'football_data': []},
     }
 
     def __init__(self):

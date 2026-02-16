@@ -118,6 +118,8 @@ class Command(BaseCommand):
                     'Ligue 1': {'name': 'Ligue 1', 'country': 'Franca'},
                     'Campeonato Brasileiro Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
                     'Brasileirão Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
+                    'Pro League': {'name': 'Pro League', 'country': 'Belgica'},
+                    'Jupiler Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                 }
                 
                 mapped_league = league_map.get(raw_league_name)
@@ -283,6 +285,26 @@ class Command(BaseCommand):
                     'EC Vitória': 'Vitoria',
                     'Red Bull Bragantino': 'Bragantino',
                     'Santos FC': 'Santos', # Caso volte ou jogue copa
+
+                    # Pro League (Bélgica)
+                    'Union Saint-Gilloise': 'Royale Union SG',
+                    'Union St.-Gilloise': 'Royale Union SG',
+                    'Union St.Gilloise': 'Royale Union SG',
+                    'St. Gilloise': 'Royale Union SG',
+                    'St Gilloise': 'Royale Union SG',
+                    'Sint-Truiden': 'Sint-Truiden',
+                    'St Truiden': 'Sint-Truiden',
+                    'St. Truiden': 'Sint-Truiden',
+                    'KRC Genk': 'Genk',
+                    'RSC Anderlecht': 'Anderlecht',
+                    'KV Mechelen': 'Mechelen',
+                    'Royal Antwerp FC': 'Antwerp',
+                    'Sporting Charleroi': 'Charleroi',
+                    'Standard Liège': 'Standard Liege',
+                    'Oud-Heverlee Leuven': 'OH Leuven',
+                    'RAAL La Louvière': 'La Louviere',
+                    'RAAL La Louviere': 'La Louviere',
+                    'Cercle Brugge KSV': 'Cercle Brugge',
                 }
                 
                 home_name = fixture['home_team']
