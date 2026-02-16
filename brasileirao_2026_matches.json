@@ -1,0 +1,3422 @@
+[
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Palmeiras",
+    "date": "2026-01-28T22:00:00+00:00",
+    "home_score": 2,
+    "away_score": 2,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Bragantino",
+    "date": "2026-01-28T22:00:00+00:00",
+    "home_score": 0,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Athletico-PR",
+    "date": "2026-01-28T22:00:00+00:00",
+    "home_score": 0,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Remo",
+    "date": "2026-01-28T22:00:00+00:00",
+    "home_score": 2,
+    "away_score": 0,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Gremio",
+    "date": "2026-01-28T22:30:00+00:00",
+    "home_score": 2,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Bahia",
+    "date": "2026-01-28T23:00:00+00:00",
+    "home_score": 1,
+    "away_score": 2,
+    "ht_home_score": 1,
+    "ht_away_score": 2
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Santos",
+    "date": "2026-01-28T23:00:00+00:00",
+    "home_score": 4,
+    "away_score": 2,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Flamengo",
+    "date": "2026-01-29T00:30:00+00:00",
+    "home_score": 2,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Vasco",
+    "date": "2026-01-29T23:00:00+00:00",
+    "home_score": 2,
+    "away_score": 1,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Cruzeiro",
+    "date": "2026-01-30T00:30:00+00:00",
+    "home_score": 4,
+    "away_score": 0,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Atletico-MG",
+    "date": "2026-02-04T22:00:00+00:00",
+    "home_score": 1,
+    "away_score": 0,
+    "ht_home_score": 1,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Internacional",
+    "date": "2026-02-04T22:00:00+00:00",
+    "home_score": 1,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Mirassol",
+    "date": "2026-02-04T23:00:00+00:00",
+    "home_score": 2,
+    "away_score": 2,
+    "ht_home_score": 2,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Sao Paulo",
+    "date": "2026-02-04T23:00:00+00:00",
+    "home_score": 1,
+    "away_score": 1,
+    "ht_home_score": 1,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Vitoria",
+    "date": "2026-02-05T00:30:00+00:00",
+    "home_score": 5,
+    "away_score": 1,
+    "ht_home_score": 3,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Botafogo",
+    "date": "2026-02-05T00:30:00+00:00",
+    "home_score": 5,
+    "away_score": 3,
+    "ht_home_score": 1,
+    "ht_away_score": 2
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Fluminense",
+    "date": "2026-02-05T22:00:00+00:00",
+    "home_score": 1,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Chapecoense AF",
+    "date": "2026-02-05T23:00:00+00:00",
+    "home_score": 1,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Coritiba",
+    "date": "2026-02-06T00:30:00+00:00",
+    "home_score": 1,
+    "away_score": 2,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Flamengo",
+    "date": "2026-02-11T00:30:00+00:00",
+    "home_score": 1,
+    "away_score": 2,
+    "ht_home_score": 0,
+    "ht_away_score": 2
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Cruzeiro",
+    "date": "2026-02-11T22:00:00+00:00",
+    "home_score": 2,
+    "away_score": 2,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Coritiba",
+    "date": "2026-02-11T22:00:00+00:00",
+    "home_score": 3,
+    "away_score": 3,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Remo",
+    "date": "2026-02-11T23:00:00+00:00",
+    "home_score": 3,
+    "away_score": 3,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Gremio",
+    "date": "2026-02-12T00:30:00+00:00",
+    "home_score": 2,
+    "away_score": 0,
+    "ht_home_score": 1,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Bahia",
+    "date": "2026-02-12T00:30:00+00:00",
+    "home_score": 0,
+    "away_score": 1,
+    "ht_home_score": 0,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Santos",
+    "date": "2026-02-12T22:00:00+00:00",
+    "home_score": 2,
+    "away_score": 1,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Botafogo",
+    "date": "2026-02-12T22:30:00+00:00",
+    "home_score": 1,
+    "away_score": 0,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Bragantino",
+    "date": "2026-02-12T23:00:00+00:00",
+    "home_score": 2,
+    "away_score": 0,
+    "ht_home_score": 0,
+    "ht_away_score": 0
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Palmeiras",
+    "date": "2026-02-13T00:30:00+00:00",
+    "home_score": 1,
+    "away_score": 3,
+    "ht_home_score": 1,
+    "ht_away_score": 1
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Corinthians",
+    "date": "2026-02-19T22:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Chapecoense AF",
+    "date": "2026-02-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Vitoria",
+    "date": "2026-02-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Mirassol",
+    "date": "2026-02-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Athletico-PR",
+    "date": "2026-02-25T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Internacional",
+    "date": "2026-02-25T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Corinthians",
+    "date": "2026-02-25T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Atletico-MG",
+    "date": "2026-02-26T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Fluminense",
+    "date": "2026-02-26T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Vasco",
+    "date": "2026-02-26T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Sao Paulo",
+    "date": "2026-02-26T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Santos",
+    "date": "2026-03-11T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Botafogo",
+    "date": "2026-03-11T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Internacional",
+    "date": "2026-03-11T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Vitoria",
+    "date": "2026-03-11T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Coritiba",
+    "date": "2026-03-12T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Cruzeiro",
+    "date": "2026-03-12T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Fluminense",
+    "date": "2026-03-12T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Palmeiras",
+    "date": "2026-03-12T22:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Chapecoense AF",
+    "date": "2026-03-12T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Bragantino",
+    "date": "2026-03-13T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Atletico-MG",
+    "date": "2026-03-14T21:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Flamengo",
+    "date": "2026-03-14T23:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Athletico-PR",
+    "date": "2026-03-15T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Bahia",
+    "date": "2026-03-15T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Corinthians",
+    "date": "2026-03-15T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Remo",
+    "date": "2026-03-15T21:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Mirassol",
+    "date": "2026-03-15T21:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Vasco",
+    "date": "2026-03-15T23:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Sao Paulo",
+    "date": "2026-03-15T23:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Gremio",
+    "date": "2026-03-16T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Bragantino",
+    "date": "2026-03-18T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Botafogo",
+    "date": "2026-03-18T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Cruzeiro",
+    "date": "2026-03-18T22:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Sao Paulo",
+    "date": "2026-03-18T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Coritiba",
+    "date": "2026-03-18T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Internacional",
+    "date": "2026-03-19T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Fluminense",
+    "date": "2026-03-19T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Vitoria",
+    "date": "2026-03-19T22:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Remo",
+    "date": "2026-03-19T23:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Corinthians",
+    "date": "2026-03-20T00:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Botafogo",
+    "date": "2026-03-21T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Atletico-MG",
+    "date": "2026-03-21T21:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Palmeiras",
+    "date": "2026-03-22T00:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Coritiba",
+    "date": "2026-03-22T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Santos",
+    "date": "2026-03-22T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Bahia",
+    "date": "2026-03-22T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Gremio",
+    "date": "2026-03-22T19:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Chapecoense AF",
+    "date": "2026-03-22T21:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Mirassol",
+    "date": "2026-03-22T21:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Flamengo",
+    "date": "2026-03-22T23:30:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Athletico-PR",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Mirassol",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Atletico-MG",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Vasco",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Vitoria",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Corinthians",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Sao Paulo",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Gremio",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Flamengo",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Remo",
+    "date": "2026-04-01T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Athletico-PR",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Palmeiras",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Vitoria",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Internacional",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Fluminense",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Santos",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Remo",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Bragantino",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Cruzeiro",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Botafogo",
+    "date": "2026-04-05T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Chapecoense AF",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Coritiba",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Palmeiras",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Bragantino",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Flamengo",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Gremio",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Bahia",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Vasco",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Atletico-MG",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Sao Paulo",
+    "date": "2026-04-12T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Botafogo",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Atletico-MG",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Gremio",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Bahia",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Mirassol",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Athletico-PR",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Remo",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Fluminense",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Sao Paulo",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Corinthians",
+    "date": "2026-04-19T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Vitoria",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Flamengo",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Santos",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Internacional",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Vasco",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Chapecoense AF",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Coritiba",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Palmeiras",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Cruzeiro",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Mirassol",
+    "date": "2026-04-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Gremio",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Remo",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Bragantino",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Atletico-MG",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Vasco",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Fluminense",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Corinthians",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Santos",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Bahia",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Coritiba",
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Botafogo",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Cruzeiro",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Sao Paulo",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Internacional",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Vitoria",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Flamengo",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Chapecoense AF",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Palmeiras",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Bragantino",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Athletico-PR",
+    "date": "2026-05-10T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Flamengo",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Mirassol",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Gremio",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Corinthians",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Remo",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Sao Paulo",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Vasco",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Cruzeiro",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Vitoria",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Coritiba",
+    "date": "2026-05-17T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Atletico-MG",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Bahia",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Chapecoense AF",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Palmeiras",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Santos",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Fluminense",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Athletico-PR",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Botafogo",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Bragantino",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Internacional",
+    "date": "2026-05-24T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Mirassol",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Botafogo",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Fluminense",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Coritiba",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Corinthians",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Chapecoense AF",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Internacional",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Sao Paulo",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Vitoria",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Atletico-MG",
+    "date": "2026-05-31T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Bahia",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Santos",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Flamengo",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Remo",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Palmeiras",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Bragantino",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Cruzeiro",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Gremio",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Athletico-PR",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Vasco",
+    "date": "2026-07-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Internacional",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Corinthians",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Botafogo",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Sao Paulo",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Fluminense",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Atletico-MG",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Coritiba",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Vitoria",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Chapecoense AF",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Mirassol",
+    "date": "2026-07-26T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Bragantino",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Gremio",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Vasco",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Athletico-PR",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Cruzeiro",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Bahia",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Flamengo",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Remo",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Santos",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Palmeiras",
+    "date": "2026-07-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Vasco",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Fluminense",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Chapecoense AF",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Mirassol",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Vitoria",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Sao Paulo",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Internacional",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Corinthians",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Atletico-MG",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Athletico-PR",
+    "date": "2026-08-09T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Bragantino",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Gremio",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Bahia",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Cruzeiro",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Palmeiras",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Remo",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Flamengo",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Coritiba",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Santos",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Botafogo",
+    "date": "2026-08-16T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Athletico-PR",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Sao Paulo",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Corinthians",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Flamengo",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Remo",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Atletico-MG",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Vasco",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Gremio",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Mirassol",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Bahia",
+    "date": "2026-08-23T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Fluminense",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Vitoria",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Internacional",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Santos",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Botafogo",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Chapecoense AF",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Palmeiras",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Coritiba",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Bragantino",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Cruzeiro",
+    "date": "2026-08-30T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Palmeiras",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Chapecoense AF",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Mirassol",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Athletico-PR",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Vasco",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Santos",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Bahia",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Flamengo",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Atletico-MG",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Gremio",
+    "date": "2026-09-06T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Fluminense",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Remo",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Bragantino",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Internacional",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Athletico-PR",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Corinthians",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Vasco",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Vitoria",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Sao Paulo",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Cruzeiro",
+    "date": "2026-09-13T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Bahia",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Chapecoense AF",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Fluminense",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Bragantino",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Palmeiras",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Botafogo",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Santos",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Internacional",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Coritiba",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Cruzeiro",
+    "date": "2026-09-20T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Atletico-MG",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Vasco",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Sao Paulo",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Coritiba",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Corinthians",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Bahia",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Mirassol",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Gremio",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Flamengo",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Chapecoense AF",
+    "date": "2026-10-07T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Santos",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Mirassol",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Athletico-PR",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Botafogo",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Fluminense",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Internacional",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Corinthians",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Cruzeiro",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Vitoria",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Remo",
+    "date": "2026-10-11T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Palmeiras",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Coritiba",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Flamengo",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Chapecoense AF",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Vitoria",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Santos",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Cruzeiro",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Internacional",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Bragantino",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Vasco",
+    "date": "2026-10-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Fluminense",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Gremio",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Remo",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Atletico-MG",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Botafogo",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Sao Paulo",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Bragantino",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Bahia",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Corinthians",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Athletico-PR",
+    "date": "2026-10-25T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Cruzeiro",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Sao Paulo",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Mirassol",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Vitoria",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Internacional",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Athletico-PR",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Chapecoense AF",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Botafogo",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Palmeiras",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Flamengo",
+    "date": "2026-10-28T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Vasco",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Atletico-MG",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Mirassol",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Bahia",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Gremio",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Coritiba",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Remo",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Santos",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Corinthians",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Fluminense",
+    "date": "2026-11-04T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Botafogo",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Santos",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Palmeiras",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Athletico-PR",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Bahia",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Atletico-MG",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Chapecoense AF",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Fluminense",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Internacional",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Bragantino",
+    "date": "2026-11-18T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Remo",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Corinthians",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Coritiba",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Sao Paulo",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Cruzeiro",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Mirassol",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Vitoria",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Flamengo",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Vasco",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Gremio",
+    "date": "2026-11-22T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Atletico-MG",
+    "away_team": "Vasco",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Botafogo",
+    "away_team": "Bahia",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Chapecoense AF",
+    "away_team": "Palmeiras",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Corinthians",
+    "away_team": "Gremio",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Coritiba",
+    "away_team": "Flamengo",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Fluminense",
+    "away_team": "Cruzeiro",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Internacional",
+    "away_team": "Bragantino",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Mirassol",
+    "away_team": "Athletico-PR",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Sao Paulo",
+    "away_team": "Remo",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vitoria",
+    "away_team": "Santos",
+    "date": "2026-11-29T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Athletico-PR",
+    "away_team": "Sao Paulo",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bahia",
+    "away_team": "Atletico-MG",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Cruzeiro",
+    "away_team": "Internacional",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Flamengo",
+    "away_team": "Chapecoense AF",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Gremio",
+    "away_team": "Mirassol",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Palmeiras",
+    "away_team": "Coritiba",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Bragantino",
+    "away_team": "Fluminense",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Remo",
+    "away_team": "Corinthians",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Santos",
+    "away_team": "Botafogo",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  },
+  {
+    "home_team": "Vasco",
+    "away_team": "Vitoria",
+    "date": "2026-12-02T18:00:00+00:00",
+    "home_score": null,
+    "away_score": null,
+    "ht_home_score": null,
+    "ht_away_score": null
+  }
+]

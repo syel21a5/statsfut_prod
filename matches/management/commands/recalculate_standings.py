@@ -144,7 +144,6 @@ class Command(BaseCommand):
                 data["points"],
             )
             for data in stats_by_team.values()
-            if data["played"] > 0
         ]
 
         teams_stats.sort(
@@ -180,4 +179,3 @@ class Command(BaseCommand):
                 f"Tabela recalculada. Times atualizados: {created}"
             )
         )
-
