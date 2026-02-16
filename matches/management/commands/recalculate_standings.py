@@ -82,9 +82,27 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("Nenhum jogo finalizado encontrado para esta liga/temporada"))
             return
 
-        stats_by_team = {}
+        # Identificar times que participaram desta temporada (Home ou Away em qualquer jogo)
+        # Isso evita que times de anos anteriores (rebaixados) apareçam na tabela atual
+        season_team_ids = set(
+            Match.objects.filter(league=league, season=season)
+            .values_list("home_team_id", flat=True)
+        ) | set(
+            Match.objects.filter(league=league, season=season)
+            .values_list("away_team_id", flat=True)
+        )
 
-        teams = Team.objects.filter(league=league)
+        stats_by_team = {}
+        
+        if not season_team_ids:
+            # Fallback: Se não tem nenhum jogo (nem agendado), mas queremos a tabela (ex: início de temporada vazio)
+            # Aí pegamos todos da liga (comportamento antigo/arriscado para ligas com rebaixamento)
+            # Mas geralmente se importou season, tem jogos.
+            self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada."))
+            teams = Team.objects.filter(league=league)
+        else:
+            teams = Team.objects.filter(id__in=season_team_ids)
+
         for team in teams:
             stats_by_team[team.id] = {
                 "team": team,
