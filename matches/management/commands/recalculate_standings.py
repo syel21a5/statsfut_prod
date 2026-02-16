@@ -82,14 +82,15 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("Nenhum jogo finalizado encontrado para esta liga/temporada"))
             return
 
-        # Identificar times que participaram desta temporada (Home ou Away em qualquer jogo)
-        # Isso evita que times de anos anteriores (rebaixados) apareçam na tabela atual
+        if league.country == "Alemanha":
+            base_qs = finished_matches
+        else:
+            base_qs = Match.objects.filter(league=league, season=season)
+
         season_team_ids = set(
-            Match.objects.filter(league=league, season=season)
-            .values_list("home_team_id", flat=True)
+            base_qs.values_list("home_team_id", flat=True)
         ) | set(
-            Match.objects.filter(league=league, season=season)
-            .values_list("away_team_id", flat=True)
+            base_qs.values_list("away_team_id", flat=True)
         )
 
         stats_by_team = {}
