@@ -98,8 +98,18 @@ class Command(BaseCommand):
 
         else:
             current_year = timezone.now().year
-            end_year = current_year + 1
-            for season_year in range(min_year, end_year + 1):
+            
+            if division == 'BRA':
+                # Brasil: arquivo único com todo o histórico. Processar apenas uma vez.
+                seasons_to_process = [current_year]
+                self.stdout.write(self.style.WARNING("Modo Brasil detectado: Processando arquivo único histórico (BRA.csv)."))
+            else:
+                # Europa: arquivos por temporada.
+                # Ligas europeias terminam no ano seguinte (ex: 2025/2026 -> 2026)
+                end_year = current_year + 1
+                seasons_to_process = range(min_year, end_year + 1)
+
+            for season_year in seasons_to_process:
                 url, code = self._build_url(season_year, division)
                 try:
                     resp = requests.get(url, timeout=15)
