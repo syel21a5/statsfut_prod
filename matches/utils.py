@@ -13,6 +13,28 @@ TEAM_NAME_MAPPINGS = {
     "Sunderland AFC": "Sunderland",
     "Nottingham Forest FC": "Nottm Forest",
 
+    # Bundesliga (Alemanha)
+    "Bayer 04 Leverkusen": "Leverkusen",
+    "FC Bayern München": "Bayern Munich",
+    "VfB Stuttgart": "Stuttgart",
+    "RB Leipzig": "Leipzig",
+    "Borussia Dortmund": "Dortmund",
+    "Eintracht Frankfurt": "Frankfurt",
+    "TSG 1899 Hoffenheim": "Hoffenheim",
+    "1. FC Heidenheim 1846": "Heidenheim",
+    "SV Werder Bremen": "Werder Bremen",
+    "SC Freiburg": "Freiburg",
+    "FC Augsburg": "Augsburg",
+    "VfL Wolfsburg": "Wolfsburg",
+    "1. FSV Mainz 05": "Mainz",
+    "Borussia Mönchengladbach": "M Gladbach",
+    "1. FC Union Berlin": "Union Berlin",
+    "VfL Bochum 1848": "Bochum",
+    "1. FC Köln": "Koln",
+    "SV Darmstadt 98": "Darmstadt",
+    "FC St. Pauli 1910": "St Pauli",
+    "Holstein Kiel": "Holstein Kiel",
+
     # Brasileirão (e times sul-americanos que aparecem em competições)
     "Flamengo RJ": "Flamengo",
     "Botafogo RJ": "Botafogo",
