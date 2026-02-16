@@ -64,6 +64,8 @@ COUNTRY_TRANSLATIONS = {
     "Argentina": "Argentina",
 }
 
+COUNTRY_REVERSE_TRANSLATIONS = {v: k for k, v in COUNTRY_TRANSLATIONS.items()}
+
 def normalize_team_name(name):
     """
     Retorna o nome padronizado do time, se existir no mapeamento.
