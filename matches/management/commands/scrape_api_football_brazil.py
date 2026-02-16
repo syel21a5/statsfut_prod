@@ -153,35 +153,75 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"Criados: {created}, atualizados: {updated}, ignorados: {skipped}"))
 
     def resolve_team(self, name, league):
+        # Tenta busca exata primeiro
         direct = Team.objects.filter(name__iexact=name, league=league).first()
         if direct:
             return direct
 
+        # Mapeamento API-Football -> Nomes Canônicos do Banco
+        # Deve estar alinhado com import_football_data.py
         mapping = {
             "SE Palmeiras": "Palmeiras",
             "CR Flamengo": "Flamengo",
             "Botafogo FR": "Botafogo",
             "São Paulo FC": "Sao Paulo",
+            "Sao Paulo": "Sao Paulo",
             "Grêmio FBPA": "Gremio",
+            "Gremio": "Gremio",
             "Clube Atlético Mineiro": "Atletico-MG",
+            "Atlético Mineiro": "Atletico-MG",
             "Club Athletico Paranaense": "Athletico-PR",
+            "Athletico Paranaense": "Athletico-PR",
             "Fluminense FC": "Fluminense",
             "Cuiabá EC": "Cuiaba",
+            "Cuiaba": "Cuiaba",
             "SC Corinthians Paulista": "Corinthians",
+            "Corinthians": "Corinthians",
             "Cruzeiro EC": "Cruzeiro",
+            "Cruzeiro": "Cruzeiro",
             "SC Internacional": "Internacional",
+            "Internacional": "Internacional",
             "Fortaleza EC": "Fortaleza",
+            "Fortaleza": "Fortaleza",
             "EC Bahia": "Bahia",
+            "Bahia": "Bahia",
             "CR Vasco da Gama": "Vasco",
+            "Vasco da Gama": "Vasco",
             "EC Juventude": "Juventude",
+            "Juventude": "Juventude",
             "AC Goianiense": "Atletico-GO",
+            "Atlético Goianiense": "Atletico-GO",
             "Criciúma EC": "Criciuma",
+            "Criciuma": "Criciuma",
             "EC Vitória": "Vitoria",
+            "Vitoria": "Vitoria",
             "Red Bull Bragantino": "Bragantino",
+            "Bragantino": "Bragantino",
             "Santos FC": "Santos",
-            "Athletico Paranaense": "Athletico-PR",
-            "Atlético Mineiro": "Atletico-MG",
-            "Chapecoense": "Chapecoense AF",
+            "Santos": "Santos",
+            "Chapecoense": "Chapecoense",
+            "Associação Chapecoense de Futebol": "Chapecoense",
+            "Sport Club do Recife": "Sport Recife",
+            "Sport Recife": "Sport Recife",
+            "Ceará SC": "Ceara",
+            "Ceara": "Ceara",
+            "Goiás EC": "Goias",
+            "Goias": "Goias",
+            "América FC": "America-MG",
+            "America MG": "America-MG",
+            "Avaí FC": "Avai",
+            "Avai": "Avai",
+            "Coritiba FC": "Coritiba",
+            "Coritiba": "Coritiba",
+            "Mirassol FC": "Mirassol",
+            "Mirassol": "Mirassol",
+            "Clube do Remo": "Remo",
+            "Remo": "Remo",
+            "Paysandu SC": "Paysandu",
+            "Paysandu": "Paysandu",
+            "Vila Nova FC": "Vila Nova",
+            "Novorizontino": "Novorizontino",
+            "Grêmio Novorizontino": "Novorizontino",
         }
 
         target_name = mapping.get(name, name)
@@ -189,6 +229,11 @@ class Command(BaseCommand):
         if team:
             return team
 
+        # Tentativa final: busca parcial (perigoso, mas útil como fallback)
         simplified = name.split(" ")[0]
-        return Team.objects.filter(name__icontains=simplified, league=league).first()
+        # Evita match em nomes muito comuns se não tiver certeza
+        if len(simplified) > 3:
+            return Team.objects.filter(name__icontains=simplified, league=league).first()
+        
+        return None
 
