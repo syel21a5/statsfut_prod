@@ -43,6 +43,25 @@ TEAM_NAME_MAPPINGS = {
     "Bayer Leverkusen": "Leverkusen",
     "FSV Mainz": "Mainz",
 
+    # Pro League (Bélgica)
+    "Union St.Gilloise": "Royale Union SG",
+    "Union St.-Gilloise": "Royale Union SG",
+    "Union Saint-Gilloise": "Royale Union SG",
+    "St. Gilloise": "Royale Union SG",
+    "St Gilloise": "Royale Union SG",
+    "St. Truiden": "Sint-Truiden",
+    "St Truiden": "Sint-Truiden",
+    "Sint Truiden": "Sint-Truiden",
+    "Waregem": "Zulte-Waregem",
+    "Standard": "Standard Liege",
+    "Standard Liège": "Standard Liege",
+    "Standard de Liege": "Standard Liege",
+    "Oud-Heverlee Leuven": "OH Leuven",
+    "Oud Heverlee Leuven": "OH Leuven",
+    "RAAL La Louviere": "La Louviere",
+    "La Louvière": "La Louviere",
+    "Cercle Brugge KSV": "Cercle Brugge",
+
     # Brasileirão (e times sul-americanos que aparecem em competições)
     "Flamengo RJ": "Flamengo",
     "Botafogo RJ": "Botafogo",
