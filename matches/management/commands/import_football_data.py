@@ -9,6 +9,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from matches.models import League, Team, Match, Season
+from matches.utils import normalize_team_name
 
 
 class Command(BaseCommand):
@@ -257,53 +258,9 @@ class Command(BaseCommand):
             if not home_name or not away_name:
                 continue
 
-            # Mapeamento de nomes para evitar duplicatas
-            mappings = {
-                "Wolves": "Wolverhampton",
-                "Man City": "Manchester City",
-                "Man United": "Manchester Utd",
-                "Newcastle": "Newcastle Utd",
-                "Nott'm Forest": "Nottm Forest",
-                "West Ham": "West Ham Utd",
-                "Leeds": "Leeds Utd",
-                "Sunderland AFC": "Sunderland",
-                "Nottingham Forest FC": "Nottm Forest",
-                
-                # Brazil Mappings (Normalization)
-                "Flamengo RJ": "Flamengo",
-                "Botafogo RJ": "Botafogo",
-                "CA Mineiro": "Atletico-MG",
-                "Atletico Mineiro": "Atletico-MG",
-                "CA Paranaense": "Athletico-PR",
-                "Club Athletico Paranaense": "Athletico-PR",
-                "Coritiba FBC": "Coritiba",
-                "Chapecoense AF": "Chapecoense",
-                "Chapecoense-SC": "Chapecoense",
-                "Clube do Remo": "Remo",
-                "Mirassol FC": "Mirassol",
-                "RB Bragantino": "Bragantino",
-                "Red Bull Bragantino": "Bragantino",
-                "Sao Paulo FC": "Sao Paulo",
-                "Santos FC": "Santos",
-                "Gremio FBPA": "Gremio",
-                "Cruzeiro EC": "Cruzeiro",
-                "EC Vitoria": "Vitoria",
-                "Vasco da Gama": "Vasco",
-                "Cuiaba Esporte Clube": "Cuiaba",
-                "America FC": "America-MG", 
-                "America MG": "America-MG",
-                "Goias EC": "Goias",
-                "Ceara SC": "Ceara",
-                "Fortaleza EC": "Fortaleza",
-                "EC Bahia": "Bahia",
-                "Sport Club do Recife": "Sport Recife",
-                "Avai FC": "Avai",
-                "Juventude RS": "Juventude",
-                "CSA": "CSA",
-            }
-            
-            home_name = mappings.get(home_name, home_name)
-            away_name = mappings.get(away_name, away_name)
+            # Mapeamento centralizado de nomes
+            home_name = normalize_team_name(home_name)
+            away_name = normalize_team_name(away_name)
 
             home_team, _ = Team.objects.get_or_create(name=home_name, league=league)
             away_team, _ = Team.objects.get_or_create(name=away_name, league=league)

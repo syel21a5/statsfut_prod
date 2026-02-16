@@ -1,64 +1,61 @@
-# Country Name Translations
-# Source of truth for mapping Portuguese DB names to English display names
-# and resolving English URLs back to DB names.
+# Mapeamento centralizado de nomes de times para evitar duplicatas
+# Formato: "Nome Incorreto/Alternativo": "Nome Padronizado"
 
-COUNTRY_TRANSLATIONS = {
-    'Inglaterra': 'England',
-    'Espanha': 'Spain',
-    'Brasil': 'Brazil',
-    'Italia': 'Italy',
-    'Itália': 'Italy',
-    'Alemanha': 'Germany',
-    'Franca': 'France',
-    'França': 'France',
-    'Holanda': 'Netherlands',
-    'Belgica': 'Belgium',
-    'Bélgica': 'Belgium',
-    'Estados Unidos': 'USA',
-    'Turquia': 'Turkey',
-    'Russia': 'Russia',
-    'Rússia': 'Russia',
-    'Ucrania': 'Ukraine',
-    'Ucrânia': 'Ukraine',
-    'Suecia': 'Sweden',
-    'Suécia': 'Sweden',
-    'Noruega': 'Norway',
-    'Dinamarca': 'Denmark',
-    'Finlandia': 'Finland',
-    'Finlândia': 'Finland',
-    'Grecia': 'Greece',
-    'Grécia': 'Greece',
-    'Japao': 'Japan',
-    'Japão': 'Japan',
-    'Coreia do Sul': 'South Korea',
-    'Coréia do Sul': 'South Korea',
-    'China': 'China',
-    'Australia': 'Australia',
-    'Austrália': 'Australia',
-    'Argentina': 'Argentina',
-    'Austria': 'Austria',
-    'Áustria': 'Austria',
-    'Suica': 'Switzerland',
-    'Suíça': 'Switzerland',
-    'Republica Tcheca': 'Czech Republic',
-    'República Tcheca': 'Czech Republic',
-    'Polonia': 'Poland',
-    'Polônia': 'Poland',
-    'Escocia': 'Scotland',
-    'Escócia': 'Scotland',
-    'Gales': 'Wales',
-    'Pais de Gales': 'Wales',
-    'País de Gales': 'Wales',
-    'Irlanda': 'Ireland',
-    'Colombia': 'Colombia',
-    'Colômbia': 'Colombia',
-    'Chile': 'Chile',
-    'Mexico': 'Mexico',
-    'México': 'Mexico',
-    'Uruguai': 'Uruguay',
-    'Portugal': 'Portugal',
+TEAM_NAME_MAPPINGS = {
+    # Premier League
+    "Wolves": "Wolverhampton",
+    "Man City": "Manchester City",
+    "Man United": "Manchester Utd",
+    "Newcastle": "Newcastle Utd",
+    "Nott'm Forest": "Nottm Forest",
+    "West Ham": "West Ham Utd",
+    "Leeds": "Leeds Utd",
+    "Sunderland AFC": "Sunderland",
+    "Nottingham Forest FC": "Nottm Forest",
+
+    # Brasileirão (e times sul-americanos que aparecem em competições)
+    "Flamengo RJ": "Flamengo",
+    "Botafogo RJ": "Botafogo",
+    "CA Mineiro": "Atletico-MG",
+    "Atletico Mineiro": "Atletico-MG",
+    "CA Paranaense": "Athletico-PR",
+    "Club Athletico Paranaense": "Athletico-PR",
+    "Coritiba FBC": "Coritiba",
+    "Chapecoense AF": "Chapecoense",
+    "Chapecoense-SC": "Chapecoense",
+    "Clube do Remo": "Remo",
+    "Mirassol FC": "Mirassol",
+    "RB Bragantino": "Bragantino",
+    "Red Bull Bragantino": "Bragantino",
+    "Sao Paulo FC": "Sao Paulo",
+    "Santos FC": "Santos",
+    "Gremio FBPA": "Gremio",
+    "Cruzeiro EC": "Cruzeiro",
+    "EC Vitoria": "Vitoria",
+    "Vasco da Gama": "Vasco",
+    "Cuiaba Esporte Clube": "Cuiaba",
+    "America FC": "America-MG", 
+    "America MG": "America-MG",
+    "Goias EC": "Goias",
+    "Ceara SC": "Ceara",
+    "Fortaleza EC": "Fortaleza",
+    "EC Bahia": "Bahia",
+    "Sport Club do Recife": "Sport Recife",
+    "Avai FC": "Avai",
+    "Juventude RS": "Juventude",
+    "CSA": "CSA",
+    
+    # Argentina (Adicionar conforme necessário)
+    # "River Plate ...": "River Plate",
 }
 
-# Reverse Map: English (lowercase) -> Portuguese DB Name
-# Used for URL resolution
-COUNTRY_REVERSE_TRANSLATIONS = {v.lower(): k for k, v in COUNTRY_TRANSLATIONS.items()}
+def normalize_team_name(name):
+    """
+    Retorna o nome padronizado do time, se existir no mapeamento.
+    Caso contrário, retorna o nome original limpo.
+    """
+    if not name:
+        return None
+    
+    clean_name = name.strip()
+    return TEAM_NAME_MAPPINGS.get(clean_name, clean_name)

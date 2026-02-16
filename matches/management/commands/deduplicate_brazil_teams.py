@@ -1,44 +1,15 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from matches.models import Team, Match, League
+from matches.utils import TEAM_NAME_MAPPINGS
 
 class Command(BaseCommand):
     help = "Remove duplicatas de times brasileiros unificando os registros"
 
     def handle(self, *args, **options):
         # Mapeamento (Nome Incorreto -> Nome Correto)
-        # Mesma lista do import_football_data.py
-        mappings = {
-            "Chapecoense-SC": "Chapecoense",
-            "Clube do Remo": "Remo",
-            "Mirassol FC": "Mirassol",
-            "RB Bragantino": "Bragantino",
-            "Red Bull Bragantino": "Bragantino",
-            "Coritiba FBC": "Coritiba",
-            "CA Mineiro": "Atletico-MG",
-            "CA Paranaense": "Athletico-PR",
-            "Club Athletico Paranaense": "Athletico-PR",
-            "EC Vitoria": "Vitoria",
-            "America FC": "America-MG",
-            "America MG": "America-MG",
-            "Goias EC": "Goias",
-            "Ceara SC": "Ceara",
-            "Fortaleza EC": "Fortaleza",
-            "EC Bahia": "Bahia",
-            "Sport Club do Recife": "Sport Recife",
-            "Avai FC": "Avai",
-            "Juventude RS": "Juventude",
-            "CSA": "CSA",
-            "Chapecoense AF": "Chapecoense", # Adicionado explicitamente
-            "Vasco da Gama": "Vasco",
-            "Cruzeiro EC": "Cruzeiro",
-            "Santos FC": "Santos",
-            "Sao Paulo FC": "Sao Paulo",
-            "Gremio FBPA": "Gremio",
-            "Botafogo RJ": "Botafogo",
-            "Flamengo RJ": "Flamengo",
-            "Cuiaba Esporte Clube": "Cuiaba",
-        }
+        # Importado de utils.py
+        mappings = TEAM_NAME_MAPPINGS
 
         league_name = "Brasileirão"
         league = League.objects.filter(name=league_name).first()
