@@ -39,6 +39,7 @@ class Command(BaseCommand):
             "Avai FC": "Avai",
             "Juventude RS": "Juventude",
             "CSA": "CSA",
+            "Chapecoense AF": "Chapecoense", # Adicionado explicitamente
         }
 
         league_name = "Brasileirão"
