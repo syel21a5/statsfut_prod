@@ -11,6 +11,7 @@ from django.conf import settings
 from datetime import timedelta
 from matches.models import League, Season, Team, Match
 from matches.api_manager import APIManager
+from matches.team_validation import is_team_valid_for_league
 
 class Command(BaseCommand):
     help = 'Sync upcoming fixtures for all leagues with team validation'
@@ -110,14 +111,32 @@ class Command(BaseCommand):
         skipped_count = 0
         
         for fixture_data in fixtures:
+            # CRITICAL: Validate team names against whitelist BEFORE processing
+            home_team_name = fixture_data['home_team']
+            away_team_name = fixture_data['away_team']
+            
+            if not is_team_valid_for_league(home_team_name, league.name):
+                self.stdout.write(self.style.WARNING(
+                    f'  ⚠️  Rejected: {home_team_name} not valid for {league.name}'
+                ))
+                skipped_count += 1
+                continue
+            
+            if not is_team_valid_for_league(away_team_name, league.name):
+                self.stdout.write(self.style.WARNING(
+                    f'  ⚠️  Rejected: {away_team_name} not valid for {league.name}'
+                ))
+                skipped_count += 1
+                continue
+            
             # Get or create teams
             home_team = self._get_or_create_team(
-                fixture_data['home_team'], 
+                home_team_name, 
                 league,
                 fixture_data.get('home_team_id')
             )
             away_team = self._get_or_create_team(
-                fixture_data['away_team'], 
+                away_team_name, 
                 league,
                 fixture_data.get('away_team_id')
             )
