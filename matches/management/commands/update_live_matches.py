@@ -47,13 +47,13 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos ao vivo: {e}'))
         
         if mode in ['upcoming', 'both']:
-            self.stdout.write(self.style.SUCCESS('📅 Buscando próximos jogos (15 dias)...'))
+            self.stdout.write(self.style.SUCCESS('📅 Buscando próximos jogos (30 dias)...'))
             
             # Itera sobre cada liga mapeada para garantir uso correto das APIs
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
-                    upcoming_fixtures = api_manager.get_upcoming_fixtures(league_name=league_name, days_ahead=15)
+                    upcoming_fixtures = api_manager.get_upcoming_fixtures(league_name=league_name, days_ahead=30)
                     if upcoming_fixtures:
                         self.process_fixtures(upcoming_fixtures, is_live=False)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {len(upcoming_fixtures)} jogos encontrados para {league_name}'))
@@ -68,10 +68,10 @@ class Command(BaseCommand):
                 'Finland','France','Germany','Greece','Italy','Japan','Netherlands','Norway','Poland',
                 'Portugal','Russia','Sweden','Turkey','Ukraine','Switzerland'
             ]
-            self.stdout.write(self.style.SUCCESS('\n🌍 Buscando próximos jogos por país (ligas principais)...'))
+            self.stdout.write(self.style.SUCCESS('\n🌍 Buscando próximos jogos por país (ligas principais, 30 dias)...'))
             for country in countries:
                 try:
-                    fixtures = api_manager.get_upcoming_fixtures_by_country(country, days_ahead=15)
+                    fixtures = api_manager.get_upcoming_fixtures_by_country(country, days_ahead=30)
                     if fixtures:
                         self.process_fixtures(fixtures, is_live=False)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {country}: {len(fixtures)} jogos'))
