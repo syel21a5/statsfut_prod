@@ -28,19 +28,20 @@ class Command(BaseCommand):
         days_ahead = options['days']
         league_filter = options.get('league')
         
-        # Define leagues to sync
+        # Define leagues to sync with country to avoid duplicates
         leagues_to_sync = [
-            'Premier League',
-            'La Liga', 
-            'Bundesliga',
-            'Serie A',
-            'Ligue 1',
-            'Brasileirao',
-            'Pro League'
+            {'name': 'Premier League', 'country': 'Inglaterra'},
+            {'name': 'La Liga', 'country': 'Espanha'},
+            {'name': 'Bundesliga', 'country': 'Alemanha'},  # Not Austria!
+            {'name': 'Serie A', 'country': 'Italia'},
+            {'name': 'Ligue 1', 'country': 'Franca'},
+            {'name': 'Brasileirao', 'country': 'Brasil'},
+            {'name': 'Pro League', 'country': 'Belgica'},
         ]
         
         if league_filter:
-            leagues_to_sync = [league_filter]
+            # If user specifies a league, try to find it (without country filter)
+            leagues_to_sync = [{'name': league_filter, 'country': None}]
         
         self.stdout.write(self.style.SUCCESS(f'\n🔄 Syncing fixtures for {len(leagues_to_sync)} league(s)...\n'))
         
@@ -52,12 +53,21 @@ class Command(BaseCommand):
         total_updated = 0
         total_skipped = 0
         
-        for league_name in leagues_to_sync:
+        for league_config in leagues_to_sync:
+            league_name = league_config['name']
+            league_country = league_config.get('country')
+            
             self.stdout.write(f'\n📊 {league_name}')
+            if league_country:
+                self.stdout.write(f'   ({league_country})')
             self.stdout.write('-' * 50)
             
-            # Use filter().first() to handle duplicate leagues gracefully
-            league = League.objects.filter(name=league_name).first()
+            # Filter by name and country to avoid duplicates (e.g., Bundesliga Germany vs Austria)
+            if league_country:
+                league = League.objects.filter(name=league_name, country=league_country).first()
+            else:
+                league = League.objects.filter(name=league_name).first()
+            
             if not league:
                 self.stdout.write(self.style.WARNING(f'  ⚠️  League not found, skipping'))
                 continue
