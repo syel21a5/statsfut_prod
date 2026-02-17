@@ -53,6 +53,12 @@ class Command(BaseCommand):
                 'country': 'Australia',
                 'url_base': 'australia',
                 'current_param': 'australia'
+            },
+            {
+                'name': 'First League',
+                'country': 'Republica Tcheca',
+                'url_base': 'czechrepublic',
+                'current_param': 'czechrepublic'
             }
         ]
 
