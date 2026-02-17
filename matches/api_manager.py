@@ -282,9 +282,15 @@ class APIManager:
         if league_ids:
             # Faz uma request por liga para economizar
             all_fixtures = []
+            now = datetime.now()
+            european_multi_year = {39, 140, 78, 135, 61, 144}
             for league_id in league_ids:
                 params['league'] = league_id
-                params['season'] = datetime.now().year
+                if league_id in european_multi_year:
+                    season = now.year if now.month >= 7 else now.year - 1
+                else:
+                    season = now.year
+                params['season'] = season
                 
                 response = requests.get(
                     f"{api_config['base_url']}/fixtures",
