@@ -45,6 +45,12 @@ class Command(BaseCommand):
                 'country': 'Brasil',
                 'url_base': 'brazil',
                 'current_param': 'brazil'
+            },
+            {
+                'name': 'Pro League',
+                'country': 'Belgica',
+                'url_base': 'belgium',
+                'current_param': 'belgium'
             }
         ]
 
@@ -53,8 +59,6 @@ class Command(BaseCommand):
         }
 
         for league_conf in leagues:
-            if league_conf['name'] != 'Brasileirão': # Only process Brazil for now as requested
-                continue
 
             self.stdout.write(self.style.SUCCESS(f"--- Processing {league_conf['name']} ---"))
             
