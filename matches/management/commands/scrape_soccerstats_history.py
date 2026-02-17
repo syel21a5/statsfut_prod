@@ -19,8 +19,7 @@ class Command(BaseCommand):
         parser.add_argument('--csv_only', action='store_true', help='Save to CSV only, do not import to DB')
 
     def handle(self, *args, **kwargs):
-        # Default to 2010-2025 if not specified
-        years = kwargs['years'] or list(range(2010, 2026))
+        years = kwargs['years'] or list(range(2016, 2027))
         csv_only = kwargs['csv_only']
         
         # Ensure export directory exists
@@ -28,17 +27,12 @@ class Command(BaseCommand):
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
 
-        # We process England and Brazil
-        # SoccerStats URL patterns:
-        # England: https://www.soccerstats.com/results.asp?league=england_2024 (for 2023/24)
-        # Brazil: https://www.soccerstats.com/results.asp?league=brazil_2024 (for 2024)
-        
         leagues = [
             {
                 'name': 'Premier League',
                 'country': 'Inglaterra',
                 'url_base': 'england',
-                'current_param': 'england' # For current season sometimes it's just 'england'
+                'current_param': 'england'
             },
             {
                 'name': 'Brasileirão',
@@ -51,6 +45,12 @@ class Command(BaseCommand):
                 'country': 'Belgica',
                 'url_base': 'belgium',
                 'current_param': 'belgium'
+            },
+            {
+                'name': 'A League',
+                'country': 'Australia',
+                'url_base': 'australia',
+                'current_param': 'australia'
             }
         ]
 
