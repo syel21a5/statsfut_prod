@@ -56,9 +56,9 @@ class Command(BaseCommand):
             self.stdout.write(f'\n📊 {league_name}')
             self.stdout.write('-' * 50)
             
-            try:
-                league = League.objects.get(name=league_name)
-            except League.DoesNotExist:
+            # Use filter().first() to handle duplicate leagues gracefully
+            league = League.objects.filter(name=league_name).first()
+            if not league:
                 self.stdout.write(self.style.WARNING(f'  ⚠️  League not found, skipping'))
                 continue
             
