@@ -193,17 +193,27 @@ class APIManager:
                 af_ids = mapping['api_football']
         
         fd_keys = [f'football_data_{i}' for i in range(1, 9)]
-        api_fd = self._choose_best_api_from_list(fd_keys, exclude_apis=exclude_apis)
-        if api_fd:
-            api_config = self.apis[api_fd]
-            try:
-                print(f"[APIManager] Upcoming fixtures via {api_fd} ({api_config['name']})")
-                fixtures = self._get_football_data_fixtures(api_fd, api_config, status='scheduled', days_ahead=days_ahead, league_ids=fd_ids)
-                if fixtures:
-                    return fixtures
-            except Exception as e:
-                print(f"Erro na {api_config['name']}: {e}")
-                exclude_apis.append(api_fd)
+
+        # Só tenta Football-Data se houver IDs configurados para essa liga.
+        # Para ligas apenas da API-Football (como Pro League), pulamos direto para a API-Football.
+        if fd_ids:
+            api_fd = self._choose_best_api_from_list(fd_keys, exclude_apis=exclude_apis)
+            if api_fd:
+                api_config = self.apis[api_fd]
+                try:
+                    print(f"[APIManager] Upcoming fixtures via {api_fd} ({api_config['name']})")
+                    fixtures = self._get_football_data_fixtures(
+                        api_fd,
+                        api_config,
+                        status='scheduled',
+                        days_ahead=days_ahead,
+                        league_ids=fd_ids,
+                    )
+                    if fixtures:
+                        return fixtures
+                except Exception as e:
+                    print(f"Erro na {api_config['name']}: {e}")
+                    exclude_apis.append(api_fd)
         
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
