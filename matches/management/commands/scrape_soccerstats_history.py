@@ -137,18 +137,12 @@ class Command(BaseCommand):
         # This is likely a results table
         for idx, row in df.iterrows():
             try:
-                # SoccerStats structure varies.
-                # Often: Col 0 (Date), Col 1 (Home), Col 2 (Score), Col 3 (Away)
-                # But sometimes there are hidden columns.
-                
-                # Let's try to grab by index if columns are unnamed
-                # Convert row to list
                 vals = [str(x).strip() for x in row.values]
                 
                 if len(vals) < 4: continue
                 
-                # Score val is at index 2
                 score_val = vals[2]
+                raw_score_val = score_val
 
                 date_raw = vals[0]
                 home = vals[1]
@@ -156,8 +150,6 @@ class Command(BaseCommand):
                 
                 if not home or not away or home == 'nan' or away == 'nan': continue
                 
-                # Standardize Team Names for Brazil
-                # SoccerStats might use different names. We map them to our DB names.
                 team_mapping = {
                     'Corinthians': 'Corinthians',
                     'Sport Club Corinthians Paulista': 'Corinthians',
@@ -263,11 +255,6 @@ class Command(BaseCommand):
                 home = team_mapping.get(home, home)
                 away = team_mapping.get(away, away)
                 
-                # Check if it looks like a match row
-                # Score usually "1 - 0", "1:0" or "2-2"
-                # If it's a time (e.g. 00:30), it's Scheduled.
-                
-                # Dynamic column check: vals[5] is usually HT score "(1-0)" for finished games
                 is_finished = False
                 ht_val = vals[5] if len(vals) > 5 else ""
                 if '(' in ht_val and ')' in ht_val:
@@ -279,7 +266,6 @@ class Command(BaseCommand):
                 score_val = score_val.replace('–', '-').replace(':', '-')
                 
                 if '-' not in score_val or not is_finished:
-                    # Maybe it's a date or time (scheduled)
                     h_score = None
                     a_score = None
                     status = 'Scheduled'
@@ -296,38 +282,49 @@ class Command(BaseCommand):
                         a_score = None
                         status = 'Scheduled'
 
-                # Date
-                # SoccerStats date is usually "Sat 12 Aug". Needs Year appended.
-                # We know the 'year' argument.
-                # Be careful with spanning seasons (Premier League). Aug-Dec is year-1, Jan-May is year.
-                
                 match_date = None
                 try:
-                    # Parse "Sat 29 Jan" -> datetime
-                    # If date_raw has no year, append 'year'
-                    if len(date_raw) > 3:
-                         # Attempt parse: "Sat 29 Jan"
-                         # Python strptime '%a %d %b'
-                         # We need to handle portuguese/english? SoccerStats is usually English.
-                         # But let's check content.
-                         pass
+                    parts = date_raw.split()
+                    if len(parts) >= 3:
+                        date_str = " ".join(parts[:3])
+                        base_dt = datetime.strptime(date_str, "%a %d %b")
+                        month = base_dt.month
+                        day = base_dt.day
+                        if league_obj.name == 'Brasileirão':
+                            year_val = year
+                        else:
+                            year_val = year - 1 if month >= 8 else year
+                        naive_dt = datetime(year_val, month, day)
+                        match_date = timezone.make_aware(naive_dt, pytz.UTC)
+                        if status == 'Scheduled' and ':' in raw_score_val:
+                            try:
+                                hour, minute = map(int, raw_score_val.split(':'))
+                                match_date = match_date.replace(hour=hour, minute=minute)
+                            except Exception:
+                                pass
                 except:
                     pass
                 
                 home_team, _ = Team.objects.get_or_create(name=home, league=league_obj)
                 away_team, _ = Team.objects.get_or_create(name=away, league=league_obj)
 
+                if home_team == away_team:
+                    continue
+
+                defaults = {
+                    'home_score': h_score,
+                    'away_score': a_score,
+                    'status': status
+                }
+                if match_date:
+                    defaults['date'] = match_date
+
                 Match.objects.update_or_create(
                     league=league_obj,
                     season=season_obj,
                     home_team=home_team,
                     away_team=away_team,
-                    defaults={
-                        'home_score': h_score,
-                        'away_score': a_score,
-                        'status': status
-                        # Date logic omitted for safety in this rough draft, can add if easy
-                    }
+                    defaults=defaults
                 )
                 count += 1
                 
