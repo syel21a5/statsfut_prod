@@ -104,7 +104,7 @@ class Command(BaseCommand):
         else:
             current_year = timezone.now().year
             
-            if division in ['BRA', 'ARG', 'AUT']:
+            if division in ['BRA', 'ARG', 'AUT', 'SWZ']:
                 seasons_to_process = [current_year]
                 self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
             else:
@@ -175,7 +175,7 @@ class Command(BaseCommand):
             # Check division/league match
             div = row.get("Div")
             
-            if division in ['BRA', 'ARG', 'AUT']:
+            if division in ['BRA', 'ARG', 'AUT', 'SWZ']:
                 # Special handling for Single File CSVs
                 league_col = row.get("League")
                 country_col = row.get("Country")
@@ -201,6 +201,14 @@ class Command(BaseCommand):
                     c_val = (country_col or "").strip()
                     
                     if (l_val == "Bundesliga" and c_val == "Austria") or div == "AUT":
+                        pass
+                    else:
+                        continue
+                elif division == 'SWZ':
+                    l_val = (league_col or "").strip()
+                    c_val = (country_col or "").strip()
+                    
+                    if (l_val == "Super League" and c_val == "Switzerland") or div == "SWZ":
                         pass
                     else:
                         continue
@@ -387,9 +395,9 @@ class Command(BaseCommand):
 
     def _build_url(self, season_year, division):
         # Format: 2425 for 2024/2025
-        # For Brazil and Argentina: single file URL under /new/
+        # For certain extra leagues: single file URL under /new/
         
-        if division in ['BRA', 'ARG', 'AUT']:
+        if division in ['BRA', 'ARG', 'AUT', 'SWZ']:
             return f"https://www.football-data.co.uk/new/{division}.csv", division
 
         yy_end = season_year % 100
