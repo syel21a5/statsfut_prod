@@ -80,19 +80,14 @@ class Command(BaseCommand):
                 )
 
             for year in years:
-                # Construct URL
-                # For current season (2025), use the base URL without year suffix
-                # For historical seasons, use the _YEAR format
-                
-                if (league_conf['name'] == 'Brasileirão' and year == 2026) or \
-                   (league_conf['name'] == 'Pro League' and year == 2026):
-                    # Force URL for current season
+                if league_conf['name'] == 'First League':
+                    url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
+                elif (league_conf['name'] == 'Brasileirão' and year == 2026) or \
+                     (league_conf['name'] == 'Pro League' and year == 2026):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 elif year == 2025:
-                    # Current season generic
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 else:
-                    # Historical season
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}_{year}"
                 
                 self.stdout.write(f"Scraping {year}: {url}")
@@ -103,12 +98,9 @@ class Command(BaseCommand):
                          self.stdout.write(self.style.ERROR(f"Failed {url}: {response.status_code}"))
                          # Still try subpages if it's a recent year
 
-                    # For the current year, let's try to fetch by month to get everything
-                    # Monthly subpages: tid=m1, tid=m2, etc. (1-12)
-                    # We'll try common active months for Brazil (Jan to May if it's early year)
                     urls_to_try = [url]
-                    if year >= 2025: # Recent or current
-                        for m in range(1, 6): # Try Jan to May
+                    if league_conf['name'] == 'Brasileirão' and year >= 2025:
+                        for m in range(1, 6):
                             urls_to_try.append(f"{url}&tid=m{m}")
                     
                     for attempt_url in urls_to_try:
