@@ -74,9 +74,10 @@ class Command(BaseCommand):
                 # For current season (2025), use the base URL without year suffix
                 # For historical seasons, use the _YEAR format
                 
-                if league_conf['name'] == 'Brasileirão' and year == 2026:
-                    # Force URL for current Brazil season
-                    url = "https://www.soccerstats.com/results.asp?league=brazil"
+                if (league_conf['name'] == 'Brasileirão' and year == 2026) or \
+                   (league_conf['name'] == 'Pro League' and year == 2026):
+                    # Force URL for current season
+                    url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 elif year == 2025:
                     # Current season generic
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
