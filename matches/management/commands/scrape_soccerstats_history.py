@@ -102,6 +102,9 @@ class Command(BaseCommand):
                     if league_conf['name'] == 'Brasileirão' and year >= 2025:
                         for m in range(1, 6):
                             urls_to_try.append(f"{url}&tid=m{m}")
+                    elif league_conf['name'] == 'First League' and year == 2026:
+                        for m in range(1, 13):
+                            urls_to_try.append(f"{url}&tid=m{m}")
                     
                     for attempt_url in urls_to_try:
                         try:
