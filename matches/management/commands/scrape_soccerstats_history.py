@@ -255,6 +255,23 @@ class Command(BaseCommand):
                 home = team_mapping.get(home, home)
                 away = team_mapping.get(away, away)
                 
+                # Hard guards: skip obvious non-team rows
+                blacklist_tokens = {
+                    'averages','percentages','copyright','privacy','contact','matches',
+                    'defence','offence','home','away','fav','apr','feb','jan','mar',
+                    'segment','points','played','goals','from','to','pts','team'
+                }
+                def is_garbage(name):
+                    n = (name or '').strip().lower()
+                    if not n: return True
+                    if any(tok == n or tok in n for tok in blacklist_tokens): return True
+                    if any(ch.isdigit() for ch in n): return True
+                    if '%' in n: return True
+                    return False
+                
+                if is_garbage(home) or is_garbage(away):
+                    continue
+                
                 is_finished = False
                 ht_val = vals[5] if len(vals) > 5 else ""
                 if '(' in ht_val and ')' in ht_val:
@@ -265,11 +282,7 @@ class Command(BaseCommand):
 
                 score_val = score_val.replace('–', '-').replace(':', '-')
                 
-                if '-' not in score_val or not is_finished:
-                    h_score = None
-                    a_score = None
-                    status = 'Scheduled'
-                else:
+                if '-' in score_val and is_finished:
                     # Parse Score
                     try:
                         parts = score_val.split('-')
@@ -281,6 +294,15 @@ class Command(BaseCommand):
                         h_score = None
                         a_score = None
                         status = 'Scheduled'
+                else:
+                    # Treat as scheduled only if looks like a time and we can parse date later
+                    if ':' in raw_score_val:
+                        h_score = None
+                        a_score = None
+                        status = 'Scheduled'
+                    else:
+                        # Not a match row
+                        continue
 
                 match_date = None
                 try:
