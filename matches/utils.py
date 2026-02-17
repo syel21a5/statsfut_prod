@@ -115,9 +115,17 @@ COUNTRY_TRANSLATIONS = {
     "Australia": "Australia",
     "Suica": "Switzerland",
     "Republica Tcheca": "Czech Republic",
+    "Dinamarca": "Denmark",
+    "Finlandia": "Finland",
+    "Noruega": "Norway",
+    "Suecia": "Sweden",
+    "Polonia": "Poland",
+    "Ucrania": "Ukraine",
+    "Russia": "Russia",
+    "Japao": "Japan",
 }
 
-COUNTRY_REVERSE_TRANSLATIONS = {v: k for k, v in COUNTRY_TRANSLATIONS.items()}
+COUNTRY_REVERSE_TRANSLATIONS = {v.lower(): k for k, v in COUNTRY_TRANSLATIONS.items()}
 
 def normalize_team_name(name):
     """

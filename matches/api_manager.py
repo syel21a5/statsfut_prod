@@ -18,6 +18,36 @@ class APIManager:
         'Ligue 1': {'api_football': [61], 'football_data': [2015]},
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
         'Pro League': {'api_football': [144], 'football_data': []},
+        # Extra top leagues (Football-Data supports some; else use API-Football by country)
+        'Primeira Liga': {'api_football': [], 'football_data': [2017]},      # Portugal
+        'Eredivisie': {'api_football': [], 'football_data': [2003]},         # Netherlands
+        'Super Lig': {'api_football': [], 'football_data': [2018]},          # Turkey
+    }
+
+    COUNTRY_TOP_LEAGUES = {
+        'England': ['Premier League'],
+        'Spain': ['La Liga'],
+        'Germany': ['Bundesliga'],
+        'Italy': ['Serie A'],
+        'France': ['Ligue 1'],
+        'Belgium': ['Pro League', 'First Division A', 'Jupiler Pro League'],
+        'Brazil': ['Brasileirão Série A', 'Serie A'],
+        'Portugal': ['Primeira Liga'],
+        'Netherlands': ['Eredivisie'],
+        'Turkey': ['Super Lig', 'Süper Lig'],
+        'Greece': ['Super League 1', 'Super League'],
+        'Austria': ['Bundesliga', 'Austrian Bundesliga'],
+        'Switzerland': ['Super League', 'Swiss Super League'],
+        'Czech Republic': ['Czech Liga', 'Fortuna Liga'],
+        'Denmark': ['Superliga', 'Superligaen'],
+        'Finland': ['Veikkausliiga'],
+        'Norway': ['Eliteserien'],
+        'Sweden': ['Allsvenskan'],
+        'Poland': ['Ekstraklasa'],
+        'Ukraine': ['Premier League'],
+        'Argentina': ['Liga Profesional', 'Primera Division'],
+        'Australia': ['A-League'],
+        'Japan': ['J1 League'],
     }
 
     def __init__(self):
@@ -223,6 +253,56 @@ class APIManager:
         api_config = self.apis[api_af]
         print(f"[APIManager] Upcoming fixtures via {api_af} ({api_config['name']})")
         return self._get_api_football_fixtures(api_af, api_config, status='scheduled', league_ids=af_ids, days_ahead=days_ahead)
+
+    def get_upcoming_fixtures_by_country(self, country, days_ahead=7, exclude_apis=None):
+        """
+        Busca próximos jogos para a principal liga de um país automaticamente (API-Football).
+        """
+        exclude_apis = exclude_apis or []
+        af_keys = [f'api_football_{i}' for i in range(1, 3)]
+        api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
+        if not api_af:
+            raise Exception("APIs indisponíveis para busca por país.")
+        api_config = self.apis[api_af]
+
+        headers = {
+            'x-rapidapi-host': 'v3.football.api-sports.io',
+            'x-rapidapi-key': api_config['key']
+        }
+        # Descobre ligas do país
+        params = {'country': country, 'type': 'League'}
+        resp = requests.get(f"{api_config['base_url']}/leagues", headers=headers, params=params, timeout=10)
+        self._increment_usage(api_af)
+        if resp.status_code != 200:
+            raise Exception(f"Falha ao listar ligas do país {country}: {resp.status_code}")
+        data = resp.json().get('response', [])
+
+        wanted_names = self.COUNTRY_TOP_LEAGUES.get(country, [])
+        league_ids = []
+        now = datetime.now()
+        for item in data:
+            lg = item.get('league', {})
+            seasons = item.get('seasons', [])
+            # Seleciona apenas temporada atual
+            has_current = any(s.get('current') for s in seasons)
+            if not has_current:
+                continue
+            name = lg.get('name')
+            if wanted_names and name not in wanted_names:
+                continue
+            league_ids.append(lg.get('id'))
+
+        # fallback: se não achou por nome, pega a primeira liga atual
+        if not league_ids and data:
+            for item in data:
+                if any(s.get('current') for s in item.get('seasons', [])):
+                    league_ids.append(item['league']['id'])
+                    break
+
+        if not league_ids:
+            return []
+
+        return self._get_api_football_fixtures(api_af, api_config, status='scheduled', league_ids=league_ids, days_ahead=days_ahead)
     
     def get_league_season_fixtures(self, league_id, season_year, exclude_apis=None):
         """
@@ -374,6 +454,7 @@ class APIManager:
                 'date': fixture['fixture']['date'],
                 'status': fixture['fixture']['status']['short'],
                 'league': fixture['league']['name'],
+                'country': fixture['league'].get('country'),
                 'home_team': fixture['teams']['home']['name'],
                 'away_team': fixture['teams']['away']['name'],
                 'home_team_id': fixture['teams']['home']['id'],
@@ -395,6 +476,7 @@ class APIManager:
                 'date': match['utcDate'],
                 'status': match['status'],
                 'league': match['competition']['name'],
+                'country': match.get('area', {}).get('name'),
                 'home_team': match['homeTeam']['name'],
                 'away_team': match['awayTeam']['name'],
                 'home_team_id': match['homeTeam']['id'],

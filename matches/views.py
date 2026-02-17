@@ -618,9 +618,25 @@ class LeagueDetailView(DetailView):
                 candidates = queryset.filter(country__iexact=slug_clean)
 
             if candidates.exists():
+                # Prefer league with most standings; if tie/zero, prefer with most upcoming matches
                 league = candidates.annotate(s_count=models.Count('standings')).order_by('-s_count').first()
-                if league:
+                if league and league.standings.count() > 0:
                     return league
+                # Fallback by upcoming scheduled matches in next 30 days
+                now = timezone.now()
+                future = now + timedelta(days=30)
+                candidates_with_counts = []
+                for l in candidates:
+                    cnt = Match.objects.filter(
+                        league=l,
+                        date__gte=now,
+                        date__lte=future,
+                        status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC']
+                    ).count()
+                    candidates_with_counts.append((cnt, l))
+                if candidates_with_counts:
+                    candidates_with_counts.sort(key=lambda x: x[0], reverse=True)
+                    return candidates_with_counts[0][1]
                 
         # Fallback
         from django.http import Http404

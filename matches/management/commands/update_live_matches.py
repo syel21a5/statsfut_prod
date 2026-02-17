@@ -62,6 +62,24 @@ class Command(BaseCommand):
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
+            # Países adicionais: tenta por país (principal liga) quando não há mapping
+            countries = [
+                'Argentina','Australia','Austria','Belgium','Brazil','Czech Republic','Denmark','England',
+                'Finland','France','Germany','Greece','Italy','Japan','Netherlands','Norway','Poland',
+                'Portugal','Russia','Sweden','Turkey','Ukraine','Switzerland'
+            ]
+            self.stdout.write(self.style.SUCCESS('\n🌍 Buscando próximos jogos por país (ligas principais)...'))
+            for country in countries:
+                try:
+                    fixtures = api_manager.get_upcoming_fixtures_by_country(country, days_ahead=15)
+                    if fixtures:
+                        self.process_fixtures(fixtures, is_live=False)
+                        self.stdout.write(self.style.SUCCESS(f'    ✅ {country}: {len(fixtures)} jogos'))
+                    else:
+                        self.stdout.write(f'    {country}: 0 jogos')
+                except Exception as e:
+                    self.stdout.write(self.style.WARNING(f'    {country}: {e}'))
+
     def _get_or_create_team(self, name, league, api_id):
         # 1. Tenta buscar pelo api_id se existir
         if api_id:
@@ -121,6 +139,28 @@ class Command(BaseCommand):
                     'Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'Jupiler Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'First Division A': {'name': 'Pro League', 'country': 'Belgica'},
+                    # Extras mapeados por país
+                    'Primeira Liga': {'name': 'Primeira Liga', 'country': 'Portugal'},
+                    'Liga Portugal': {'name': 'Primeira Liga', 'country': 'Portugal'},
+                    'Eredivisie': {'name': 'Eredivisie', 'country': 'Holanda'},
+                    'Süper Lig': {'name': 'Super Lig', 'country': 'Turquia'},
+                    'Super Lig': {'name': 'Super Lig', 'country': 'Turquia'},
+                    'Superliga': {'name': 'Superliga', 'country': 'Dinamarca'},
+                    'Superligaen': {'name': 'Superliga', 'country': 'Dinamarca'},
+                    'Super League 1': {'name': 'Super League', 'country': 'Grecia'},
+                    'Super League': {'name': 'Super League', 'country': 'Suica'},  # desambiguado abaixo
+                    'Swiss Super League': {'name': 'Super League', 'country': 'Suica'},
+                    'Austrian Bundesliga': {'name': 'Bundesliga', 'country': 'Austria'},
+                    # Algumas APIs usam apenas "Bundesliga" para Áustria: desambiguado abaixo
+                    'Allsvenskan': {'name': 'Allsvenskan', 'country': 'Suecia'},
+                    'Eliteserien': {'name': 'Eliteserien', 'country': 'Noruega'},
+                    'Veikkausliiga': {'name': 'Veikkausliiga', 'country': 'Finlandia'},
+                    'Ekstraklasa': {'name': 'Ekstraklasa', 'country': 'Polonia'},
+                    'J1 League': {'name': 'J1 League', 'country': 'Japao'},
+                    'Meiji Yasuda J1 League': {'name': 'J1 League', 'country': 'Japao'},
+                    'A-League': {'name': 'A-League', 'country': 'Australia'},
+                    'A-League Men': {'name': 'A-League', 'country': 'Australia'},
+                    'Czech Liga': {'name': 'First League', 'country': 'Republica Tcheca'},
                 }
                 
                 mapped_league = league_map.get(raw_league_name)
@@ -128,17 +168,25 @@ class Command(BaseCommand):
                 if not mapped_league:
                     continue  # Pula ligas desconhecidas
                 
-                # Busca ou cria liga (com tratamento de erro para duplicatas)
-                try:
-                    league_obj, _ = League.objects.get_or_create(
+                # Preferir país da fixture quando disponível para desambiguar nomes (ex.: Bundesliga)
+                fx_country = fixture.get('country')
+                if fx_country:
+                    from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+                    db_country = COUNTRY_REVERSE_TRANSLATIONS.get(fx_country.lower(), fx_country)
+                    if db_country:
+                        mapped_league['country'] = db_country
+
+                # Buscar por nome+país para evitar colisões
+                league_obj = League.objects.filter(
+                    name=mapped_league['name'],
+                    country=mapped_league['country']
+                ).first()
+                if not league_obj:
+                    league_obj = League.objects.create(
                         name=mapped_league['name'],
-                        defaults={'country': mapped_league['country']}
+                        country=mapped_league['country']
                     )
-                except League.MultipleObjectsReturned:
-                    # Se houver múltiplas, pega a primeira (deveríamos limpar duplicatas depois)
-                    league_obj = League.objects.filter(name=mapped_league['name']).first()
-                    self.stdout.write(self.style.WARNING(f"Aviso: Múltiplas ligas encontradas para '{mapped_league['name']}'. Usando a primeira (ID: {league_obj.id})."))
-                
+
                 # Mapping names from Football-Data.org/API-Football to local DB
                 name_mapping = {
                     # Premier League
