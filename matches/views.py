@@ -1210,7 +1210,7 @@ class LeagueDetailView(DetailView):
                             diff_candidates = [x for x in nums if abs(x) > 3.5 and abs(x) < 200]
                             diff_pct = diff_candidates[0] if diff_candidates else 0
                             next4 = ppgs[3] if len(ppgs) > 3 else None
-                                ri_map[name] = {
+                            ri_map[name] = {
                                 'opp_played_ppg': round(played_ppg,2) if played_ppg is not None else 0,
                                 'opp_remaining_ppg': round(remain_ppg,2) if remain_ppg is not None else 0,
                                 'runin_diff_pct': round(diff_pct,1) if diff_pct is not None else 0,
