@@ -948,7 +948,9 @@ class LeagueDetailView(DetailView):
 
             try:
                 if league.name == 'First League' and league.country == 'Republica Tcheca':
+                    relative_table_override = None
                     import requests as _rq
+                    from bs4 import BeautifulSoup as _BS
                     import pandas as _pd
                     def _to_int(s):
                         try:
@@ -958,6 +960,42 @@ class LeagueDetailView(DetailView):
                             return int(s)
                         except: 
                             return None
+                    def _parse_table_el(tbl):
+                        rows2 = []
+                        for tr in tbl.find_all('tr'):
+                            cells = [c.get_text(strip=True) for c in tr.find_all(['td','th'])]
+                            if len(cells) < 8: 
+                                continue
+                            # Expect: [#, Team, GP, W, D, L, GF, GA, GD, Pts, ...]
+                            try:
+                                team_name = cells[1]
+                                gp = _to_int(cells[2]); w = _to_int(cells[3]); d = _to_int(cells[4]); l = _to_int(cells[5])
+                                gf = _to_int(cells[6]); ga = _to_int(cells[7])
+                                # GD may be cells[8], Pts cells[9]
+                                pts = None
+                                if len(cells) > 9:
+                                    pts = _to_int(cells[9])
+                                if pts is None and len(cells) > 8:
+                                    pts = _to_int(cells[8])
+                                if gp is None or w is None or d is None or l is None or gf is None or ga is None or pts is None:
+                                    continue
+                                team = Team.objects.filter(name=team_name, league=league).first()
+                                if not team:
+                                    team = Team.objects.create(name=team_name, league=league)
+                                item = {
+                                    'team': team,
+                                    'team_slug': team.name.lower().replace(' ', '-'),
+                                    'league_slug': league.name.lower().replace(' ', '-'),
+                                    'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga,
+                                    'gd': (gf - ga), 'pts': pts, 'ppg': round(pts/gp, 2) if gp else 0
+                                }
+                                rows2.append(item)
+                            except:
+                                continue
+                        rows2 = [r for r in rows2 if r['gp'] is not None and 0 <= r['gp'] <= 60]
+                        rows2.sort(key=lambda x:(x['pts'], x['gd'], x['gf']), reverse=True)
+                        for i, it in enumerate(rows2, 1): it['position'] = i
+                        return rows2
                     def _extract_rows(df):
                         out = []
                         for _, r in df.iterrows():
@@ -984,32 +1022,55 @@ class LeagueDetailView(DetailView):
                     url = "https://www.soccerstats.com/latest.asp?league=czechrepublic"
                     r = _rq.get(url, headers={"User-Agent":"Mozilla/5.0"}, timeout=15)
                     if r.status_code == 200:
-                        tables = _pd.read_html(r.text)
-                        candidates = []
-                        for t in tables:
-                            rows = _extract_rows(t)
-                            if rows and len(rows) >= 10:
-                                candidates.append(rows)
-                        if len(candidates) >= 2:
-                            def _build(rows):
-                                rows2 = []
-                                for team_name, gp, w, d, l, gf, ga, pts in rows:
-                                    team = Team.objects.filter(name=team_name, league=league).first()
-                                    if not team:
-                                        team = Team.objects.create(name=team_name, league=league)
-                                    item = {
-                                        'team': team.name,
-                                        'team_slug': team.name.lower().replace(' ', '-'),
-                                        'league_slug': league.name.lower().replace(' ', '-'),
-                                        'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga,
-                                        'gd': gf - ga, 'pts': pts, 'ppg': round(pts/gp, 2) if gp else 0
-                                    }
-                                    rows2.append(item)
-                                rows2.sort(key=lambda x:(x['pts'], x['gd'], x['gf']), reverse=True)
-                                for i, it in enumerate(rows2, 1): it['position'] = i
-                                return rows2
-                            home_table = _build(candidates[0])
-                            away_table = _build(candidates[1])
+                        soup = _BS(r.text, 'html.parser')
+                        home_el = None
+                        away_el = None
+                        for node in soup.find_all(text=True):
+                            if isinstance(node, str):
+                                t = node.strip().lower()
+                                if t == 'home table' and home_el is None:
+                                    home_el = node.parent.find_next('table')
+                                elif t == 'away table' and away_el is None:
+                                    away_el = node.parent.find_next('table')
+                            if home_el is not None and away_el is not None:
+                                break
+                        parsed_home = _parse_table_el(home_el) if home_el else []
+                        parsed_away = _parse_table_el(away_el) if away_el else []
+                        if parsed_home and parsed_away:
+                            home_table = parsed_home
+                            away_table = parsed_away
+                        else:
+                            tables = _pd.read_html(r.text)
+                            home_away_candidates = []
+                            for t in tables:
+                                rows = _extract_rows(t)
+                                if not rows or len(rows) < 8:
+                                    continue
+                                avg_gp = sum(r[1] for r in rows) / len(rows)
+                                if 9 <= avg_gp <= 13:
+                                    home_away_candidates.append(rows)
+                            if len(home_away_candidates) >= 2:
+                                def _build(rows):
+                                    rows2 = []
+                                    for team_name, gp, w, d, l, gf, ga, pts in rows:
+                                        team = Team.objects.filter(name=team_name, league=league).first()
+                                        if not team:
+                                            team = Team.objects.create(name=team_name, league=league)
+                                        item = {
+                                            'team': team,
+                                            'team_slug': team.name.lower().replace(' ', '-'),
+                                            'league_slug': league.name.lower().replace(' ', '-'),
+                                            'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga,
+                                            'gd': gf - ga, 'pts': pts, 'ppg': round(pts/gp, 2) if gp else 0
+                                        }
+                                        rows2.append(item)
+                                    rows2.sort(key=lambda x:(x['pts'], x['gd'], x['gf']), reverse=True)
+                                    for i, it in enumerate(rows2, 1): it['position'] = i
+                                    return rows2
+                                built1 = _build(home_away_candidates[0])
+                                built2 = _build(home_away_candidates[1])
+                                home_table = built1
+                                away_table = built2
                             home_idx = {r['team']: r for r in home_table}
                             away_idx = {r['team']: r for r in away_table}
                             rel_rows = []
@@ -1022,7 +1083,7 @@ class LeagueDetailView(DetailView):
                                 ppg_home = h['ppg']
                                 ppg_away = a['ppg']
                                 rel_rows.append({
-                                    'team': t,
+                                    'team': h['team'],
                                     'team_slug': h['team_slug'],
                                     'league_slug': h['league_slug'],
                                     'gph': h['gp'],
@@ -1039,7 +1100,7 @@ class LeagueDetailView(DetailView):
                             rel_rows.sort(key=lambda x: (x['pts'], x['ppg_diff']), reverse=True)
                             for i, r in enumerate(rel_rows, 1):
                                 r['position'] = i
-                            context['relative_table'] = rel_rows
+                            relative_table_override = rel_rows
             except:
                 pass
 
@@ -1100,54 +1161,56 @@ class LeagueDetailView(DetailView):
             
             # Relative Home/Away Performance Table
             relative_table = []
-            for tid, data in team_stats.items():
-                row = {}
-                row['team'] = data['team']
-                row['team_slug'] = data['team_slug']
-                row['league_slug'] = data['league_slug']
-                
-                h = data['home']
-                a = data['away']
-                
-                # Relative Home Performance
-                # Recompute total ppg
-                total_pts = h['pts'] + a['pts']
-                total_gp = h['gp'] + a['gp']
-                total_ppg = total_pts / total_gp if total_gp > 0 else 0
-                
-                h_ppg = h['ppg']
-                h_rel = ((h_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
-                row['home_rel'] = round(h_rel, 1)
-                
-                # Relative Away Performance
-                a_ppg = a['ppg']
-                a_rel = ((a_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
-                row['away_rel'] = round(a_rel, 1)
+            if 'relative_table_override' in locals() and relative_table_override:
+                relative_table = relative_table_override
+            else:
+                for tid, data in team_stats.items():
+                    row = {}
+                    row['team'] = data['team']
+                    row['team_slug'] = data['team_slug']
+                    row['league_slug'] = data['league_slug']
+                    
+                    h = data['home']
+                    a = data['away']
+                    
+                    # Relative Home Performance
+                    total_pts = h['pts'] + a['pts']
+                    total_gp = h['gp'] + a['gp']
+                    total_ppg = total_pts / total_gp if total_gp > 0 else 0
+                    
+                    h_ppg = h['ppg']
+                    h_rel = ((h_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
+                    row['home_rel'] = round(h_rel, 1)
+                    
+                    # Relative Away Performance
+                    a_ppg = a['ppg']
+                    a_rel = ((a_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
+                    row['away_rel'] = round(a_rel, 1)
 
-                # PPG Difference (Home vs Away)
-                ppg_home = round(h['pts'] / h['gp'], 2) if h['gp'] > 0 else 0
-                ppg_away = round(a['pts'] / a['gp'], 2) if a['gp'] > 0 else 0
+                    # PPG Difference (Home vs Away)
+                    ppg_home = round(h['pts'] / h['gp'], 2) if h['gp'] > 0 else 0
+                    ppg_away = round(a['pts'] / a['gp'], 2) if a['gp'] > 0 else 0
+                    
+                    row['ppg_home'] = ppg_home
+                    row['ppg_away'] = ppg_away
+                    row['ppg_diff'] = round(ppg_home - ppg_away, 2)
+                    row['ppg_diff_abs'] = abs(row['ppg_diff'])
+                    
+                    # Stats needed for relative table display
+                    row['gph'] = h['gp']
+                    row['gpa'] = a['gp']
+                    row['pts'] = total_pts
+                    
+                    # Bar width
+                    row['bar_width'] = min(int(abs(row['ppg_diff']) * 40), 100)
+                    
+                    relative_table.append(row)
                 
-                row['ppg_home'] = ppg_home
-                row['ppg_away'] = ppg_away
-                row['ppg_diff'] = round(ppg_home - ppg_away, 2)
-                row['ppg_diff_abs'] = abs(row['ppg_diff'])
+                # Sort by Points (desc), then PPG Difference (desc)
+                relative_table.sort(key=lambda x: (x['pts'], x['ppg_diff']), reverse=True)
                 
-                # Stats needed for relative table display
-                row['gph'] = h['gp']
-                row['gpa'] = a['gp']
-                row['pts'] = total_pts
-                
-                # Bar width
-                row['bar_width'] = min(int(abs(row['ppg_diff']) * 40), 100)
-                
-                relative_table.append(row)
-            
-            # Sort by Points (desc), then PPG Difference (desc)
-            relative_table.sort(key=lambda x: (x['pts'], x['ppg_diff']), reverse=True)
-            
-            # Add Rank
-            for i, row in enumerate(relative_table, 1): row['position'] = i
+                # Add Rank
+                for i, row in enumerate(relative_table, 1): row['position'] = i
             
             context['relative_table'] = relative_table
 
