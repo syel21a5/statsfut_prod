@@ -946,6 +946,10 @@ class LeagueDetailView(DetailView):
             for i, row in enumerate(home_table, 1): row['position'] = i
             for i, row in enumerate(away_table, 1): row['position'] = i
 
+            rf_override = None
+            rp_override = None
+            ri_override = None
+            pp_override = None
             try:
                 if league.name == 'First League' and league.country == 'Republica Tcheca':
                     relative_table_override = None
@@ -1101,6 +1105,101 @@ class LeagueDetailView(DetailView):
                             for i, r in enumerate(rel_rows, 1):
                                 r['position'] = i
                             relative_table_override = rel_rows
+                        
+                        def _clean_float(s):
+                            try:
+                                s = str(s).strip().replace(',', '.')
+                                keep = ''.join(ch for ch in s if (ch.isdigit() or ch in {'.','-','+'}))
+                                if keep in {'', '-', '+', '.', '+.', '-.'}: return None
+                                return float(keep)
+                            except:
+                                return None
+                        def _find_table(lbl):
+                            for node in soup.find_all(text=True):
+                                if isinstance(node, str) and lbl.lower() in node.strip().lower():
+                                    tbl = node.parent.find_next('table')
+                                    if tbl: return tbl
+                            return None
+                        def _parse_rows_float(tbl, min_cols=4):
+                            out = []
+                            if not tbl: return out
+                            for tr in tbl.find_all('tr'):
+                                tds = tr.find_all(['td','th'])
+                                cells = [td.get_text(strip=True) for td in tds]
+                                if len(cells) < min_cols: 
+                                    continue
+                                name = None
+                                for c in cells:
+                                    if c and any(ch.isalpha() for ch in c):
+                                        if c.lower() in {'team', 'teams', '#', 'avg', 'average'}:
+                                            continue
+                                        name = c
+                                        break
+                                if not name:
+                                    continue
+                                nums = []
+                                for c in cells:
+                                    if c == name: 
+                                        continue
+                                    v = _clean_float(c)
+                                    if v is not None:
+                                        nums.append(v)
+                                if not nums:
+                                    continue
+                                out.append((name, nums))
+                            return out
+                        rf_tbl = _find_table('Relative Form')
+                        rp_tbl = _find_table('Relative Performance')
+                        ri_tbl = _find_table('Run-in')
+                        pp_tbl = _find_table('Projected Points')
+                        rf_rows = _parse_rows_float(rf_tbl)
+                        rp_rows = _parse_rows_float(rp_tbl)
+                        ri_rows = _parse_rows_float(ri_tbl)
+                        pp_rows = _parse_rows_float(pp_tbl)
+                        rf_map = {}
+                        for name, nums in rf_rows:
+                            if len(nums) >= 3:
+                                season_ppg = nums[0]
+                                last8_ppg = nums[1]
+                                diff = nums[2]
+                                rf_map[name] = {'ppg_season': round(season_ppg,2), 'ppg_8': round(last8_ppg,2), 'ppg_diff': round(diff,2)}
+                        rp_map = {}
+                        for name, nums in rp_rows:
+                            if len(nums) >= 3:
+                                team_ppg = nums[0]
+                                opp_ppg = nums[1]
+                                idx = nums[2]
+                                rp_map[name] = {'opponents_ppg': round(opp_ppg,2), 'performance_index': round(idx,2), 'ppg_season': round(team_ppg,2)}
+                        ri_map = {}
+                        for name, nums in ri_rows:
+                            if len(nums) >= 3:
+                                played_ppg = nums[0]
+                                remain_ppg = nums[1]
+                                diff_pct = nums[2]
+                                next4 = nums[3] if len(nums) > 3 else None
+                                ri_map[name] = {
+                                    'opp_played_ppg': round(played_ppg,2),
+                                    'opp_remaining_ppg': round(remain_ppg,2),
+                                    'runin_diff_pct': round(diff_pct,1),
+                                    'next_4_ppg': round(next4,2) if next4 is not None else None
+                                }
+                        pp_map = {}
+                        for name, nums in pp_rows:
+                            if len(nums) >= 5:
+                                current_pts = nums[0]
+                                games_left = nums[1]
+                                ratio = nums[2]
+                                proj_ppg = nums[3]
+                                total = nums[4]
+                                pp_map[name] = {
+                                    'proj_ratio': round(ratio,2),
+                                    'proj_ppg': round(proj_ppg,2),
+                                    'proj_total': round(total,0)
+                                }
+                        rf_override = rf_map if rf_map else None
+                        rp_override = rp_map if rp_map else None
+                        ri_override = ri_map if ri_map else None
+                        pp_override = pp_map if pp_map else None
             except:
                 pass
 
@@ -1213,6 +1312,47 @@ class LeagueDetailView(DetailView):
                 for i, row in enumerate(relative_table, 1): row['position'] = i
             
             context['relative_table'] = relative_table
+            
+            if league.name == 'First League' and league.country == 'Republica Tcheca':
+                if rf_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in rf_override.items():
+                        s = by_name.get(name)
+                        if not s: 
+                            continue
+                        s.ppg_season = vals['ppg_season']
+                        s.ppg_8 = vals['ppg_8']
+                        s.ppg_diff = round(vals['ppg_8'] - vals['ppg_season'], 2)
+                        s.relative_form_bar_width = min(abs(s.ppg_diff) * 40, 120)
+                if rp_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in rp_override.items():
+                        s = by_name.get(name)
+                        if not s: 
+                            continue
+                        s.opponents_ppg = vals['opponents_ppg']
+                        s.performance_index = vals['performance_index']
+                        s.perf_width_pct = min(round((s.performance_index / 4.0) * 100, 1), 100) if s.performance_index > 0 else 0
+                        s.ppg_season = vals.get('ppg_season', getattr(s, 'ppg_season', 0))
+                if ri_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in ri_override.items():
+                        s = by_name.get(name)
+                        if not s: 
+                            continue
+                        s.opp_played_ppg = vals['opp_played_ppg']
+                        s.opp_remaining_ppg = vals['opp_remaining_ppg']
+                        s.runin_diff_pct = vals['runin_diff_pct']
+                        s.next_4_ppg = vals.get('next_4_ppg', getattr(s, 'next_4_ppg', 0))
+                if pp_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in pp_override.items():
+                        s = by_name.get(name)
+                        if not s:
+                            continue
+                        s.proj_ratio = vals['proj_ratio']
+                        s.proj_ppg = vals['proj_ppg']
+                        s.proj_total = vals['proj_total']
 
             # Group upcoming matches and calculate stats for each team (for Standings table)
             for standing in standings:
