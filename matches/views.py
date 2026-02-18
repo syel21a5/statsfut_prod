@@ -1145,6 +1145,13 @@ class LeagueDetailView(DetailView):
                                         if el:
                                             return el
                             return None
+                        def _is_runin_table(tbl):
+                            txt = []
+                            for th in tbl.find_all('th'):
+                                txt.append(th.get_text(' ', strip=True).lower())
+                            blob = ' '.join(txt)
+                            bad = ['run-in', 'remaining', 'next 4', 'played']
+                            return any(b in blob for b in bad)
                         def _parse_rows_float(tbl, min_cols=4):
                             out = []
                             if not tbl: return out
@@ -1190,6 +1197,12 @@ class LeagueDetailView(DetailView):
                             ['relative performance','opponents ppg'],
                             ['points performance index','opponents ppg'],
                         ])
+                        if rp_tbl is not None and _is_runin_table(rp_tbl):
+                            rp_tbl = None
+                            for tbl in soup.find_all('table'):
+                                if _table_has_keywords(tbl, ['opponents ppg']) and not _is_runin_table(tbl):
+                                    rp_tbl = tbl
+                                    break
                         ri_tbl = _find_table_by_keywords([
                             ['run-in','opponents played ppg','opponents remaining ppg'],
                             ['run-in','remaining ppg'],
@@ -1218,7 +1231,7 @@ class LeagueDetailView(DetailView):
                             if len(clean) >= 3:
                                 team_ppg = clean[0]
                                 opp_ppg = clean[1]
-                                idx = clean[2]
+                                idx = team_ppg * opp_ppg
                                 rp_map[name] = {'opponents_ppg': round(opp_ppg,2), 'performance_index': round(idx,2), 'ppg_season': round(team_ppg,2)}
                         ri_map = {}
                         for name, nums in ri_rows:
