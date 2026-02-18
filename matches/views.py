@@ -946,6 +946,73 @@ class LeagueDetailView(DetailView):
             for i, row in enumerate(home_table, 1): row['position'] = i
             for i, row in enumerate(away_table, 1): row['position'] = i
 
+            try:
+                if league.name == 'First League' and league.country == 'Republica Tcheca':
+                    import requests as _rq
+                    import pandas as _pd
+                    def _to_int(s):
+                        try:
+                            s = str(s).strip().replace('+', '').replace('–', '-').replace('—', '-').replace('−', '-')
+                            s = ''.join(ch for ch in s if ch.isdigit() or ch in {'-', '+'})
+                            if s in {'', '-'}: return None
+                            return int(s)
+                        except: 
+                            return None
+                    def _extract_rows(df):
+                        out = []
+                        for _, r in df.iterrows():
+                            cells = [str(x).strip() for x in r.values.tolist()]
+                            t_idx = None
+                            for i, c in enumerate(cells):
+                                if c and any(ch.isalpha() for ch in c) and c.lower() not in {'team','teams','#','average','avg'}:
+                                    t_idx = i
+                                    break
+                            if t_idx is None: 
+                                continue
+                            nums = []
+                            for c in cells[t_idx+1:]:
+                                v = _to_int(c)
+                                if v is not None: nums.append(v)
+                            if len(nums) < 8: 
+                                continue
+                            gp,w,d,l,gf,ga = nums[0],nums[1],nums[2],nums[3],nums[4],nums[5]
+                            pts = nums[7] if len(nums) >= 8 else nums[6]
+                            if not (0 <= gp <= 60 and 0 <= w <= 60 and 0 <= d <= 60 and 0 <= l <= 60): 
+                                continue
+                            out.append((cells[t_idx], gp, w, d, l, gf, ga, pts))
+                        return out
+                    url = "https://www.soccerstats.com/latest.asp?league=czechrepublic"
+                    r = _rq.get(url, headers={"User-Agent":"Mozilla/5.0"}, timeout=15)
+                    if r.status_code == 200:
+                        tables = _pd.read_html(r.text)
+                        candidates = []
+                        for t in tables:
+                            rows = _extract_rows(t)
+                            if rows and len(rows) >= 10:
+                                candidates.append(rows)
+                        if len(candidates) >= 2:
+                            def _build(rows):
+                                rows2 = []
+                                for team_name, gp, w, d, l, gf, ga, pts in rows:
+                                    team = Team.objects.filter(name=team_name, league=league).first()
+                                    if not team:
+                                        team = Team.objects.create(name=team_name, league=league)
+                                    item = {
+                                        'team': team.name,
+                                        'team_slug': team.name.lower().replace(' ', '-'),
+                                        'league_slug': league.name.lower().replace(' ', '-'),
+                                        'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga,
+                                        'gd': gf - ga, 'pts': pts, 'ppg': round(pts/gp, 2) if gp else 0
+                                    }
+                                    rows2.append(item)
+                                rows2.sort(key=lambda x:(x['pts'], x['gd'], x['gf']), reverse=True)
+                                for i, it in enumerate(rows2, 1): it['position'] = i
+                                return rows2
+                            home_table = _build(candidates[0])
+                            away_table = _build(candidates[1])
+            except:
+                pass
+
             # --- LEAGUE WIDE STATS (New Cards) ---
             total_matches_played = len(all_matches)
             if total_matches_played > 0:
