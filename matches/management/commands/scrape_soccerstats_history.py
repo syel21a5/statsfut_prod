@@ -137,21 +137,51 @@ class Command(BaseCommand):
         
         season_obj, _ = Season.objects.get_or_create(year=year)
         
-        if df.shape[1] < 4: return # Ensure it has enough columns to be a match table
+        if df.shape[1] < 3: return
         
-        # This is likely a results table
         for idx, row in df.iterrows():
             try:
-                vals = [str(x).strip() for x in row.values]
+                vals = [str(x).strip() for x in row.values.tolist()]
                 
-                if len(vals) < 4: continue
+                if len(vals) < 3: 
+                    continue
                 
-                score_val = vals[2]
-                raw_score_val = score_val
+                score_idx = None
+                for i, v in enumerate(vals):
+                    vv = v.replace('–', '-').replace('—', '-').replace('−', '-')
+                    if vv and ((':' in vv) or ('-' in vv)):
+                        p = vv.replace(' ', '')
+                        if ':' in p:
+                            parts = p.split(':')
+                        else:
+                            parts = p.split('-')
+                        if len(parts) == 2 and all(part.isdigit() for part in parts):
+                            score_idx = i
+                            break
+                if score_idx is None:
+                    continue
+                raw_score_val = vals[score_idx]
+                score_val = raw_score_val
 
-                date_raw = vals[0]
-                home = vals[1]
-                away = vals[3]
+                home = None
+                for i in range(score_idx - 1, -1, -1):
+                    candidate = vals[i]
+                    if candidate and candidate.lower() not in {'vs', 'v'}:
+                        home = candidate
+                        break
+                away = None
+                for i in range(score_idx + 1, len(vals)):
+                    candidate = vals[i]
+                    if candidate:
+                        away = candidate
+                        break
+                
+                date_raw = None
+                for i in range(0, score_idx):
+                    candidate = vals[i]
+                    if len(candidate.split()) >= 3:
+                        date_raw = candidate
+                        break
                 
                 if not home or not away or home == 'nan' or away == 'nan': continue
                 
@@ -278,10 +308,14 @@ class Command(BaseCommand):
                     continue
                 
                 is_finished = False
-                ht_val = vals[5] if len(vals) > 5 else ""
+                ht_val = ""
+                for v in vals:
+                    if '(' in v and ')' in v:
+                        ht_val = v
+                        break
                 if '(' in ht_val and ')' in ht_val:
                     is_finished = True
-                elif '-' in score_val and not (len(score_val) == 5 and score_val[2] == ':'): # Not HH:MM
+                elif ('-' in score_val or ':' in score_val) and not (len(score_val) == 5 and score_val[2] == ':'):
                      # Fallback check
                      is_finished = True
 
@@ -311,24 +345,25 @@ class Command(BaseCommand):
 
                 match_date = None
                 try:
-                    parts = date_raw.split()
-                    if len(parts) >= 3:
-                        date_str = " ".join(parts[:3])
-                        base_dt = datetime.strptime(date_str, "%a %d %b")
-                        month = base_dt.month
-                        day = base_dt.day
-                        if league_obj.name == 'Brasileirão':
-                            year_val = year
-                        else:
-                            year_val = year - 1 if month >= 8 else year
-                        naive_dt = datetime(year_val, month, day)
-                        match_date = timezone.make_aware(naive_dt, pytz.UTC)
-                        if status == 'Scheduled' and ':' in raw_score_val:
-                            try:
-                                hour, minute = map(int, raw_score_val.split(':'))
-                                match_date = match_date.replace(hour=hour, minute=minute)
-                            except Exception:
-                                pass
+                    if date_raw:
+                        parts = date_raw.split()
+                        if len(parts) >= 3:
+                            date_str = " ".join(parts[:3])
+                            base_dt = datetime.strptime(date_str, "%a %d %b")
+                            month = base_dt.month
+                            day = base_dt.day
+                            if league_obj.name == 'Brasileirão':
+                                year_val = year
+                            else:
+                                year_val = year - 1 if month >= 8 else year
+                            naive_dt = datetime(year_val, month, day)
+                            match_date = timezone.make_aware(naive_dt, pytz.UTC)
+                            if status == 'Scheduled' and ':' in raw_score_val:
+                                try:
+                                    hour, minute = map(int, raw_score_val.split(':'))
+                                    match_date = match_date.replace(hour=hour, minute=minute)
+                                except Exception:
+                                    pass
                 except:
                     pass
                 
