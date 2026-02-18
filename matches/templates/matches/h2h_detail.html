@@ -1122,6 +1122,104 @@
             </div>
         </div>
 
+        {% if fallback_h2h %}
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                    <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold"><i class="fa-solid fa-square-poll-vertical text-info me-2"></i>Probabilidades estimadas (sem H2H no banco)</h5>
+                        <div class="small text-secondary">Base: standings atuais e média de gols da liga</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="p-3 border border-secondary border-opacity-25 rounded bg-dark bg-opacity-25 h-100">
+                                    <div class="d-flex align-items-center mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                                        <img src="{{ team1.logo_url }}" class="me-2" style="height: 20px;">
+                                        <h6 class="mb-0 fw-bold">{{ team1.name }}</h6>
+                                    </div>
+                                    <div class="small text-secondary">PPG</div>
+                                    <div class="h5 fw-bold">{{ fallback_h2h.t1.ppg }}</div>
+                                    <div class="small mt-2 text-secondary">GF/GA por jogo</div>
+                                    <div class="h6"><span class="text-info">{{ fallback_h2h.t1.gfpg }}</span> / <span class="text-danger">{{ fallback_h2h.t1.gapg }}</span></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border border-secondary border-opacity-25 rounded bg-dark bg-opacity-25 h-100">
+                                    <div class="mb-2 text-center small text-secondary">Liga: média de gols</div>
+                                    <div class="display-6 fw-bold text-info text-center">{{ fallback_h2h.league_avg_goals }}</div>
+                                    <div class="mt-3">
+                                        <div class="d-flex justify-content-between small text-secondary">
+                                            <span>Vitória {{ team1.name }}</span><span class="fw-bold text-white">{{ fallback_h2h.probs.home }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ fallback_h2h.probs.home }}%"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between small text-secondary mt-2">
+                                            <span>Empate</span><span class="fw-bold text-white">{{ fallback_h2h.probs.draw }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ fallback_h2h.probs.draw }}%"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between small text-secondary mt-2">
+                                            <span>Vitória {{ team2.name }}</span><span class="fw-bold text-white">{{ fallback_h2h.probs.away }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ fallback_h2h.probs.away }}%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 small">
+                                        <div class="text-secondary mb-1">Placar mais prováveis</div>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            {% for s in fallback_h2h.top_scores %}
+                                            <span class="badge bg-dark border border-secondary border-opacity-25">
+                                                {{ s.home }}-{{ s.away }} <span class="text-secondary">({{ s.prob }}%)</span>
+                                            </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 small">
+                                        <div class="text-secondary mb-1">Over/Under e BTTS (estimados)</div>
+                                        <div class="d-flex justify-content-between small text-secondary">
+                                            <span>Over 2.5</span><span class="fw-bold text-white">{{ fallback_h2h.totals.over_25 }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ fallback_h2h.totals.over_25 }}%"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between small text-secondary mt-2">
+                                            <span>Over 3.5</span><span class="fw-bold text-white">{{ fallback_h2h.totals.over_35 }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ fallback_h2h.totals.over_35 }}%"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between small text-secondary mt-2">
+                                            <span>BTTS</span><span class="fw-bold text-white">{{ fallback_h2h.totals.btts }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ fallback_h2h.totals.btts }}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border border-secondary border-opacity-25 rounded bg-dark bg-opacity-25 h-100">
+                                    <div class="d-flex align-items-center mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                                        <img src="{{ team2.logo_url }}" class="me-2" style="height: 20px;">
+                                        <h6 class="mb-0 fw-bold">{{ team2.name }}</h6>
+                                    </div>
+                                    <div class="small text-secondary">PPG</div>
+                                    <div class="h5 fw-bold">{{ fallback_h2h.t2.ppg }}</div>
+                                    <div class="small mt-2 text-secondary">GF/GA por jogo</div>
+                                    <div class="h6"><span class="text-info">{{ fallback_h2h.t2.gfpg }}</span> / <span class="text-danger">{{ fallback_h2h.t2.gapg }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Historical Statistics & Comparison with Past Seasons -->
         <div class="row mt-4">
             <!-- Team 1 -->

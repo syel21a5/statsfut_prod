@@ -6,7 +6,7 @@ def sidebar_context(request):
     """
     Context processor to provide dynamic sidebar data (Leagues grouped by Country).
     """
-    leagues = League.objects.all().order_by('country', 'name')
+    leagues = League.objects.exclude(country__iexact='Republica Tcheca').order_by('country', 'name')
     
     # Translation Map (PT -> EN)
     # This is useful if the DB has Portuguese names but we want English display

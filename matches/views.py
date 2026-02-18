@@ -395,6 +395,9 @@ class StatsDispatchView(View):
         
         # Se for país, assume estrutura Country/League
         if is_country:
+            if db_country.strip().lower() in ['republica tcheca', 'república tcheca', 'czech republic', 'czechia']:
+                from django.http import Http404
+                raise Http404("Country disabled")
             view = LeagueDetailView.as_view()
             # Passa kwargs esperados pela LeagueDetailView
             return view(request, country_name=arg1, league_name=arg2)
@@ -560,6 +563,10 @@ class LeagueDetailView(DetailView):
              
              # Resolve English -> DB Name
              country_clean = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+             
+             if country_clean.strip().lower() in ['republica tcheca', 'república tcheca', 'czech republic', 'czechia']:
+                 from django.http import Http404
+                 raise Http404("Country disabled")
 
              if not queryset.filter(country__iexact=country_clean).exists():
                  # Fallback slugify
@@ -601,6 +608,9 @@ class LeagueDetailView(DetailView):
             league = queryset.filter(name__iexact=slug_clean).first() or \
                      queryset.filter(name__icontains=slug_clean).first()
             if league:
+                if league.country.strip().lower() in ['republica tcheca', 'república tcheca', 'czech republic', 'czechia']:
+                    from django.http import Http404
+                    raise Http404("League disabled")
                 return league
                 
             # 2.2 Se não achou liga, tenta achar PAÍS e retorna a primeira liga dele
@@ -3770,10 +3780,217 @@ class HeadToHeadView(TemplateView):
                 
             context['h2h_stats'] = h2h_stats
 
+            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and league.country == 'Republica Tcheca':
+                try:
+                    ss_urls = []
+                    u1 = self.request.GET.get('ss_team1') or self.request.GET.get('ss_url_t1') or self.request.GET.get('ss_url')
+                    u2 = self.request.GET.get('ss_team2') or self.request.GET.get('ss_url_t2')
+                    if u1: ss_urls.append(u1)
+                    if u2: ss_urls.append(u2)
+                    if ss_urls:
+                        import requests as _rq
+                        import pandas as _pd
+                        from io import StringIO as _SIO
+                        season_guess = Season.objects.order_by('-year').first()
+                        if not season_guess:
+                            from django.utils import timezone as _tz
+                            season_guess, _ = Season.objects.get_or_create(year=_tz.now().year)
+                        def _process_df(df):
+                            if df.shape[1] < 3: 
+                                return 0
+                            saved = 0
+                            for idx, row in df.iterrows():
+                                try:
+                                    vals = [str(x).strip() for x in row.values.tolist()]
+                                    if len(vals) < 3: 
+                                        continue
+                                    score_idx = None
+                                    for i, v in enumerate(vals):
+                                        vv = v.replace('–', '-').replace('—', '-').replace('−', '-')
+                                        if vv and ((':' in vv) or ('-' in vv)):
+                                            p = vv.replace(' ', '')
+                                            if ':' in p:
+                                                parts = p.split(':')
+                                            else:
+                                                parts = p.split('-')
+                                            if len(parts) == 2 and all(part.isdigit() for part in parts):
+                                                score_idx = i
+                                                break
+                                    if score_idx is None:
+                                        continue
+                                    raw_score_val = vals[score_idx]
+                                    score_val = raw_score_val.replace('–', '-').replace(':', '-')
+                                    home_name = None
+                                    for i in range(score_idx - 1, -1, -1):
+                                        c = vals[i]
+                                        if c and c.lower() not in {'vs','v'}:
+                                            home_name = c
+                                            break
+                                    away_name = None
+                                    for i in range(score_idx + 1, len(vals)):
+                                        c = vals[i]
+                                        if c:
+                                            away_name = c
+                                            break
+                                    if not home_name or not away_name:
+                                        continue
+                                    names = {home_name.lower(): home_name, away_name.lower(): away_name}
+                                    def _same(a, b):
+                                        return a.strip().lower() == b.strip().lower()
+                                    if not ((_same(home_name, team1.name) and _same(away_name, team2.name)) or (_same(home_name, team2.name) and _same(away_name, team1.name))):
+                                        continue
+                                    try:
+                                        ps = score_val.split('-')
+                                        h_s = int(ps[0]); a_s = int(ps[1]); status = 'Finished'
+                                    except:
+                                        continue
+                                    dt = None
+                                    for i in range(0, score_idx):
+                                        cand = vals[i]
+                                        if len(cand.split()) >= 3:
+                                            try:
+                                                base = cand.split()[:3]
+                                                from datetime import datetime as _dt
+                                                base_dt = _dt.strptime(" ".join(base), "%a %d %b")
+                                                y = season_guess.year - 1 if base_dt.month >= 8 else season_guess.year
+                                                from django.utils import timezone as _tz
+                                                dt = _tz.make_aware(_dt(y, base_dt.month, base_dt.day))
+                                                break
+                                            except:
+                                                continue
+                                    if _same(home_name, team1.name):
+                                        h = team1; a = team2
+                                    elif _same(home_name, team2.name):
+                                        h = team2; a = team1
+                                    else:
+                                        continue
+                                    m_kwargs = {
+                                        'league': league,
+                                        'season': season_guess,
+                                        'home_team': h,
+                                        'away_team': a,
+                                        'home_score': h_s,
+                                        'away_score': a_s,
+                                        'status': status
+                                    }
+                                    if dt:
+                                        m_kwargs['date'] = dt
+                                    # Build unsaved Match instance to feed the template without touching DB
+                                    tmp_match = Match(**m_kwargs)
+                                    scraped.append(tmp_match)
+                                except Exception:
+                                    continue
+                            return len(scraped)
+                        scraped_matches = []
+                        for u in ss_urls:
+                            try:
+                                r = _rq.get(u, headers={"User-Agent":"Mozilla/5.0"}, timeout=15)
+                                if r.status_code != 200: 
+                                    continue
+                                try:
+                                    dfs = _pd.read_html(_SIO(r.text))
+                                except ValueError:
+                                    dfs = []
+                                for df in dfs:
+                                    scraped = []
+                                    def _assign_scraped(lst): 
+                                        nonlocal scraped
+                                        scraped = lst
+                                        return len(lst)
+                                    # Localize scraped list inside parser
+                                    scraped = []
+                                    # Rebind scraped name used in _process_df
+                                    locals()['scraped'] = scraped
+                                    _process_df(df)
+                                    scraped_matches.extend(scraped)
+                            except Exception:
+                                continue
+                        if scraped_matches:
+                            # Sort newest first if dates exist
+                            scraped_matches.sort(key=lambda x: (x.date if getattr(x, 'date', None) else timezone.now()), reverse=True)
+                            context['matches'] = scraped_matches
+                            h2h_stats = {
+                                'gp': 0, 't1_wins': 0, 't2_wins': 0, 'draws': 0,
+                                't1_goals': 0, 't2_goals': 0,
+                                't1_win_pct': 0, 't2_win_pct': 0, 'draw_pct': 0, 'avg_goals': 0.0
+                            }
+                            for m in scraped_matches:
+                                h2h_stats['gp'] += 1
+                                if m.home_team == team1:
+                                    s1 = m.home_score; s2 = m.away_score
+                                else:
+                                    s1 = m.away_score; s2 = m.home_score
+                                s1 = s1 or 0; s2 = s2 or 0
+                                h2h_stats['t1_goals'] += s1; h2h_stats['t2_goals'] += s2
+                                if s1 > s2: h2h_stats['t1_wins'] += 1
+                                elif s2 > s1: h2h_stats['t2_wins'] += 1
+                                else: h2h_stats['draws'] += 1
+                            if h2h_stats['gp'] > 0:
+                                h2h_stats['t1_win_pct'] = int((h2h_stats['t1_wins'] / h2h_stats['gp']) * 100)
+                                h2h_stats['t2_win_pct'] = int((h2h_stats['t2_wins'] / h2h_stats['gp']) * 100)
+                                h2h_stats['draw_pct'] = int((h2h_stats['draws'] / h2h_stats['gp']) * 100)
+                                h2h_stats['avg_goals'] = round((h2h_stats['t1_goals'] + h2h_stats['t2_goals']) / h2h_stats['gp'], 2)
+                            context['h2h_stats'] = h2h_stats
+                except Exception:
+                    pass
+
             
+            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and league.country == 'Republica Tcheca':
+                from math import exp, factorial
+                s1 = LeagueStanding.objects.filter(league=league, team=team1).order_by('-season__year').first()
+                s2 = LeagueStanding.objects.filter(league=league, team=team2).order_by('-season__year').first()
+                if s1 and s2:
+                    def per_game(g, p): 
+                        return round((g / p), 3) if p and g is not None else 0.0
+                    t1_ppg = round((s1.points / s1.played), 2) if s1.played else 0.0
+                    t2_ppg = round((s2.points / s2.played), 2) if s2.played else 0.0
+                    t1_gfpg = per_game(s1.goals_for, s1.played)
+                    t1_gapg = per_game(s1.goals_against, s1.played)
+                    t2_gfpg = per_game(s2.goals_for, s2.played)
+                    t2_gapg = per_game(s2.goals_against, s2.played)
+                    qs = LeagueStanding.objects.filter(league=league)
+                    lg_gf = sum(ls.goals_for for ls in qs)
+                    lg_gp = sum(ls.played for ls in qs)
+                    lg_avg_goals = per_game(lg_gf, lg_gp)
+                    lam_home = max((t1_gfpg + t2_gapg) / 2.0, 0.01)
+                    lam_away = max((t2_gfpg + t1_gapg) / 2.0, 0.01)
+                    def pois(k, lam):
+                        return (lam**k) * exp(-lam) / factorial(k)
+                    max_g = 6
+                    mat = []
+                    for i in range(0, max_g+1):
+                        for j in range(0, max_g+1):
+                            p = pois(i, lam_home) * pois(j, lam_away)
+                            mat.append((i, j, p))
+                    p_home = sum(p for i, j, p in mat if i > j)
+                    p_draw = sum(p for i, j, p in mat if i == j)
+                    p_away = sum(p for i, j, p in mat if i < j)
+                    over_05 = sum(p for i, j, p in mat if (i + j) > 0)
+                    over_15 = sum(p for i, j, p in mat if (i + j) > 1)
+                    over_25 = sum(p for i, j, p in mat if (i + j) > 2)
+                    over_35 = sum(p for i, j, p in mat if (i + j) > 3)
+                    btts = sum(p for i, j, p in mat if (i >= 1 and j >= 1))
+                    mat.sort(key=lambda x: x[2], reverse=True)
+                    top_scores = [{'home': i, 'away': j, 'prob': round(p*100, 1)} for i, j, p in mat[:5]]
+                    context['fallback_h2h'] = {
+                        't1': {'ppg': t1_ppg, 'gfpg': round(t1_gfpg,2), 'gapg': round(t1_gapg,2)},
+                        't2': {'ppg': t2_ppg, 'gfpg': round(t2_gfpg,2), 'gapg': round(t2_gapg,2)},
+                        'league_avg_goals': round(lg_avg_goals,2),
+                        'probs': {'home': round(p_home*100,1), 'draw': round(p_draw*100,1), 'away': round(p_away*100,1)},
+                        'totals': {
+                            'over_05': round(over_05*100,1),
+                            'over_15': round(over_15*100,1),
+                            'over_25': round(over_25*100,1),
+                            'over_35': round(over_35*100,1),
+                            'btts': round(btts*100,1)
+                        },
+                        'top_scores': top_scores
+                    }
             # Latest Season for stats
             # Prefer seasons with matches for this league
             latest_season = Season.objects.filter(matches__league=league).distinct().order_by('-year').first()
+            if not latest_season:
+                latest_season = Season.objects.filter(standings__league=league).order_by('-year').first()
             if not latest_season:
                 latest_season = Season.objects.filter(standings__league=league).order_by('-year').first()
             

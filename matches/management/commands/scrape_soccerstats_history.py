@@ -19,17 +19,30 @@ class Command(BaseCommand):
         parser.add_argument('--csv_only', action='store_true', help='Save to CSV only, do not import to DB')
         parser.add_argument('--target_league', type=str, help='Process only a specific league by name (e.g. \"A League\")')
         parser.add_argument('--target_slug', type=str, help='Process only a specific league by SoccerStats slug (e.g. czechrepublic)')
+        parser.add_argument('--team_url', type=str, help='Import matches from a SoccerStats team page (teamstats.asp)')
 
     def handle(self, *args, **kwargs):
         years = kwargs['years'] or list(range(2016, 2027))
         csv_only = kwargs['csv_only']
         target_league = kwargs.get('target_league')
         target_slug = (kwargs.get('target_slug') or '').strip().lower() or None
+        team_url = (kwargs.get('team_url') or '').strip()
         
         # Ensure export directory exists
         base_dir = "csv_exports"
         if not os.path.exists(base_dir):
             os.makedirs(base_dir)
+
+        # If a team_url is provided, run one-off import from that page and exit early
+        if team_url:
+            try:
+                self.stdout.write(self.style.SUCCESS(f"Importing team page: {team_url}"))
+                self.import_from_team_page(team_url, csv_only)
+                self.stdout.write(self.style.SUCCESS("Team page import completed"))
+                return
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"Failed to import team page: {e}"))
+                return
 
         leagues = [
             {
@@ -399,3 +412,54 @@ class Command(BaseCommand):
                 continue
         
         self.stdout.write(self.style.SUCCESS(f"Saved/Updated {count} matches for {year}"))
+
+    def import_from_team_page(self, url, csv_only=False):
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+        resp = requests.get(url, headers=headers, timeout=20)
+        if resp.status_code != 200:
+            raise Exception(f"HTTP {resp.status_code} for {url}")
+        
+        # League inference from querystring
+        import urllib.parse as _up
+        qs = dict(_up.parse_qsl(_up.urlsplit(url).query))
+        league_slug = (qs.get('league') or '').lower()
+        league_name = None
+        country = None
+        if league_slug == 'czechrepublic':
+            league_name = 'First League'
+            country = 'Republica Tcheca'
+        elif league_slug == 'belgium':
+            league_name = 'Pro League'
+            country = 'Belgica'
+        elif league_slug == 'brazil':
+            league_name = 'Brasileirão'
+            country = 'Brasil'
+        elif league_slug == 'england':
+            league_name = 'Premier League'
+            country = 'Inglaterra'
+        else:
+            # Fallback minimal mapping
+            league_name = 'First League' if 'czech' in league_slug else 'Premier League'
+            country = 'Republica Tcheca' if 'czech' in league_slug else 'Inglaterra'
+        
+        league_obj, _ = League.objects.get_or_create(name=league_name, country=country)
+        year = timezone.now().year
+        
+        # Parse all tables and feed to generic processor
+        try:
+            dfs = pd.read_html(StringIO(resp.text))
+        except ValueError:
+            dfs = []
+        count_before = Match.objects.filter(league=league_obj).count()
+        for df in dfs:
+            if df.shape[1] >= 3:
+                try:
+                    self.process_table(df, league_obj, year)
+                except Exception:
+                    continue
+        count_after = Match.objects.filter(league=league_obj).count()
+        saved = max(0, count_after - count_before)
+        if not csv_only:
+            self.stdout.write(self.style.SUCCESS(f"Imported from team page. New/Updated count may include existing entries. Estimated new: {saved}"))
