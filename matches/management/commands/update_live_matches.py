@@ -121,6 +121,7 @@ class Command(BaseCommand):
         
         count_new = 0
         count_updated = 0
+        touched_leagues = set()
         
         for fixture in fixtures:
             try:
@@ -186,6 +187,9 @@ class Command(BaseCommand):
                         name=mapped_league['name'],
                         country=mapped_league['country']
                     )
+                
+                # Marcar liga tocada para recalcular tabela depois
+                touched_leagues.add((league_obj.name, league_obj.country))
 
                 # Mapping names from Football-Data.org/API-Football to local DB
                 name_mapping = {
@@ -473,3 +477,16 @@ class Command(BaseCommand):
                 continue
         
         self.stdout.write(f'📊 Resumo: {count_new} novos, {count_updated} atualizados')
+        
+        # Recalcular standings automaticamente para ligas afetadas
+        if touched_leagues:
+            try:
+                from django.core.management import call_command
+                for lg_name, lg_country in sorted(touched_leagues):
+                    try:
+                        self.stdout.write(self.style.SUCCESS(f'🧮 Recalculando standings: {lg_name} ({lg_country})'))
+                        call_command('recalculate_standings', league_name=lg_name, country=lg_country)
+                    except Exception as e:
+                        self.stdout.write(self.style.WARNING(f'  ⚠️ Falha ao recalcular {lg_name} ({lg_country}): {e}'))
+            except Exception as e:
+                self.stdout.write(self.style.WARNING(f'⚠️ Não foi possível invocar recalculate_standings: {e}'))
