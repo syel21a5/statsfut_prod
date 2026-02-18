@@ -1133,6 +1133,18 @@ class LeagueDetailView(DetailView):
                                     except Exception:
                                         continue
                             return None
+                        def _find_table_by_label(labels):
+                            for node in soup.find_all(text=True):
+                                try:
+                                    t = node.strip().lower()
+                                except:
+                                    continue
+                                for lbl in labels:
+                                    if lbl.lower() in t:
+                                        el = node.parent.find_next('table')
+                                        if el:
+                                            return el
+                            return None
                         def _parse_rows_float(tbl, min_cols=4):
                             out = []
                             if not tbl: return out
@@ -1168,7 +1180,13 @@ class LeagueDetailView(DetailView):
                             ['relative form','last 8','all'],
                             ['relative form','points per game'],
                         ])
-                        rp_tbl = _find_table_by_keywords([
+                        # Prefer exact “Points Performance Index” label if present
+                        rp_tbl = _find_table_by_label([
+                            'Points Performance Index',
+                            'Relative Performance'
+                        ])
+                        if rp_tbl is None:
+                            rp_tbl = _find_table_by_keywords([
                             ['relative performance','opponents ppg'],
                             ['points performance index','opponents ppg'],
                         ])
