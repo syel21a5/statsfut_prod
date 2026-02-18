@@ -18,11 +18,13 @@ class Command(BaseCommand):
         parser.add_argument('--years', nargs='+', type=int, help='Years to scrape (e.g. 2024 for 2023/24)')
         parser.add_argument('--csv_only', action='store_true', help='Save to CSV only, do not import to DB')
         parser.add_argument('--target_league', type=str, help='Process only a specific league by name (e.g. \"A League\")')
+        parser.add_argument('--target_slug', type=str, help='Process only a specific league by SoccerStats slug (e.g. czechrepublic)')
 
     def handle(self, *args, **kwargs):
         years = kwargs['years'] or list(range(2016, 2027))
         csv_only = kwargs['csv_only']
         target_league = kwargs.get('target_league')
+        target_slug = (kwargs.get('target_slug') or '').strip().lower() or None
         
         # Ensure export directory exists
         base_dir = "csv_exports"
@@ -69,6 +71,9 @@ class Command(BaseCommand):
         for league_conf in leagues:
             if target_league and league_conf['name'] != target_league:
                 continue
+            if target_slug:
+                if (league_conf.get('current_param','').lower() != target_slug) and (league_conf.get('url_base','').lower() != target_slug):
+                    continue
 
             self.stdout.write(self.style.SUCCESS(f"--- Processing {league_conf['name']} ---"))
             
