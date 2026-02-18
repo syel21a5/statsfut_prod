@@ -1142,16 +1142,19 @@ class LeagueDetailView(DetailView):
                                 if len(cells) < min_cols: 
                                     continue
                                 name = None
+                                name_idx = None
                                 for c in cells:
                                     if c and any(ch.isalpha() for ch in c):
                                         if c.lower() in {'team', 'teams', '#', 'avg', 'average'}:
                                             continue
                                         name = c
+                                        name_idx = cells.index(c)
                                         break
                                 if not name:
                                     continue
                                 nums = []
-                                for c in cells:
+                                # Considere apenas o que vem DEPOIS do nome do time (evita pegar posição/rank)
+                                for c in cells[name_idx+1:]:
                                     if c == name: 
                                         continue
                                     v = _clean_float(c)
@@ -1226,8 +1229,11 @@ class LeagueDetailView(DetailView):
                                     ratio = x; continue
                                 if proj_ppg is None and 0 <= x <= 3.5:
                                     proj_ppg = x; continue
-                                if total is None and x >= 20:
-                                    total = x; continue
+                            # Para TOTAL, use o último número grande (evita confundir com GP/Pts no início)
+                            for x in reversed(nums):
+                                if x >= 20:
+                                    total = x
+                                    break
                             if ratio is not None and proj_ppg is not None and total is not None:
                                 pp_map[name] = {
                                     'proj_ratio': round(ratio,2),
