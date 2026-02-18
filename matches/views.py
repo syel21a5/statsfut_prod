@@ -1010,6 +1010,36 @@ class LeagueDetailView(DetailView):
                                 return rows2
                             home_table = _build(candidates[0])
                             away_table = _build(candidates[1])
+                            home_idx = {r['team']: r for r in home_table}
+                            away_idx = {r['team']: r for r in away_table}
+                            rel_rows = []
+                            for t in set(home_idx.keys()) & set(away_idx.keys()):
+                                h = home_idx[t]
+                                a = away_idx[t]
+                                total_pts = h['pts'] + a['pts']
+                                total_gp = h['gp'] + a['gp']
+                                total_ppg = (total_pts / total_gp) if total_gp > 0 else 0
+                                ppg_home = h['ppg']
+                                ppg_away = a['ppg']
+                                rel_rows.append({
+                                    'team': t,
+                                    'team_slug': h['team_slug'],
+                                    'league_slug': h['league_slug'],
+                                    'gph': h['gp'],
+                                    'gpa': a['gp'],
+                                    'pts': total_pts,
+                                    'ppg_home': ppg_home,
+                                    'ppg_away': ppg_away,
+                                    'ppg_diff': round(ppg_home - ppg_away, 2),
+                                    'home_rel': round(((ppg_home - total_ppg)/total_ppg * 100), 1) if total_ppg > 0 else 0,
+                                    'away_rel': round(((ppg_away - total_ppg)/total_ppg * 100), 1) if total_ppg > 0 else 0,
+                                    'bar_width': min(int(abs(ppg_home - ppg_away) * 40), 100),
+                                    'ppg_diff_abs': abs(round(ppg_home - ppg_away, 2))
+                                })
+                            rel_rows.sort(key=lambda x: (x['pts'], x['ppg_diff']), reverse=True)
+                            for i, r in enumerate(rel_rows, 1):
+                                r['position'] = i
+                            context['relative_table'] = rel_rows
             except:
                 pass
 
