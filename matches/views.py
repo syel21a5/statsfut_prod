@@ -1114,11 +1114,24 @@ class LeagueDetailView(DetailView):
                                 return float(keep)
                             except:
                                 return None
-                        def _find_table(lbl):
-                            for node in soup.find_all(text=True):
-                                if isinstance(node, str) and lbl.lower() in node.strip().lower():
-                                    tbl = node.parent.find_next('table')
-                                    if tbl: return tbl
+                        def _table_has_keywords(tbl, keywords):
+                            txt = []
+                            for th in tbl.find_all('th'):
+                                txt.append(th.get_text(' ', strip=True))
+                            # Also sample first 3 rows for context
+                            for tr in tbl.find_all('tr')[:3]:
+                                txt.extend(td.get_text(' ', strip=True) for td in tr.find_all(['td','th']))
+                            blob = ' '.join(txt).lower()
+                            return all(k in blob for k in keywords)
+                        def _find_table_by_keywords(keyword_sets):
+                            tables = soup.find_all('table')
+                            for kws in keyword_sets:
+                                for tbl in tables:
+                                    try:
+                                        if _table_has_keywords(tbl, kws):
+                                            return tbl
+                                    except Exception:
+                                        continue
                             return None
                         def _parse_rows_float(tbl, min_cols=4):
                             out = []
@@ -1148,49 +1161,74 @@ class LeagueDetailView(DetailView):
                                     continue
                                 out.append((name, nums))
                             return out
-                        rf_tbl = _find_table('Relative Form')
-                        rp_tbl = _find_table('Relative Performance')
-                        ri_tbl = _find_table('Run-in')
-                        pp_tbl = _find_table('Projected Points')
+                        rf_tbl = _find_table_by_keywords([
+                            ['relative form','last 8','all'],
+                            ['relative form','points per game'],
+                        ])
+                        rp_tbl = _find_table_by_keywords([
+                            ['relative performance','opponents ppg'],
+                            ['points performance index','opponents ppg'],
+                        ])
+                        ri_tbl = _find_table_by_keywords([
+                            ['run-in','opponents played ppg','opponents remaining ppg'],
+                            ['run-in','remaining ppg'],
+                        ])
+                        pp_tbl = _find_table_by_keywords([
+                            ['projected points','ratio','pppg'],
+                            ['projected points','projected ppg','ratio'],
+                        ])
                         rf_rows = _parse_rows_float(rf_tbl)
                         rp_rows = _parse_rows_float(rp_tbl)
                         ri_rows = _parse_rows_float(ri_tbl)
                         pp_rows = _parse_rows_float(pp_tbl)
                         rf_map = {}
                         for name, nums in rf_rows:
-                            if len(nums) >= 3:
-                                season_ppg = nums[0]
-                                last8_ppg = nums[1]
-                                diff = nums[2]
-                                rf_map[name] = {'ppg_season': round(season_ppg,2), 'ppg_8': round(last8_ppg,2), 'ppg_diff': round(diff,2)}
+                            # Heurística: PPGs estão tipicamente <= 3.0; pegar dois primeiros nessa faixa
+                            ppg_values = [x for x in nums if 0 <= x <= 3.5]
+                            if len(ppg_values) >= 2:
+                                last8_ppg = ppg_values[0]
+                                season_ppg = ppg_values[1]
+                                rf_map[name] = {'ppg_season': round(season_ppg,2), 'ppg_8': round(last8_ppg,2), 'ppg_diff': round(last8_ppg - season_ppg,2)}
                         rp_map = {}
                         for name, nums in rp_rows:
-                            if len(nums) >= 3:
-                                team_ppg = nums[0]
-                                opp_ppg = nums[1]
-                                idx = nums[2]
+                            # Esperado: Team PPG, Opp PPG, Index
+                            # Filtrar valores plausíveis
+                            clean = [x for x in nums if -0.5 <= x <= 5.0]
+                            if len(clean) >= 3:
+                                team_ppg = clean[0]
+                                opp_ppg = clean[1]
+                                idx = clean[2]
                                 rp_map[name] = {'opponents_ppg': round(opp_ppg,2), 'performance_index': round(idx,2), 'ppg_season': round(team_ppg,2)}
                         ri_map = {}
                         for name, nums in ri_rows:
-                            if len(nums) >= 3:
-                                played_ppg = nums[0]
-                                remain_ppg = nums[1]
-                                diff_pct = nums[2]
-                                next4 = nums[3] if len(nums) > 3 else None
+                            # Esperado: Team PPG, Opp played PPG, Opp remaining PPG, Diff%, Next4 PPG
+                            # Pegamos os dois primeiros PPGs >0 e <=3.5 após o primeiro valor (team ppg)
+                            ppgs = [x for x in nums if 0 <= x <= 3.5]
+                            played_ppg = ppgs[1] if len(ppgs) > 1 else None
+                            remain_ppg = ppgs[2] if len(ppgs) > 2 else None
+                            # Diff% é um valor percentual; vamos buscar um número fora da faixa ppg (ex.: abs>3.5) mais próximo
+                            diff_candidates = [x for x in nums if abs(x) > 3.5 and abs(x) < 200]
+                            diff_pct = diff_candidates[0] if diff_candidates else 0
+                            next4 = ppgs[3] if len(ppgs) > 3 else None
                                 ri_map[name] = {
-                                    'opp_played_ppg': round(played_ppg,2),
-                                    'opp_remaining_ppg': round(remain_ppg,2),
-                                    'runin_diff_pct': round(diff_pct,1),
-                                    'next_4_ppg': round(next4,2) if next4 is not None else None
-                                }
+                                'opp_played_ppg': round(played_ppg,2) if played_ppg is not None else 0,
+                                'opp_remaining_ppg': round(remain_ppg,2) if remain_ppg is not None else 0,
+                                'runin_diff_pct': round(diff_pct,1) if diff_pct is not None else 0,
+                                'next_4_ppg': round(next4,2) if next4 is not None else None
+                            }
                         pp_map = {}
                         for name, nums in pp_rows:
-                            if len(nums) >= 5:
-                                current_pts = nums[0]
-                                games_left = nums[1]
-                                ratio = nums[2]
-                                proj_ppg = nums[3]
-                                total = nums[4]
+                            # Esperado: ... Ratio, pPPG, Total (além de GP/Pts/GR etc.)
+                            # Heurística: capturar primeiro valor de razão (0.3..1.5), depois pPPG (0..3.5), depois total (>=20)
+                            ratio = None; proj_ppg = None; total = None
+                            for x in nums:
+                                if ratio is None and 0.3 <= x <= 1.5:
+                                    ratio = x; continue
+                                if proj_ppg is None and 0 <= x <= 3.5:
+                                    proj_ppg = x; continue
+                                if total is None and x >= 20:
+                                    total = x; continue
+                            if ratio is not None and proj_ppg is not None and total is not None:
                                 pp_map[name] = {
                                     'proj_ratio': round(ratio,2),
                                     'proj_ppg': round(proj_ppg,2),
