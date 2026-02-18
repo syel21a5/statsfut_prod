@@ -21,11 +21,14 @@ class Command(BaseCommand):
         season_year: int = options["season"]
         dry_run: bool = options["dry_run"]
 
-        season_code = f"{season_year-1}-{str(season_year)[-2:]}"
+        # Worldfootball usa intervalo completo, ex: 2025-2026 (não 2025-26)
+        season_code = f"{season_year-1}-{season_year}"
         url = f"https://www.worldfootball.net/all_matches/cze-1-liga-{season_code}/"
 
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+            "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Referer": "https://www.worldfootball.net/",
         }
         self.stdout.write(self.style.SUCCESS(f"Baixando: {url}"))
         r = requests.get(url, headers=headers, timeout=25)
