@@ -18,6 +18,7 @@ class APIManager:
         'Ligue 1': {'api_football': [61], 'football_data': [2015]},
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
         'Pro League': {'api_football': [144], 'football_data': []},
+        'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina
         # Extra top leagues (Football-Data supports some; else use API-Football by country)
         'Primeira Liga': {'api_football': [], 'football_data': [2017]},      # Portugal
         'Eredivisie': {'api_football': [], 'football_data': [2003]},         # Netherlands
@@ -35,6 +36,7 @@ class APIManager:
         'Portugal': ['Primeira Liga'],
         'Netherlands': ['Eredivisie'],
         'Turkey': ['Super Lig', 'Süper Lig'],
+        'Argentina': ['Liga Profesional'],
         'Greece': ['Super League 1', 'Super League'],
         'Austria': ['Bundesliga', 'Austrian Bundesliga'],
         'Switzerland': ['Super League', 'Swiss Super League'],
