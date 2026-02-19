@@ -148,3 +148,42 @@ class LeagueStanding(models.Model):
 
     def __str__(self):
         return f"{self.season} - {self.team} ({self.position}º)"
+
+
+class TeamGoalTiming(models.Model):
+    league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='goal_timings')
+    season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name='goal_timings')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='goal_timings')
+    
+    # Scored
+    scored_0_15 = models.IntegerField(default=0)
+    scored_16_30 = models.IntegerField(default=0)
+    scored_31_45 = models.IntegerField(default=0)
+    scored_46_60 = models.IntegerField(default=0)
+    scored_61_75 = models.IntegerField(default=0)
+    scored_76_90 = models.IntegerField(default=0)
+    
+    # Conceded
+    conceded_0_15 = models.IntegerField(default=0)
+    conceded_16_30 = models.IntegerField(default=0)
+    conceded_31_45 = models.IntegerField(default=0)
+    conceded_46_60 = models.IntegerField(default=0)
+    conceded_61_75 = models.IntegerField(default=0)
+    conceded_76_90 = models.IntegerField(default=0)
+    
+    # Halves
+    scored_1st_half = models.IntegerField(default=0)
+    scored_2nd_half = models.IntegerField(default=0)
+    conceded_1st_half = models.IntegerField(default=0)
+    conceded_2nd_half = models.IntegerField(default=0)
+    
+    # Averages (Calculated minutes)
+    avg_min_scored = models.IntegerField(default=0, null=True, blank=True)
+    avg_min_conceded = models.IntegerField(default=0, null=True, blank=True)
+    
+    class Meta:
+        ordering = ['league', 'season', 'team']
+        unique_together = ['league', 'season', 'team']
+
+    def __str__(self):
+        return f"{self.team} - Goal Timing ({self.season})"

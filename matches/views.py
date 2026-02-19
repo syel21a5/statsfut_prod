@@ -11,6 +11,7 @@ from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
 
 from .api_manager import APIManager
 import json
+import unicodedata
 
 
 FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
@@ -922,9 +923,71 @@ class LeagueDetailView(DetailView):
                 context['avg_ppg'] = sum(s.ppg_season for s in standings) / total_teams
                 context['avg_ppg8'] = sum(s.ppg_8 for s in standings) / total_teams
                 context['avg_cs'] = sum(s.clean_sheets for s in standings) / total_teams * 100 / context['avg_played'] if context['avg_played'] > 0 else 0
-                # SR average: percentage of teams that scored in their matches
                 total_sr = sum(int(s.scoring_rate.rstrip('%')) for s in standings)
                 context['avg_sr'] = total_sr / total_teams if total_teams > 0 else 0
+
+            arg_groups = None
+            if league.name == 'Liga Profesional' and league.country == 'Argentina' and latest_season:
+                def _norm_name(n):
+                    n = unicodedata.normalize('NFKD', (n or ''))
+                    n = ''.join(ch for ch in n if not unicodedata.combining(ch))
+                    n = n.lower()
+                    return ''.join(ch for ch in n if ch.isalnum())
+                group_map = {}
+                for name in [
+                    'Velez Sarsfield',
+                    'Independiente',
+                    'Defensa y Justicia',
+                    'Estudiantes L.P.',
+                    'Platense',
+                    'Lanus',
+                    'Boca Juniors',
+                    'Talleres Cordoba',
+                    'San Lorenzo',
+                    'Gimnasia Mendoza',
+                    'Union Santa Fe',
+                    'Union',
+                    'Unión Santa Fe',
+                    'Union de Santa Fe',
+                    'Instituto',
+                    'Central Cordoba',
+                    'Dep. Riestra',
+                    'Newells Old Boys',
+                ]:
+                    group_map[_norm_name(name)] = 'A'
+                for name in [
+                    'Tigre',
+                    'Ind. Rivadavia',
+                    'Belgrano',
+                    'Rosario Central',
+                    'Huracan',
+                    'Argentinos Jrs',
+                    'Gimnasia L.P.',
+                    'River Plate',
+                    'Racing Club',
+                    'Sarmiento Junin',
+                    'Atl. Tucuman',
+                    'Barracas Central',
+                    'Banfield',
+                    'Aldosivi',
+                    'Estudiantes Rio Cuarto',
+                ]:
+                    group_map[_norm_name(name)] = 'B'
+                groups = {'A': [], 'B': []}
+                for s in standings:
+                    key = _norm_name(s.team.name)
+                    g = group_map.get(key)
+                    if g in groups:
+                        groups[g].append(s)
+                def _sort_key(s):
+                    return (-s.points, -s.goal_diff, -s.goals_for, s.team.name)
+                for code in ['A', 'B']:
+                    lst = groups[code]
+                    lst.sort(key=_sort_key)
+                    for idx, row in enumerate(lst, 1):
+                        row.group_position = idx
+                arg_groups = groups
+            context['arg_groups'] = arg_groups
 
 
             # Prepare sorted lists for context
@@ -3488,6 +3551,7 @@ class LeagueGoalsView(TemplateView):
                 'pct': (count / total_goals_timing) * 100 if total_goals_timing > 0 else 0
             })
         context['timing_stats_list'] = timing_stats_list
+        context['has_goal_timing_data'] = total_goals_timing > 0
 
         # Prepare context data
         if total_matches_played > 0:

@@ -486,6 +486,111 @@
                 </div>
             </div>
 
+            {% if league.name == "Liga Profesional" and league.country == "Argentina" and arg_groups %}
+            <div class="row mb-4">
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Group A</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">#</th>
+                                        <th class="text-start">Team</th>
+                                        <th class="text-success">GP</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th class="text-info">GF</th>
+                                        <th class="text-danger">GA</th>
+                                        <th>GD</th>
+                                        <th class="fw-bold text-white">PTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in arg_groups.A %}
+                                    <tr>
+                                        <td class="ps-3 text-start">
+                                            <span class="badge {% if row.group_position <= 4 %}bg-success{% elif row.group_position >= 12 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.group_position }}</span>
+                                        </td>
+                                        <td class="text-start fw-bold">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {% if row.team.logo %}
+                                                    <img src="{{ row.team.logo }}" height="20" class="me-2">
+                                                {% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-success fw-bold">{{ row.played }}</td>
+                                        <td>{{ row.won }}</td>
+                                        <td>{{ row.drawn }}</td>
+                                        <td>{{ row.lost }}</td>
+                                        <td class="text-info">{{ row.goals_for }}</td>
+                                        <td class="text-danger">{{ row.goals_against }}</td>
+                                        <td>{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
+                                        <td class="fw-bold">{{ row.points }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">Group B</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">#</th>
+                                        <th class="text-start">Team</th>
+                                        <th class="text-success">GP</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th class="text-info">GF</th>
+                                        <th class="text-danger">GA</th>
+                                        <th>GD</th>
+                                        <th class="fw-bold text-white">PTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in arg_groups.B %}
+                                    <tr>
+                                        <td class="ps-3 text-start">
+                                            <span class="badge {% if row.group_position <= 4 %}bg-success{% elif row.group_position >= 12 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.group_position }}</span>
+                                        </td>
+                                        <td class="text-start fw-bold">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                                {% if row.team.logo %}
+                                                    <img src="{{ row.team.logo }}" height="20" class="me-2">
+                                                {% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-success fw-bold">{{ row.played }}</td>
+                                        <td>{{ row.won }}</td>
+                                        <td>{{ row.drawn }}</td>
+                                        <td>{{ row.lost }}</td>
+                                        <td class="text-info">{{ row.goals_for }}</td>
+                                        <td class="text-danger">{{ row.goals_against }}</td>
+                                        <td>{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
+                                        <td class="fw-bold">{{ row.points }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
             <!-- Main League Table -->
             <div class="row mb-4">
                 <div class="col-12">
@@ -519,7 +624,7 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 text-start">
-                                            <span class="badge {% if row.position <= 4 %}bg-success{% elif row.position >= 18 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.position }}</span>
+                                            <span class="badge {% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">

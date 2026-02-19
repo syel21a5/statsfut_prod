@@ -203,48 +203,43 @@
                     </div>
                 </div>
 
-                <!-- Timing of Goals -->
+                <!-- Current Form (Last 8) -->
                 <div class="col-lg-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase"><i
-                                    class="fa-regular fa-clock me-2 text-warning"></i>Timing of Goals</h6>
+                                    class="fa-solid fa-fire me-2 text-danger"></i>Current Form (Last 8)</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table table-dark table-sm mb-0 text-center small align-middle">
                                     <thead>
                                         <tr class="text-secondary">
-                                            <th class="text-start ps-3">Period</th>
-                                            <th>Goals</th>
-                                            <th class="text-end pe-3">%</th>
+                                            <th class="text-start ps-3">Team</th>
+                                            <th>GP</th>
+                                            <th class="text-warning">Pts</th>
+                                            <th class="text-end pe-3">Rank</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for item in timing_stats_list %}
+                                        {% for item in overview_tables.1.rows|slice:":10" %}
                                         <tr>
-                                            <td class="text-start ps-3 text-secondary">{{ item.period }}</td>
-                                            <td>{{ item.count }}</td>
-                                            <td class="text-end pe-3">
-                                                <div class="d-flex align-items-center justify-content-end gap-2">
-                                                    <span>{{ item.pct|floatformat:1 }}%</span>
-                                                    <div class="progress" style="width: 50px; height: 4px;">
-                                                        <div class="progress-bar bg-warning" role="progressbar"
-                                                            data-width="{{ item.pct }}%" style="width: 0;"></div>
-                                                    </div>
-                                                </div>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if item.team.logo %}
+                                                <img src="{{ item.team.logo }}" alt="{{ item.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                {% endif %}
+                                                {{ item.team.name }}
                                             </td>
+                                            <td>{{ item.gp }}</td>
+                                            <td class="fw-bold text-warning">{{ item.val }}</td>
+                                            <td class="text-end pe-3">{{ forloop.counter }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
-                            <div
-                                class="p-3 border-top border-secondary border-opacity-25 small text-center text-secondary">
-                                <span class="me-3"><i class="fa-solid fa-flag-checkered me-1"></i>Avg First Goal (Home):
-                                    <strong class="text-white">{{ league_stats.avg_home_first_min|floatformat:0 }}'</strong></span>
-                                <span><i class="fa-solid fa-flag-checkered me-1"></i>Avg First Goal (Away): <strong
-                                        class="text-white">{{ league_stats.avg_away_first_min|floatformat:0 }}'</strong></span>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-center text-secondary">
+                                <span class="fst-italic">Points earned in the last 8 matches</span>
                             </div>
                         </div>
                     </div>

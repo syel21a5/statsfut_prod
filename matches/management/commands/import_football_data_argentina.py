@@ -7,6 +7,7 @@ from io import StringIO
 import csv
 from datetime import datetime
 import re
+from collections import defaultdict
 
 
 class Command(BaseCommand):
@@ -28,41 +29,49 @@ class Command(BaseCommand):
         r.raise_for_status()
         soup = BeautifulSoup(r.text, 'html.parser')
 
-        # Coletar todos os links CSV
         csv_links = []
         for a in soup.find_all('a', href=True):
             href = a['href']
             if href.lower().endswith('.csv'):
-                # Normalizar para URL absoluta
                 if href.startswith('//'):
                     url = 'https:' + href
                 elif href.startswith('http'):
                     url = href
                 else:
                     url = requests.compat.urljoin(base_url, href)
-                # Tentar inferir ano inicial pelo segmento /mmz4281/2324/ -> 2023
                 year_match = re.search(r'/mmz\d+/(\\d{2})(\\d{2})/', url)
                 start_year = None
                 if year_match:
                     y1 = int(year_match.group(1))
-                    # heurística: 00-79 -> 2000-2079
                     start_year = 2000 + y1
                 csv_links.append((url, start_year))
 
-        # Se não conseguimos inferir anos, ainda prosseguir mas filtrar por data na linha
         csv_links = [(url, yr) for (url, yr) in csv_links if (yr is None or yr >= from_year)]
+
+        guess_urls = []
+        for y in range(from_year, to_year + 1):
+            y1 = str(y % 100).zfill(2)
+            y2 = str((y + 1) % 100).zfill(2)
+            guess_urls.append((f"https://www.football-data.co.uk/mmz4281/{y1}{y2}/ARG.csv", y))
+        guess_urls.append(("https://www.football-data.co.uk/new/ARG.csv", None))
+
+        seen = set()
+        for u in guess_urls + csv_links:
+            if u[0] not in seen:
+                seen.add(u[0])
+                csv_links.append(u)
 
         if not csv_links:
             self.stdout.write(self.style.WARNING("Nenhum CSV encontrado na página."))
             return
 
-        # Garantir Liga
         league_obj, _ = League.objects.get_or_create(name="Primera Division", country="Argentina")
 
         created = 0
         updated = 0
         skipped = 0
         files_processed = 0
+        per_year = defaultdict(int)
 
         def parse_date(val: str):
             val = (val or '').strip()
@@ -91,7 +100,6 @@ class Command(BaseCommand):
                 row_count = 0
                 for row in reader:
                     row_count += 1
-                    # Colunas padrão: Date, HomeTeam, AwayTeam, FTHG, FTAG
                     date_s = row.get('Date') or row.get('date')
                     ht = (row.get('HomeTeam') or row.get('Home') or '').strip()
                     at = (row.get('AwayTeam') or row.get('Away') or '').strip()
@@ -107,11 +115,9 @@ class Command(BaseCommand):
                         skipped += 1
                         continue
 
-                    # Filtrar por ano pedido
                     if dt.year < from_year or dt.year > to_year:
                         continue
 
-                    # Season: para Argentina vamos usar ano do calendário
                     season_obj, _ = Season.objects.get_or_create(year=dt.year)
 
                     try:
@@ -136,6 +142,7 @@ class Command(BaseCommand):
                         'away_score': a_score,
                         'status': 'Finished' if (h_score is not None and a_score is not None) else 'Scheduled'
                     }
+                    per_year[dt.year] += 1
                     obj, was_created = Match.objects.update_or_create(
                         league=league_obj,
                         season=season_obj,
@@ -157,4 +164,7 @@ class Command(BaseCommand):
         if dry_run:
             self.stdout.write(self.style.WARNING("Dry run concluído (nenhum dado gravado)."))
         self.stdout.write(self.style.SUCCESS(f"Concluído. Arquivos: {files_processed}, Criados: {created}, Atualizados: {updated}, Ignorados: {skipped}"))
-
+        if per_year:
+            self.stdout.write("Por ano:")
+            for y in sorted(per_year.keys()):
+                self.stdout.write(f"{y}: {per_year[y]}")
