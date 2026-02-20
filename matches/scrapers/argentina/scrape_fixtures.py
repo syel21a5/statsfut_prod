@@ -191,9 +191,18 @@ def scrape_upcoming_fixtures():
                     # Format: "Thu 19 Feb" -> needs year
                     # We assume current year, but handle year boundary if needed (Dec/Jan)
                     
+                    # SoccerStats raw time is typically UTC/Europe (e.g., 20:15).
+                    # But the user sees 17:15 (Argentina/Brazil local time).
+                    # So we need to subtract 3 hours from the scraped time to match the visual display.
+                    
                     dt_str = f"{date_str} {now.year} {time_str}"
                     dt_obj = datetime.strptime(dt_str, "%a %d %b %Y %H:%M")
-                    match_date = pytz.UTC.localize(dt_obj)
+                    
+                    # Treat the scraped time as if it were UTC first
+                    match_date_utc = pytz.UTC.localize(dt_obj)
+                    
+                    # Then subtract 3 hours to get the actual match time in Argentina/Brazil
+                    match_date = match_date_utc - timedelta(hours=3)
 
                     # If we are in December and parsing a January fixture, bump the year.
                     if now.month == 12 and dt_obj.month == 1:
