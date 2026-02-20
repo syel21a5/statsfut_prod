@@ -658,11 +658,12 @@ class LeagueDetailView(DetailView):
         league = self.object
         now = timezone.now()
         
-        context['upcoming_matches'] = Match.objects.filter(
+        upcoming_matches_qs = Match.objects.filter(
             league=league,
             date__gte=now,
             status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC']
-        ).order_by('date')[:15]
+        ).select_related('home_team', 'away_team').order_by('date')[:10]
+        context['upcoming_matches'] = upcoming_matches_qs
         
         # Include all statuses that indicate a finished match
         context['latest_results'] = Match.objects.filter(
@@ -1385,14 +1386,6 @@ class LeagueDetailView(DetailView):
             context['home_table'] = home_table
             context['away_table'] = away_table
             
-            # Get upcoming matches_qs (Moved up for Pre-Match Analysis)
-            # Limit to next 10 matches (approx 1 round) to avoid overcrowding the dashboard
-            upcoming_matches_qs = Match.objects.filter(
-                league=league,
-                status__in=['Scheduled', 'Not Started'],
-                date__gte=timezone.now()
-            ).select_related('home_team', 'away_team').order_by('date')[:10]
-
             # --- PRE-MATCH ANALYSIS STATS ---
             pre_match_data = []
             for m in upcoming_matches_qs:
