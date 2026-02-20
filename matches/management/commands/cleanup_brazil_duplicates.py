@@ -51,6 +51,56 @@ class Command(BaseCommand):
         for bad_name, correct_name in duplicates_map.items():
             self.merge_teams(league, bad_name, correct_name)
 
+        # Após mesclar os times, remover jogos duplicados (mesmo confronto no mesmo dia/rodada)
+        self.cleanup_match_duplicates(league)
+
+    def cleanup_match_duplicates(self, league):
+        self.stdout.write("  -> Buscando jogos duplicados...")
+        
+        # Pega todos os jogos da liga ordenados por data
+        # Se tiver duplicata, vamos manter o que tem o horário mais "razoável" ou o primeiro
+        matches = Match.objects.filter(league=league).order_by('date')
+        
+        seen = {}
+        removed_count = 0
+        
+        for m in matches:
+            if not m.date:
+                continue
+                
+            # Chave única: Data (Dia), Home, Away
+            match_key = (m.date.date(), m.home_team_id, m.away_team_id)
+            
+            if match_key in seen:
+                # Já vimos um jogo desse confronto nesse dia.
+                # Vamos verificar qual manter.
+                existing_match = seen[match_key]
+                
+                # Se o novo jogo for exatamente a mesma hora, é duplicata exata -> remove o novo
+                # Se forem horas diferentes (ex: 00:00 vs 18:00), removemos o 00:00 (se existir)
+                
+                existing_hour = existing_match.date.hour
+                current_hour = m.date.hour
+                
+                if existing_hour == 0 and current_hour != 0:
+                    # O existente é 00:00 (ruim), o novo é bom. Substitui.
+                    self.stdout.write(f"     [CORREÇÃO] Substituindo {existing_match.date} por {m.date} ({m.home_team} vs {m.away_team})")
+                    existing_match.delete()
+                    seen[match_key] = m
+                    removed_count += 1
+                else:
+                    # O existente é bom (ou igual), remove o novo.
+                    self.stdout.write(f"     [DUPLICADO] Removendo jogo extra: {m.home_team} vs {m.away_team} em {m.date} (Mantido: {existing_match.date})")
+                    m.delete()
+                    removed_count += 1
+            else:
+                seen[match_key] = m
+        
+        if removed_count > 0:
+            self.stdout.write(self.style.SUCCESS(f"     Removidos {removed_count} jogos duplicados."))
+        else:
+            self.stdout.write("     Nenhum jogo duplicado encontrado.")
+
     def merge_teams(self, league, bad_name, correct_name):
         # Busca o time errado (case insensitive)
         bad_team = Team.objects.filter(name__iexact=bad_name, league=league).first()
