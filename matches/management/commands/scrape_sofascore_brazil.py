@@ -1,251 +1,323 @@
-import time
-import random
+
+import requests
+from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
+from matches.models import League, Team, Match, Season
+from datetime import datetime, timedelta
+import pytz
 from django.utils import timezone
-from matches.models import Match, Team, League, Season, Goal
-from curl_cffi import requests
-from datetime import datetime
-import json
 
 class Command(BaseCommand):
-    help = 'Scrape detailed stats (corners, cards, etc.) from Sofascore for Brasileirão 2026'
+    help = 'Scraper do SoccerStats para o Brasileirão (Substitui Sofascore)'
 
-    def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS("Starting Sofascore scraper for Brasileirão 2026..."))
+    def handle(self, *args, **kwargs):
+        self.stdout.write(self.style.SUCCESS('Iniciando Scraper SoccerStats para Brasileirão...'))
         
-        # Configuration
-        SEASON_YEAR = 2026
-        SEASON_ID = 87678  # 2026 Sofascore ID
-        TOURNAMENT_ID = 325 # Brasileirão Serie A
-        LEAGUE_NAME = "Brasileirão" # Name in our DB
+        # Configurações
+        league_name = "Brasileirão"
+        country = "Brasil"
+        season_year = 2026
         
-        # Get League object
-        try:
-            league = League.objects.get(name=LEAGUE_NAME)
-        except League.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f"League '{LEAGUE_NAME}' not found in DB."))
-            return
+        # Tenta URL do ano corrente ou específico
+        # Como estamos em 2026, league=brazil deve ser 2026 se já começou, ou 2025 se não.
+        # Vamos tentar forçar 2026 se possível, mas soccerstats usa sufixo _YYYY
+        urls = [
+            f"https://www.soccerstats.com/results.asp?league=brazil_{season_year}&pmtype=bydate",
+            "https://www.soccerstats.com/results.asp?league=brazil&pmtype=bydate" # Fallback
+        ]
 
-        # Get Season object
-        season, _ = Season.objects.get_or_create(year=SEASON_YEAR)
-
-        # Setup requests session with browser impersonation
-        self.session = requests.Session()
-        self.session.headers = {
-            'Referer': 'https://www.sofascore.com/',
-            'Origin': 'https://www.sofascore.com',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
 
-        # Iterate through rounds (1 to 38)
-        for round_num in range(1, 39):
-            self.stdout.write(f"Processing Round {round_num}...")
-            self.process_round(round_num, SEASON_ID, TOURNAMENT_ID, league, season)
-            
-            # Sleep to avoid rate limiting
-            time.sleep(random.uniform(2, 5))
+        # Garantir Liga e Temporada
+        league_obj, _ = League.objects.get_or_create(name=league_name, country=country)
+        season_obj, _ = Season.objects.get_or_create(year=season_year)
 
-    def process_round(self, round_num, season_id, tournament_id, league, season):
-        url = f"https://api.sofascore.com/api/v1/unique-tournament/{tournament_id}/season/{season_id}/events/round/{round_num}"
-        
-        try:
-            response = self.session.get(url, impersonate="chrome120", timeout=15)
-            if response.status_code != 200:
-                self.stdout.write(self.style.ERROR(f"Failed to fetch round {round_num}: {response.status_code}"))
-                return
+        content = None
+        used_url = ""
 
-            data = response.json()
-            events = data.get('events', [])
-            
-            for event in events:
-                self.process_event(event, league, season)
+        for url in urls:
+            self.stdout.write(f"Tentando URL: {url}")
+            try:
+                response = requests.get(url, headers=headers, timeout=20)
+                if response.status_code == 200:
+                    # Verifica se é a temporada certa
+                    if str(season_year) in response.text or "2026" in response.text:
+                         content = response.content
+                         used_url = url
+                         break
+                    else:
+                        self.stdout.write(self.style.WARNING(f"URL {url} parece não ter dados de {season_year}."))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"Erro ao acessar {url}: {e}"))
 
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Error processing round {round_num}: {str(e)}"))
-
-    def process_event(self, event, league, season):
-        # Basic Info
-        event_id = event.get('id')
-        home_name = event.get('homeTeam', {}).get('name')
-        away_name = event.get('awayTeam', {}).get('name')
-        start_timestamp = event.get('startTimestamp')
-        status_code = event.get('status', {}).get('code') # 100=Ended, 0=NotStarted?
-        
-        # Convert timestamp to datetime
-        match_date = datetime.fromtimestamp(start_timestamp, tz=timezone.get_current_timezone())
-        
-        # Resolve Teams
-        home_team = self.resolve_team(home_name, league)
-        away_team = self.resolve_team(away_name, league)
-        
-        if not home_team or not away_team:
-            self.stdout.write(self.style.WARNING(f"Skipping match {home_name} vs {away_name} (Team not found)"))
+        if not content:
+            self.stdout.write(self.style.ERROR("Não foi possível obter dados do SoccerStats para 2026."))
             return
 
-        # Create or Update Match
-        match, created = Match.objects.get_or_create(
-            league=league,
-            home_team=home_team,
-            away_team=away_team,
-            season=season, # Pass Season object
-            defaults={'date': match_date}
-        )
+        soup = BeautifulSoup(content, 'html.parser')
         
-        # Update basic scores if finished
-        if status_code == 100: # Finished
-            home_score_data = event.get('homeScore', {})
-            away_score_data = event.get('awayScore', {})
-            
-            match.home_score = home_score_data.get('current')
-            match.away_score = away_score_data.get('current')
-            match.ht_home_score = home_score_data.get('period1')
-            match.ht_away_score = away_score_data.get('period1')
-            match.status = "Finished"
-            match.api_id = str(event_id)
-            
-            # Fetch Detailed Stats
-            self.fetch_match_stats(event_id, match)
-            
-            # Fetch Incidents (Goals)
-            self.fetch_incidents(event_id, match)
-        else:
-            match.status = "Scheduled"
-            match.date = match_date # Update date/time just in case
-            
-        match.save()
-        action = "Created" if created else "Updated"
-        self.stdout.write(f"  {action}: {home_team} vs {away_team} ({match.status})")
+        # Encontrar tabelas de jogos
+        # SoccerStats estrutura: Várias tabelas, precisamos achar a que tem datas e times
+        tables = soup.find_all('table')
+        match_count = 0
+        
+        self.stdout.write(f"Analisando {len(tables)} tabelas...")
 
-    def fetch_match_stats(self, event_id, match):
-        url = f"https://api.sofascore.com/api/v1/event/{event_id}/statistics"
-        try:
-            response = requests.get(url, impersonate="chrome110", timeout=10)
-            if response.status_code == 200:
-                data = response.json()
-                stats_groups = data.get('statistics', [])
-                if not stats_groups:
-                    return
-
-                # Iterate through groups (usually only one "ALL" period)
-                for group in stats_groups[0].get('groups', []):
-                    items = group.get('statisticsItems', [])
-                    for item in items:
-                        name = item.get('name')
-                        home_val = item.get('home')
-                        away_val = item.get('away')
-                        
-                        # Map to our model fields
-                        if name == "Corner kicks":
-                            match.home_corners = self.safe_int(home_val)
-                            match.away_corners = self.safe_int(away_val)
-                        elif name == "Fouls":
-                            match.home_fouls = self.safe_int(home_val)
-                            match.away_fouls = self.safe_int(away_val)
-                        elif name == "Yellow cards":
-                            match.home_yellow = self.safe_int(home_val)
-                            match.away_yellow = self.safe_int(away_val)
-                        elif name == "Red cards":
-                            match.home_red = self.safe_int(home_val)
-                            match.away_red = self.safe_int(away_val)
-                        elif name == "Total shots":
-                            match.home_shots = self.safe_int(home_val)
-                            match.away_shots = self.safe_int(away_val)
-                        elif name == "Shots on target":
-                            match.home_shots_on_target = self.safe_int(home_val)
-                            match.away_shots_on_target = self.safe_int(away_val)
+        for table in tables:
+            rows = table.find_all('tr')
+            if not rows: continue
+            
+            # Heurística: tabelas de jogos geralmente têm linhas com datas ou times e scores
+            # Vamos iterar as linhas e tentar extrair
+            
+            current_date = None
+            
+            for row in rows:
+                cols = row.find_all('td')
+                if not cols: continue
                 
-                match.save()
-                # self.stdout.write(f"    Stats updated for {match}")
-
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f"    Error fetching stats for event {event_id}: {e}"))
-
-    def fetch_incidents(self, event_id, match):
-        url = f"https://api.sofascore.com/api/v1/event/{event_id}/incidents"
-        try:
-            response = requests.get(url, impersonate="chrome110", timeout=10)
-            if response.status_code == 200:
-                data = response.json()
-                incidents = data.get('incidents', [])
+                text = row.get_text(" ", strip=True)
                 
-                # Clear existing goals to avoid duplicates
-                match.goals.all().delete()
+                # Tenta detectar linha de data (ex: "Sat 14 Feb")
+                # SoccerStats costuma colocar a data numa linha separada ou na primeira coluna
+                if len(cols) == 1 or (len(cols) > 0 and "font-weight:bold" in str(cols[0])):
+                    try:
+                        # Tentar parsear data
+                        # Formatos comuns: "Saturday 14 February 2026" ou "Round 1"
+                        date_text = cols[0].get_text(strip=True)
+                        # Ignorar headers de tabela
+                        if "Round" in date_text or "week" in date_text.lower():
+                            continue
+                            
+                        # Tentar converter para data
+                        # Assumindo formato do site (ex: 28 Feb)
+                        # Precisamos do ano.
+                        pass # TODO: Implementar parse de data de cabeçalho se necessário
+                    except:
+                        pass
+
+                # Linha de jogo: Home | Score/Time | Away
+                # Estrutura comum: TimeA - TimeB ou TimeA 1-0 TimeB
+                # Ou colunas: [Date] [Home] [Score] [Away] ...
                 
-                for inc in incidents:
-                    if inc.get('incidentType') == 'goal':
-                        is_home = inc.get('isHome', False)
-                        team = match.home_team if is_home else match.away_team
+                if len(cols) >= 3:
+                    # Tentativa de extração baseada em posição
+                    # Geralmente: Data (0), Home (1), Score (2), Away (3) ...
+                    # Mas varia. Vamos procurar por células que pareçam times.
+                    
+                    try:
+                        # Pega textos das colunas
+                        col_texts = [c.get_text(strip=True) for c in cols]
                         
-                        # Extract player info
-                        player_name = inc.get('player', {}).get('name', 'Unknown')
-                        minute = inc.get('time', 0)
+                        # Verifica se tem data na primeira coluna (ex: "28 Feb")
+                        date_str = col_texts[0]
+                        home_name = col_texts[1]
+                        score_or_time = col_texts[2]
+                        away_name = col_texts[3] if len(cols) > 3 else ""
                         
-                        # Check for own goal or penalty
-                        is_own = inc.get('incidentClass') == 'ownGoal'
-                        is_pen = inc.get('incidentClass') == 'penalty'
+                        # Validação básica
+                        if not home_name or not away_name: continue
+                        if len(home_name) < 3 or len(away_name) < 3: continue
                         
-                        # Create Goal
-                        Goal.objects.create(
-                            match=match,
-                            team=team,
-                            player_name=player_name,
-                            minute=minute,
-                            is_own_goal=is_own,
-                            is_penalty=is_pen
+                        # Resolver times
+                        home_team = self.resolve_team(home_name, league_obj)
+                        away_team = self.resolve_team(away_name, league_obj)
+                        
+                        if not home_team or not away_team:
+                            # Tenta deslocar colunas (as vezes tem coluna extra no inicio)
+                            if len(cols) > 4:
+                                home_name = col_texts[2]
+                                score_or_time = col_texts[3]
+                                away_name = col_texts[4]
+                                home_team = self.resolve_team(home_name, league_obj)
+                                away_team = self.resolve_team(away_name, league_obj)
+                        
+                        if not home_team or not away_team:
+                            continue
+
+                        # Parse da Data e Hora
+                        # date_str ex: "28 Feb"
+                        # score_or_time ex: "15:00" ou "1 - 0"
+                        
+                        match_date = self.parse_datetime(date_str, score_or_time, season_year)
+                        
+                        if not match_date:
+                            continue
+
+                        # Status e Placar
+                        status = "Scheduled"
+                        h_score = None
+                        a_score = None
+                        
+                        if "-" in score_or_time and ":" not in score_or_time:
+                            parts = score_or_time.split("-")
+                            if len(parts) == 2 and parts[0].strip().isdigit():
+                                h_score = int(parts[0].strip())
+                                a_score = int(parts[1].strip())
+                                status = "Finished"
+                        
+                        # Salvar no banco
+                        match, created = Match.objects.update_or_create(
+                            league=league_obj,
+                            season=season_obj,
+                            home_team=home_team,
+                            away_team=away_team,
+                            defaults={
+                                'date': match_date,
+                                'status': status,
+                                'home_score': h_score,
+                                'away_score': a_score
+                            }
                         )
-                        # self.stdout.write(f"    Goal: {player_name} ({minute}')")
+                        
+                        action = "Criado" if created else "Atualizado"
+                        self.stdout.write(f"{action}: {match_date.strftime('%d/%m %H:%M')} - {home_team.name} vs {away_team.name} [{status}]")
+                        match_count += 1
 
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f"    Error fetching incidents for event {event_id}: {e}"))
+                    except Exception as e:
+                        # self.stdout.write(f"Ignorando linha: {e}")
+                        pass
+
+        self.stdout.write(self.style.SUCCESS(f"Processamento concluído. {match_count} jogos processados."))
+        
+        if match_count == 0:
+            self.stdout.write(self.style.WARNING("\nAVISO: Nenhum jogo foi encontrado."))
+            self.stdout.write(self.style.WARNING("Possíveis causas:"))
+            self.stdout.write(self.style.WARNING("1. O SoccerStats ainda não publicou a tabela do Brasileirão 2026 (comum antes de Abril)."))
+            self.stdout.write(self.style.WARNING("2. A URL mudou. Tente verificar no site soccerstats.com."))
+            self.stdout.write(self.style.WARNING("3. O site bloqueou o acesso (menos provável se retornou 200 OK)."))
+
+
+    def parse_datetime(self, date_str, time_str, year):
+        try:
+            # Limpa string
+            date_str = date_str.strip()
+            time_str = time_str.strip()
+            
+            if not date_str: return None
+            
+            # Formatos possíveis de data: "28 Feb", "28.02", "Today"
+            day = 1
+            month = 1
+            
+            if "Today" in date_str:
+                now = datetime.now()
+                day = now.day
+                month = now.month
+            elif "Tomorrow" in date_str:
+                now = datetime.now() + timedelta(days=1)
+                day = now.day
+                month = now.month
+            else:
+                # Tenta parsear "28 Feb"
+                try:
+                    dt = datetime.strptime(date_str, "%d %b")
+                    day = dt.day
+                    month = dt.month
+                except:
+                    return None
+            
+            # Hora
+            hour = 0
+            minute = 0
+            if ":" in time_str:
+                try:
+                    h, m = map(int, time_str.split(":"))
+                    hour = h
+                    minute = m
+                except:
+                    pass
+            
+            # Cria data naive
+            naive = datetime(year, month, day, hour, minute)
+            
+            # Adiciona Timezone (SoccerStats geralmente é UTC ou UK time. Vamos assumir UTC para simplificar e ajustar depois se necessário)
+            # Se o projeto usa UTC, salvamos como UTC.
+            return timezone.make_aware(naive, pytz.UTC)
+
+        except Exception:
+            return None
 
     def resolve_team(self, name, league):
-        team = Team.objects.filter(name__iexact=name, league=league).first()
-        if team:
-            return team
-
-        aliases = {
+        name = name.strip()
+        
+        # Mapeamento API/SoccerStats -> Nomes Canônicos do Banco
+        mapping = {
+            "SE Palmeiras": "Palmeiras",
+            "CR Flamengo": "Flamengo",
+            "Botafogo FR": "Botafogo",
+            "São Paulo FC": "Sao Paulo",
+            "Sao Paulo": "Sao Paulo",
+            "Grêmio FBPA": "Gremio",
+            "Gremio": "Gremio",
+            "Clube Atlético Mineiro": "Atletico-MG",
             "Atlético Mineiro": "Atletico-MG",
-            "Athletico": "Athletico-PR",
-            "São Paulo": "Sao Paulo",
-            "Grêmio": "Gremio",
-            "Vitória": "Vitoria",
-            "Criciúma": "Criciuma",
-            "Goiás": "Goias",
-            "América Mineiro": "America-MG",
-            "Ceará": "Ceara",
-            "Sport Recife": "Sport Recife",
-            "Red Bull Bragantino": "Bragantino",
-            "Vasco da Gama": "Vasco",
-            "Botafogo": "Botafogo",
-            "Atlético Goianiense": "Atletico-GO",
-            "Cuiabá": "Cuiaba",
-            "Avaí": "Avai",
-            "Flamengo": "Flamengo",
-            "Fluminense": "Fluminense",
-            "Palmeiras": "Palmeiras",
-            "Santos": "Santos",
+            "Atletico MG": "Atletico-MG",
+            "Club Athletico Paranaense": "Athletico-PR",
+            "Athletico Paranaense": "Athletico-PR",
+            "Athletico PR": "Athletico-PR",
+            "Fluminense FC": "Fluminense",
+            "Cuiabá EC": "Cuiaba",
+            "Cuiaba": "Cuiaba",
+            "SC Corinthians Paulista": "Corinthians",
             "Corinthians": "Corinthians",
-            "Internacional": "Internacional",
-            "Bahia": "Bahia",
-            "Fortaleza": "Fortaleza",
-            "Juventude": "Juventude",
+            "Cruzeiro EC": "Cruzeiro",
             "Cruzeiro": "Cruzeiro",
-            "Mirassol": "Mirassol",
+            "SC Internacional": "Internacional",
+            "Internacional": "Internacional",
+            "Fortaleza EC": "Fortaleza",
+            "Fortaleza": "Fortaleza",
+            "EC Bahia": "Bahia",
+            "Bahia": "Bahia",
+            "CR Vasco da Gama": "Vasco",
+            "Vasco da Gama": "Vasco",
+            "Vasco": "Vasco",
+            "EC Juventude": "Juventude",
+            "Juventude": "Juventude",
+            "AC Goianiense": "Atletico-GO",
+            "Atlético Goianiense": "Atletico-GO",
+            "Criciúma EC": "Criciuma",
+            "Criciuma": "Criciuma",
+            "EC Vitória": "Vitoria",
+            "Vitoria": "Vitoria",
+            "Red Bull Bragantino": "Bragantino",
+            "RB Bragantino": "Bragantino",
+            "Bragantino": "Bragantino",
+            "Santos FC": "Santos",
+            "Santos": "Santos",
             "Chapecoense": "Chapecoense",
+            "Sport Club do Recife": "Sport Recife",
+            "Sport Recife": "Sport Recife",
+            "Ceará SC": "Ceara",
+            "Ceara": "Ceara",
+            "Goiás EC": "Goias",
+            "Goias": "Goias",
+            "América FC": "America-MG",
+            "America MG": "America-MG",
+            "Avaí FC": "Avai",
+            "Avai": "Avai",
+            "Coritiba FC": "Coritiba",
+            "Coritiba": "Coritiba",
+            "Mirassol FC": "Mirassol",
+            "Mirassol": "Mirassol",
+            "Clube do Remo": "Remo",
+            "Remo": "Remo",
+            "Paysandu SC": "Paysandu",
+            "Paysandu": "Paysandu",
+            "Vila Nova FC": "Vila Nova",
+            "Novorizontino": "Novorizontino",
         }
 
-        mapped_name = aliases.get(name)
-        if mapped_name:
-            team = Team.objects.filter(name__iexact=mapped_name, league=league).first()
-            if team:
-                return team
+        target_name = mapping.get(name, name)
+        
+        # Busca exata pelo nome mapeado
+        team = Team.objects.filter(name__iexact=target_name, league=league).first()
+        if team: return team
 
+        # Busca exata pelo nome original
+        team = Team.objects.filter(name__iexact=name, league=league).first()
+        if team: return team
+        
         return None
-
-    def safe_int(self, val):
-        try:
-            return int(val)
-        except:
-            return 0
