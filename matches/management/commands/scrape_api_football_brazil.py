@@ -157,11 +157,6 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"Criados: {created}, atualizados: {updated}, ignorados: {skipped}"))
 
     def resolve_team(self, name, league):
-        # Tenta busca exata primeiro
-        direct = Team.objects.filter(name__iexact=name, league=league).first()
-        if direct:
-            return direct
-
         # Mapeamento API-Football -> Nomes Canônicos do Banco
         # Deve estar alinhado com import_football_data.py
         mapping = {
@@ -174,8 +169,10 @@ class Command(BaseCommand):
             "Gremio": "Gremio",
             "Clube Atlético Mineiro": "Atletico-MG",
             "Atlético Mineiro": "Atletico-MG",
+            "CA Mineiro": "Atletico-MG",
             "Club Athletico Paranaense": "Athletico-PR",
             "Athletico Paranaense": "Athletico-PR",
+            "CA Paranaense": "Athletico-PR",
             "Fluminense FC": "Fluminense",
             "Cuiabá EC": "Cuiaba",
             "Cuiaba": "Cuiaba",
@@ -200,11 +197,13 @@ class Command(BaseCommand):
             "EC Vitória": "Vitoria",
             "Vitoria": "Vitoria",
             "Red Bull Bragantino": "Bragantino",
+            "RB Bragantino": "Bragantino",
             "Bragantino": "Bragantino",
             "Santos FC": "Santos",
             "Santos": "Santos",
             "Chapecoense": "Chapecoense",
             "Associação Chapecoense de Futebol": "Chapecoense",
+            "Chapecoense AF": "Chapecoense",
             "Sport Club do Recife": "Sport Recife",
             "Sport Recife": "Sport Recife",
             "Ceará SC": "Ceara",
@@ -216,6 +215,7 @@ class Command(BaseCommand):
             "Avaí FC": "Avai",
             "Avai": "Avai",
             "Coritiba FC": "Coritiba",
+            "Coritiba FBC": "Coritiba",
             "Coritiba": "Coritiba",
             "Mirassol FC": "Mirassol",
             "Mirassol": "Mirassol",
@@ -228,10 +228,19 @@ class Command(BaseCommand):
             "Grêmio Novorizontino": "Novorizontino",
         }
 
+        # Aplica o mapeamento PRIMEIRO para evitar usar nomes ruins que já existam no banco
         target_name = mapping.get(name, name)
+        
+        # Busca pelo nome mapeado
         team = Team.objects.filter(name__iexact=target_name, league=league).first()
         if team:
             return team
+
+        # Se não achou, tenta busca exata pelo nome original (caso não tenha mapeamento)
+        if target_name == name:
+            direct = Team.objects.filter(name__iexact=name, league=league).first()
+            if direct:
+                return direct
 
         # Tentativa final: busca parcial (perigoso, mas útil como fallback)
         simplified = name.split(" ")[0]
