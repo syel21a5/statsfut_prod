@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from django.core.management.base import BaseCommand
@@ -90,6 +90,8 @@ class Command(BaseCommand):
                     dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
                     if timezone.is_naive(dt):
                         dt = timezone.make_aware(dt, timezone.utc)
+                    # Ajuste de -3 horas para alinhar com o horário do SoccerStats (UTC-3)
+                    dt = dt - timedelta(hours=3)
                     match_date = dt
                 except Exception:
                     match_date = None
