@@ -201,11 +201,10 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"    Error fetching incidents for event {event_id}: {e}"))
 
     def resolve_team(self, name, league):
-        # 1. Direct match
         team = Team.objects.filter(name__iexact=name, league=league).first()
-        if team: return team
-        
-        # 2. Known aliases (Manual Mapping)
+        if team:
+            return team
+
         aliases = {
             "Atlético Mineiro": "Atletico-MG",
             "Athletico": "Athletico-PR",
@@ -214,16 +213,16 @@ class Command(BaseCommand):
             "Vitória": "Vitoria",
             "Criciúma": "Criciuma",
             "Goiás": "Goias",
-            "América Mineiro": "America MG", # Changed from America-MG based on DB check
+            "América Mineiro": "America-MG",
             "Ceará": "Ceara",
-            "Sport Recife": "Sport Recife", 
-            "Red Bull Bragantino": "Bragantino", # DB has Bragantino and RB Bragantino
+            "Sport Recife": "Sport Recife",
+            "Red Bull Bragantino": "Bragantino",
             "Vasco da Gama": "Vasco",
-            "Botafogo": "Botafogo", # Canonical is Botafogo
-            "Atlético Goianiense": "Atletico GO", # DB has Atletico GO
+            "Botafogo": "Botafogo",
+            "Atlético Goianiense": "Atletico-GO",
             "Cuiabá": "Cuiaba",
             "Avaí": "Avai",
-            "Flamengo": "Flamengo", # Canonical is Flamengo
+            "Flamengo": "Flamengo",
             "Fluminense": "Fluminense",
             "Palmeiras": "Palmeiras",
             "Santos": "Santos",
@@ -234,18 +233,15 @@ class Command(BaseCommand):
             "Juventude": "Juventude",
             "Cruzeiro": "Cruzeiro",
             "Mirassol": "Mirassol",
-            "Chapecoense": "Chapecoense AF", # Or Chapecoense-SC, verify DB
+            "Chapecoense": "Chapecoense",
         }
-        
+
         mapped_name = aliases.get(name)
         if mapped_name:
             team = Team.objects.filter(name__iexact=mapped_name, league=league).first()
-            if team: return team
-            
-        # 3. Contains match (dangerous but useful)
-        # team = Team.objects.filter(name__icontains=name, league=league).first()
-        # if team: return team
-        
+            if team:
+                return team
+
         return None
 
     def safe_int(self, val):
