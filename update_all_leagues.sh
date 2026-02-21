@@ -45,29 +45,15 @@ import_league "ARG" "Liga Profesional"
 import_league "CZE" "First League"
 
 # ---------------------------------------------------
-# 2. Corrige times duplicados conhecidos (ex: Nottingham -> Nottm Forest)
+# 2. Corrige times duplicados (nome errado → nome correto via TEAM_NAME_MAPPINGS)
 # ---------------------------------------------------
 log "Corrigindo times duplicados..."
-$PYTHON $MANAGE shell -c "
-from matches.models import Team, League, Match
-fixes = [
-    ('Inglaterra', 'Premier League', 'Nottingham', 'Nottm Forest'),
-]
-for country, league_name, wrong, correct in fixes:
-    try:
-        league = League.objects.get(name=league_name, country=country)
-        wrong_team = Team.objects.filter(name=wrong, league=league).first()
-        correct_team = Team.objects.filter(name=correct, league=league).first()
-        if wrong_team and correct_team:
-            h = Match.objects.filter(home_team=wrong_team).update(home_team=correct_team)
-            a = Match.objects.filter(away_team=wrong_team).update(away_team=correct_team)
-            wrong_team.delete()
-            print(f'Corrigido: {wrong} -> {correct} ({h} home, {a} away)')
-        else:
-            print(f'OK: {wrong} nao encontrado ou {correct} nao existe')
-    except Exception as e:
-        print(f'Erro em {league_name}: {e}')
-" >> "$LOG" 2>&1
+$PYTHON $MANAGE resolve_duplicate_teams >> "$LOG" 2>&1
+if [ $? -eq 0 ]; then
+    log "✓ Times duplicados corrigidos"
+else
+    log "✗ Erro ao corrigir duplicados"
+fi
 
 # ---------------------------------------------------
 # 3. Recalcula tabelas de todas as ligas
