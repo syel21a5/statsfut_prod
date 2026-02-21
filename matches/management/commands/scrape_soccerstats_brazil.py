@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
+from django.core.management import call_command
 from matches.models import League, Team, Match, Season
 from datetime import datetime, timedelta
 import pytz
@@ -230,6 +231,13 @@ class Command(BaseCommand):
                 continue
 
         self.stdout.write(self.style.SUCCESS(f"Processamento concluído. {match_count} jogos processados."))
+
+        # Rodar limpeza de times ruins/lixo (CA Mineiro, MATCHES, etc.)
+        try:
+            self.stdout.write(self.style.SUCCESS("Executando cleanup_brazil_bad_teams para consolidar times..."))
+            call_command("cleanup_brazil_bad_teams")
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Erro ao executar cleanup_brazil_bad_teams: {e}"))
 
 
     def resolve_team(self, name, league):
