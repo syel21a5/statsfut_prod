@@ -1,5 +1,6 @@
 
 from django.core.management.base import BaseCommand
+from django.db import connection, DatabaseError
 from django.db.models import Q
 from matches.models import League, Team, Match
 
@@ -130,4 +131,13 @@ class Command(BaseCommand):
 
         # Delete Bad Team
         self.stdout.write(f"Deleting team {bad_team.name}")
-        bad_team.delete()
+        try:
+            bad_team.delete()
+        except DatabaseError as e:
+            msg = str(e)
+            if "matches_teamgoaltiming" in msg or "doesn't exist" in msg or "does not exist" in msg:
+                self.stdout.write(self.style.WARNING(f"Direct delete failed due to missing table. Forcing raw delete of team {bad_team.id}."))
+                with connection.cursor() as cursor:
+                    cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+            else:
+                raise
