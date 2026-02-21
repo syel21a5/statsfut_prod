@@ -290,6 +290,21 @@ class Command(BaseCommand):
             "Paysandu": "Paysandu",
             "Vila Nova FC": "Vila Nova",
             "Novorizontino": "Novorizontino",
+            "Chapecoense AF": "Chapecoense",
+            "CA Mineiro": "Atletico-MG",
+            "CA Paranaense": "Athletico-PR",
+            "Coritiba FBC": "Coritiba",
+            "Clube do Remo": "Remo",
+            "Red Bull Bragantino": "Bragantino",
+            "Brusque FC": "Brusque",
+            "Amazonas FC": "Amazonas",
+            "Operário Ferroviário": "Operario",
+            "Botafogo FC SP": "Botafogo-SP",
+            "Botafogo SP": "Botafogo-SP",
+            "Guarani FC": "Guarani",
+            "Ponte Preta": "Ponte Preta",
+            "Ituano FC": "Ituano",
+            "CRB": "CRB",
         }
 
         target_name = mapping.get(name, name)
@@ -302,4 +317,5 @@ class Command(BaseCommand):
         team = Team.objects.filter(name__icontains=target_name, league=league).first()
         if team: return team
 
+        self.stdout.write(self.style.WARNING(f"Time não encontrado no banco: '{name}' (Mapeado para: '{target_name}')"))
         return None
