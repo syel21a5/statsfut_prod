@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
+from django.core.exceptions import MultipleObjectsReturned
 from matches.models import League, Team, Match, Season
 from datetime import datetime, timedelta
 import pytz
@@ -213,7 +214,7 @@ class Command(BaseCommand):
                         "status": status,
                         "home_score": home_score,
                         "away_score": away_score,
-                        "round_name": "Regular Season" # SoccerStats latest não mostra rodada fácil
+                        "round_name": "Regular Season"
                     }
                 )
                 
@@ -222,6 +223,27 @@ class Command(BaseCommand):
                 else:
                     self.stdout.write(f"Atualizado: {match}")
                 
+                match_count += 1
+            except MultipleObjectsReturned:
+                existing = Match.objects.filter(
+                    league=league_obj,
+                    season=season_obj,
+                    home_team=home_team,
+                    away_team=away_team,
+                ).order_by("id")
+                canonical = existing.first()
+                duplicates = existing[1:]
+                canonical.date = match_date
+                canonical.status = status
+                canonical.home_score = home_score
+                canonical.away_score = away_score
+                canonical.round_name = "Regular Season"
+                canonical.save()
+                for dup in duplicates:
+                    dup.delete()
+                self.stdout.write(self.style.WARNING(
+                    f"Mescladas {len(existing)} entradas duplicadas para {canonical.home_team} x {canonical.away_team}"
+                ))
                 match_count += 1
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Erro ao salvar match: {e}"))
