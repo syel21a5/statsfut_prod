@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from django.db import connection, DatabaseError
 from django.db.models import Q
-from matches.models import League, Team, Match
+from matches.models import League, Team, Match, LeagueStanding
 
 class Command(BaseCommand):
     help = 'Cleans up duplicate/bad teams for Brazil'
@@ -129,14 +129,35 @@ class Command(BaseCommand):
                 m.away_team = good_team
                 m.save()
 
+        # Remove standings (e.g. CA Mineiro) that ainda apontam para o bad_team
+        LeagueStanding.objects.filter(team=bad_team).delete()
+
         # Delete Bad Team
         self.stdout.write(f"Deleting team {bad_team.name}")
         try:
             bad_team.delete()
         except DatabaseError as e:
             msg = str(e)
-            if "matches_teamgoaltiming" in msg or "doesn't exist" in msg or "does not exist" in msg:
-                self.stdout.write(self.style.WARNING(f"Direct delete failed due to missing table. Forcing raw delete of team {bad_team.id}."))
+            if (
+                "matches_teamgoaltiming" in msg
+                or "doesn't exist" in msg
+                or "does not exist" in msg
+            ):
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Direct delete failed due to missing table. Forcing raw delete of team {bad_team.id}."
+                    )
+                )
+                with connection.cursor() as cursor:
+                    cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+            elif "matches_leaguestanding" in msg or "FOREIGN KEY (`team_id`) REFERENCES `matches_team`" in msg:
+                # Se ainda existir algum standing órfão, apaga e tenta de novo
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Delete blocked by LeagueStanding FK for team {bad_team.id}. Deleting standings and retrying raw delete."
+                    )
+                )
+                LeagueStanding.objects.filter(team_id=bad_team.id).delete()
                 with connection.cursor() as cursor:
                     cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
             else:
