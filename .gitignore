@@ -35,3 +35,10 @@ test_*.py
 check_score.py
 scrape_error.txt
 *.csv
+
+# Local debug/check helpers (não vão para o repositório)
+check_*.py
+dump_*.py
+extract_html.py
+find_in_debug.py
+debug_*.html
