@@ -1,17 +1,16 @@
 
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 from matches.models import League, Team, Match
 
 class Command(BaseCommand):
     help = 'Cleans up duplicate/bad teams for Brazil'
 
     def handle(self, *args, **kwargs):
-        league_name = "Brasileirao"
         country = "Brasil"
-        
-        league = League.objects.filter(name=league_name, country=country).first()
-        if not league:
-            self.stdout.write(self.style.ERROR("League not found"))
+        leagues = League.objects.filter(name__icontains="Brasileir", country=country)
+        if not leagues.exists():
+            self.stdout.write(self.style.ERROR("No Brazil leagues found"))
             return
 
         # Map Bad Name -> Canonical Name
@@ -56,8 +55,20 @@ class Command(BaseCommand):
             "Londrina EC": "Londrina",
         }
 
-        for bad_name, good_name in merges.items():
-            self.merge_teams(league, bad_name, good_name)
+        for league in leagues:
+            self.stdout.write(self.style.SUCCESS(f"Processing league: {league.name} ({league.id})"))
+            for bad_name, good_name in merges.items():
+                self.merge_teams(league, bad_name, good_name)
+
+            # Remover times lixo como "MATCHES"
+            garbage_names = ["MATCHES", "Matches", "Match"]
+            for gname in garbage_names:
+                bad_team = Team.objects.filter(name__iexact=gname, league=league).first()
+                if not bad_team:
+                    continue
+                self.stdout.write(self.style.WARNING(f"Deleting garbage team {bad_team.name} ({bad_team.id}) and its matches"))
+                Match.objects.filter(Q(home_team=bad_team) | Q(away_team=bad_team)).delete()
+                bad_team.delete()
 
     def merge_teams(self, league, bad_name, good_name):
         # Find Canonical Team

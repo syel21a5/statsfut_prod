@@ -14,7 +14,6 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Iniciando Scraper SoccerStats para Brasileirão...'))
         
         # Configurações
-        league_name = "Brasileirao"
         country = "Brasil"
         season_year = 2026
         
@@ -32,7 +31,12 @@ class Command(BaseCommand):
         }
 
         # Garantir Liga e Temporada
-        league_obj, _ = League.objects.get_or_create(name=league_name, country=country)
+        league_obj = (
+            League.objects.filter(name="Brasileirão", country=country).first()
+            or League.objects.filter(name="Brasileirao", country=country).first()
+        )
+        if not league_obj:
+            league_obj = League.objects.create(name="Brasileirão", country=country)
         self.stdout.write(f"League ID: {league_obj.id}, Name: {league_obj.name}")
         season_obj, _ = Season.objects.get_or_create(year=season_year)
 
@@ -93,6 +97,12 @@ class Command(BaseCommand):
                 
             home_name_raw = parts[0].strip()
             away_name_raw = parts[-1].strip() # Pega o último caso tenha lixo no meio
+
+            # Ignorar linhas lixo que viram time "MATCHES" ou similar
+            home_lower = home_name_raw.lower()
+            away_lower = away_name_raw.lower()
+            if home_lower in ["matches", "match"] or away_lower in ["matches", "match"]:
+                continue
             
             # Extrair Data
             date_cell = cols[0]
