@@ -170,19 +170,17 @@ class Command(BaseCommand):
                 # self.stdout.write(f"DEBUG: Time não encontrado: {repr(home_name_raw)} ou {repr(away_name_raw)}")
                 continue
 
-            # Extrair Scores
             home_score = None
             away_score = None
             status = "Scheduled"
+            status_text = ""
             
             if len(cols) > 2:
-                # Verificar status na col 2
                 status_text = cols[2].get_text(strip=True).lower()
-                
                 if "pp" in status_text or "postp" in status_text:
                     status = "Postponed"
+                    match_date = None
                 elif "-" in status_text:
-                    # Tenta extrair placar "2 - 1"
                     try:
                         score_parts = status_text.split("-")
                         if len(score_parts) == 2:
@@ -195,9 +193,8 @@ class Command(BaseCommand):
                     except:
                         pass
 
-            # Salvar no Banco
             try:
-                if timezone.is_naive(match_date):
+                if match_date is not None and timezone.is_naive(match_date):
                     match_date = timezone.make_aware(match_date, pytz.UTC)
             except Exception as e:
                 self.stdout.write(f"DEBUG: Date Error: {e}")

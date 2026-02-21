@@ -69,7 +69,33 @@ class Command(BaseCommand):
                     continue
                 self.stdout.write(self.style.WARNING(f"Deleting garbage team {bad_team.name} ({bad_team.id}) and its matches"))
                 Match.objects.filter(Q(home_team=bad_team) | Q(away_team=bad_team)).delete()
-                bad_team.delete()
+                try:
+                    bad_team.delete()
+                except DatabaseError as e:
+                    msg = str(e)
+                    if (
+                        "matches_teamgoaltiming" in msg
+                        or "doesn't exist" in msg
+                        or "does not exist" in msg
+                    ):
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"Direct delete failed due to missing table. Forcing raw delete of team {bad_team.id}."
+                            )
+                        )
+                        with connection.cursor() as cursor:
+                            cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+                    elif "matches_leaguestanding" in msg or "FOREIGN KEY (`team_id`) REFERENCES `matches_team`" in msg:
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"Delete blocked by LeagueStanding FK for team {bad_team.id}. Deleting standings and retrying raw delete."
+                            )
+                        )
+                        LeagueStanding.objects.filter(team_id=bad_team.id).delete()
+                        with connection.cursor() as cursor:
+                            cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+                    else:
+                        raise
 
     def merge_teams(self, league, bad_name, good_name):
         # Find Canonical Team

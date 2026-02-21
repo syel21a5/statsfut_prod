@@ -168,9 +168,9 @@
                                     {% for match in upcoming_matches %}
                                     <div class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
                                         <div class="row align-items-center">
-                                            <div class="col-3 text-secondary">
-                                                {{ match.date|date:"D d M" }}<br>
-                                                <span class="text-success">{{ match.date|date:"H:i" }}</span>
+                                            <div class="col-3 text-secondary utc-datetime" data-utc-datetime="{{ match.date|date:'c' }}">
+                                                <span class="js-local-date">{{ match.date|date:"D d M" }}</span><br>
+                                                <span class="text-success js-local-time">{{ match.date|date:"H:i" }}</span>
                                             </div>
                                             <div class="col-7">
                                                 <div class="d-flex justify-content-between align-items-center px-2">
@@ -290,10 +290,10 @@
                                             <tbody>
                                                 {% for item in pre_match_analysis %}
                                                 <tr class="border-bottom-0">
-                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
+                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime" data-utc-datetime="{{ item.match.date|date:'c' }}">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold js-local-date">{{ item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{ item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
@@ -361,10 +361,10 @@
                                             <tbody>
                                                 {% for item in pre_match_analysis %}
                                                 <tr class="border-bottom-0">
-                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
+                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime" data-utc-datetime="{{ item.match.date|date:'c' }}">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold js-local-date">{{ item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{ item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
@@ -486,6 +486,27 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                (function() {
+                    var elements = document.querySelectorAll('.utc-datetime[data-utc-datetime]');
+                    if (!elements.length) return;
+                    elements.forEach(function(el) {
+                        var iso = el.getAttribute('data-utc-datetime');
+                        if (!iso) return;
+                        var dt = new Date(iso);
+                        if (isNaN(dt.getTime())) return;
+                        var dateOptions = { weekday: 'short', day: '2-digit', month: 'short' };
+                        var timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+                        var localDate = dt.toLocaleDateString(undefined, dateOptions);
+                        var localTime = dt.toLocaleTimeString(undefined, timeOptions);
+                        var dateSpan = el.querySelector('.js-local-date');
+                        var timeSpan = el.querySelector('.js-local-time');
+                        if (dateSpan) dateSpan.textContent = localDate;
+                        if (timeSpan) timeSpan.textContent = localTime;
+                    });
+                })();
+            </script>
 
             {% if league.name == "Liga Profesional" and league.country == "Argentina" and arg_groups %}
             <div class="row mb-4">
