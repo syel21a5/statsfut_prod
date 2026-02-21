@@ -20,13 +20,13 @@ fi
 echo "========================================" >> "$LOG_FILE"
 echo "Starting Brasileirão update at $(date)" >> "$LOG_FILE"
 
-# 1. Run Sofascore Scraper
-echo "Running scrape_sofascore_brazil..." >> "$LOG_FILE"
-python manage.py scrape_sofascore_brazil >> "$LOG_FILE" 2>&1
+# 1. Run SoccerStats Scraper (Substitui Sofascore)
+echo "Running scrape_soccerstats_brazil..." >> "$LOG_FILE"
+python manage.py scrape_soccerstats_brazil >> "$LOG_FILE" 2>&1
 
 # 2. Run Duplicate Fix (Safety Check)
-echo "Running fix_brasileirao_final..." >> "$LOG_FILE"
-python manage.py fix_brasileirao_final >> "$LOG_FILE" 2>&1
+# echo "Running fix_brasileirao_final..." >> "$LOG_FILE"
+# python manage.py fix_brasileirao_final >> "$LOG_FILE" 2>&1
 
 # 3. Recalculate Standings
 echo "Recalculating standings..." >> "$LOG_FILE"
