@@ -87,6 +87,9 @@ class Command(BaseCommand):
         else:
             base_qs = Match.objects.filter(league=league, season=season)
 
+        # Pegamos os IDs usando a base_qs (jogos Finished ou Scheduled desta season)
+        # Isso garante que pegamos APENAS times que vão jogar/já jogaram nessa temporada,
+        # NUNCA puxar todos os times da liga (para evitar times de temporadas antigas ou duplicatas que não foram totalmente expurgadas).
         season_team_ids = set(
             base_qs.values_list("home_team_id", flat=True)
         ) | set(
@@ -96,13 +99,10 @@ class Command(BaseCommand):
         stats_by_team = {}
         
         if not season_team_ids:
-            # Fallback: Se não tem nenhum jogo (nem agendado), mas queremos a tabela (ex: início de temporada vazio)
-            # Aí pegamos todos da liga (comportamento antigo/arriscado para ligas com rebaixamento)
-            # Mas geralmente se importou season, tem jogos.
-            self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada."))
-            teams = Team.objects.filter(league=league)
-        else:
-            teams = Team.objects.filter(id__in=season_team_ids)
+            self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada. Tabela não será gerada."))
+            return
+            
+        teams = Team.objects.filter(id__in=season_team_ids)
 
         for team in teams:
             stats_by_team[team.id] = {
