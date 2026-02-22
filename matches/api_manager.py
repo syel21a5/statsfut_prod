@@ -267,39 +267,52 @@ class APIManager:
             raise Exception("APIs indisponíveis para busca por país.")
         api_config = self.apis[api_af]
 
-        headers = {
-            'x-rapidapi-host': 'v3.football.api-sports.io',
-            'x-rapidapi-key': api_config['key']
-        }
-        # Descobre ligas do país
-        params = {'country': country, 'type': 'League'}
-        resp = requests.get(f"{api_config['base_url']}/leagues", headers=headers, params=params, timeout=10)
-        self._increment_usage(api_af)
-        if resp.status_code != 200:
-            raise Exception(f"Falha ao listar ligas do país {country}: {resp.status_code}")
-        data = resp.json().get('response', [])
+        # Tenta recuperar IDs do cache para economizar requisições
+        cache_key = f'league_ids_by_country_{country}'
+        league_ids = cache.get(cache_key)
 
-        wanted_names = self.COUNTRY_TOP_LEAGUES.get(country, [])
-        league_ids = []
-        now = datetime.now()
-        for item in data:
-            lg = item.get('league', {})
-            seasons = item.get('seasons', [])
-            # Seleciona apenas temporada atual
-            has_current = any(s.get('current') for s in seasons)
-            if not has_current:
-                continue
-            name = lg.get('name')
-            if wanted_names and name not in wanted_names:
-                continue
-            league_ids.append(lg.get('id'))
+        if not league_ids:
+            headers = {
+                'x-rapidapi-host': 'v3.football.api-sports.io',
+                'x-rapidapi-key': api_config['key']
+            }
+            # Descobre ligas do país
+            params = {'country': country, 'type': 'League'}
+            try:
+                resp = requests.get(f"{api_config['base_url']}/leagues", headers=headers, params=params, timeout=10)
+                self._increment_usage(api_af)
+                if resp.status_code != 200:
+                    raise Exception(f"Falha ao listar ligas do país {country}: {resp.status_code}")
+                data = resp.json().get('response', [])
 
-        # fallback: se não achou por nome, pega a primeira liga atual
-        if not league_ids and data:
-            for item in data:
-                if any(s.get('current') for s in item.get('seasons', [])):
-                    league_ids.append(item['league']['id'])
-                    break
+                wanted_names = self.COUNTRY_TOP_LEAGUES.get(country, [])
+                league_ids = []
+                for item in data:
+                    lg = item.get('league', {})
+                    seasons = item.get('seasons', [])
+                    # Seleciona apenas temporada atual
+                    has_current = any(s.get('current') for s in seasons)
+                    if not has_current:
+                        continue
+                    name = lg.get('name')
+                    if wanted_names and name not in wanted_names:
+                        continue
+                    league_ids.append(lg.get('id'))
+
+                # fallback: se não achou por nome, pega a primeira liga atual
+                if not league_ids and data:
+                    for item in data:
+                        if any(s.get('current') for s in item.get('seasons', [])):
+                            league_ids.append(item['league']['id'])
+                            break
+                
+                # Cacheia por 30 dias se encontrou
+                if league_ids:
+                    cache.set(cache_key, league_ids, timeout=60*60*24*30)
+
+            except Exception as e:
+                print(f"Erro ao buscar ligas de {country}: {e}")
+                return []
 
         if not league_ids:
             return []
