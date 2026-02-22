@@ -52,6 +52,7 @@ class Command(BaseCommand):
             'P1': ('Primeira Liga', 'Portugal'),
             'T1': ('Super Lig', 'Turquia'),
             'G1': ('Super League', 'Grecia'),
+            'DNK': ('Superliga', 'Dinamarca'),
             'BRA': ('Brasileirao', 'Brasil'),
             'ARG': ('Liga Profesional', 'Argentina'),
             'AUT': ('Bundesliga', 'Austria'),
@@ -104,7 +105,7 @@ class Command(BaseCommand):
         else:
             current_year = timezone.now().year
             
-            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE']:
+            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE', 'DNK']:
                 seasons_to_process = [current_year]
                 self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
             else:
@@ -168,14 +169,21 @@ class Command(BaseCommand):
         
         # Read all rows first to handle iterator
         rows_list = list(reader)
+        self.stdout.write(f"DEBUG: Found {len(rows_list)} rows in CSV")
+        if rows_list:
+            self.stdout.write(f"DEBUG: First row keys: {list(rows_list[0].keys())}")
         
         for row in rows_list:
+            # Normalize keys to remove potential whitespace (e.g. "League " -> "League")
+            row = {k.strip(): v for k, v in row.items() if k}
+
+
             rows += 1
             
             # Check division/league match
             div = row.get("Div")
             
-            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE']:
+            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE', 'DNK']:
                 # Special handling for Single File CSVs
                 league_col = row.get("League")
                 country_col = row.get("Country")
@@ -219,6 +227,15 @@ class Command(BaseCommand):
                     if (l_val == "First League" and c_val == "Czech Republic") or div == "CZE":
                         pass
                     else:
+                        continue
+                elif division == 'DNK':
+                    l_val = (league_col or "").strip()
+                    c_val = (country_col or "").strip()
+                    
+                    if (l_val == "Superliga" and c_val == "Denmark") or div == "DNK":
+                        pass
+                    else:
+                        self.stdout.write(f"DEBUG: Skipping row - league: '{l_val}', country: '{c_val}'")
                         continue
             else:
                 # Standard handling for European leagues
@@ -264,11 +281,10 @@ class Command(BaseCommand):
                                 pass
             
             if not season_year:
-                 season_year = self._season_year_from_date(match_date, division)
-            
+                 season_year = self._season_year_from_date(match_date, division=div)
             if season_year < min_year:
                 continue
-
+            
             season, _ = Season.objects.get_or_create(year=season_year)
 
             home_name = row.get("HomeTeam") or row.get("Home")
@@ -280,6 +296,9 @@ class Command(BaseCommand):
             home_name = normalize_team_name(home_name)
             away_name = normalize_team_name(away_name)
 
+            if season_year == 2017 and (created + updated) < 5:
+                self.stdout.write(f"DEBUG: Creating/Getting teams: '{home_name}', '{away_name}' for league '{league.name}'")
+
             home_team, _ = Team.objects.get_or_create(name=home_name, league=league)
             away_team, _ = Team.objects.get_or_create(name=away_name, league=league)
 
@@ -287,6 +306,15 @@ class Command(BaseCommand):
             if timezone.is_naive(match_date_aware):
                 match_date_aware = timezone.make_aware(match_date_aware, pytz.UTC)
 
+            if not season_year:
+                 season_year = self._season_year_from_date(match_date, division=div or division)
+            if season_year < min_year:
+                continue
+            
+            # DEBUG: Always print first few processed rows
+            if (created + updated) < 5:
+                 self.stdout.write(f"DEBUG: Processing row {rows}. Year: {season_year}. Teams: {home_name} v {away_name}")
+            
             # Tenta pegar FTHG/FTAG (padrão europeu) ou HG/AG (padrão sul-americano)
             raw_fthg = row.get("FTHG") or row.get("HG")
             raw_ftag = row.get("FTAG") or row.get("AG")
@@ -379,6 +407,7 @@ class Command(BaseCommand):
                 )
                 created += 1
 
+
         return rows, created, updated
 
     def _parse_date(self, value):
@@ -397,7 +426,11 @@ class Command(BaseCommand):
             return year
             
         # Para ligas europeias (Ago-Maio), se for Ago+, é a temporada do ano seguinte
-        if dt.month >= 8:
+        if division == 'DNK':
+            # Dinamarca começa em Julho (ex: 2016/2017 começa 15/07/2016)
+            if dt.month >= 7:
+                return year + 1
+        elif dt.month >= 8:
             return year + 1
         return year
 
@@ -405,7 +438,7 @@ class Command(BaseCommand):
         # Format: 2425 for 2024/2025
         # For certain extra leagues: single file URL under /new/
         
-        if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE']:
+        if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE', 'DNK']:
             return f"https://www.football-data.co.uk/new/{division}.csv", division
 
         yy_end = season_year % 100
