@@ -53,12 +53,12 @@ def job():
         print(f"[{datetime.now()}] Erro crítico na atualização diária: {e}")
 
 # Configuração do agendamento
-# Roda todo dia às 03:00 da manhã (horário do servidor)
-# Football-Data.co.uk costuma atualizar de madrugada
-schedule.every().day.at("03:00").do(job)
+# Roda a cada 4 horas
+schedule.every(4).hours.do(job)
 
-print("Iniciando agendador de atualizações CSV diárias (03:00)...")
-# Não executa na inicialização, espera o horário agendado
+print("Iniciando agendador de atualizações CSV (A cada 4 horas)...")
+# Executa uma vez imediatamente ao iniciar
+job()
 
 while True:
     schedule.run_pending()
