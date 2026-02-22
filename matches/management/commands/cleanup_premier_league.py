@@ -75,12 +75,16 @@ class Command(BaseCommand):
 
         standings_qs = LeagueStanding.objects.filter(league=league, team__in=teams_to_delete)
 
-        if season:
-            matches_qs = matches_qs.filter(season=season)
-            standings_qs = standings_qs.filter(season=season)
+        self.stdout.write(f"Total de jogos a apagar (em todas as temporadas): {matches_qs.count()}")
+        self.stdout.write(f"Total de classificações a apagar (em todas as temporadas): {standings_qs.count()}")
 
-        self.stdout.write(f"Jogos a apagar: {matches_qs.count()}")
-        self.stdout.write(f"Linhas de classificação a apagar: {standings_qs.count()}")
+        if season:
+            self.stdout.write(
+                f"-> Desses, {matches_qs.filter(season=season).count()} jogos são da temporada {season.year}"
+            )
+            self.stdout.write(
+                f"-> Desses, {standings_qs.filter(season=season).count()} classificações são da temporada {season.year}"
+            )
 
         if not execute:
             self.stdout.write(
@@ -88,26 +92,24 @@ class Command(BaseCommand):
             )
             return
 
-        deleted_matches = matches_qs.delete()
-        self.stdout.write(f"✓ Jogos deletados: {deleted_matches[0]}")
+        deleted_matches_count = deleted_matches[0] if isinstance(deleted_matches, tuple) else 0
+        self.stdout.write(f"✓ Jogos deletados: {deleted_matches_count}")
 
         deleted_standings = standings_qs.delete()
-        self.stdout.write(f"✓ Classificações deletadas: {deleted_standings[0]}")
+        deleted_standings_count = deleted_standings[0] if isinstance(deleted_standings, tuple) else 0
+        self.stdout.write(f"✓ Classificações deletadas: {deleted_standings_count}")
 
-        remaining_matches = Match.objects.filter(
-            league=league
-        ).filter(Q(home_team__in=teams_to_delete) | Q(away_team__in=teams_to_delete))
-
-        if remaining_matches.exists():
-            self.stdout.write(
-                self.style.WARNING(
-                    f"Ainda existem jogos ligados a times inválidos ({remaining_matches.count()}). "
-                    "Esses times não serão removidos para evitar erro de integridade."
-                )
-            )
-        else:
+        # Força a exclusão dos times, agora que as dependências foram removidas
+        try:
             deleted_teams = teams_to_delete.delete()
-            self.stdout.write(f"✓ Times deletados: {deleted_teams[0]}")
+            deleted_teams_count = deleted_teams[0] if isinstance(deleted_teams, tuple) else 0
+            self.stdout.write(f"✓ Times deletados: {deleted_teams_count}")
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Erro ao deletar times: {e}"))
+            remaining_teams = Team.objects.filter(id__in=teams_to_delete.values_list('id', flat=True))
+            self.stdout.write(self.style.WARNING(f"Times que não puderam ser removidos: {remaining_teams.count()}"))
+            for team in remaining_teams[:10]:
+                self.stdout.write(f"  - {team.name}")
 
         self.stdout.write(self.style.SUCCESS("Limpeza da Premier League concluída."))
 
