@@ -33,19 +33,31 @@ class Command(BaseCommand):
 
         try:
             if country:
-                league = League.objects.get(name=league_name, country=country)
+                # Se passou país, tenta filtrar por ele
+                leagues = League.objects.filter(name=league_name, country=country)
             else:
-                # Tenta buscar exato, se der erro de múltiplos, tenta filtrar por Inglaterra primeiro (comum)
-                try:
-                    league = League.objects.get(name=league_name)
-                except League.MultipleObjectsReturned:
-                    # Fallback para Premier League Inglesa se for o caso comum
-                    if league_name == "Premier League":
-                        league = League.objects.get(name=league_name, country="Inglaterra")
-                    else:
-                        raise
-        except League.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
+                # Se não passou, busca pelo nome
+                leagues = League.objects.filter(name=league_name)
+
+            if not leagues.exists():
+                # Fallback: Se for Premier League, tenta filtrar por Inglaterra
+                if league_name == "Premier League":
+                     leagues = League.objects.filter(name=league_name, country="Inglaterra")
+                
+                if not leagues.exists():
+                    self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
+                    return
+
+            # Se houver mais de uma liga com o mesmo nome (duplicata suja),
+            # pegamos a primeira que tiver jogos, ou simplesmente a primeira (ID menor)
+            # O ideal é rodar merge_duplicate_leagues, mas aqui evitamos o crash.
+            if leagues.count() > 1:
+                self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}'. Usando a primeira."))
+            
+            league = leagues.first()
+
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Erro ao buscar liga: {e}"))
             return
 
         if season_year:
