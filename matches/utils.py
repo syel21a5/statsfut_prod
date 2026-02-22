@@ -101,6 +101,15 @@ TEAM_NAME_MAPPINGS = {
     "Avai FC": "Avai",
     "Juventude RS": "Juventude",
     "CSA": "CSA",
+    "AC Goianiense": "Atletico-GO",
+    "Atletico Goianiense": "Atletico-GO",
+    "Criciuma EC": "Criciuma",
+    "EC Juventude": "Juventude",
+    "Fluminense FC": "Fluminense",
+    "Botafogo FR": "Botafogo",
+    "CR Vasco da Gama": "Vasco",
+    "SC Corinthians Paulista": "Corinthians",
+    "SE Palmeiras": "Palmeiras",
     
     # Argentina (Adicionar conforme necessário)
     # "River Plate ...": "River Plate",

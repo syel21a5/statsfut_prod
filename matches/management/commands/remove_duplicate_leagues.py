@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db.models import Count
-from matches.models import League, Team, Match
+from matches.models import League, Team, Match, LeagueStanding
 
 class Command(BaseCommand):
     help = 'Remove ligas duplicadas, mantendo a mais antiga e reassociando times/jogos'
@@ -41,8 +41,13 @@ class Command(BaseCommand):
                 if count_matches > 0:
                     self.stdout.write(f"    - {count_matches} jogos movidos.")
                 
+                # Reassocia Standings
+                standings = LeagueStanding.objects.filter(league=redundant)
+                standings.update(league=main_league)
+
                 # Deleta a liga redundante
                 redundant.delete()
+
                 self.stdout.write(f"    - Liga ID {redundant.id} deletada.")
 
         self.stdout.write(self.style.SUCCESS("Limpeza concluída!"))

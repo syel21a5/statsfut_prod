@@ -52,7 +52,7 @@ class Command(BaseCommand):
             'P1': ('Primeira Liga', 'Portugal'),
             'T1': ('Super Lig', 'Turquia'),
             'G1': ('Super League', 'Grecia'),
-            'BRA': ('Brasileirão', 'Brasil'),
+            'BRA': ('Brasileirao', 'Brasil'),
             'ARG': ('Liga Profesional', 'Argentina'),
             'AUT': ('Bundesliga', 'Austria'),
             'SWZ': ('Super League', 'Suica'),
