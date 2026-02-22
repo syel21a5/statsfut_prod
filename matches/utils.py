@@ -111,6 +111,26 @@ TEAM_NAME_MAPPINGS = {
     "SC Corinthians Paulista": "Corinthians",
     "SE Palmeiras": "Palmeiras",
     
+    # Dinamarca
+    "AGF": "Aarhus",
+    "AGF Aarhus": "Aarhus",
+    "AaB": "Aalborg",
+    "AaB Aalborg": "Aalborg",
+    "OB": "Odense",
+    "OB Odense": "Odense",
+    "FC Kobenhavn": "FC Copenhagen",
+    "Kobenhavn": "FC Copenhagen",
+    "Brondby IF": "Brondby",
+    "Randers": "Randers FC",
+    "Silkeborg IF": "Silkeborg",
+    "SonderjyskE": "Sonderjyske",
+    "Viborg FF": "Viborg",
+    "Vejle BK": "Vejle",
+    "Lyngby BK": "Lyngby",
+    "AC Horsens": "Horsens",
+    "Hobro IK": "Hobro",
+    "FC Helsingor": "Helsingor",
+
     # Argentina (Adicionar conforme necessário)
     # "River Plate ...": "River Plate",
 }
