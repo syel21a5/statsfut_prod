@@ -17,6 +17,7 @@ class APIManager:
         'Serie A': {'api_football': [135], 'football_data': [2019]},
         'Ligue 1': {'api_football': [61], 'football_data': [2015]},
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
+        'Superliga': {'api_football': [119], 'football_data': []},          # Dinamarca
         'Pro League': {'api_football': [144], 'football_data': []},
         'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina
         # Extra top leagues (Football-Data supports some; else use API-Football by country)

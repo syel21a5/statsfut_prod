@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from matches.models import League, Team, Match, Season
 from matches.api_manager import APIManager
+from matches.utils import normalize_team_name
 from django.utils import timezone
 from datetime import datetime
 import pytz
@@ -135,8 +136,8 @@ class Command(BaseCommand):
                     'Bundesliga': {'name': 'Bundesliga', 'country': 'Alemanha'},
                     'Serie A': {'name': 'Serie A', 'country': 'Italia'},
                     'Ligue 1': {'name': 'Ligue 1', 'country': 'Franca'},
-                    'Campeonato Brasileiro Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
-                    'Brasileirão Série A': {'name': 'Brasileirão', 'country': 'Brasil'},
+                    'Campeonato Brasileiro Série A': {'name': 'Brasileirao', 'country': 'Brasil'},
+                    'Brasileirão Série A': {'name': 'Brasileirao', 'country': 'Brasil'},
                     'Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'Jupiler Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'First Division A': {'name': 'Pro League', 'country': 'Belgica'},
@@ -192,179 +193,13 @@ class Command(BaseCommand):
                 touched_leagues.add((league_obj.name, league_obj.country))
 
                 # Mapping names from Football-Data.org/API-Football to local DB
-                name_mapping = {
-                    # Premier League
-                    'Manchester United FC': 'Manchester Utd',
-                    'Manchester City FC': 'Manchester City',
-                    'West Ham United FC': 'West Ham',
-                    'Newcastle United FC': 'Newcastle',
-                    'Tottenham Hotspur FC': 'Tottenham',
-                    'Wolverhampton Wanderers FC': 'Wolves',
-                    'Leicester City FC': 'Leicester',
-                    'Leeds United FC': 'Leeds',
-                    'Brighton & Hove Albion FC': 'Brighton',
-                    'Arsenal FC': 'Arsenal',
-                    'Chelsea FC': 'Chelsea',
-                    'Liverpool FC': 'Liverpool',
-                    'Everton FC': 'Everton',
-                    'Fulham FC': 'Fulham',
-                    'Brentford FC': 'Brentford',
-                    'Crystal Palace FC': 'Crystal Palace',
-                    'Southampton FC': 'Southampton',
-                    'Aston Villa FC': 'Aston Villa',
-                    'Sheffield United FC': 'Sheffield United',
-                    'Burnley FC': 'Burnley',
-                    'Luton Town FC': 'Luton',
-                    'Norwich City FC': 'Norwich',
-                    'Watford FC': 'Watford',
-                    'Nottingham Forest FC': 'Nottingham',
-                    'Ipswich Town FC': 'Ipswich',
 
-                    # La Liga
-                    'RCD Espanyol de Barcelona': 'Espanol',
-                    'RC Celta de Vigo': 'Celta',
-                    'Villarreal CF': 'Villarreal',
-                    'Getafe CF': 'Getafe',
-                    'Sevilla FC': 'Sevilla',
-                    'Deportivo Alavés': 'Alaves',
-                    'Real Sociedad de Fútbol': 'Sociedad',
-                    'Club Atlético de Madrid': 'Ath Madrid',
-                    'Athletic Club': 'Ath Bilbao',
-                    'Real Betis Balompié': 'Betis',
-                    'RCD Mallorca': 'Mallorca',
-                    'Valencia CF': 'Valencia',
-                    'Girona FC': 'Girona',
-                    'Real Madrid CF': 'Real Madrid',
-                    'Levante UD': 'Levante',
-                    'Elche CF': 'Elche',
-                    'Cádiz CF': 'Cadiz',
-                    'Real Valladolid CF': 'Valladolid',
-                    'CA Osasuna': 'Osasuna',
-                    'Rayo Vallecano de Madrid': 'Rayo Vallecano',
-                    'UD Las Palmas': 'Las Palmas',
-                    'Granada CF': 'Granada',
-                    'UD Almería': 'Almeria',
-                    'FC Barcelona': 'Barcelona',
-
-                    # Bundesliga
-                    'Bayer 04 Leverkusen': 'Leverkusen',
-                    'FC Bayern München': 'Bayern Munich',
-                    'VfB Stuttgart': 'Stuttgart',
-                    'RB Leipzig': 'Leipzig',
-                    'Borussia Dortmund': 'Dortmund',
-                    'Eintracht Frankfurt': 'Frankfurt',
-                    'TSG 1899 Hoffenheim': 'Hoffenheim',
-                    '1. FC Heidenheim 1846': 'Heidenheim',
-                    'SV Werder Bremen': 'Werder Bremen',
-                    'SC Freiburg': 'Freiburg',
-                    'FC Augsburg': 'Augsburg',
-                    'VfL Wolfsburg': 'Wolfsburg',
-                    '1. FSV Mainz 05': 'Mainz',
-                    'Borussia Mönchengladbach': 'M Gladbach',
-                    '1. FC Union Berlin': 'Union Berlin',
-                    'VfL Bochum 1848': 'Bochum',
-                    '1. FC Köln': 'Koln',
-                    'SV Darmstadt 98': 'Darmstadt',
-                    'FC St. Pauli 1910': 'St Pauli',
-                    'Holstein Kiel': 'Holstein Kiel',
-
-                    # Serie A
-                    'FC Internazionale Milano': 'Inter',
-                    'AC Milan': 'Milan',
-                    'Juventus FC': 'Juventus',
-                    'Bologna FC 1909': 'Bologna',
-                    'AS Roma': 'Roma',
-                    'Atalanta BC': 'Atalanta',
-                    'SS Lazio': 'Lazio',
-                    'ACF Fiorentina': 'Fiorentina',
-                    'Torino FC': 'Torino',
-                    'SSC Napoli': 'Napoli',
-                    'Genoa CFC': 'Genoa',
-                    'AC Monza': 'Monza',
-                    'Hellas Verona FC': 'Verona',
-                    'US Lecce': 'Lecce',
-                    'Udinese Calcio': 'Udinese',
-                    'Cagliari Calcio': 'Cagliari',
-                    'Empoli FC': 'Empoli',
-                    'Frosinone Calcio': 'Frosinone',
-                    'US Sassuolo Calcio': 'Sassuolo',
-                    'US Salernitana 1919': 'Salernitana',
-                    'Parma Calcio 1913': 'Parma',
-                    'Como 1907': 'Como',
-                    'Venezia FC': 'Venezia',
-
-                    # Ligue 1
-                    'Paris Saint-Germain FC': 'PSG',
-                    'AS Monaco FC': 'Monaco',
-                    'Stade Brestois 29': 'Brest',
-                    'Lille OSC': 'Lille',
-                    'OGC Nice': 'Nice',
-                    'Olympique Lyonnais': 'Lyon',
-                    'Racing Club de Lens': 'Lens',
-                    'Olympique de Marseille': 'Marseille',
-                    'Stade de Reims': 'Reims',
-                    'Stade Rennais FC 1901': 'Rennes',
-                    'Toulouse FC': 'Toulouse',
-                    'Montpellier HSC': 'Montpellier',
-                    'RC Strasbourg Alsace': 'Strasbourg',
-                    'FC Nantes': 'Nantes',
-                    'Le Havre AC': 'Le Havre',
-                    'FC Metz': 'Metz',
-                    'FC Lorient': 'Lorient',
-                    'Clermont Foot 63': 'Clermont',
-                    'AS Saint-Étienne': 'St Etienne',
-                    'AJ Auxerre': 'Auxerre',
-                    'Angers SCO': 'Angers',
-
-                    # Brasileirão
-                    'SE Palmeiras': 'Palmeiras',
-                    'CR Flamengo': 'Flamengo',
-                    'Botafogo FR': 'Botafogo',
-                    'São Paulo FC': 'Sao Paulo',
-                    'Grêmio FBPA': 'Gremio',
-                    'Clube Atlético Mineiro': 'Atletico-MG',
-                    'Club Athletico Paranaense': 'Athletico-PR',
-                    'Fluminense FC': 'Fluminense',
-                    'Cuiabá EC': 'Cuiaba',
-                    'SC Corinthians Paulista': 'Corinthians',
-                    'Cruzeiro EC': 'Cruzeiro',
-                    'SC Internacional': 'Internacional',
-                    'Fortaleza EC': 'Fortaleza',
-                    'EC Bahia': 'Bahia',
-                    'CR Vasco da Gama': 'Vasco',
-                    'EC Juventude': 'Juventude',
-                    'AC Goianiense': 'Atletico-GO',
-                    'Criciúma EC': 'Criciuma',
-                    'EC Vitória': 'Vitoria',
-                    'Red Bull Bragantino': 'Bragantino',
-                    'Santos FC': 'Santos', # Caso volte ou jogue copa
-
-                    # Pro League (Bélgica)
-                    'Union Saint-Gilloise': 'Royale Union SG',
-                    'Union St.-Gilloise': 'Royale Union SG',
-                    'Union St.Gilloise': 'Royale Union SG',
-                    'St. Gilloise': 'Royale Union SG',
-                    'St Gilloise': 'Royale Union SG',
-                    'Sint-Truiden': 'Sint-Truiden',
-                    'St Truiden': 'Sint-Truiden',
-                    'St. Truiden': 'Sint-Truiden',
-                    'KRC Genk': 'Genk',
-                    'RSC Anderlecht': 'Anderlecht',
-                    'KV Mechelen': 'Mechelen',
-                    'Royal Antwerp FC': 'Antwerp',
-                    'Sporting Charleroi': 'Charleroi',
-                    'Standard Liège': 'Standard Liege',
-                    'Oud-Heverlee Leuven': 'OH Leuven',
-                    'RAAL La Louvière': 'La Louviere',
-                    'RAAL La Louviere': 'La Louviere',
-                    'Cercle Brugge KSV': 'Cercle Brugge',
-                }
                 
                 home_name = fixture['home_team']
                 away_name = fixture['away_team']
                 
-                home_name = name_mapping.get(home_name, home_name)
-                away_name = name_mapping.get(away_name, away_name)
+                home_name = normalize_team_name(home_name)
+                away_name = normalize_team_name(away_name)
 
                 # Busca ou cria times usando o método seguro
                 home_team = self._get_or_create_team(
