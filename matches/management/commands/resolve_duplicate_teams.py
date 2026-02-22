@@ -54,12 +54,31 @@ class Command(BaseCommand):
 
         total_fixed = 0
 
+        self.print_safe(f"Iniciando resolução de duplicatas. Mapeamentos carregados: {len(TEAM_NAME_MAPPINGS)}", self.style.SUCCESS)
+
+        # Debug mappings check
+        debug_keys = ["CA Mineiro", "Mirassol FC", "RB Bragantino", "Wolves"]
+        for k in debug_keys:
+            if k in TEAM_NAME_MAPPINGS:
+                self.print_safe(f"DEBUG: Mapping exists for '{k}' -> '{TEAM_NAME_MAPPINGS[k]}'")
+            else:
+                self.print_safe(f"DEBUG: Mapping MISSING for '{k}'", self.style.ERROR)
+
         for league in leagues:
+            self.print_safe(f"Processando liga: {league.name} ({league.country})")
+            
             # Dicionário usando o nome LIMPO (.strip()) para a busca
             teams_in_league = {}
             # Precisamos processar os times em ordem estável (pelo ID)
-            for t in Team.objects.filter(league=league).order_by('id'):
+            all_teams = list(Team.objects.filter(league=league).order_by('id'))
+            self.print_safe(f"  Encontrados {len(all_teams)} times na liga.")
+            
+            for t in all_teams:
                 name_clean = t.name.strip()
+                # Debug específico para times problemáticos
+                if name_clean in debug_keys or name_clean in ["Atletico-MG", "Mirassol", "Bragantino", "Wolverhampton"]:
+                     self.print_safe(f"  DEBUG: Time encontrado no DB: '{t.name}' (ID: {t.id})")
+
                 if name_clean in teams_in_league and teams_in_league[name_clean].id != t.id:
                     # AUTO-MERGE: "Leeds" e "Leeds "
                     self.print_safe(f"[{league.name}] AUTO-MERGE WHITESPACE: '{t.name}' -> '{teams_in_league[name_clean].name}'", self.style.WARNING)
