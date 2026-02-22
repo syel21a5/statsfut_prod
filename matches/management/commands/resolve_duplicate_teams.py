@@ -21,12 +21,30 @@ class Command(BaseCommand):
         try:
             self.stdout.write(msg)
         except Exception:
-            # Fallback in case of UnicodeEncodeError in CRON environments (LC_ALL=C)
             try:
                 msg_ascii = msg.encode('ascii', 'replace').decode('ascii')
                 self.stdout.write(msg_ascii)
             except:
                 pass
+
+    def _merge_teams(self, wrong_team, correct_team, league):
+        """Mescla o wrong_team para o correct_team dentro de uma liga."""
+        with transaction.atomic():
+            # 1. Reatribuir as Partidas (Matches)
+            home_count = Match.objects.filter(league=league, home_team=wrong_team).update(home_team=correct_team)
+            away_count = Match.objects.filter(league=league, away_team=wrong_team).update(away_team=correct_team)
+            
+            # 2. Reatribuir Gols e Jogadores
+            Goal.objects.filter(team=wrong_team).update(team=correct_team)
+            Player.objects.filter(team=wrong_team).update(team=correct_team)
+
+            # 3. Remover registros associados que causariam conflitos de UNIQUE
+            LeagueStanding.objects.filter(team=wrong_team).delete()
+            TeamGoalTiming.objects.filter(team=wrong_team).delete()
+
+            # 4. Excluir o time duplicado
+            wrong_team.delete()
+            return home_count, away_count
 
     def handle(self, *args, **options):
         league_name = options.get("league_name")
@@ -37,60 +55,50 @@ class Command(BaseCommand):
         total_fixed = 0
 
         for league in leagues:
-            teams_in_league = {t.name: t for t in Team.objects.filter(league=league)}
+            # Dicionário usando o nome LIMPO (.strip()) para a busca
+            teams_in_league = {}
+            # Precisamos processar os times em ordem estável (pelo ID)
+            for t in Team.objects.filter(league=league).order_by('id'):
+                name_clean = t.name.strip()
+                if name_clean in teams_in_league and teams_in_league[name_clean].id != t.id:
+                    # AUTO-MERGE: "Leeds" e "Leeds "
+                    self.print_safe(f"[{league.name}] AUTO-MERGE WHITESPACE: '{t.name}' -> '{teams_in_league[name_clean].name}'", self.style.WARNING)
+                    try:
+                        self._merge_teams(t, teams_in_league[name_clean], league)
+                        total_fixed += 1
+                    except Exception as e:
+                        self.print_safe(f"Erro no auto-merge: {e}", self.style.ERROR)
+                else:
+                    teams_in_league[name_clean] = t
 
+            # Processar mapeamentos oficiais
             for wrong_name, correct_name in TEAM_NAME_MAPPINGS.items():
-                wrong_team = teams_in_league.get(wrong_name)
-                correct_team = teams_in_league.get(correct_name)
+                wrong_team = teams_in_league.get(wrong_name.strip())
+                correct_team = teams_in_league.get(correct_name.strip())
 
-                if not wrong_team:
-                    continue  # Time errado nao existe, tudo certo
+                if not wrong_team or (correct_team and wrong_team.id == correct_team.id):
+                    continue
 
                 try:
-                    with transaction.atomic():
-                        if not correct_team:
-                            # Time correto nao existe: Apenas renomeia o errado
-                            wrong_team.name = correct_name
-                            wrong_team.save()
-                            teams_in_league[correct_name] = wrong_team
-                            del teams_in_league[wrong_name]
-                            self.print_safe(
-                                f"[{league.name}] Renomeado: '{wrong_name}' -> '{correct_name}'", 
-                                self.style.WARNING
-                            )
-                            total_fixed += 1
-                            continue
-
-                        # Se ambos existem, mesclar o errado para dentro do correto.
+                    if not correct_team:
+                        # Apenas renomeia
+                        old_name = wrong_team.name
+                        wrong_team.name = correct_name
+                        wrong_team.save()
+                        teams_in_league[correct_name.strip()] = wrong_team
+                        self.print_safe(f"[{league.name}] Renomeado: '{old_name}' -> '{correct_name}'", self.style.WARNING)
+                        total_fixed += 1
+                    else:
+                        # Mescla
+                        h, a = self._merge_teams(wrong_team, correct_team, league)
+                        # Remove do dict de busca
+                        for k, v in list(teams_in_league.items()):
+                            if v.id == wrong_team.id:
+                                del teams_in_league[k]
                         
-                        # 1. Reatribuir as Partidas (Matches)
-                        home_count = Match.objects.filter(league=league, home_team=wrong_team).update(home_team=correct_team)
-                        away_count = Match.objects.filter(league=league, away_team=wrong_team).update(away_team=correct_team)
-                        
-                        # 2. Reatribuir Gols e Jogadores (evitando perda de dados pelo cascade_delete)
-                        Goal.objects.filter(team=wrong_team).update(team=correct_team)
-                        Player.objects.filter(team=wrong_team).update(team=correct_team)
-
-                        # 3. Remover registros associados que causariam conflitos de UNIQUE (LeagueStanding e TeamGoalTiming)
-                        # Como as tabelas vao ser recalculadas no passo 4 do update_all_leagues.sh, n ha problema em deletar.
-                        LeagueStanding.objects.filter(team=wrong_team).delete()
-                        TeamGoalTiming.objects.filter(team=wrong_team).delete()
-
-                        # 4. Excluir o time duplicado
-                        wrong_team.delete()
-                        del teams_in_league[wrong_name]
-
-                        self.print_safe(
-                            f"[{league.name}] Mesclado com sucesso: '{wrong_name}' -> '{correct_name}' "
-                            f"({home_count} jogos H, {away_count} jogos A)", 
-                            self.style.SUCCESS
-                        )
+                        self.print_safe(f"[{league.name}] Mesclado: '{wrong_team.name}' -> '{correct_team.name}' ({h+a} jogos)", self.style.SUCCESS)
                         total_fixed += 1
                 except Exception as e:
-                    import traceback
-                    self.print_safe(f"ERRO CRITICO AO MESCLAR {wrong_name} no {league.name}: {e}\n{traceback.format_exc()}", self.style.ERROR)
+                    self.print_safe(f"Erro ao mesclar {wrong_name}: {e}", self.style.ERROR)
 
-        if total_fixed == 0:
-            self.print_safe("Nenhum time duplicado encontrado.", self.style.SUCCESS)
-        else:
-            self.print_safe(f"\nTotal de times corrigidos logicamente: {total_fixed}", self.style.SUCCESS)
+        self.print_safe(f"\nConcluido. Total de correcoes: {total_fixed}", self.style.SUCCESS)

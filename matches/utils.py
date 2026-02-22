@@ -144,4 +144,12 @@ def normalize_team_name(name):
         return None
     
     clean_name = name.strip()
-    return TEAM_NAME_MAPPINGS.get(clean_name, clean_name)
+    
+    # Tenta busca exata (com strip)
+    result = TEAM_NAME_MAPPINGS.get(clean_name)
+    if result:
+        return result
+        
+    # Tenta busca case-insensitive se necessário (opcional, mas seguro)
+    # Por enquanto o strip já resolve 99% dos casos do CSV.
+    return clean_name

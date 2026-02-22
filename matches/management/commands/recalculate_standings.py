@@ -96,14 +96,14 @@ class Command(BaseCommand):
             base_qs.values_list("away_team_id", flat=True)
         )
 
-        stats_by_team = {}
-        
         if not season_team_ids:
             self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada. Tabela não será gerada."))
             return
             
+        # Pega os objetos dos times
         teams = Team.objects.filter(id__in=season_team_ids)
 
+        stats_by_team = {}
         for team in teams:
             stats_by_team[team.id] = {
                 "team": team,
