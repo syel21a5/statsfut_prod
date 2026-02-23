@@ -379,7 +379,7 @@ class APIManager:
             # Faz uma request por liga para economizar
             all_fixtures = []
             now = datetime.now()
-            european_multi_year = {39, 140, 78, 135, 61, 144}
+            european_multi_year = {39, 140, 78, 135, 61, 144, 119} # Adicionado 119 (Superliga)
             for league_id in league_ids:
                 params['league'] = league_id
                 if league_id in european_multi_year:
@@ -388,17 +388,34 @@ class APIManager:
                     season = now.year
                 params['season'] = season
                 
-                response = requests.get(
-                    f"{api_config['base_url']}/fixtures",
-                    headers=headers,
-                    params=params,
-                    timeout=10
-                )
-                self._increment_usage(api_id)
+                # Cache key para evitar requests repetidos
+                cache_key = f'api_football_fixtures_{league_id}_{season}_{status}_{days_ahead}'
+                cached_data = cache.get(cache_key)
                 
-                if response.status_code == 200:
-                    data = response.json()
-                    all_fixtures.extend(data.get('response', []))
+                if cached_data and status != 'live':
+                    print(f"[APIManager] Using cached data for league {league_id}")
+                    all_fixtures.extend(cached_data)
+                    continue
+
+                try:
+                    response = requests.get(
+                        f"{api_config['base_url']}/fixtures",
+                        headers=headers,
+                        params=params,
+                        timeout=10
+                    )
+                    self._increment_usage(api_id)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        fixtures_list = data.get('response', [])
+                        all_fixtures.extend(fixtures_list)
+                        
+                        # Cache apenas se não for live e tiver sucesso
+                        if status != 'live':
+                            cache.set(cache_key, fixtures_list, timeout=60*60*6) # 6 horas
+                except Exception as e:
+                    print(f"Erro ao buscar fixtures da liga {league_id}: {e}")
             
             return self._normalize_api_football_data(all_fixtures)
         else:

@@ -64,10 +64,10 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
             # Países adicionais: tenta por país (principal liga) quando não há mapping
+            # Removidos países já cobertos por LEAGUE_MAPPINGS para evitar duplicidade de chamadas
             countries = [
-                'Argentina','Australia','Austria','Belgium','Brazil','Czech Republic','Denmark','England',
-                'Finland','France','Germany','Greece','Italy','Japan','Netherlands','Norway','Poland',
-                'Portugal','Russia','Sweden','Turkey','Ukraine','Switzerland'
+                'Australia','Austria','Czech Republic','Finland','Greece','Japan','Norway','Poland',
+                'Russia','Sweden','Ukraine','Switzerland'
             ]
             self.stdout.write(self.style.SUCCESS('\n🌍 Buscando próximos jogos por país (ligas principais, 30 dias)...'))
             for country in countries:
