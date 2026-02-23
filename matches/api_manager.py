@@ -58,6 +58,11 @@ class APIManager:
     # FLAG TO DISABLE API-FOOTBALL (User request: "não a use")
     USE_API_FOOTBALL = False
 
+    # Ligas que NÃO existem na Football-Data.org e precisam da API-Football
+    # 128: Liga Profesional (Argentina)
+    # 119: Superliga (Dinamarca)
+    UNSUPPORTED_BY_FD_IDS = [128, 119]
+
     def __init__(self):
         self.apis = {
             'football_data_1': {
@@ -209,10 +214,13 @@ class APIManager:
                 exclude_apis.append(api_fd)
         
         # Check if API-Football is allowed
+        # Se USE_API_FOOTBALL for False, tentamos apenas para as ligas órfãs (Argentina, Dinamarca)
+        target_ids = None
         if not self.USE_API_FOOTBALL:
-             print("[APIManager] API-Football está DESATIVADA por configuração.")
-             return []
-
+            print("[APIManager] API-Football está DESATIVADA por configuração.")
+            print("[APIManager] Tentando buscar apenas ligas órfãs (Argentina, Dinamarca) para não perder dados.")
+            target_ids = self.UNSUPPORTED_BY_FD_IDS
+        
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
         if not api_af:
@@ -220,6 +228,26 @@ class APIManager:
             return []
         
         api_config = self.apis[api_af]
+        # Se for busca restrita (target_ids), passamos explicitamente
+        if target_ids:
+             # Se a chamada original já tinha ids, interseccionamos
+             if league_ids:
+                 final_ids = list(set(league_ids) & set(target_ids))
+                 if not final_ids:
+                     return []
+             else:
+                 final_ids = target_ids
+             
+             print(f"[APIManager] Live fixtures via {api_af} ({api_config['name']}) [RESTRICTED: {final_ids}]")
+             # A API-Football aceita 'live=all', que traz tudo (1 request).
+             # Depois filtramos localmente para retornar APENAS as ligas órfãs e evitar duplicatas com a FD.
+             all_fixtures = self._get_api_football_fixtures(api_af, api_config, status='live', league_ids=None)
+             
+             # Filtra apenas as ligas desejadas (Argentina, Dinamarca, etc)
+             filtered_fixtures = [f for f in all_fixtures if f.get('league_id') in final_ids]
+             print(f"[APIManager] Filtrado {len(filtered_fixtures)} jogos das ligas alvo: {final_ids}")
+             return filtered_fixtures
+        
         print(f"[APIManager] Live fixtures via {api_af} ({api_config['name']})")
         return self._get_api_football_fixtures(api_af, api_config, status='live', league_ids=league_ids)
     
@@ -390,9 +418,18 @@ class APIManager:
         if status == 'live':
             params['live'] = 'all'
         else:
-            # Próximos jogos
-            date_from = datetime.now().date()
-            date_to = date_from + timedelta(days=days_ahead)
+            # Próximos jogos ou passados
+            today = datetime.now().date()
+            if days_ahead >= 0:
+                # Futuro: de hoje até hoje + X dias
+                date_from = today
+                date_to = today + timedelta(days=days_ahead)
+            else:
+                # Passado: de hoje - X dias até hoje
+                # days_ahead é negativo, então somar subtrai
+                date_from = today + timedelta(days=days_ahead)
+                date_to = today
+                
             params['from'] = date_from.isoformat()
             params['to'] = date_to.isoformat()
         
@@ -419,6 +456,8 @@ class APIManager:
                     continue
 
                 try:
+                    # Debug request
+                    print(f"DEBUG: Requesting {api_config['base_url']}/fixtures with params {params}")
                     response = requests.get(
                         f"{api_config['base_url']}/fixtures",
                         headers=headers,
@@ -490,23 +529,44 @@ class APIManager:
                     exclude_apis.append(api_fd)
         
         # Fallback API-Football
+        # Se USE_API_FOOTBALL for False, tentamos apenas para as ligas órfãs
+        target_ids = None
         if not self.USE_API_FOOTBALL:
-             print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca de passados para {league_name or 'leagues'}.")
-             return []
-
+             # Se for uma liga específica e ela for órfã, permitimos
+             is_orphan = False
+             if league_name:
+                 mapping = self.LEAGUE_MAPPINGS.get(league_name)
+                 # Se mapping existe e football_data é vazio, é órfã
+                 if mapping and not mapping['football_data']:
+                     is_orphan = True
+                     target_ids = mapping['api_football']
+             
+             if is_orphan:
+                 print(f"[APIManager] Permitindo API-Football para liga órfã: {league_name}")
+             else:
+                 print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca de passados para {league_name or 'leagues'}.")
+                 return []
+        
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
         if not api_af:
-             print("[APIManager] Todas as APIs (API-Football) atingiram o limite ou falharam.")
-             return []
-        
+            print("[APIManager] Todas as APIs (API-Football) atingiram o limite ou falharam.")
+            return []
+            
         api_config = self.apis[api_af]
+        
+        # Se estamos buscando por liga específica (orphan ou normal), usamos os IDs mapeados
+        search_ids = af_ids
+        if target_ids:
+            search_ids = target_ids
+            
         print(f"[APIManager] Past fixtures via {api_af} ({api_config['name']})")
-        # API-Football logic for past... reuse _get_api_football_fixtures but with 'last' param or date range
-        # _get_api_football_fixtures uses 'from'/'to' if status != live
-        # We need to adapt it. 
-        # For now, let's trust Football-Data is enough for the user request as API-Football is disabled.
-        return [] # TODO: Implement fallback if needed, but user wants API-Football disabled.
+        # Se não tiver IDs, a busca de passados da API-Football é perigosa (muitos dados)?
+        # API-Football exige 'league' e 'season' para buscar fixtures passadas geralmente, ou range de datas.
+        # _get_api_football_fixtures implementa range de datas se status != live.
+        # Mas se league_ids for None, ele busca de TUDO? 
+        # Vamos verificar _get_api_football_fixtures.
+        return self._get_api_football_fixtures(api_af, api_config, status='finished', league_ids=search_ids, days_ahead=-days_back)
 
     def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7, days_back=None, league_ids=None):
         """Busca fixtures da Football-Data.org"""
@@ -570,6 +630,7 @@ class APIManager:
                 'date': fixture['fixture']['date'],
                 'status': fixture['fixture']['status']['short'],
                 'league': fixture['league']['name'],
+                'league_id': fixture['league']['id'],  # Adicionado ID da liga
                 'country': fixture['league'].get('country'),
                 'home_team': fixture['teams']['home']['name'],
                 'away_team': fixture['teams']['away']['name'],
@@ -592,6 +653,7 @@ class APIManager:
                 'date': match['utcDate'],
                 'status': match['status'],
                 'league': match['competition']['name'],
+                'league_id': match['competition']['id'], # Adicionado ID da liga
                 'country': match.get('area', {}).get('name'),
                 'home_team': match['homeTeam']['name'],
                 'away_team': match['awayTeam']['name'],

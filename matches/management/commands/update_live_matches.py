@@ -18,17 +18,20 @@ class Command(BaseCommand):
             help='Modo: live (ao vivo), upcoming (próximos), recent (recentes), ou both (ambos live+upcoming)'
         )
         parser.add_argument(
-            '--force',
-            action='store_true',
-            help='Força execução mesmo em DEBUG'
+            '--days',
+            type=int,
+            default=7,
+            help='Número de dias para buscar (usado em upcoming/recent) [Padrão: 7 para recent, 30 para upcoming]'
         )
 
     def handle(self, *args, **options):
+        # Hotfix: Ensure DEBUG doesn't block if force is used
         if settings.DEBUG and not options['force']:
             self.stdout.write(self.style.ERROR("ERRO: Este comando consome API e não deve ser executado em ambiente de desenvolvimento (DEBUG=True). Use --force se realmente necessário."))
             return
 
         mode = options['mode']
+        # days = options['days'] # Removed this line as it was causing UnboundLocalError or unused var warning if not careful, accessing via options.get later
         
         api_manager = APIManager()
         
@@ -48,13 +51,17 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos ao vivo: {e}'))
         
         if mode in ['upcoming', 'both']:
-            self.stdout.write(self.style.SUCCESS('📅 Buscando próximos jogos (30 dias)...'))
+            days_upcoming = 30
+            if options.get('days') and options['days'] != 7: # Se usuário passou --days diferente do default, usa
+                days_upcoming = options['days']
+                
+            self.stdout.write(self.style.SUCCESS(f'📅 Buscando próximos jogos ({days_upcoming} dias)...'))
             
             # Itera sobre cada liga mapeada para garantir uso correto das APIs
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
-                    upcoming_fixtures = api_manager.get_upcoming_fixtures(league_name=league_name, days_ahead=30)
+                    upcoming_fixtures = api_manager.get_upcoming_fixtures(league_name=league_name, days_ahead=days_upcoming)
                     if upcoming_fixtures:
                         self.process_fixtures(upcoming_fixtures, is_live=False)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {len(upcoming_fixtures)} jogos encontrados para {league_name}'))
@@ -69,10 +76,10 @@ class Command(BaseCommand):
                 'Australia','Austria','Czech Republic','Finland','Greece','Japan','Norway','Poland',
                 'Russia','Sweden','Ukraine','Switzerland'
             ]
-            self.stdout.write(self.style.SUCCESS('\n🌍 Buscando próximos jogos por país (ligas principais, 30 dias)...'))
+            self.stdout.write(self.style.SUCCESS(f'\n🌍 Buscando próximos jogos por país (ligas principais, {days_upcoming} dias)...'))
             for country in countries:
                 try:
-                    fixtures = api_manager.get_upcoming_fixtures_by_country(country, days_ahead=30)
+                    fixtures = api_manager.get_upcoming_fixtures_by_country(country, days_ahead=days_upcoming)
                     if fixtures:
                         self.process_fixtures(fixtures, is_live=False)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {country}: {len(fixtures)} jogos'))
@@ -82,14 +89,15 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.WARNING(f'    {country}: {e}'))
 
         if mode in ['recent', 'both']:
-            self.stdout.write(self.style.SUCCESS('\n⏮️  Buscando resultados recentes (últimos 7 dias)...'))
+            days_back = options.get('days', 7)
+            self.stdout.write(self.style.SUCCESS(f'\n⏮️  Buscando resultados recentes (últimos {days_back} dias)...'))
             
             # Itera sobre cada liga mapeada
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
                     # Football-Data.org logic (implemented in api_manager)
-                    past_fixtures = api_manager.get_past_fixtures(league_name=league_name, days_back=7)
+                    past_fixtures = api_manager.get_past_fixtures(league_name=league_name, days_back=days_back)
                     if past_fixtures:
                         self.process_fixtures(past_fixtures, is_live=False)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {len(past_fixtures)} jogos processados para {league_name}'))
@@ -180,6 +188,8 @@ class Command(BaseCommand):
                     'A-League': {'name': 'A-League', 'country': 'Australia'},
                     'A-League Men': {'name': 'A-League', 'country': 'Australia'},
                     'Czech Liga': {'name': 'First League', 'country': 'Republica Tcheca'},
+                    'Liga Profesional': {'name': 'Liga Profesional', 'country': 'Argentina'},
+                    'Liga Profesional de Fútbol': {'name': 'Liga Profesional', 'country': 'Argentina'},
                 }
                 
                 mapped_league = league_map.get(raw_league_name)
