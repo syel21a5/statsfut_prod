@@ -23,6 +23,7 @@ def job():
             ("T1", "Super Lig"),
             ("G1", "Super League"),
             ("AUT", "Bundesliga"),
+            ("DNK", "Superliga"),
         ]
 
         # 1. Importa dados de todas as ligas
