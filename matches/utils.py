@@ -211,10 +211,13 @@ TEAM_NAME_MAPPINGS = {
     "Real Valladolid CF": "Valladolid",
     "CA Osasuna": "Osasuna",
     "Rayo Vallecano de Madrid": "Rayo Vallecano",
+    "Vallecano": "Rayo Vallecano",
     "UD Las Palmas": "Las Palmas",
     "Granada CF": "Granada",
     "UD Almería": "Almeria",
     "FC Barcelona": "Barcelona",
+    "Oviedo": "Real Oviedo",
+    "R. Oviedo": "Real Oviedo",
 
     # Serie A (Italia)
     "FC Internazionale Milano": "Inter",
