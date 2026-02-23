@@ -1,5 +1,6 @@
 import os
 import csv
+import sys
 from datetime import datetime
 from io import StringIO
 
@@ -10,6 +11,9 @@ from django.utils import timezone
 
 from matches.models import League, Team, Match, Season
 from matches.utils import normalize_team_name
+
+# Force flush
+sys.stdout.reconfigure(line_buffering=True)
 
 
 class Command(BaseCommand):
@@ -35,6 +39,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        self.stdout.write("--- Starting Import ---")
         root = options.get("root")
         division = options["division"]
         min_year = options["min_year"]

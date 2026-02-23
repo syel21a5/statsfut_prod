@@ -15,7 +15,7 @@ class Command(BaseCommand):
             '--mode',
             type=str,
             default='both',
-            help='Modo: live (ao vivo), upcoming (próximos), ou both (ambos)'
+            help='Modo: live (ao vivo), upcoming (próximos), recent (recentes), ou both (ambos live+upcoming)'
         )
         parser.add_argument(
             '--force',
@@ -80,6 +80,23 @@ class Command(BaseCommand):
                         self.stdout.write(f'    {country}: 0 jogos')
                 except Exception as e:
                     self.stdout.write(self.style.WARNING(f'    {country}: {e}'))
+
+        if mode in ['recent', 'both']:
+            self.stdout.write(self.style.SUCCESS('\n⏮️  Buscando resultados recentes (últimos 7 dias)...'))
+            
+            # Itera sobre cada liga mapeada
+            for league_name in api_manager.LEAGUE_MAPPINGS.keys():
+                self.stdout.write(f"  > Processando {league_name}...")
+                try:
+                    # Football-Data.org logic (implemented in api_manager)
+                    past_fixtures = api_manager.get_past_fixtures(league_name=league_name, days_back=7)
+                    if past_fixtures:
+                        self.process_fixtures(past_fixtures, is_live=False)
+                        self.stdout.write(self.style.SUCCESS(f'    ✅ {len(past_fixtures)} jogos processados para {league_name}'))
+                    else:
+                        self.stdout.write(f"    Nenhum jogo recente encontrado para {league_name}")
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
     def _get_or_create_team(self, name, league, api_id):
         # 1. Tenta buscar pelo api_id se existir
@@ -302,10 +319,12 @@ class Command(BaseCommand):
                 if created:
                     count_new += 1
                     self.stdout.write(f'  ➕ Novo: {home_team.name} vs {away_team.name}')
+                    touched_leagues.add((league_obj.name, league_obj.country))
                 else:
                     count_updated += 1
                     if is_live:
                         self.stdout.write(f'  🔄 Atualizado: {home_team.name} {fixture["home_score"]}-{fixture["away_score"]} {away_team.name} ({fixture.get("elapsed", "?")}\')')
+                    touched_leagues.add((league_obj.name, league_obj.country))
                 
             except Exception as e:
                 self.stdout.write(self.style.WARNING(f'  ⚠️ Erro ao processar fixture: {e}'))

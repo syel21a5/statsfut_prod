@@ -36,6 +36,8 @@ def job():
         # Usa o TEAM_NAME_MAPPINGS do utils.py para corrigir nomes
         print("2. Resolvendo duplicatas de times e ligas...")
         subprocess.run([sys.executable, "manage.py", "merge_duplicate_leagues"], check=False)
+        # Hotfix específico para Premier League (Leeds, Newcastle, West Ham, Wolves)
+        subprocess.run([sys.executable, "manage.py", "merge_pl_duplicates"], check=False)
         subprocess.run([sys.executable, "manage.py", "resolve_duplicate_teams"], check=False)
         
         # 3. Limpa duplicatas de jogos (Global)

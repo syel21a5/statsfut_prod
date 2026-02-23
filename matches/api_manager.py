@@ -11,19 +11,21 @@ class APIManager:
     """
     
     LEAGUE_MAPPINGS = {
+        # Supported Leagues (Updated based on run_csv_updates.py)
         'Premier League': {'api_football': [39], 'football_data': [2021]},
         'La Liga': {'api_football': [140], 'football_data': [2014]},
         'Bundesliga': {'api_football': [78], 'football_data': [2002]},
         'Serie A': {'api_football': [135], 'football_data': [2019]},
         'Ligue 1': {'api_football': [61], 'football_data': [2015]},
+        'Eredivisie': {'api_football': [88], 'football_data': [2003]},         # Netherlands (Updated API-F ID just in case)
+        'Primeira Liga': {'api_football': [94], 'football_data': [2017]},      # Portugal (Updated API-F ID just in case)
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
-        'Superliga': {'api_football': [119], 'football_data': []},          # Dinamarca
-        'Pro League': {'api_football': [144], 'football_data': []},
-        'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina
-        # Extra top leagues (Football-Data supports some; else use API-Football by country)
-        'Primeira Liga': {'api_football': [], 'football_data': [2017]},      # Portugal
-        'Eredivisie': {'api_football': [], 'football_data': [2003]},         # Netherlands
-        'Super Lig': {'api_football': [], 'football_data': [2018]},          # Turkey
+        'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina (No FD)
+        'First League': {'api_football': [], 'football_data': []},           # Czech (No FD)
+        'Super Lig': {'api_football': [203], 'football_data': [2018]},          # Turkey (Updated API-F ID just in case)
+        'Super League': {'api_football': [], 'football_data': []},           # Greece (No FD)
+        'Austrian Bundesliga': {'api_football': [], 'football_data': []},    # Austria (No FD - Name might be just Bundesliga in API)
+        'Superliga': {'api_football': [119], 'football_data': []},           # Dinamarca (No FD)
     }
 
     COUNTRY_TOP_LEAGUES = {
@@ -452,7 +454,61 @@ class APIManager:
             else:
                 raise Exception(f"API retornou status {response.status_code}")
     
-    def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7, league_ids=None):
+    def get_past_fixtures(self, league_name=None, days_back=7, exclude_apis=None):
+        """Busca jogos passados (últimos X dias)"""
+        exclude_apis = exclude_apis or []
+        
+        fd_ids = []
+        af_ids = []
+        
+        if league_name and league_name in self.LEAGUE_MAPPINGS:
+            mapping = self.LEAGUE_MAPPINGS[league_name]
+            fd_ids = mapping['football_data']
+            if not af_ids:
+                af_ids = mapping['api_football']
+        
+        fd_keys = [f'football_data_{i}' for i in range(1, 9)]
+
+        # Tenta Football-Data
+        if fd_ids or (not league_name): # Se não tem league_name, busca de todas as ligas mapeadas
+            api_fd = self._choose_best_api_from_list(fd_keys, exclude_apis=exclude_apis)
+            if api_fd:
+                api_config = self.apis[api_fd]
+                try:
+                    print(f"[APIManager] Past fixtures via {api_fd} ({api_config['name']})")
+                    fixtures = self._get_football_data_fixtures(
+                        api_fd,
+                        api_config,
+                        status='finished',
+                        days_back=days_back,
+                        league_ids=fd_ids,
+                    )
+                    if fixtures:
+                        return fixtures
+                except Exception as e:
+                    print(f"Erro na {api_config['name']}: {e}")
+                    exclude_apis.append(api_fd)
+        
+        # Fallback API-Football
+        if not self.USE_API_FOOTBALL:
+             print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca de passados para {league_name or 'leagues'}.")
+             return []
+
+        af_keys = [f'api_football_{i}' for i in range(1, 3)]
+        api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
+        if not api_af:
+             print("[APIManager] Todas as APIs (API-Football) atingiram o limite ou falharam.")
+             return []
+        
+        api_config = self.apis[api_af]
+        print(f"[APIManager] Past fixtures via {api_af} ({api_config['name']})")
+        # API-Football logic for past... reuse _get_api_football_fixtures but with 'last' param or date range
+        # _get_api_football_fixtures uses 'from'/'to' if status != live
+        # We need to adapt it. 
+        # For now, let's trust Football-Data is enough for the user request as API-Football is disabled.
+        return [] # TODO: Implement fallback if needed, but user wants API-Football disabled.
+
+    def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7, days_back=None, league_ids=None):
         """Busca fixtures da Football-Data.org"""
         headers = {
             'X-Auth-Token': api_config['key']
@@ -471,11 +527,19 @@ class APIManager:
         
         for comp_id in competitions:
             params = {}
-            if status != 'live':
+            if status == 'finished' or days_back:
+                date_to = datetime.now().date()
+                date_from = date_to - timedelta(days=days_back or 7)
+                params['dateFrom'] = date_from.isoformat()
+                params['dateTo'] = date_to.isoformat()
+                # Football-Data aceita status filter? Sim.
+                params['status'] = 'FINISHED'
+            elif status != 'live':
                 date_from = datetime.now().date()
                 date_to = date_from + timedelta(days=days_ahead)
                 params['dateFrom'] = date_from.isoformat()
                 params['dateTo'] = date_to.isoformat()
+
         
             response = requests.get(
                 f"{api_config['base_url']}/competitions/{comp_id}/matches",
