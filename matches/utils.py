@@ -161,6 +161,11 @@ TEAM_NAME_MAPPINGS = {
     "CR Vasco da Gama": "Vasco",
     "SC Corinthians Paulista": "Corinthians",
     "SE Palmeiras": "Palmeiras",
+    "Juventude RS": "Juventude",
+    "CSA": "CSA",
+    "Atletico Goianiense": "Atletico-GO",
+    "Sport Club do Recife": "Sport Recife",
+    "Avai FC": "Avai",
     
     # Dinamarca
     "AGF": "Aarhus",
