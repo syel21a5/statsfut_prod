@@ -6,12 +6,18 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from matches.models import League, Season, Team, Match
+from matches.api_manager import APIManager
 
 
 class Command(BaseCommand):
     help = "Atualiza jogos do Brasileirão 2026 usando API-Football"
 
     def handle(self, *args, **options):
+        # Check global flag
+        if not APIManager.USE_API_FOOTBALL:
+            self.stdout.write(self.style.WARNING("API-Football está DESATIVADA globalmente (APIManager.USE_API_FOOTBALL = False). Abortando."))
+            return
+
         api_key = os.getenv("API_FOOTBALL_BRASILEIRAO_KEY")
         if not api_key:
             self.stdout.write(self.style.ERROR("API_FOOTBALL_BRASILEIRAO_KEY não configurada no .env"))

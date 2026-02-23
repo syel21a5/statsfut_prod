@@ -53,6 +53,9 @@ class APIManager:
         'Japan': ['J1 League'],
     }
 
+    # FLAG TO DISABLE API-FOOTBALL (User request: "não a use")
+    USE_API_FOOTBALL = False
+
     def __init__(self):
         self.apis = {
             'football_data_1': {
@@ -203,10 +206,16 @@ class APIManager:
                 print(f"Erro na {api_config['name']}: {e}")
                 exclude_apis.append(api_fd)
         
+        # Check if API-Football is allowed
+        if not self.USE_API_FOOTBALL:
+             print("[APIManager] API-Football está DESATIVADA por configuração.")
+             return []
+
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
         if not api_af:
-            raise Exception("Todas as APIs atingiram o limite diário ou falharam!")
+            print("[APIManager] Todas as APIs (API-Football) atingiram o limite ou falharam.")
+            return []
         
         api_config = self.apis[api_af]
         print(f"[APIManager] Live fixtures via {api_af} ({api_config['name']})")
@@ -248,10 +257,16 @@ class APIManager:
                     print(f"Erro na {api_config['name']}: {e}")
                     exclude_apis.append(api_fd)
         
+        # Check if API-Football is allowed
+        if not self.USE_API_FOOTBALL:
+             print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca para {league_name or 'leagues'}.")
+             return []
+
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
         if not api_af:
-            raise Exception("Todas as APIs atingiram o limite diário ou falharam!")
+             print("[APIManager] Todas as APIs (API-Football) atingiram o limite ou falharam.")
+             return []
         
         api_config = self.apis[api_af]
         print(f"[APIManager] Upcoming fixtures via {api_af} ({api_config['name']})")
@@ -261,6 +276,10 @@ class APIManager:
         """
         Busca próximos jogos para a principal liga de um país automaticamente (API-Football).
         """
+        if not self.USE_API_FOOTBALL:
+            print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca por país: {country}")
+            return []
+
         exclude_apis = exclude_apis or []
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
