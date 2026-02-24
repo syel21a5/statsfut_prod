@@ -21,6 +21,11 @@ class Command(BaseCommand):
             help="País da liga (opcional, para desambiguação)",
         )
         parser.add_argument(
+            "--division",
+            type=str,
+            help="Código da divisão (ex: AUT, E0) para configurar liga/país automaticamente",
+        )
+        parser.add_argument(
             "--season_year",
             type=int,
             help="Ano de término da temporada (ex: 2026 para 2025/2026). Se omitido, usa a temporada mais recente com jogos",
@@ -29,7 +34,36 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         league_name = options["league_name"]
         country = options["country"]
+        division = options.get("division")
         season_year = options.get("season_year")
+
+        # Mapeamento auxiliar se usar --division
+        LEAGUE_MAPPING = {
+            'E0': ('Premier League', 'Inglaterra'),
+            'SP1': ('La Liga', 'Espanha'),
+            'D1': ('Bundesliga', 'Alemanha'),
+            'I1': ('Serie A', 'Italia'),
+            'F1': ('Ligue 1', 'Franca'),
+            'N1': ('Eredivisie', 'Holanda'),
+            'B1': ('Pro League', 'Belgica'),
+            'P1': ('Primeira Liga', 'Portugal'),
+            'T1': ('Super Lig', 'Turquia'),
+            'G1': ('Super League', 'Grecia'),
+            'DNK': ('Superliga', 'Dinamarca'),
+            'BRA': ('Brasileirao', 'Brasil'),
+            'ARG': ('Liga Profesional', 'Argentina'),
+            'AUT': ('Bundesliga', 'Austria'),
+            'SWZ': ('Super League', 'Suica'),
+            'CZE': ('First League', 'Republica Tcheca'),
+        }
+
+        if division:
+            if division in LEAGUE_MAPPING:
+                league_name, country = LEAGUE_MAPPING[division]
+                self.stdout.write(f"Divisão '{division}' detectada. Usando Liga: {league_name}, País: {country}")
+            else:
+                self.stdout.write(self.style.ERROR(f"Divisão '{division}' não encontrada no mapeamento."))
+                return
 
         try:
             if country:
