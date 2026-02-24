@@ -22,7 +22,7 @@ systemctl enable statsfut-live.service
 
 # 4. Iniciar o serviço agora
 echo ">>> Iniciando o serviço..."
-systemctl start statsfut-live.service
+systemctl restart statsfut-live.service
 
 # 5. Verificar status
 echo ">>> Verificando status do serviço:"
