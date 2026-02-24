@@ -30,7 +30,7 @@ class Command(BaseCommand):
             'country': 'Inglaterra'
         },
         'soccer_austria_bundesliga': {
-            'env_key': 'ODDS_API_KEY_AUSTRIA_LIVE_1',  # Usando Live 1 pois não há Upcoming dedicada ainda
+            'env_key': 'ODDS_API_KEY_AUSTRIA_UPCOMING',
             'db_name': 'Bundesliga',
             'country': 'Austria'
         }
