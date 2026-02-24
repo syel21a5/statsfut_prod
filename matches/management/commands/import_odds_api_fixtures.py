@@ -148,7 +148,7 @@ class Command(BaseCommand):
                 if not home_team_obj or not away_team_obj:
                     # Opcional: Criar times se não existirem (CUIDADO: pode duplicar se nome for diferente)
                     # Por enquanto, apenas loga e pula para evitar sujeira
-                    # self.stdout.write(f"Skipping unknown teams: {home_name} vs {away_name}")
+                    self.stdout.write(f"Skipping unknown teams: {home_name} vs {away_name}")
                     continue
                 
                 # Check if match exists (using teams and approximate date to avoid duplicates if time changes slightly)

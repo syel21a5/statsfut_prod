@@ -59,7 +59,36 @@ ODDS_API_TEAM_MAPPINGS = {
     "Estudiantes (RC)": "Estudiantes Rio Cuarto",
     "Aldosivi": "Aldosivi",
     "Aldosivi Mar del Plata": "Aldosivi",
-    "Independiente": "Independiente"
+    "Independiente": "Independiente",
+
+    # --- AUSTRIA ---
+    "Red Bull Salzburg": "RB Salzburg",
+    "Salzburg": "RB Salzburg",
+    "Sturm Graz": "Sturm Graz",
+    "LASK Linz": "LASK",
+    "LASK": "LASK",
+    "Austria Wien": "Austria Vienna",
+    "Austria Vienna": "Austria Vienna",
+    "Rapid Wien": "Rapid Vienna",
+    "Rapid Vienna": "Rapid Vienna",
+    "Hartberg": "Hartberg",
+    "TSV Hartberg": "Hartberg",
+    "Altach": "Altach",
+    "SCR Altach": "Altach",
+    "Ried": "Ried",
+    "SV Ried": "Ried",
+    "Wolfsberger AC": "Wolfsberger AC",
+    "Wolfsberg": "Wolfsberger AC",
+    "Tirol": "Tirol",
+    "WSG Tirol": "Tirol",
+    "Grazer AK": "Grazer AK",
+    "Grazer AK 1902": "Grazer AK",
+    "GAK": "Grazer AK",
+    "Blau Weiss Linz": "Blau-Weiss Linz",
+    "BW Linz": "Blau-Weiss Linz",
+    "Blau-Weiss Linz": "Blau-Weiss Linz",
+    "FC Blau-Weiß Linz": "Blau-Weiss Linz",
+    "Rheindorf Altach": "Altach",
 }
 
 def resolve_team(name, league):
