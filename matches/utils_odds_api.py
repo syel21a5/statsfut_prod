@@ -87,7 +87,7 @@ def fetch_live_odds_api_argentina():
     api_key = getattr(settings, 'ODDS_API_KEY', os.getenv('ODDS_API_KEY', '386a173b7ca41f5a1362958a9eeeccdc'))
     sport_key = "soccer_argentina_primera_division"
     
-    print(f"[TheOddsAPI] Fetching live scores for {sport_key}...")
+    print(f"[TheOddsAPI] Buscando placares ao vivo para {sport_key}...")
     
     url = f"https://api.the-odds-api.com/v4/sports/{sport_key}/scores/?daysFrom=1&apiKey={api_key}"
     
@@ -97,18 +97,18 @@ def fetch_live_odds_api_argentina():
         # Monitoramento de Créditos
         remaining = int(response.headers.get('x-requests-remaining', 0))
         used = int(response.headers.get('x-requests-used', 0))
-        print(f"[TheOddsAPI] Créditos: Usados {used} | Restantes {remaining}")
+        print(f"[TheOddsAPI] Créditos da API: Usados {used} | Restantes {remaining}")
         if remaining < 50:
-             print("[TheOddsAPI] ATENÇÃO: Créditos baixos! Considere pausar atualizações automáticas.")
+             print("[TheOddsAPI] ATENÇÃO: Seus créditos estão acabando! Considere pausar as atualizações automáticas.")
 
         response.raise_for_status()
         matches_data = response.json()
-        print(f"[TheOddsAPI] Found {len(matches_data)} matches.")
+        print(f"[TheOddsAPI] Encontrados {len(matches_data)} jogos na API.")
         
         # Get League
         league = League.objects.filter(name__icontains="Liga Profesional", country="Argentina").first()
         if not league:
-            print("[TheOddsAPI] Error: League 'Liga Profesional' not found.")
+            print("[TheOddsAPI] Erro: Liga 'Liga Profesional' não encontrada no banco de dados.")
             return
 
         updates = 0
@@ -123,7 +123,7 @@ def fetch_live_odds_api_argentina():
             away_team = resolve_team(away_name, league)
             
             if not home_team or not away_team:
-                print(f"[TheOddsAPI] Skipping unknown team(s): {home_name} vs {away_name}")
+                print(f"[TheOddsAPI] Pulando time desconhecido: {home_name} vs {away_name}")
                 continue
                 
             # Find Match in DB (approximate date check handled by filter or just finding the active match)
@@ -142,7 +142,7 @@ def fetch_live_odds_api_argentina():
                 # For live updates, we usually expect match to exist.
                 # But if it doesn't, we could create it.
                 # Let's skip for now to avoid duplicates if date is far off.
-                print(f"[TheOddsAPI] Match not found in DB: {home_team} vs {away_team}")
+                print(f"[TheOddsAPI] Jogo não encontrado no Banco de Dados: {home_team} vs {away_team}")
                 continue
 
             # Parse Scores
@@ -185,11 +185,11 @@ def fetch_live_odds_api_argentina():
             
             if changed:
                 match.save()
-                print(f"[TheOddsAPI] Updated: {home_team} {home_score}-{away_score} {away_team} ({new_status})")
+                print(f"[TheOddsAPI] Atualizado: {home_team} {home_score}-{away_score} {away_team} ({new_status})")
                 updates += 1
                 
-        print(f"[TheOddsAPI] Live update complete. {updates} matches updated.")
+        print(f"[TheOddsAPI] Atualização ao vivo concluída. {updates} jogos atualizados.")
         
     except Exception as e:
-        print(f"[TheOddsAPI] Error fetching live scores: {e}")
+        print(f"[TheOddsAPI] Erro ao buscar placares: {e}")
 
