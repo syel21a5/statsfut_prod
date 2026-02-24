@@ -187,3 +187,12 @@ class TeamGoalTiming(models.Model):
 
     def __str__(self):
         return f"{self.team} - Goal Timing ({self.season})"
+
+class APIUsage(models.Model):
+    api_name = models.CharField(max_length=100, help_text="Nome da API/Chave (ex: The Odds API - Live)")
+    credits_used = models.IntegerField(default=0, help_text="Créditos usados na última requisição")
+    credits_remaining = models.IntegerField(default=0, help_text="Créditos restantes retornados no header")
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.api_name}: {self.credits_remaining} restantes (em {self.last_updated.strftime('%d/%m %H:%M')})"

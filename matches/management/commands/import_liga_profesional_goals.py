@@ -31,6 +31,11 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        # Check global flag
+        if not APIManager.USE_API_FOOTBALL:
+            self.stdout.write(self.style.WARNING("API-Football está DESATIVADA globalmente (APIManager.USE_API_FOOTBALL = False). Abortando."))
+            return
+
         api_key = (
             os.getenv("API_FOOTBALL_KEY_3")
             or os.getenv("API_FOOTBALL_KEY_1")

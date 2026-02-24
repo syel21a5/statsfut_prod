@@ -3,7 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.conf import settings
-from matches.models import Match, Team, League, Season
+from matches.models import Match, Team, League, Season, APIUsage
 import os
 from datetime import datetime
 import pytz
@@ -25,9 +25,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        api_key = os.getenv('THE_ODDS_API_KEY')
+        api_key = os.getenv('ODDS_API_KEY_ARGENTINA_UPCOMING')
         if not api_key:
-            self.stdout.write(self.style.ERROR("THE_ODDS_API_KEY not found in .env"))
+            self.stdout.write(self.style.ERROR("ODDS_API_KEY_ARGENTINA_UPCOMING not found in .env"))
             return
 
         base_url = "https://api.the-odds-api.com/v4"
@@ -44,7 +44,7 @@ class Command(BaseCommand):
                 resp.raise_for_status()
                 remaining = int(resp.headers.get('x-requests-remaining', 0))
                 used = int(resp.headers.get('x-requests-used', 0))
-                self.stdout.write(f"API Credits: Used {used}, Remaining {remaining}")
+                self.stdout.write(f"API Credits (Upcoming): Used {used}, Remaining {remaining}")
                 return
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Failed to check credits: {e}"))
@@ -58,6 +58,16 @@ class Command(BaseCommand):
             # Check credits from this response
             remaining = int(response.headers.get('x-requests-remaining', 0))
             used = int(response.headers.get('x-requests-used', 0))
+            
+            # Log to DB
+            try:
+                APIUsage.objects.update_or_create(
+                    api_name="The Odds API (Upcoming - Argentina)",
+                    defaults={'credits_remaining': remaining, 'credits_used': used}
+                )
+            except Exception as db_e:
+                self.stdout.write(self.style.WARNING(f"Failed to log API usage: {db_e}"))
+
             self.stdout.write(f"API Credits: Used {used}, Remaining {remaining}")
             
             if remaining < 50:

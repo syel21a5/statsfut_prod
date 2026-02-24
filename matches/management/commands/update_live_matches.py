@@ -1,11 +1,17 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.db import models
 from matches.models import League, Team, Match, Season
 from matches.api_manager import APIManager
 from matches.utils import normalize_team_name
-from matches.utils_odds_api import fetch_live_odds_api_argentina
+from matches.utils_odds_api import (
+    fetch_live_odds_api_argentina, 
+    fetch_upcoming_odds_api_argentina,
+    fetch_live_odds_api_brazil,
+    fetch_live_odds_api_england
+)
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 class Command(BaseCommand):
@@ -30,6 +36,56 @@ class Command(BaseCommand):
             help='Força execução mesmo em DEBUG=True'
         )
 
+    def should_check_live_league(self, league_name, country):
+        """
+        Verifica se há jogos de uma liga hoje (ou em andamento) que justifiquem chamar a API ao vivo.
+        Retorna True se houver jogo 'Live' ou agendado para começar em breve (< 45 min) ou hoje ainda não finalizado.
+        """
+        # 1. Encontrar a Liga
+        league = League.objects.filter(name__icontains=league_name, country=country).first()
+        if not league:
+            return False 
+
+        now = timezone.now()
+        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        today_end = now.replace(hour=23, minute=59, second=59, microsecond=999)
+
+        # 2. Buscar jogos de hoje que NÃO estão finalizados
+        matches_today = Match.objects.filter(
+            league=league,
+            date__range=(today_start, today_end)
+        ).exclude(status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED'])
+        
+        # Se não tem jogo hoje não finalizado, verifica se tem algum jogo "Live" perdido de ontem
+        if not matches_today.exists():
+            live_matches = Match.objects.filter(
+                league=league,
+                status__in=['Live', '1H', '2H', 'HT', 'ET', 'P', 'In Play']
+            )
+            if live_matches.exists():
+                return True
+            
+            # Se chegou aqui, não tem nada relevante
+            self.stdout.write(self.style.WARNING(f"⚠️  [Smart Check] Nenhum jogo da {league_name} agendado para hoje ou em andamento. Pulando API."))
+            return False
+
+        # 3. Se tem jogos hoje, verificar horário
+        # Verifica se algum jogo já começou (date <= now) OU vai começar em breve (date <= now + 45min)
+        threshold = now + timedelta(minutes=45)
+        
+        # Jogos ativos = Jogos que já deveriam ter começado (incluindo atrasados/live) OU começam em < 45 min
+        active_matches = matches_today.filter(date__lte=threshold)
+        
+        if active_matches.exists():
+            return True
+        else:
+            # Tem jogo hoje, mas ainda falta muito tempo
+            next_match = matches_today.filter(date__gt=now).order_by('date').first()
+            if next_match:
+                wait_min = int((next_match.date - now).total_seconds() / 60)
+                self.stdout.write(self.style.WARNING(f"⚠️  [Smart Check] Próximo jogo da {league_name} em {wait_min} min ({next_match.date.strftime('%H:%M')}). Pulando API por enquanto."))
+            return False
+
     def handle(self, *args, **options):
         # Hotfix: Ensure DEBUG doesn't block if force is used
         if settings.DEBUG and not options['force']:
@@ -41,19 +97,31 @@ class Command(BaseCommand):
         
         api_manager = APIManager()
         
-        # Coleta IDs da API-Football de todas as ligas mapeadas
+        if mode == 'live' or mode == 'both':
+            pass # A lógica de Live foi movida para o início do handle() para usar o Smart Check antes de tudo.
+            # O código acima já chamou as APIs se necessário.
+            
+        if mode == 'upcoming' or mode == 'both':
+            fetch_upcoming_odds_api_argentina()
+            # Futuramente: fetch_upcoming_odds_api_brazil()
+            # Futuramente: fetch_upcoming_odds_api_england()
         all_api_football_ids = []
         for m in api_manager.LEAGUE_MAPPINGS.values():
             all_api_football_ids.extend(m['api_football'])
         
         if mode in ['live', 'both']:
             # The Odds API for Argentina (Special Handling) - Run first to ensure it runs
-            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando jogos AO VIVO da Liga Profesional (Argentina) via The Odds API...'))
-            try:
-                fetch_live_odds_api_argentina()
-                self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Liga Profesional (Argentina)...'))
+            
+            if self.should_check_live_argentina():
+                self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
+                try:
+                    fetch_live_odds_api_argentina()
+                    self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+            else:
+                self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
 
             self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Todas as Ligas)...'))
             try:
@@ -66,6 +134,14 @@ class Command(BaseCommand):
 
         
         if mode in ['upcoming', 'both']:
+            # The Odds API for Argentina (Special Handling)
+            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando PRÓXIMOS JOGOS da Liga Profesional (Argentina) via The Odds API...'))
+            try:
+                fetch_upcoming_odds_api_argentina()
+                self.stdout.write(self.style.SUCCESS('✅ Próximos jogos da Liga Profesional atualizados via The Odds API.'))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+
             days_upcoming = 30
             if options.get('days') and options['days'] != 7: # Se usuário passou --days diferente do default, usa
                 days_upcoming = options['days']
