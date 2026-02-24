@@ -3,7 +3,7 @@ import django
 import datetime
 
 # Setup Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'statsfut.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
 from matches.models import League, Match, Team, Season
@@ -22,18 +22,11 @@ def run():
 
     print(f"Buscando duplicatas na liga: {league.name} ({league.country})")
 
-    # Get latest season
-    season = Season.objects.filter(matches__league=league).order_by('-year').first()
-    if not season:
-        print("Temporada não encontrada.")
-        return
-        
-    print(f"Temporada atual: {season.year}")
-
     # 1. Exact Duplicates (Same Date, Home, Away)
     # ------------------------------------------------
     print("\n--- Verificando duplicatas exatas (mesma data) ---")
-    matches = Match.objects.filter(league=league, season=season).order_by('date')
+    # Check ALL matches, not just latest season
+    matches = Match.objects.filter(league=league).order_by('date')
     
     seen_matches = {}
     duplicates_exact = 0
@@ -77,7 +70,7 @@ def run():
     # ------------------------------------------------
     print("\n--- Verificando duplicatas de ano incorreto (Year Shift) ---")
     # Refresh matches list
-    matches = Match.objects.filter(league=league, season=season).order_by('date')
+    matches = Match.objects.filter(league=league).order_by('date')
     
     seen_shifted = {}
     duplicates_shifted = 0

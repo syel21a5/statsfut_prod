@@ -1,12 +1,11 @@
 import os
 import django
-from datetime import datetime
 
 # Setup Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from matches.models import League, Match, Season, Team
+from matches.models import League, Match, Team, Season
 from django.db.models import Count, Q
 
 def inspect_matches():
@@ -15,17 +14,30 @@ def inspect_matches():
         print("Liga não encontrada.")
         return
 
-    # Get latest season
-    season = Season.objects.filter(matches__league=league).order_by('-year').first()
-    print(f"Inspecionando Season {season.year} da liga: {league.name}")
+    print(f"Inspecionando liga: {league.name}")
     
-    # Check Season 2025
-    season_2025 = Season.objects.filter(year=2025).first()
-    if season_2025:
-        print(f"Inspecionando Season {season_2025.year} da liga: {league.name}")
-        matches_2025 = Match.objects.filter(league=league, season=season_2025, home_team__name__icontains="Salzburg") | \
-                       Match.objects.filter(league=league, season=season_2025, away_team__name__icontains="Salzburg")
-        print(f"Total de jogos do Salzburg na Season 2025: {matches_2025.count()}")
+    # Check for duplicate teams
+    teams = Team.objects.filter(name__icontains="Salzburg")
+    print("\nTimes 'Salzburg':")
+    for t in teams:
+        print(f"  ID: {t.id} | Name: {t.name}")
+        
+    teams = Team.objects.filter(name__icontains="LASK")
+    print("\nTimes 'LASK':")
+    for t in teams:
+        print(f"  ID: {t.id} | Name: {t.name}")
+
+    # Check matches between LASK and Salzburg across ALL seasons
+    print("\nJogos LASK vs Salzburg (All Time):")
+    matches = Match.objects.filter(
+        league=league,
+        home_team__name__icontains="LASK",
+        away_team__name__icontains="Salzburg"
+    ).order_by('date')
+    
+    for m in matches:
+        season_year = m.season.year if m.season else "None"
+        print(f"ID: {m.id} | Date: {m.date} | Season: {season_year} | {m.home_team.name}({m.home_team.id}) vs {m.away_team.name}({m.away_team.id}) | Score: {m.home_score}-{m.away_score}")
 
 if __name__ == "__main__":
     inspect_matches()
