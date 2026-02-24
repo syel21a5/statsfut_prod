@@ -256,6 +256,15 @@ def fetch_live_odds_api_england():
         label="Inglaterra"
     )
 
+def fetch_live_odds_api_austria():
+    fetch_live_odds_generic(
+        league_name_db="Bundesliga",
+        country_db="Austria",
+        sport_key="soccer_austria_bundesliga",
+        env_prefix="ODDS_API_KEY_AUSTRIA_LIVE",
+        label="Austria"
+    )
+
 
 def fetch_upcoming_odds_api_argentina():
     """

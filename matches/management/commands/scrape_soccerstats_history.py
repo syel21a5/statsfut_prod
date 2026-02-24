@@ -1,6 +1,7 @@
 
 import os
 import time
+import sys
 import random
 import requests
 import pandas as pd
@@ -28,6 +29,9 @@ class Command(BaseCommand):
         target_slug = (kwargs.get('target_slug') or '').strip().lower() or None
         team_url = (kwargs.get('team_url') or '').strip()
         
+        self.stdout.write(f"DEBUG: Scraper started. target_slug={target_slug}, years={years}")
+        sys.stdout.flush()
+
         # Ensure export directory exists
         base_dir = "csv_exports"
         if not os.path.exists(base_dir):
@@ -74,6 +78,12 @@ class Command(BaseCommand):
                 'country': 'Republica Tcheca',
                 'url_base': 'czechrepublic',
                 'current_param': 'czechrepublic'
+            },
+            {
+                'name': 'Bundesliga',
+                'country': 'Austria',
+                'url_base': 'austria',
+                'current_param': 'austria'
             }
         ]
 
@@ -82,20 +92,37 @@ class Command(BaseCommand):
         }
 
         for league_conf in leagues:
+            self.stdout.write(f"DEBUG: Checking {league_conf['name']} ({league_conf.get('current_param')})")
+            sys.stdout.flush()
             if target_league and league_conf['name'] != target_league:
                 continue
             if target_slug:
                 if (league_conf.get('current_param','').lower() != target_slug) and (league_conf.get('url_base','').lower() != target_slug):
+                    self.stdout.write(f"DEBUG: Skipping {league_conf['name']} (slug mismatch)")
+                    sys.stdout.flush()
                     continue
+            
+            self.stdout.write(f"DEBUG: Processing {league_conf['name']} matched!")
+            sys.stdout.flush()
 
             self.stdout.write(self.style.SUCCESS(f"--- Processing {league_conf['name']} ---"))
+            sys.stdout.flush()
             
             league_obj = None
             if not csv_only:
-                league_obj, _ = League.objects.get_or_create(
-                    name=league_conf['name'], 
-                    country=league_conf['country']
-                )
+                self.stdout.write(f"DEBUG: Getting League object for {league_conf['name']}...")
+                sys.stdout.flush()
+                try:
+                    league_obj, _ = League.objects.get_or_create(
+                        name=league_conf['name'], 
+                        country=league_conf['country']
+                    )
+                    self.stdout.write(f"DEBUG: League object retrieved: {league_obj}")
+                    sys.stdout.flush()
+                except Exception as e:
+                    self.stdout.write(f"ERROR: DB Error: {e}")
+                    sys.stdout.flush()
+                    continue
 
             for year in years:
                 if league_conf['name'] == 'First League':
@@ -299,6 +326,33 @@ class Command(BaseCommand):
                     'Beerschot': 'Beerschot',
                     'KV Kortrijk': 'Kortrijk',
                     'Kortrijk': 'Kortrijk',
+
+                    # Austria mappings
+                    'Red Bull Salzburg': 'RB Salzburg',
+                    'Salzburg': 'RB Salzburg',
+                    'Sturm Graz': 'Sturm Graz',
+                    'SK Sturm Graz': 'Sturm Graz',
+                    'LASK': 'LASK',
+                    'LASK Linz': 'LASK',
+                    'Rapid Wien': 'Rapid Vienna',
+                    'Rapid Vienna': 'Rapid Vienna',
+                    'Austria Wien': 'Austria Vienna',
+                    'Austria Vienna': 'Austria Vienna',
+                    'Wolfsberger AC': 'Wolfsberger AC',
+                    'WAC': 'Wolfsberger AC',
+                    'SK Austria Klagenfurt': 'Austria Klagenfurt',
+                    'A. Klagenfurt': 'Austria Klagenfurt',
+                    'TSV Hartberg': 'Hartberg',
+                    'Hartberg': 'Hartberg',
+                    'SCR Altach': 'Altach',
+                    'Altach': 'Altach',
+                    'FC Blau Weiss Linz': 'Blau-Weiss Linz',
+                    'BW Linz': 'Blau-Weiss Linz',
+                    'WSG Tirol': 'WSG Tirol',
+                    'Grazer AK': 'Grazer AK',
+                    'GAK': 'Grazer AK',
+                    'Austria Lustenau': 'Austria Lustenau',
+                    'A. Lustenau': 'Austria Lustenau',
                 }
                 
                 home = team_mapping.get(home, home)

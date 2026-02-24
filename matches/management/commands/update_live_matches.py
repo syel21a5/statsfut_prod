@@ -8,7 +8,8 @@ from matches.utils_odds_api import (
     fetch_live_odds_api_argentina, 
     fetch_upcoming_odds_api_argentina,
     fetch_live_odds_api_brazil,
-    fetch_live_odds_api_england
+    fetch_live_odds_api_england,
+    fetch_live_odds_api_austria
 )
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -120,6 +121,18 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+            else:
+                self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
+
+            # The Odds API for Austria
+            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Bundesliga (Austria)...'))
+            if self.should_check_live_league('Bundesliga', 'Austria'):
+                self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
+                try:
+                    fetch_live_odds_api_austria()
+                    self.stdout.write(self.style.SUCCESS('✅ Jogos da Bundesliga (Austria) atualizados via The Odds API.'))
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Bundesliga (Austria): {e}'))
             else:
                 self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
 

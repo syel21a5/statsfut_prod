@@ -28,6 +28,11 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_ENGLAND_UPCOMING',
             'db_name': 'Premier League',
             'country': 'Inglaterra'
+        },
+        'soccer_austria_bundesliga': {
+            'env_key': 'ODDS_API_KEY_AUSTRIA_LIVE_1',  # Usando Live 1 pois não há Upcoming dedicada ainda
+            'db_name': 'Bundesliga',
+            'country': 'Austria'
         }
     }
 
@@ -137,39 +142,48 @@ class Command(BaseCommand):
                 match_date = pytz.utc.localize(match_date)
                 
                 # Resolve Teams
-                home_team = resolve_team(home_name, league_obj)
-                away_team = resolve_team(away_name, league_obj)
+                home_team_obj = resolve_team(home_name, league_obj)
+                away_team_obj = resolve_team(away_name, league_obj)
                 
-                if not home_team or not away_team:
+                if not home_team_obj or not away_team_obj:
                     # Opcional: Criar times se não existirem (CUIDADO: pode duplicar se nome for diferente)
                     # Por enquanto, apenas loga e pula para evitar sujeira
                     # self.stdout.write(f"Skipping unknown teams: {home_name} vs {away_name}")
                     continue
                 
-                # Check if match exists
-                match, created = Match.objects.get_or_create(
-                    league=league_obj,
-                    season=season_obj,
-                    home_team=home_team,
-                    away_team=away_team,
-                    date=match_date, # Data exata da API
-                    defaults={
-                        'status': 'Scheduled'
-                    }
-                )
+                # Check if match exists (using teams and approximate date to avoid duplicates if time changes slightly)
+                # Date range: +/- 24 hours
+                start_window = match_date - timezone.timedelta(hours=24)
+                end_window = match_date + timezone.timedelta(hours=24)
                 
-                if created:
-                    creates += 1
-                    self.stdout.write(f"Created: {home_team} vs {away_team} at {match_date}")
+                match = Match.objects.filter(
+                    league=league_obj,
+                    home_team=home_team_obj,
+                    away_team=away_team_obj,
+                    date__range=(start_window, end_window)
+                ).first()
+                
+                if match:
+                    # Update time if needed
+                    time_diff = abs((match.date - match_date).total_seconds())
+                    if time_diff > 3600: # If changed by more than 1 hour
+                        match.date = match_date
+                        match.status = 'Scheduled'
+                        match.save()
+                        updates += 1
+                        self.stdout.write(f"Updated Time: {home_team_obj} vs {away_team_obj}")
                 else:
-                    # Update status/date if needed
-                    # Se data mudou, atualiza
-                    if match.date != match_date:
-                         match.date = match_date
-                         match.save()
-                         updates += 1
-                         self.stdout.write(f"Updated Time: {home_team} vs {away_team}")
-
+                    Match.objects.create(
+                        league=league_obj,
+                        season=season_obj,
+                        home_team=home_team_obj,
+                        away_team=away_team_obj,
+                        date=match_date,
+                        status='Scheduled'
+                    )
+                    creates += 1
+                    self.stdout.write(f"Created: {home_team_obj} vs {away_team_obj} at {match_date}")
+            
             self.stdout.write(self.style.SUCCESS(f"Done. Created: {creates}, Updated: {updates}"))
 
         except Exception as e:
