@@ -93,6 +93,14 @@ def fetch_live_odds_api_argentina():
     
     try:
         response = requests.get(url, timeout=10)
+        
+        # Monitoramento de Créditos
+        remaining = int(response.headers.get('x-requests-remaining', 0))
+        used = int(response.headers.get('x-requests-used', 0))
+        print(f"[TheOddsAPI] Créditos: Usados {used} | Restantes {remaining}")
+        if remaining < 50:
+             print("[TheOddsAPI] ATENÇÃO: Créditos baixos! Considere pausar atualizações automáticas.")
+
         response.raise_for_status()
         matches_data = response.json()
         print(f"[TheOddsAPI] Found {len(matches_data)} matches.")
