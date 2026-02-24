@@ -3,6 +3,7 @@ from django.conf import settings
 from matches.models import League, Team, Match, Season
 from matches.api_manager import APIManager
 from matches.utils import normalize_team_name
+from matches.utils_odds_api import fetch_live_odds_api_argentina
 from django.utils import timezone
 from datetime import datetime
 import pytz
@@ -23,6 +24,11 @@ class Command(BaseCommand):
             default=7,
             help='Número de dias para buscar (usado em upcoming/recent) [Padrão: 7 para recent, 30 para upcoming]'
         )
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            help='Força execução mesmo em DEBUG=True'
+        )
 
     def handle(self, *args, **options):
         # Hotfix: Ensure DEBUG doesn't block if force is used
@@ -41,6 +47,14 @@ class Command(BaseCommand):
             all_api_football_ids.extend(m['api_football'])
         
         if mode in ['live', 'both']:
+            # The Odds API for Argentina (Special Handling) - Run first to ensure it runs
+            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando jogos AO VIVO da Liga Profesional (Argentina) via The Odds API...'))
+            try:
+                fetch_live_odds_api_argentina()
+                self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+
             self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Todas as Ligas)...'))
             try:
                 # Se não passar league_ids, busca de todas as ligas configuradas/suportadas
@@ -49,6 +63,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f'✅ {len(live_fixtures)} jogos ao vivo processados'))
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos ao vivo: {e}'))
+
         
         if mode in ['upcoming', 'both']:
             days_upcoming = 30
