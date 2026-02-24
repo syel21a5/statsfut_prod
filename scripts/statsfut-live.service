@@ -1,0 +1,25 @@
+[Unit]
+Description=StatsFut Live Match Monitor Bot
+After=network.target
+
+[Service]
+# Ajuste o usuário se não for root (mas no seu print vi que é root)
+User=root
+Group=root
+
+# Caminho do projeto (Baseado no seu print)
+WorkingDirectory=/www/wwwroot/statsfut.com
+
+# Comando de execução (Python do venv + script de monitoramento)
+ExecStart=/www/wwwroot/statsfut.com/venv/bin/python scripts/monitor_live_matches.py
+
+# Reiniciar automaticamente se falhar
+Restart=always
+RestartSec=10
+
+# Logs (opcional, já vai para syslog)
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
