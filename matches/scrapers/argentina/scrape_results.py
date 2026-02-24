@@ -6,13 +6,15 @@ import re
 import os
 import sys
 import django
+from django.utils import timezone
 
 # Setup Django environment BEFORE importing models
 import os
 import sys
 import django
 
-print("Starting RESULTS scraper script...")
+print("Starting RESULTS scraper script...", file=sys.stderr)
+sys.stdout.reconfigure(line_buffering=True) # Force flush
 
 # Let's look at where we are.
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -43,7 +45,7 @@ def scrape_latest_results():
     Scrapes LATEST RESULTS from SoccerStats for Argentina Liga Profesional
     and updates matches in the database (setting status=Finished and scores).
     """
-    url = "https://www.soccerstats.com/latest.asp?league=argentina"
+    url = "https://www.soccerstats.com/results.asp?league=argentina&pmtype=bydate"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
@@ -69,8 +71,9 @@ def scrape_latest_results():
         count_updated = 0
         now = timezone.now()
 
-        # Regex for Score: "2 - 1", "0-0", etc.
-        score_pattern = re.compile(r'^\s*(\d+)\s*-\s*(\d+)\s*$')
+        # Regex for Score: "2 - 1", "0:0", etc.
+        # Now supporting colon as separator
+        score_pattern = re.compile(r'^\s*(\d+)\s*[:\-\s]\s*(\d+)\s*$')
 
         # Find "Latest results" header or similar
         # Usually SoccerStats has headers like "Latest results", "Matchday X", etc.
@@ -80,96 +83,86 @@ def scrape_latest_results():
         tables = soup.find_all('table')
         
         print(f"Scanning tables for results...")
-
+        
+        found_rows = 0
         for table in tables:
             rows = table.find_all('tr')
             for row in rows:
                 cols = row.find_all('td')
-                if len(cols) < 4:
+                if len(cols) < 4: # Standard result row has at least 4 cols
                     continue
                 
                 texts = [c.get_text(strip=True) for c in cols]
                 
                 # Check for structure: Date | Home | Score | Away
-                # Variation 1: Date | Home | Score | Away
-                # Variation 2: Date | Home-Away | Score (unlikely for results)
+                # Based on inspection:
+                # Col 0: Date (e.g. "Fri 20 Feb")
+                # Col 1: Home Team
+                # Col 2: Score (e.g. "0:0") or Time
+                # Col 3: Away Team
                 
-                date_str = None
-                home_team_name = None
-                away_team_name = None
-                home_score = None
-                away_score = None
-                
-                # Try to find score in column 2 or 3
-                score_match = None
-                score_col_idx = -1
-                
-                if len(texts) >= 4:
-                    # Check col 2 (0-based) for score
-                    if score_pattern.match(texts[2]):
-                        score_match = score_pattern.match(texts[2])
-                        score_col_idx = 2
-                        date_str = texts[0]
-                        home_team_name = texts[1]
-                        away_team_name = texts[3]
-                    # Check col 3 for score (maybe there is a spacer?)
-                    elif score_pattern.match(texts[3]):
-                        score_match = score_pattern.match(texts[3])
-                        score_col_idx = 3
-                        date_str = texts[0]
-                        # Assume col 1 is Home - Away? No, usually separate cols if score is separate.
-                        # Maybe: Date | Home | Time/Score | Away
-                        # If score is in col 3, maybe col 1 is Home, col 2 is empty?
-                        if len(texts[2]) == 0: # Empty col 2
-                            home_team_name = texts[1]
-                            away_team_name = texts[4] if len(texts) > 4 else None # Guessing
-                        else:
-                            # Maybe: Date | Home | ... | Score | Away
-                            pass
-                
-                if not score_match or not home_team_name or not away_team_name:
+                date_str = texts[0]
+                home_team_name = texts[1]
+                score_str = texts[2]
+                away_team_name = texts[3]
+
+                # Validate Date (starts with day name)
+                days_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                if not any(date_str.startswith(d) for d in days_list):
+                    continue
+
+                # Validate Score
+                score_match = score_pattern.match(score_str)
+                if not score_match:
                     continue
                 
-                # Parse Score
                 try:
                     home_score = int(score_match.group(1))
                     away_score = int(score_match.group(2))
+                    
+                    # Heuristic: If scores are > 15, it's likely a time (e.g. 20:00 -> 20-0)
+                    if home_score > 15 or away_score > 15:
+                        # print(f"Skipping probable time: {score_str}")
+                        continue
+                        
                 except:
                     continue
-                    
-                # Validate Date (starts with day name)
-                days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                if not any(date_str.startswith(d) for d in days):
-                    continue
-
-                print(f"Found Result: {date_str} | {home_team_name} {home_score}-{away_score} {away_team_name}")
+                
+                # print(f"Found Candidate: {date_str} | {home_team_name} {home_score}-{away_score} {away_team_name}")
                 
                 # Resolve Teams
                 home_team = _resolve_team(home_team_name, league)
                 away_team = _resolve_team(away_team_name, league)
                 
                 if not home_team or not away_team:
-                    print(f"Skipping teams: {home_team_name}, {away_team_name}")
+                    # print(f"Skipping teams: {home_team_name} (Resolved: {home_team}), {away_team_name} (Resolved: {away_team})")
                     continue
 
                 # Find the match in DB to update
                 # We look for a match between these teams around this date.
-                # Since date formats might slightly differ or timezone issues, we look for matches
-                # within a few days window, or just by teams and status='Scheduled' or 'Finished'.
                 
-                # First, parse date to get approximate day
+                # Parse date to get approximate day
                 try:
+                    # Add year. Since the date string has no year, we assume current year.
+                    # But be careful around year boundaries (Dec/Jan).
+                    # "Fri 20 Feb" -> 20 Feb 2026
                     dt_str = f"{date_str} {now.year}"
-                    # Assuming time is not in date_str for results
                     dt_obj = datetime.strptime(dt_str, "%a %d %b %Y")
-                    # Make it aware
+                    # Make it aware (UTC)
                     dt_obj = pytz.UTC.localize(dt_obj)
+
+                    # Safety check: If date is in future, ignore "0-0" as it might be placeholder
+                    if dt_obj.date() > timezone.now().date():
+                        print(f"Skipping future match result: {home_team} {score_str} {away_team} on {dt_obj.date()}")
+                        continue
+
+                    print(f"Processing Result: {date_str} | {home_team} {home_score}-{away_score} {away_team}")
                     
-                    # Define a window (e.g., +/- 2 days)
-                    start_date = dt_obj - timedelta(days=2)
-                    end_date = dt_obj + timedelta(days=2)
+                    # Define a window (e.g., +/- 3 days)
+                    start_date = dt_obj - timedelta(days=3)
+                    end_date = dt_obj + timedelta(days=3)
                     
-                    # Find match
+                    # Try to find existing match
                     match = Match.objects.filter(
                         league=league,
                         home_team=home_team,
@@ -178,25 +171,35 @@ def scrape_latest_results():
                     ).first()
                     
                     if match:
-                        # Update Match
-                        match.home_team_score = home_score
-                        match.away_team_score = away_score
-                        match.status = 'Finished'
-                        match.save()
-                        count_updated += 1
-                        print(f"Updated Match ID {match.id}: {home_team} {home_score}-{away_score} {away_team}")
+                        if match.status != 'Finished' or match.home_score != home_score or match.away_score != away_score:
+                            match.home_score = home_score
+                            match.away_score = away_score
+                            match.status = 'Finished'
+                            match.save()
+                            count_updated += 1
+                            print(f"Updated Match ID {match.id}: {home_team} {home_score}-{away_score} {away_team}")
+                        # else:
+                        #      print(f"Match already up to date: {home_team} vs {away_team}")
                     else:
-                        print(f"Match not found in DB for {home_team} vs {away_team} around {dt_obj.date()}")
-                        # Optionally create it? 
-                        # Usually better to only update existing ones to avoid duplicates if dates are wildly off.
-                        # But if it's missing, maybe we should create it as Finished.
-                        pass
+                        print(f"Match not found in DB for {home_team} vs {away_team} around {dt_obj.date()}. Creating it...")
+                        # Create match if not exists
+                        Match.objects.create(
+                            league=league,
+                            season=season,
+                            home_team=home_team,
+                            away_team=away_team,
+                            date=dt_obj,
+                            status='Finished',
+                            home_score=home_score,
+                            away_score=away_score
+                        )
+                        count_updated += 1
 
                 except ValueError as e:
-                    print(f"Date parse error: {e}")
+                    print(f"Date parse error for '{dt_str}': {e}")
                     continue
 
-        print(f"Results Scrape finished. Updated: {count_updated}")
+        print(f"Results Scrape finished. Updated/Created: {count_updated}")
 
     except Exception as e:
         print(f"Error scraping SoccerStats Results: {e}")
