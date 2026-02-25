@@ -119,20 +119,6 @@ class APIManager:
                 'base_url': 'https://api.football-data.org/v4',
                 'daily_limit': 1000,
                 'type': 'football_data'
-            },
-            'api_football_1': {
-                'name': 'API-Football #1 (syel21)',
-                'key': os.getenv('API_FOOTBALL_KEY_1'),
-                'base_url': 'https://v3.football.api-sports.io',
-                'daily_limit': 100,
-                'type': 'api_football'
-            },
-            'api_football_2': {
-                'name': 'API-Football #2 (eletr)',
-                'key': os.getenv('API_FOOTBALL_KEY_2'),
-                'base_url': 'https://v3.football.api-sports.io',
-                'daily_limit': 100,
-                'type': 'api_football'
             }
         }
     

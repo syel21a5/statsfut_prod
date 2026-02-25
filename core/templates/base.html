@@ -34,9 +34,8 @@
         <a href="/" class="nav-link active">
             <i class="fa-solid fa-house"></i> Dashboard
         </a>
-        <a href="{% url 'matches:live_matches' %}" class="nav-link {% if request.resolver_match.view_name == 'matches:live_matches' %}active{% endif %}">
-            <i class="fa-solid fa-satellite-dish"></i> Live <span class="live-dot" style="margin-left:auto"></span>
-        </a>
+        <!-- Live Page Removed per user request -->
+
         <a href="#" class="nav-link">
             <i class="fa-solid fa-star"></i> Favorites
         </a>

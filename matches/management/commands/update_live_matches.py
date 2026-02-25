@@ -9,7 +9,9 @@ from matches.utils_odds_api import (
     fetch_upcoming_odds_api_argentina,
     fetch_live_odds_api_brazil,
     fetch_live_odds_api_england,
-    fetch_live_odds_api_austria
+    fetch_live_odds_api_austria,
+    fetch_live_odds_api_australia,
+    fetch_upcoming_odds_api_australia
 )
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -104,6 +106,7 @@ class Command(BaseCommand):
             
         if mode == 'upcoming' or mode == 'both':
             fetch_upcoming_odds_api_argentina()
+            fetch_upcoming_odds_api_australia()
             # Futuramente: fetch_upcoming_odds_api_brazil()
             # Futuramente: fetch_upcoming_odds_api_england()
         all_api_football_ids = []
@@ -112,29 +115,43 @@ class Command(BaseCommand):
         
         if mode in ['live', 'both']:
             # The Odds API for Argentina (Special Handling) - Run first to ensure it runs
-            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Liga Profesional (Argentina)...'))
+            # self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Liga Profesional (Argentina)...'))
             
-            if self.should_check_live_argentina():
-                self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
-                try:
-                    fetch_live_odds_api_argentina()
-                    self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
-            else:
-                self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
+            # if self.should_check_live_league('Liga Profesional', 'Argentina'):
+            #     self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
+            #     try:
+            #         fetch_live_odds_api_argentina()
+            #         self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
+            #     except Exception as e:
+            #         self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+            # else:
+            #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
 
             # The Odds API for Austria
-            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Bundesliga (Austria)...'))
-            if self.should_check_live_league('Bundesliga', 'Austria'):
-                self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
-                try:
-                    fetch_live_odds_api_austria()
-                    self.stdout.write(self.style.SUCCESS('✅ Jogos da Bundesliga (Austria) atualizados via The Odds API.'))
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Bundesliga (Austria): {e}'))
-            else:
-                self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
+            # self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Bundesliga (Austria)...'))
+            # if self.should_check_live_league('Bundesliga', 'Austria'):
+            #     self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
+            #     try:
+            #         fetch_live_odds_api_austria()
+            #         self.stdout.write(self.style.SUCCESS('✅ Jogos da Bundesliga (Austria) atualizados via The Odds API.'))
+            #     except Exception as e:
+            #         self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Bundesliga (Austria): {e}'))
+            # else:
+            #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
+
+            # The Odds API for Australia
+            # self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da A-League (Australia)...'))
+            # # Para Australia, se não tiver nenhum jogo no banco, deve tentar buscar upcoming primeiro
+            # # Mas aqui estamos no bloco LIVE. O bloco UPCOMING roda depois se mode='both' ou 'upcoming'.
+            # if self.should_check_live_league('A League', 'Australia'):
+            #     self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
+            #     try:
+            #         fetch_live_odds_api_australia()
+            #         self.stdout.write(self.style.SUCCESS('✅ Jogos da A-League (Australia) atualizados via The Odds API.'))
+            #     except Exception as e:
+            #         self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da A-League (Australia): {e}'))
+            # else:
+            #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
 
             self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Todas as Ligas)...'))
             try:
@@ -154,6 +171,14 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS('✅ Próximos jogos da Liga Profesional atualizados via The Odds API.'))
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
+
+            # The Odds API for Australia (Special Handling - Upcoming)
+            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando PRÓXIMOS JOGOS da A-League (Australia) via The Odds API...'))
+            try:
+                fetch_upcoming_odds_api_australia()
+                self.stdout.write(self.style.SUCCESS('✅ Próximos jogos da A-League (Australia) atualizados via The Odds API.'))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da A-League (Australia): {e}'))
 
             days_upcoming = 30
             if options.get('days') and options['days'] != 7: # Se usuário passou --days diferente do default, usa

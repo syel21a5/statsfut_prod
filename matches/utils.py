@@ -289,6 +289,21 @@ TEAM_NAME_MAPPINGS = {
     "AS Saint-Étienne": "St Etienne",
     "AJ Auxerre": "Auxerre",
     "Angers SCO": "Angers",
+    
+    # Australia (A-League)
+    "Adelaide Utd": "Adelaide United",
+    "WS Wanderers": "Western Sydney Wanderers",
+    "Melbourne V.": "Melbourne Victory",
+    "Auckland": "Auckland FC",
+    "Wellington": "Wellington Phoenix FC",
+    "Central Coast": "Central Coast Mariners",
+    "Newcastle Jets": "Newcastle Jets FC",
+    "Macarthur": "Macarthur FC",
+    "Sydney": "Sydney FC",
+    "Brisbane": "Brisbane Roar",
+    "Melbourne C.": "Melbourne City",
+    "Western Utd": "Western United",
+    "Western United FC": "Western United",
 }
 
 COUNTRY_TRANSLATIONS = {

@@ -23,65 +23,59 @@
 
     <!-- Status Filters -->
     <div class="d-flex gap-2">
-        <button onclick="filterStatus('all')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn active" id="btn-all">All</button>
-        <button onclick="filterStatus('live')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-live">Live</button>
+        <button onclick="filterStatus('upcoming')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-upcoming">Upcoming</button>
         <button onclick="filterStatus('finished')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-finished">Finished</button>
     </div>
 </div>
 
 <script>
+    let currentFilter = 'all';
+
     document.addEventListener('DOMContentLoaded', function () {
-        // If viewing next round or tomorrow, force "All" filter
+        // If viewing next round or tomorrow, force "All" filter (implicit)
         const urlParams = new URLSearchParams(window.location.search);
         const filterType = urlParams.get('filter');
 
-        if (filterType === 'next_round' || filterType === 'tomorrow') {
-            filterStatus('all');
-        }
+        // Initial state is 'all' unless specified otherwise
+        // No button is active by default for 'all'
     });
 
     function filterStatus(status) {
-        // Update buttons
-        document.querySelectorAll('.status-btn').forEach(btn => {
-            btn.classList.remove('active', 'btn-cyan', 'text-white');
-            btn.classList.add('btn-outline-secondary', 'text-muted');
-            // Remove specific styling for active state if present
-            btn.style.backgroundColor = '';
-            btn.style.color = '';
-            btn.style.borderColor = '';
+        const btn = document.getElementById('btn-' + status);
+        const wasActive = btn.classList.contains('active');
+
+        // Reset all buttons first
+        document.querySelectorAll('.status-btn').forEach(b => {
+            b.classList.remove('active');
         });
-        
-        const activeBtn = document.getElementById('btn-' + status);
-        activeBtn.classList.remove('btn-outline-secondary', 'text-muted');
-        activeBtn.classList.add('active', 'text-white');
-        
-        // Manual styling for active state to match theme
-        if (status === 'all') {
-            activeBtn.style.backgroundColor = 'var(--primary)';
-            activeBtn.style.borderColor = 'var(--primary)';
-            activeBtn.style.color = '#000';
+
+        // Toggle logic: If clicking active button, revert to 'all'. Else set new filter.
+        if (wasActive) {
+            currentFilter = 'all';
+            // No button active = "All" mode
         } else {
-             activeBtn.style.backgroundColor = 'rgba(255,255,255,0.1)';
-             activeBtn.style.borderColor = 'rgba(255,255,255,0.2)';
-             activeBtn.style.color = '#fff';
+            currentFilter = status;
+            // Activate clicked button
+            btn.classList.add('active');
         }
 
-
-        // Filter cards
-        const cards = document.querySelectorAll('.match-card-wrapper');
+        // Apply filter to cards
+        const wrappers = document.querySelectorAll('.match-card-wrapper');
         let visibleCount = 0;
 
-        cards.forEach(wrapper => {
+        wrappers.forEach(wrapper => {
             const card = wrapper.querySelector('.match-card');
+            if (!card) return;
+            
             const cardStatus = card.getAttribute('data-status');
             let shouldShow = false;
 
-            if (status === 'all') {
+            if (currentFilter === 'all') {
                 shouldShow = true;
-            } else if (status === 'live') {
-                shouldShow = (cardStatus === 'Live' || cardStatus === '1H' || cardStatus === '2H' || cardStatus === 'HT');
-            } else if (status === 'finished') {
-                shouldShow = (cardStatus === 'Finished' || cardStatus === 'FT');
+            } else if (currentFilter === 'upcoming') {
+                shouldShow = (cardStatus === 'Scheduled' || cardStatus === 'TIMED' || cardStatus === 'Not Started' || cardStatus === 'Postponed');
+            } else if (currentFilter === 'finished') {
+                shouldShow = (cardStatus === 'Finished' || cardStatus === 'FT' || cardStatus === 'AET' || cardStatus === 'PEN');
             }
 
             wrapper.style.display = shouldShow ? 'block' : 'none';
@@ -102,6 +96,24 @@
     /* Custom override for buttons */
     .btn-link:hover { color: var(--text-main) !important; }
     
+    /* Status Buttons Visibility Fix */
+    .status-btn {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.7);
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+    .status-btn:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #fff;
+    }
+    .status-btn.active {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+        color: #000 !important;
+        font-weight: bold;
+    }
+
     /* Ensure grid works with Bootstrap */
     .matches-grid {
         display: grid;
