@@ -140,6 +140,34 @@ ODDS_API_TEAM_MAPPINGS = {
     "Sint Truiden": "Sint-Truiden",
     "Royal Antwerp": "Antwerp",
     "RAAL La Louvière": "RAAL La Louvière", # New team 2024/25?
+
+    # --- SWITZERLAND ---
+    "FC Thun": "Thun",
+    "FC Luzern": "Luzern",
+    "FC St Gallen": "St. Gallen",
+    "FC Winterthur": "Winterthur",
+    "FC Sion": "Sion",
+    "FC Lausanne-Sport": "Lausanne",
+    "FC Basel": "Basel",
+    "BSC Young Boys": "Young Boys",
+    "FC Zurich": "Zurich",
+    "Grasshopper Zürich": "Grasshoppers",
+    "Grasshopper Club Zurich": "Grasshoppers",
+    "FC Lugano": "Lugano",
+    "Yverdon-Sport FC": "Yverdon",
+    "Stade Lausanne-Ouchy": "Lausanne Ouchy",
+    "Servette FC": "Servette",
+    "Servette": "Servette",
+    "Lausanne-Sport": "Lausanne",
+    "St. Gallen": "St. Gallen",
+    "Winterthur": "Winterthur",
+    "Luzern": "Luzern",
+    "Lugano": "Lugano",
+    "Basel": "Basel",
+    "Zurich": "Zurich",
+    "Young Boys": "Young Boys",
+    "Sion": "Sion",
+    "Thun": "Thun",
 }
 
 def resolve_team(name, league):

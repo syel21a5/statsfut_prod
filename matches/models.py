@@ -52,6 +52,11 @@ class Match(models.Model):
     ht_home_score = models.IntegerField(null=True, blank=True)
     ht_away_score = models.IntegerField(null=True, blank=True)
     
+    # Odds Fields
+    home_team_win_odds = models.FloatField(null=True, blank=True)
+    draw_odds = models.FloatField(null=True, blank=True)
+    away_team_win_odds = models.FloatField(null=True, blank=True)
+    
     # Advanced Stats
     statistics_data = models.JSONField(null=True, blank=True)
     predictions_data = models.JSONField(null=True, blank=True)

@@ -84,6 +84,12 @@ class Command(BaseCommand):
                 'country': 'Austria',
                 'url_base': 'austria',
                 'current_param': 'austria'
+            },
+            {
+                'name': 'Super League',
+                'country': 'Suica',
+                'url_base': 'switzerland',
+                'current_param': 'switzerland'
             }
         ]
 
@@ -128,7 +134,8 @@ class Command(BaseCommand):
                 if league_conf['name'] == 'First League':
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 elif (league_conf['name'] == 'Brasileirão' and year == 2026) or \
-                     (league_conf['name'] == 'Pro League' and year == 2026):
+                     (league_conf['name'] == 'Pro League' and year == 2026) or \
+                     (league_conf['name'] == 'Super League' and year == 2026):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 elif year == 2025:
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
@@ -353,6 +360,42 @@ class Command(BaseCommand):
                     'GAK': 'Grazer AK',
                     'Austria Lustenau': 'Austria Lustenau',
                     'A. Lustenau': 'Austria Lustenau',
+
+                    # Switzerland mappings
+                    'Young Boys': 'Young Boys',
+                    'BSC Young Boys': 'Young Boys',
+                    'Lugano': 'Lugano',
+                    'FC Lugano': 'Lugano',
+                    'Servette': 'Servette',
+                    'Servette FC': 'Servette',
+                    'Zurich': 'Zurich',
+                    'FC Zurich': 'Zurich',
+                    'FC Zürich': 'Zurich',
+                    'St. Gallen': 'St. Gallen',
+                    'FC St. Gallen': 'St. Gallen',
+                    'FC St Gallen': 'St. Gallen',
+                    'Luzern': 'Luzern',
+                    'FC Luzern': 'Luzern',
+                    'Basel': 'Basel',
+                    'FC Basel': 'Basel',
+                    'Winterthur': 'Winterthur',
+                    'FC Winterthur': 'Winterthur',
+                    'Yverdon': 'Yverdon',
+                    'Yverdon-Sport FC': 'Yverdon',
+                    'Yverdon Sport': 'Yverdon',
+                    'Lausanne': 'Lausanne',
+                    'FC Lausanne-Sport': 'Lausanne',
+                    'Lausanne-Sport': 'Lausanne',
+                    'Lausanne Sport': 'Lausanne',
+                    'Grasshoppers': 'Grasshoppers',
+                    'Grasshopper Club Zurich': 'Grasshoppers',
+                    'Grasshopper': 'Grasshoppers',
+                    'Sion': 'Sion',
+                    'FC Sion': 'Sion',
+                    'Thun': 'Thun',
+                    'FC Thun': 'Thun',
+                    'Stade Lausanne-Ouchy': 'Lausanne Ouchy',
+                    'Lausanne Ouchy': 'Lausanne Ouchy',
                 }
                 
                 home = team_mapping.get(home, home)
