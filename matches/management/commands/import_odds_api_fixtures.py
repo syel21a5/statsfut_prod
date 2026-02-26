@@ -43,6 +43,11 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_BELGIUM_UPCOMING',
             'db_name': 'Pro League',
             'country': 'Belgica'
+        },
+        'soccer_switzerland_superleague': {
+            'env_key': 'ODDS_API_KEY_SWITZERLAND_UPCOMING',
+            'db_name': 'Super League',
+            'country': 'Suica'
         }
     }
 

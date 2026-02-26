@@ -71,6 +71,7 @@ class Command(BaseCommand):
             'ARG': ('Liga Profesional', 'Argentina'),
             'AUT': ('Bundesliga', 'Austria'),
             'SWZ': ('Super League', 'Suica'),
+            'SW1': ('Super League', 'Suica'),
             'CZE': ('First League', 'Republica Tcheca'),
         }
 
