@@ -33,6 +33,11 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_AUSTRIA_UPCOMING',
             'db_name': 'Bundesliga',
             'country': 'Austria'
+        },
+        'soccer_australia_aleague': {
+            'env_key': 'ODDS_API_KEY_AUSTRALIA_UPCOMING',
+            'db_name': 'A League',
+            'country': 'Australia'
         }
     }
 
