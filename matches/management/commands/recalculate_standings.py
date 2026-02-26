@@ -119,7 +119,7 @@ class Command(BaseCommand):
         finished_matches = Match.objects.filter(
             league=league,
             season=season,
-            status="Finished",
+            status__in=["Finished", "FT", "AET", "PEN"],
             home_score__isnull=False,
             away_score__isnull=False,
         ).select_related("home_team", "away_team")
