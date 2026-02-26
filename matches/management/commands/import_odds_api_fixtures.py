@@ -50,7 +50,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '--league',
             type=str,
-            help='Specific league key (e.g., soccer_argentina_primera_division)',
+            help='Specific league key (e.g., soccer_argentina_primera_division) or ALL',
             default='soccer_argentina_primera_division'
         )
         parser.add_argument(
@@ -60,8 +60,18 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        league_key = options['league']
+        league_arg = options['league']
         
+        if league_arg == 'ALL':
+            leagues_to_process = self.LEAGUE_CONFIG.keys()
+            self.stdout.write(self.style.SUCCESS(f"Starting batch update for ALL {len(leagues_to_process)} leagues..."))
+        else:
+            leagues_to_process = [league_arg]
+
+        for league_key in leagues_to_process:
+            self.process_league(league_key, options['check_credits'])
+
+    def process_league(self, league_key, check_credits):
         # 1. Carregar configuração da liga
         config = self.LEAGUE_CONFIG.get(league_key)
         if not config:
@@ -73,7 +83,7 @@ class Command(BaseCommand):
         api_key = os.getenv(api_key_env)
         
         if not api_key:
-            self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada no .env"))
+            self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada no .env para {league_key}"))
             return
 
         base_url = "https://api.the-odds-api.com/v4"
@@ -81,7 +91,7 @@ class Command(BaseCommand):
         # 2. Construir URL
         url = f"{base_url}/sports/{league_key}/odds/?apiKey={api_key}&regions=eu&markets=h2h"
         
-        if options['check_credits']:
+        if check_credits:
             try:
                 resp = requests.get(f"{base_url}/sports/?apiKey={api_key}")
                 resp.raise_for_status()
@@ -90,7 +100,7 @@ class Command(BaseCommand):
                 self.stdout.write(f"API Credits ({config['country']}): Used {used}, Remaining {remaining}")
                 return
             except Exception as e:
-                self.stdout.write(self.style.ERROR(f"Failed to check credits: {e}"))
+                self.stdout.write(self.style.ERROR(f"Failed to check credits for {league_key}: {e}"))
                 return
 
         self.stdout.write(f"Fetching fixtures for {league_key} ({config['country']})...")
@@ -103,98 +113,122 @@ class Command(BaseCommand):
             used = int(response.headers.get('x-requests-used', 0))
             
             # Log usage
-            try:
-                APIUsage.objects.update_or_create(
-                    api_name=f"The Odds API (Upcoming - {config['country']})",
-                    defaults={'credits_remaining': remaining, 'credits_used': used}
-                )
-            except Exception as db_e:
-                self.stdout.write(self.style.WARNING(f"Failed to log API usage: {db_e}"))
-
-            self.stdout.write(f"API Credits: Used {used}, Remaining {remaining}")
+            self.stdout.write(f"Credits used: {used}, Remaining: {remaining}")
             
-            if remaining < 50:
-                 self.stdout.write(self.style.WARNING("Low credits! Consider pausing updates."))
-
-            response.raise_for_status()
-            matches_data = response.json()
-            self.stdout.write(self.style.SUCCESS(f"Fetched {len(matches_data)} matches."))
-            
-            # 3. Identificar Liga no Banco
-            # Tenta busca exata primeiro
-            league_obj = League.objects.filter(
-                name__icontains=config['db_name'], 
-                country__icontains=config['country']
-            ).first()
-            
-            if not league_obj:
-                # Tenta busca mais ampla
-                league_obj = League.objects.filter(name__icontains=config['db_name']).first()
-
-            if not league_obj:
-                self.stdout.write(self.style.ERROR(f"Liga '{config['db_name']}' ({config['country']}) não encontrada no DB."))
+            if response.status_code != 200:
+                self.stdout.write(self.style.ERROR(f"Error fetching data: {response.text}"))
                 return
 
-            # Get or Create Season 2026
-            current_year = 2026 
-            season_obj, _ = Season.objects.get_or_create(year=current_year)
+            data = response.json()
+            
+            # Process fixtures
+            count_created = 0
+            count_updated = 0
+            
+            # Get League object
+            try:
+                league_obj = League.objects.get(name=config['db_name'], country=config['country'])
+            except League.DoesNotExist:
+                self.stdout.write(self.style.ERROR(f"League {config['db_name']} ({config['country']}) not found in DB"))
+                return
 
-            updates = 0
-            creates = 0
+            current_year = timezone.now().year
+            # Tentar pegar season atual ou proxima
+            season, _ = Season.objects.get_or_create(year=current_year)
 
-            for m in matches_data:
-                home_name = m['home_team']
-                away_name = m['away_team']
-                commence_time_str = m['commence_time'] # ISO format e.g. 2024-03-30T15:00:00Z
+            for item in data:
+                home_team = item['home_team']
+                away_team = item['away_team']
+                commence_time = item['commence_time'] # ISO format
                 
                 # Parse date
-                match_date = datetime.strptime(commence_time_str, "%Y-%m-%dT%H:%M:%SZ")
-                match_date = pytz.utc.localize(match_date)
+                match_date = datetime.fromisoformat(commence_time.replace('Z', '+00:00'))
                 
                 # Resolve Teams
-                home_team_obj = resolve_team(home_name, league_obj)
-                away_team_obj = resolve_team(away_name, league_obj)
+                ht_obj = resolve_team(home_team, league_obj)
+                at_obj = resolve_team(away_team, league_obj)
                 
-                if not home_team_obj or not away_team_obj:
-                    # Opcional: Criar times se não existirem (CUIDADO: pode duplicar se nome for diferente)
-                    # Por enquanto, apenas loga e pula para evitar sujeira
-                    self.stdout.write(f"Skipping unknown teams: {home_name} vs {away_name}")
+                if not ht_obj or not at_obj:
+                    self.stdout.write(self.style.WARNING(f"Skipping {home_team} vs {away_team} (Team not resolved)"))
                     continue
                 
-                # Check if match exists (using teams and approximate date to avoid duplicates if time changes slightly)
-                # Date range: +/- 24 hours
-                start_window = match_date - timezone.timedelta(hours=24)
-                end_window = match_date + timezone.timedelta(hours=24)
+                # Get Odds
+                avg_home_odd = None
+                avg_draw_odd = None
+                avg_away_odd = None
+                
+                # Extract average odds from bookmakers
+                bookmakers = item.get('bookmakers', [])
+                if bookmakers:
+                    # Simple strategy: take first available or average
+                    # Let's take the first one for simplicity or specific bookmaker if needed
+                    # Or average them
+                    h_odds = []
+                    d_odds = []
+                    a_odds = []
+                    
+                    for book in bookmakers:
+                        for market in book.get('markets', []):
+                            if market['key'] == 'h2h':
+                                for outcome in market['outcomes']:
+                                    if outcome['name'] == home_team:
+                                        h_odds.append(outcome['price'])
+                                    elif outcome['name'] == away_team:
+                                        a_odds.append(outcome['price'])
+                                    elif outcome['name'] == 'Draw':
+                                        d_odds.append(outcome['price'])
+                    
+                    if h_odds: avg_home_odd = sum(h_odds) / len(h_odds)
+                    if d_odds: avg_draw_odd = sum(d_odds) / len(d_odds)
+                    if a_odds: avg_away_odd = sum(a_odds) / len(a_odds)
+
+                # Update or Create Match
+                # We identify match by teams and date (approx)
+                # Or try to find existing match in a window of 24h
                 
                 match = Match.objects.filter(
                     league=league_obj,
-                    home_team=home_team_obj,
-                    away_team=away_team_obj,
-                    date__range=(start_window, end_window)
+                    home_team=ht_obj,
+                    away_team=at_obj,
+                    date__date=match_date.date()
                 ).first()
-                
+
                 if match:
-                    # Update time if needed
-                    time_diff = abs((match.date - match_date).total_seconds())
-                    if time_diff > 3600: # If changed by more than 1 hour
-                        match.date = match_date
-                        match.status = 'Scheduled'
-                        match.save()
-                        updates += 1
-                        self.stdout.write(f"Updated Time: {home_team_obj} vs {away_team_obj}")
+                    # Update odds
+                    match.home_team_win_odds = avg_home_odd
+                    match.draw_odds = avg_draw_odd
+                    match.away_team_win_odds = avg_away_odd
+                    # Ensure status is Scheduled if it was not Finished
+                    if match.status not in ['Finished', 'Live', 'Postponed']:
+                         match.status = 'Scheduled'
+                         match.date = match_date # Update exact time
+                    match.save()
+                    count_updated += 1
                 else:
+                    # Create new match
                     Match.objects.create(
                         league=league_obj,
-                        season=season_obj,
-                        home_team=home_team_obj,
-                        away_team=away_team_obj,
+                        home_team=ht_obj,
+                        away_team=at_obj,
                         date=match_date,
-                        status='Scheduled'
+                        season=season,
+                        status='Scheduled',
+                        home_team_win_odds=avg_home_odd,
+                        draw_odds=avg_draw_odd,
+                        away_team_win_odds=avg_away_odd
                     )
-                    creates += 1
-                    self.stdout.write(f"Created: {home_team_obj} vs {away_team_obj} at {match_date}")
+                    count_created += 1
             
-            self.stdout.write(self.style.SUCCESS(f"Done. Created: {creates}, Updated: {updates}"))
+            self.stdout.write(self.style.SUCCESS(f"[{league_key}] Processed. Created: {count_created}, Updated: {count_updated}"))
 
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Error fetching data: {e}"))
+            self.stdout.write(self.style.ERROR(f"Error in {league_key}: {e}"))
+            try:
+                # Log usage even on error if possible
+                if 'remaining' in locals():
+                    APIUsage.objects.update_or_create(
+                        api_name=f"The Odds API (Upcoming - {config['country']})",
+                        defaults={'credits_remaining': remaining, 'credits_used': used}
+                    )
+            except Exception:
+                pass
