@@ -9,9 +9,14 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            "--all",
+            action="store_true",
+            help="Recalcula a tabela para todas as ligas ativas",
+        )
+        parser.add_argument(
             "--league_name",
             type=str,
-            default="Premier League",
+            default=None,
             help="Nome da liga para recalcular a tabela",
         )
         parser.add_argument(
@@ -32,11 +37,23 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        if options["all"]:
+            leagues_with_matches = League.objects.filter(matches__isnull=False).distinct()
+            self.stdout.write(self.style.SUCCESS(f"Iniciando recálculo para {leagues_with_matches.count()} ligas ativas..."))
+            for league in leagues_with_matches:
+                self.recalculate_for_league(league)
+            self.stdout.write(self.style.SUCCESS("Recálculo de todas as ligas concluído."))
+            return
+
         league_name = options["league_name"]
         country = options["country"]
         division = options.get("division")
         season_year = options.get("season_year")
 
+        if not league_name and not division:
+            self.stdout.write(self.style.ERROR("Você precisa especificar --league_name, --division ou usar --all."))
+            return
+        
         # Mapeamento auxiliar se usar --division
         LEAGUE_MAPPING = {
             'E0': ('Premier League', 'Inglaterra'),
@@ -89,11 +106,13 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}'. Usando a primeira."))
             
             league = leagues.first()
+            self.recalculate_for_league(league, season_year)
 
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Erro ao buscar liga: {e}"))
             return
 
+    def recalculate_for_league(self, league, season_year=None):
         if season_year:
             season = Season.objects.filter(year=season_year).first()
             if not season:
@@ -107,7 +126,7 @@ class Command(BaseCommand):
                 .first()
             )
             if not season:
-                self.stdout.write(self.style.ERROR("Nenhuma temporada com jogos encontrada para esta liga"))
+                self.stdout.write(self.style.ERROR(f"Nenhuma temporada com jogos encontrada para a liga {league.name}"))
                 return
 
         self.stdout.write(
