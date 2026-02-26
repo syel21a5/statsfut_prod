@@ -74,9 +74,9 @@ class Command(BaseCommand):
             date_text = cols[0].get_text(strip=True)
             
             # Debug log for first few rows
-            # if created_count + updated_count < 5:
-            #     with open('scrape_log.txt', 'a', encoding='utf-8') as f:
-            #         f.write(f"Processing row: {date_text}\n")
+            if created_count + updated_count < 5:
+                with open('scrape_log.txt', 'a', encoding='utf-8') as f:
+                    f.write(f"Processing row: {date_text} | Cols len: {len(cols)}\n")
 
             # Try parse date
             try:
@@ -122,13 +122,10 @@ class Command(BaseCommand):
                     break
             
             if score_col_idx == -1:
-                with open('scrape_log.txt', 'a', encoding='utf-8') as f:
-                    f.write(f"Skipping row (no score): {date_text} | Cols: {[c.get_text(strip=True) for c in cols]}\n")
                 continue
 
-            # Teams are usually adjacent to score
-            # Home is score_col_idx - 1
-            # Away is score_col_idx + 1
+            # Check if date is in the future
+            is_future = match_date > timezone.now()
             
             try:
                 home_team_name = cols[score_col_idx-1].get_text(strip=True)
@@ -137,10 +134,24 @@ class Command(BaseCommand):
                 
                 # Parse Score (pode ser : ou -)
                 sep = ':' if ':' in score_text else '-'
-                h_score, a_score = map(int, score_text.split(sep))
                 
+                h_score = None
+                a_score = None
+                status = 'Scheduled'
+
+                if not is_future:
+                    try:
+                        h_score, a_score = map(int, score_text.split(sep))
+                        status = 'Finished'
+                        
+                        if h_score > 15 or a_score > 15:
+                             h_score = None
+                             a_score = None
+                             status = 'Scheduled'
+                    except ValueError:
+                         pass
+
                 # Normalize names (basic)
-                # Remove possible trailing/leading spaces or special chars
                 home_team_name = home_team_name.strip()
                 away_team_name = away_team_name.strip()
                 
@@ -148,7 +159,6 @@ class Command(BaseCommand):
                 raw_teams.add(away_team_name)
                 
                 # Resolve Teams
-                # Always use normalized name
                 norm_home = normalize_team_name(home_team_name)
                 home_team = Team.objects.filter(name__iexact=norm_home, league=league).first()
                 if not home_team:
@@ -169,7 +179,7 @@ class Command(BaseCommand):
                     defaults={
                         'home_score': h_score,
                         'away_score': a_score,
-                        'status': 'Finished'
+                        'status': status
                     }
                 )
                 
