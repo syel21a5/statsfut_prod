@@ -38,6 +38,11 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_AUSTRALIA_UPCOMING',
             'db_name': 'A League',
             'country': 'Australia'
+        },
+        'soccer_belgium_first_div': {
+            'env_key': 'ODDS_API_KEY_BELGIUM_UPCOMING',
+            'db_name': 'Pro League',
+            'country': 'Belgica'
         }
     }
 
