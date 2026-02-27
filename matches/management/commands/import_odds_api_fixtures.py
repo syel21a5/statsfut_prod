@@ -48,6 +48,16 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_SWITZERLAND_UPCOMING',
             'db_name': 'Super League',
             'country': 'Suica'
+        },
+        'soccer_denmark_superliga': {
+            'env_key': 'ODDS_API_KEY_DENMARK_UPCOMING',
+            'db_name': 'Superliga',
+            'country': 'Dinamarca'
+        },
+        'soccer_czech_first_league': {
+            'env_key': 'ODDS_API_KEY_CZECH_UPCOMING',
+            'db_name': 'First League',
+            'country': 'Republica Tcheca'
         }
     }
 
