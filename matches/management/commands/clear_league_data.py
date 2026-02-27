@@ -15,6 +15,12 @@ class Command(BaseCommand):
             help="Nome da liga para limpar os dados",
         )
         parser.add_argument(
+            "--country",
+            type=str,
+            default=None,
+            help="País da liga (opcional, para desambiguação)",
+        )
+        parser.add_argument(
             "--confirm",
             action="store_true",
             help="Confirma a operação de limpeza (obrigatório para executar)",
@@ -22,6 +28,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         league_name = options["league_name"]
+        country = options["country"]
         confirm = options.get("confirm", False)
 
         if not confirm:
@@ -30,17 +37,37 @@ class Command(BaseCommand):
                     "ATENÇÃO: Este comando irá DELETAR todos os dados da liga!"
                 )
             )
+            cmd = f'python manage.py clear_league_data --league_name "{league_name}"'
+            if country:
+                cmd += f' --country "{country}"'
+            cmd += ' --confirm'
+            
             self.stdout.write(
                 self.style.WARNING(
-                    f"Para confirmar, execute: python manage.py clear_league_data --league_name \"{league_name}\" --confirm"
+                    f"Para confirmar, execute: {cmd}"
                 )
             )
             return
 
         try:
-            league = League.objects.get(name=league_name)
-        except League.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f"Liga '{league_name}' não encontrada"))
+            leagues = League.objects.filter(name=league_name)
+            if country:
+                leagues = leagues.filter(country=country)
+            
+            if not leagues.exists():
+                self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
+                return
+            
+            if leagues.count() > 1:
+                self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}':"))
+                for l in leagues:
+                     self.stdout.write(self.style.WARNING(f" - ID: {l.id} | País: {l.country}"))
+                self.stdout.write(self.style.ERROR("Por favor, especifique o país com --country para desambiguar."))
+                return
+
+            league = leagues.first()
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Erro ao buscar liga: {e}"))
             return
 
         self.stdout.write(
