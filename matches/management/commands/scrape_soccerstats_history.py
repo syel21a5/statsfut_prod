@@ -137,8 +137,6 @@ class Command(BaseCommand):
                      (league_conf['name'] == 'Pro League' and year == 2026) or \
                      (league_conf['name'] == 'Super League' and year == 2026):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
-                elif year == 2025:
-                    url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 else:
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}_{year}"
                 
@@ -396,6 +394,13 @@ class Command(BaseCommand):
                     'FC Thun': 'Thun',
                     'Stade Lausanne-Ouchy': 'Lausanne Ouchy',
                     'Lausanne Ouchy': 'Lausanne Ouchy',
+                    'FC Vaduz': 'Vaduz',
+                    'Vaduz': 'Vaduz',
+                    'Neuchatel Xamax': 'Neuchatel Xamax',
+                    'Neuchâtel Xamax': 'Neuchatel Xamax',
+                    'Xamax': 'Neuchatel Xamax',
+                    'FC Aarau': 'Aarau',
+                    'Aarau': 'Aarau',
                 }
                 
                 home = team_mapping.get(home, home)
@@ -466,7 +471,8 @@ class Command(BaseCommand):
                             if league_obj.name == 'Brasileirão':
                                 year_val = year
                             else:
-                                year_val = year - 1 if month >= 8 else year
+                                # European seasons often start in July
+                                year_val = year - 1 if month >= 7 else year
                             naive_dt = datetime(year_val, month, day)
                             match_date = timezone.make_aware(naive_dt, pytz.UTC)
                             if status == 'Scheduled' and ':' in raw_score_val:
