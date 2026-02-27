@@ -25,6 +25,11 @@ echo "Starting update at $(date)" >> "$LOG_FILE"
 # This is FREE (uses CSV downloads), so we can run it always.
 echo "Running import_football_data..." >> "$LOG_FILE"
 python manage.py import_football_data --division E0 --min_year 2024 >> "$LOG_FILE" 2>&1
+python manage.py import_football_data --division SWZ --min_year 2024 >> "$LOG_FILE" 2>&1
+
+# 1.1 Update Upcoming Fixtures (Odds API) - Credit Safe
+echo "Running import_odds_api_fixtures..." >> "$LOG_FILE"
+python manage.py import_odds_api_fixtures --league soccer_switzerland_superleague >> "$LOG_FILE" 2>&1
 
 # 2. Update live matches and upcoming fixtures (API)
 # This runs ALWAYS to keep matches and results boxes updated
