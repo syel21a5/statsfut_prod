@@ -6,6 +6,7 @@ from io import StringIO
 
 import pytz
 import requests
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
@@ -89,6 +90,8 @@ class Command(BaseCommand):
             and any(fname.lower().endswith(".csv") for fname in os.listdir(root))
         )
 
+        all_processed_seasons = set()
+
         if use_files:
             for fname in os.listdir(root):
                 if not fname.lower().endswith(".csv"):
@@ -100,7 +103,7 @@ class Command(BaseCommand):
                     with open(path, newline="", encoding="utf-8-sig") as f:
                         reader = csv.DictReader(f)
                         r, c, u = self._process_reader(
-                            reader, division, min_year, league
+                            reader, division, min_year, league, all_processed_seasons
                         )
                         total_rows += r
                         created_matches += c
@@ -148,7 +151,7 @@ class Command(BaseCommand):
                     content = resp.text
 
                 reader = csv.DictReader(StringIO(content))
-                r, c, u = self._process_reader(reader, division, min_year, league)
+                r, c, u = self._process_reader(reader, division, min_year, league, all_processed_seasons)
                 total_rows += r
                 created_matches += c
                 updated_matches += u
@@ -160,7 +163,16 @@ class Command(BaseCommand):
         self.stdout.write(f"Jogos criados: {created_matches}")
         self.stdout.write(f"Jogos atualizados: {updated_matches}")
 
-    def _process_reader(self, reader, division, min_year, league):
+        if all_processed_seasons:
+            self.stdout.write(self.style.WARNING(f"\nRecalculando tabelas para temporadas: {sorted(list(all_processed_seasons))}"))
+            for s_year in sorted(list(all_processed_seasons)):
+                try:
+                    self.stdout.write(f" -> Recalculando {league.name} ({league.country}) - {s_year}...")
+                    call_command('recalculate_standings', league_name=league.name, country=league.country, season_year=s_year)
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"Erro ao recalcular {s_year}: {e}"))
+
+    def _process_reader(self, reader, division, min_year, league, processed_seasons_set=None):
         rows = 0
         created = 0
         updated = 0
@@ -413,6 +425,10 @@ class Command(BaseCommand):
                 )
                 created += 1
 
+            if processed_seasons_set is not None and season_year:
+                processed_seasons_set.add(season_year)
+
+
 
         return rows, created, updated
 
@@ -432,8 +448,8 @@ class Command(BaseCommand):
             return year
             
         # Para ligas europeias (Ago-Maio), se for Ago+, é a temporada do ano seguinte
-        if division == 'DNK':
-            # Dinamarca começa em Julho (ex: 2016/2017 começa 15/07/2016)
+        if division == 'DNK' or division == 'SWZ' or division == 'CZE' or division == 'AUT':
+            # Dinamarca, Suíça, Rep. Tcheca e Áustria começam em Julho
             if dt.month >= 7:
                 return year + 1
         elif dt.month >= 8:
