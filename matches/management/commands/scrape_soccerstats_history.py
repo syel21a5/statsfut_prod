@@ -162,12 +162,35 @@ class Command(BaseCommand):
                         for m in range(1, 13):
                             urls_to_try.append(f"{url}&tid=m{m}")
                     
+                    # Pre-fetch main page content for duplicate checking if we have multiple URLs
+                    main_page_content_len = 0
+                    if len(urls_to_try) > 1:
+                         try:
+                             # We use the first URL (main year URL) as baseline
+                             if urls_to_try[0] != url: # ensure we don't fetch if not needed, but here url is base
+                                 pass
+                             main_resp = requests.get(urls_to_try[0], headers=headers, timeout=15)
+                             main_page_content_len = len(main_resp.text)
+                         except:
+                             pass
+
+                    processed_urls = set()
+
                     for attempt_url in urls_to_try:
+                        if attempt_url in processed_urls: continue
+                        processed_urls.add(attempt_url)
+
                         try:
                             self.stdout.write(f"Scraping: {attempt_url}")
                             resp = requests.get(attempt_url, headers=headers)
                             if resp.status_code != 200: continue
                             
+                            # Check if redirected to main page or content is identical to main page
+                            # A tolerance of small bytes difference might be needed due to dynamic timestamps/ads
+                            if main_page_content_len > 0 and abs(len(resp.text) - main_page_content_len) < 1000 and attempt_url != urls_to_try[0]:
+                                self.stdout.write(f"DEBUG: Skipping {attempt_url} (seems duplicate of main page)")
+                                continue
+
                             dfs_list = pd.read_html(StringIO(resp.text))
                             for df_item in dfs_list:
                                 if df_item.shape[1] >= 4:
@@ -179,6 +202,14 @@ class Command(BaseCommand):
                     # End of year processing
                     sleep_sec = random.uniform(2, 4)
                     time.sleep(sleep_sec)
+
+                    # Automatically recalculate standings for this league/year
+                    # This ensures we use the exact same league object we just scraped for
+                    try:
+                        self.stdout.write(self.style.SUCCESS(f"Auto-recalculating standings for {league_obj.name} ({league_obj.country}) - {year}"))
+                        call_command('recalculate_standings', league_name=league_obj.name, country=league_obj.country, season_year=year)
+                    except Exception as e:
+                        self.stdout.write(self.style.ERROR(f"Failed to auto-recalculate standings: {e}"))
 
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f"Error {year}: {e}"))

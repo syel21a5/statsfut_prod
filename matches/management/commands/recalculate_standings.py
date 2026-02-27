@@ -104,7 +104,10 @@ class Command(BaseCommand):
             # pegamos a primeira que tiver jogos, ou simplesmente a primeira (ID menor)
             # O ideal é rodar merge_duplicate_leagues, mas aqui evitamos o crash.
             if leagues.count() > 1:
-                self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}'. Usando a primeira."))
+                self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}':"))
+                for l in leagues:
+                     self.stdout.write(self.style.WARNING(f" - ID: {l.id} | País: {l.country}"))
+                self.stdout.write(self.style.WARNING("Usando a primeira (ID menor). Para evitar isso, use o argumento --country 'NomeDoPais'."))
             
             league = leagues.first()
             self.recalculate_for_league(league, season_year)
