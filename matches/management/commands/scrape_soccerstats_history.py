@@ -145,8 +145,14 @@ class Command(BaseCommand):
                 try:
                     response = requests.get(url, headers=headers, timeout=15)
                     if response.status_code != 200:
-                         self.stdout.write(self.style.ERROR(f"Failed {url}: {response.status_code}"))
-                         # Still try subpages if it's a recent year
+                         self.stdout.write(self.style.ERROR(f"Failed {url}: {response.status_code}. Trying alternative URL..."))
+                         # Alternative URL for older seasons that don't use _year suffix
+                         url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}&pmtype=bydate"
+                         self.stdout.write(f"Scraping {year} (alternative): {url}")
+                         response = requests.get(url, headers=headers, timeout=15)
+                         if response.status_code != 200:
+                            self.stdout.write(self.style.ERROR(f"Alternative URL also failed: {response.status_code}"))
+                            continue
 
                     urls_to_try = [url]
                     if league_conf['name'] == 'Brasileirão' and year >= 2025:
