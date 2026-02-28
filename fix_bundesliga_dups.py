@@ -58,16 +58,16 @@ def clean_bundesliga():
                 print(f"REMOVING GHOST: {s.team.name} (Played: {s.played}, Points: {s.points})")
                 
                 # Also delete matches for ghosts
-                matches_to_delete = Match.objects.filter(
-                     league=league,
-                     season__year=2026
+                 matches_to_delete = Match.objects.filter(
+                      league=league,
+                      season__year=2026
                  ).filter(
                      Q(home_team=s.team) | Q(away_team=s.team)
                  )
                  matches_to_delete.delete()
                  
-                s.delete()
-                count_removed += 1
+                 s.delete()
+                 count_removed += 1
         
         print(f"\nTotal removed: {count_removed}")
         print("Recalculating standings to ensure consistency...")
