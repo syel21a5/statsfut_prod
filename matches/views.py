@@ -666,11 +666,12 @@ class LeagueDetailView(DetailView):
         context['upcoming_matches'] = upcoming_matches_qs
         
         # Include all statuses that indicate a finished match
-        context['latest_results'] = Match.objects.filter(
+        # REMOVED date__lte=now to avoid timezone issues hiding finished matches
+        finished_matches = Match.objects.filter(
             league=league,
-            status__in=FINISHED_STATUSES,
-            date__lte=now
+            status__in=FINISHED_STATUSES
         ).order_by('-date')[:10]
+        context['latest_results'] = finished_matches
         
         latest_season = league.standings.order_by('-season__year').first().season if league.standings.exists() else None
         context['latest_season'] = latest_season

@@ -130,10 +130,10 @@ class Command(BaseCommand):
                 return
 
             data = response.json()
-            self.stdout.write(f"DEBUG: Received {len(data)} items from API")
-            if len(data) > 0:
-                 self.stdout.write(f"DEBUG: First item keys: {data[0].keys()}")
-                 self.stdout.write(f"DEBUG: First item sample: {str(data[0])[:200]}...")
+            # self.stdout.write(f"DEBUG: Received {len(data)} items from API")
+            # if len(data) > 0:
+            #      self.stdout.write(f"DEBUG: First item keys: {data[0].keys()}")
+            #      self.stdout.write(f"DEBUG: First item sample: {str(data[0])[:200]}...")
 
             try:
                 league_obj = League.objects.get(name=config['db_name'], country=config['country'])
@@ -158,7 +158,7 @@ class Command(BaseCommand):
                 scores = item.get('scores', [])
                 
                 # Debug
-                # self.stdout.write(f"DEBUG: Processing {home_team} vs {away_team} | Completed: {item.get('completed')} | Scores: {scores}")
+                self.stdout.write(f"DEBUG: Processing {home_team} vs {away_team} | Completed: {item.get('completed')} | Scores: {scores}")
 
                 if not scores:
                     self.stdout.write(f"DEBUG: Skipping {home_team} vs {away_team} - No scores found")
@@ -171,7 +171,7 @@ class Command(BaseCommand):
                 ht_obj = resolve_team(home_team, league_obj)
                 at_obj = resolve_team(away_team, league_obj)
                 
-                # self.stdout.write(f"DEBUG: Resolved Home: {ht_obj}, Away: {at_obj}")
+                self.stdout.write(f"DEBUG: Resolved Home: {ht_obj}, Away: {at_obj}")
 
                 if not ht_obj or not at_obj:
                     self.stdout.write(self.style.WARNING(f"Skipping {home_team} vs {away_team} (Team not resolved)"))
@@ -190,7 +190,7 @@ class Command(BaseCommand):
                 # self.stdout.write(f"DEBUG: Scores parsed - Home: {home_score}, Away: {away_score}")
 
                 if home_score is None or away_score is None:
-                    self.stdout.write(f"DEBUG: Failed to parse scores for {home_team} vs {away_team}. Scores: {scores}")
+                    # self.stdout.write(f"DEBUG: Failed to parse scores for {home_team} vs {away_team}. Scores: {scores}")
                     continue
 
                 # Find Match
