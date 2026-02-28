@@ -217,11 +217,17 @@ class Command(BaseCommand):
                 except Exception as e:
                     self.stdout.write(self.style.WARNING(f'    {country}: {e}'))
 
+        # --- MODO RECENT ---
         if mode in ['recent', 'both']:
             days_back = options.get('days', 7)
             self.stdout.write(self.style.SUCCESS(f'\n⏮️  Buscando resultados recentes (últimos {days_back} dias)...'))
             
             # Itera sobre cada liga mapeada
+            # HOTFIX: Processa em lote para Football-Data.org (ela suporta várias ligas de uma vez, mas aqui estamos fazendo uma por uma)
+            # Para otimizar, a função get_past_fixtures já sabe lidar com isso se passarmos league_name=None, 
+            # MAS o loop abaixo força uma por uma.
+            # Vamos manter o loop para garantir controle e log detalhado.
+            
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
