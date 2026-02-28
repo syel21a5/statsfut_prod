@@ -29,20 +29,17 @@ def clean_bundesliga():
         print("\n--- TEAMS TO REMOVE ---")
         count_removed = 0
         for s in standings:
-            # Criteria for removal: Less than 10 games played OR not in expected list
-            # We use a safe threshold (e.g., < 5 games) because valid teams have ~22 games
-            if s.played < 10: 
-                print(f"REMOVING: {s.team.name} (Played: {s.played}, Points: {s.points})")
+            # STRICT MODE: If it's not in the expected list, it goes.
+            # No game count check anymore because Austrian Bundesliga teams have > 15 games.
+            if s.team.name not in expected_teams:
+                 print(f"REMOVING INTRUDER: {s.team.name} (Played: {s.played}, Points: {s.points})")
+                 s.delete()
+                 count_removed += 1
+            elif s.played < 10:
+                # Still check for legitimate teams with suspiciously low games (duplicates/ghosts)
+                print(f"REMOVING GHOST: {s.team.name} (Played: {s.played}, Points: {s.points})")
                 s.delete()
                 count_removed += 1
-            elif s.team.name not in expected_teams:
-                 # Check if it's just a name variation
-                 print(f"POTENTIAL REMOVAL (Name Mismatch): {s.team.name} (Played: {s.played})")
-                 # Decide to remove if played count is suspicious compared to others
-                 if s.played < 15:
-                     print(f"   -> CONFIRMED REMOVE (Low Games): {s.team.name}")
-                     s.delete()
-                     count_removed += 1
         
         print(f"\nTotal removed: {count_removed}")
         print("Recalculating standings to ensure consistency...")
