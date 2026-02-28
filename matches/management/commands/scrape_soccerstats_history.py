@@ -11,6 +11,7 @@ import pytz
 from django.core.management.base import BaseCommand
 from matches.models import League, Team, Match, Season
 from django.utils import timezone
+from matches.utils_odds_api import ODDS_API_TEAM_MAPPINGS
 
 class Command(BaseCommand):
     help = 'Scrape historical match results from SoccerStats.com'
@@ -527,6 +528,10 @@ class Command(BaseCommand):
                                     pass
                 except:
                     pass
+                
+                # Normalize team names using ODDS_API_TEAM_MAPPINGS
+                home = ODDS_API_TEAM_MAPPINGS.get(home, home)
+                away = ODDS_API_TEAM_MAPPINGS.get(away, away)
                 
                 home_team, _ = Team.objects.get_or_create(name=home, league=league_obj)
                 away_team, _ = Team.objects.get_or_create(name=away, league=league_obj)
