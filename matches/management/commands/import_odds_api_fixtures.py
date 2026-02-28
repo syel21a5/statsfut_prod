@@ -85,6 +85,13 @@ class Command(BaseCommand):
             help='Fetch recent scores (results) instead of upcoming odds'
         )
 
+        parser.add_argument(
+            '--days',
+            type=int,
+            default=3,
+            help='Number of days to look back for scores (default: 3)'
+        )
+
     def handle(self, *args, **options):
         league_arg = options['league']
         
@@ -100,7 +107,7 @@ class Command(BaseCommand):
             else:
                 self.process_league(league_key, options['check_credits'])
 
-    def process_scores(self, league_key):
+    def process_scores(self, league_key, days=3):
         """Fetch recent scores for a league"""
         config = self.LEAGUE_CONFIG.get(league_key)
         if not config:
@@ -108,17 +115,23 @@ class Command(BaseCommand):
             return
 
         api_key_env = config['env_key']
+        # For local testing, we might need to load from .env if not loaded
         api_key = os.getenv(api_key_env)
         
+        if not api_key:
+            # Fallback for local dev if needed, or just warn
+            # Try to get from settings if available
+            api_key = getattr(settings, api_key_env, None)
+
         if not api_key:
             self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada."))
             return
 
         base_url = "https://api.the-odds-api.com/v4"
-        # Fetch scores from last 3 days
-        url = f"{base_url}/sports/{league_key}/scores/?apiKey={api_key}&daysFrom=3"
+        # Fetch scores from last N days
+        url = f"{base_url}/sports/{league_key}/scores/?apiKey={api_key}&daysFrom={days}"
 
-        self.stdout.write(f"Fetching SCORES for {league_key} ({config['country']})...")
+        self.stdout.write(f"Fetching SCORES for {league_key} ({config['country']}) - Last {days} days...")
 
         try:
             response = requests.get(url)
