@@ -58,6 +58,11 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_CZECH_UPCOMING',
             'db_name': 'First League',
             'country': 'Republica Tcheca'
+        },
+        'soccer_germany_bundesliga': {
+            'env_key': 'ODDS_API_KEY_GERMANY_UPCOMING',
+            'db_name': 'Bundesliga',
+            'country': 'Alemanha'
         }
     }
 
@@ -73,6 +78,11 @@ class Command(BaseCommand):
             action='store_true',
             help='Check credits and exit'
         )
+        parser.add_argument(
+            '--scores',
+            action='store_true',
+            help='Fetch recent scores (results) instead of upcoming odds'
+        )
 
     def handle(self, *args, **options):
         league_arg = options['league']
@@ -84,7 +94,144 @@ class Command(BaseCommand):
             leagues_to_process = [league_arg]
 
         for league_key in leagues_to_process:
-            self.process_league(league_key, options['check_credits'])
+            if options['scores']:
+                self.process_scores(league_key)
+            else:
+                self.process_league(league_key, options['check_credits'])
+
+    def process_scores(self, league_key):
+        """Fetch recent scores for a league"""
+        config = self.LEAGUE_CONFIG.get(league_key)
+        if not config:
+            self.stdout.write(self.style.ERROR(f"Liga '{league_key}' não configurada."))
+            return
+
+        api_key_env = config['env_key']
+        api_key = os.getenv(api_key_env)
+        
+        if not api_key:
+            self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada."))
+            return
+
+        base_url = "https://api.the-odds-api.com/v4"
+        # Fetch scores from last 3 days
+        url = f"{base_url}/sports/{league_key}/scores/?apiKey={api_key}&daysFrom=3"
+
+        self.stdout.write(f"Fetching SCORES for {league_key} ({config['country']})...")
+
+        try:
+            response = requests.get(url)
+            remaining = int(response.headers.get('x-requests-remaining', 0))
+            used = int(response.headers.get('x-requests-used', 0))
+            self.stdout.write(f"Credits used: {used}, Remaining: {remaining}")
+
+            if response.status_code != 200:
+                self.stdout.write(self.style.ERROR(f"Error fetching scores: {response.text}"))
+                return
+
+            data = response.json()
+            self.stdout.write(f"DEBUG: Received {len(data)} items from API")
+            if len(data) > 0:
+                 self.stdout.write(f"DEBUG: First item keys: {data[0].keys()}")
+                 self.stdout.write(f"DEBUG: First item sample: {str(data[0])[:200]}...")
+
+            try:
+                league_obj = League.objects.get(name=config['db_name'], country=config['country'])
+            except League.DoesNotExist:
+                self.stdout.write(self.style.ERROR(f"League {config['db_name']} not found"))
+                return
+
+            count_updated = 0
+            count_created = 0
+            
+            # Ensure season
+            current_year = timezone.now().year
+            season, _ = Season.objects.get_or_create(year=current_year)
+
+            for item in data:
+                if not item.get('completed', False):
+                    continue
+
+                home_team = item['home_team']
+                away_team = item['away_team']
+                commence_time = item['commence_time']
+                scores = item.get('scores', [])
+                
+                # Debug
+                # self.stdout.write(f"DEBUG: Processing {home_team} vs {away_team} | Completed: {item.get('completed')} | Scores: {scores}")
+
+                if not scores:
+                    self.stdout.write(f"DEBUG: Skipping {home_team} vs {away_team} - No scores found")
+                    continue
+
+                # Parse date
+                match_date = datetime.fromisoformat(commence_time.replace('Z', '+00:00'))
+
+                # Resolve Teams
+                ht_obj = resolve_team(home_team, league_obj)
+                at_obj = resolve_team(away_team, league_obj)
+                
+                # self.stdout.write(f"DEBUG: Resolved Home: {ht_obj}, Away: {at_obj}")
+
+                if not ht_obj or not at_obj:
+                    self.stdout.write(self.style.WARNING(f"Skipping {home_team} vs {away_team} (Team not resolved)"))
+                    continue
+
+                # Parse scores
+                home_score = None
+                away_score = None
+                for s in scores:
+                    # self.stdout.write(f"DEBUG: Comparing '{s['name']}' with Home '{home_team}' and Away '{away_team}'")
+                    if s['name'] == home_team:
+                        home_score = int(s['score'])
+                    elif s['name'] == away_team:
+                        away_score = int(s['score'])
+                
+                # self.stdout.write(f"DEBUG: Scores parsed - Home: {home_score}, Away: {away_score}")
+
+                if home_score is None or away_score is None:
+                    self.stdout.write(f"DEBUG: Failed to parse scores for {home_team} vs {away_team}. Scores: {scores}")
+                    continue
+
+                # Find Match
+                match = Match.objects.filter(
+                    league=league_obj,
+                    home_team=ht_obj,
+                    away_team=at_obj,
+                    date__date=match_date.date()
+                ).first()
+                
+                if match:
+                    # self.stdout.write(f"DEBUG: Match found: {match} Status: {match.status}")
+                    if match.status != 'Finished':
+                        match.status = 'Finished'
+                        match.home_score = home_score
+                        match.away_score = away_score
+                        match.save()
+                        self.stdout.write(self.style.SUCCESS(f"Updated Match Result: {ht_obj.name} {home_score}-{away_score} {at_obj.name}"))
+                        count_updated += 1
+                    # else:
+                        # self.stdout.write(f"DEBUG: Match already finished, skipping update.")
+                else:
+                    # self.stdout.write(f"DEBUG: Match NOT found. Creating new match...")
+                    # Create new match if missing
+                    Match.objects.create(
+                        league=league_obj,
+                        home_team=ht_obj,
+                        away_team=at_obj,
+                        date=match_date,
+                        season=season,
+                        status='Finished',
+                        home_score=home_score,
+                        away_score=away_score
+                    )
+                    self.stdout.write(self.style.SUCCESS(f"Created Match Result: {ht_obj.name} {home_score}-{away_score} {at_obj.name}"))
+                    count_created += 1
+
+            self.stdout.write(self.style.SUCCESS(f"[{league_key}] Scores Processed. Created: {count_created}, Updated: {count_updated}"))
+
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Error in process_scores for {league_key}: {e}"))
 
     def process_league(self, league_key, check_credits):
         # 1. Carregar configuração da liga
