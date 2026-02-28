@@ -1,5 +1,6 @@
 import requests
 import logging
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.conf import settings
@@ -229,6 +230,16 @@ class Command(BaseCommand):
                     count_created += 1
 
             self.stdout.write(self.style.SUCCESS(f"[{league_key}] Scores Processed. Created: {count_created}, Updated: {count_updated}"))
+
+            # Automatically recalculate standings if any match was updated/created
+            if count_created > 0 or count_updated > 0:
+                self.stdout.write(f"Automatically recalculating standings for {config['db_name']}...")
+                try:
+                    call_command('recalculate_standings', league_name=config['db_name'], country=config['country'])
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"Failed to recalculate standings: {e}"))
+            else:
+                self.stdout.write(f"No changes in scores, skipping standings recalculation.")
 
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error in process_scores for {league_key}: {e}"))
