@@ -39,39 +39,45 @@ class Command(BaseCommand):
             help="Ano mínimo da temporada (ano de término) para importar",
         )
 
+    LEAGUE_MAPPING = {
+        'E0': ('Premier League', 'Inglaterra'),
+        'SP1': ('La Liga', 'Espanha'),
+        'D1': ('Bundesliga', 'Alemanha'),
+        'I1': ('Serie A', 'Italia'),
+        'F1': ('Ligue 1', 'Franca'),
+        'N1': ('Eredivisie', 'Holanda'),
+        'B1': ('Pro League', 'Belgica'),
+        'P1': ('Primeira Liga', 'Portugal'),
+        'T1': ('Super Lig', 'Turquia'),
+        'G1': ('Super League', 'Grecia'),
+        'DNK': ('Superliga', 'Dinamarca'),
+        'BRA': ('Brasileirao', 'Brasil'),
+        'ARG': ('Liga Profesional', 'Argentina'),
+        'AUT': ('Bundesliga', 'Austria'),
+        'SWZ': ('Super League', 'Suica'),
+        'SW1': ('Super League', 'Suica'),
+        'CZE': ('First League', 'Republica Tcheca'),
+    }
+
     def handle(self, *args, **options):
         self.stdout.write("--- Starting Import ---")
         root = options.get("root")
         division = options["division"]
         min_year = options["min_year"]
 
-        # Mapeamento Divisão -> (Liga, País)
-        # Fonte: https://www.football-data.co.uk/notes.txt
-        LEAGUE_MAPPING = {
-            'E0': ('Premier League', 'Inglaterra'),
-            'SP1': ('La Liga', 'Espanha'),
-            'D1': ('Bundesliga', 'Alemanha'),
-            'I1': ('Serie A', 'Italia'),
-            'F1': ('Ligue 1', 'Franca'),
-            'N1': ('Eredivisie', 'Holanda'),
-            'B1': ('Pro League', 'Belgica'),
-            'P1': ('Primeira Liga', 'Portugal'),
-            'T1': ('Super Lig', 'Turquia'),
-            'G1': ('Super League', 'Grecia'),
-            'DNK': ('Superliga', 'Dinamarca'),
-            'BRA': ('Brasileirao', 'Brasil'),
-            'ARG': ('Liga Profesional', 'Argentina'),
-            'AUT': ('Bundesliga', 'Austria'),
-            'SWZ': ('Super League', 'Suica'),
-            'SW1': ('Super League', 'Suica'),
-            'CZE': ('First League', 'Republica Tcheca'),
-        }
+        if division == 'ALL':
+            for div_code in self.LEAGUE_MAPPING.keys():
+                self.stdout.write(self.style.WARNING(f"\n>>> Iniciando processamento para divisão: {div_code}"))
+                self.process_division(div_code, min_year, root)
+        else:
+            self.process_division(division, min_year, root)
 
-        if division not in LEAGUE_MAPPING:
+    def process_division(self, division, min_year, root):
+        if division not in self.LEAGUE_MAPPING:
             self.stdout.write(self.style.ERROR(f"Divisão '{division}' não mapeada. Adicione ao LEAGUE_MAPPING."))
             return
 
-        league_name, country_name = LEAGUE_MAPPING[division]
+        league_name, country_name = self.LEAGUE_MAPPING[division]
         
         self.stdout.write(self.style.WARNING(f"Importando para: {league_name} ({country_name})"))
 
