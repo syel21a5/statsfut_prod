@@ -58,6 +58,18 @@ ODDS_API_TEAM_MAPPINGS = {
     "Aldosivi Mar del Plata": "Aldosivi",
     "Independiente": "Independiente",
 
+    # --- ENGLAND ---
+    "Wolverhampton Wanderers": "Wolverhampton",
+    "Newcastle United": "Newcastle Utd",
+    "West Ham United": "West Ham Utd",
+    "Leeds United": "Leeds Utd",
+    "Brighton and Hove Albion": "Brighton",
+    "Nottingham Forest": "Nottm Forest",
+    "Manchester United": "Manchester Utd",
+    "Tottenham Hotspur": "Tottenham",
+    "Sheffield United": "Sheffield Utd",
+    "Leicester City": "Leicester",
+
     # --- AUSTRIA ---
     "Red Bull Salzburg": "RB Salzburg",
     "Salzburg": "RB Salzburg",
