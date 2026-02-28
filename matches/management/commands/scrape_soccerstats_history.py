@@ -90,6 +90,12 @@ class Command(BaseCommand):
                 'country': 'Suica',
                 'url_base': 'switzerland',
                 'current_param': 'switzerland'
+            },
+            {
+                'name': 'Superliga',
+                'country': 'Dinamarca',
+                'url_base': 'denmark',
+                'current_param': 'denmark'
             }
         ]
 
@@ -135,7 +141,8 @@ class Command(BaseCommand):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 elif (league_conf['name'] == 'Brasileirão' and year == 2026) or \
                      (league_conf['name'] == 'Pro League' and year == 2026) or \
-                     (league_conf['name'] == 'Super League' and year == 2026):
+                     (league_conf['name'] == 'Super League' and year == 2026) or \
+                     (league_conf['name'] == 'Superliga' and year == 2026):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 else:
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}_{year}"
@@ -158,7 +165,7 @@ class Command(BaseCommand):
                     if league_conf['name'] == 'Brasileirão' and year >= 2025:
                         for m in range(1, 6):
                             urls_to_try.append(f"{url}&tid=m{m}")
-                    elif (league_conf['name'] == 'First League' or league_conf['name'] == 'Super League') and year == 2026:
+                    elif (league_conf['name'] == 'First League' or league_conf['name'] == 'Super League' or league_conf['name'] == 'Superliga') and year == 2026:
                         for m in range(1, 13):
                             urls_to_try.append(f"{url}&tid=m{m}")
                     
