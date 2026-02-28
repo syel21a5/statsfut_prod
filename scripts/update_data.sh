@@ -27,8 +27,12 @@ echo "Running import_football_data..." >> "$LOG_FILE"
 python manage.py import_football_data --division ALL --min_year 2024 >> "$LOG_FILE" 2>&1
 
 # 1.1 Update Upcoming Fixtures (Odds API) - Credit Safe
-echo "Running import_odds_api_fixtures..." >> "$LOG_FILE"
+echo "Running import_odds_api_fixtures (Odds)..." >> "$LOG_FILE"
 python manage.py import_odds_api_fixtures --league ALL >> "$LOG_FILE" 2>&1
+
+# 1.2 Update Recent Scores (Odds API) - Get yesterday's results
+echo "Running import_odds_api_fixtures (Scores)..." >> "$LOG_FILE"
+python manage.py import_odds_api_fixtures --league ALL --scores >> "$LOG_FILE" 2>&1
 
 # 2. Update live matches and upcoming fixtures (API)
 # This runs ALWAYS to keep matches and results boxes updated
