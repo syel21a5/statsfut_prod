@@ -469,41 +469,84 @@ class Command(BaseCommand):
                 if is_garbage(home) or is_garbage(away):
                     continue
                 
+                # Heuristic to detect if it's a FINISHED match
+                # A score usually looks like "2 - 1" or "2-1". 
+                # A time usually looks like "16:30" or "20:00".
+                # SoccerStats sometimes uses "-" for scores and ":" for times, but sometimes ":" for scores too.
+                # Key difference: times usually have padding zeros (09:00), scores rarely do (9-0, not 09-00).
+                # Also, scores usually have HT score nearby in parenthesis like (1-0).
+                
                 is_finished = False
                 ht_val = ""
                 for v in vals:
-                    if '(' in v and ')' in v:
+                    if '(' in v and ')' in v and ('-' in v or ':' in v):
                         ht_val = v
                         break
-                if '(' in ht_val and ')' in ht_val:
-                    is_finished = True
-                elif ('-' in score_val or ':' in score_val) and not (len(score_val) == 5 and score_val[2] == ':'):
-                     # Fallback check
-                     is_finished = True
-
-                score_val = score_val.replace('–', '-').replace(':', '-')
                 
-                if '-' in score_val and is_finished:
-                    # Parse Score
+                # Strong signal: Half-time score present -> Finished
+                if ht_val:
+                    is_finished = True
+                
+                score_val_clean = raw_score_val.replace(' ', '').strip()
+                
+                # Check if it looks like a time (HH:MM)
+                is_time = False
+                if ':' in score_val_clean:
+                    parts = score_val_clean.split(':')
+                    if len(parts) == 2 and len(parts[0]) == 2 and len(parts[1]) == 2:
+                        # Likely a time like 16:30
+                        is_time = True
+                
+                if not is_time and ('-' in score_val_clean or ':' in score_val_clean):
+                    # Try parsing as score
                     try:
-                        parts = score_val.split('-')
-                        h_score = int(parts[0])
-                        a_score = int(parts[1])
-                        status = 'Finished'
+                        sep = '-' if '-' in score_val_clean else ':'
+                        p = score_val_clean.split(sep)
+                        if len(p) == 2 and p[0].isdigit() and p[1].isdigit():
+                            # It's a score! e.g. "2-1" or "2:1"
+                            h_score = int(p[0])
+                            a_score = int(p[1])
+                            # Additional check: reasonable score range (0-20)
+                            if 0 <= h_score <= 20 and 0 <= a_score <= 20:
+                                is_finished = True
+                                status = 'Finished'
+                            else:
+                                # Suspicious score, maybe time without leading zero? Treat as scheduled.
+                                h_score = None
+                                a_score = None
+                                status = 'Scheduled'
+                        else:
+                             status = 'Scheduled'
+                             h_score = None
+                             a_score = None
                     except:
-                        # Might be postponed or invalid (e.g. "pp.")
+                        status = 'Scheduled'
                         h_score = None
                         a_score = None
-                        status = 'Scheduled'
                 else:
-                    # Treat as scheduled only if looks like a time and we can parse date later
-                    if ':' in raw_score_val:
-                        h_score = None
-                        a_score = None
+                    status = 'Scheduled'
+                    h_score = None
+                    a_score = None
+
+                # Force finished if we found a valid score
+                if is_finished and status != 'Finished':
+                     # Re-parse if needed
+                     status = 'Finished'
+                     # h_score/a_score should be set above
+                
+                # Fallback: if we have HT score but main score parsing failed
+                if is_finished and (h_score is None or a_score is None):
+                     # Try harder to parse raw_score_val
+                     try:
+                        clean = re.sub(r'[^\d\-:]', '', raw_score_val)
+                        sep = '-' if '-' in clean else ':'
+                        p = clean.split(sep)
+                        if len(p) == 2:
+                            h_score = int(p[0])
+                            a_score = int(p[1])
+                     except:
+                        is_finished = False
                         status = 'Scheduled'
-                    else:
-                        # Not a match row
-                        continue
 
                 match_date = None
                 try:
@@ -511,22 +554,40 @@ class Command(BaseCommand):
                         parts = date_raw.split()
                         if len(parts) >= 3:
                             date_str = " ".join(parts[:3])
-                            base_dt = datetime.strptime(date_str, "%a %d %b")
-                            month = base_dt.month
-                            day = base_dt.day
-                            if league_obj.name == 'Brasileirão':
-                                year_val = year
-                            else:
-                                # European seasons often start in July
-                                year_val = year - 1 if month >= 7 else year
-                            naive_dt = datetime(year_val, month, day)
-                            match_date = timezone.make_aware(naive_dt, pytz.UTC)
-                            if status == 'Scheduled' and ':' in raw_score_val:
-                                try:
-                                    hour, minute = map(int, raw_score_val.split(':'))
-                                    match_date = match_date.replace(hour=hour, minute=minute)
-                                except Exception:
-                                    pass
+                            # Handle date parsing more robustly
+                            # Try adding year. If result is in future, subtract 1 year.
+                            # BUT scraper takes 'years' arg. We should respect it.
+                            # 'year' variable comes from the loop 'for year in years:'
+                            
+                            try:
+                                base_dt = datetime.strptime(date_str, "%a %d %b")
+                                month = base_dt.month
+                                day = base_dt.day
+                                
+                                # Logic to assign correct year to the match date
+                                # European season (e.g. 2026) usually spans 2025-2026.
+                                # Matches in Aug-Dec belong to year-1 (2025).
+                                # Matches in Jan-May belong to year (2026).
+                                
+                                match_year = year
+                                if league_obj.name not in ['Brasileirão', 'A League']: # Calendar year leagues exception
+                                    if month >= 7:
+                                        match_year = year - 1
+                                
+                                naive_dt = datetime(match_year, month, day)
+                                match_date = timezone.make_aware(naive_dt, pytz.UTC)
+                                
+                                if status == 'Scheduled' and is_time:
+                                    try:
+                                        parts = score_val_clean.split(':')
+                                        hour = int(parts[0])
+                                        minute = int(parts[1])
+                                        match_date = match_date.replace(hour=hour, minute=minute)
+                                    except Exception:
+                                        pass
+                            except ValueError:
+                                # Date format mismatch
+                                pass
                 except:
                     pass
                 
