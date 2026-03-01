@@ -9,6 +9,7 @@ from io import StringIO
 from datetime import datetime
 import pytz
 from django.core.management.base import BaseCommand
+from django.core.management import call_command
 from matches.models import League, Team, Match, Season
 from django.utils import timezone
 from matches.utils_odds_api import ODDS_API_TEAM_MAPPINGS
