@@ -54,48 +54,52 @@ class Command(BaseCommand):
             {
                 'name': 'Premier League',
                 'country': 'Inglaterra',
+                'division': 1,
                 'url_base': 'england',
                 'current_param': 'england'
             },
             {
                 'name': 'Brasileirão',
                 'country': 'Brasil',
+                'division': 1,
                 'url_base': 'brazil',
                 'current_param': 'brazil'
             },
             {
                 'name': 'Pro League',
                 'country': 'Belgica',
+                'division': 1,
                 'url_base': 'belgium',
                 'current_param': 'belgium'
             },
             {
                 'name': 'A League',
                 'country': 'Australia',
+                'division': 1,
                 'url_base': 'australia',
                 'current_param': 'australia'
             },
             {
                 'name': 'First League',
                 'country': 'Republica Tcheca',
+                'division': 1,
                 'url_base': 'czechrepublic',
                 'current_param': 'czechrepublic'
             },
             {
                 'name': 'Bundesliga',
                 'country': 'Austria',
+                'division': 1,
                 'url_base': 'austria',
                 'current_param': 'austria'
             },
-            {
-                'name': 'Super League',
-                'country': 'Suica',
-                'url_base': 'switzerland',
-                'current_param': 'switzerland'
-            },
+            # Switzerland (Super League) is intentionally EXCLUDED from SoccerStats scraping.
+            # The SoccerStats URL for 'switzerland' returns Challenge League (2nd division) data,
+            # which corrupts the Super League database. Use: import_football_data --division SWZ
             {
                 'name': 'Superliga',
                 'country': 'Dinamarca',
+                'division': 1,
                 'url_base': 'denmark',
                 'current_param': 'denmark'
             }
@@ -128,9 +132,15 @@ class Command(BaseCommand):
                 sys.stdout.flush()
                 try:
                     league_obj, _ = League.objects.get_or_create(
-                        name=league_conf['name'], 
-                        country=league_conf['country']
+                        name=league_conf['name'],
+                        country=league_conf['country'],
+                        division=league_conf.get('division', 1),
                     )
+                    # Persist the soccerstats slug so it's always up to date
+                    slug = league_conf.get('url_base')
+                    if slug and league_obj.soccerstats_slug != slug:
+                        league_obj.soccerstats_slug = slug
+                        league_obj.save(update_fields=['soccerstats_slug'])
                     self.stdout.write(f"DEBUG: League object retrieved: {league_obj}")
                     sys.stdout.flush()
                 except Exception as e:

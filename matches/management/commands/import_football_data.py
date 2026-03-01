@@ -40,23 +40,23 @@ class Command(BaseCommand):
         )
 
     LEAGUE_MAPPING = {
-        'E0': ('Premier League', 'Inglaterra'),
-        'SP1': ('La Liga', 'Espanha'),
-        'D1': ('Bundesliga', 'Alemanha'),
-        'I1': ('Serie A', 'Italia'),
-        'F1': ('Ligue 1', 'Franca'),
-        'N1': ('Eredivisie', 'Holanda'),
-        'B1': ('Pro League', 'Belgica'),
-        'P1': ('Primeira Liga', 'Portugal'),
-        'T1': ('Super Lig', 'Turquia'),
-        'G1': ('Super League', 'Grecia'),
-        'DNK': ('Superliga', 'Dinamarca'),
-        'BRA': ('Brasileirao', 'Brasil'),
-        'ARG': ('Liga Profesional', 'Argentina'),
-        'AUT': ('Bundesliga', 'Austria'),
-        'SWZ': ('Super League', 'Suica'),
-        'SW1': ('Super League', 'Suica'),
-        'CZE': ('First League', 'Republica Tcheca'),
+        'E0':  ('Premier League',    'Inglaterra',       1),
+        'SP1': ('La Liga',           'Espanha',          1),
+        'D1':  ('Bundesliga',        'Alemanha',         1),
+        'I1':  ('Serie A',           'Italia',           1),
+        'F1':  ('Ligue 1',           'Franca',           1),
+        'N1':  ('Eredivisie',        'Holanda',          1),
+        'B1':  ('Pro League',        'Belgica',          1),
+        'P1':  ('Primeira Liga',     'Portugal',         1),
+        'T1':  ('Super Lig',         'Turquia',          1),
+        'G1':  ('Super League',      'Grecia',           1),
+        'DNK': ('Superliga',         'Dinamarca',        1),
+        'BRA': ('Brasileirao',       'Brasil',           1),
+        'ARG': ('Liga Profesional',  'Argentina',        1),
+        'AUT': ('Bundesliga',        'Austria',          1),
+        'SWZ': ('Super League',      'Suica',            1),
+        'SW1': ('Super League',      'Suica',            1),
+        'CZE': ('First League',      'Republica Tcheca', 1),
     }
 
     def handle(self, *args, **options):
@@ -77,12 +77,13 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"Divisão '{division}' não mapeada. Adicione ao LEAGUE_MAPPING."))
             return
 
-        league_name, country_name = self.LEAGUE_MAPPING[division]
-        
-        self.stdout.write(self.style.WARNING(f"Importando para: {league_name} ({country_name})"))
+        mapping = self.LEAGUE_MAPPING[division]
+        league_name, country_name, division_level = mapping
+
+        self.stdout.write(self.style.WARNING(f"Importando para: {league_name} ({country_name}) - Div {division_level}"))
 
         league, _ = League.objects.get_or_create(
-            name=league_name, country=country_name
+            name=league_name, country=country_name, division=division_level
         )
 
         total_files = 0

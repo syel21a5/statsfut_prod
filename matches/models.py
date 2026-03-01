@@ -4,9 +4,14 @@ from django.utils.text import slugify
 class League(models.Model):
     name = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
+    division = models.IntegerField(default=1, help_text="Nível da liga: 1=Primeira Divisão, 2=Segunda, etc.")
+    soccerstats_slug = models.CharField(
+        max_length=100, blank=True, null=True, unique=True,
+        help_text="Slug único no SoccerStats.com (ex: 'england', 'denmark'). Usado para evitar mistura entre divisões."
+    )
 
     def __str__(self):
-        return f"{self.name} ({self.country})"
+        return f"{self.name} ({self.country}) - Div {self.division}"
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
