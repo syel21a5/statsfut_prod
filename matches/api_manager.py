@@ -1,6 +1,7 @@
 import os
 import requests
 import random
+import time
 from datetime import datetime, timedelta
 from django.core.cache import cache
 
@@ -9,6 +10,15 @@ class APIManager:
     Gerenciador inteligente de múltiplas APIs de futebol
     Faz rotação automática e fallback entre APIs
     """
+    
+    # User-Agent rotation to avoid simple blocking
+    USER_AGENTS = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1',
+    ]
     
     LEAGUE_MAPPINGS = {
         # Supported Leagues (Updated based on run_csv_updates.py)
@@ -180,6 +190,41 @@ class APIManager:
         
         return best_api
     
+    def _get_headers(self, api_config, host_header=None):
+        """Gera headers com User-Agent rotativo para evitar bloqueios simples"""
+        headers = {
+            'User-Agent': random.choice(self.USER_AGENTS)
+        }
+        
+        if api_config['type'] == 'football_data':
+            headers['X-Auth-Token'] = api_config['key']
+        elif api_config['type'] == 'api_football':
+            headers['x-rapidapi-host'] = host_header or 'v3.football.api-sports.io'
+            headers['x-rapidapi-key'] = api_config['key']
+            
+        return headers
+
+    def _make_request(self, url, headers, params=None, timeout=15):
+        """
+        Wrapper para requests que suporta:
+        1. Rotação de User-Agent (via _get_headers)
+        2. Delay aleatório (Rate Limiting suave)
+        """
+        
+        # Add random delay (1-3 seconds) to look more human
+        time.sleep(random.uniform(1.0, 3.0))
+        
+        try:
+            response = requests.get(
+                url, 
+                headers=headers, 
+                params=params, 
+                timeout=timeout
+            )
+            return response
+        except requests.exceptions.ConnectionError as e:
+            raise e
+
     def get_live_fixtures(self, league_ids=None, exclude_apis=None):
         """
         Busca fixtures ao vivo
@@ -286,14 +331,11 @@ class APIManager:
         league_ids = cache.get(cache_key)
 
         if not league_ids:
-            headers = {
-                'x-rapidapi-host': 'v3.football.api-sports.io',
-                'x-rapidapi-key': api_config['key']
-            }
+            headers = self._get_headers(api_config)
             # Descobre ligas do país
             params = {'country': country, 'type': 'League'}
             try:
-                resp = requests.get(f"{api_config['base_url']}/leagues", headers=headers, params=params, timeout=10)
+                resp = self._make_request(f"{api_config['base_url']}/leagues", headers=headers, params=params, timeout=10)
                 self._increment_usage(api_af)
                 if resp.status_code != 200:
                     raise Exception(f"Falha ao listar ligas do país {country}: {resp.status_code}")
@@ -346,7 +388,7 @@ class APIManager:
             raise Exception("Todas as APIs atingiram o limite diário ou falharam para busca de temporada.")
         
         api_config = self.apis[api_id]
-        headers = {'X-Auth-Token': api_config['key']}
+        headers = self._get_headers(api_config)
         url = f"{api_config['base_url']}/competitions/{league_id}/matches"
 
         api_season_year = season_year
@@ -356,7 +398,7 @@ class APIManager:
 
         params = {'season': api_season_year}
         
-        response = requests.get(url, headers=headers, params=params, timeout=15)
+        response = self._make_request(url, headers=headers, params=params, timeout=15)
         self._increment_usage(api_id)
         
         if response.status_code == 404:
@@ -372,10 +414,7 @@ class APIManager:
     
     def _get_api_football_fixtures(self, api_id, api_config, status='live', league_ids=None, days_ahead=7):
         """Busca fixtures da API-Football"""
-        headers = {
-            'x-rapidapi-host': 'v3.football.api-sports.io',
-            'x-rapidapi-key': api_config['key']
-        }
+        headers = self._get_headers(api_config)
         
         params = {}
         
@@ -422,7 +461,7 @@ class APIManager:
                 try:
                     # Debug request
                     print(f"DEBUG: Requesting {api_config['base_url']}/fixtures with params {params}")
-                    response = requests.get(
+                    response = self._make_request(
                         f"{api_config['base_url']}/fixtures",
                         headers=headers,
                         params=params,
@@ -443,7 +482,7 @@ class APIManager:
             
             return self._normalize_api_football_data(all_fixtures)
         else:
-            response = requests.get(
+            response = self._make_request(
                 f"{api_config['base_url']}/fixtures",
                 headers=headers,
                 params=params,
@@ -519,9 +558,7 @@ class APIManager:
 
     def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7, days_back=None, league_ids=None):
         """Busca fixtures da Football-Data.org"""
-        headers = {
-            'X-Auth-Token': api_config['key']
-        }
+        headers = self._get_headers(api_config)
         
         # Football-Data usa IDs diferentes: PL=2021, Brasileirão=2013
         # Se league_ids for fornecido, usa-o. Senão, usa todos os mapeados
@@ -550,7 +587,7 @@ class APIManager:
                 params['dateTo'] = date_to.isoformat()
 
         
-            response = requests.get(
+            response = self._make_request(
                 f"{api_config['base_url']}/competitions/{comp_id}/matches",
                 headers=headers,
                 params=params,
