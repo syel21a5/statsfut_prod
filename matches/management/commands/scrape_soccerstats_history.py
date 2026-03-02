@@ -647,13 +647,43 @@ class Command(BaseCommand):
                 if match_date:
                     defaults['date'] = match_date
 
-                Match.objects.update_or_create(
-                    league=league_obj,
-                    season=season_obj,
-                    home_team=home_team,
-                    away_team=away_team,
-                    defaults=defaults
-                )
+                # Special handling for leagues with multiple rounds (e.g. 3rd round robin)
+                # Instead of update_or_create by just (league, season, home, away), we check date proximity
+                if match_date:
+                    # Find potential match within +/- 5 days
+                    from datetime import timedelta
+                    start_range = match_date - timedelta(days=5)
+                    end_range = match_date + timedelta(days=5)
+                    
+                    existing_match = Match.objects.filter(
+                        league=league_obj,
+                        season=season_obj,
+                        home_team=home_team,
+                        away_team=away_team,
+                        date__range=(start_range, end_range)
+                    ).first()
+                    
+                    if existing_match:
+                        for k, v in defaults.items():
+                            setattr(existing_match, k, v)
+                        existing_match.save()
+                    else:
+                        Match.objects.create(
+                            league=league_obj,
+                            season=season_obj,
+                            home_team=home_team,
+                            away_team=away_team,
+                            **defaults
+                        )
+                else:
+                    # Fallback to old behavior if date is missing (should be rare with new parsing)
+                    Match.objects.update_or_create(
+                        league=league_obj,
+                        season=season_obj,
+                        home_team=home_team,
+                        away_team=away_team,
+                        defaults=defaults
+                    )
                 count += 1
                 
             except Exception:
