@@ -576,29 +576,51 @@ class Command(BaseCommand):
                             # 'year' variable comes from the loop 'for year in years:'
                             
                             try:
-                                base_dt = datetime.strptime(date_str, "%a %d %b")
-                                month = base_dt.month
-                                day = base_dt.day
-                                
-                                # Logic to assign correct year to the match date
-                                # European season (e.g. 2026) usually spans 2025-2026.
-                                # Matches in Aug-Dec belong to year-1 (2025).
-                                # Matches in Jan-May belong to year (2026).
-                                
-                                match_year = year
-                                if league_obj.name not in ['Brasileirão', 'A League']: # Calendar year leagues exception
-                                    if month >= 7:
-                                        match_year = year - 1
-                                
-                                naive_dt = datetime(match_year, month, day)
-                                match_date = timezone.make_aware(naive_dt, pytz.UTC)
+                                # Use custom English month parsing to avoid locale issues
+                                month_map = {
+                                    'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
+                                    'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12
+                                }
+                                parts_dt = date_str.lower().replace('.', '').split()
+                                # Expected format: "Sun 1 Mar" -> parts: ["sun", "1", "mar"]
+                                if len(parts_dt) >= 3:
+                                    day_val = int(parts_dt[1])
+                                    month_str = parts_dt[2]
+                                    month = month_map.get(month_str[:3])
+                                    
+                                    if month:
+                                        # Logic to assign correct year to the match date
+                                        # European season (e.g. 2026) usually spans 2025-2026.
+                                        # Matches in Aug-Dec belong to year-1 (2025).
+                                        # Matches in Jan-May belong to year (2026).
+                                        
+                                        match_year = year
+                                        if league_obj.name not in ['Brasileirão', 'A League']: # Calendar year leagues exception
+                                            if month >= 7:
+                                                match_year = year - 1
+                                        
+                                        naive_dt = datetime(match_year, month, day_val)
+                                        match_date = timezone.make_aware(naive_dt, pytz.UTC)
+                                    else:
+                                        # Fallback to system locale if not in map
+                                        base_dt = datetime.strptime(date_str, "%a %d %b")
+                                        month = base_dt.month
+                                        day = base_dt.day
+                                        
+                                        match_year = year
+                                        if league_obj.name not in ['Brasileirão', 'A League']: 
+                                            if month >= 7:
+                                                match_year = year - 1
+                                        naive_dt = datetime(match_year, month, day)
+                                        match_date = timezone.make_aware(naive_dt, pytz.UTC)
                                 
                                 if status == 'Scheduled' and is_time:
                                     try:
                                         parts = score_val_clean.split(':')
                                         hour = int(parts[0])
                                         minute = int(parts[1])
-                                        match_date = match_date.replace(hour=hour, minute=minute)
+                                        if match_date:
+                                            match_date = match_date.replace(hour=hour, minute=minute)
                                     except Exception:
                                         pass
                             except ValueError:
