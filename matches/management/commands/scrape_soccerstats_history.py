@@ -598,8 +598,20 @@ class Command(BaseCommand):
                                         
                                         match_year = year
                                         if league_obj.name not in ['Brasileirão', 'A League']: # Calendar year leagues exception
-                                            if month >= 7:
+                                            # Standard European season (Aug-May)
+                                            # If month is >= 7 (July onwards), it belongs to the start of the season (year-1)
+                                            # If month is <= 6 (June backwards), it belongs to the end of the season (year)
+                                            if month >= 6: # Changed from 7 to 6 to include June friendlies/early rounds if any
                                                 match_year = year - 1
+                                        else:
+                                            # Calendar year leagues (e.g. 2026 season happens in 2026)
+                                            # BUT A-League is actually split year (Oct-May).
+                                            # If we are scraping A League 2026, it means 2025-2026 season.
+                                            if league_obj.name == 'A League':
+                                                if month >= 7:
+                                                    match_year = year - 1
+                                                else:
+                                                    match_year = year
                                         
                                         naive_dt = datetime(match_year, month, day_val)
                                         match_date = timezone.make_aware(naive_dt, pytz.UTC)
@@ -611,8 +623,14 @@ class Command(BaseCommand):
                                         
                                         match_year = year
                                         if league_obj.name not in ['Brasileirão', 'A League']: 
-                                            if month >= 7:
+                                            if month >= 6:
                                                 match_year = year - 1
+                                        else:
+                                            if league_obj.name == 'A League':
+                                                if month >= 7:
+                                                    match_year = year - 1
+                                                else:
+                                                    match_year = year
                                         naive_dt = datetime(match_year, month, day)
                                         match_date = timezone.make_aware(naive_dt, pytz.UTC)
                                 
