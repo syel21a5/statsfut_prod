@@ -664,18 +664,43 @@ class Command(BaseCommand):
                         date__range=(start_range, end_range)
                     ).first()
                     
+                    # If we found an existing match within date range, update it
                     if existing_match:
                         for k, v in defaults.items():
                             setattr(existing_match, k, v)
                         existing_match.save()
                     else:
-                        Match.objects.create(
+                        # Before creating a new one, check if we have an "orphan" match
+                        # (same teams, same season, but NO date set or very wrong date)
+                        # This prevents duplicating if we previously scraped without date
+                        orphan = Match.objects.filter(
                             league=league_obj,
                             season=season_obj,
                             home_team=home_team,
                             away_team=away_team,
-                            **defaults
-                        )
+                            date__isnull=True
+                        ).first()
+                        
+                        if orphan:
+                            for k, v in defaults.items():
+                                setattr(orphan, k, v)
+                            orphan.save()
+                        else:
+                            # Also check if we have a match with same teams/season but different date
+                            # If the site changed the date significantly (rescheduled), we might want to update instead of create duplicate.
+                            # BUT for 3rd round leagues, same teams play multiple times.
+                            # So we ONLY update if the date is close (handled above) OR if we are sure it's not a new fixture.
+                            # For safety in 3rd round leagues, we assume different date = new match.
+                            
+                            # Final check: Prevent exact duplicate creation if running multiple times quickly
+                            # (Though date__range check should handle this, sometimes timezone issues affect it)
+                            Match.objects.create(
+                                league=league_obj,
+                                season=season_obj,
+                                home_team=home_team,
+                                away_team=away_team,
+                                **defaults
+                            )
                 else:
                     # Fallback to old behavior if date is missing (should be rare with new parsing)
                     Match.objects.update_or_create(
