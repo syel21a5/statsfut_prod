@@ -534,6 +534,8 @@ class Command(BaseCommand):
                      if 'Auckland' in away: away = 'Auckland FC'
                      if 'Melbourne City' in home: home = 'Melbourne City'
                      if 'Melbourne City' in away: away = 'Melbourne City'
+                     if 'Sydney FC' in home: home = 'Sydney FC'
+                     if 'Sydney FC' in away: away = 'Sydney FC'
                 
                 # Hard guards: skip obvious non-team rows
                 blacklist_tokens = {
