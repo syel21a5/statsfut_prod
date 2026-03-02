@@ -159,7 +159,8 @@ class Command(BaseCommand):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
                 elif (league_conf['name'] == 'Pro League' and year == 2026) or \
                      (league_conf['name'] == 'Super League' and year == 2026) or \
-                     (league_conf['name'] == 'Superliga' and year == 2026):
+                     (league_conf['name'] == 'Superliga' and year == 2026) or \
+                     (league_conf['name'] == 'Bundesliga' and league_conf['country'] == 'Austria' and year == 2026):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}&pmtype=bydate"
                 else:
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}_{year}"
