@@ -154,12 +154,13 @@ class Command(BaseCommand):
 
             for year in years:
                 if league_conf['name'] == 'First League':
+                    url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}&pmtype=bydate"
+                elif (league_conf['name'] == 'Brasileirão' and year == 2026):
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
-                elif (league_conf['name'] == 'Brasileirão' and year == 2026) or \
-                     (league_conf['name'] == 'Pro League' and year == 2026) or \
+                elif (league_conf['name'] == 'Pro League' and year == 2026) or \
                      (league_conf['name'] == 'Super League' and year == 2026) or \
                      (league_conf['name'] == 'Superliga' and year == 2026):
-                    url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}"
+                    url = f"https://www.soccerstats.com/results.asp?league={league_conf['current_param']}&pmtype=bydate"
                 else:
                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}_{year}"
                 
@@ -180,9 +181,6 @@ class Command(BaseCommand):
                     urls_to_try = [url]
                     if league_conf['name'] == 'Brasileirão' and year >= 2025:
                         for m in range(1, 6):
-                            urls_to_try.append(f"{url}&tid=m{m}")
-                    elif (league_conf['name'] == 'First League' or league_conf['name'] == 'Super League' or league_conf['name'] == 'Superliga') and year == 2026:
-                        for m in range(1, 13):
                             urls_to_try.append(f"{url}&tid=m{m}")
                     
                     # Pre-fetch main page content for duplicate checking if we have multiple URLs
