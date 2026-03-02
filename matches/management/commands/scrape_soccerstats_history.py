@@ -499,8 +499,41 @@ class Command(BaseCommand):
                 # Note: Soccerstats sometimes uses "Wellington" and sometimes "Wellington Phoenix".
                 # Our goal is to map EVERYTHING to ONE canonical name in DB.
                 
+                # Pre-normalization (strip spaces, etc)
+                home = home.strip()
+                away = away.strip()
+
                 home = team_mapping.get(home, home)
                 away = team_mapping.get(away, away)
+                
+                # Extra fallback for Australia names that might be slightly different in the "bydate" table
+                # e.g. "Melbourne V" vs "Melbourne V." vs "Melbourne Victory"
+                # This catches cases where the key in team_mapping didn't match perfectly.
+                if league_obj.name == 'A League':
+                     if 'Wellington' in home: home = 'Wellington Phoenix'
+                     if 'Wellington' in away: away = 'Wellington Phoenix'
+                     if 'Melbourne V' in home: home = 'Melbourne Victory'
+                     if 'Melbourne V' in away: away = 'Melbourne Victory'
+                     if 'Adelaide' in home: home = 'Adelaide United'
+                     if 'Adelaide' in away: away = 'Adelaide United'
+                     if 'Central Coast' in home: home = 'Central Coast Mariners'
+                     if 'Central Coast' in away: away = 'Central Coast Mariners'
+                     if 'Macarthur' in home: home = 'Macarthur FC'
+                     if 'Macarthur' in away: away = 'Macarthur FC'
+                     if 'Western United' in home: home = 'Western United'
+                     if 'Western United' in away: away = 'Western United'
+                     if 'WS Wanderers' in home or 'Western Sydney' in home: home = 'Western Sydney Wanderers'
+                     if 'WS Wanderers' in away or 'Western Sydney' in away: away = 'Western Sydney Wanderers'
+                     if 'Newcastle' in home: home = 'Newcastle Jets'
+                     if 'Newcastle' in away: away = 'Newcastle Jets'
+                     if 'Brisbane' in home: home = 'Brisbane Roar'
+                     if 'Brisbane' in away: away = 'Brisbane Roar'
+                     if 'Perth' in home: home = 'Perth Glory'
+                     if 'Perth' in away: away = 'Perth Glory'
+                     if 'Auckland' in home: home = 'Auckland FC'
+                     if 'Auckland' in away: away = 'Auckland FC'
+                     if 'Melbourne City' in home: home = 'Melbourne City'
+                     if 'Melbourne City' in away: away = 'Melbourne City'
                 
                 # Hard guards: skip obvious non-team rows
                 blacklist_tokens = {
