@@ -93,9 +93,13 @@ class Command(BaseCommand):
                 'url_base': 'austria',
                 'current_param': 'austria'
             },
-            # Switzerland (Super League) is intentionally EXCLUDED from SoccerStats scraping.
-            # The SoccerStats URL for 'switzerland' returns Challenge League (2nd division) data,
-            # which corrupts the Super League database. Use: import_football_data --division SWZ
+            {
+                'name': 'Super League',
+                'country': 'Suica',
+                'division': 1,
+                'url_base': 'switzerland',
+                'current_param': 'switzerland'
+            },
             {
                 'name': 'Superliga',
                 'country': 'Dinamarca',
