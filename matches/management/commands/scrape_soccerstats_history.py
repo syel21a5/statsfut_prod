@@ -465,6 +465,33 @@ class Command(BaseCommand):
                     'Xamax': 'Neuchatel Xamax',
                     'FC Aarau': 'Aarau',
                     'Aarau': 'Aarau',
+
+                    # Australia mappings
+                    'Wellington': 'Wellington Phoenix',
+                    'Wellington Phoenix FC': 'Wellington Phoenix',
+                    'Melbourne V.': 'Melbourne Victory',
+                    'Melbourne Victory FC': 'Melbourne Victory',
+                    'Adelaide Utd': 'Adelaide United',
+                    'Adelaide United FC': 'Adelaide United',
+                    'Central Coast': 'Central Coast Mariners',
+                    'Central Coast Mariners FC': 'Central Coast Mariners',
+                    'Macarthur FC': 'Macarthur FC',
+                    'Macarthur': 'Macarthur FC',
+                    'Western United': 'Western United',
+                    'Western United FC': 'Western United',
+                    'WS Wanderers': 'Western Sydney Wanderers',
+                    'Western Sydney': 'Western Sydney Wanderers',
+                    'WSW': 'Western Sydney Wanderers',
+                    'Newcastle Jets': 'Newcastle Jets',
+                    'Newcastle Jets FC': 'Newcastle Jets',
+                    'Brisbane Roar': 'Brisbane Roar',
+                    'Brisbane Roar FC': 'Brisbane Roar',
+                    'Perth Glory': 'Perth Glory',
+                    'Perth Glory FC': 'Perth Glory',
+                    'Auckland': 'Auckland FC',
+                    'Auckland FC': 'Auckland FC',
+                    'Melbourne City': 'Melbourne City',
+                    'Melbourne City FC': 'Melbourne City',
                 }
                 
                 home = team_mapping.get(home, home)
