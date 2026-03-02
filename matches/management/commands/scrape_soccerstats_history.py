@@ -494,6 +494,11 @@ class Command(BaseCommand):
                     'Melbourne City FC': 'Melbourne City',
                 }
                 
+                # Special hardfix for "Wellington" if it comes as "Wellington Phoenix" already but maybe with spaces
+                # Or if it comes as "Wellington" (without FC/Phoenix).
+                # Note: Soccerstats sometimes uses "Wellington" and sometimes "Wellington Phoenix".
+                # Our goal is to map EVERYTHING to ONE canonical name in DB.
+                
                 home = team_mapping.get(home, home)
                 away = team_mapping.get(away, away)
                 
