@@ -100,6 +100,18 @@ DATABASES = {
     }
 }
 
+# Configuração de Cache para aliviar a CPU do MySQL
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/statsfut_cache',
+        'TIMEOUT': 300, # 5 minutes default
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000
+        }
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

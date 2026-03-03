@@ -1,19 +1,23 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 from . import views
 
 app_name = 'matches'
 
 urlpatterns = [
     path('search/', views.GlobalSearchView.as_view(), name='global_search'),
-    path('', views.HomeView.as_view(), name='home'),
-    path('league/<int:pk>/', views.LeagueDetailView.as_view(), name='league_detail'),
+    
+    # Cache de 5 minutos na Home e Tabelas das Ligas
+    path('', cache_page(60 * 5)(views.HomeView.as_view()), name='home'),
+    path('league/<int:pk>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='league_detail'),
+    
     path('match/<int:pk>/<slug:slug>/', views.MatchDetailView.as_view(), name='match_detail'),
     path('match/<int:pk>/', views.MatchDetailView.as_view(), name='match_detail_short'),
     path('team/<int:pk>/', views.TeamDetailView.as_view(), name='team_detail'),
+    
     # Rota genérica para Liga OU País (resolvido na View)
-    # Mantemos múltiplos nomes para suportar 'reverse' nos templates existentes
-    path('stats/<str:slug>/', views.LeagueDetailView.as_view(), name='country_stats'),
-    path('stats/<str:league_name>/', views.LeagueDetailView.as_view(), name='league_stats'),
+    path('stats/<str:slug>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='country_stats'),
+    path('stats/<str:league_name>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='league_stats'),
     
     # Rota específica para Gols (deve vir ANTES do Dispatcher genérico)
     path('stats/<str:league_name>/goals/', views.LeagueGoalsView.as_view(), name='league_goals'),
