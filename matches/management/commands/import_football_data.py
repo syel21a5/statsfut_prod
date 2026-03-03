@@ -407,30 +407,76 @@ class Command(BaseCommand):
                 defaults["away_red"] = ar
 
             # Try to find match by date (ignoring time)
+            # IMPORTANT: For multi-round leagues (Switzerland, Austria, etc), we must respect existing matches
+            # from SoccerStats scraper.
+            # If a match exists with the same teams and roughly same date, we update it.
+            # BUT if we are importing from CSV and the match is NOT found by date, 
+            # we should be careful about creating it if it might be a duplicate with different date.
+            
+            # Logic similar to scrape_soccerstats_history: check date proximity
+            from datetime import timedelta
+            start_range = match_date_aware - timedelta(days=5)
+            end_range = match_date_aware + timedelta(days=5)
+
             match = Match.objects.filter(
                 league=league,
                 home_team=home_team,
                 away_team=away_team,
-                date__date=match_date_aware.date()
+                date__range=(start_range, end_range)
             ).first()
 
             if match:
-                for key, value in defaults.items():
-                    setattr(match, key, value)
+                # If match exists (likely from SoccerStats or previous import), we update stats only
+                # We do NOT overwrite date unless it was None
+                # We respect the high-quality data from SoccerStats if available
+                
+                # Merge logic: prioritize existing non-null values
+                if match.home_score is None and fthg is not None:
+                    match.home_score = fthg
+                if match.away_score is None and ftag is not None:
+                    match.away_score = ftag
+                if match.status == 'Scheduled' and status == 'Finished':
+                    match.status = status
+                
+                # Update detailed stats (shots, etc) if available in CSV and missing in DB
+                if match.home_shots is None and hs is not None: match.home_shots = hs
+                if match.away_shots is None and ast is not None: match.away_shots = ast
+                if match.home_shots_on_target is None and hst is not None: match.home_shots_on_target = hst
+                if match.away_shots_on_target is None and ast_on is not None: match.away_shots_on_target = ast_on
+                
                 # Atualiza a temporada caso tenha mudado (ex: correção de lógica)
                 if match.season != season:
                     match.season = season
                 match.save()
                 updated += 1
             else:
-                Match.objects.create(
+                # Match not found. 
+                # Check for "orphan" match (same teams, same season, no date)
+                orphan = Match.objects.filter(
                     league=league,
                     season=season,
                     home_team=home_team,
                     away_team=away_team,
-                    **defaults
-                )
-                created += 1
+                    date__isnull=True
+                ).first()
+                
+                if orphan:
+                    orphan.date = match_date_aware
+                    orphan.home_score = fthg
+                    orphan.away_score = ftag
+                    orphan.status = status
+                    orphan.save()
+                    updated += 1
+                else:
+                    # Create new match
+                    Match.objects.create(
+                        league=league,
+                        season=season,
+                        home_team=home_team,
+                        away_team=away_team,
+                        **defaults
+                    )
+                    created += 1
 
             if processed_seasons_set is not None and season_year:
                 processed_seasons_set.add(season_year)
