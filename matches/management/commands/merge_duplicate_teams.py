@@ -1,184 +1,100 @@
+
 from django.core.management.base import BaseCommand
-from django.db.models import Count
 from matches.models import Team, Match, League
+from django.db.models import Q
 
 class Command(BaseCommand):
-    help = 'Mescla times duplicados com nomes diferentes (ex: RCD Espanyol de Barcelona -> Espanol)'
+    help = 'Merge duplicate teams (e.g. "Rapid Vienna" -> "Rapid Wien") and cleanup leagues'
 
     def handle(self, *args, **options):
-        self.stdout.write("Iniciando mesclagem de times duplicados...")
-
-        # Mapa de nomes errados (API) para nomes certos (DB)
-        # Copiado e adaptado do update_live_matches.py
-        name_mapping = {
-            # La Liga
-            'RCD Espanyol de Barcelona': 'Espanol',
-            'RC Celta de Vigo': 'Celta',
-            'Villarreal CF': 'Villarreal',
-            'Getafe CF': 'Getafe',
-            'Sevilla FC': 'Sevilla',
-            'Deportivo Alavés': 'Alaves',
-            'Real Sociedad de Fútbol': 'Sociedad',
-            'Club Atlético de Madrid': 'Ath Madrid',
-            'Athletic Club': 'Ath Bilbao',
-            'Real Betis Balompié': 'Betis',
-            'RCD Mallorca': 'Mallorca',
-            'Valencia CF': 'Valencia',
-            'Girona FC': 'Girona',
-            'Real Madrid CF': 'Real Madrid',
-            'Levante UD': 'Levante',
-            'Elche CF': 'Elche',
-            'Cádiz CF': 'Cadiz',
-            'Real Valladolid CF': 'Valladolid',
-            'CA Osasuna': 'Osasuna',
-            'Rayo Vallecano de Madrid': 'Rayo Vallecano',
-            'UD Las Palmas': 'Las Palmas',
-            'Granada CF': 'Granada',
-            'UD Almería': 'Almeria',
-            'FC Barcelona': 'Barcelona',
-
-            # Bundesliga
-            'Bayer 04 Leverkusen': 'Leverkusen',
-            'FC Bayern München': 'Bayern Munich',
-            'VfB Stuttgart': 'Stuttgart',
-            'RB Leipzig': 'Leipzig',
-            'Borussia Dortmund': 'Dortmund',
-            'Eintracht Frankfurt': 'Frankfurt',
-            'TSG 1899 Hoffenheim': 'Hoffenheim',
-            '1. FC Heidenheim 1846': 'Heidenheim',
-            'SV Werder Bremen': 'Werder Bremen',
-            'SC Freiburg': 'Freiburg',
-            'FC Augsburg': 'Augsburg',
-            'VfL Wolfsburg': 'Wolfsburg',
-            '1. FSV Mainz 05': 'Mainz',
-            'Borussia Mönchengladbach': 'M Gladbach',
-            '1. FC Union Berlin': 'Union Berlin',
-            'VfL Bochum 1848': 'Bochum',
-            '1. FC Köln': 'Koln',
-            'SV Darmstadt 98': 'Darmstadt',
-            'FC St. Pauli 1910': 'St Pauli',
-            'Holstein Kiel': 'Holstein Kiel',
+        self.stdout.write("Starting team merge process...")
+        
+        # Mappings: { 'Wrong Name': 'Correct Name' }
+        # Country is optional filter
+        merge_map = [
+            # AUSTRIA
+            {'wrong': 'Rapid Vienna', 'correct': 'Rapid Wien', 'country': 'Austria'},
+            {'wrong': 'Austria Vienna', 'correct': 'Austria Wien', 'country': 'Austria'},
+            {'wrong': 'RB Salzburg', 'correct': 'Salzburg', 'country': 'Austria'},
+            {'wrong': 'FC Salzburg', 'correct': 'Salzburg', 'country': 'Austria'},
+            {'wrong': 'LASK Linz', 'correct': 'LASK', 'country': 'Austria'}, # Scraper uses LASK? Or LASK Linz?
+            # Let's check user print. User print has "LASK" (21 games) and "LASK Linz" (20).
+            # Soccerstats uses "LASK Linz". Wait, checking print again.
+            # User print: "LASK" (21), "LASK Linz" (20).
+            # Soccerstats print: "LASK Linz".
+            # So "LASK Linz" is likely the scraper one (good). "LASK" is CSV (bad?).
+            # Actually CSV usually has "LASK Linz".
+            # Let's standardization to "LASK Linz" to match SoccerStats.
+            {'wrong': 'LASK', 'correct': 'LASK Linz', 'country': 'Austria'},
             
-             # Serie A
-            'FC Internazionale Milano': 'Inter',
-            'AC Milan': 'Milan',
-            'Juventus FC': 'Juventus',
-            'Bologna FC 1909': 'Bologna',
-            'AS Roma': 'Roma',
-            'Atalanta BC': 'Atalanta',
-            'SS Lazio': 'Lazio',
-            'ACF Fiorentina': 'Fiorentina',
-            'Torino FC': 'Torino',
-            'SSC Napoli': 'Napoli',
-            'Genoa CFC': 'Genoa',
-            'AC Monza': 'Monza',
-            'Hellas Verona FC': 'Verona',
-            'US Lecce': 'Lecce',
-            'Udinese Calcio': 'Udinese',
-            'Cagliari Calcio': 'Cagliari',
-            'Empoli FC': 'Empoli',
-            'Frosinone Calcio': 'Frosinone',
-            'US Sassuolo Calcio': 'Sassuolo',
-            'US Salernitana 1919': 'Salernitana',
-            'Parma Calcio 1913': 'Parma',
-            'Como 1907': 'Como',
-            'Venezia FC': 'Venezia',
+            {'wrong': 'BW Linz', 'correct': 'Blau-Weiss Linz', 'country': 'Austria'},
+            {'wrong': 'Wolfsberger AC', 'correct': 'Wolfsberger AC', 'country': 'Austria'}, # Self map? No.
+            # Print shows "Wolfsberger AC" twice? No.
+            # Print shows "Wolfsberger AC" and "Wolfsberger".
+            {'wrong': 'Wolfsberger', 'correct': 'Wolfsberger AC', 'country': 'Austria'},
+            {'wrong': 'A. Klagenfurt', 'correct': 'Austria Klagenfurt', 'country': 'Austria'},
+            {'wrong': 'A. Lustenau', 'correct': 'Austria Lustenau', 'country': 'Austria'},
+            {'wrong': 'WSG Tirol', 'correct': 'Tirol', 'country': 'Austria'},
 
-            # Ligue 1
-            'Paris Saint-Germain FC': 'PSG',
-            'AS Monaco FC': 'Monaco',
-            'Stade Brestois 29': 'Brest',
-            'Lille OSC': 'Lille',
-            'OGC Nice': 'Nice',
-            'Olympique Lyonnais': 'Lyon',
-            'Racing Club de Lens': 'Lens',
-            'Olympique de Marseille': 'Marseille',
-            'Stade de Reims': 'Reims',
-            'Stade Rennais FC 1901': 'Rennes',
-            'Toulouse FC': 'Toulouse',
-            'Montpellier HSC': 'Montpellier',
-            'RC Strasbourg Alsace': 'Strasbourg',
-            'FC Nantes': 'Nantes',
-            'Le Havre AC': 'Le Havre',
-            'FC Metz': 'Metz',
-            'FC Lorient': 'Lorient',
-            'Clermont Foot 63': 'Clermont',
-            'AS Saint-Étienne': 'St Etienne',
-            'AJ Auxerre': 'Auxerre',
-            'Angers SCO': 'Angers',
+            # AUSTRALIA
+            {'wrong': 'Wellington Phoenix FC', 'correct': 'Wellington Phoenix', 'country': 'Australia'},
+            {'wrong': 'Wellington', 'correct': 'Wellington Phoenix', 'country': 'Australia'},
+            {'wrong': 'Melbourne Victory FC', 'correct': 'Melbourne Victory', 'country': 'Australia'},
+            {'wrong': 'Melbourne V.', 'correct': 'Melbourne Victory', 'country': 'Australia'},
+            {'wrong': 'Melbourne City FC', 'correct': 'Melbourne City', 'country': 'Australia'},
+            {'wrong': 'Adelaide United FC', 'correct': 'Adelaide United', 'country': 'Australia'},
+            {'wrong': 'Adelaide Utd', 'correct': 'Adelaide United', 'country': 'Australia'},
+            {'wrong': 'Western United FC', 'correct': 'Western United', 'country': 'Australia'},
+            {'wrong': 'Macarthur FC', 'correct': 'Macarthur FC', 'country': 'Australia'}, # Check if Macarthur exists without FC
+            {'wrong': 'Macarthur', 'correct': 'Macarthur FC', 'country': 'Australia'},
+            {'wrong': 'Brisbane Roar FC', 'correct': 'Brisbane Roar', 'country': 'Australia'},
+            {'wrong': 'Perth Glory FC', 'correct': 'Perth Glory', 'country': 'Australia'},
+            {'wrong': 'Central Coast Mariners FC', 'correct': 'Central Coast Mariners', 'country': 'Australia'},
+            {'wrong': 'Central Coast', 'correct': 'Central Coast Mariners', 'country': 'Australia'},
+            {'wrong': 'Newcastle Jets FC', 'correct': 'Newcastle Jets', 'country': 'Australia'},
+            {'wrong': 'Sydney FC', 'correct': 'Sydney FC', 'country': 'Australia'}, # Identity
+            {'wrong': 'WS Wanderers', 'correct': 'Western Sydney Wanderers', 'country': 'Australia'},
+            {'wrong': 'Auckland', 'correct': 'Auckland FC', 'country': 'Australia'},
+        ]
 
-            # Brasileirão
-            'SE Palmeiras': 'Palmeiras',
-            'CR Flamengo': 'Flamengo',
-            'Botafogo FR': 'Botafogo',
-            'São Paulo FC': 'Sao Paulo',
-            'Grêmio FBPA': 'Gremio',
-            'Clube Atlético Mineiro': 'Atletico-MG',
-            'Club Athletico Paranaense': 'Athletico-PR',
-            'Fluminense FC': 'Fluminense',
-            'Cuiabá EC': 'Cuiaba',
-            'SC Corinthians Paulista': 'Corinthians',
-            'Cruzeiro EC': 'Cruzeiro',
-            'SC Internacional': 'Internacional',
-            'Fortaleza EC': 'Fortaleza',
-            'EC Bahia': 'Bahia',
-            'CR Vasco da Gama': 'Vasco',
-            'EC Juventude': 'Juventude',
-            'AC Goianiense': 'Atletico-GO',
-            'Criciúma EC': 'Criciuma',
-            'EC Vitória': 'Vitoria',
-            'Red Bull Bragantino': 'Bragantino',
-            'Santos FC': 'Santos',
-        }
+        for item in merge_map:
+            self.merge_teams(item['wrong'], item['correct'], item.get('country'))
 
-        count_merged = 0
+        self.stdout.write(self.style.SUCCESS("Team merge process completed."))
 
-        for wrong_name, correct_name in name_mapping.items():
-            wrong_teams = list(Team.objects.filter(name=wrong_name))
-            if not wrong_teams:
+    def merge_teams(self, wrong_name, correct_name, country=None):
+        # Find correct team
+        query = Q(name=correct_name)
+        if country:
+            query &= Q(league__country__icontains=country)
+        
+        correct_team = Team.objects.filter(query).first()
+        
+        if not correct_team:
+            # self.stdout.write(f"Correct team '{correct_name}' not found. Skipping merge of '{wrong_name}'.")
+            return
+
+        # Find wrong team(s)
+        w_query = Q(name=wrong_name)
+        if country:
+            w_query &= Q(league__country__icontains=country)
+        
+        # Exclude the correct team itself if names are similar/same
+        wrong_teams = Team.objects.filter(w_query).exclude(id=correct_team.id)
+
+        for wrong_team in wrong_teams:
+            if wrong_team.league != correct_team.league:
+                self.stdout.write(f"Skipping merge: '{wrong_team}' and '{correct_team}' are in different leagues.")
                 continue
 
-            correct_team = Team.objects.filter(name=correct_name).first()
+            self.stdout.write(f"Merging '{wrong_team.name}' ({wrong_team.id}) into '{correct_team.name}' ({correct_team.id})...")
+            
+            # Update Matches (Home)
+            Match.objects.filter(home_team=wrong_team).update(home_team=correct_team)
+            # Update Matches (Away)
+            Match.objects.filter(away_team=wrong_team).update(away_team=correct_team)
+            
+            # Delete wrong team
+            wrong_team.delete()
+            self.stdout.write(f"Deleted '{wrong_name}'.")
 
-            if correct_team:
-                target_team = correct_team
-                source_teams = wrong_teams
-                self.stdout.write(f"Mesclando '{wrong_name}' -> '{correct_name}'...")
-            else:
-                # Se o time correto não existe, promovemos o primeiro errado
-                target_team = wrong_teams[0]
-                source_teams = wrong_teams[1:]
-                old_name = target_team.name
-                target_team.name = correct_name
-                try:
-                    target_team.save()
-                    self.stdout.write(f"Renomeando '{old_name}' -> '{correct_name}'...")
-                except Exception as e:
-                    self.stdout.write(self.style.ERROR(f"Erro ao renomear {old_name}: {e}"))
-                    continue
-
-            for source_team in source_teams:
-                if source_team == target_team:
-                    continue
-                    
-                # Move matches
-                Match.objects.filter(home_team=source_team).update(home_team=target_team)
-                Match.objects.filter(away_team=source_team).update(away_team=target_team)
-                
-                # Update API ID if target is empty
-                if source_team.api_id and not target_team.api_id:
-                    # Verifica se já existe outro time com este api_id (que não seja o target)
-                    if not Team.objects.filter(api_id=source_team.api_id).exclude(id=target_team.id).exists():
-                        target_team.api_id = source_team.api_id
-                        try:
-                            target_team.save()
-                        except Exception as e:
-                            self.stdout.write(self.style.WARNING(f"  ! Não foi possível migrar api_id {source_team.api_id}: {e}"))
-                    else:
-                        self.stdout.write(self.style.WARNING(f"  ! api_id {source_team.api_id} já está em uso por outro time. Ignorando migração."))
-                
-                source_team.delete()
-                count_merged += 1
-                self.stdout.write(f"  > Time ID {source_team.id} mesclado/removido.")
-
-        self.stdout.write(self.style.SUCCESS(f"Concluído! Total de times mesclados: {count_merged}"))
