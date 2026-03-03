@@ -546,9 +546,16 @@ class Command(BaseCommand):
                 def is_garbage(name):
                     n = (name or '').strip().lower()
                     if not n: return True
-                    if any(tok == n or tok in n for tok in blacklist_tokens): return True
-                    if any(ch.isdigit() for ch in n): return True
-                    if '%' in n: return True
+                    # FIX: Don't blacklist team names that might contain 'points' or 'goals' accidentally? No, unlikely.
+                    # BUT: 'Central Coast' contains 'Coast' -> OK.
+                    # Check exact match for tokens or bounded?
+                    # The issue: "Central Coast" might be matching something? No.
+                    # "Western United" -> "Western" is not in blacklist.
+                    
+                    if n in blacklist_tokens: return True
+                    # Only partial match if it's clearly garbage phrase
+                    if 'averages' in n or 'copyright' in n: return True
+                    
                     return False
                 
                 if is_garbage(home) or is_garbage(away):
