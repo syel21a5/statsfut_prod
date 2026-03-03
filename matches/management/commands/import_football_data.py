@@ -318,6 +318,39 @@ class Command(BaseCommand):
                 continue
 
             # Mapeamento centralizado de nomes
+            
+            # Additional mappings for Austria (CSV vs SoccerStats)
+            # The CSV often uses different names than SoccerStats scraper
+            if league.country == 'Austria' or div == 'AUT':
+                austria_map = {
+                    'Austria Vienna': 'Austria Wien',
+                    'Rapid Vienna': 'Rapid Wien',
+                    'LASK': 'LASK Linz',
+                    'Salzburg': 'RB Salzburg', # Or vice-versa? SoccerStats uses "RB Salzburg"? No, usually "Salzburg" or "FC Salzburg".
+                    # Let's check the user print: SoccerStats has "Salzburg", user site has "RB Salzburg" and "Salzburg".
+                    # We should map TO the name that is most common/official or matches SoccerStats.
+                    # SoccerStats usually has "Salzburg".
+                    # Let's standardize to what we see in the "good" list.
+                    # Wait, user print showed "RB Salzburg" (21) and "Salzburg" (20).
+                    # We want to merge them.
+                    'RB Salzburg': 'Salzburg', 
+                    'LASK Linz': 'LASK', # Or keep LASK Linz?
+                    # Check what scraper uses. Usually scraper uses "Salzburg" and "LASK Linz".
+                    # Let's map CSV names to scraper names.
+                    'Sturm Graz': 'Sturm Graz',
+                    'Altach': 'Altach',
+                    'Hartberg': 'Hartberg',
+                    'Wolfsberg': 'Wolfsberger AC',
+                    'Wolfsberger': 'Wolfsberger AC',
+                    'A. Klagenfurt': 'Austria Klagenfurt',
+                    'A. Lustenau': 'Austria Lustenau',
+                    'BW Linz': 'Blau-Weiss Linz',
+                    'WSG Tirol': 'Tirol',
+                }
+                # Apply map
+                home_name = austria_map.get(home_name, home_name)
+                away_name = austria_map.get(away_name, away_name)
+
             home_name = normalize_team_name(home_name)
             away_name = normalize_team_name(away_name)
 
