@@ -65,12 +65,22 @@ class Command(BaseCommand):
         division = options["division"]
         min_year = options["min_year"]
 
+        # FIX: Divisões gerenciadas pelo scrape_soccerstats_history.
+        # Não devem ser processadas pelo import_football_data quando --division ALL,
+        # pois os dois importers entram em conflito (datas diferentes, nomes diferentes).
+        # Para importar AUT ou SWZ individualmente, use --division AUT ou --division SWZ.
+        SCRAPER_MANAGED = {'AUT', 'SWZ', 'SW1'}
+
         if division == 'ALL':
             for div_code in self.LEAGUE_MAPPING.keys():
+                if div_code in SCRAPER_MANAGED:
+                    self.stdout.write(self.style.WARNING(f"Pulando {div_code} — gerenciado por scrape_soccerstats_history."))
+                    continue
                 self.stdout.write(self.style.WARNING(f"\n>>> Iniciando processamento para divisão: {div_code}"))
                 self.process_division(div_code, min_year, root)
         else:
             self.process_division(division, min_year, root)
+
 
     def process_division(self, division, min_year, root):
         if division not in self.LEAGUE_MAPPING:
@@ -323,29 +333,58 @@ class Command(BaseCommand):
             # The CSV often uses different names than SoccerStats scraper
             if league.country == 'Austria' or div == 'AUT':
                 austria_map = {
-                    'Austria Vienna': 'Austria Wien',
-                    'Rapid Vienna': 'Rapid Wien',
+                    # Salzburg
+                    'Salzburg': 'Salzburg',
+                    'RB Salzburg': 'Salzburg',
+                    'FC Salzburg': 'Salzburg',
+                    'Red Bull Salzburg': 'Salzburg',
+                    # LASK — SoccerStats usa "LASK Linz"
                     'LASK': 'LASK Linz',
-                    'Salzburg': 'RB Salzburg', # Or vice-versa? SoccerStats uses "RB Salzburg"? No, usually "Salzburg" or "FC Salzburg".
-                    # Let's check the user print: SoccerStats has "Salzburg", user site has "RB Salzburg" and "Salzburg".
-                    # We should map TO the name that is most common/official or matches SoccerStats.
-                    # SoccerStats usually has "Salzburg".
-                    # Let's standardize to what we see in the "good" list.
-                    # Wait, user print showed "RB Salzburg" (21) and "Salzburg" (20).
-                    # We want to merge them.
-                    'RB Salzburg': 'Salzburg', 
-                    'LASK Linz': 'LASK', # Or keep LASK Linz?
-                    # Check what scraper uses. Usually scraper uses "Salzburg" and "LASK Linz".
-                    # Let's map CSV names to scraper names.
+                    'LASK Linz': 'LASK Linz',
+                    # Rapid
+                    'Rapid Vienna': 'Rapid Wien',
+                    'Rapid Wien': 'Rapid Wien',
+                    'SK Rapid Wien': 'Rapid Wien',
+                    # Austria Wien
+                    'Austria Vienna': 'Austria Wien',
+                    'Austria Wien': 'Austria Wien',
+                    'FK Austria Wien': 'Austria Wien',
+                    # Sturm Graz
                     'Sturm Graz': 'Sturm Graz',
-                    'Altach': 'Altach',
-                    'Hartberg': 'Hartberg',
+                    'SK Sturm Graz': 'Sturm Graz',
+                    # Wolfsberger
                     'Wolfsberg': 'Wolfsberger AC',
                     'Wolfsberger': 'Wolfsberger AC',
+                    'Wolfsberger AC': 'Wolfsberger AC',
+                    'WAC': 'Wolfsberger AC',
+                    # Klagenfurt
                     'A. Klagenfurt': 'Austria Klagenfurt',
-                    'A. Lustenau': 'Austria Lustenau',
-                    'BW Linz': 'Blau-Weiss Linz',
+                    'SK Austria Klagenfurt': 'Austria Klagenfurt',
+                    'Austria Klagenfurt': 'Austria Klagenfurt',
+                    # BW Linz — SoccerStats usa "BW Linz"
+                    'BW Linz': 'BW Linz',
+                    'Blau-Weiss Linz': 'BW Linz',
+                    'FC Blau Weiss Linz': 'BW Linz',
+                    'FC Blau-Weiss Linz': 'BW Linz',
+                    # Hartberg
+                    'Hartberg': 'Hartberg',
+                    'TSV Hartberg': 'Hartberg',
+                    # Altach
+                    'Altach': 'Altach',
+                    'SCR Altach': 'Altach',
+                    # Tirol — SoccerStats usa "Tirol"
                     'WSG Tirol': 'Tirol',
+                    'Tirol': 'Tirol',
+                    # GAK
+                    'Grazer AK': 'Grazer AK',
+                    'GAK': 'Grazer AK',
+                    # Lustenau
+                    'A. Lustenau': 'Austria Lustenau',
+                    'Austria Lustenau': 'Austria Lustenau',
+                    # Ried
+                    'Ried': 'Ried',
+                    'SV Ried': 'Ried',
+                    'SCR Ried': 'Ried',
                 }
                 # Apply map
                 home_name = austria_map.get(home_name, home_name)

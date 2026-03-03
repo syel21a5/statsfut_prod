@@ -675,7 +675,7 @@ class Command(BaseCommand):
                                             # Standard European season (Aug-May)
                                             # If month is >= 7 (July onwards), it belongs to the start of the season (year-1)
                                             # If month is <= 6 (June backwards), it belongs to the end of the season (year)
-                                            if month >= 6: # Changed from 7 to 6 to include June friendlies/early rounds if any
+                                            if month >= 7:  # FIX: Julho+ = início da temporada (ano anterior). Junho = final da temporada (ano atual).
                                                 match_year = year - 1
                                         else:
                                             # Calendar year leagues (e.g. 2026 season happens in 2026)
