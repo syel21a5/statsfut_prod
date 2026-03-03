@@ -4,6 +4,9 @@ from django.db.models import Q
 from matches.models import League, Season, Team, Match, LeagueStanding
 
 
+from django.utils import timezone
+from datetime import timedelta
+
 class Command(BaseCommand):
     help = "Recalcula a tabela de classificação a partir dos jogos do banco"
 
@@ -38,11 +41,24 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options["all"]:
-            leagues_with_matches = League.objects.filter(matches__isnull=False).distinct()
-            self.stdout.write(self.style.SUCCESS(f"Iniciando recálculo para {leagues_with_matches.count()} ligas ativas..."))
+            # Se --smart for passado, filtra apenas ligas com jogos recentes
+            if options["smart"]:
+                self.stdout.write(self.style.SUCCESS("Modo SMART ativado: Buscando ligas com jogos nas últimas 24h..."))
+                yesterday = timezone.now() - timedelta(days=1)
+                leagues_with_matches = League.objects.filter(
+                    matches__date__gte=yesterday
+                ).distinct()
+            else:
+                self.stdout.write(self.style.WARNING("Modo FULL SCAN ativado: Recalculando TODAS as ligas do banco..."))
+                leagues_with_matches = League.objects.filter(matches__isnull=False).distinct()
+            
+            count = leagues_with_matches.count()
+            self.stdout.write(self.style.SUCCESS(f"Iniciando recálculo para {count} ligas..."))
+            
             for league in leagues_with_matches:
                 self.recalculate_for_league(league)
-            self.stdout.write(self.style.SUCCESS("Recálculo de todas as ligas concluído."))
+            
+            self.stdout.write(self.style.SUCCESS("Recálculo concluído."))
             return
 
         league_name = options["league_name"]
