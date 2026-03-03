@@ -26,6 +26,14 @@ class Command(BaseCommand):
             "Western United FC": "Western United",
             "Western Utd": "Western United",
             
+            # Sydney FC
+            "Sydney": "Sydney FC",
+            
+            # Western Sydney Wanderers
+            "WS Wanderers": "Western Sydney Wanderers",
+            "Western Sydney": "Western Sydney Wanderers",
+            "WSW": "Western Sydney Wanderers",
+            
             # Others just in case
             "Melbourne City FC": "Melbourne City",
             "Melbourne Victory FC": "Melbourne Victory",
