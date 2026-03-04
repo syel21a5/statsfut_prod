@@ -31,6 +31,8 @@ class Command(BaseCommand):
         target_slug = (kwargs.get('target_slug') or '').strip().lower() or None
         team_url = (kwargs.get('team_url') or '').strip()
         
+        self.processed_matches = set()
+        
         self.stdout.write(f"DEBUG: Scraper started. target_slug={target_slug}, years={years}")
         sys.stdout.flush()
 
@@ -734,6 +736,15 @@ class Command(BaseCommand):
 
                 if home_team == away_team:
                     continue
+                
+                # DUPLICATE CHECK: Prevent processing the same match from multiple tables in the same run
+                if match_date:
+                    # Use date() to ignore time differences if any
+                    match_key = (league_obj.id, home_team.id, away_team.id, match_date.date())
+                    if match_key in self.processed_matches:
+                        # self.stdout.write(f"DEBUG: Skipping duplicate match in same run: {home} vs {away} on {match_date.date()}")
+                        continue
+                    self.processed_matches.add(match_key)
 
                 defaults = {
                     'home_score': h_score,
