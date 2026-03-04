@@ -396,6 +396,7 @@ class Command(BaseCommand):
 
                     # Austria mappings
                     'Red Bull Salzburg': 'Salzburg',
+                    'RB Salzburg': 'Salzburg',
                     'Salzburg': 'Salzburg',
                     'Sturm Graz': 'Sturm Graz',
                     'SK Sturm Graz': 'Sturm Graz',
@@ -409,12 +410,14 @@ class Command(BaseCommand):
                     'WAC': 'Wolfsberger AC',
                     'SK Austria Klagenfurt': 'Austria Klagenfurt',
                     'A. Klagenfurt': 'Austria Klagenfurt',
+                    'Austria Klagenfurt': 'Austria Klagenfurt',
                     'TSV Hartberg': 'Hartberg',
                     'Hartberg': 'Hartberg',
                     'SCR Altach': 'Altach',
                     'Altach': 'Altach',
                     'FC Blau Weiss Linz': 'BW Linz',
                     'BW Linz': 'BW Linz',
+                    'Blau-Weiss Linz': 'BW Linz',
                     'WSG Tirol': 'Tirol',
                     'Tirol': 'Tirol',
                     'Grazer AK': 'Grazer AK',
