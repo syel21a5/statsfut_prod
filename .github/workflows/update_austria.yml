@@ -45,7 +45,7 @@ jobs:
         env:
           DJANGO_SETTINGS_MODULE: core.settings_ci
           PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
-          PROD_SERVER_USER: ${{ secrets.PROD_SERVER_USER }}
+          PROD_SERVER_USER: root
           PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
         run: |
           # Configura chave SSH para conexão ao servidor
