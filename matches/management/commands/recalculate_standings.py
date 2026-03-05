@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.db.models import Q
-
+from django.db.models import Q, Subquery
 from matches.models import League, Season, Team, Match, LeagueStanding
 
 
@@ -50,12 +49,18 @@ class Command(BaseCommand):
             if options["smart"]:
                 self.stdout.write(self.style.SUCCESS("Modo SMART ativado: Buscando ligas com jogos nas últimas 24h..."))
                 yesterday = timezone.now() - timedelta(days=1)
-                leagues_with_matches = League.objects.filter(
-                    matches__date__gte=yesterday
-                ).distinct()
+                
+                # Otimização crucial: Evitar JOIN pesado (LEFT OUTER JOIN no django .filter().distinct())
+                # Busca PIDs primeiro, depois as Ligas.
+                recent_league_ids = Match.objects.filter(
+                    date__gte=yesterday
+                ).values_list('league_id', flat=True).distinct()
+                
+                leagues_with_matches = League.objects.filter(id__in=recent_league_ids)
             else:
                 self.stdout.write(self.style.WARNING("Modo FULL SCAN ativado: Recalculando TODAS as ligas do banco..."))
                 leagues_with_matches = League.objects.filter(matches__isnull=False).distinct()
+
             
             count = leagues_with_matches.count()
             self.stdout.write(self.style.SUCCESS(f"Iniciando recálculo para {count} ligas..."))
