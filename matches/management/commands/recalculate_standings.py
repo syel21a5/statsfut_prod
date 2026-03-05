@@ -17,6 +17,11 @@ class Command(BaseCommand):
             help="Recalcula a tabela para todas as ligas ativas",
         )
         parser.add_argument(
+            "--smart",
+            action="store_true",
+            help="Modo inteligente: recalcula apenas as ligas com jogos recentes (últimas 24h).",
+        )
+        parser.add_argument(
             "--league_name",
             type=str,
             default=None,
