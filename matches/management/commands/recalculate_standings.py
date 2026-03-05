@@ -134,28 +134,24 @@ class Command(BaseCommand):
 
     def recalculate_for_league(self, league, season_year=None):
         if season_year:
-            season = Season.objects.filter(year=season_year).first()
-            if not season:
+            seasons = Season.objects.filter(year=season_year)
+            if not seasons.exists():
                 self.stdout.write(self.style.ERROR(f"Temporada {season_year} não encontrada"))
                 return
         else:
-            season = (
-                Season.objects.filter(matches__league=league)
-                .distinct()
-                .order_by("-year")
-                .first()
-            )
-            if not season:
+            seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")
+            if not seasons.exists():
                 self.stdout.write(self.style.ERROR(f"Nenhuma temporada com jogos encontrada para a liga {league.name}"))
                 return
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Recalculando tabela para {league.name}, temporada {season.year}"
+        for season in seasons:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"Recalculando tabela para {league.name}, temporada {season.year}"
+                )
             )
-        )
 
-        finished_matches = Match.objects.filter(
+            finished_matches = Match.objects.filter(
             league=league,
             season=season,
             status__in=["Finished", "FT", "AET", "PEN"],
@@ -163,123 +159,119 @@ class Command(BaseCommand):
             away_score__isnull=False,
         ).select_related("home_team", "away_team")
 
-        if not finished_matches.exists():
-            self.stdout.write(self.style.WARNING("Nenhum jogo finalizado encontrado para esta liga/temporada"))
-            return
-
-        if league.country == "Alemanha":
-            base_qs = finished_matches
-        else:
-            base_qs = Match.objects.filter(league=league, season=season)
-
-        # Pegamos os IDs usando a base_qs (jogos Finished ou Scheduled desta season)
-        # Isso garante que pegamos APENAS times que vão jogar/já jogaram nessa temporada,
-        # NUNCA puxar todos os times da liga (para evitar times de temporadas antigas ou duplicatas que não foram totalmente expurgadas).
-        season_team_ids = set(
-            base_qs.values_list("home_team_id", flat=True)
-        ) | set(
-            base_qs.values_list("away_team_id", flat=True)
-        )
-
-        if not season_team_ids:
-            self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada. Tabela não será gerada."))
-            return
-            
-        # Pega os objetos dos times
-        teams = Team.objects.filter(id__in=season_team_ids)
-
-        stats_by_team = {}
-        for team in teams:
-            stats_by_team[team.id] = {
-                "team": team,
-                "played": 0,
-                "won": 0,
-                "drawn": 0,
-                "lost": 0,
-                "gf": 0,
-                "ga": 0,
-                "points": 0,
-            }
-
-        for m in finished_matches:
-            home_id = m.home_team_id
-            away_id = m.away_team_id
-
-            if home_id not in stats_by_team or away_id not in stats_by_team:
+            if not finished_matches.exists():
+                self.stdout.write(self.style.WARNING("Nenhum jogo finalizado encontrado para esta liga/temporada"))
                 continue
 
-            home_stats = stats_by_team[home_id]
-            away_stats = stats_by_team[away_id]
-
-            home_stats["played"] += 1
-            away_stats["played"] += 1
-
-            home_goals = m.home_score or 0
-            away_goals = m.away_score or 0
-
-            home_stats["gf"] += home_goals
-            home_stats["ga"] += away_goals
-            away_stats["gf"] += away_goals
-            away_stats["ga"] += home_goals
-
-            if home_goals > away_goals:
-                home_stats["won"] += 1
-                home_stats["points"] += 3
-                away_stats["lost"] += 1
-            elif home_goals < away_goals:
-                away_stats["won"] += 1
-                away_stats["points"] += 3
-                home_stats["lost"] += 1
+            if league.country == "Alemanha":
+                base_qs = finished_matches
             else:
-                home_stats["drawn"] += 1
-                away_stats["drawn"] += 1
-                home_stats["points"] += 1
-                away_stats["points"] += 1
+                base_qs = Match.objects.filter(league=league, season=season)
 
-        teams_stats = [
-            (
-                data["team"],
-                data["played"],
-                data["won"],
-                data["drawn"],
-                data["lost"],
-                data["gf"],
-                data["ga"],
-                data["points"],
+            season_team_ids = set(
+                base_qs.values_list("home_team_id", flat=True)
+            ) | set(
+                base_qs.values_list("away_team_id", flat=True)
             )
-            for data in stats_by_team.values()
-        ]
 
-        teams_stats.sort(
-            key=lambda item: (
-                -item[7],
-                - (item[5] - item[6]),
-                -item[5],
-                item[0].name,
+            if not season_team_ids:
+                self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada. Tabela não será gerada."))
+                continue
+                
+            teams = Team.objects.filter(id__in=season_team_ids)
+
+            stats_by_team = {}
+            for team in teams:
+                stats_by_team[team.id] = {
+                    "team": team,
+                    "played": 0,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 0,
+                    "gf": 0,
+                    "ga": 0,
+                    "points": 0,
+                }
+
+            for m in finished_matches:
+                home_id = m.home_team_id
+                away_id = m.away_team_id
+
+                if home_id not in stats_by_team or away_id not in stats_by_team:
+                    continue
+
+                home_stats = stats_by_team[home_id]
+                away_stats = stats_by_team[away_id]
+
+                home_stats["played"] += 1
+                away_stats["played"] += 1
+
+                home_goals = m.home_score or 0
+                away_goals = m.away_score or 0
+
+                home_stats["gf"] += home_goals
+                home_stats["ga"] += away_goals
+                away_stats["gf"] += away_goals
+                away_stats["ga"] += home_goals
+
+                if home_goals > away_goals:
+                    home_stats["won"] += 1
+                    home_stats["points"] += 3
+                    away_stats["lost"] += 1
+                elif home_goals < away_goals:
+                    away_stats["won"] += 1
+                    away_stats["points"] += 3
+                    home_stats["lost"] += 1
+                else:
+                    home_stats["drawn"] += 1
+                    away_stats["drawn"] += 1
+                    home_stats["points"] += 1
+                    away_stats["points"] += 1
+
+            teams_stats = [
+                (
+                    data["team"],
+                    data["played"],
+                    data["won"],
+                    data["drawn"],
+                    data["lost"],
+                    data["gf"],
+                    data["ga"],
+                    data["points"],
+                )
+                for data in stats_by_team.values()
+            ]
+
+            teams_stats.sort(
+                key=lambda item: (
+                    -item[7],
+                    - (item[5] - item[6]),
+                    -item[5],
+                    item[0].name,
+                )
             )
-        )
 
-        LeagueStanding.objects.filter(league=league, season=season).delete()
+            LeagueStanding.objects.filter(league=league, season=season).delete()
 
-        created = 0
-        for idx, (team, played, won, drawn, lost, gf, ga, pts) in enumerate(teams_stats, start=1):
-            LeagueStanding.objects.create(
-                league=league,
-                season=season,
-                team=team,
-                position=idx,
-                played=played,
-                won=won,
-                drawn=drawn,
-                lost=lost,
-                goals_for=gf,
-                goals_against=ga,
-                points=pts,
+            created = 0
+            for idx, (team, played, won, drawn, lost, gf, ga, pts) in enumerate(teams_stats, start=1):
+                LeagueStanding.objects.create(
+                    league=league,
+                    season=season,
+                    team=team,
+                    position=idx,
+                    played=played,
+                    won=won,
+                    drawn=drawn,
+                    lost=lost,
+                    goals_for=gf,
+                    goals_against=ga,
+                    points=pts,
+                )
+                created += 1
+
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"Tabela recalculada para temporada {season.year}. Times atualizados: {created}"
+                )
             )
-            created += 1
-
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Tabela recalculada. Times atualizados: {created}"
-            )
-        )
