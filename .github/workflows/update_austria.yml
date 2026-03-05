@@ -1,0 +1,57 @@
+name: Update Austria Data via SofaScore
+
+on:
+  # Permite disparar manualmente pela interface do GitHub (para testes)
+  workflow_dispatch:
+  # Agendamento automático: roda a cada 6 horas
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          pip install django curl_cffi python-dotenv
+
+      - name: Configurar banco de dados CI (SQLite)
+        env:
+          DJANGO_SETTINGS_MODULE: core.settings_ci
+        run: |
+          python manage.py migrate --run-syncdb
+          echo "Banco de dados CI pronto!"
+
+      - name: Rodar scraper da Áustria (SofaScore)
+        env:
+          DJANGO_SETTINGS_MODULE: core.settings_ci
+        run: |
+          echo "Raspando dados do SofaScore..."
+          python manage.py scrape_sofascore_austria
+          echo "Buscando estatísticas detalhadas..."
+          python manage.py scrape_sofascore_austria_details
+
+      - name: Gerar fixture e enviar para o servidor
+        env:
+          DJANGO_SETTINGS_MODULE: core.settings_ci
+          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          PROD_SERVER_USER: ${{ secrets.PROD_SERVER_USER }}
+          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+        run: |
+          # Configura chave SSH para conexão ao servidor
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Exporta e envia os dados ao servidor
+          python upload_fixture_to_server.py
