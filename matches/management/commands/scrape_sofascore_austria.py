@@ -10,7 +10,7 @@ from django.db import transaction
 # Default Constants for Austrian Bundesliga 2024/2025
 TOURNAMENT_ID = 45
 DEFAULT_SEASON_ID = 77382
-DEFAULT_YEAR = 2025
+DEFAULT_YEAR = 2026
 
 class Command(BaseCommand):
     help = "Faz o scraping das partidas da Áustria (SofaScore) de forma invisível via curl_cffi"
