@@ -9,7 +9,7 @@ def get_team_logo(team):
     Returns the static URL for a team's logo if it exists locally,
     otherwise returns an empty string or a default placeholder.
     """
-    if not team or not hasattr(team, 'api_id') or not team.api_id.startswith('sofa_'):
+    if not team or getattr(team, 'api_id', None) is None or not team.api_id.startswith('sofa_'):
         return ''
         
     try:

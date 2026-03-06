@@ -257,8 +257,7 @@
                 <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                         <h4 class="mb-0 fw-bold">Match Goals Stats <span
-                                class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 ms-2 rounded-pill">{{
-                                stats_type|default:"Total"|title }}</span></h4>
+                                class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 ms-2 rounded-pill">{{ stats_type|default:"Total"|title }}</span></h4>
                         <nav class="nav nav-pills nav-sm">
                             <a href="?type=total&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
                                 onclick="loadStats(event, this, 'stats-content')"
@@ -366,8 +365,7 @@
                 <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                         <h4 class="mb-0 fw-bold">Half-Time Stats <span
-                                class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 ms-2 rounded-pill">{{
-                                ht_stats_type|default:"Total"|title }}</span></h4>
+                                class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 ms-2 rounded-pill">{{ ht_stats_type|default:"Total"|title }}</span></h4>
                         <nav class="nav nav-pills nav-sm">
                             <a href="?type={{ stats_type|default:'total' }}&ht_type=total&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
                                 onclick="loadStats(event, this, 'stats-content')"
