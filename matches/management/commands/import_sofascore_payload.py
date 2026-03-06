@@ -103,6 +103,8 @@ class Command(BaseCommand):
                     
                     home_score = ev.get('homeScore', {}).get('current')
                     away_score = ev.get('awayScore', {}).get('current')
+                    ht_home_score = ev.get('homeScore', {}).get('period1')
+                    ht_away_score = ev.get('awayScore', {}).get('period1')
                     
                     home_team = teams_map.get(int(home_sofa_id))
                     away_team = teams_map.get(int(away_sofa_id))
@@ -122,6 +124,8 @@ class Command(BaseCommand):
                             "status": match_status,
                             "home_score": home_score,
                             "away_score": away_score,
+                            "ht_home_score": ht_home_score,
+                            "ht_away_score": ht_away_score,
                         }
                     )
                     
