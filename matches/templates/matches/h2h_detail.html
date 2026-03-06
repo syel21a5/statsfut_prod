@@ -1195,7 +1195,8 @@
                                         <div class="h5 fw-bold">{{ fallback_h2h.t1.ppg }}</div>
                                         <div class="small mt-2 text-secondary">GF/GA por jogo</div>
                                         <div class="h6"><span class="text-info">{{ fallback_h2h.t1.gfpg }}</span> /
-                                            <span class="text-danger">{{ fallback_h2h.t1.gapg }}</span></div>
+                                            <span class="text-danger">{{ fallback_h2h.t1.gapg }}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -1211,7 +1212,8 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: {{ fallback_h2h.probs.home }}%"></div>
+                                                    style="width: {{ fallback_h2h.probs.home|stringformat:" f" }}%">
+                                                </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
                                                 <span>Empate</span><span class="fw-bold text-white">{{
@@ -1219,7 +1221,8 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                    style="width: {{ fallback_h2h.probs.draw }}%"></div>
+                                                    style="width: {{ fallback_h2h.probs.draw|stringformat:" f" }}%">
+                                                </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
                                                 <span>Vitória {{ team2.name }}</span><span class="fw-bold text-white">{{
@@ -1227,7 +1230,8 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-danger" role="progressbar"
-                                                    style="width: {{ fallback_h2h.probs.away }}%"></div>
+                                                    style="width: {{ fallback_h2h.probs.away|stringformat:" f" }}%">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="mt-3 small">
@@ -1249,7 +1253,8 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: {{ fallback_h2h.totals.over_25 }}%"></div>
+                                                    style="width: {{ fallback_h2h.totals.over_25|stringformat:" f" }}%">
+                                                </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
                                                 <span>Over 3.5</span><span class="fw-bold text-white">{{
@@ -1257,7 +1262,8 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-secondary" role="progressbar"
-                                                    style="width: {{ fallback_h2h.totals.over_35 }}%"></div>
+                                                    style="width: {{ fallback_h2h.totals.over_35|stringformat:" f" }}%">
+                                                </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
                                                 <span>BTTS</span><span class="fw-bold text-white">{{
@@ -1265,7 +1271,8 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                    style="width: {{ fallback_h2h.totals.btts }}%"></div>
+                                                    style="width: {{ fallback_h2h.totals.btts|stringformat:" f" }}%">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1282,7 +1289,8 @@
                                         <div class="h5 fw-bold">{{ fallback_h2h.t2.ppg }}</div>
                                         <div class="small mt-2 text-secondary">GF/GA por jogo</div>
                                         <div class="h6"><span class="text-info">{{ fallback_h2h.t2.gfpg }}</span> /
-                                            <span class="text-danger">{{ fallback_h2h.t2.gapg }}</span></div>
+                                            <span class="text-danger">{{ fallback_h2h.t2.gapg }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
