@@ -1,51 +1,59 @@
 name: Update Australia Data
 
 on:
+  workflow_dispatch:
   schedule:
-    # Roda a cada 6 horas, no minuto 15 para não congestionar com a Áustria (minuto 0)
     - cron: '15 */6 * * *'
-  workflow_dispatch:  # Permite roda manualmente via botão no GitHub
 
 jobs:
-  scrape-and-deploy:
+  proxy-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
+      - name: Checkout código
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install django requests curl_cffi python-dotenv
+      - name: Instalar dependências
+        run: |
+          pip install curl_cffi requests
 
-    - name: Run Scraper (SQLite In-Memory / File)
-      env:
-        DJANGO_SETTINGS_MODULE: core.settings_ci
-      run: |
-        # Roda as migrações no banco local SQLite (só memória ou github runner)
-        python manage.py migrate
-        
-        # Roda o scraper
-        python manage.py scrape_sofascore_australia
+      - name: Rodar fetcher do SofaScore (Austrália)
+        run: |
+          # Tournament 136 (A-League Men), Season 82603 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 136 --season 82603
 
-    - name: Export and Upload
-      env:
-        DJANGO_SETTINGS_MODULE: core.settings_ci
-        # Configurado via GitHub Secrets!
-        PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
-        PROD_SERVER_USER: root
-        PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
-      run: |
-        # Configura chave SSH para conexão ao servidor
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        
-        # Exporta e envia os dados ao servidor
-        python export_australia_fixture.py
+      - name: Enviar payload e processar na VPS
+        env:
+          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          PROD_SERVER_USER: root
+          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Upload do arquivo cru
+          scp -o StrictHostKeyChecking=no payload.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_australia.json
+
+          # Comando SSH remoto
+          ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << 'EOF'
+            cd ${{ secrets.PROD_SERVER_PATH }}
+            
+            # Limpa dados antigos da Austrália
+            ./venv/bin/python clear_australia.py
+            
+            # Puxa o arquivo com IDs rígidos da prod (Liga=21, Season=1)
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_australia.json --league_id 21 --season_id 1
+            
+            # Recalcula as posições
+            ./venv/bin/python manage.py recalculate_standings --league_name 'A-League Men' --country 'Australia' --smart
+            
+            # Limpa rastros
+            rm payload_australia.json
+          EOF

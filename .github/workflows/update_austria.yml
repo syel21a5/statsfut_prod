@@ -1,16 +1,14 @@
 name: Update Austria Data via SofaScore
 
 on:
-  # Permite disparar manualmente pela interface do GitHub (para testes)
   workflow_dispatch:
-  # Agendamento automático: roda a cada 6 horas
   schedule:
     - cron: '0 */6 * * *'
 
 jobs:
-  scrape-and-deploy:
+  proxy-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
 
     steps:
       - name: Checkout código
@@ -23,35 +21,39 @@ jobs:
 
       - name: Instalar dependências
         run: |
-          pip install django curl_cffi requests python-dotenv
+          pip install curl_cffi requests
 
-      - name: Configurar banco de dados CI (SQLite)
-        env:
-          DJANGO_SETTINGS_MODULE: core.settings_ci
+      - name: Rodar fetcher do SofaScore (Áustria)
         run: |
-          python manage.py migrate --run-syncdb
-          echo "Banco de dados CI pronto!"
+          # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 45 --season 77382
 
-      - name: Rodar scraper da Áustria (SofaScore)
+      - name: Enviar payload e processar na VPS
         env:
-          DJANGO_SETTINGS_MODULE: core.settings_ci
-        run: |
-          echo "Raspando dados do SofaScore..."
-          python manage.py scrape_sofascore_austria
-          echo "Buscando estatísticas detalhadas..."
-          python manage.py scrape_sofascore_austria_details
-
-      - name: Gerar fixture e enviar para o servidor
-        env:
-          DJANGO_SETTINGS_MODULE: core.settings_ci
           PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
           PROD_SERVER_USER: root
           PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
         run: |
-          # Configura chave SSH para conexão ao servidor
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # Exporta e envia os dados ao servidor
-          python upload_fixture_to_server.py
+          # Upload do arquivo
+          scp -o StrictHostKeyChecking=no payload.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_austria.json
+
+          # Comando SSH remoto
+          ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << 'EOF'
+            cd ${{ secrets.PROD_SERVER_PATH }}
+            
+            # Limpa dados antigos da Áustria
+            ./venv/bin/python clear_austria.py
+            
+            # Puxa o arquivo com IDs rígidos da prod (Liga=1, Season=1)
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_austria.json --league_id 1 --season_id 1
+            
+            # Recalcula as posições
+            ./venv/bin/python manage.py recalculate_standings --division AUT
+            
+            # Limpa rastros
+            rm payload_austria.json
+          EOF
