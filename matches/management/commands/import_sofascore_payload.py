@@ -49,16 +49,34 @@ class Command(BaseCommand):
                 team_name = team_data.get('name')
                 
                 if team_id and team_name:
-                    team, created = Team.objects.get_or_create(
-                        api_id=f"sofa_{team_id}",
-                        defaults={
-                            "name": team_name,
-                            "league": league
-                        }
-                    )
-                    if not created and team.league != league: # Força a correção de liga se os IDs já existirem 
-                        team.league = league
-                        team.save()
+                    # Tenta primeiro pelo API ID
+                    team = Team.objects.filter(api_id=f"sofa_{team_id}").first()
+                    
+                    if not team:
+                        # Tenta pelo nome na mesma liga (para evitar duplicatas se o api_id era None)
+                        team = Team.objects.filter(name=team_name, league=league).first()
+                        
+                    if not team:
+                        # Cria se não existir nada
+                        team = Team.objects.create(
+                            api_id=f"sofa_{team_id}",
+                            name=team_name,
+                            league=league
+                        )
+                        created = True
+                    else:
+                        # Atualiza o api_id se estiver faltando ou se a liga mudou
+                        updated = False
+                        if team.api_id != f"sofa_{team_id}":
+                            team.api_id = f"sofa_{team_id}"
+                            updated = True
+                        if team.league != league:
+                            team.league = league
+                            updated = True
+                        if updated:
+                            team.save()
+                        created = False
+                            
                     teams_map[int(team_id)] = team
                     
             self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/sincronizados da rodada total."))
