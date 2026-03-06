@@ -59,20 +59,22 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f"Iniciando importação do SofaScore (Austrália) para a Temporada {season_year} (Sofa_ID: {season_id})..."))
 
-        # 1. Pegar/Criar a Liga e a Temporada
+        # 1. Pegar/Criar a Liga e a Temporada com IDs FIXOS da Produção
         league, _ = League.objects.get_or_create(
-            name="A-League Men",
-            country="Australia",
+            id=21,  # ID da Liga na Produção
             defaults={
+                "name": "A-League Men",
+                "country": "Australia",
                 "division": 1,
                 "soccerstats_slug": "australia"
             }
         )
-        season_qs = Season.objects.filter(year=season_year)
-        if season_qs.exists():
-            season = season_qs.first()
-        else:
-            season = Season.objects.create(year=season_year)
+        season, _ = Season.objects.get_or_create(
+            id=1,  # ID da Season 2026 na Produção
+            defaults={
+                "year": season_year
+            }
+        )
 
         # 2. Obter Teams (Standings é um bom lugar para puxar os IDs dos times da temporada)
         self.stdout.write("Buscando times da temporada...")
