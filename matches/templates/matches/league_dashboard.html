@@ -351,8 +351,7 @@
                                                             {% get_team_logo item.match.home_team as team_logo %}
                                                             {% if team_logo %}<img src="{{ team_logo }}"
                                                                 class="mx-1 rounded-circle bg-white"
-                                                                style="width: 16px; height: 16px; padding: 1px; object-fit: contain;">{%
-                                                            endif %}
+                                                                style="width: 16px; height: 16px; padding: 1px; object-fit: contain;">{% endif %}
                                                             <span>{{ item.match.home_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -385,8 +384,7 @@
                                                             {% get_team_logo item.match.away_team as team_logo %}
                                                             {% if team_logo %}<img src="{{ team_logo }}"
                                                                 class="mx-1 rounded-circle bg-white"
-                                                                style="width: 16px; height: 16px; padding: 1px; object-fit: contain;">{%
-                                                            endif %}
+                                                                style="width: 16px; height: 16px; padding: 1px; object-fit: contain;">{% endif %}
                                                             <span>{{ item.match.away_team.name }}</span>
                                                         </div>
                                                     </td>
