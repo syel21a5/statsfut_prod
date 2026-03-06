@@ -44,6 +44,7 @@ jobs:
           # Comando SSH remoto
           ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << 'EOF'
             cd ${{ secrets.PROD_SERVER_PATH }}
+            git pull origin main
             
             # Limpa dados antigos da Áustria
             ./venv/bin/python clear_austria.py
