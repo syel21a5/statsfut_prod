@@ -25,7 +25,9 @@ def get_team_logo(team):
         # PRODUCTION: Check in STATIC_ROOT (where collectstatic puts files)
         static_root = getattr(settings, 'STATIC_ROOT', None)
         if static_root:
-            full_path = os.path.join(static_root, static_path)
+            # Normalize path so os.path.join works even if static_path has forward slashes
+            normalized_static_path = os.path.normpath(static_path)
+            full_path = os.path.join(static_root, normalized_static_path)
             if os.path.exists(full_path):
                 return static(static_path)
 
