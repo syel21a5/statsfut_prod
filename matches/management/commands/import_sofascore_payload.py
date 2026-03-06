@@ -93,7 +93,7 @@ class Command(BaseCommand):
                     
                     match_status = "Scheduled"
                     if status_type == 'finished':
-                        match_status = "Finished"
+                        match_status = "FT"
                     elif status_type == 'inprogress':
                         match_status = "In Play"
                     elif status_type == 'canceled':
