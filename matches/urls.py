@@ -20,7 +20,7 @@ urlpatterns = [
     path('stats/<str:league_name>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='league_stats'),
     
     # Rota específica para Gols (deve vir ANTES do Dispatcher genérico)
-    path('stats/<str:league_name>/goals/', views.LeagueGoalsView.as_view(), name='league_goals'),
+    path('stats/<str:country_name>/<str:league_name>/goals/', views.LeagueGoalsView.as_view(), name='league_goals'),
 
     # Alias para reverse url compatibility
     # O primeiro pattern captura a requisição (DispatchView recebe arg1, arg2)
@@ -36,7 +36,7 @@ urlpatterns = [
     # ou deixar rotas específicas abaixo se o Django permitir (mas regex igual conflita).
     # Então, removemos as rotas conflitantes e deixamos o Dispatcher assumir.
     
-    path('stats/<str:league_name>/h2h/<str:team1_name>/<str:team2_name>/', views.HeadToHeadView.as_view(), name='h2h_detail'),
+    path('stats/<str:country_name>/<str:league_name>/h2h/<str:team1_name>/<str:team2_name>/', views.HeadToHeadView.as_view(), name='h2h_detail'),
     # path('live/', views.LiveMatchesView.as_view(), name='live_matches'), # REMOVED per user request
     path('debug-leagues/', views.debug_leagues_wrapper, name='debug_leagues'),
 ]

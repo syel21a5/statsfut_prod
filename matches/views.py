@@ -2949,6 +2949,22 @@ class LeagueGoalsView(TemplateView):
         if not candidates.exists():
              candidates = League.objects.filter(name__icontains=name_query).annotate(s_count=Count('standings')).order_by('-s_count')
         
+        country_slug = self.kwargs.get('country_name')
+        if country_slug:
+             country_clean = country_slug.replace('-', ' ')
+             from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+             db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+             
+             filtered_candidates = candidates.filter(country__iexact=db_country)
+             if filtered_candidates.exists():
+                 candidates = filtered_candidates
+             else:
+                 from django.utils.text import slugify
+                 for c in candidates:
+                     if slugify(c.country) == country_slug:
+                          candidates = League.objects.filter(id=c.id)
+                          break
+
         league = candidates.first()
         
         context['league'] = league
@@ -3757,7 +3773,7 @@ class HeadToHeadView(TemplateView):
         team2_slug = self.kwargs.get('team2_name')
 
         # Helper to find team by slug/name
-        def get_league(slug):
+        def get_league(slug, country_slug=None):
             if not slug: return None
             name = slug.replace('-', ' ')
             
@@ -3766,6 +3782,21 @@ class HeadToHeadView(TemplateView):
             candidates = League.objects.filter(name__iexact=name).annotate(s_count=Count('standings')).order_by('-s_count')
             if not candidates.exists():
                  candidates = League.objects.filter(name__icontains=name).annotate(s_count=Count('standings')).order_by('-s_count')
+                 
+            if country_slug:
+                 country_clean = country_slug.replace('-', ' ')
+                 from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+                 db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+                 
+                 filtered_candidates = candidates.filter(country__iexact=db_country)
+                 if filtered_candidates.exists():
+                     candidates = filtered_candidates
+                 else:
+                     from django.utils.text import slugify
+                     for c in candidates:
+                         if slugify(c.country) == country_slug:
+                              candidates = League.objects.filter(id=c.id)
+                              break
             
             return candidates.first()
 
@@ -3786,7 +3817,8 @@ class HeadToHeadView(TemplateView):
                 t = Team.objects.filter(name__icontains=name).first()
             return t
 
-        league = get_league(league_slug)
+        country_slug = self.kwargs.get('country_name')
+        league = get_league(league_slug, country_slug)
         team1 = get_team(team1_slug, league)
         team2 = get_team(team2_slug, league)
 

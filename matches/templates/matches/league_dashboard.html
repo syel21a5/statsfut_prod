@@ -10,15 +10,18 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="text-white fw-bold mb-0">
-                <img src="{{ league.country|country_en|get_flag_url }}" alt="{{ league.country|country_en }}" style="height: 30px; margin-right: 10px;">
+                <img src="{{ league.country|country_en|get_flag_url }}" alt="{{ league.country|country_en }}"
+                    style="height: 30px; margin-right: 10px;">
                 {{ league.name }}
             </h2>
             <p class="text-secondary mb-0 mt-1">
-                <span class="text-info">{{ league.country|country_en }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> League Stats
+                <span class="text-info">{{ league.country|country_en }}</span> <i
+                    class="fa-solid fa-chevron-right mx-2 small"></i> League Stats
             </p>
         </div>
         <div>
-             <a href="{% url 'matches:league_goals' league_name=league.name|slugify %}" class="btn btn-outline-info btn-sm">
+            <a href="{% url 'matches:league_goals' country_name=league.country|slugify league_name=league.name|slugify %}"
+                class="btn btn-outline-info btn-sm">
                 <i class="fa-solid fa-chart-pie me-1"></i> Goals Stats
             </a>
         </div>
@@ -27,170 +30,189 @@
     <div class="row">
         <!-- Main Content Column (75% Width) -->
         <div class="col-lg-9">
-            
+
             <!-- Horizontal Ad Slot (Top) -->
             <div class="card border-0 bg-transparent mb-4 d-none d-md-block">
-                <div class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
-                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal Banner)</span>
+                <div
+                    class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
+                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal
+                        Banner)</span>
                     <!-- Insert Ad Code Here -->
                 </div>
             </div>
 
             <!-- League Averages Summary -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Avg PPG</h6>
-                        <h3 class="fw-bold mb-0">{{ avg_ppg|floatformat:2 }}</h3>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Avg PPG</h6>
+                            <h3 class="fw-bold mb-0">{{ avg_ppg|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Avg Goals/Team</h6>
+                            <h3 class="fw-bold mb-0 text-info">{{ avg_gf|floatformat:1 }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Clean Sheets %</h6>
+                            <h3 class="fw-bold mb-0 text-success">{{ avg_cs|floatformat:1 }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Scoring Rate</h6>
+                            <h3 class="fw-bold mb-0 text-warning">{{ avg_sr|floatformat:1 }}%</h3>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Avg Goals/Team</h6>
-                        <h3 class="fw-bold mb-0 text-info">{{ avg_gf|floatformat:1 }}</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Clean Sheets %</h6>
-                        <h3 class="fw-bold mb-0 text-success">{{ avg_cs|floatformat:1 }}%</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Scoring Rate</h6>
-                        <h3 class="fw-bold mb-0 text-warning">{{ avg_sr|floatformat:1 }}%</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Goals & Outcomes (New Section) -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Over 1.5 Goals</h6>
-                        <h3 class="fw-bold mb-0 text-info">{{ league_stats.over15_pct }}%</h3>
+            <!-- Goals & Outcomes (New Section) -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Over 1.5 Goals</h6>
+                            <h3 class="fw-bold mb-0 text-info">{{ league_stats.over15_pct }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Over 2.5 Goals</h6>
+                            <h3 class="fw-bold mb-0 text-primary">{{ league_stats.over25_pct }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">BTTS</h6>
+                            <h3 class="fw-bold mb-0 text-warning">{{ league_stats.btts_pct }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">Avg Match Goals</h6>
+                            <h3 class="fw-bold mb-0">{{ league_stats.avg_goals_match }}</h3>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Over 2.5 Goals</h6>
-                        <h3 class="fw-bold mb-0 text-primary">{{ league_stats.over25_pct }}%</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">BTTS</h6>
-                        <h3 class="fw-bold mb-0 text-warning">{{ league_stats.btts_pct }}%</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                    <div class="card-body py-3 text-center">
-                        <h6 class="text-secondary text-uppercase small mb-1">Avg Match Goals</h6>
-                        <h3 class="fw-bold mb-0">{{ league_stats.avg_goals_match }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Win Distribution & Common Scores -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                 <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
-                    <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25">
-                        <h6 class="mb-0">Match Outcomes Distribution</h6>
+            <!-- Win Distribution & Common Scores -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25">
+                            <h6 class="mb-0">Match Outcomes Distribution</h6>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <div class="progress w-100" style="height: 25px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                    style="--w-home: {{ league_stats.home_win_pct }}%; width: var(--w-home);"
+                                    title="Home Wins: {{ league_stats.home_win_pct }}%">
+                                    {{ league_stats.home_win_pct }}%
+                                </div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    style="--w-draw: {{ league_stats.draw_pct }}%; width: var(--w-draw);"
+                                    title="Draws: {{ league_stats.draw_pct }}%">
+                                    {{ league_stats.draw_pct }}%
+                                </div>
+                                <div class="progress-bar bg-danger" role="progressbar"
+                                    style="--w-away: {{ league_stats.away_win_pct }}%; width: var(--w-away);"
+                                    title="Away Wins: {{ league_stats.away_win_pct }}%">
+                                    {{ league_stats.away_win_pct }}%
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="card-footer bg-transparent border-0 d-flex justify-content-between small text-muted">
+                            <span><i class="fa-solid fa-square text-success"></i> Home Win</span>
+                            <span><i class="fa-solid fa-square text-secondary"></i> Draw</span>
+                            <span><i class="fa-solid fa-square text-danger"></i> Away Win</span>
+                        </div>
                     </div>
-                    <div class="card-body d-flex align-items-center justify-content-center">
-                        <div class="progress w-100" style="height: 25px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="--w-home: {{ league_stats.home_win_pct }}%; width: var(--w-home);" title="Home Wins: {{ league_stats.home_win_pct }}%">
-                                {{ league_stats.home_win_pct }}%
-                            </div>
-                            <div class="progress-bar bg-secondary" role="progressbar" style="--w-draw: {{ league_stats.draw_pct }}%; width: var(--w-draw);" title="Draws: {{ league_stats.draw_pct }}%">
-                                {{ league_stats.draw_pct }}%
-                            </div>
-                            <div class="progress-bar bg-danger" role="progressbar" style="--w-away: {{ league_stats.away_win_pct }}%; width: var(--w-away);" title="Away Wins: {{ league_stats.away_win_pct }}%">
-                                {{ league_stats.away_win_pct }}%
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25">
+                            <h6 class="mb-0">Most Common Scores</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between text-center">
+                                {% for score in common_scores %}
+                                <div>
+                                    <h5 class="fw-bold mb-0">{{ score.score }}</h5>
+                                    <small class="text-muted">{{ score.pct }}%</small>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between small text-muted">
-                        <span><i class="fa-solid fa-square text-success"></i> Home Win</span>
-                        <span><i class="fa-solid fa-square text-secondary"></i> Draw</span>
-                        <span><i class="fa-solid fa-square text-danger"></i> Away Win</span>
-                    </div>
-                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
-                   <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25">
-                       <h6 class="mb-0">Most Common Scores</h6>
-                   </div>
-                   <div class="card-body">
-                       <div class="d-flex justify-content-between text-center">
-                           {% for score in common_scores %}
-                           <div>
-                               <h5 class="fw-bold mb-0">{{ score.score }}</h5>
-                               <small class="text-muted">{{ score.pct }}%</small>
-                           </div>
-                           {% endfor %}
-                       </div>
-                   </div>
                 </div>
-           </div>
-        </div>
+            </div>
 
             <!-- Matches & Results Row -->
             <div class="row g-4 mb-4">
                 <!-- Upcoming Matches -->
                 <div class="col-lg-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2 d-flex justify-content-between align-items-center">
+                        <div
+                            class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2 d-flex justify-content-between align-items-center">
                             <h6 class="mb-0 fw-bold">Matches</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto;">
                                 <div class="list-group list-group-flush bg-transparent">
                                     {% for match in upcoming_matches %}
-                                    <div class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
+                                    <div
+                                        class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
                                         <div class="row align-items-center">
-                                            <div class="col-3 text-secondary utc-datetime" data-utc-datetime="{{ match.date|date:'c' }}">
+                                            <div class="col-3 text-secondary utc-datetime"
+                                                data-utc-datetime="{{ match.date|date:'c' }}">
                                                 <span class="js-local-date">{{ match.date|date:"D d M" }}</span><br>
-                                                <span class="text-success js-local-time">{{ match.date|date:"H:i" }}</span>
+                                                <span class="text-success js-local-time">{{ match.date|date:"H:i"
+                                                    }}</span>
                                             </div>
                                             <div class="col-7">
                                                 <div class="d-flex justify-content-between align-items-center px-2">
-                                                    <div class="d-flex justify-content-end align-items-center w-50 pe-2">
-                                                        <span class="text-end text-truncate">{{ match.home_team.name }}</span>
+                                                    <div
+                                                        class="d-flex justify-content-end align-items-center w-50 pe-2">
+                                                        <span class="text-end text-truncate">{{ match.home_team.name
+                                                            }}</span>
                                                         {% if match.home_team.logo %}
-                                                            <img src="{{ match.home_team.logo }}" height="16" class="ms-2">
+                                                        <img src="{{ match.home_team.logo }}" height="16" class="ms-2">
                                                         {% endif %}
                                                     </div>
-                                                    <span class="badge bg-secondary bg-opacity-25 text-white px-2" style="font-size: 0.65rem;">vs</span>
-                                                    <div class="d-flex justify-content-start align-items-center w-50 ps-2">
+                                                    <span class="badge bg-secondary bg-opacity-25 text-white px-2"
+                                                        style="font-size: 0.65rem;">vs</span>
+                                                    <div
+                                                        class="d-flex justify-content-start align-items-center w-50 ps-2">
                                                         {% if match.away_team.logo %}
-                                                            <img src="{{ match.away_team.logo }}" height="16" class="me-2">
+                                                        <img src="{{ match.away_team.logo }}" height="16" class="me-2">
                                                         {% endif %}
-                                                        <span class="text-start text-truncate">{{ match.away_team.name }}</span>
+                                                        <span class="text-start text-truncate">{{ match.away_team.name
+                                                            }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-2 text-end">
-                                                <a href="#" class="text-secondary"><i class="fa-solid fa-chart-simple"></i></a>
+                                                <a href="#" class="text-secondary"><i
+                                                        class="fa-solid fa-chart-simple"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +237,8 @@
                             <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto;">
                                 <div class="list-group list-group-flush bg-transparent">
                                     {% for match in latest_results %}
-                                    <div class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
+                                    <div
+                                        class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
                                         <div class="row align-items-center">
                                             <div class="col-3 text-secondary">
                                                 {{ match.date|date:"D d M" }}
@@ -223,12 +246,15 @@
                                             <div class="col-7">
                                                 <div class="d-flex justify-content-between align-items-center px-2">
                                                     <span class="text-end w-50 pe-2">{{ match.home_team.name }}</span>
-                                                    <span class="badge bg-white bg-opacity-25 text-white px-2">{{ match.home_score }} : {{ match.away_score }}</span>
+                                                    <span class="badge bg-white bg-opacity-25 text-white px-2">{{
+                                                        match.home_score }} : {{ match.away_score }}</span>
                                                     <span class="text-start w-50 ps-2">{{ match.away_team.name }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-2 text-end">
-                                                <a href="{% url 'matches:match_detail' match.id match.slug %}" class="btn btn-sm btn-outline-secondary" style="font-size: 0.7rem; padding: 1px 5px;">stats</a>
+                                                <a href="{% url 'matches:match_detail' match.id match.slug %}"
+                                                    class="btn btn-sm btn-outline-secondary"
+                                                    style="font-size: 0.7rem; padding: 1px 5px;">stats</a>
                                             </div>
                                         </div>
                                     </div>
@@ -248,30 +274,41 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
+                        <div
+                            class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">
-                                <i class="fa-solid fa-chart-simple me-2"></i>Pre-Match Analysis 
-                                <span class="badge bg-info text-dark ms-2" style="font-size: 0.65rem; vertical-align: middle;">Next 10 Matches</span>
+                                <i class="fa-solid fa-chart-simple me-2"></i>Pre-Match Analysis
+                                <span class="badge bg-info text-dark ms-2"
+                                    style="font-size: 0.65rem; vertical-align: middle;">Next 10 Matches</span>
                             </h5>
                             <ul class="nav nav-pills card-header-pills small" id="preMatchTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active py-1 px-3" id="home-away-tab" data-bs-toggle="tab" data-bs-target="#home-away" type="button" role="tab" aria-selected="true">Home / Away</button>
+                                    <button class="nav-link active py-1 px-3" id="home-away-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-away" type="button" role="tab" aria-selected="true">Home /
+                                        Away</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link py-1 px-3" id="overall-tab" data-bs-toggle="tab" data-bs-target="#overall" type="button" role="tab" aria-selected="false">Overall</button>
+                                    <button class="nav-link py-1 px-3" id="overall-tab" data-bs-toggle="tab"
+                                        data-bs-target="#overall" type="button" role="tab"
+                                        aria-selected="false">Overall</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link py-1 px-3" id="last-8-tab" data-bs-toggle="tab" data-bs-target="#last-8" type="button" role="tab" aria-selected="false">Last 8 Matches</button>
+                                    <button class="nav-link py-1 px-3" id="last-8-tab" data-bs-toggle="tab"
+                                        data-bs-target="#last-8" type="button" role="tab" aria-selected="false">Last 8
+                                        Matches</button>
                                 </li>
                             </ul>
                         </div>
                         <div class="card-body p-0">
                             <div class="tab-content" id="preMatchTabsContent">
-                                
+
                                 <!-- Tab 1: Home / Away -->
-                                <div class="tab-pane fade show active" id="home-away" role="tabpanel" aria-labelledby="home-away-tab">
+                                <div class="tab-pane fade show active" id="home-away" role="tabpanel"
+                                    aria-labelledby="home-away-tab">
                                     <div class="table-responsive">
-                                        <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                        <table
+                                            class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                            style="font-size: 0.9rem;">
                                             <thead>
                                                 <tr class="text-secondary text-uppercase">
                                                     <th class="ps-3 text-start">Match</th>
@@ -283,56 +320,81 @@
                                                     <th title="Avg Goals Scored" data-bs-toggle="tooltip">GF</th>
                                                     <th title="Avg Goals Conceded" data-bs-toggle="tooltip">GA</th>
                                                     <th title="Avg Total Goals (GF+GA)" data-bs-toggle="tooltip">TG</th>
-                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+</th>
-                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)" data-bs-toggle="tooltip">Last 4</th>
+                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+
+                                                    </th>
+                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)"
+                                                        data-bs-toggle="tooltip">Last 4</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for item in pre_match_analysis %}
                                                 <tr class="border-bottom-0">
-                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime" data-utc-datetime="{{ item.match.date|date:'c' }}">
+                                                    <td rowspan="2"
+                                                        class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime"
+                                                        data-utc-datetime="{{ item.match.date|date:'c' }}">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold js-local-date">{{ item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small js-local-time">{{ item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold js-local-date">{{
+                                                                item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{
+                                                                item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
-                                                    <td class="fw-bold {% if item.home.home.ppg >= 2.0 %}text-success{% elif item.home.home.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.home.home.ppg }}</td>
+                                                    <td class="text-start fw-bold text-white"><span
+                                                            class="badge bg-success me-1">H</span> {{
+                                                        item.match.home_team.name }}</td>
+                                                    <td
+                                                        class="fw-bold {% if item.home.home.ppg >= 2.0 %}text-success{% elif item.home.home.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
+                                                        {{ item.home.home.ppg }}</td>
                                                     <td class="text-secondary">{{ item.home.home.w_pct }}%</td>
                                                     <td class="text-secondary">{{ item.home.home.d_pct }}%</td>
                                                     <td class="text-secondary">{{ item.home.home.l_pct }}%</td>
                                                     <td class="text-info">{{ item.home.home.gf_avg }}</td>
                                                     <td class="text-danger">{{ item.home.home.ga_avg }}</td>
                                                     <td class="fw-bold">{{ item.home.home.tg_avg }}</td>
-                                                    <td class="{% if item.home.home.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.home.home.over_25_pct }}%</td>
+                                                    <td
+                                                        class="{% if item.home.home.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">
+                                                        {{ item.home.home.over_25_pct }}%</td>
                                                     <td class="pe-3 text-end">
                                                         <div class="d-flex justify-content-end gap-1">
                                                             {% for res in item.home.home.form %}
-                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px;">{{ res }}</span>
                                                             {% endfor %}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
-                                                    <td class="text-start fw-bold text-white"><span class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
-                                                    <td class="fw-bold {% if item.away.away.ppg >= 2.0 %}text-success{% elif item.away.away.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.away.away.ppg }}</td>
+                                                    <td class="text-start fw-bold text-white"><span
+                                                            class="badge bg-danger me-1">A</span> {{
+                                                        item.match.away_team.name }}</td>
+                                                    <td
+                                                        class="fw-bold {% if item.away.away.ppg >= 2.0 %}text-success{% elif item.away.away.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
+                                                        {{ item.away.away.ppg }}</td>
                                                     <td class="text-secondary">{{ item.away.away.w_pct }}%</td>
                                                     <td class="text-secondary">{{ item.away.away.d_pct }}%</td>
                                                     <td class="text-secondary">{{ item.away.away.l_pct }}%</td>
                                                     <td class="text-info">{{ item.away.away.gf_avg }}</td>
                                                     <td class="text-danger">{{ item.away.away.ga_avg }}</td>
                                                     <td class="fw-bold">{{ item.away.away.tg_avg }}</td>
-                                                    <td class="{% if item.away.away.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.away.away.over_25_pct }}%</td>
+                                                    <td
+                                                        class="{% if item.away.away.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">
+                                                        {{ item.away.away.over_25_pct }}%</td>
                                                     <td class="pe-3 text-end">
                                                         <div class="d-flex justify-content-end gap-1">
                                                             {% for res in item.away.away.form %}
-                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px;">{{ res }}</span>
                                                             {% endfor %}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 {% empty %}
-                                                <tr><td colspan="11" class="text-center py-4 text-muted">No upcoming matches analysis available.</td></tr>
+                                                <tr>
+                                                    <td colspan="11" class="text-center py-4 text-muted">No upcoming
+                                                        matches analysis available.</td>
+                                                </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
@@ -342,7 +404,9 @@
                                 <!-- Tab 2: Overall -->
                                 <div class="tab-pane fade" id="overall" role="tabpanel" aria-labelledby="overall-tab">
                                     <div class="table-responsive">
-                                        <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                        <table
+                                            class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                            style="font-size: 0.9rem;">
                                             <thead>
                                                 <tr class="text-secondary text-uppercase">
                                                     <th class="ps-3 text-start">Match</th>
@@ -354,56 +418,81 @@
                                                     <th title="Avg Goals Scored" data-bs-toggle="tooltip">GF</th>
                                                     <th title="Avg Goals Conceded" data-bs-toggle="tooltip">GA</th>
                                                     <th title="Avg Total Goals (GF+GA)" data-bs-toggle="tooltip">TG</th>
-                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+</th>
-                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)" data-bs-toggle="tooltip">Last 4</th>
+                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+
+                                                    </th>
+                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)"
+                                                        data-bs-toggle="tooltip">Last 4</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for item in pre_match_analysis %}
                                                 <tr class="border-bottom-0">
-                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime" data-utc-datetime="{{ item.match.date|date:'c' }}">
+                                                    <td rowspan="2"
+                                                        class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime"
+                                                        data-utc-datetime="{{ item.match.date|date:'c' }}">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold js-local-date">{{ item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small js-local-time">{{ item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold js-local-date">{{
+                                                                item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{
+                                                                item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
-                                                    <td class="fw-bold {% if item.home.overall.ppg >= 2.0 %}text-success{% elif item.home.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.home.overall.ppg }}</td>
+                                                    <td class="text-start fw-bold text-white"><span
+                                                            class="badge bg-success me-1">H</span> {{
+                                                        item.match.home_team.name }}</td>
+                                                    <td
+                                                        class="fw-bold {% if item.home.overall.ppg >= 2.0 %}text-success{% elif item.home.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
+                                                        {{ item.home.overall.ppg }}</td>
                                                     <td class="text-secondary">{{ item.home.overall.w_pct }}%</td>
                                                     <td class="text-secondary">{{ item.home.overall.d_pct }}%</td>
                                                     <td class="text-secondary">{{ item.home.overall.l_pct }}%</td>
                                                     <td class="text-info">{{ item.home.overall.gf_avg }}</td>
                                                     <td class="text-danger">{{ item.home.overall.ga_avg }}</td>
                                                     <td class="fw-bold">{{ item.home.overall.tg_avg }}</td>
-                                                    <td class="{% if item.home.overall.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.home.overall.over_25_pct }}%</td>
+                                                    <td
+                                                        class="{% if item.home.overall.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">
+                                                        {{ item.home.overall.over_25_pct }}%</td>
                                                     <td class="pe-3 text-end">
                                                         <div class="d-flex justify-content-end gap-1">
                                                             {% for res in item.home.overall.form %}
-                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px;">{{ res }}</span>
                                                             {% endfor %}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
-                                                    <td class="text-start fw-bold text-white"><span class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
-                                                    <td class="fw-bold {% if item.away.overall.ppg >= 2.0 %}text-success{% elif item.away.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.away.overall.ppg }}</td>
+                                                    <td class="text-start fw-bold text-white"><span
+                                                            class="badge bg-danger me-1">A</span> {{
+                                                        item.match.away_team.name }}</td>
+                                                    <td
+                                                        class="fw-bold {% if item.away.overall.ppg >= 2.0 %}text-success{% elif item.away.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
+                                                        {{ item.away.overall.ppg }}</td>
                                                     <td class="text-secondary">{{ item.away.overall.w_pct }}%</td>
                                                     <td class="text-secondary">{{ item.away.overall.d_pct }}%</td>
                                                     <td class="text-secondary">{{ item.away.overall.l_pct }}%</td>
                                                     <td class="text-info">{{ item.away.overall.gf_avg }}</td>
                                                     <td class="text-danger">{{ item.away.overall.ga_avg }}</td>
                                                     <td class="fw-bold">{{ item.away.overall.tg_avg }}</td>
-                                                    <td class="{% if item.away.overall.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.away.overall.over_25_pct }}%</td>
+                                                    <td
+                                                        class="{% if item.away.overall.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">
+                                                        {{ item.away.overall.over_25_pct }}%</td>
                                                     <td class="pe-3 text-end">
                                                         <div class="d-flex justify-content-end gap-1">
                                                             {% for res in item.away.overall.form %}
-                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px;">{{ res }}</span>
                                                             {% endfor %}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 {% empty %}
-                                                <tr><td colspan="11" class="text-center py-4 text-muted">No upcoming matches analysis available.</td></tr>
+                                                <tr>
+                                                    <td colspan="11" class="text-center py-4 text-muted">No upcoming
+                                                        matches analysis available.</td>
+                                                </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
@@ -413,7 +502,9 @@
                                 <!-- Tab 3: Last 8 -->
                                 <div class="tab-pane fade" id="last-8" role="tabpanel" aria-labelledby="last-8-tab">
                                     <div class="table-responsive">
-                                        <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                                        <table
+                                            class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                            style="font-size: 0.9rem;">
                                             <thead>
                                                 <tr class="text-secondary text-uppercase">
                                                     <th class="ps-3 text-start">Match</th>
@@ -425,56 +516,80 @@
                                                     <th title="Avg Goals Scored" data-bs-toggle="tooltip">GF</th>
                                                     <th title="Avg Goals Conceded" data-bs-toggle="tooltip">GA</th>
                                                     <th title="Avg Total Goals (GF+GA)" data-bs-toggle="tooltip">TG</th>
-                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+</th>
-                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)" data-bs-toggle="tooltip">Last 4</th>
+                                                    <th title="% Matches Over 2.5 Goals" data-bs-toggle="tooltip">2.5+
+                                                    </th>
+                                                    <th class="pe-3 text-end" title="Form (Last 4 Matches)"
+                                                        data-bs-toggle="tooltip">Last 4</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for item in pre_match_analysis %}
                                                 <tr class="border-bottom-0">
-                                                    <td rowspan="2" class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
+                                                    <td rowspan="2"
+                                                        class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d
+                                                                M" }}</span>
+                                                            <span class="text-secondary small">{{
+                                                                item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-start fw-bold text-white"><span class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
-                                                    <td class="fw-bold {% if item.home.last_8.ppg >= 2.0 %}text-success{% elif item.home.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.home.last_8.ppg }}</td>
+                                                    <td class="text-start fw-bold text-white"><span
+                                                            class="badge bg-success me-1">H</span> {{
+                                                        item.match.home_team.name }}</td>
+                                                    <td
+                                                        class="fw-bold {% if item.home.last_8.ppg >= 2.0 %}text-success{% elif item.home.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
+                                                        {{ item.home.last_8.ppg }}</td>
                                                     <td class="text-secondary">{{ item.home.last_8.w_pct }}%</td>
                                                     <td class="text-secondary">{{ item.home.last_8.d_pct }}%</td>
                                                     <td class="text-secondary">{{ item.home.last_8.l_pct }}%</td>
                                                     <td class="text-info">{{ item.home.last_8.gf_avg }}</td>
                                                     <td class="text-danger">{{ item.home.last_8.ga_avg }}</td>
                                                     <td class="fw-bold">{{ item.home.last_8.tg_avg }}</td>
-                                                    <td class="{% if item.home.last_8.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.home.last_8.over_25_pct }}%</td>
+                                                    <td
+                                                        class="{% if item.home.last_8.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">
+                                                        {{ item.home.last_8.over_25_pct }}%</td>
                                                     <td class="pe-3 text-end">
                                                         <div class="d-flex justify-content-end gap-1">
                                                             {% for res in item.home.last_8.form %}
-                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px;">{{ res }}</span>
                                                             {% endfor %}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
-                                                    <td class="text-start fw-bold text-white"><span class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
-                                                    <td class="fw-bold {% if item.away.last_8.ppg >= 2.0 %}text-success{% elif item.away.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">{{ item.away.last_8.ppg }}</td>
+                                                    <td class="text-start fw-bold text-white"><span
+                                                            class="badge bg-danger me-1">A</span> {{
+                                                        item.match.away_team.name }}</td>
+                                                    <td
+                                                        class="fw-bold {% if item.away.last_8.ppg >= 2.0 %}text-success{% elif item.away.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
+                                                        {{ item.away.last_8.ppg }}</td>
                                                     <td class="text-secondary">{{ item.away.last_8.w_pct }}%</td>
                                                     <td class="text-secondary">{{ item.away.last_8.d_pct }}%</td>
                                                     <td class="text-secondary">{{ item.away.last_8.l_pct }}%</td>
                                                     <td class="text-info">{{ item.away.last_8.gf_avg }}</td>
                                                     <td class="text-danger">{{ item.away.last_8.ga_avg }}</td>
                                                     <td class="fw-bold">{{ item.away.last_8.tg_avg }}</td>
-                                                    <td class="{% if item.away.last_8.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">{{ item.away.last_8.over_25_pct }}%</td>
+                                                    <td
+                                                        class="{% if item.away.last_8.over_25_pct >= 50 %}text-success fw-bold{% else %}text-secondary{% endif %}">
+                                                        {{ item.away.last_8.over_25_pct }}%</td>
                                                     <td class="pe-3 text-end">
                                                         <div class="d-flex justify-content-end gap-1">
                                                             {% for res in item.away.last_8.form %}
-                                                                <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 18px;">{{ res }}</span>
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px;">{{ res }}</span>
                                                             {% endfor %}
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 {% empty %}
-                                                <tr><td colspan="11" class="text-center py-4 text-muted">No upcoming matches analysis available.</td></tr>
+                                                <tr>
+                                                    <td colspan="11" class="text-center py-4 text-muted">No upcoming
+                                                        matches analysis available.</td>
+                                                </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
@@ -488,10 +603,10 @@
             </div>
 
             <script>
-                (function() {
+                (function () {
                     var elements = document.querySelectorAll('.utc-datetime[data-utc-datetime]');
                     if (!elements.length) return;
-                    elements.forEach(function(el) {
+                    elements.forEach(function (el) {
                         var iso = el.getAttribute('data-utc-datetime');
                         if (!iso) return;
                         var dt = new Date(iso);
@@ -516,7 +631,8 @@
                             <h5 class="mb-0 fw-bold">Group A</h5>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                style="font-size: 0.9rem;">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3 text-start">#</th>
@@ -535,12 +651,15 @@
                                     {% for row in arg_groups.A %}
                                     <tr>
                                         <td class="ps-3 text-start">
-                                            <span class="badge {% if row.group_position <= 4 %}bg-success{% elif row.group_position >= 12 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.group_position }}</span>
+                                            <span
+                                                class="badge {% if row.group_position <= 4 %}bg-success{% elif row.group_position >= 12 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill"
+                                                style="width: 25px;">{{ row.group_position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {% if row.team.logo %}
-                                                    <img src="{{ row.team.logo }}" height="20" class="me-2">
+                                                <img src="{{ row.team.logo }}" height="20" class="me-2">
                                                 {% endif %}
                                                 {{ row.team.name }}
                                             </a>
@@ -566,7 +685,8 @@
                             <h5 class="mb-0 fw-bold">Group B</h5>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                style="font-size: 0.9rem;">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3 text-start">#</th>
@@ -585,12 +705,15 @@
                                     {% for row in arg_groups.B %}
                                     <tr>
                                         <td class="ps-3 text-start">
-                                            <span class="badge {% if row.group_position <= 4 %}bg-success{% elif row.group_position >= 12 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.group_position }}</span>
+                                            <span
+                                                class="badge {% if row.group_position <= 4 %}bg-success{% elif row.group_position >= 12 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill"
+                                                style="width: 25px;">{{ row.group_position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {% if row.team.logo %}
-                                                    <img src="{{ row.team.logo }}" height="20" class="me-2">
+                                                <img src="{{ row.team.logo }}" height="20" class="me-2">
                                                 {% endif %}
                                                 {{ row.team.name }}
                                             </a>
@@ -621,7 +744,8 @@
                             <h5 class="mb-0 fw-bold">League Table</h5>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small" style="font-size: 0.9rem;">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                style="font-size: 0.9rem;">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3 text-start">#</th>
@@ -646,12 +770,15 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 text-start">
-                                            <span class="badge {% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill" style="width: 25px;">{{ row.position }}</span>
+                                            <span
+                                                class="badge {% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill"
+                                                style="width: 25px;">{{ row.position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {% if row.team.logo %}
-                                                    <img src="{{ row.team.logo }}" height="20" class="me-2">
+                                                <img src="{{ row.team.logo }}" height="20" class="me-2">
                                                 {% endif %}
                                                 {{ row.team.name }}
                                             </a>
@@ -667,12 +794,15 @@
                                         <td>
                                             <div class="d-flex justify-content-center gap-1">
                                                 {% for res in row.form_history %}
-                                                    <span class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1" style="width: 6px; height: 10px; display: inline-block;"></span>
+                                                <span
+                                                    class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                    style="width: 6px; height: 10px; display: inline-block;"></span>
                                                 {% endfor %}
                                             </div>
                                         </td>
                                         <td>{{ row.ppg_season }}</td>
-                                        <td class="fw-bold {% if row.ppg_8 > row.ppg_season %}text-success{% elif row.ppg_8 < row.ppg_season %}text-danger{% else %}text-warning{% endif %}">
+                                        <td
+                                            class="fw-bold {% if row.ppg_8 > row.ppg_season %}text-success{% elif row.ppg_8 < row.ppg_season %}text-danger{% else %}text-warning{% endif %}">
                                             {{ row.ppg_8 }}
                                         </td>
                                         <td>{{ row.clean_sheets }}</td>
@@ -716,7 +846,8 @@
                                     <tr>
                                         <td class="ps-2 text-start text-secondary">{{ row.position }}</td>
                                         <td class="text-start">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -762,7 +893,8 @@
                                     <tr>
                                         <td class="ps-2 text-start text-secondary">{{ row.position }}</td>
                                         <td class="text-start">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -788,12 +920,12 @@
                 <!-- Relative Form -->
                 <div class="col-lg-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                             <h5 class="mb-0 fw-bold">Relative Form (Last 8 Matches)</h5>
                             <small class="text-secondary">Comparing PPG in last 8 matches vs Season Average</small>
                         </div>
                         <div class="table-responsive">
-                             <table class="table table-dark table-hover table-sm mb-0 align-middle small">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3">Team</th>
@@ -807,7 +939,8 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 fw-bold">
-                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -815,39 +948,44 @@
                                         <td class="text-center fw-bold">{{ row.ppg_8 }}</td>
                                         <td class="text-center">
                                             {% if row.ppg_diff > 0 %}
-                                                <span class="text-success">+{{ row.ppg_diff }}</span>
-                                            {% elif row.ppg_diff < 0 %}
-                                                <span class="text-danger">{{ row.ppg_diff }}</span>
-                                            {% else %}
+                                            <span class="text-success">+{{ row.ppg_diff }}</span>
+                                            {% elif row.ppg_diff < 0 %} <span class="text-danger">{{ row.ppg_diff
+                                                }}</span>
+                                                {% else %}
                                                 <span class="text-secondary">-</span>
-                                            {% endif %}
+                                                {% endif %}
                                         </td>
                                         <td class="ps-4">
                                             <div class="progress" style="height: 12px; max-width: 200px;">
                                                 {% if row.ppg_diff > 0 %}
-                                                    <div class="progress-bar bg-success" role="progressbar" style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);"></div>
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);">
+                                                </div>
                                                 {% else %}
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);"></div>
+                                                <div class="progress-bar bg-danger" role="progressbar"
+                                                    style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);">
+                                                </div>
                                                 {% endif %}
                                             </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
-                             </table>
+                            </table>
                         </div>
                     </div>
                 </div>
 
                 <!-- Relative Performance -->
                 <div class="col-lg-6">
-                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                             <h5 class="mb-0 fw-bold">Relative Performance</h5>
-                            <small class="text-secondary">Index = Team PPG x Opponents PPG (Strength of Schedule)</small>
+                            <small class="text-secondary">Index = Team PPG x Opponents PPG (Strength of
+                                Schedule)</small>
                         </div>
                         <div class="table-responsive">
-                             <table class="table table-dark table-hover table-sm mb-0 align-middle small">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3">Team</th>
@@ -861,7 +999,8 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 fw-bold">
-                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -870,13 +1009,15 @@
                                         <td class="text-center fw-bold">{{ row.performance_index }}</td>
                                         <td class="ps-4">
                                             <div class="progress" style="height: 8px; max-width: 200px;">
-                                                <div class="progress-bar bg-info" role="progressbar" style="--w-pct: {{ row.perf_width_pct }}%; width: var(--w-pct);"></div>
+                                                <div class="progress-bar bg-info" role="progressbar"
+                                                    style="--w-pct: {{ row.perf_width_pct }}%; width: var(--w-pct);">
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
-                             </table>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -886,13 +1027,14 @@
             <div class="row g-4 mb-4">
                 <!-- Run-in Difficulty -->
                 <div class="col-lg-6">
-                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                             <h5 class="mb-0 fw-bold">Run-in Difficulty</h5>
-                            <small class="text-secondary">Opponent strength for played matches vs remaining matches</small>
+                            <small class="text-secondary">Opponent strength for played matches vs remaining
+                                matches</small>
                         </div>
                         <div class="table-responsive">
-                             <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3 text-start">Team</th>
@@ -906,7 +1048,8 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
-                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -914,35 +1057,36 @@
                                         <td class="fw-bold">{{ row.opp_remaining_ppg }}</td>
                                         <td>
                                             {% if row.runin_diff_pct > 0 %}
-                                                <span class="text-danger fw-bold">+{{ row.runin_diff_pct }}% (Harder)</span>
-                                            {% elif row.runin_diff_pct < 0 %}
-                                                <span class="text-success fw-bold">{{ row.runin_diff_pct }}% (Easier)</span>
-                                            {% else %}
+                                            <span class="text-danger fw-bold">+{{ row.runin_diff_pct }}% (Harder)</span>
+                                            {% elif row.runin_diff_pct < 0 %} <span class="text-success fw-bold">{{
+                                                row.runin_diff_pct }}% (Easier)</span>
+                                                {% else %}
                                                 <span class="text-secondary">-</span>
-                                            {% endif %}
+                                                {% endif %}
                                         </td>
                                         <td>
-                                            <span class="badge {% if row.next_4_ppg > 1.5 %}bg-danger{% elif row.next_4_ppg < 1.0 %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                            <span
+                                                class="badge {% if row.next_4_ppg > 1.5 %}bg-danger{% elif row.next_4_ppg < 1.0 %}bg-success{% else %}bg-warning text-dark{% endif %}">
                                                 {{ row.next_4_ppg }}
                                             </span>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
-                             </table>
+                            </table>
                         </div>
                     </div>
                 </div>
 
                 <!-- Projected Points -->
                 <div class="col-lg-6">
-                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                             <h5 class="mb-0 fw-bold">Projected Final Standings</h5>
                             <small class="text-secondary">Based on current PPG and remaining schedule difficulty</small>
                         </div>
                         <div class="table-responsive">
-                             <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3 text-start">Team</th>
@@ -957,7 +1101,8 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
-                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -969,22 +1114,23 @@
                                     </tr>
                                     {% endfor %}
                                 </tbody>
-                             </table>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-             <!-- Home vs Away Dependency -->
+            <!-- Home vs Away Dependency -->
             <div class="row g-4 mb-4">
                 <div class="col-12">
-                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
-                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                             <h5 class="mb-0 fw-bold">Home vs Away Performance Dependency</h5>
-                            <small class="text-secondary">Which teams rely most on home advantage? Positive Diff = Stronger at Home.</small>
+                            <small class="text-secondary">Which teams rely most on home advantage? Positive Diff =
+                                Stronger at Home.</small>
                         </div>
                         <div class="table-responsive">
-                             <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
                                 <thead>
                                     <tr class="text-secondary text-uppercase">
                                         <th class="ps-3 text-start">Team</th>
@@ -998,7 +1144,8 @@
                                     {% for row in relative_table %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
-                                             <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}" class="text-decoration-none text-white">
+                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                                class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -1006,58 +1153,66 @@
                                         <td class="text-warning">{{ row.ppg_away }}</td>
                                         <td class="fw-bold">
                                             {% if row.ppg_diff > 0 %}
-                                                <span class="text-success">+{{ row.ppg_diff }}</span>
-                                            {% elif row.ppg_diff < 0 %}
-                                                <span class="text-info">{{ row.ppg_diff }}</span>
-                                            {% else %}
+                                            <span class="text-success">+{{ row.ppg_diff }}</span>
+                                            {% elif row.ppg_diff < 0 %} <span class="text-info">{{ row.ppg_diff
+                                                }}</span>
+                                                {% else %}
                                                 <span class="text-secondary">-</span>
-                                            {% endif %}
+                                                {% endif %}
                                         </td>
                                         <td class="ps-4 text-start">
                                             <div class="progress" style="height: 10px; max-width: 300px;">
                                                 {% if row.ppg_diff > 0 %}
-                                                    <div class="progress-bar bg-success" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="Better at Home"></div>
-                                                {% elif row.ppg_diff < 0 %}
-                                                     <div class="progress-bar bg-info" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="Better Away"></div>
-                                                {% endif %}
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="--w: {{ row.bar_width }}px; width: var(--w);"
+                                                    title="Better at Home"></div>
+                                                {% elif row.ppg_diff < 0 %} <div class="progress-bar bg-info"
+                                                    role="progressbar"
+                                                    style="--w: {{ row.bar_width }}px; width: var(--w);"
+                                                    title="Better Away">
                                             </div>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                             </table>
+                                            {% endif %}
                         </div>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Right Sidebar (25% Width) for Ads -->
-        <div class="col-lg-3">
-            <div class="sticky-top" style="top: 20px; z-index: 100;">
-                
-                <!-- Vertical Ad Slot 1 -->
-                <div class="card border-0 bg-transparent mb-4">
-                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
-                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
-                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
-                        <!-- Insert Ad Code Here -->
-                    </div>
-                </div>
+    </div>
 
-                <!-- Vertical Ad Slot 2 (Tall Skyscraper) -->
-                <div class="card border-0 bg-transparent mb-4">
-                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center" style="min-height: 600px;">
-                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement (Skyscraper)</span>
-                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>
-                        <!-- Insert Ad Code Here -->
-                    </div>
-                </div>
+    <!-- Right Sidebar (25% Width) for Ads -->
+    <div class="col-lg-3">
+        <div class="sticky-top" style="top: 20px; z-index: 100;">
 
+            <!-- Vertical Ad Slot 1 -->
+            <div class="card border-0 bg-transparent mb-4">
+                <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
+                    style="min-height: 250px;">
+                    <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
+                    <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
+                    <!-- Insert Ad Code Here -->
+                </div>
             </div>
+
+            <!-- Vertical Ad Slot 2 (Tall Skyscraper) -->
+            <div class="card border-0 bg-transparent mb-4">
+                <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
+                    style="min-height: 600px;">
+                    <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement
+                        (Skyscraper)</span>
+                    <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>
+                    <!-- Insert Ad Code Here -->
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 </div>
 
 <style>
@@ -1065,21 +1220,26 @@
     .table-responsive::-webkit-scrollbar,
     .custom-scrollbar::-webkit-scrollbar {
         height: 6px;
-        width: 6px; /* Added width for vertical scrollbar */
+        width: 6px;
+        /* Added width for vertical scrollbar */
     }
+
     .table-responsive::-webkit-scrollbar-track,
     .custom-scrollbar::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.05);
     }
+
     .table-responsive::-webkit-scrollbar-thumb,
     .custom-scrollbar::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 3px;
     }
+
     .table-responsive::-webkit-scrollbar-thumb:hover,
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.4);
     }
+
     .letter-spacing-2 {
         letter-spacing: 2px;
     }
