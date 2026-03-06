@@ -405,8 +405,16 @@ class StatsDispatchView(View):
 
         # 2. Se não for país, assume que é LIGA e arg2 é TIME
         # Verifica se existe liga com esse nome
-        is_league = League.objects.filter(name__icontains=slug1).exists()
+        is_league = League.objects.filter(Q(name__icontains=slug1) | Q(name__iexact=arg1)).exists()
         
+        # Fallback Slugify for League
+        if not is_league:
+            from django.utils.text import slugify
+            for l in League.objects.all():
+                if slugify(l.name) == arg1:
+                    is_league = True
+                    break
+
         if is_league:
             view = TeamDetailView.as_view()
             # Passa kwargs esperados pela TeamDetailView
@@ -2943,12 +2951,23 @@ class LeagueGoalsView(TemplateView):
         
         # New Logic: Prioritize League with Data (Standings)
         # annotations allow us to count related objects
-        from django.db.models import Count
+        from django.db.models import Count, Q
         
-        candidates = League.objects.filter(name__iexact=name_query).annotate(s_count=Count('standings')).order_by('-s_count')
+        candidates = League.objects.filter(
+            Q(name__iexact=name_query) | Q(name__iexact=league_slug)
+        ).annotate(s_count=Count('standings')).order_by('-s_count')
+
         if not candidates.exists():
              candidates = League.objects.filter(name__icontains=name_query).annotate(s_count=Count('standings')).order_by('-s_count')
         
+        # Fallback Slugify
+        if not candidates.exists():
+            from django.utils.text import slugify
+            for l in League.objects.all():
+                if slugify(l.name) == league_slug:
+                     candidates = League.objects.filter(id=l.id).annotate(s_count=Count('standings'))
+                     break
+
         country_slug = self.kwargs.get('country_name')
         if country_slug:
              country_clean = country_slug.replace('-', ' ')
@@ -3778,11 +3797,21 @@ class HeadToHeadView(TemplateView):
             name = slug.replace('-', ' ')
             
             # Robust Selection: Prioritize League with Data (Standings)
-            from django.db.models import Count
-            candidates = League.objects.filter(name__iexact=name).annotate(s_count=Count('standings')).order_by('-s_count')
+            from django.db.models import Count, Q
+            candidates = League.objects.filter(
+                Q(name__iexact=name) | Q(name__iexact=slug)
+            ).annotate(s_count=Count('standings')).order_by('-s_count')
             if not candidates.exists():
                  candidates = League.objects.filter(name__icontains=name).annotate(s_count=Count('standings')).order_by('-s_count')
                  
+            # Fallback Slugify
+            if not candidates.exists():
+                from django.utils.text import slugify
+                for l in League.objects.all():
+                    if slugify(l.name) == slug:
+                         candidates = League.objects.filter(id=l.id).annotate(s_count=Count('standings'))
+                         break
+
             if country_slug:
                  country_clean = country_slug.replace('-', ' ')
                  from matches.utils import COUNTRY_REVERSE_TRANSLATIONS

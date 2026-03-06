@@ -185,15 +185,13 @@
                                             <div class="col-3 text-secondary utc-datetime"
                                                 data-utc-datetime="{{ match.date|date:'c' }}">
                                                 <span class="js-local-date">{{ match.date|date:"D d M" }}</span><br>
-                                                <span class="text-success js-local-time">{{ match.date|date:"H:i"
-                                                    }}</span>
+                                                <span class="text-success js-local-time">{{ match.date|date:"H:i"                                                     }}</span>
                                             </div>
                                             <div class="col-7">
                                                 <div class="d-flex justify-content-between align-items-center px-2">
                                                     <div
                                                         class="d-flex justify-content-end align-items-center w-50 pe-2">
-                                                        <span class="text-end text-truncate">{{ match.home_team.name
-                                                            }}</span>
+                                                        <span class="text-end text-truncate">{{ match.home_team.name                                                             }}</span>
                                                         {% if match.home_team.logo %}
                                                         <img src="{{ match.home_team.logo }}" height="16" class="ms-2">
                                                         {% endif %}
@@ -205,8 +203,7 @@
                                                         {% if match.away_team.logo %}
                                                         <img src="{{ match.away_team.logo }}" height="16" class="me-2">
                                                         {% endif %}
-                                                        <span class="text-start text-truncate">{{ match.away_team.name
-                                                            }}</span>
+                                                        <span class="text-start text-truncate">{{ match.away_team.name                                                             }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -246,8 +243,7 @@
                                             <div class="col-7">
                                                 <div class="d-flex justify-content-between align-items-center px-2">
                                                     <span class="text-end w-50 pe-2">{{ match.home_team.name }}</span>
-                                                    <span class="badge bg-white bg-opacity-25 text-white px-2">{{
-                                                        match.home_score }} : {{ match.away_score }}</span>
+                                                    <span class="badge bg-white bg-opacity-25 text-white px-2">{{                                                         match.home_score }} : {{ match.away_score }}</span>
                                                     <span class="text-start w-50 ps-2">{{ match.away_team.name }}</span>
                                                 </div>
                                             </div>
@@ -333,15 +329,12 @@
                                                         class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime"
                                                         data-utc-datetime="{{ item.match.date|date:'c' }}">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold js-local-date">{{
-                                                                item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small js-local-time">{{
-                                                                item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold js-local-date">{{                                                                 item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{                                                                 item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-success me-1">H</span> {{
-                                                        item.match.home_team.name }}</td>
+                                                            class="badge bg-success me-1">H</span> {{                                                         item.match.home_team.name }}</td>
                                                     <td
                                                         class="fw-bold {% if item.home.home.ppg >= 2.0 %}text-success{% elif item.home.home.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.home.home.ppg }}</td>
@@ -366,8 +359,7 @@
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
                                                     <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-danger me-1">A</span> {{
-                                                        item.match.away_team.name }}</td>
+                                                            class="badge bg-danger me-1">A</span> {{                                                         item.match.away_team.name }}</td>
                                                     <td
                                                         class="fw-bold {% if item.away.away.ppg >= 2.0 %}text-success{% elif item.away.away.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.away.away.ppg }}</td>
@@ -431,15 +423,12 @@
                                                         class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime"
                                                         data-utc-datetime="{{ item.match.date|date:'c' }}">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold js-local-date">{{
-                                                                item.match.date|date:"d M" }}</span>
-                                                            <span class="text-secondary small js-local-time">{{
-                                                                item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold js-local-date">{{                                                                 item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{                                                                 item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-success me-1">H</span> {{
-                                                        item.match.home_team.name }}</td>
+                                                            class="badge bg-success me-1">H</span> {{                                                         item.match.home_team.name }}</td>
                                                     <td
                                                         class="fw-bold {% if item.home.overall.ppg >= 2.0 %}text-success{% elif item.home.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.home.overall.ppg }}</td>
@@ -464,8 +453,7 @@
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
                                                     <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-danger me-1">A</span> {{
-                                                        item.match.away_team.name }}</td>
+                                                            class="badge bg-danger me-1">A</span> {{                                                         item.match.away_team.name }}</td>
                                                     <td
                                                         class="fw-bold {% if item.away.overall.ppg >= 2.0 %}text-success{% elif item.away.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.away.overall.ppg }}</td>
@@ -528,15 +516,12 @@
                                                     <td rowspan="2"
                                                         class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25">
                                                         <div class="d-flex flex-column">
-                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d
-                                                                M" }}</span>
-                                                            <span class="text-secondary small">{{
-                                                                item.match.date|date:"H:i" }}</span>
+                                                            <span class="text-white fw-bold">{{ item.match.date|date:"d                                                                 M" }}</span>
+                                                            <span class="text-secondary small">{{                                                                 item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-success me-1">H</span> {{
-                                                        item.match.home_team.name }}</td>
+                                                            class="badge bg-success me-1">H</span> {{                                                         item.match.home_team.name }}</td>
                                                     <td
                                                         class="fw-bold {% if item.home.last_8.ppg >= 2.0 %}text-success{% elif item.home.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.home.last_8.ppg }}</td>
@@ -561,8 +546,7 @@
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
                                                     <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-danger me-1">A</span> {{
-                                                        item.match.away_team.name }}</td>
+                                                            class="badge bg-danger me-1">A</span> {{                                                         item.match.away_team.name }}</td>
                                                     <td
                                                         class="fw-bold {% if item.away.last_8.ppg >= 2.0 %}text-success{% elif item.away.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.away.last_8.ppg }}</td>
@@ -949,8 +933,7 @@
                                         <td class="text-center">
                                             {% if row.ppg_diff > 0 %}
                                             <span class="text-success">+{{ row.ppg_diff }}</span>
-                                            {% elif row.ppg_diff < 0 %} <span class="text-danger">{{ row.ppg_diff
-                                                }}</span>
+                                            {% elif row.ppg_diff < 0 %} <span class="text-danger">{{ row.ppg_diff                                                 }}</span>
                                                 {% else %}
                                                 <span class="text-secondary">-</span>
                                                 {% endif %}
@@ -1058,8 +1041,7 @@
                                         <td>
                                             {% if row.runin_diff_pct > 0 %}
                                             <span class="text-danger fw-bold">+{{ row.runin_diff_pct }}% (Harder)</span>
-                                            {% elif row.runin_diff_pct < 0 %} <span class="text-success fw-bold">{{
-                                                row.runin_diff_pct }}% (Easier)</span>
+                                            {% elif row.runin_diff_pct < 0 %} <span class="text-success fw-bold">{{                                                 row.runin_diff_pct }}% (Easier)</span>
                                                 {% else %}
                                                 <span class="text-secondary">-</span>
                                                 {% endif %}
@@ -1154,8 +1136,7 @@
                                         <td class="fw-bold">
                                             {% if row.ppg_diff > 0 %}
                                             <span class="text-success">+{{ row.ppg_diff }}</span>
-                                            {% elif row.ppg_diff < 0 %} <span class="text-info">{{ row.ppg_diff
-                                                }}</span>
+                                            {% elif row.ppg_diff < 0 %} <span class="text-info">{{ row.ppg_diff                                                 }}</span>
                                                 {% else %}
                                                 <span class="text-secondary">-</span>
                                                 {% endif %}
