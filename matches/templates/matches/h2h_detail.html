@@ -1212,7 +1212,7 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: {{ fallback_h2h.probs.home|stringformat:" f" }}%">
+                                                    style="width: 0%" data-width="{{ fallback_h2h.probs.home }}">
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
@@ -1221,7 +1221,7 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                    style="width: {{ fallback_h2h.probs.draw|stringformat:" f" }}%">
+                                                    style="width: 0%" data-width="{{ fallback_h2h.probs.draw }}">
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
@@ -1229,8 +1229,8 @@
                                                     fallback_h2h.probs.away }}%</span>
                                             </div>
                                             <div class="progress" style="height: 6px;">
-                                                <div class="progress-bar bg-danger" role="progressbar"
-                                                    style="width: {{ fallback_h2h.probs.away|stringformat:" f" }}%">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                                    data-width="{{ fallback_h2h.probs.away }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -1252,8 +1252,8 @@
                                                     fallback_h2h.totals.over_25 }}%</span>
                                             </div>
                                             <div class="progress" style="height: 6px;">
-                                                <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: {{ fallback_h2h.totals.over_25|stringformat:" f" }}%">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: 0%"
+                                                    data-width="{{ fallback_h2h.totals.over_25 }}">
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
@@ -1262,7 +1262,7 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-secondary" role="progressbar"
-                                                    style="width: {{ fallback_h2h.totals.over_35|stringformat:" f" }}%">
+                                                    style="width: 0%" data-width="{{ fallback_h2h.totals.over_35 }}">
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between small text-secondary mt-2">
@@ -1271,7 +1271,7 @@
                                             </div>
                                             <div class="progress" style="height: 6px;">
                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                    style="width: {{ fallback_h2h.totals.btts|stringformat:" f" }}%">
+                                                    style="width: 0%" data-width="{{ fallback_h2h.totals.btts }}">
                                                 </div>
                                             </div>
                                         </div>
