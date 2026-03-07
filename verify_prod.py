@@ -3,31 +3,35 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from matches.models import LeagueStanding, Team, League
+from matches.models import League, Team, Match, LeagueStanding
 
-# Check leagues for Australia and Austria
+# Verifying data for AU and AT
 for country in ['Australia', 'Austria']:
-    for l in League.objects.filter(country=country):
-        print(f'League -> ID: {l.id}, Name: {l.name}, Country: {l.country}')
-
-# Check Australian team
-t_au = Team.objects.filter(name__icontains='newcastle jets').first()
-if t_au:
-    print(f'Team (AU): {t_au.name}, API ID: {t_au.api_id}, League: {t_au.league.name}')
-    from django.utils.text import slugify
-    country_slug = slugify(t_au.league.country)
-    league_slug = slugify(t_au.league.name)
-    print(f'AU Static path: teams/{country_slug}/{league_slug}/{t_au.api_id}.png')
-    from matches.templatetags.team_tags import get_team_logo
-    print(f'AU get_team_logo result: {get_team_logo(t_au)}')
-
-# Check Austrian team
-t_at = Team.objects.filter(league__country='Austria').first()
-if t_at:
-    print(f'Team (AT): {t_at.name}, API ID: {t_at.api_id}, League: {t_at.league.name}')
-    from django.utils.text import slugify
-    country_slug = slugify(t_at.league.country)
-    league_slug = slugify(t_at.league.name)
-    print(f'AT Static path: teams/{country_slug}/{league_slug}/{t_at.api_id}.png')
-    from matches.templatetags.team_tags import get_team_logo
-    print(f'AT get_team_logo result: {get_team_logo(t_at)}')
+    leagues = League.objects.filter(country=country)
+    if not leagues.exists():
+        print(f'No leagues found for {country}')
+        continue
+        
+    for l in leagues:
+        team_count = Team.objects.filter(league=l).count()
+        match_count = Match.objects.filter(league=l).count()
+        latest_standing = LeagueStanding.objects.filter(league=l).order_by('-points').first()
+        
+        print(f'League: {l.name} ({l.country})')
+        print(f'  Teams: {team_count}')
+        print(f'  Matches: {match_count}')
+        print(f'  Standings found? {"Yes" if latest_standing else "No"}')
+        
+        # Check first team logo for this league
+        t = Team.objects.filter(league=l).first()
+        if t:
+            from django.utils.text import slugify
+            from matches.templatetags.team_tags import get_team_logo
+            c_slug = slugify(l.country)
+            l_slug = slugify(l.name)
+            print(f'  Sample Team: {t.name} (API: {t.api_id})')
+            print(f'  Expected Path: teams/{c_slug}/{l_slug}/{t.api_id}.png')
+            print(f'  get_team_logo: {get_team_logo(t)}')
+        else:
+            print(f'  Warning: No teams found for {l.name}')
+    print('-' * 20)
