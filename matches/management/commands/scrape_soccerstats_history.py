@@ -253,7 +253,9 @@ class Command(BaseCommand):
         # Convert to string and strip
         df = df.astype(str)
         
-        season_obj, _ = Season.objects.get_or_create(year=year)
+        season_obj = Season.objects.filter(year=year).first()
+        if not season_obj:
+            season_obj = Season.objects.create(year=year)
         
         for idx, row in df.iterrows():
             try:
