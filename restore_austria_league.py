@@ -15,11 +15,7 @@ def restore_austria():
         id=44,
         defaults={
             'name': 'Bundesliga',
-            'country': 'Austria',
-            'logo': '',
-            'api_id': '45',  # Tournament ID do SofaScore (Áustria = 45)
-            'priority': 0,
-            'is_active': True
+            'country': 'Austria'
         }
     )
     if created_l:
