@@ -301,7 +301,7 @@
                                 {% for row in goal_stats_rows %}
                                 <tr>
                                     <td class="text-start ps-3 fw-medium">
-                                        <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                        <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                             class="text-decoration-none text-white">
                                             {{ row.team.name }}
                                         </a>
@@ -405,7 +405,7 @@
                                 {% for row in ht_goal_stats_rows %}
                                 <tr>
                                     <td class="text-start ps-3 fw-medium">
-                                        <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                        <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                             class="text-decoration-none text-white">
                                             {{ row.team.name }}
                                         </a>
@@ -466,7 +466,7 @@
                                         {% for row in bts_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
@@ -525,7 +525,7 @@
                                         {% for row in cs_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
@@ -584,7 +584,7 @@
                                         {% for row in fts_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>
@@ -643,7 +643,7 @@
                                         {% for row in wtn_rows|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
-                                                <a href="{% url 'matches:team_stats' league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
                                                     {{ row.team.name }}
                                                 </a>

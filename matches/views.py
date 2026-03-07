@@ -31,8 +31,8 @@ class GlobalSearchView(View):
             # Search Leagues
             leagues = League.objects.filter(name__icontains=query)[:5]
             for league in leagues:
-                # Use stats_dispatch compatible URL with English Country
                 country_en = COUNTRY_TRANSLATIONS.get(league.country, league.country)
+                # Use 3-segment URL: /stats/country/league/
                 url = f"/stats/{slugify(country_en)}/{slugify(league.name)}/"
                 
                 results.append({
@@ -45,9 +45,9 @@ class GlobalSearchView(View):
             # Search Teams
             teams = Team.objects.filter(name__icontains=query).select_related('league')[:5]
             for team in teams:
-                # Use stats_dispatch compatible URL (League/Team)
                 country_en = COUNTRY_TRANSLATIONS.get(team.league.country, team.league.country)
-                url = f"/stats/{slugify(team.league.name)}/{slugify(team.name)}/"
+                # Use 3-segment URL: /stats/country/league/team/
+                url = f"/stats/{slugify(country_en)}/{slugify(team.league.name)}/{slugify(team.name)}/"
                 results.append({
                     'type': 'Team',
                     'name': f"{team.name} ({country_en})",
@@ -1856,9 +1856,33 @@ class TeamDetailView(DetailView):
             team_name_query = name_map[league_key][team_key]
         
         # 1. Resolve League First (Robust com desambiguação)
-        leagues_qs = League.objects.filter(name__iexact=league_name_query)
+        country_slug = self.kwargs.get('country_name')
+        leagues_qs = League.objects.all()
+
+        if country_slug:
+            country_clean = country_slug.replace('-', ' ')
+            from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+            db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+            leagues_qs = leagues_qs.filter(country__iexact=db_country)
+            
+            # Fallback for country if iexact fails
+            if not leagues_qs.exists():
+                from django.utils.text import slugify
+                target_country = None
+                for c in League.objects.values_list('country', flat=True).distinct():
+                    if slugify(c) == country_slug:
+                        target_country = c
+                        break
+                if target_country:
+                    leagues_qs = League.objects.filter(country=target_country)
+                else:
+                    leagues_qs = League.objects.none()
+
+        leagues_qs = leagues_qs.filter(name__iexact=league_name_query)
         if not leagues_qs.exists():
-            leagues_qs = League.objects.filter(name__icontains=league_name_query)
+            # Tenta novamente sem o filtro de nome exato se falhou, mas mantém o filtro de país se existia
+            base_qs = League.objects.filter(country__iexact=db_country) if country_slug else League.objects.all()
+            leagues_qs = base_qs.filter(name__icontains=league_name_query)
         
         league = None
         if leagues_qs.exists():
@@ -1869,12 +1893,13 @@ class TeamDetailView(DetailView):
                 s_count=Count('standings')
             ).order_by('-team_count', '-s_count').first()
         
-        if not league:
+        if not league and not country_slug: # Só tenta o fallback global se não tinha país definido
             from django.utils.text import slugify
             for l in League.objects.all():
                 if slugify(l.name) == slugify(league_slug):
                     league = l
                     break
+
         
         qs = Team.objects.all()
         if league:

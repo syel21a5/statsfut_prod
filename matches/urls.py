@@ -26,9 +26,14 @@ urlpatterns = [
     # O primeiro pattern captura a requisição (DispatchView recebe arg1, arg2)
     path('stats/<str:arg1>/<str:arg2>/', views.StatsDispatchView.as_view(), name='stats_dispatch'),
     
+    # 3-segment paths for explicit disambiguation
+    path('stats/<str:country_name>/<str:league_name>/<str:team_name>/', views.TeamDetailView.as_view(), name='team_stats_full'),
+    path('stats/<str:country_name>/<str:league_name>/', views.LeagueDetailView.as_view(), name='league_stats_full'),
+
     # Estes patterns servem apenas para o 'reverse' (url template tag) funcionar com nomes de parâmetros antigos
     path('stats/<str:country_name>/<str:league_name>/', views.StatsDispatchView.as_view(), name='country_league_stats'),
     path('stats/<str:league_name>/<str:team_name>/', views.StatsDispatchView.as_view(), name='team_stats'),
+
     
     # Mantendo aliases nomeados para 'reverse' funcionar, mas apontando para o Dispatcher ou Views diretas se preferir
     # O ideal é que o reverse use nomes específicos.

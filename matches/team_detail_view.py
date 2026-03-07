@@ -1,16 +1,86 @@
 from django.views.generic import DetailView
 from django.db import models
 from .models import Team, Match, League
+from django.shortcuts import get_object_or_404
+from django.http import Http404
+from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
 
 class TeamDetailView(DetailView):
     model = Team
     template_name = 'matches/team_detail.html'
     context_object_name = 'team'
 
+    def get_object(self, queryset=None):
+        if 'pk' in self.kwargs:
+            return super().get_object(queryset)
+            
+        country_slug = self.kwargs.get('country_name')
+        league_slug = self.kwargs.get('league_name')
+        team_slug = self.kwargs.get('team_name')
+
+        if not (country_slug and league_slug and team_slug):
+             return super().get_object(queryset)
+
+        # 1. Resolve Country
+        country_clean = country_slug.replace('-', ' ')
+        db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+        
+        # 2. Resolve League
+        league_name = league_slug.replace('-', ' ')
+        league_qs = League.objects.filter(country__iexact=db_country)
+        
+        if not league_qs.exists():
+             # Fallback: try finding country by slug directly if translation failed
+             from django.utils.text import slugify
+             for c in League.objects.values_list('country', flat=True).distinct():
+                 if slugify(c) == country_slug:
+                     league_qs = League.objects.filter(country=c)
+                     break
+        
+        if not league_qs.exists():
+            raise Http404(f"No leagues found for country: {country_slug}")
+
+        league = league_qs.filter(name__iexact=league_name).first()
+        if not league:
+             league = league_qs.filter(name__icontains=league_name).first()
+        
+        if not league:
+             # Fallback slugify match
+             from django.utils.text import slugify
+             for l in league_qs:
+                 if slugify(l.name) == league_slug:
+                     league = l
+                     break
+        
+        if not league:
+            raise Http404(f"League '{league_slug}' not found in '{country_slug}'")
+
+        # 3. Resolve Team
+        team_name = team_slug.replace('-', ' ')
+        team = Team.objects.filter(league=league, name__iexact=team_name).first()
+        
+        if not team:
+             team = Team.objects.filter(league=league, name__icontains=team_name).first()
+             
+        if not team:
+             from django.utils.text import slugify
+             for t in Team.objects.filter(league=league):
+                 if slugify(t.name) == team_slug:
+                     team = t
+                     break
+        
+        if not team:
+            raise Http404(f"Team '{team_slug}' not found in '{league.name}'")
+            
+        return team
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         team = self.object
         
+        # Add league to context explicitly as it might be needed
+        context['league'] = team.league
+
         # Get all finished matches for this team
         matches = Match.objects.filter(
             models.Q(home_team=team) | models.Q(away_team=team),

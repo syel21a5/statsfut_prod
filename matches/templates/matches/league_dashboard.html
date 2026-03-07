@@ -20,7 +20,7 @@
             </p>
         </div>
         <div>
-            <a href="{% url 'matches:league_goals' country_name=league.country|slugify league_name=league.name|slugify %}"
+            <a href="{% url 'matches:league_goals' country_name=league.country|country_en|slugify league_name=league.name|slugify %}"
                 class="btn btn-outline-info btn-sm">
                 <i class="fa-solid fa-chart-pie me-1"></i> Goals Stats
             </a>
@@ -648,7 +648,7 @@
                                                 style="width: 25px;">{{ row.group_position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {% if row.team.logo %}
                                                 <img src="{{ row.team.logo }}" height="20" class="me-2">
@@ -702,7 +702,7 @@
                                                 style="width: 25px;">{{ row.group_position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {% if row.team.logo %}
                                                 <img src="{{ row.team.logo }}" height="20" class="me-2">
@@ -767,7 +767,7 @@
                                                 style="width: 25px;">{{ row.position }}</span>
                                         </td>
                                         <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white d-flex align-items-center">
                                                 {% get_team_logo row.team as team_logo %}
                                                 {% if team_logo %}
@@ -840,7 +840,7 @@
                                     <tr>
                                         <td class="ps-2 text-start text-secondary">{{ row.position }}</td>
                                         <td class="text-start">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
@@ -887,7 +887,7 @@
                                     <tr>
                                         <td class="ps-2 text-start text-secondary">{{ row.position }}</td>
                                         <td class="text-start">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
@@ -933,7 +933,7 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
@@ -992,7 +992,7 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
@@ -1041,7 +1041,7 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
@@ -1093,7 +1093,7 @@
                                     {% for row in standings %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
@@ -1136,7 +1136,7 @@
                                     {% for row in relative_table %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats' league_name=row.league_slug team_name=row.team_slug %}"
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
                                                 {{ row.team.name }}
                                             </a>
