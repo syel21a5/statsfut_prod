@@ -5,7 +5,7 @@ try:
     league = League.objects.get(name='Bundesliga', country='Austria')
     print(f"League found: {league}")
     
-    seasons = Season.objects.filter(match__league=league).distinct()
+    seasons = Season.objects.filter(matches__league=league).distinct()
     years = sorted([s.year for s in seasons])
     print(f"Seasons found with matches: {years}")
     
