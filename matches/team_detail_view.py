@@ -1,3 +1,7 @@
+from django.views.generic import DetailView
+from django.db import models
+from .models import Team, Match, League
+
 class TeamDetailView(DetailView):
     model = Team
     template_name = 'matches/team_detail.html'
@@ -104,30 +108,121 @@ class TeamDetailView(DetailView):
                 away_stats['gf'] += score_for
                 away_stats['ga'] += score_against
 
-        # Calculate percentages and averages
-        context['stats'] = {
+        # Helper to calculate percentages
+        def calculate_pct(stats_dict):
+            played = stats_dict['played']
+            if played > 0:
+                stats_dict['win_pct'] = round((stats_dict['w'] / played) * 100, 1)
+                stats_dict['w_pct'] = stats_dict['win_pct']
+                stats_dict['draw_pct'] = round((stats_dict['d'] / played) * 100, 1)
+                stats_dict['d_pct'] = stats_dict['draw_pct']
+                stats_dict['loss_pct'] = round((stats_dict['l'] / played) * 100, 1)
+                stats_dict['l_pct'] = stats_dict['loss_pct']
+                stats_dict['avg_gf'] = round(stats_dict['gf'] / played, 2)
+                stats_dict['avg_ga'] = round(stats_dict['ga'] / played, 2)
+                
+                # PPG
+                points = stats_dict['w'] * 3 + stats_dict['d']
+                stats_dict['ppg'] = round(points / played, 2)
+            else:
+                stats_dict.update({
+                    'win_pct': 0, 'w_pct': 0,
+                    'draw_pct': 0, 'd_pct': 0,
+                    'loss_pct': 0, 'l_pct': 0,
+                    'avg_gf': 0, 'avg_ga': 0,
+                    'ppg': 0
+                })
+            # Add GP/Played aliases
+            stats_dict['gp'] = played
+            return stats_dict
+
+        home_stats = calculate_pct(home_stats)
+        away_stats = calculate_pct(away_stats)
+        
+        total_stats = {
             'played': total_played,
-            'wins': wins,
-            'draws': draws,
-            'losses': losses,
+            'w': wins,
+            'd': draws,
+            'l': losses,
             'gf': gf,
-            'ga': ga,
+            'ga': ga
+        }
+        total_stats = calculate_pct(total_stats)
+        
+        # Add extra total stats
+        total_stats.update({
             'gd': gf - ga,
-            'avg_gf': round(gf / total_played, 2) if total_played else 0,
-            'avg_ga': round(ga / total_played, 2) if total_played else 0,
             'clean_sheets': clean_sheets,
             'failed_to_score': failed_to_score,
             'cs_rate': round((clean_sheets / total_played) * 100, 1) if total_played else 0,
             'fts_rate': round((failed_to_score / total_played) * 100, 1) if total_played else 0,
             'btts_rate': round((btts_count / total_played) * 100, 1) if total_played else 0,
             'over_25_rate': round((over_25_count / total_played) * 100, 1) if total_played else 0,
-            'ppg': round((wins * 3 + draws) / total_played, 2) if total_played else 0,
+        })
+
+        # Structured stats for template
+        context['stats'] = {
+            'home': home_stats,
+            'away': away_stats,
+            'total': total_stats
         }
+        context['cats'] = ['home', 'away', 'total']
         
-        # Home/Away PPG
-        home_stats['ppg'] = round((home_stats['w'] * 3 + home_stats['d']) / home_stats['played'], 2) if home_stats['played'] else 0
-        away_stats['ppg'] = round((away_stats['w'] * 3 + away_stats['d']) / away_stats['played'], 2) if away_stats['played'] else 0
+        # League Averages
+        league_matches = Match.objects.filter(
+            league=team.league, 
+            season=matches.first().season if matches.exists() else None,
+            status='Finished'
+        )
         
+        if not league_matches.exists() and matches.exists():
+             league_matches = Match.objects.filter(league=team.league, status='Finished')
+
+        league_total_matches = league_matches.count()
+        if league_total_matches > 0:
+            l_home_wins = league_matches.filter(home_score__gt=models.F('away_score')).count()
+            l_away_wins = league_matches.filter(away_score__gt=models.F('home_score')).count()
+            l_draws = league_matches.filter(home_score=models.F('away_score')).count()
+            
+            l_home_goals = league_matches.aggregate(s=models.Sum('home_score'))['s'] or 0
+            l_away_goals = league_matches.aggregate(s=models.Sum('away_score'))['s'] or 0
+            l_total_goals = l_home_goals + l_away_goals
+            
+            total_team_games = league_total_matches * 2
+            
+            league_avg_total = {
+                'win_pct': round(((l_home_wins + l_away_wins) / total_team_games) * 100, 1),
+                'draw_pct': round(((l_draws * 2) / total_team_games) * 100, 1),
+                'loss_pct': round(((l_home_wins + l_away_wins) / total_team_games) * 100, 1),
+                'avg_gf': round(l_total_goals / total_team_games, 2),
+                'avg_ga': round(l_total_goals / total_team_games, 2)
+            }
+            
+            league_avg_home = {
+                'win_pct': round((l_home_wins / league_total_matches) * 100, 1),
+                'draw_pct': round((l_draws / league_total_matches) * 100, 1),
+                'loss_pct': round((l_away_wins / league_total_matches) * 100, 1),
+                'avg_gf': round(l_home_goals / league_total_matches, 2),
+                'avg_ga': round(l_away_goals / league_total_matches, 2)
+            }
+            
+            league_avg_away = {
+                'win_pct': round((l_away_wins / league_total_matches) * 100, 1),
+                'draw_pct': round((l_draws / league_total_matches) * 100, 1),
+                'loss_pct': round((l_home_wins / league_total_matches) * 100, 1),
+                'avg_gf': round(l_away_goals / league_total_matches, 2),
+                'avg_ga': round(l_home_goals / league_total_matches, 2)
+            }
+            
+            context['league_avg'] = {
+                'home': league_avg_home,
+                'away': league_avg_away,
+                'total': league_avg_total
+            }
+        else:
+             context['league_avg'] = {'home': {}, 'away': {}, 'total': {}}
+
+        # Legacy context variables for backward compatibility if needed (though we should migrate template)
         context['home_stats'] = home_stats
         context['away_stats'] = away_stats
         context['current_streak'] = current_streak
