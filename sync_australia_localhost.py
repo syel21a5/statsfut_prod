@@ -35,18 +35,30 @@ def sync_local():
 
     print("\nLimpando duplicatas e unificando nomes no seu localhost...")
     for api_id, clean_name in master_teams.items():
-        teams_to_fix = Team.objects.filter(league=local_league).filter(
-            django.db.models.Q(api_id=api_id) | 
-            django.db.models.Q(name__icontains=clean_name.split()[0])
-        )
+        # First find ALL teams matching this api_id or name
+        teams_by_api = list(Team.objects.filter(league=local_league, api_id=api_id))
+        teams_by_name = list(Team.objects.filter(league=local_league, name__icontains=clean_name.split()[0]))
         
-        if teams_to_fix.exists():
-            primary_team = teams_to_fix.first()
+        # Merge all into a single set
+        all_teams = {t.id: t for t in teams_by_api + teams_by_name}
+        teams_to_fix = list(all_teams.values())
+        
+        if teams_to_fix:
+            primary_team = teams_to_fix[0]
+            
+            # First: NULL out all api_ids to avoid unique constraint conflict
+            for t in teams_to_fix:
+                if t.id != primary_team.id:
+                    t.api_id = None
+                    t.save(update_fields=['api_id'])
+            
+            # Now safely assign the canonical name and api_id to the primary
             primary_team.name = clean_name
             primary_team.api_id = api_id
             primary_team.save()
             
-            for other in teams_to_fix.exclude(id=primary_team.id):
+            # Migrate matches from duplicates to primary, then delete duplicates
+            for other in teams_to_fix[1:]:
                 print(f"  Mesclando duplicata: {other.name} (ID {other.id}) -> {clean_name}")
                 Match.objects.filter(home_team=other).update(home_team=primary_team)
                 Match.objects.filter(away_team=other).update(away_team=primary_team)
