@@ -182,9 +182,13 @@ class Command(BaseCommand):
                 # If scraping current season or future, try base URL without year first (often more reliable for active season)
                 if is_current_season or year >= 2025:
                      # For Austria specifically, force check base url first if recent year
-                     if league_conf['country'] == 'Austria' and year >= 2024:
+                     if league_conf['country'] == 'Austria' and year >= 2025:
                           url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}&pmtype=bydate"
                      # Generic fallback logic applied below if primary fails, but here we set primary intent
+                
+                # FIX for Austria 2024: The standard view is broken/incomplete. Force bydate.
+                if league_conf['country'] == 'Austria' and year == 2024:
+                     url = f"https://www.soccerstats.com/results.asp?league={league_conf['url_base']}_{year}&pmtype=bydate"
 
                 self.stdout.write(f"Scraping {year}: {url}")
 
