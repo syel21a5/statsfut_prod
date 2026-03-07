@@ -39,12 +39,14 @@ def clear_austria():
         league.goal_timings.all().delete()
         
         print(f"Deletando {teams_count} times...")
-        league.teams.all().delete()
+        # NOTA: Não estamos mais deletando os times para manter a compatibilidade com logos 
+        # e IDs da VPS. O payload_importer vai fazer upsert neles.
+        # league.teams.all().delete()
         
-        print(f"Deletando a liga {league.name}...")
-        league.delete()
+        print(f"O mantimento da liga {league.name} foi assegurado.")
+        # league.delete()
         
-    print("Limpeza concluída!")
+    print("Limpeza das partidas concluída!")
 
 if __name__ == '__main__':
     clear_austria()
