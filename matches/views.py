@@ -390,7 +390,7 @@ class StatsDispatchView(View):
         if not is_country:
             from django.utils.text import slugify
             for l in League.objects.values('country').distinct():
-                if slugify(l['country']) == arg1:
+                if slugify(l['country']) == slugify(arg1):
                     is_country = True
                     break
         
@@ -411,7 +411,7 @@ class StatsDispatchView(View):
         if not is_league:
             from django.utils.text import slugify
             for l in League.objects.all():
-                if slugify(l.name) == arg1:
+                if slugify(l.name) == slugify(arg1):
                     is_league = True
                     break
 
@@ -1872,7 +1872,7 @@ class TeamDetailView(DetailView):
         if not league:
             from django.utils.text import slugify
             for l in League.objects.all():
-                if slugify(l.name) == league_slug:
+                if slugify(l.name) == slugify(league_slug):
                     league = l
                     break
         
@@ -1891,7 +1891,7 @@ class TeamDetailView(DetailView):
         if not team:
              from django.utils.text import slugify
              for t in qs:
-                 if slugify(t.name) == team_slug:
+                 if slugify(t.name) == slugify(team_slug):
                      team = t
                      break
          
