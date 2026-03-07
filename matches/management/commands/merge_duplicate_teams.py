@@ -36,25 +36,11 @@ class Command(BaseCommand):
             {'wrong': 'A. Lustenau', 'correct': 'Austria Lustenau', 'country': 'Austria'},
             {'wrong': 'WSG Tirol', 'correct': 'Tirol', 'country': 'Austria'},
 
-            # AUSTRALIA
-            {'wrong': 'Wellington Phoenix FC', 'correct': 'Wellington Phoenix', 'country': 'Australia'},
-            {'wrong': 'Wellington', 'correct': 'Wellington Phoenix', 'country': 'Australia'},
-            {'wrong': 'Melbourne Victory FC', 'correct': 'Melbourne Victory', 'country': 'Australia'},
-            {'wrong': 'Melbourne V.', 'correct': 'Melbourne Victory', 'country': 'Australia'},
-            {'wrong': 'Melbourne City FC', 'correct': 'Melbourne City', 'country': 'Australia'},
-            {'wrong': 'Adelaide United FC', 'correct': 'Adelaide United', 'country': 'Australia'},
-            {'wrong': 'Adelaide Utd', 'correct': 'Adelaide United', 'country': 'Australia'},
-            {'wrong': 'Western United FC', 'correct': 'Western United', 'country': 'Australia'},
-            {'wrong': 'Macarthur FC', 'correct': 'Macarthur FC', 'country': 'Australia'}, # Check if Macarthur exists without FC
-            {'wrong': 'Macarthur', 'correct': 'Macarthur FC', 'country': 'Australia'},
-            {'wrong': 'Brisbane Roar FC', 'correct': 'Brisbane Roar', 'country': 'Australia'},
-            {'wrong': 'Perth Glory FC', 'correct': 'Perth Glory', 'country': 'Australia'},
-            {'wrong': 'Central Coast Mariners FC', 'correct': 'Central Coast Mariners', 'country': 'Australia'},
-            {'wrong': 'Central Coast', 'correct': 'Central Coast Mariners', 'country': 'Australia'},
-            {'wrong': 'Newcastle Jets FC', 'correct': 'Newcastle Jets', 'country': 'Australia'},
-            {'wrong': 'Sydney FC', 'correct': 'Sydney FC', 'country': 'Australia'}, # Identity
-            {'wrong': 'WS Wanderers', 'correct': 'Western Sydney Wanderers', 'country': 'Australia'},
-            {'wrong': 'Auckland', 'correct': 'Auckland FC', 'country': 'Australia'},
+            # AUSTRALIA - Removido! Os times australianos são gerenciados
+            # exclusivamente pelo SofaScore Action (update_australia.yml).
+            # O Action usa api_id para identificar os times, então não há
+            # necessidade de renomear aqui. Isso evitava um loop onde o
+            # merge renomeava e o Action desfazia a renomeação a cada 6h.
         ]
 
         for item in merge_map:
