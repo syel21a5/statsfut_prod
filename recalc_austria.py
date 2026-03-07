@@ -1,20 +1,27 @@
+from django.core.management import call_command
 from matches.models import League, Season, LeagueStanding
-from matches.utils import calculate_standings
-from django.utils import timezone
 
 try:
     league = League.objects.get(name='Bundesliga', country='Austria')
     print(f"League found: {league}")
     
     seasons = Season.objects.filter(match__league=league).distinct()
-    print(f"Seasons found with matches: {[s.year for s in seasons]}")
+    years = sorted([s.year for s in seasons])
+    print(f"Seasons found with matches: {years}")
     
-    for season in seasons:
-        print(f"Recalculating standings for {season.year}...")
-        calculate_standings(league, season)
-        
-        count = LeagueStanding.objects.filter(league=league, season=season).count()
-        print(f"  -> Standings count: {count}")
+    for year in years:
+        print(f"Recalculating standings for {year}...")
+        try:
+            # Chama o comando de gerenciamento existente
+            call_command('recalculate_standings', league_name='Bundesliga', country='Austria', season_year=year)
+            
+            # Verifica se criou
+            s_obj = Season.objects.filter(year=year).first()
+            if s_obj:
+                count = LeagueStanding.objects.filter(league=league, season=s_obj).count()
+                print(f"  -> Standings count for {year}: {count}")
+        except Exception as e:
+            print(f"Error calculating for {year}: {e}")
 
     print("Done.")
 
