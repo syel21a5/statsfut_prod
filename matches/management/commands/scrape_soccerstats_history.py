@@ -251,6 +251,27 @@ class Command(BaseCommand):
         # We iterate rows and try to identify match patterns.
         count = 0
         
+        def get_team(name, league):
+            from django.utils.text import slugify
+            try:
+                # 1. Exact match
+                return Team.objects.get(name__iexact=name, league=league)
+            except Team.DoesNotExist:
+                # 2. Slug match (robust against SK Sturm Graz vs Sturm Graz)
+                target_slug = slugify(name)
+                for t in Team.objects.filter(league=league):
+                    if slugify(t.name) == target_slug:
+                        return t
+                
+                # 3. Contains match
+                t = Team.objects.filter(league=league, name__icontains=name).first()
+                if t:
+                    return t
+                
+                # 4. Create new
+                t, _ = Team.objects.get_or_create(name=name, league=league)
+                return t
+        
         season_obj, _ = Season.objects.get_or_create(year=year)
         
         if df.shape[1] < 3: return
@@ -418,7 +439,7 @@ class Command(BaseCommand):
                     'TSV Hartberg': 'Hartberg',
                     'Hartberg': 'Hartberg',
                     'SCR Altach': 'Altach',
-                    'Altach': 'Altach',
+                     'Altach': 'Altach',
                     'FC Blau Weiss Linz': 'BW Linz',
                     'BW Linz': 'BW Linz',
                     'Blau-Weiss Linz': 'BW Linz',
@@ -431,6 +452,13 @@ class Command(BaseCommand):
                     'SCR Ried': 'Ried',
                     'SV Ried': 'Ried',
                     'Ried': 'Ried',
+
+                    # Add SK/SC prefixes to match production database if needed
+                    'Salzburg': 'Red Bull Salzburg',
+                    'Sturm Graz': 'SK Sturm Graz',
+                    'Rapid Wien': 'SK Rapid Wien',
+                    'Austria Wien': 'FK Austria Wien',
+                    'Klagenfurt': 'SK Austria Klagenfurt',
 
                     # Switzerland mappings
                     'Young Boys': 'Young Boys',
@@ -738,8 +766,9 @@ class Command(BaseCommand):
                 home = ODDS_API_TEAM_MAPPINGS.get(home, home)
                 away = ODDS_API_TEAM_MAPPINGS.get(away, away)
                 
-                home_team, _ = Team.objects.get_or_create(name=home, league=league_obj)
-                away_team, _ = Team.objects.get_or_create(name=away, league=league_obj)
+                # Use robust team retrieval function
+                home_team = get_team(home, league_obj)
+                away_team = get_team(away, league_obj)
 
                 if home_team == away_team:
                     continue
