@@ -137,13 +137,17 @@ class Command(BaseCommand):
                 self.stdout.write(f"DEBUG: Getting League object for {league_conf['name']}...")
                 sys.stdout.flush()
                 try:
-                    league_obj, _ = League.objects.get_or_create(
-                        name=league_conf['name'],
-                        country=league_conf['country'],
-                        division=league_conf.get('division', 1),
-                    )
-                    # Persist the soccerstats slug so it's always up to date
                     slug = league_conf.get('url_base')
+                    league_obj = None
+                    if slug:
+                        league_obj = League.objects.filter(soccerstats_slug=slug).first()
+                    if not league_obj:
+                        league_obj, _ = League.objects.get_or_create(
+                            name=league_conf['name'],
+                            country=league_conf['country'],
+                            division=league_conf.get('division', 1),
+                        )
+                    # Persist the soccerstats slug so it's always up to date
                     if slug and league_obj.soccerstats_slug != slug:
                         league_obj.soccerstats_slug = slug
                         league_obj.save(update_fields=['soccerstats_slug'])
