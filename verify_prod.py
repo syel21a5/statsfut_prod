@@ -3,7 +3,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from matches.models import League, Team, Match, LeagueStanding
+from matches.models import League, Team, Match, LeagueStanding, Season
 
 # Verifying data for AU and AT
 for country in ['Australia', 'Austria']:
@@ -15,12 +15,12 @@ for country in ['Australia', 'Austria']:
     for l in leagues:
         team_count = Team.objects.filter(league=l).count()
         match_count = Match.objects.filter(league=l).count()
-        latest_standing = LeagueStanding.objects.filter(league=l).order_by('-points').first()
+        latest_season = Season.objects.filter(league=l).order_by('-year').first()
         
-        print(f'League: {l.name} ({l.country})')
+        print(f'League: {l.name} ({l.country}) [ID: {l.id}]')
+        print(f'  Season: {latest_season.year if latest_season else "None"} [ID: {latest_season.id if latest_season else "None"}]')
         print(f'  Teams: {team_count}')
         print(f'  Matches: {match_count}')
-        print(f'  Standings found? {"Yes" if latest_standing else "No"}')
         
         # Check first team logo for this league
         t = Team.objects.filter(league=l).first()
