@@ -50,7 +50,7 @@ jobs:
             ./venv/bin/python clear_austria.py
             
             # Puxa o arquivo com IDs rígidos da prod (Liga=1, Season=1)
-            ./venv/bin/python manage.py import_sofascore_payload --file payload_austria.json --league_id 1 --season_id 1
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_austria.json --league_id 44 --season_id 1
             
             # Recalcula as posições
             ./venv/bin/python manage.py recalculate_standings --division AUT
