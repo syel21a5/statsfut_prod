@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 extra.delete()
 
         # 2. Fix Austria Team Duplicates
-        league = League.objects.filter(name='Bundesliga', country='Austria').first()
+        league = League.objects.filter(country='Austria').first()
         if not league:
             self.stdout.write("League not found.")
             return
