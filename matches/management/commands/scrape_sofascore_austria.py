@@ -12,6 +12,21 @@ TOURNAMENT_ID = 45
 DEFAULT_SEASON_ID = 77382
 DEFAULT_YEAR = 2026
 
+TEAM_MAPPING = {
+    "SK Sturm Graz": "Sturm Graz",
+    "Salzburg": "Red Bull Salzburg",
+    "FK Austria Wien": "Austria Vienna",
+    "SK Rapid Wien": "Rapid Vienna",
+    "Grazer AK 1902": "GAK 1902",
+    "FC Blau Weiß Linz": "Blau-Weiss Linz",
+    "WSG Tirol": "WSG Tirol",
+    "SC Rheindorf Altach": "SC Rheindorf Altach",
+    "Wolfsberger AC": "Wolfsberger AC",
+    "TSV Hartberg": "TSV Hartberg",
+    "LASK": "LASK",
+    "SV Ried": "SV Ried",
+}
+
 class Command(BaseCommand):
     help = "Faz o scraping das partidas da Áustria (SofaScore) de forma invisível via curl_cffi"
 
@@ -85,7 +100,8 @@ class Command(BaseCommand):
             for row in standings_list:
                 team_data = row.get('team', {})
                 team_id = str(team_data.get('id'))
-                team_name = team_data.get('name')
+                raw_team_name = team_data.get('name')
+                team_name = TEAM_MAPPING.get(raw_team_name, raw_team_name)
                 
                 if team_id and team_name:
                     team, created = Team.objects.get_or_create(
