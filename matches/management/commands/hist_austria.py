@@ -30,6 +30,8 @@ import pytz
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from django.utils import timezone
+from django.conf import settings
+import os
 
 from matches.models import League, Match, Season, Team
 
@@ -142,33 +144,63 @@ class Command(BaseCommand):
             "User-Agent": "Mozilla/5.0 (compatible; statsfut-importer/1.0)",
         }
 
+        # Diretório base para backup local
+        backup_dir = os.path.join(settings.BASE_DIR, "historical_data", LEAGUE_COUNTRY, LEAGUE_NAME)
+        os.makedirs(backup_dir, exist_ok=True)
+
         total = 0
         for end_year in seasons:
             season_key = end_year_to_key.get(end_year)
             if not season_key:
                 self.stdout.write(self.style.WARNING(f"⚠️  Temporada {end_year} não mapeada. Use entre 2016-2026."))
                 continue
+                
+            # Define o caminho do arquivo backup local
+            local_filename = f"{season_key}_1-bundesliga.txt"
+            local_filepath = os.path.join(backup_dir, local_filename)
+            
+            # --- Tenta ler o arquivo local primeiro ---
+            raw_text = None
+            if os.path.exists(local_filepath):
+                self.stdout.write(f"\n📁 Lendo {local_filename} do backup local ({backup_dir})")
+                try:
+                    with open(local_filepath, 'r', encoding='utf-8') as f:
+                        raw_text = f.read()
+                except Exception as e:
+                    self.stdout.write(self.style.WARNING(f"   ⚠️  Falha ao ler cache local, tentando rede: {e}"))
+                    raw_text = None
 
-            url = f"{GITHUB_RAW_BASE}/{season_key}/1-bundesliga.txt"
-            self.stdout.write(f"\n📥 Temporada {end_year-1}/{end_year}: {url}")
-
-            try:
-                resp = requests.get(url, headers=headers, timeout=20)
-                if resp.status_code == 404:
-                    self.stdout.write(self.style.WARNING(f"   ⚠️  Arquivo não encontrado (404): {url}"))
+            # --- Se não leu local, baixa da rede e salva na pasta ---
+            if not raw_text:
+                url = f"{GITHUB_RAW_BASE}/{season_key}/1-bundesliga.txt"
+                self.stdout.write(f"\n🌐 Baixando Temporada {end_year-1}/{end_year}: {url}")
+    
+                try:
+                    resp = requests.get(url, headers=headers, timeout=20)
+                    if resp.status_code == 404:
+                        self.stdout.write(self.style.WARNING(f"   ⚠️  Arquivo não encontrado na rede (404): {url}"))
+                        continue
+                    if resp.status_code != 200:
+                        self.stdout.write(self.style.ERROR(f"   ❌ HTTP {resp.status_code}"))
+                        continue
+                    
+                    raw_text = resp.text
+                    
+                    # Salva no backup local para a próxima execução
+                    if not dry_run:
+                        with open(local_filepath, 'w', encoding='utf-8') as f:
+                            f.write(raw_text)
+                        self.stdout.write(self.style.SUCCESS(f"   💾 Salvo no backup local: {local_filepath}"))
+                        
+                except Exception as exc:
+                    self.stdout.write(self.style.ERROR(f"   ❌ Erro de rede: {exc}"))
                     continue
-                if resp.status_code != 200:
-                    self.stdout.write(self.style.ERROR(f"   ❌ HTTP {resp.status_code}"))
-                    continue
-            except Exception as exc:
-                self.stdout.write(self.style.ERROR(f"   ❌ Erro de rede: {exc}"))
-                continue
 
             season_obj = Season.objects.filter(year=end_year).first()
             if not season_obj:
                 season_obj = Season.objects.create(year=end_year)
             count = self._parse_and_import(
-                resp.text, league, season_obj, end_year, dry_run
+                raw_text, league, season_obj, end_year, dry_run
             )
             total += count
             self.stdout.write(self.style.SUCCESS(f"   ✅ {count} partidas importadas"))
