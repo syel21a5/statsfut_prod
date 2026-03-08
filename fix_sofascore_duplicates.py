@@ -41,12 +41,11 @@ def fix_duplicates():
         if team_sofa and team_canonical and team_sofa.id != team_canonical.id:
             print(f'➜ Mesclando: "{team_sofa.name}" para "{team_canonical.name}"')
             
-            # Transferir api_id para o canônico para linkar corretamente
-            if team_sofa.api_id and not team_canonical.api_id:
-                team_canonical.api_id = team_sofa.api_id
-                team_canonical.save()
-            elif team_sofa.api_id and team_canonical.api_id and team_sofa.api_id != team_canonical.api_id:
-                print(f'   ⚠️ Ambos têm api_id! Mantendo o do canônico.')
+            # Limpa o api_id do time duplicado antes de deletar, para evitar conflito de unique
+            # O time canônico já tem o api_id correto de uma importação anterior
+            if team_sofa.api_id:
+                team_sofa.api_id = None
+                team_sofa.save()
 
             # Transferir partidas (Home)
             matches_home = Match.objects.filter(home_team=team_sofa)
