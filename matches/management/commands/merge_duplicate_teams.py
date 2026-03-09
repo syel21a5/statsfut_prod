@@ -35,6 +35,11 @@ class Command(BaseCommand):
             {'wrong': 'Grêmio',              'correct': 'Gremio',              'country': 'Brasil'},
             {'wrong': 'Sao Paulo',           'correct': 'São Paulo',           'country': 'Brasil'},
             {'wrong': 'Ceará',               'correct': 'Ceara',               'country': 'Brasil'},
+            
+            # AUSTRALIA - Sincronizado com Server (ID 21)
+            {'wrong': 'Newcastle Jets FC',    'correct': 'Newcastle Jets',      'country': 'Australia'},
+            {'wrong': 'Wellington Phoenix FC','correct': 'Wellington Phoenix',   'country': 'Australia'},
+            {'wrong': 'Melbourne City FC',   'correct': 'Melbourne City',      'country': 'Australia'},
         ]
 
         for item in merge_map:

@@ -15,8 +15,10 @@ DEFAULT_YEAR = 2026
 # Mapeamento de nomes do SofaScore para nomes canônicos no BD (mesmo do hist_australia.py)
 TEAM_MAPPING = {
     "Melbourne City FC": "Melbourne City",
-    "Newcastle United Jets": "Newcastle Jets FC",
-    "Wellington Phoenix FC": "Wellington Phoenix FC",
+    "Newcastle United Jets": "Newcastle Jets",
+    "Wellington Phoenix FC": "Wellington Phoenix",
+    "Wellington Phoenix": "Wellington Phoenix",
+    "Newcastle Jets FC": "Newcastle Jets",
     "Western Sydney Wanderers": "Western Sydney Wanderers",
     "WS Wanderers": "Western Sydney Wanderers",
     "CC Mariners": "Central Coast Mariners",
