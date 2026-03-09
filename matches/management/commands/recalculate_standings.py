@@ -66,7 +66,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"Iniciando recálculo para {count} ligas..."))
             
             for league in leagues_with_matches:
-                self.recalculate_for_league(league)
+                self.recalculate_for_league(league, smart=options["smart"])
             
             self.stdout.write(self.style.SUCCESS("Recálculo concluído."))
             return
@@ -142,17 +142,31 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"Erro ao buscar liga: {e}"))
             return
 
-    def recalculate_for_league(self, league, season_year=None):
+    def recalculate_for_league(self, league, season_year=None, smart=False):
         if season_year:
             seasons = Season.objects.filter(year=season_year)
             if not seasons.exists():
                 self.stdout.write(self.style.ERROR(f"Temporada {season_year} não encontrada"))
                 return
+        elif smart:
+            # No modo smart, pegamos apenas as seasons que tiveram jogos nas últimas 24h
+            yesterday = timezone.now() - timedelta(days=1)
+            recent_season_ids = Match.objects.filter(
+                league=league,
+                date__gte=yesterday
+            ).values_list('season_id', flat=True).distinct()
+            
+            seasons = Season.objects.filter(id__in=recent_season_ids)
+            
+            if not seasons.exists():
+                # Fallback de segurança: Pega a temporada mais recente (atual)
+                seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")[:1]
         else:
             seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")
-            if not seasons.exists():
-                self.stdout.write(self.style.ERROR(f"Nenhuma temporada com jogos encontrada para a liga {league.name}"))
-                return
+            
+        if not seasons.exists():
+            self.stdout.write(self.style.ERROR(f"Nenhuma temporada para recalcular na liga {league.name}"))
+            return
 
         for season in seasons:
             self.stdout.write(
