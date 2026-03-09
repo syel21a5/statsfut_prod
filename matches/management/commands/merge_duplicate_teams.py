@@ -12,22 +12,35 @@ class Command(BaseCommand):
         # Mappings: { 'Wrong Name': 'Correct Name' }
         # Country is optional filter
         merge_map = [
-            # AUSTRIA — REMOVIDO!
-            # A liga austríaca é gerenciada exclusivamente pelo GitHub Action via SofaScore
-            # (atualização a cada 6h). Os nomes dos times são controlados pelo sofascore
-            # e qualquer merge aqui vai entrar em conflito e corromper os dados.
-            # NÃO adicionar entradas da Áustria aqui.
-
-            # AUSTRALIA — REMOVIDO!
-            # Os times australianos são gerenciados exclusivamente pelo SofaScore Action
-            # (update_australia.yml). O Action usa api_id para identificar os times,
-            # então não há necessidade de renomear aqui.
+            # AUSTRIA - Sincronizado com os nomes do Servidor (ID 44)
+            {'wrong': 'Rapid Vienna',        'correct': 'Rapid Wien',          'country': 'Austria'},
+            {'wrong': 'SK Rapid Wien',       'correct': 'Rapid Wien',          'country': 'Austria'},
+            {'wrong': 'Austria Vienna',      'correct': 'Austria Wien',        'country': 'Austria'},
+            {'wrong': 'FK Austria Wien',     'correct': 'Austria Wien',        'country': 'Austria'},
+            {'wrong': 'Red Bull Salzburg',   'correct': 'Salzburg',            'country': 'Austria'},
+            {'wrong': 'LASK',                'correct': 'LASK Linz',           'country': 'Austria'},
+            {'wrong': 'SV Ried',             'correct': 'Ried',                'country': 'Austria'},
+            {'wrong': 'WSG Tirol',           'correct': 'Tirol',               'country': 'Austria'},
+            {'wrong': 'Grazer AK 1902',      'correct': 'Grazer AK',           'country': 'Austria'},
+            {'wrong': 'FC Blau-Weiß Linz',   'correct': 'FC Blau Weiß Linz',   'country': 'Austria'},
+            {'wrong': 'FC Blau Weiss Linz',  'correct': 'FC Blau Weiß Linz',   'country': 'Austria'},
+            {'wrong': 'SV Grödig',           'correct': 'SV Grodig',           'country': 'Austria'},
+            
+            # BRASIL - Sincronizado com Server (ID 2)
+            {'wrong': 'Vasco da Gama',       'correct': 'Vasco',               'country': 'Brasil'},
+            {'wrong': 'Bragantino-SP',       'correct': 'Bragantino',          'country': 'Brasil'},
+            {'wrong': 'RB Bragantino',       'correct': 'Bragantino',          'country': 'Brasil'},
+            {'wrong': 'Atletico Mineiro',    'correct': 'Atletico-MG',         'country': 'Brasil'},
+            {'wrong': 'Athletico Paranaense','correct': 'Athletico-PR',         'country': 'Brasil'},
+            {'wrong': 'Grêmio',              'correct': 'Gremio',              'country': 'Brasil'},
+            {'wrong': 'Sao Paulo',           'correct': 'São Paulo',           'country': 'Brasil'},
+            {'wrong': 'Ceará',               'correct': 'Ceara',               'country': 'Brasil'},
         ]
 
         for item in merge_map:
             self.merge_teams(item['wrong'], item['correct'], item.get('country'))
 
-        self.stdout.write(self.style.SUCCESS("Team merge process completed."))
+        self.stdout.write(self.style.SUCCESS("Cleanup and merge process completed."))
 
     def merge_teams(self, wrong_name, correct_name, country=None):
         # Find correct team
@@ -38,7 +51,6 @@ class Command(BaseCommand):
         correct_team = Team.objects.filter(query).first()
         
         if not correct_team:
-            # self.stdout.write(f"Correct team '{correct_name}' not found. Skipping merge of '{wrong_name}'.")
             return
 
         # Find wrong team(s)
@@ -54,7 +66,7 @@ class Command(BaseCommand):
                 self.stdout.write(f"Skipping merge: '{wrong_team}' and '{correct_team}' are in different leagues.")
                 continue
 
-            self.stdout.write(f"Merging '{wrong_team.name}' ({wrong_team.id}) into '{correct_team.name}' ({correct_team.id})...")
+            self.stdout.write(f"Merging '{wrong_team.name}' into '{correct_team.name}'...")
             
             # Update Matches (Home)
             Match.objects.filter(home_team=wrong_team).update(home_team=correct_team)
@@ -63,5 +75,3 @@ class Command(BaseCommand):
             
             # Delete wrong team
             wrong_team.delete()
-            self.stdout.write(f"Deleted '{wrong_name}'.")
-
