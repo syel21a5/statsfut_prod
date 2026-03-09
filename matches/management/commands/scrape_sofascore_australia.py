@@ -12,6 +12,28 @@ TOURNAMENT_ID = 136
 DEFAULT_SEASON_ID = 82603
 DEFAULT_YEAR = 2026
 
+# Mapeamento de nomes do SofaScore para nomes canônicos no BD (mesmo do hist_australia.py)
+TEAM_MAPPING = {
+    "Melbourne City FC": "Melbourne City",
+    "Melbourne City": "Melbourne City",
+    "Newcastle United Jets": "Newcastle Jets FC",
+    "Newcastle Jets FC": "Newcastle Jets FC",
+    "Wellington Phoenix FC": "Wellington Phoenix",
+    "Wellington Phoenix": "Wellington Phoenix",
+    "Western Sydney Wanderers": "Western Sydney Wanderers",
+    "WS Wanderers": "Western Sydney Wanderers",
+    "CC Mariners": "Central Coast Mariners",
+    "Central Coast Mariners": "Central Coast Mariners",
+    "Brisbane Roar": "Brisbane Roar",
+    "Sydney FC": "Sydney FC",
+    "Adelaide United": "Adelaide United",
+    "Melbourne Victory": "Melbourne Victory",
+    "Perth Glory": "Perth Glory",
+    "Macarthur FC": "Macarthur FC",
+    "Western United": "Western United",
+    "Auckland FC": "Auckland FC",
+}
+
 class Command(BaseCommand):
     help = "Faz o scraping das partidas da Austrália A-League Men (SofaScore) de forma invisível via curl_cffi"
 
@@ -59,21 +81,17 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f"Iniciando importação do SofaScore (Austrália) para a Temporada {season_year} (Sofa_ID: {season_id})..."))
 
-        # 1. Pegar/Criar a Liga e a Temporada com IDs FIXOS da Produção
+        # 1. Pegar/Criar a Liga e a Temporada (Usando nome/país para evitar conflito de ID local)
         league, _ = League.objects.get_or_create(
-            id=21,  # ID da Liga na Produção
+            name="A-League Men",
+            country="Australia",
             defaults={
-                "name": "A-League Men",
-                "country": "Australia",
                 "division": 1,
                 "soccerstats_slug": "australia"
             }
         )
         season, _ = Season.objects.get_or_create(
-            id=1,  # ID da Season 2026 na Produção
-            defaults={
-                "year": season_year
-            }
+            year=season_year
         )
 
         # 2. Obter Teams (Standings é um bom lugar para puxar os IDs dos times da temporada)
@@ -87,19 +105,31 @@ class Command(BaseCommand):
             for row in standings_list:
                 team_data = row.get('team', {})
                 team_id = str(team_data.get('id'))
-                team_name = team_data.get('name')
+                raw_team_name = team_data.get('name')
+                team_name = TEAM_MAPPING.get(raw_team_name, raw_team_name)
                 
                 if team_id and team_name:
-                    team, created = Team.objects.get_or_create(
-                        api_id=f"sofa_{team_id}",
-                        defaults={
-                            "name": team_name,
-                            "league": league
-                        }
-                    )
-                    if not created and team.league != league: # Just to be safe
-                        team.league = league
-                        team.save()
+                    sofa_api_id = f"sofa_{team_id}"
+                    
+                    # 1. Tenta buscar por api_id
+                    team = Team.objects.filter(api_id=sofa_api_id, league=league).first()
+                    
+                    # 2. Se não achou, busca pelo nome (para casar com histórico que não tem api_id)
+                    if not team:
+                        team = Team.objects.filter(name=team_name, league=league).first()
+                        if team:
+                            # Vincula o api_id para as próximas execuções
+                            team.api_id = sofa_api_id
+                            team.save()
+                    
+                    # 3. Se ainda não existe, cria
+                    if not team:
+                        team = Team.objects.create(
+                            api_id=sofa_api_id,
+                            name=team_name,
+                            league=league
+                        )
+                    
                     teams_map[int(team_id)] = team
                     
             self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/criados."))

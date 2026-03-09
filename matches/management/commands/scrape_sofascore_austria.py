@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from matches.models import League, Team, Match, Season
 from django.db import transaction
 
-# Default Constants for Austrian Bundesliga 2024/2025
+# Default Constants for Austrian Bundesliga 2025/2026
 TOURNAMENT_ID = 45
 DEFAULT_SEASON_ID = 77382
 DEFAULT_YEAR = 2026
@@ -104,16 +104,28 @@ class Command(BaseCommand):
                 team_name = TEAM_MAPPING.get(raw_team_name, raw_team_name)
                 
                 if team_id and team_name:
-                    team, created = Team.objects.get_or_create(
-                        api_id=f"sofa_{team_id}",
-                        defaults={
-                            "name": team_name,
-                            "league": league
-                        }
-                    )
-                    if not created and team.league != league: # Just to be safe
-                        team.league = league
-                        team.save()
+                    sofa_api_id = f"sofa_{team_id}"
+                    
+                    # 1. Try to find team by api_id (já importado antes pelo SofaScore)
+                    team = Team.objects.filter(api_id=sofa_api_id, league=league).first()
+                    
+                    # 2. Se não achou por api_id, procura pelo NOME canônico (veio do histórico)
+                    if not team:
+                        team = Team.objects.filter(name=team_name, league=league).first()
+                        if team:
+                            # Encontrou pelo nome! Atribui o api_id para próximas buscas serem rápidas
+                            if not team.api_id:
+                                team.api_id = sofa_api_id
+                                team.save()
+                    
+                    # 3. Se ainda não achou, cria novo (time genuinamente novo na liga)
+                    if not team:
+                        team = Team.objects.create(
+                            name=team_name,
+                            league=league,
+                            api_id=sofa_api_id
+                        )
+                    
                     teams_map[int(team_id)] = team
                     
             self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/criados."))

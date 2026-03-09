@@ -207,13 +207,14 @@ class Command(BaseCommand):
         date_re = re.compile(r"(\w{3})\s+(\w{3})/(\d{1,2})(?:\s+(\d{4}))?")
         
         # Pattern B (com 'v'): Team A v Team B Score
+        # Ajustado para lidar com extras como 'pen.' ou 'a.e.t.' no final da linha
         re_b = re.compile(
-            r"^\s+(?:\d{1,2}[.:]\d{2}\s+)?(.+?)\s+v\s+(.+?)\s+(\d+)-(\d+)(?:\s*\(\d+-\d+\))?\s*$"
+            r"^\s+(?:\d{1,2}[.:]\d{2}\s+)?(.+?)\s+v\s+(.+?)\s+(\d+)-(\d+)(?:\s+(?:pen\.|a\.e\.t\.|(?:\(\d+-\d+(?:,\s*\d+-\d+)?\))).*)*\s*$"
         )
         
-        # Pattern A (sem 'v'): Team A Score Team B
+        # Pattern A (sem 'v'): Team A Score Team B (Geralmente não usado na Austrália, desativado se o B falhar)
         re_a = re.compile(
-            r"^\s+(?:\d{1,2}[.:]\d{2}\s+)?(.+?)\s+(\d+)-(\d+)(?:\s*\(\d+-\d+\))?\s+(.+?)\s*$"
+            r"^\s+(?:\d{1,2}[.:]\d{2}\s+)?(.+?)\s+(\d+)-(\d+)\s+(.+?)\s*$"
         )
 
         month_map = {
@@ -227,7 +228,8 @@ class Command(BaseCommand):
 
             # Detecta data
             dm = date_re.search(line)
-            if dm and not re_a.search(line) and not re_b.search(line):
+            if dm and " v " not in line and not any(char.isdigit() for char in line.split('/')[-1]):
+                # Se tem ' v ' ou mais números após a barra (data), pode ser uma linha de jogo
                 month_str = dm.group(2).capitalize()
                 day = int(dm.group(3))
                 month = month_map.get(month_str)
@@ -246,6 +248,9 @@ class Command(BaseCommand):
                 home_raw, away_raw = mm.group(1).strip(), mm.group(2).strip()
                 h_score, a_score = int(mm.group(3)), int(mm.group(4))
             else:
+                # Tenta re_a apenas se não houver ' v ' na linha
+                if " v " in line:
+                    continue
                 mm = re_a.match(line)
                 if mm:
                     home_raw, h_score, a_score, away_raw = mm.group(1).strip(), int(mm.group(2)), int(mm.group(3)), mm.group(4).strip()

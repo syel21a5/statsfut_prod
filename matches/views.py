@@ -853,7 +853,7 @@ class LeagueDetailView(DetailView):
                     opp_id = m.away_team_id if m.home_team_id == team_id else m.home_team_id
                     opp_ppg = team_ppg_map.get(opp_id, 0.0)
                     
-                    if m.status == 'Finished':
+                    if m.status in FINISHED_STATUSES:
                         played_opp_ppg_sum += opp_ppg
                         played_count += 1
                     elif m.status == 'Scheduled':
@@ -2024,7 +2024,7 @@ class TeamDetailView(DetailView):
              models.Q(home_team=team) | models.Q(away_team=team)
          ).order_by('date').prefetch_related('goals')
          
-        played_matches = [m for m in all_matches if m.status == 'Finished' and m.home_score is not None]
+        played_matches = [m for m in all_matches if m.status in FINISHED_STATUSES and m.home_score is not None]
         
         # --- Stats Containers ---
         # Structure: 'home', 'away', 'total'
@@ -2264,7 +2264,7 @@ class TeamDetailView(DetailView):
             # --- Chart Data ---
             chart_change = 2 if result == 'W' else (0 if result == 'D' else -1)
             chart_val += chart_change
-            chart_data['labels'].append(m.date.strftime('%d %b') if m.date else f"R{m.round}")
+            chart_data['labels'].append(m.date.strftime('%d %b') if m.date else f"R{m.round_name or '?'}")
             chart_data['values'].append(chart_val)
             chart_data['results'].append(result)
             chart_data['gf'].append(gf)
@@ -2865,7 +2865,7 @@ class TeamDetailView(DetailView):
         # or most recent FIRST. Let's ensure order.
         # all_matches_qs is ordered by 'date' (asc)
         
-        matches = [m for m in all_matches_qs if m.status == 'Finished' and m.home_score is not None]
+        matches = [m for m in all_matches_qs if m.status in FINISHED_STATUSES and m.home_score is not None]
         
         # Helper to get streaks
         def get_seq(match_list, condition_func):
@@ -3694,7 +3694,7 @@ def calculate_team_season_stats(team, league, season):
         models.Q(home_team=team) | models.Q(away_team=team)
     ).order_by('date').prefetch_related('goals')
     
-    played_matches = [m for m in all_matches if m.status == 'Finished' and m.home_score is not None]
+    played_matches = [m for m in all_matches if m.status in FINISHED_STATUSES and m.home_score is not None]
     
     cats = ['home', 'away', 'total']
     stats = {c: {
