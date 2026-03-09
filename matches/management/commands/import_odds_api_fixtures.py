@@ -37,7 +37,7 @@ class Command(BaseCommand):
         },
         'soccer_australia_aleague': {
             'env_key': 'ODDS_API_KEY_AUSTRALIA_UPCOMING',
-            'db_name': 'A League',
+            'db_name': 'A-League Men',
             'country': 'Australia'
         },
         'soccer_belgium_first_div': {
@@ -55,11 +55,7 @@ class Command(BaseCommand):
             'db_name': 'Superliga',
             'country': 'Dinamarca'
         },
-        'soccer_czech_first_league': {
-            'env_key': 'ODDS_API_KEY_CZECH_UPCOMING',
-            'db_name': 'First League',
-            'country': 'Republica Tcheca'
-        },
+
         'soccer_germany_bundesliga': {
             'env_key': 'ODDS_API_KEY_GERMANY_UPCOMING',
             'db_name': 'Bundesliga',
