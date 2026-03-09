@@ -92,13 +92,6 @@ ODDS_API_TEAM_MAPPINGS = {
     "AaB": "Aalborg",
     "Aalborg BK": "Aalborg",
     "Aalborg": "Aalborg",
-    "AGF Aarhus": "AGF Aarhus",
-    "AGF": "AGF Aarhus",
-    "Lyngby BK": "Lyngby",
-    "Lyngby": "Lyngby",
-    "AaB": "Aalborg",
-    "Aalborg BK": "Aalborg",
-    "Aalborg": "Aalborg",
 
     # --- ENGLAND ---
     "Wolverhampton Wanderers": "Wolverhampton",
@@ -195,9 +188,9 @@ ODDS_API_TEAM_MAPPINGS = {
     "Oostende": "KV Oostende",
     "RWDM": "RWD Molenbeek",
     "RWD Molenbeek": "RWD Molenbeek",
-    "Sint Truiden": "Sint-Truiden",
-    "Royal Antwerp": "Antwerp",
-    "RAAL La Louvière": "RAAL La Louvière", # New team 2024/25?
+    "Cercle Brugge KSV": "Cercle Brugge",
+    "RAAL La Louvière": "La Louviere",
+    "RAAL La Louviere": "La Louviere",
 
     # --- ALEMANHA ---
     "Bayern Munich": "Bayern Munich",
