@@ -52,7 +52,8 @@ jobs:
             # Puxa o arquivo com IDs rígidos da prod (Liga=1, Season=1)
             ./venv/bin/python manage.py import_sofascore_payload --file payload_austria.json --league_id 44 --season_id 1
             
-            # Recalcula as posições
+            # Recalcula as posições e limpa duplicatas
+            ./venv/bin/python manage.py merge_duplicate_teams
             ./venv/bin/python manage.py recalculate_standings --division AUT
             
             # Limpa rastros
