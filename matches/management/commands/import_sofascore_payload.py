@@ -39,59 +39,52 @@ class Command(BaseCommand):
 
         teams_map = {} # SofaScore ID -> Team Object
         
-        # 1. Obter e sincronizar Times
+        # 1. Obter e sincronizar Times (pode haver múltiplos grupos de standings)
         self.stdout.write("Sincronizando times nativamente...")
         if standings_data and 'standings' in standings_data:
-            standings_list = standings_data['standings'][0].get('rows', [])
-            for row in standings_list:
-                team_data = row.get('team', {})
-                team_id = str(team_data.get('id'))
-                team_name = team_data.get('name')
-                
-                if team_id and team_name:
-                    # Tenta primeiro pelo API ID
-                    team = Team.objects.filter(api_id=f"sofa_{team_id}").first()
+            for group in standings_data['standings']:
+                standings_list = group.get('rows', [])
+                for row in standings_list:
+                    team_data = row.get('team', {})
+                    team_id = str(team_data.get('id'))
+                    team_name = team_data.get('name')
                     
-                    if not team:
-                        # Tenta pelo nome na mesma liga (para evitar duplicatas se o api_id era None)
-                        team = Team.objects.filter(name=team_name, league=league).first()
+                    if team_id and team_name:
+                        sofa_api_id = f"sofa_{team_id}"
+                        # 1. Tenta por API ID
+                        team = Team.objects.filter(api_id=sofa_api_id).first()
                         
-                    if not team:
-                        # Cria se não existir nada
-                        team = Team.objects.create(
-                            api_id=f"sofa_{team_id}",
-                            name=team_name,
-                            league=league
-                        )
-                        created = True
-                    else:
-                        # Atualiza o api_id se estiver faltando ou se a liga mudou
-                        updated = False
-                        if team.api_id != f"sofa_{team_id}":
-                            team.api_id = f"sofa_{team_id}"
-                            updated = True
-                        if team.league != league:
-                            team.league = league
-                            updated = True
-                        if updated:
-                            team.save()
-                        created = False
-                            
-                    teams_map[int(team_id)] = team
+                        # 2. Se não achou por API_ID, tenta por nome na mesma liga
+                        if not team:
+                            team = Team.objects.filter(name=team_name, league=league).first()
+                            if team and not team.api_id:
+                                team.api_id = sofa_api_id
+                                team.save()
+                        
+                        # 3. Cria se não existir nada
+                        if not team:
+                            team = Team.objects.create(
+                                api_id=sofa_api_id,
+                                name=team_name,
+                                league=league
+                            )
+                                
+                        teams_map[int(team_id)] = team
                     
-            self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/sincronizados da rodada total."))
+            self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/sincronizados no total."))
         else:
-            self.stdout.write(self.style.ERROR("Nenhum dado de classificação (standings) encontrado no payload. Os times não puderam ser criados."))
+            self.stdout.write(self.style.ERROR("Nenhum dado de classificação (standings) encontrado no payload."))
             return
 
         # 2. Iterar Partidas
         matches_created = 0
         matches_updated = 0
 
-        self.stdout.write(f"Processando blocos de rodadas ({len(rounds_data)} rodadas mapeadas)...")
+        self.stdout.write(f"Processando blocos de rodadas ({len(rounds_data)} blocos mapeados)...")
         
         for round_block in rounds_data:
             round_number = round_block.get('round_number')
+            round_label = round_block.get('round_label', 'Round')
             events = round_block.get('events', [])
             
             with transaction.atomic():
@@ -121,8 +114,6 @@ class Command(BaseCommand):
                     
                     home_score = ev.get('homeScore', {}).get('current')
                     away_score = ev.get('awayScore', {}).get('current')
-                    ht_home_score = ev.get('homeScore', {}).get('period1')
-                    ht_away_score = ev.get('awayScore', {}).get('period1')
                     
                     home_team = teams_map.get(int(home_sofa_id))
                     away_team = teams_map.get(int(away_sofa_id))
@@ -138,18 +129,16 @@ class Command(BaseCommand):
                             "home_team": home_team,
                             "away_team": away_team,
                             "date": match_date,
-                            "round_name": f"Round {round_number}",
+                            "round_name": f"{round_label} - Round {round_number}",
                             "status": match_status,
                             "home_score": home_score,
                             "away_score": away_score,
-                            "ht_home_score": ht_home_score,
-                            "ht_away_score": ht_away_score,
                         }
                     )
                     
-                    if created:
-                        matches_created += 1
-                    else:
-                        matches_updated += 1
+                    if created: matches_created += 1
+                    else: matches_updated += 1
+                        
+        self.stdout.write(self.style.SUCCESS(f"Importação completa! {matches_created} partidas criadas, {matches_updated} atualizadas."))
                         
         self.stdout.write(self.style.SUCCESS(f"Importação completa! {matches_created} partidas criadas, {matches_updated} atualizadas com segurança."))

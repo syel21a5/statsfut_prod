@@ -46,24 +46,40 @@ def main():
     if standings_data:
         payload['standings'] = standings_data
 
-    # 2. Obter Rodadas
-    rounds_url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/rounds"
-    print(f"Buscando Rounds...")
-    rounds_data = fetch_api(session, rounds_url)
+    # 2. Descobrir torneios extras (Playoffs/Championship)
+    tournaments_to_scrape = [(args.tournament, "Regular Season", True)] # id, label, is_unique
     
-    if rounds_data and 'rounds' in rounds_data:
-        for round_info in rounds_data['rounds']:
-            round_num = round_info['round']
-            print(f"Buscando Eventos da Rodada {round_num}...")
-            events_url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/round/{round_num}"
-            events_data = fetch_api(session, events_url)
-            if events_data:
-                payload['rounds'].append({
-                    "round_number": round_num,
-                    "events": events_data.get('events', [])
-                })
+    if standings_data and 'standings' in standings_data:
+        for group in standings_data['standings']:
+            group_name = group.get('name', 'League')
+            sub_id = group.get('tournament', {}).get('id')
+            if sub_id and sub_id != args.tournament:
+                # Se o ID é diferente do principal, é um sub-torneio (ex: Playoff)
+                if not any(t[0] == sub_id for t in tournaments_to_scrape):
+                    tournaments_to_scrape.append((sub_id, group_name, False))
 
-    print(f"Raspagem concluída. Salvando payload.json...")
+    # 3. Obter Rodadas e Eventos para cada torneio
+    for t_id, label, is_unique in tournaments_to_scrape:
+        print(f"\n>>> Raspando {label} (ID: {t_id})...")
+        
+        prefix = "unique-tournament" if is_unique else "tournament"
+        rounds_url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/rounds"
+        rounds_data = fetch_api(session, rounds_url)
+        
+        if rounds_data and 'rounds' in rounds_data:
+            for round_info in rounds_data['rounds']:
+                round_num = round_info['round']
+                print(f"Buscando Eventos de {label} - Rodada {round_num}...")
+                events_url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/events/round/{round_num}"
+                events_data = fetch_api(session, events_url)
+                if events_data:
+                    payload['rounds'].append({
+                        "round_label": label,
+                        "round_number": round_num,
+                        "events": events_data.get('events', [])
+                    })
+
+    print(f"\nRaspagem concluída. Salvando payload.json...")
     with open('payload.json', 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     print("payload.json gerado com sucesso!")
