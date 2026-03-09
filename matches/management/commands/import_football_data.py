@@ -39,24 +39,21 @@ class Command(BaseCommand):
             help="Ano mínimo da temporada (ano de término) para importar",
         )
 
+    # Apenas as 10 grandes ligas europeias com CSVs por temporada em football-data.co.uk.
+    # Ligas gerenciadas por outros scrapers (Austria/Sofascore, Australi/Sofascore,
+    # Brasil/api-football, Argentina/scripts próprios, Suíça+Dinamarca+Tcheca/soccerstats)
+    # NÃO devem ser incluídas aqui para evitar conflitos de dados.
     LEAGUE_MAPPING = {
-        'E0':  ('Premier League',    'Inglaterra',       1),
-        'SP1': ('La Liga',           'Espanha',          1),
-        'D1':  ('Bundesliga',        'Alemanha',         1),
-        'I1':  ('Serie A',           'Italia',           1),
-        'F1':  ('Ligue 1',           'Franca',           1),
-        'N1':  ('Eredivisie',        'Holanda',          1),
-        'B1':  ('Pro League',        'Belgica',          1),
-        'P1':  ('Primeira Liga',     'Portugal',         1),
-        'T1':  ('Super Lig',         'Turquia',          1),
-        'G1':  ('Super League',      'Grecia',           1),
-        'DNK': ('Superliga',         'Dinamarca',        1),
-        'BRA': ('Brasileirao',       'Brasil',           1),
-        'ARG': ('Liga Profesional',  'Argentina',        1),
-        'AUT': ('Bundesliga',        'Austria',          1),
-        'SWZ': ('Super League',      'Suica',            1),
-        'SW1': ('Super League',      'Suica',            1),
-        'CZE': ('First League',      'Republica Tcheca', 1),
+        'E0':  ('Premier League',    'Inglaterra',  1),
+        'SP1': ('La Liga',           'Espanha',     1),
+        'D1':  ('Bundesliga',        'Alemanha',    1),
+        'I1':  ('Serie A',           'Italia',      1),
+        'F1':  ('Ligue 1',           'Franca',      1),
+        'N1':  ('Eredivisie',        'Holanda',     1),
+        'B1':  ('Pro League',        'Belgica',     1),
+        'P1':  ('Primeira Liga',     'Portugal',    1),
+        'T1':  ('Super Lig',         'Turquia',     1),
+        'G1':  ('Super League',      'Grecia',      1),
     }
 
     def handle(self, *args, **options):
@@ -65,20 +62,17 @@ class Command(BaseCommand):
         division = options["division"]
         min_year = options["min_year"]
 
-        # FIX: Divisões gerenciadas pelo scrape_soccerstats_history.
-        # Não devem ser processadas pelo import_football_data quando --division ALL,
-        # pois os dois importers entram em conflito (datas diferentes, nomes diferentes).
-        # Para importar AUT ou SWZ individualmente, use --division AUT ou --division SWZ.
-        SCRAPER_MANAGED = {'AUT', 'SWZ', 'SW1'}
-
         if division == 'ALL':
             for div_code in self.LEAGUE_MAPPING.keys():
-                if div_code in SCRAPER_MANAGED:
-                    self.stdout.write(self.style.WARNING(f"Pulando {div_code} — gerenciado por scrape_soccerstats_history."))
-                    continue
                 self.stdout.write(self.style.WARNING(f"\n>>> Iniciando processamento para divisão: {div_code}"))
                 self.process_division(div_code, min_year, root)
         else:
+            if division not in self.LEAGUE_MAPPING:
+                self.stdout.write(self.style.ERROR(
+                    f"Divisão '{division}' não está no LEAGUE_MAPPING. "
+                    f"Ligas suportadas: {', '.join(self.LEAGUE_MAPPING.keys())}"
+                ))
+                return
             self.process_division(division, min_year, root)
 
 
@@ -130,13 +124,8 @@ class Command(BaseCommand):
 
         else:
             current_year = timezone.now().year
-            
-            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE', 'DNK']:
-                seasons_to_process = [current_year]
-                self.stdout.write(self.style.WARNING(f"Modo Arquivo Único detectado ({division}). Processando histórico."))
-            else:
-                end_year = current_year + 1
-                seasons_to_process = range(min_year, end_year + 1)
+            end_year = current_year + 1
+            seasons_to_process = range(min_year, end_year + 1)
 
             for season_year in seasons_to_process:
                 url, code = self._build_url(season_year, division)
@@ -164,7 +153,6 @@ class Command(BaseCommand):
                 try:
                     content = resp.content.decode('utf-8-sig')
                 except UnicodeDecodeError:
-                    # Fallback if it fails
                     content = resp.text
 
                 reader = csv.DictReader(StringIO(content))
@@ -215,67 +203,10 @@ class Command(BaseCommand):
 
             rows += 1
             
-            # Check division/league match
+            # Check division/league match — standard format for the 10 core leagues
             div = row.get("Div")
-            
-            if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE', 'DNK']:
-                # Special handling for Single File CSVs
-                league_col = row.get("League")
-                country_col = row.get("Country")
-                
-                if not div and not league_col:
-                    continue
-
-                if division == 'BRA':
-                    if (league_col == "Serie A" and country_col == "Brazil") or div == "BRA":
-                        pass
-                    else:
-                        continue
-                elif division == 'ARG':
-                    l_val = (league_col or "").strip()
-                    c_val = (country_col or "").strip()
-                    
-                    if (l_val == "Liga Profesional" and c_val == "Argentina") or div == "ARG":
-                        pass
-                    else:
-                        continue
-                elif division == 'AUT':
-                    l_val = (league_col or "").strip()
-                    c_val = (country_col or "").strip()
-                    
-                    if (l_val == "Bundesliga" and c_val == "Austria") or div == "AUT":
-                        pass
-                    else:
-                        continue
-                elif division == 'SWZ':
-                    l_val = (league_col or "").strip()
-                    c_val = (country_col or "").strip()
-                    
-                    if (l_val == "Super League" and c_val == "Switzerland") or div == "SWZ":
-                        pass
-                    else:
-                        continue
-                elif division == 'CZE':
-                    l_val = (league_col or "").strip()
-                    c_val = (country_col or "").strip()
-                    
-                    if (l_val == "First League" and c_val == "Czech Republic") or div == "CZE":
-                        pass
-                    else:
-                        continue
-                elif division == 'DNK':
-                    l_val = (league_col or "").strip()
-                    c_val = (country_col or "").strip()
-                    
-                    if (l_val == "Superliga" and c_val == "Denmark") or div == "DNK":
-                        pass
-                    else:
-                        self.stdout.write(f"DEBUG: Skipping row - league: '{l_val}', country: '{c_val}'")
-                        continue
-            else:
-                # Standard handling for European leagues
-                if div != division:
-                    continue
+            if div != division:
+                continue
 
             date_str = row.get("Date") or row.get("DATE")
             if not date_str:
@@ -326,69 +257,6 @@ class Command(BaseCommand):
             away_name = row.get("AwayTeam") or row.get("Away")
             if not home_name or not away_name:
                 continue
-
-            # Mapeamento centralizado de nomes
-            
-            # Additional mappings for Austria (CSV vs SoccerStats)
-            # The CSV often uses different names than SoccerStats scraper
-            if league.country == 'Austria' or div == 'AUT':
-                austria_map = {
-                    # Salzburg
-                    'Salzburg': 'Salzburg',
-                    'RB Salzburg': 'Salzburg',
-                    'FC Salzburg': 'Salzburg',
-                    'Red Bull Salzburg': 'Salzburg',
-                    # LASK — SoccerStats usa "LASK Linz"
-                    'LASK': 'LASK Linz',
-                    'LASK Linz': 'LASK Linz',
-                    # Rapid
-                    'Rapid Vienna': 'Rapid Wien',
-                    'Rapid Wien': 'Rapid Wien',
-                    'SK Rapid Wien': 'Rapid Wien',
-                    # Austria Wien
-                    'Austria Vienna': 'Austria Wien',
-                    'Austria Wien': 'Austria Wien',
-                    'FK Austria Wien': 'Austria Wien',
-                    # Sturm Graz
-                    'Sturm Graz': 'Sturm Graz',
-                    'SK Sturm Graz': 'Sturm Graz',
-                    # Wolfsberger
-                    'Wolfsberg': 'Wolfsberger AC',
-                    'Wolfsberger': 'Wolfsberger AC',
-                    'Wolfsberger AC': 'Wolfsberger AC',
-                    'WAC': 'Wolfsberger AC',
-                    # Klagenfurt
-                    'A. Klagenfurt': 'Austria Klagenfurt',
-                    'SK Austria Klagenfurt': 'Austria Klagenfurt',
-                    'Austria Klagenfurt': 'Austria Klagenfurt',
-                    # BW Linz — SoccerStats usa "BW Linz"
-                    'BW Linz': 'BW Linz',
-                    'Blau-Weiss Linz': 'BW Linz',
-                    'FC Blau Weiss Linz': 'BW Linz',
-                    'FC Blau-Weiss Linz': 'BW Linz',
-                    # Hartberg
-                    'Hartberg': 'Hartberg',
-                    'TSV Hartberg': 'Hartberg',
-                    # Altach
-                    'Altach': 'Altach',
-                    'SCR Altach': 'Altach',
-                    # Tirol — SoccerStats usa "Tirol"
-                    'WSG Tirol': 'Tirol',
-                    'Tirol': 'Tirol',
-                    # GAK
-                    'Grazer AK': 'Grazer AK',
-                    'GAK': 'Grazer AK',
-                    # Lustenau
-                    'A. Lustenau': 'Austria Lustenau',
-                    'Austria Lustenau': 'Austria Lustenau',
-                    # Ried
-                    'Ried': 'Ried',
-                    'SV Ried': 'Ried',
-                    'SCR Ried': 'Ried',
-                }
-                # Apply map
-                home_name = austria_map.get(home_name, home_name)
-                away_name = austria_map.get(away_name, away_name)
 
             home_name = normalize_team_name(home_name)
             away_name = normalize_team_name(away_name)
@@ -567,31 +435,19 @@ class Command(BaseCommand):
         return None
 
     def _season_year_from_date(self, dt, division=None):
+        """Para as 10 ligas core (todas europeias, temporada Ago-Maio):
+        Se o jogo for em Agosto ou depois, pertence à temporada do ano seguinte."""
         year = dt.year
-        # Se for Brasil, a temporada é o ano civil (Jan-Dez)
-        if division == 'BRA':
-            return year
-            
-        # Para ligas europeias (Ago-Maio), se for Ago+, é a temporada do ano seguinte
-        if division == 'DNK' or division == 'SWZ' or division == 'CZE' or division == 'AUT':
-            # Dinamarca, Suíça, Rep. Tcheca e Áustria começam em Julho
-            if dt.month >= 7:
-                return year + 1
-        elif dt.month >= 8:
+        if dt.month >= 8:
             return year + 1
         return year
 
     def _build_url(self, season_year, division):
-        # Format: 2425 for 2024/2025
-        # For certain extra leagues: single file URL under /new/
-        
-        if division in ['BRA', 'ARG', 'AUT', 'SWZ', 'CZE', 'DNK']:
-            return f"https://www.football-data.co.uk/new/{division}.csv", division
-
+        """Constrói URL no formato football-data.co.uk por temporada.
+        Ex: 2024/2025 → /mmz4281/2425/E0.csv"""
         yy_end = season_year % 100
         yy_start = (season_year - 1) % 100
         code = f"{yy_start:02d}{yy_end:02d}"
-        
         base = "https://www.football-data.co.uk/mmz4281"
         url = f"{base}/{code}/{division}.csv"
         return url, code

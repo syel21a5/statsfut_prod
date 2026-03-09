@@ -12,35 +12,16 @@ class Command(BaseCommand):
         # Mappings: { 'Wrong Name': 'Correct Name' }
         # Country is optional filter
         merge_map = [
-            # AUSTRIA
-            {'wrong': 'Rapid Vienna', 'correct': 'Rapid Wien', 'country': 'Austria'},
-            {'wrong': 'Austria Vienna', 'correct': 'Austria Wien', 'country': 'Austria'},
-            {'wrong': 'RB Salzburg', 'correct': 'Salzburg', 'country': 'Austria'},
-            {'wrong': 'FC Salzburg', 'correct': 'Salzburg', 'country': 'Austria'},
-            {'wrong': 'LASK Linz', 'correct': 'LASK', 'country': 'Austria'}, # Scraper uses LASK? Or LASK Linz?
-            # Let's check user print. User print has "LASK" (21 games) and "LASK Linz" (20).
-            # Soccerstats uses "LASK Linz". Wait, checking print again.
-            # User print: "LASK" (21), "LASK Linz" (20).
-            # Soccerstats print: "LASK Linz".
-            # So "LASK Linz" is likely the scraper one (good). "LASK" is CSV (bad?).
-            # Actually CSV usually has "LASK Linz".
-            # Let's standardization to "LASK Linz" to match SoccerStats.
-            {'wrong': 'LASK', 'correct': 'LASK Linz', 'country': 'Austria'},
-            
-            {'wrong': 'BW Linz', 'correct': 'Blau-Weiss Linz', 'country': 'Austria'},
-            {'wrong': 'Wolfsberger AC', 'correct': 'Wolfsberger AC', 'country': 'Austria'}, # Self map? No.
-            # Print shows "Wolfsberger AC" twice? No.
-            # Print shows "Wolfsberger AC" and "Wolfsberger".
-            {'wrong': 'Wolfsberger', 'correct': 'Wolfsberger AC', 'country': 'Austria'},
-            {'wrong': 'A. Klagenfurt', 'correct': 'Austria Klagenfurt', 'country': 'Austria'},
-            {'wrong': 'A. Lustenau', 'correct': 'Austria Lustenau', 'country': 'Austria'},
-            {'wrong': 'WSG Tirol', 'correct': 'Tirol', 'country': 'Austria'},
+            # AUSTRIA — REMOVIDO!
+            # A liga austríaca é gerenciada exclusivamente pelo GitHub Action via SofaScore
+            # (atualização a cada 6h). Os nomes dos times são controlados pelo sofascore
+            # e qualquer merge aqui vai entrar em conflito e corromper os dados.
+            # NÃO adicionar entradas da Áustria aqui.
 
-            # AUSTRALIA - Removido! Os times australianos são gerenciados
-            # exclusivamente pelo SofaScore Action (update_australia.yml).
-            # O Action usa api_id para identificar os times, então não há
-            # necessidade de renomear aqui. Isso evitava um loop onde o
-            # merge renomeava e o Action desfazia a renomeação a cada 6h.
+            # AUSTRALIA — REMOVIDO!
+            # Os times australianos são gerenciados exclusivamente pelo SofaScore Action
+            # (update_australia.yml). O Action usa api_id para identificar os times,
+            # então não há necessidade de renomear aqui.
         ]
 
         for item in merge_map:
