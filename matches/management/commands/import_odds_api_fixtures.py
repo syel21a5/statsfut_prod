@@ -370,13 +370,14 @@ class Command(BaseCommand):
 
                 # Update or Create Match
                 # We identify match by teams and date (approx)
-                # Or try to find existing match in a window of 24h
+                start_window = match_date - timezone.timedelta(hours=24)
+                end_window = match_date + timezone.timedelta(hours=24)
                 
                 match = Match.objects.filter(
                     league=league_obj,
                     home_team=ht_obj,
                     away_team=at_obj,
-                    date__date=match_date.date()
+                    date__range=(start_window, end_window)
                 ).first()
 
                 if match:
