@@ -45,6 +45,7 @@ def update_ids():
     print("IDs limpos para Ligue 1.")
 
     for name, s_id in mapping.items():
+        sofa_api_id = f"sofa_{s_id}"
         # Se houver mais de um time com nomes similares (ex: Strasbourg e RC Strasbourg),
         # mantemos apenas um para evitar erro de duplicata no api_id unique=True
         teams = Team.objects.filter(league=league, name__icontains=name)
@@ -53,12 +54,12 @@ def update_ids():
             # Deletamos os outros (ou poderíamos fazer merge, mas para logos o delete resolve o erro de ID)
             teams.exclude(id=main_team.id).delete()
             print(f"Duplicatas de {name} removidas.")
-            main_team.api_id = s_id
+            main_team.api_id = sofa_api_id
             main_team.save()
         elif teams.exists():
-            teams.update(api_id=s_id)
+            teams.update(api_id=sofa_api_id)
         
-        print(f"Updated {name} to {s_id}")
+        print(f"Updated {name} to {sofa_api_id}")
 
 if __name__ == "__main__":
     update_ids()
