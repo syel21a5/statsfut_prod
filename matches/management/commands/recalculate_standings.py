@@ -162,7 +162,9 @@ class Command(BaseCommand):
                 # Fallback de segurança: Pega a temporada mais recente (atual)
                 seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")[:1]
         else:
-            seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")
+            # PADRÃO OTIMIZADO: Pega apenas a temporada mais recente (atual)
+            # Evita recalcular 2016, 2017, etc. que já estão consolidados.
+            seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")[:1]
             
         if not seasons.exists():
             self.stdout.write(self.style.ERROR(f"Nenhuma temporada para recalcular na liga {league.name}"))
