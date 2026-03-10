@@ -7,3 +7,4 @@ requests==2.31.0
 beautifulsoup4==4.12.2
 schedule==1.2.1
 pytz==2024.1
+curl_cffi==0.6.2
