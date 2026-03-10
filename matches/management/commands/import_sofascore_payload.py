@@ -146,20 +146,45 @@ class Command(BaseCommand):
                     if not home_team or not away_team:
                         continue
                     
-                    match, created = Match.objects.update_or_create(
-                        api_id=match_api_id,
-                        defaults={
-                            "league": league,
-                            "season": season,
-                            "home_team": home_team,
-                            "away_team": away_team,
-                            "date": match_date,
-                            "round_name": f"{round_label} - Round {round_number}",
-                            "status": match_status,
-                            "home_score": home_score,
-                            "away_score": away_score,
-                        }
-                    )
+                    # Deduplicação Inteligente
+                    # 1. Tenta por API_ID
+                    match = Match.objects.filter(api_id=match_api_id).first()
+                    
+                    # 2. Tenta por Times e Data (mesmo dia)
+                    if not match and match_date:
+                        match = Match.objects.filter(
+                            home_team=home_team,
+                            away_team=away_team,
+                            date__date=match_date.date()
+                        ).first()
+                        
+                    if match:
+                        created = False
+                        match.api_id = match_api_id # Garante que agora tem o ID do SofaScore
+                        match.league = league
+                        match.season = season
+                        match.home_team = home_team
+                        match.away_team = away_team
+                        match.date = match_date
+                        match.round_name = f"{round_label} - Round {round_number}"
+                        match.status = match_status
+                        match.home_score = home_score
+                        match.away_score = away_score
+                        match.save()
+                    else:
+                        match = Match.objects.create(
+                            api_id=match_api_id,
+                            league=league,
+                            season=season,
+                            home_team=home_team,
+                            away_team=away_team,
+                            date=match_date,
+                            round_name=f"{round_label} - Round {round_number}",
+                            status=match_status,
+                            home_score=home_score,
+                            away_score=away_score
+                        )
+                        created = True
                     
                     if created: matches_created += 1
                     else: matches_updated += 1
