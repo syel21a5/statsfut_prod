@@ -49,8 +49,8 @@ jobs:
             
             # Sincroniza os times e importa os dados (usa update_or_create, então é seguro)
             
-            # Puxa o arquivo com IDs rígidos da prod (Liga=21, Season=1)
-            ./venv/bin/python manage.py import_sofascore_payload --file payload_australia.json --league_id 21 --season_id 1
+            # Puxa o arquivo com IDs flexíveis (mais seguro que ID fixo)
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_australia.json --league_name 'A-League Men' --country 'Australia' --season_year 2026
             
             # Recalcula as posições e limpa duplicatas
             ./venv/bin/python manage.py merge_duplicate_teams

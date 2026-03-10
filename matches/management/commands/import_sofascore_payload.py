@@ -9,9 +9,13 @@ class Command(BaseCommand):
     help = "Lê um payload.json do SofaScore e processa nativamente no banco de dados de produção (Proxy Architecture)."
 
     def add_arguments(self, parser):
+        parser.get_default('file')
         parser.add_argument('--file', type=str, default='payload.json', help='Caminho do payload JSON')
-        parser.add_argument('--league_id', type=int, required=True, help='ID primário da Liga no MySQL de Produção')
-        parser.add_argument('--season_id', type=int, required=True, help='ID primário da Season no MySQL de Produção')
+        parser.add_argument('--league_id', type=int, help='ID primário da Liga no MySQL de Produção')
+        parser.add_argument('--season_id', type=int, help='ID primário da Season no MySQL de Produção')
+        parser.add_argument('--league_name', type=str, help='Nome da Liga (Alternativa ao ID)')
+        parser.add_argument('--country', type=str, help='País da Liga (Opcional)')
+        parser.add_argument('--season_year', type=int, help='Ano da Temporada (Alternativa ao ID)')
 
     def handle(self, *args, **kwargs):
         file_path = kwargs['file']
@@ -28,10 +32,31 @@ class Command(BaseCommand):
             return
 
         try:
-            league = League.objects.get(id=league_db_id)
-            season = Season.objects.get(id=season_db_id)
+            if league_db_id:
+                league = League.objects.get(id=league_db_id)
+            elif kwargs.get('league_name'):
+                name = kwargs['league_name']
+                country = kwargs.get('country')
+                if country:
+                    league = League.objects.get(name=name, country=country)
+                else:
+                    league = League.objects.get(name=name)
+            else:
+                self.stdout.write(self.style.ERROR("Você deve fornecer --league_id ou --league_name"))
+                return
+
+            if season_db_id:
+                season = Season.objects.get(id=season_db_id)
+            elif kwargs.get('season_year'):
+                season = Season.objects.get(year=kwargs['season_year'])
+            else:
+                # Fallback: pega a última season se não especificado
+                season = Season.objects.all().order_by("-year").first()
+                
+            self.stdout.write(self.style.SUCCESS(f"Usando Liga: {league.name} (ID: {league.id}) e Temporada: {season.year} (ID: {season.id})"))
+
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Erro fatal: Liga ou Season não encontradas no MySQL! {e}"))
+            self.stdout.write(self.style.ERROR(f"Erro fatal: Liga ou Season não encontradas! {e}"))
             return
 
         standings_data = payload.get('standings')
