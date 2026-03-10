@@ -42,7 +42,8 @@ def download_logos(league_name, country):
         sofa_id = team.api_id.replace('sofa_', '')
         final_api_id = f"sofa_{sofa_id}"
         
-        logo_url = f"https://api.sofascore.app/api/v1/team/{sofa_id}/image"
+        # URL correta descoberta via investigação manual
+        logo_url = f"https://img.sofascore.com/api/v1/team/{sofa_id}/image"
         
         file_path = os.path.join(base_dir, f"{final_api_id}.png")
         
@@ -52,17 +53,19 @@ def download_logos(league_name, country):
 
         try:
             # Impersonate Chrome to avoid 403
-            response = requests_cffi.get(logo_url, impersonate="chrome", timeout=10)
-            if response.status_code == 200:
+            response = requests_cffi.get(logo_url, impersonate="chrome", timeout=15)
+            if response.status_code == 200 and len(response.content) > 100:
                 with open(file_path, 'wb') as f:
                     f.write(response.content)
-                print(f"[+] Downloaded: {team.name} (ID: {sofa_id})")
+                print(f"[+] Downloaded: {team.name} (ID: {sofa_id}) - {len(response.content)} bytes")
             else:
-                print(f"[!] Erro ao baixar {team.name}: Status {response.status_code}")
+                print(f"[!] Erro ao baixar {team.name}: Status {response.status_code}, Content Length: {len(response.content) if response else 0}")
+                if os.path.exists(file_path):
+                    os.remove(file_path)
         except Exception as e:
             print(f"[!] Erro em {team.name}: {e}")
 
 if __name__ == "__main__":
     download_logos("Ligue 1", "Franca")
-    # download_logos("Bundesliga", "Austria")
-    # download_logos("A-League Men", "Australia")
+    download_logos("Bundesliga", "Austria")
+    download_logos("A-League Men", "Australia")
