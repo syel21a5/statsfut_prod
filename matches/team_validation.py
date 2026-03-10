@@ -76,7 +76,26 @@ LEAGUE_TEAM_WHITELISTS = {
     'La Liga': [],
     'Bundesliga': [],
     'Serie A': [],
-    'Ligue 1': [],
+    'Ligue 1': [
+        'Angers', 'Auxerre', 'Brest', 'Le Havre', 'Lens', 'Lille', 'Lorient', 
+        'Lyon', 'Marseille', 'Monaco', 'Montpellier', 'Nantes', 'Nice', 
+        'PSG', 'Paris Saint-Germain', 'Paris SG', 'Reims', 'Rennes', 
+        'Saint-Etienne', 'Strasbourg', 'RC Strasbourg', 'Toulouse'
+    ],
+    'A-League': [
+        'Adelaide United', 'Auckland FC', 'Brisbane Roar', 'Central Coast Mariners',
+        'Macarthur FC', 'Melbourne City', 'Melbourne Victory', 'Newcastle Jets',
+        'Perth Glory', 'Sydney FC', 'Wellington Phoenix', 'Western Sydney Wanderers',
+        'Western United'
+    ],
+    'Bundesliga': [
+        # Austria
+        'Austria Wien', 'Grazer AK', 'LASK Linz', 'Rapid Wien', 'Salzburg', 'RB Salzburg',
+        'SCR Altach', 'Sturm Graz', 'TSV Hartberg', 'Wolfsberger AC', 'WSG Tirol', 'Austria Klagenfurt',
+        'FC Blau-Weiss Linz', 'Ried', 'Lustenau',
+        # Germany (Optional, but good to have)
+        'Bayern Munich', 'Dortmund', 'Leverkusen', 'Leipzig', 'Stuttgart', 'Frankfurt'
+    ],
     'Brasileirao': [],
 }
 

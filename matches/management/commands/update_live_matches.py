@@ -13,6 +13,7 @@ from matches.utils_odds_api import (
     fetch_live_odds_api_australia,
     fetch_upcoming_odds_api_australia
 )
+from matches.team_validation import is_team_valid_for_league
 from django.utils import timezone
 from datetime import datetime, timedelta
 import pytz
@@ -153,14 +154,31 @@ class Command(BaseCommand):
             # else:
             #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
 
-            self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Todas as Ligas)...'))
+            self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Ligas Habilitadas)...'))
             try:
-                # Se não passar league_ids, busca de todas as ligas configuradas/suportadas
-                live_fixtures = api_manager.get_live_fixtures()
-                self.process_fixtures(live_fixtures, is_live=True)
-                self.stdout.write(self.style.SUCCESS(f'✅ {len(live_fixtures)} jogos ao vivo processados'))
+                # RESTRITIVO: Busca apenas as ligas que o usuário habilitou expressamente
+                enabled_leagues = [
+                    {'name': 'Ligue 1', 'country': 'Franca'},
+                    {'name': 'Bundesliga', 'country': 'Austria'},
+                    {'name': 'A-League', 'country': 'Australia'},
+                ]
+                
+                for lg in enabled_leagues:
+                    try:
+                        # Busca por league_ids mapeados no api_manager para essa liga
+                        mapping = api_manager.LEAGUE_MAPPINGS.get(lg['name'])
+                        if mapping:
+                            live_fixtures = api_manager.get_live_fixtures(league_ids=mapping['api_football'])
+                            # Filtra apenas jogos que realmente pertencem a esse país/liga (api_manager retorna tudo se ids forem genéricos)
+                            filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
+                            if filtered_fixtures:
+                                self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
+                                self.process_fixtures(filtered_fixtures, is_live=True)
+                    except Exception as e:
+                        self.stdout.write(self.style.WARNING(f"  ⚠️ Erro ao buscar live {lg['name']}: {e}"))
+
             except Exception as e:
-                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos ao vivo: {e}'))
+                self.stdout.write(self.style.ERROR(f'❌ Erro geral ao buscar jogos ao vivo: {e}'))
 
         
         if mode in ['upcoming', 'both']:
@@ -199,14 +217,10 @@ class Command(BaseCommand):
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
-            # Países adicionais: tenta por país (principal liga) quando não há mapping
-            # Removidos países já cobertos por LEAGUE_MAPPINGS para evitar duplicidade de chamadas
-            countries = [
-                'Australia','Austria','Czech Republic','Finland','Greece','Japan','Norway','Poland',
-                'Russia','Sweden','Ukraine','Switzerland'
-            ]
-            self.stdout.write(self.style.SUCCESS(f'\n🌍 Buscando próximos jogos por país (ligas principais, {days_upcoming} dias)...'))
-            for country in countries:
+            # Países adicionais: APENAS se estiverem na lista seletiva
+            enabled_countries = ['France', 'Austria', 'Australia']
+            self.stdout.write(self.style.SUCCESS(f'\n🌍 Buscando próximos jogos por país (Ligas habilitadas, {days_upcoming} dias)...'))
+            for country in enabled_countries:
                 try:
                     fixtures = api_manager.get_upcoming_fixtures_by_country(country, days_ahead=days_upcoming)
                     if fixtures:
@@ -360,6 +374,14 @@ class Command(BaseCommand):
                 home_name = fixture['home_team']
                 away_name = fixture['away_team']
                 
+                # CRITICAL: Validate teams BEFORE processing
+                if not is_team_valid_for_league(home_name, league_obj.name):
+                    self.stdout.write(self.style.WARNING(f'  🚫 Rejeitado: {home_name} não pertence à {league_obj.name} ({league_obj.country})'))
+                    continue
+                if not is_team_valid_for_league(away_name, league_obj.name):
+                    self.stdout.write(self.style.WARNING(f'  🚫 Rejeitado: {away_name} não pertence à {league_obj.name} ({league_obj.country})'))
+                    continue
+
                 home_name = normalize_team_name(home_name)
                 away_name = normalize_team_name(away_name)
 
