@@ -13,10 +13,14 @@ from matches.models import Match, League
 
 def cleanup_league_duplicates(league_name, country):
     print(f"--- Iniciando limpeza de duplicatas para {league_name} ({country}) ---")
-    try:
-        league = League.objects.get(name=league_name, country=country)
-    except League.DoesNotExist:
-        print(f"Liga {league_name} não encontrada.")
+    league = League.objects.filter(name__iexact=league_name, country__iexact=country).first()
+    if not league and country.lower() in ['franca', 'frança', 'france']:
+        for c in ['França', 'France', 'Franca']:
+            league = League.objects.filter(name__iexact=league_name, country__iexact=c).first()
+            if league: break
+            
+    if not league:
+        print(f"Liga {league_name} ({country}) não encontrada.")
         return
 
     # Buscar jogos agrupados por times e data (ignorando a hora exata se necessário, mas aqui usaremos data cheia)
