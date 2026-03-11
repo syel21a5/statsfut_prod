@@ -12,7 +12,9 @@ DEFAULT_YEAR = 2026
 
 TEAM_MAPPING = {
     "Paris Saint-Germain": "PSG",
+    "Paris Saint-Germain FC": "PSG",
     "AS Monaco": "Monaco",
+    "AS Monaco FC": "Monaco",
     "Olympique Lyonnais": "Lyon",
     "Olympique de Marseille": "Marseille",
     "Lille OSC": "Lille",
@@ -21,6 +23,7 @@ TEAM_MAPPING = {
     "RC Lens": "Lens",
     "Stade de Reims": "Reims",
     "Stade Brestois": "Brest",
+    "Stade Brestois 29": "Brest",
     "Toulouse FC": "Toulouse",
     "Montpellier HSC": "Montpellier",
     "RC Strasbourg Alsace": "Strasbourg",
