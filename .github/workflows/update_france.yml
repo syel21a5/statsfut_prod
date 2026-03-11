@@ -53,6 +53,9 @@ jobs:
             # Limpa duplicatas de times que o payload pode ter criado (Monaco FC, PSG FC etc)
             ./venv/bin/python scripts/cleanup_france_teams.py
             
+            # Limpa jogos duplicados gerados pela fusão ou importação dupla
+            ./venv/bin/python scripts/cleanup_match_duplicates.py
+            
             # Recalcula e limpa
             ./venv/bin/python manage.py recalculate_standings --league_name 'Ligue 1' --country 'Franca' --smart
             
