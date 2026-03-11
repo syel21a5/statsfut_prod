@@ -168,6 +168,9 @@ class Command(BaseCommand):
                     
                     home_score = ev.get('homeScore', {}).get('current')
                     away_score = ev.get('awayScore', {}).get('current')
+                    # Half-time scores (period1 = first half in SofaScore API)
+                    ht_home_score = ev.get('homeScore', {}).get('period1')
+                    ht_away_score = ev.get('awayScore', {}).get('period1')
                     
                     home_team = teams_map.get(int(home_sofa_id))
                     away_team = teams_map.get(int(away_sofa_id))
@@ -199,6 +202,11 @@ class Command(BaseCommand):
                         match.status = match_status
                         match.home_score = home_score
                         match.away_score = away_score
+                        # Só atualiza HT se tiver dados (não sobrescreve dados existentes com None)
+                        if ht_home_score is not None:
+                            match.ht_home_score = ht_home_score
+                        if ht_away_score is not None:
+                            match.ht_away_score = ht_away_score
                         match.save()
                     else:
                         match = Match.objects.create(
@@ -211,7 +219,9 @@ class Command(BaseCommand):
                             round_name=f"{round_label} - Round {round_number}",
                             status=match_status,
                             home_score=home_score,
-                            away_score=away_score
+                            away_score=away_score,
+                            ht_home_score=ht_home_score,
+                            ht_away_score=ht_away_score,
                         )
                         created = True
                     
