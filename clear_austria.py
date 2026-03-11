@@ -29,8 +29,10 @@ def clear_austria():
         standings_count = league.standings.count()
         timings_count = league.goal_timings.count()
         
-        print(f"Deletando {matches_count} partidas...")
-        league.matches.all().delete()
+        FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED', 'finished']
+        finished_count = league.matches.filter(status__in=FINISHED_STATUSES).count()
+        print(f"Deletando {finished_count} partidas FINALIZADAS (preservando jogos futuros)...")
+        league.matches.filter(status__in=FINISHED_STATUSES).delete()
         
         print(f"Deletando {standings_count} posições da tabela...")
         league.standings.all().delete()

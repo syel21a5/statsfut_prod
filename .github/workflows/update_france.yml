@@ -47,15 +47,20 @@ jobs:
             cd ${{ secrets.PROD_SERVER_PATH }}
             git pull origin main
             
-            # Puxa o arquivo com IDs da Prod (Ajustar liga_id conforme o banco da prod)
-            # Geralmente Ligue 1 na prod tem um ID específico. 
-            # Vou usar --file para processar.
             # Importa o payload usando Nome da Liga e País (mais seguro que ID fixo)
             ./venv/bin/python manage.py import_sofascore_payload --file payload_france.json --league_name 'Ligue 1' --country 'Franca' --season_year 2026
             
+            # Limpa duplicatas de times que o payload pode ter criado (Monaco FC, PSG FC etc)
+            ./venv/bin/python scripts/cleanup_france_teams.py
+            
+            # Sincroniza os IDs dos logos para todos os 18 times
+            ./venv/bin/python update_ligue1_ids.py
+            
             # Recalcula e limpa
-            ./venv/bin/python manage.py merge_all_historical_duplicates
             ./venv/bin/python manage.py recalculate_standings --league_name 'Ligue 1' --country 'Franca' --smart
+            
+            # Limpa cache
+            ./venv/bin/python manage.py shell -c "from django.core.cache import cache; cache.clear()"
             
             rm payload_france.json
           EOF
