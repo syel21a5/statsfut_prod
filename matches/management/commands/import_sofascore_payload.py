@@ -74,6 +74,35 @@ class Command(BaseCommand):
                     team_id = str(team_data.get('id'))
                     team_name = team_data.get('name')
                     
+                    if league.name == "Ligue 1":
+                        mapping = {
+                            "Paris Saint-Germain": "PSG",
+                            "Paris Saint-Germain FC": "PSG",
+                            "AS Monaco": "Monaco",
+                            "AS Monaco FC": "Monaco",
+                            "Olympique Lyonnais": "Lyon",
+                            "Olympique de Marseille": "Marseille",
+                            "Lille OSC": "Lille",
+                            "Stade Rennais": "Rennes",
+                            "OGC Nice": "Nice",
+                            "RC Lens": "Lens",
+                            "Stade de Reims": "Reims",
+                            "Reims": "Reims",
+                            "Stade Brestois": "Brest",
+                            "Stade Brestois 29": "Brest",
+                            "Toulouse FC": "Toulouse",
+                            "Montpellier HSC": "Montpellier",
+                            "RC Strasbourg Alsace": "Strasbourg",
+                            "FC Nantes": "Nantes",
+                            "Le Havre AC": "Le Havre",
+                            "Angers SCO": "Angers",
+                            "AJ Auxerre": "Auxerre",
+                            "FC Lorient": "Lorient",
+                            "AS Saint-Étienne": "St Etienne",
+                        }
+                        team_name = mapping.get(team_name, team_name)
+                    
+                    
                     if team_id and team_name:
                         sofa_api_id = f"sofa_{team_id}"
                         # 1. Tenta por API ID
