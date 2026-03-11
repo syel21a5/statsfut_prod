@@ -11,10 +11,14 @@ from matches.models import Team, League, Match, LeagueStanding
 from django.db import transaction
 
 def cleanup_teams():
-    try:
-        league = League.objects.get(name='Ligue 1', country='Franca')
-    except League.DoesNotExist:
-        print("Liga Ligue 1 não encontrada.")
+    league = League.objects.filter(name__iexact='Ligue 1', country__iexact='Franca').first()
+    if not league:
+        for c in ['França', 'France']:
+            league = League.objects.filter(name__iexact='Ligue 1', country__iexact=c).first()
+            if league: break
+            
+    if not league:
+        print("Liga Ligue 1 (Franca/França/France) não encontrada.")
         return
 
     # Mapeamento de Time Duplicado (Nome Errado -> Nome Correto)

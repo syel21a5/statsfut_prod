@@ -32,15 +32,30 @@ class Command(BaseCommand):
             return
 
         try:
+            league = None
             if league_db_id:
                 league = League.objects.get(id=league_db_id)
             elif kwargs.get('league_name'):
-                name = kwargs['league_name']
-                country = kwargs.get('country')
-                if country:
-                    league = League.objects.get(name=name, country=country)
+                league_name_arg = kwargs['league_name']
+                country_arg = kwargs.get('country')
+                
+                # Flexibilidade na busca da liga
+                # 1. Tenta busca exata (case-insensitive)
+                if country_arg:
+                    league = League.objects.filter(name__iexact=league_name_arg, country__iexact=country_arg).first()
                 else:
-                    league = League.objects.get(name=name)
+                    league = League.objects.filter(name__iexact=league_name_arg).first()
+
+                # 2. Se não encontrou e o país é relacionado à França, tenta variações
+                if not league and country_arg and country_arg.lower() in ['franca', 'frança', 'france']:
+                    for c_var in ['Franca', 'França', 'France']:
+                        league = League.objects.filter(name__iexact=league_name_arg, country__iexact=c_var).first()
+                        if league:
+                            break
+                
+                if not league:
+                    self.stdout.write(self.style.ERROR(f"Liga '{league_name_arg}' (País: '{country_arg or 'Não especificado'}') não encontrada."))
+                    return
             else:
                 self.stdout.write(self.style.ERROR("Você deve fornecer --league_id ou --league_name"))
                 return
@@ -74,7 +89,10 @@ class Command(BaseCommand):
                     team_id = str(team_data.get('id'))
                     team_name = team_data.get('name')
                     
-                    if league.name == "Ligue 1":
+                    # Normalização de Nomes para Ligue 1
+                    is_france = league.name.lower() in ["ligue 1", "ligue 1 "] or league.country.lower() in ["franca", "frança", "france"]
+                    
+                    if is_france:
                         mapping = {
                             "Paris Saint-Germain": "PSG",
                             "Paris Saint-Germain FC": "PSG",
@@ -102,7 +120,8 @@ class Command(BaseCommand):
                         }
                         team_name = mapping.get(team_name, team_name)
                     
-                    
+                    # Limpeza extra
+                    team_name = team_name.strip()
                     if team_id and team_name:
                         sofa_api_id = f"sofa_{team_id}"
                         # 1. Tenta por API ID
