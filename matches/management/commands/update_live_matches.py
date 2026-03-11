@@ -114,46 +114,7 @@ class Command(BaseCommand):
         for m in api_manager.LEAGUE_MAPPINGS.values():
             all_api_football_ids.extend(m['api_football'])
         
-        if mode in ['live', 'both']:
-            # The Odds API for Argentina (Special Handling) - Run first to ensure it runs
-            # self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Liga Profesional (Argentina)...'))
-            
-            # if self.should_check_live_league('Liga Profesional', 'Argentina'):
-            #     self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
-            #     try:
-            #         fetch_live_odds_api_argentina()
-            #         self.stdout.write(self.style.SUCCESS('✅ Jogos da Liga Profesional atualizados via The Odds API.'))
-            #     except Exception as e:
-            #         self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
-            # else:
-            #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
-
-            # The Odds API for Austria
-            # self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da Bundesliga (Austria)...'))
-            # if self.should_check_live_league('Bundesliga', 'Austria'):
-            #     self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
-            #     try:
-            #         fetch_live_odds_api_austria()
-            #         self.stdout.write(self.style.SUCCESS('✅ Jogos da Bundesliga (Austria) atualizados via The Odds API.'))
-            #     except Exception as e:
-            #         self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Bundesliga (Austria): {e}'))
-            # else:
-            #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
-
-            # The Odds API for Australia
-            # self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Verificando necessidade de buscar jogos AO VIVO da A-League (Australia)...'))
-            # # Para Australia, se não tiver nenhum jogo no banco, deve tentar buscar upcoming primeiro
-            # # Mas aqui estamos no bloco LIVE. O bloco UPCOMING roda depois se mode='both' ou 'upcoming'.
-            # if self.should_check_live_league('A League', 'Australia'):
-            #     self.stdout.write(self.style.SUCCESS('⚡ Jogo detectado ou iminente! Chamando The Odds API...'))
-            #     try:
-            #         fetch_live_odds_api_australia()
-            #         self.stdout.write(self.style.SUCCESS('✅ Jogos da A-League (Australia) atualizados via The Odds API.'))
-            #     except Exception as e:
-            #         self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da A-League (Australia): {e}'))
-            # else:
-            #     self.stdout.write(self.style.SUCCESS('💤 Modo economia: API não chamada.'))
-
+            # (Removido logs repetitivos comentados)
             self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Ligas Habilitadas)...'))
             try:
                 # RESTRITIVO: Busca apenas as ligas que o usuário habilitou expressamente
@@ -171,6 +132,10 @@ class Command(BaseCommand):
                             live_fixtures = api_manager.get_live_fixtures(league_ids=mapping['api_football'])
                             # Filtra apenas jogos que realmente pertencem a esse país/liga (api_manager retorna tudo se ids forem genéricos)
                             filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
+                            
+                            # PROTEÇÃO SOFASCORE: Ignorar França, Áustria e Austrália de receberem atualizações LIVE da API-Football (conflito de nomes)
+                            filtered_fixtures = [f for f in filtered_fixtures if lg['name'] not in ['Ligue 1', 'Bundesliga', 'A-League']]
+                            
                             if filtered_fixtures:
                                 self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
                                 self.process_fixtures(filtered_fixtures, is_live=True)
@@ -218,7 +183,8 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
             # Países adicionais: APENAS se estiverem na lista seletiva
-            enabled_countries = ['France', 'Austria', 'Australia']
+            # PROTEÇÃO SOFASCORE: Removida França, Áustria e Austrália pois são ingeridos 100% pelo SofaScore
+            enabled_countries = []
             self.stdout.write(self.style.SUCCESS(f'\n🌍 Buscando próximos jogos por país (Ligas habilitadas, {days_upcoming} dias)...'))
             for country in enabled_countries:
                 try:
@@ -243,6 +209,10 @@ class Command(BaseCommand):
             # Vamos manter o loop para garantir controle e log detalhado.
             
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
+                # PROTEÇÃO SOFASCORE: Pular ligas gerenciadas pelas GitHub Actions
+                if league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League']:
+                    continue
+                    
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
                     # Football-Data.org logic (implemented in api_manager)

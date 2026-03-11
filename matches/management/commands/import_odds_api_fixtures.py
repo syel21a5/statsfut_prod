@@ -30,16 +30,17 @@ class Command(BaseCommand):
             'db_name': 'Premier League',
             'country': 'Inglaterra'
         },
-        'soccer_austria_bundesliga': {
-            'env_key': 'ODDS_API_KEY_AUSTRIA_UPCOMING',
-            'db_name': 'Bundesliga',
-            'country': 'Austria'
-        },
-        'soccer_australia_aleague': {
-            'env_key': 'ODDS_API_KEY_AUSTRALIA_UPCOMING',
-            'db_name': 'A-League Men',
-            'country': 'Australia'
-        },
+        # REMOVIDO PARA SOFASCORE:
+        # 'soccer_austria_bundesliga': {
+        #     'env_key': 'ODDS_API_KEY_AUSTRIA_UPCOMING',
+        #     'db_name': 'Bundesliga',
+        #     'country': 'Austria'
+        # },
+        # 'soccer_australia_aleague': {
+        #     'env_key': 'ODDS_API_KEY_AUSTRALIA_UPCOMING',
+        #     'db_name': 'A-League Men',
+        #     'country': 'Australia'
+        # },
         'soccer_belgium_first_div': {
             'env_key': 'ODDS_API_KEY_BELGIUM_UPCOMING',
             'db_name': 'Pro League',
@@ -55,7 +56,6 @@ class Command(BaseCommand):
             'db_name': 'Superliga',
             'country': 'Dinamarca'
         },
-
         'soccer_germany_bundesliga': {
             'env_key': 'ODDS_API_KEY_GERMANY_UPCOMING',
             'db_name': 'Bundesliga',
