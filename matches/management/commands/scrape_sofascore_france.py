@@ -22,6 +22,7 @@ TEAM_MAPPING = {
     "OGC Nice": "Nice",
     "RC Lens": "Lens",
     "Stade de Reims": "Reims",
+    "Reims": "Reims",
     "Stade Brestois": "Brest",
     "Stade Brestois 29": "Brest",
     "Toulouse FC": "Toulouse",
@@ -31,6 +32,7 @@ TEAM_MAPPING = {
     "Le Havre AC": "Le Havre",
     "Angers SCO": "Angers",
     "AJ Auxerre": "Auxerre",
+    "FC Lorient": "Lorient",
     "AS Saint-Étienne": "St Etienne",
 }
 
