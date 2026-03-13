@@ -1,0 +1,28 @@
+Total de times encontrados: 27
+Luzern -> luzern
+Young Boys -> young-boys
+Lausanne -> lausanne
+St. Gallen -> st-gallen
+Lugano -> lugano
+Zurich -> zurich
+Grasshoppers -> grasshoppers
+Basel -> basel
+Sion -> sion
+Servette -> servette
+Schaffhausen -> schaffhausen
+Winterthur -> winterthur
+Lausanne Ouchy -> lausanne-ouchy
+Yverdon -> yverdon
+Thun -> thun
+BSC Young Boys -> bsc-young-boys
+FC Lugano -> fc-lugano
+FC Sion -> fc-sion
+FC Luzern -> fc-luzern
+FC Thun -> fc-thun
+Grasshopper Club Zürich -> grasshopper-club-zurich
+FC St. Gallen 1879 -> fc-st-gallen-1879
+FC Lausanne-Sport -> fc-lausanne-sport
+FC Vaduz -> fc-vaduz
+FC Zürich -> fc-zurich
+Neuchâtel Xamax -> neuchatel-xamax
+Servette FC -> servette-fc

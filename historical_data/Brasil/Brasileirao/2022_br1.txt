@@ -1,0 +1,609 @@
+= Brasil | Brasileirao 2022
+
+# Date       Sat Apr/9 2022 - Sun Nov/13 2022 (217d)
+# Teams      20
+# Matches    382
+# Stages     Regular Season (382)
+
+
+
+
+» Sat Apr/9
+    19.30  Fluminense                v Santos                    0-0
+    22.00  Atlético Goianiense       v Flamengo                  1-1
+
+» Sun Apr/10
+    00.00  Palmeiras                 v Ceara                     2-3
+    14.00  Coritiba                  v Goias                     3-0
+    19.00  Botafogo                  v Corinthians               1-3
+    19.00  Atlético Mineiro          v Internacional             2-0
+    21.00  Fortaleza                 v Cuiaba                    0-1
+    22.00  São Paulo                 v Athletico                 4-0
+    22.00  Avai                      v América Mineiro           1-0
+
+» Mon Apr/11
+    23.00  Juventude                 v Red Bull Bragantino       2-2
+
+» Sat Apr/16
+    19.30  Goias                     v Palmeiras                 1-1
+    22.00  Corinthians               v Avai                      3-0
+    22.00  América Mineiro           v Juventude                 4-1
+
+» Sun Apr/17
+    00.00  Cuiaba                    v Fluminense                0-1
+    14.00  Santos                    v Coritiba                  2-1
+    19.00  Flamengo                  v São Paulo                 3-1
+    21.00  Red Bull Bragantino       v Atlético Goianiense       4-0
+    21.00  Internacional             v Fortaleza                 2-1
+    21.00  Athletico                 v Atlético Mineiro          0-1
+    22.00  Ceara                     v Botafogo                  1-3
+
+» Wed Apr/20
+    22.30  Flamengo                  v Palmeiras                 0-0
+
+» Sat Apr/23
+    19.30  Red Bull Bragantino       v São Paulo                 1-1
+    19.30  Athletico                 v Flamengo                  1-0
+    22.00  Palmeiras                 v Corinthians               3-0
+    22.00  Fluminense                v Internacional             0-1
+
+» Sun Apr/24
+    00.00  Atlético Mineiro          v Coritiba                  2-2
+    19.00  Santos                    v América Mineiro           3-0
+    21.00  Juventude                 v Cuiaba                    0-1
+    21.30  Atlético Goianiense       v Botafogo                  1-1
+
+» Mon Apr/25
+    23.00  Avai                      v Goias                     3-2
+
+» Sat Apr/30
+    19.30  Ceara                     v Red Bull Bragantino       0-1
+    19.30  América Mineiro           v Athletico                 1-0
+    21.30  Goias                     v Atlético Mineiro          2-2
+    22.00  Cuiaba                    v Atlético Goianiense       1-1
+
+» Sun May/1
+    14.00  Botafogo                  v Juventude                 1-1
+    19.00  Coritiba                  v Fluminense                3-2
+    19.00  Corinthians               v Fortaleza                 1-0
+    22.00  Internacional             v Avai                      0-0
+
+» Mon May/2
+    23.00  São Paulo                 v Santos                    2-1
+
+» Sat May/7
+    19.30  Atlético Mineiro          v América Mineiro           1-2
+    23.30  Athletico                 v Ceara                     1-0
+
+» Sun May/8
+    14.00  Flamengo                  v Botafogo                  0-1
+    19.00  Palmeiras                 v Fluminense                1-1
+    19.00  Atlético Goianiense       v Goias                     0-1
+    21.00  Santos                    v Cuiaba                    4-1
+    21.00  Red Bull Bragantino       v Corinthians               0-1
+    22.00  Juventude                 v Internacional             1-1
+    22.00  Fortaleza                 v São Paulo                 1-1
+
+» Mon May/9
+    23.00  Avai                      v Coritiba                  2-1
+
+» Wed May/11
+    23.30  Red Bull Bragantino       v Atlético Mineiro          1-1
+
+» Sat May/14
+    19.30  Palmeiras                 v Red Bull Bragantino       2-0
+    19.30  Ceara                     v Flamengo                  2-2
+    22.00  Internacional             v Corinthians               2-2
+    22.00  Atlético Mineiro          v Atlético Goianiense       2-0
+
+» Sun May/15
+    00.00  Fluminense                v Athletico                 2-1
+    19.00  São Paulo                 v Cuiaba                    2-1
+    20.30  Coritiba                  v América Mineiro           1-0
+    21.00  Botafogo                  v Fortaleza                 3-1
+    21.00  Avai                      v Juventude                 1-2
+    22.00  Goias                     v Santos                    1-0
+
+» Sat May/21
+    19.30  Flamengo                  v Goias                     1-0
+    19.30  Atlético Goianiense       v Coritiba                  2-0
+    21.30  Santos                    v Ceara                     0-0
+    22.00  Juventude                 v Palmeiras                 0-3
+
+» Sun May/22
+    00.00  Cuiaba                    v Internacional             1-1
+    00.00  América Mineiro           v Botafogo                  1-1
+    19.00  Fortaleza                 v Fluminense                0-1
+    19.00  Corinthians               v São Paulo                 1-1
+    22.00  Athletico                 v Avai                      2-1
+
+» Sat May/28
+    19.30  Goias                     v Red Bull Bragantino       1-1
+    22.00  São Paulo                 v Ceara                     2-2
+    23.30  Fortaleza                 v Juventude                 1-1
+
+» Sun May/29
+    19.00  Santos                    v Palmeiras                 0-1
+    19.00  Coritiba                  v Botafogo                  1-0
+    21.00  Fluminense                v Flamengo                  1-2
+    21.00  Cuiaba                    v Athletico                 0-1
+    21.00  Corinthians               v América Mineiro           1-1
+    22.00  Atlético Mineiro          v Avai                      2-1
+
+» Mon May/30
+    23.00  Internacional             v Atlético Goianiense       1-1
+
+» Wed Jun/1
+    23.30  Fortaleza                 v Ceara                     0-1
+
+» Sat Jun/4
+    19.30  América Mineiro           v Cuiaba                    2-1
+    22.00  Ceara                     v Coritiba                  1-1
+    22.00  Avai                      v São Paulo                 1-1
+    22.00  Athletico                 v Santos                    2-2
+    23.30  Atlético Goianiense       v Corinthians               0-1
+
+» Sun Jun/5
+    14.00  Juventude                 v Fluminense                1-0
+    19.00  Palmeiras                 v Atlético Mineiro          0-0
+    19.00  Flamengo                  v Fortaleza                 1-2
+    22.00  Red Bull Bragantino       v Internacional             0-2
+
+» Mon Jun/6
+    23.00  Botafogo                  v Goias                     1-2
+
+» Wed Jun/8
+    00.30  Cuiaba                    v Corinthians               1-0
+    22.00  Juventude                 v Athletico                 1-3
+    22.00  América Mineiro           v Ceara                     0-2
+    23.30  Red Bull Bragantino       v Flamengo                  1-0
+    23.30  Atlético Goianiense       v Avai                      2-1
+
+» Thu Jun/9
+    00.30  Santos                    v Internacional             1-1
+    00.30  Fluminense                v Atlético Mineiro          5-3
+    22.00  Palmeiras                 v Botafogo                  4-0
+    23.00  Fortaleza                 v Goias                     1-1
+    23.00  Coritiba                  v São Paulo                 1-1
+
+» Sat Jun/11
+    19.30  Corinthians               v Juventude                 2-0
+    22.00  Fluminense                v Atlético Goianiense       0-2
+    22.00  Cuiaba                    v Red Bull Bragantino       1-1
+    22.00  Atlético Mineiro          v Santos                    1-1
+
+» Sun Jun/12
+    00.00  Internacional             v Flamengo                  3-1
+    19.00  São Paulo                 v América Mineiro           1-0
+    19.00  Goias                     v Ceara                     1-1
+    21.00  Coritiba                  v Palmeiras                 0-2
+    22.00  Fortaleza                 v Athletico                 0-0
+
+» Mon Jun/13
+    22.00  Botafogo                  v Avai                      0-1
+
+» Wed Jun/15
+    00.30  Juventude                 v Santos                    1-2
+    22.00  Red Bull Bragantino       v Coritiba                  4-2
+    22.00  Ceara                     v Atlético Mineiro          0-0
+    23.30  Goias                     v Internacional             1-2
+    23.30  Flamengo                  v Cuiaba                    2-0
+
+» Thu Jun/16
+    00.30  Athletico                 v Corinthians               1-1
+    00.30  América Mineiro           v Fluminense                0-0
+    19.00  Botafogo                  v São Paulo                 1-0
+    21.00  Palmeiras                 v Atlético Goianiense       4-2
+    22.00  Avai                      v Fortaleza                 3-2
+
+» Sat Jun/18
+    22.00  Cuiaba                    v Ceara                     0-0
+
+» Sun Jun/19
+    00.00  Santos                    v Red Bull Bragantino       2-2
+    19.00  Coritiba                  v Athletico                 0-1
+    19.00  Corinthians               v Goias                     1-0
+    19.00  Atlético Mineiro          v Flamengo                  2-0
+    21.00  Internacional             v Botafogo                  2-3
+    21.00  Fortaleza                 v América Mineiro           1-0
+    21.00  Atlético Goianiense       v Juventude                 3-1
+    22.00  Fluminense                v Avai                      2-0
+
+» Mon Jun/20
+    23.00  São Paulo                 v Palmeiras                 1-2
+
+» Sat Jun/25
+    00.30  Internacional             v Coritiba                  3-0
+    19.30  Athletico                 v Red Bull Bragantino       4-2
+    22.00  Flamengo                  v América Mineiro           3-0
+    22.00  Corinthians               v Santos                    0-0
+
+» Sun Jun/26
+    00.00  Atlético Mineiro          v Fortaleza                 3-2
+    19.00  Botafogo                  v Fluminense                0-1
+    19.00  Avai                      v Palmeiras                 2-2
+    21.00  São Paulo                 v Juventude                 0-0
+    21.00  Goias                     v Cuiaba                    1-0
+    21.00  Ceara                     v Atlético Goianiense       1-1
+
+» Sat Jul/2
+    19.30  Juventude                 v Atlético Mineiro          1-2
+    19.30  Fluminense                v Corinthians               4-0
+    22.00  Santos                    v Flamengo                  1-2
+    22.00  Ceara                     v Internacional             1-1
+
+» Sun Jul/3
+    00.00  Palmeiras                 v Athletico                 0-2
+    14.00  Avai                      v Cuiaba                    1-2
+    19.00  Atlético Goianiense       v São Paulo                 1-2
+    21.00  Coritiba                  v Fortaleza                 2-1
+    21.00  América Mineiro           v Goias                     1-0
+
+» Mon Jul/4
+    23.00  Red Bull Bragantino       v Botafogo                  0-1
+
+» Sat Jul/9
+    19.30  Red Bull Bragantino       v Avai                      4-0
+    22.00  Fluminense                v Ceara                     2-1
+    23.30  Goias                     v Athletico                 2-1
+
+» Sun Jul/10
+    14.00  Coritiba                  v Juventude                 2-2
+    19.00  Corinthians               v Flamengo                  1-0
+    21.00  Santos                    v Atlético Goianiense       1-0
+    21.00  Fortaleza                 v Palmeiras                 0-0
+    21.00  Atlético Mineiro          v São Paulo                 0-0
+    22.00  Cuiaba                    v Botafogo                  2-0
+
+» Mon Jul/11
+    23.00  Internacional             v América Mineiro           1-0
+
+» Sat Jul/16
+    19.30  Athletico                 v Internacional             0-0
+    22.00  Flamengo                  v Coritiba                  2-0
+    22.00  Avai                      v Santos                    1-0
+
+» Sun Jul/17
+    00.00  Ceara                     v Corinthians               3-1
+    14.00  Juventude                 v Goias                     0-0
+    19.00  São Paulo                 v Fluminense                2-2
+    21.00  Botafogo                  v Atlético Mineiro          0-1
+    21.00  Atlético Goianiense       v Fortaleza                 0-1
+    22.00  América Mineiro           v Red Bull Bragantino       0-3
+
+» Mon Jul/18
+    23.00  Palmeiras                 v Cuiaba                    1-0
+
+» Wed Jul/20
+    00.30  Ceara                     v Avai                      1-0
+    22.00  Red Bull Bragantino       v Fortaleza                 2-1
+    22.00  Goias                     v Fluminense                2-3
+    22.30  Athletico                 v Atlético Goianiense       4-1
+    23.30  Internacional             v São Paulo                 3-3
+    23.30  Flamengo                  v Juventude                 4-0
+
+» Thu Jul/21
+    00.30  Santos                    v Botafogo                  2-0
+    00.30  Corinthians               v Coritiba                  3-1
+    22.00  Cuiaba                    v Atlético Mineiro          1-1
+    23.00  América Mineiro           v Palmeiras                 0-1
+
+» Sat Jul/23
+    22.00  São Paulo                 v Goias                     3-3
+
+» Sun Jul/24
+    00.00  Botafogo                  v Athletico                 2-0
+    14.00  Avai                      v Flamengo                  1-2
+    19.00  Palmeiras                 v Internacional             2-1
+    19.00  Juventude                 v Ceara                     1-0
+    19.00  Fluminense                v Red Bull Bragantino       2-1
+    21.00  Atlético Mineiro          v Corinthians               1-2
+    21.00  Atlético Goianiense       v América Mineiro           0-1
+    22.00  Fortaleza                 v Santos                    0-0
+
+» Mon Jul/25
+    23.00  Coritiba                  v Cuiaba                    1-0
+
+» Sat Jul/30
+    19.30  Goias                     v Coritiba                  1-0
+    19.30  Ceara                     v Palmeiras                 1-2
+    22.00  Corinthians               v Botafogo                  1-0
+    23.30  Flamengo                  v Atlético Goianiense       4-1
+
+» Sun Jul/31
+    19.00  Internacional             v Atlético Mineiro          3-0
+    19.00  Athletico                 v São Paulo                 1-0
+    21.00  Cuiaba                    v Fortaleza                 0-1
+    21.00  América Mineiro           v Avai                      3-1
+    22.00  Red Bull Bragantino       v Juventude                 1-0
+
+» Mon Aug/1
+    23.00  Santos                    v Fluminense                2-2
+
+» Sat Aug/6
+    19.30  Juventude                 v América Mineiro           0-1
+    19.30  Botafogo                  v Ceara                     1-1
+    22.00  Avai                      v Corinthians               1-1
+    22.00  Atlético Goianiense       v Red Bull Bragantino       2-1
+    23.30  São Paulo                 v Flamengo                  0-2
+
+» Sun Aug/7
+    19.00  Palmeiras                 v Goias                     3-0
+    19.00  Fluminense                v Cuiaba                    1-0
+    21.00  Fortaleza                 v Internacional             3-0
+    22.00  Atlético Mineiro          v Athletico                 2-3
+
+» Mon Aug/8
+    23.00  Coritiba                  v Santos                    1-2
+
+» Sat Aug/13
+    19.30  Goias                     v Avai                      1-1
+    22.00  Corinthians               v Palmeiras                 0-1
+    23.30  Cuiaba                    v Juventude                 1-0
+
+» Sun Aug/14
+    00.00  Botafogo                  v Atlético Goianiense       0-0
+    14.00  Coritiba                  v Atlético Mineiro          0-1
+    19.00  São Paulo                 v Red Bull Bragantino       3-0
+    19.00  Flamengo                  v Athletico                 5-0
+    19.00  Ceara                     v Fortaleza                 0-1
+    21.00  América Mineiro           v Santos                    1-0
+    22.00  Internacional             v Fluminense                3-0
+
+» Sat Aug/20
+    19.30  Atlético Mineiro          v Goias                     0-1
+    22.00  Fluminense                v Coritiba                  5-2
+
+» Sun Aug/21
+    14.00  Juventude                 v Botafogo                  2-2
+    19.00  Palmeiras                 v Flamengo                  1-1
+    21.00  Red Bull Bragantino       v Ceara                     1-1
+    21.00  Fortaleza                 v Corinthians               1-0
+    21.00  Atlético Goianiense       v Cuiaba                    1-1
+    21.00  Athletico                 v América Mineiro           1-1
+    22.00  Santos                    v São Paulo                 1-0
+
+» Mon Aug/22
+    23.00  Avai                      v Internacional             0-1
+
+» Sat Aug/27
+    19.30  Goias                     v Atlético Goianiense       2-1
+    19.30  Coritiba                  v Avai                      1-0
+    22.00  Fluminense                v Palmeiras                 1-1
+
+» Sun Aug/28
+    00.00  Ceara                     v Athletico                 0-0
+    19.00  São Paulo                 v Fortaleza                 0-1
+    19.00  América Mineiro           v Atlético Mineiro          1-1
+    21.00  Cuiaba                    v Santos                    0-0
+    21.00  Botafogo                  v Flamengo                  0-1
+
+» Mon Aug/29
+    23.00  Internacional             v Juventude                 4-0
+
+» Tue Aug/30
+    00.30  Corinthians               v Red Bull Bragantino       1-0
+
+» Sat Sep/3
+    19.30  Juventude                 v Avai                      1-1
+    22.00  Red Bull Bragantino       v Palmeiras                 2-2
+    22.00  Athletico                 v Fluminense                1-0
+    23.30  América Mineiro           v Coritiba                  2-0
+
+» Sun Sep/4
+    14.00  Flamengo                  v Ceara                     1-1
+    19.00  Fortaleza                 v Botafogo                  1-3
+    19.00  Corinthians               v Internacional             2-2
+    21.00  Atlético Goianiense       v Atlético Mineiro          0-2
+    22.00  Cuiaba                    v São Paulo                 1-1
+
+» Mon Sep/5
+    23.00  Santos                    v Goias                     1-2
+
+» Wed Sep/7
+    20.00  Atlético Mineiro          v Red Bull Bragantino       1-1
+
+» Sat Sep/10
+    19.30  Internacional             v Cuiaba                    1-0
+    19.30  Ceara                     v Santos                    2-1
+    22.00  Fluminense                v Fortaleza                 2-1
+
+» Sun Sep/11
+    00.00  Palmeiras                 v Juventude                 2-1
+    14.00  Botafogo                  v América Mineiro           0-0
+    14.00  Avai                      v Athletico                 1-1
+    19.00  São Paulo                 v Corinthians               1-1
+    19.00  Coritiba                  v Atlético Goianiense       2-0
+    22.00  Goias                     v Flamengo                  1-1
+
+» Sat Sep/17
+    19.30  Avai                      v Atlético Mineiro          1-0
+    22.00  Botafogo                  v Coritiba                  2-0
+
+» Sun Sep/18
+    14.00  Red Bull Bragantino       v Goias                     1-1
+    19.00  Flamengo                  v Fluminense                1-2
+    19.00  Ceara                     v São Paulo                 0-2
+    21.00  Juventude                 v Fortaleza                 1-1
+    21.00  América Mineiro           v Corinthians               1-0
+    21.30  Palmeiras                 v Santos                    1-0
+    22.00  Athletico                 v Cuiaba                    2-2
+
+» Mon Sep/19
+    23.00  Atlético Goianiense       v Internacional             1-2
+
+» Sun Sep/25
+    23.00  São Paulo                 v Avai                      4-0
+
+» Wed Sep/28
+    00.00  Santos                    v Athletico                 2-0
+    22.00  Fortaleza                 v Flamengo                  3-2
+    22.00  Fluminense                v Juventude                 4-0
+    22.00  Coritiba                  v Ceara                     1-0
+    22.00  Corinthians               v Atlético Goianiense       2-1
+
+» Thu Sep/29
+    00.00  Cuiaba                    v América Mineiro           2-1
+    00.45  Internacional             v Red Bull Bragantino       0-0
+    00.45  Goias                     v Botafogo                  0-1
+    00.45  Atlético Mineiro          v Palmeiras                 0-1
+
+» Sat Oct/1
+    18.00  Internacional             v Santos                    1-0
+    18.00  Ceara                     v América Mineiro           1-2
+    18.00  Atlético Mineiro          v Fluminense                2-0
+    22.00  Goias                     v Fortaleza                 0-1
+    22.00  Flamengo                  v Red Bull Bragantino       4-1
+    22.00  Avai                      v Atlético Goianiense       1-2
+    22.00  Athletico                 v Juventude                 2-0
+
+» Sun Oct/2
+    00.00  Corinthians               v Cuiaba                    2-0
+
+» Mon Oct/3
+    22.00  São Paulo                 v Coritiba                  None-None
+    23.00  Botafogo                  v Palmeiras                 1-3
+
+» Wed Oct/5
+    00.30  Juventude                 v Corinthians               2-2
+    22.00  Red Bull Bragantino       v Cuiaba                    2-1
+    22.00  Ceara                     v Goias                     1-1
+    22.00  Atlético Goianiense       v Fluminense                3-2
+    22.30  Athletico                 v Fortaleza                 1-1
+
+» Thu Oct/6
+    00.30  Santos                    v Atlético Mineiro          1-2
+    00.30  Flamengo                  v Internacional             0-0
+    22.00  Palmeiras                 v Coritiba                  4-0
+    23.00  Avai                      v Botafogo                  1-2
+    23.00  América Mineiro           v São Paulo                 1-2
+
+» Sat Oct/8
+    22.00  Cuiaba                    v Flamengo                  1-2
+
+» Sun Oct/9
+    00.00  Corinthians               v Athletico                 2-1
+    14.00  Internacional             v Goias                     4-2
+    19.00  São Paulo                 v Botafogo                  0-1
+    19.00  Fortaleza                 v Avai                      2-0
+    21.00  Fluminense                v América Mineiro           0-2
+    21.00  Coritiba                  v Red Bull Bragantino       2-1
+    21.00  Atlético Mineiro          v Ceara                     0-0
+
+» Mon Oct/10
+    21.30  Atlético Goianiense       v Palmeiras                 1-1
+    23.00  Santos                    v Juventude                 4-1
+
+» Sat Oct/15
+    22.00  Goias                     v Corinthians               None-None
+    23.30  Flamengo                  v Atlético Mineiro          1-0
+    23.30  América Mineiro           v Fortaleza                 1-2
+
+» Sun Oct/16
+    19.00  Palmeiras                 v São Paulo                 0-0
+    19.00  Ceara                     v Cuiaba                    1-1
+    21.00  Juventude                 v Atlético Goianiense       1-1
+    21.00  Botafogo                  v Internacional             0-1
+    22.00  Avai                      v Fluminense                0-3
+    22.00  Athletico                 v Coritiba                  1-0
+
+» Mon Oct/17
+    23.00  Red Bull Bragantino       v Santos                    0-2
+
+» Thu Oct/20
+    23.00  São Paulo                 v Coritiba                  3-1
+
+» Sat Oct/22
+    19.30  Red Bull Bragantino       v Athletico                 4-2
+    22.00  Santos                    v Corinthians               0-1
+    22.00  América Mineiro           v Flamengo                  1-2
+
+» Sun Oct/23
+    00.00  Palmeiras                 v Avai                      3-0
+    19.00  Juventude                 v São Paulo                 1-2
+    19.00  Fluminense                v Botafogo                  2-2
+    21.00  Cuiaba                    v Goias                     1-2
+    21.00  Coritiba                  v Internacional             1-1
+    21.00  Atlético Goianiense       v Ceara                     1-0
+
+» Mon Oct/24
+    23.00  Fortaleza                 v Atlético Mineiro          0-0
+
+» Wed Oct/26
+    00.45  Flamengo                  v Santos                    3-2
+    00.45  Athletico                 v Palmeiras                 1-3
+    22.30  Botafogo                  v Red Bull Bragantino       2-1
+
+» Thu Oct/27
+    00.45  Internacional             v Ceara                     2-1
+    00.45  Goias                     v América Mineiro           2-2
+    00.45  Corinthians               v Fluminense                0-2
+    22.00  São Paulo                 v Atlético Goianiense       2-1
+    22.00  Fortaleza                 v Coritiba                  3-1
+    22.30  Atlético Mineiro          v Juventude                 1-0
+    23.00  Cuiaba                    v Avai                      1-0
+
+» Sat Oct/29
+    22.30  Goias                     v Corinthians               0-0
+
+» Mon Oct/31
+    23.00  Ceara                     v Fluminense                0-1
+
+» Tue Nov/1
+    22.00  Botafogo                  v Cuiaba                    0-2
+
+» Wed Nov/2
+    00.30  São Paulo                 v Atlético Mineiro          2-2
+    19.00  Athletico                 v Goias                     3-2
+    19.00  América Mineiro           v Internacional             1-0
+    22.00  Juventude                 v Coritiba                  0-1
+    22.00  Avai                      v Red Bull Bragantino       1-2
+    22.00  Atlético Goianiense       v Santos                    2-3
+
+» Thu Nov/3
+    00.30  Palmeiras                 v Fortaleza                 4-0
+    00.30  Flamengo                  v Corinthians               1-2
+
+» Sat Nov/5
+    19.30  Santos                    v Avai                      1-1
+    19.30  Fluminense                v São Paulo                 3-1
+    22.00  Red Bull Bragantino       v América Mineiro           1-4
+    22.00  Goias                     v Juventude                 1-0
+    23.30  Corinthians               v Ceara                     1-0
+
+» Sun Nov/6
+    00.00  Internacional             v Athletico                 2-0
+    19.00  Fortaleza                 v Atlético Goianiense       1-1
+    19.00  Coritiba                  v Flamengo                  1-0
+    21.30  Cuiaba                    v Palmeiras                 1-1
+
+» Mon Nov/7
+    23.00  Atlético Mineiro          v Botafogo                  0-2
+
+» Wed Nov/9
+    00.30  São Paulo                 v Internacional             0-1
+    22.00  Fluminense                v Goias                     3-0
+    22.00  Coritiba                  v Corinthians               2-2
+    22.00  Avai                      v Ceara                     2-0
+    23.30  Fortaleza                 v Red Bull Bragantino       6-0
+
+» Thu Nov/10
+    00.30  Palmeiras                 v América Mineiro           2-1
+    00.30  Juventude                 v Flamengo                  2-2
+    00.30  Atlético Goianiense       v Athletico                 1-1
+    23.00  Botafogo                  v Santos                    3-0
+    23.00  Atlético Mineiro          v Cuiaba                    3-0
+
+» Sat Nov/12
+    19.00  Flamengo                  v Avai                      1-2
+
+» Sun Nov/13
+    19.00  Santos                    v Fortaleza                 0-2
+    19.00  Red Bull Bragantino       v Fluminense                0-1
+    19.00  Internacional             v Palmeiras                 3-0
+    19.00  Goias                     v São Paulo                 0-4
+    19.00  Cuiaba                    v Coritiba                  2-1
+    19.00  Corinthians               v Atlético Mineiro          0-1
+    19.00  Ceara                     v Juventude                 4-1
+    19.00  Athletico                 v Botafogo                  3-0
+    19.00  América Mineiro           v Atlético Goianiense       1-1

@@ -1,13 +1,13 @@
 import os
 import sys
-import django
+import django  # type: ignore
 
 # Setup Django environment
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from matches.models import Team, League
+from matches.models import Team, League  # type: ignore
 
 # Countries to check
 target_countries = ['Suica', 'Belgica', 'Brasil']

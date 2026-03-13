@@ -1,0 +1,606 @@
+= Brasil | Brasileirao 2016
+
+# Date       Sat May/14 2016 - Sun Dec/11 2016 (211d)
+# Teams      20
+# Matches    381
+# Stages     Regular Season (381)
+
+
+
+
+» Sat May/14
+    19.00  Palmeiras                 v Athletico                 4-0
+    19.00  Flamengo                  v Sport Recife              1-0
+    21.30  Atlético Mineiro          v Santos                    1-0
+
+» Sun May/15
+    00.00  Coritiba                  v Cruzeiro                  1-0
+    14.00  Santa Cruz                v Vitória                   4-1
+    14.00  Botafogo                  v São Paulo                 0-1
+    19.00  Figueirense               v Ponte Preta               0-0
+    19.00  Corinthians               v Grêmio                    0-0
+    19.00  América Mineiro           v Fluminense                0-1
+    21.30  Internacional             v Chapecoense               0-0
+
+» Sat May/21
+    19.00  Ponte Preta               v Palmeiras                 2-1
+    21.30  Fluminense                v Santa Cruz                2-2
+
+» Sun May/22
+    00.00  Cruzeiro                  v Figueirense               2-2
+    14.00  Santos                    v Coritiba                  2-1
+    14.00  Athletico                 v Atlético Mineiro          1-1
+    19.00  Vitória                   v Corinthians               3-2
+    19.00  São Paulo                 v Internacional             1-2
+    19.00  Grêmio                    v Flamengo                  1-0
+    19.00  Chapecoense               v América Mineiro           3-1
+    21.30  Sport Recife              v Botafogo                  1-1
+
+» Wed May/25
+    22.30  Figueirense               v Santos                    2-2
+    22.30  Botafogo                  v Athletico                 2-1
+
+» Thu May/26
+    00.00  Flamengo                  v Chapecoense               2-2
+    00.00  América Mineiro           v Vitória                   1-1
+    00.45  Santa Cruz                v Cruzeiro                  4-1
+    00.45  Palmeiras                 v Fluminense                2-0
+    00.45  Coritiba                  v São Paulo                 1-1
+    14.00  Corinthians               v Ponte Preta               3-0
+    19.00  Internacional             v Sport Recife              1-0
+
+» Fri May/27
+    00.00  Atlético Mineiro          v Grêmio                    0-3
+
+» Sat May/28
+    19.00  Cruzeiro                  v América Mineiro           1-1
+    21.30  Athletico                 v Figueirense               2-1
+
+» Sun May/29
+    00.00  Chapecoense               v Santa Cruz                1-1
+    14.00  Sport Recife              v Corinthians               0-2
+    14.00  Ponte Preta               v Flamengo                  1-2
+    19.00  Vitória                   v Atlético Mineiro          1-1
+    19.00  São Paulo                 v Palmeiras                 1-0
+    19.00  Fluminense                v Botafogo                  1-0
+    21.30  Santos                    v Internacional             0-1
+    21.30  Grêmio                    v Coritiba                  2-0
+
+» Wed Jun/1
+    22.30  Internacional             v Athletico                 1-0
+
+» Thu Jun/2
+    00.00  Santa Cruz                v Sport Recife              0-1
+    00.00  Coritiba                  v Chapecoense               3-4
+    00.00  Corinthians               v Santos                    1-0
+    00.45  Figueirense               v São Paulo                 1-0
+    00.45  Botafogo                  v Cruzeiro                  0-1
+    00.45  Atlético Mineiro          v Fluminense                1-1
+    22.30  América Mineiro           v Ponte Preta               1-2
+
+» Fri Jun/3
+    00.00  Palmeiras                 v Grêmio                    4-3
+    00.00  Flamengo                  v Vitória                   1-0
+
+» Sat Jun/4
+    19.00  Athletico                 v Santa Cruz                1-0
+    23.30  Corinthians               v Coritiba                  2-1
+    23.30  Chapecoense               v Fluminense                0-0
+
+» Sun Jun/5
+    14.00  Santos                    v Botafogo                  3-0
+    14.00  América Mineiro           v Figueirense               1-0
+    19.00  Vitória                   v Internacional             1-0
+    19.00  Sport Recife              v Atlético Mineiro          4-4
+    19.00  Grêmio                    v Ponte Preta               1-0
+    19.00  Flamengo                  v Palmeiras                 1-2
+    21.30  Cruzeiro                  v São Paulo                 0-1
+
+» Sat Jun/11
+    19.00  Ponte Preta               v Chapecoense               2-1
+    19.00  Internacional             v América Mineiro           3-1
+    21.30  Fluminense                v Grêmio                    1-1
+
+» Sun Jun/12
+    00.00  São Paulo                 v Athletico                 1-2
+    14.00  Coritiba                  v Sport Recife              3-2
+    14.00  Botafogo                  v Vitória                   1-1
+    19.00  Palmeiras                 v Corinthians               1-0
+    19.00  Figueirense               v Flamengo                  1-0
+    19.00  Atlético Mineiro          v Cruzeiro                  2-3
+    22.00  Santa Cruz                v Santos                    0-2
+
+» Wed Jun/15
+    22.30  São Paulo                 v Vitória                   2-0
+    22.30  Ponte Preta               v Athletico                 3-2
+    22.30  Chapecoense               v Grêmio                    3-3
+
+» Thu Jun/16
+    00.00  Santos                    v Sport Recife              2-0
+    00.00  Santa Cruz                v Figueirense               1-0
+    00.00  Botafogo                  v América Mineiro           3-1
+    00.45  Cruzeiro                  v Flamengo                  0-1
+    00.45  Coritiba                  v Palmeiras                 2-2
+    22.30  Internacional             v Atlético Mineiro          2-0
+    23.00  Fluminense                v Corinthians               1-0
+
+» Sat Jun/18
+    19.00  Palmeiras                 v Santa Cruz                3-1
+    21.00  Athletico                 v Santos                    1-0
+
+» Sun Jun/19
+    00.00  América Mineiro           v Coritiba                  2-1
+    14.00  Vitória                   v Chapecoense               1-2
+    14.00  Atlético Mineiro          v Ponte Preta               3-0
+    19.00  Sport Recife              v Fluminense                2-1
+    19.00  Flamengo                  v São Paulo                 2-2
+    19.00  Figueirense               v Internacional             3-2
+    19.00  Corinthians               v Botafogo                  3-1
+    22.00  Grêmio                    v Cruzeiro                  2-0
+
+» Wed Jun/22
+    00.30  Palmeiras                 v América Mineiro           2-0
+    22.30  Ponte Preta               v Cruzeiro                  0-4
+    22.30  Chapecoense               v Athletico                 0-0
+
+» Thu Jun/23
+    00.00  Santa Cruz                v Flamengo                  0-1
+    00.00  Botafogo                  v Figueirense               0-0
+    00.45  Fluminense                v Santos                    2-4
+    00.45  Atlético Mineiro          v Corinthians               2-1
+    22.15  Grêmio                    v Vitória                   1-2
+
+» Fri Jun/24
+    00.00  São Paulo                 v Sport Recife              0-0
+    00.30  Coritiba                  v Internacional             1-1
+
+» Sat Jun/25
+    22.00  Cruzeiro                  v Palmeiras                 2-1
+
+» Sun Jun/26
+    00.00  Corinthians               v Santa Cruz                2-1
+    14.00  América Mineiro           v Atlético Mineiro          0-1
+    19.00  Vitória                   v Ponte Preta               1-1
+    19.00  Santos                    v São Paulo                 3-0
+    19.00  Internacional             v Botafogo                  2-3
+    19.00  Flamengo                  v Fluminense                1-2
+    19.00  Athletico                 v Grêmio                    2-0
+    21.30  Sport Recife              v Chapecoense               5-1
+    21.30  Figueirense               v Coritiba                  0-0
+
+» Wed Jun/29
+    22.30  Vitória                   v Sport Recife              3-2
+    22.30  Grêmio                    v Santos                    3-2
+    22.30  Flamengo                  v Internacional             1-0
+
+» Thu Jun/30
+    00.00  Coritiba                  v Athletico                 1-0
+    00.00  Chapecoense               v Cruzeiro                  3-2
+    00.45  São Paulo                 v Fluminense                2-1
+    00.45  América Mineiro           v Corinthians               0-2
+    22.30  Santa Cruz                v Ponte Preta               0-3
+    22.30  Palmeiras                 v Figueirense               4-0
+
+» Fri Jul/1
+    00.00  Atlético Mineiro          v Botafogo                  5-3
+
+» Sat Jul/2
+    19.00  Fluminense                v Coritiba                  0-0
+    21.30  Athletico                 v América Mineiro           1-0
+
+» Sun Jul/3
+    14.00  Internacional             v Grêmio                    0-1
+    14.00  Cruzeiro                  v Vitória                   2-2
+    19.00  Santos                    v Chapecoense               3-0
+    19.00  Ponte Preta               v São Paulo                 1-0
+    19.00  Corinthians               v Flamengo                  4-0
+    19.00  Botafogo                  v Santa Cruz                2-1
+    22.00  Figueirense               v Atlético Mineiro          1-1
+
+» Mon Jul/4
+    23.00  Sport Recife              v Palmeiras                 1-3
+
+» Sat Jul/9
+    19.30  Coritiba                  v Botafogo                  0-0
+    19.30  Chapecoense               v Corinthians               0-2
+
+» Sun Jul/10
+    00.00  Ponte Preta               v Sport Recife              2-1
+    14.00  Grêmio                    v Figueirense               2-1
+    14.00  Flamengo                  v Atlético Mineiro          2-0
+    19.00  São Paulo                 v América Mineiro           3-0
+    19.00  Santa Cruz                v Internacional             1-0
+    22.30  Vitória                   v Fluminense                0-0
+
+» Mon Jul/11
+    23.00  Cruzeiro                  v Athletico                 0-3
+
+» Tue Jul/12
+    23.30  Palmeiras                 v Santos                    1-1
+
+» Sat Jul/16
+    19.00  Botafogo                  v Flamengo                  3-3
+    21.30  Santos                    v Ponte Preta               3-1
+
+» Sun Jul/17
+    14.00  América Mineiro           v Santa Cruz                0-3
+    19.00  Internacional             v Palmeiras                 0-1
+    19.00  Fluminense                v Cruzeiro                  2-0
+    19.00  Figueirense               v Chapecoense               1-1
+    19.00  Corinthians               v São Paulo                 1-1
+    19.00  Athletico                 v Vitória                   1-1
+    21.30  Sport Recife              v Grêmio                    4-2
+
+» Mon Jul/18
+    23.00  Atlético Mineiro          v Coritiba                  2-1
+
+» Sat Jul/23
+    19.00  Corinthians               v Figueirense               1-1
+    21.30  Santa Cruz                v Coritiba                  0-1
+
+» Sun Jul/24
+    14.00  Ponte Preta               v Internacional             2-2
+    14.00  Palmeiras                 v Atlético Mineiro          0-1
+    19.00  Grêmio                    v São Paulo                 1-0
+    19.00  Cruzeiro                  v Sport Recife              1-2
+    19.00  Chapecoense               v Botafogo                  2-1
+    19.00  Athletico                 v Fluminense                1-0
+    21.30  Vitória                   v Santos                    2-3
+
+» Mon Jul/25
+    23.00  Flamengo                  v América Mineiro           2-1
+
+» Sat Jul/30
+    21.30  Sport Recife              v Athletico                 2-0
+    21.30  Figueirense               v Vitória                   1-0
+
+» Sun Jul/31
+    00.00  Atlético Mineiro          v Santa Cruz                3-0
+    14.00  São Paulo                 v Chapecoense               2-2
+    14.00  Fluminense                v Ponte Preta               3-0
+    19.00  Santos                    v Cruzeiro                  2-0
+    19.00  Internacional             v Corinthians               0-1
+    19.00  Coritiba                  v Flamengo                  0-2
+    21.30  Botafogo                  v Palmeiras                 3-1
+    21.30  América Mineiro           v Grêmio                    0-0
+
+» Wed Aug/3
+    22.30  Vitória                   v Coritiba                  3-1
+    22.30  Sport Recife              v América Mineiro           1-1
+
+» Thu Aug/4
+    00.45  Santos                    v Flamengo                  0-0
+    00.45  Athletico                 v Corinthians               2-0
+    22.15  Ponte Preta               v Botafogo                  2-0
+    22.30  São Paulo                 v Atlético Mineiro          1-2
+    22.30  Grêmio                    v Santa Cruz                0-0
+
+» Fri Aug/5
+    00.00  Cruzeiro                  v Internacional             4-2
+    00.30  Chapecoense               v Palmeiras                 1-1
+
+» Sat Aug/6
+    21.30  Flamengo                  v Athletico                 1-0
+
+» Sun Aug/7
+    14.00  América Mineiro           v Santos                    1-0
+    19.00  Palmeiras                 v Vitória                   2-1
+    19.00  Coritiba                  v Ponte Preta               3-1
+    19.15  Santa Cruz                v São Paulo                 1-2
+    19.15  Internacional             v Fluminense                2-2
+    21.30  Figueirense               v Sport Recife              1-1
+
+» Mon Aug/8
+    23.00  Atlético Mineiro          v Chapecoense               3-1
+
+» Tue Aug/9
+    00.00  Corinthians               v Cruzeiro                  1-1
+
+» Sat Aug/13
+    19.00  Sport Recife              v Flamengo                  1-0
+    21.30  Ponte Preta               v Figueirense               2-0
+
+» Sun Aug/14
+    14.00  Grêmio                    v Corinthians               3-0
+    14.00  Fluminense                v América Mineiro           1-0
+    19.00  Vitória                   v Santa Cruz                2-2
+    19.00  Santos                    v Atlético Mineiro          3-0
+    19.00  Cruzeiro                  v Coritiba                  2-2
+    19.15  São Paulo                 v Botafogo                  0-1
+    21.30  Athletico                 v Palmeiras                 0-1
+
+» Mon Aug/15
+    23.00  Chapecoense               v Internacional             1-0
+
+» Sat Aug/20
+    00.30  América Mineiro           v Chapecoense               1-2
+
+» Sun Aug/21
+    00.00  Botafogo                  v Sport Recife              3-0
+    14.00  Flamengo                  v Grêmio                    2-1
+    14.00  Atlético Mineiro          v Athletico                 1-0
+    19.00  Santa Cruz                v Fluminense                0-1
+    19.00  Palmeiras                 v Ponte Preta               2-2
+    19.00  Internacional             v São Paulo                 1-1
+    21.00  Coritiba                  v Santos                    2-1
+    21.30  Figueirense               v Cruzeiro                  1-2
+
+» Mon Aug/22
+    23.00  Corinthians               v Vitória                   2-1
+
+» Sat Aug/27
+    19.00  Ponte Preta               v Corinthians               2-0
+
+» Sun Aug/28
+    14.00  Santos                    v Figueirense               0-1
+    14.00  Cruzeiro                  v Santa Cruz                2-0
+    19.00  São Paulo                 v Coritiba                  0-0
+    19.00  Grêmio                    v Atlético Mineiro          1-1
+    19.00  Fluminense                v Palmeiras                 0-2
+    19.00  Chapecoense               v Flamengo                  1-3
+    21.30  Vitória                   v América Mineiro           2-1
+    21.30  Sport Recife              v Internacional             1-1
+
+» Mon Aug/29
+    23.00  Athletico                 v Botafogo                  1-0
+
+» Sat Sep/3
+    19.00  Fluminense                v Figueirense               3-2
+
+» Sun Sep/4
+    19.00  Botafogo                  v Grêmio                    2-1
+
+» Wed Sep/7
+    19.00  Santa Cruz                v Chapecoense               2-2
+    19.00  Figueirense               v Athletico                 1-0
+    19.00  Botafogo                  v Fluminense                1-0
+    22.30  Atlético Mineiro          v Vitória                   2-1
+
+» Thu Sep/8
+    00.45  Palmeiras                 v São Paulo                 2-1
+    00.45  Flamengo                  v Ponte Preta               2-1
+    00.45  Coritiba                  v Grêmio                    4-0
+    22.30  Corinthians               v Sport Recife              3-0
+
+» Fri Sep/9
+    00.00  Internacional             v Santos                    2-1
+    00.00  América Mineiro           v Cruzeiro                  0-2
+
+» Sat Sep/10
+    21.30  Vitória                   v Flamengo                  1-2
+
+» Sun Sep/11
+    14.00  São Paulo                 v Figueirense               3-1
+    14.00  Chapecoense               v Coritiba                  1-0
+    19.00  Sport Recife              v Santa Cruz                5-3
+    19.00  Santos                    v Corinthians               2-1
+    19.00  Cruzeiro                  v Botafogo                  0-2
+    19.00  Athletico                 v Internacional             2-1
+    21.30  Ponte Preta               v América Mineiro           1-1
+    21.30  Grêmio                    v Palmeiras                 0-0
+
+» Mon Sep/12
+    23.00  Fluminense                v Atlético Mineiro          4-2
+
+» Wed Sep/14
+    22.30  Figueirense               v América Mineiro           2-2
+    22.30  Botafogo                  v Santos                    0-1
+
+» Thu Sep/15
+    00.00  Santa Cruz                v Athletico                 1-0
+    00.00  Ponte Preta               v Grêmio                    3-0
+    00.45  Palmeiras                 v Flamengo                  1-1
+    00.45  Coritiba                  v Corinthians               1-1
+    22.30  Fluminense                v Chapecoense               1-2
+    22.30  Atlético Mineiro          v Sport Recife              1-0
+
+» Fri Sep/16
+    00.00  São Paulo                 v Cruzeiro                  1-0
+    00.00  Internacional             v Vitória                   0-1
+
+» Sat Sep/17
+    19.00  Corinthians               v Palmeiras                 0-2
+
+» Sun Sep/18
+    14.00  Flamengo                  v Figueirense               2-0
+    19.00  Sport Recife              v Coritiba                  0-1
+    19.00  Grêmio                    v Fluminense                0-1
+    19.00  Cruzeiro                  v Atlético Mineiro          1-1
+    19.00  Chapecoense               v Ponte Preta               2-2
+    19.00  Athletico                 v São Paulo                 1-0
+    21.30  Vitória                   v Botafogo                  0-1
+    21.30  Santos                    v Santa Cruz                3-2
+
+» Mon Sep/19
+    23.00  América Mineiro           v Internacional             1-0
+
+» Sat Sep/24
+    19.00  Palmeiras                 v Coritiba                  2-1
+    21.30  Sport Recife              v Santos                    1-0
+
+» Sun Sep/25
+    00.00  América Mineiro           v Botafogo                  1-0
+    14.00  Figueirense               v Santa Cruz                3-1
+    14.00  Athletico                 v Ponte Preta               3-0
+    19.00  Vitória                   v São Paulo                 2-0
+    19.00  Grêmio                    v Chapecoense               1-0
+    19.00  Flamengo                  v Cruzeiro                  2-1
+    19.00  Corinthians               v Fluminense                0-1
+    21.30  Atlético Mineiro          v Internacional             3-1
+
+» Sat Oct/1
+    14.00  Fluminense                v Sport Recife              3-1
+    19.00  São Paulo                 v Flamengo                  0-0
+    19.00  Santos                    v Athletico                 2-0
+    19.00  Chapecoense               v Vitória                   1-4
+    19.30  Ponte Preta               v Atlético Mineiro          1-2
+    19.30  Botafogo                  v Corinthians               2-0
+    21.30  Cruzeiro                  v Grêmio                    1-0
+
+» Sun Oct/2
+    00.00  Internacional             v Figueirense               1-0
+
+» Mon Oct/3
+    23.00  Santa Cruz                v Palmeiras                 2-3
+
+» Tue Oct/4
+    00.00  Coritiba                  v América Mineiro           3-0
+
+» Wed Oct/5
+    22.30  Vitória                   v Grêmio                    0-1
+    22.30  Athletico                 v Chapecoense               3-1
+
+» Thu Oct/6
+    00.00  Santos                    v Fluminense                2-1
+    00.00  Corinthians               v Atlético Mineiro          0-0
+    00.45  Sport Recife              v São Paulo                 1-1
+    22.30  Internacional             v Coritiba                  1-0
+
+» Sun Oct/9
+    00.00  Cruzeiro                  v Ponte Preta               2-0
+    20.00  Flamengo                  v Santa Cruz                3-0
+    20.00  Figueirense               v Botafogo                  0-1
+    20.00  América Mineiro           v Palmeiras                 0-2
+
+» Wed Oct/12
+    14.00  Chapecoense               v Sport Recife              3-0
+    22.30  Coritiba                  v Figueirense               0-0
+
+» Thu Oct/13
+    00.45  Santa Cruz                v Corinthians               2-4
+    00.45  Botafogo                  v Internacional             1-0
+    22.30  Ponte Preta               v Vitória                   2-0
+    22.30  Palmeiras                 v Cruzeiro                  0-0
+    22.30  Atlético Mineiro          v América Mineiro           3-0
+
+» Fri Oct/14
+    00.00  São Paulo                 v Santos                    0-1
+    00.00  Grêmio                    v Athletico                 1-0
+    00.00  Fluminense                v Flamengo                  1-2
+
+» Sun Oct/16
+    19.00  Internacional             v Flamengo                  2-1
+    19.00  Figueirense               v Palmeiras                 1-2
+    19.00  Cruzeiro                  v Chapecoense               0-0
+    19.00  Botafogo                  v Atlético Mineiro          3-2
+    19.00  Athletico                 v Coritiba                  2-0
+    20.30  Ponte Preta               v Santa Cruz                3-0
+    20.30  Corinthians               v América Mineiro           2-0
+    21.30  Sport Recife              v Vitória                   1-0
+    21.30  Santos                    v Grêmio                    1-1
+
+» Mon Oct/17
+    22.00  Fluminense                v São Paulo                 1-2
+
+» Wed Oct/19
+    23.45  Santa Cruz                v Botafogo                  0-1
+
+» Sat Oct/22
+    19.00  São Paulo                 v Ponte Preta               2-0
+
+» Sun Oct/23
+    19.00  Vitória                   v Cruzeiro                  0-1
+    19.00  Palmeiras                 v Sport Recife              2-1
+    19.00  Grêmio                    v Internacional             0-0
+    19.00  Flamengo                  v Corinthians               2-2
+    20.30  Coritiba                  v Fluminense                1-1
+    21.30  Chapecoense               v Santos                    0-1
+    21.30  Atlético Mineiro          v Figueirense               3-0
+
+» Mon Oct/24
+    22.00  América Mineiro           v Athletico                 1-0
+
+» Thu Oct/27
+    22.30  Sport Recife              v Ponte Preta               1-0
+
+» Fri Oct/28
+    21.30  Fluminense                v Vitória                   2-2
+
+» Sat Oct/29
+    18.30  Corinthians               v Chapecoense               1-1
+    18.30  Atlético Mineiro          v Flamengo                  2-2
+    18.30  Athletico                 v Cruzeiro                  1-0
+    20.30  Internacional             v Santa Cruz                1-1
+    20.30  Botafogo                  v Coritiba                  0-0
+    21.30  Santos                    v Palmeiras                 1-0
+    21.30  Figueirense               v Grêmio                    0-0
+
+» Mon Oct/31
+    22.00  América Mineiro           v São Paulo                 1-0
+
+» Sat Nov/5
+    19.00  Flamengo                  v Botafogo                  0-0
+    21.30  São Paulo                 v Corinthians               4-0
+
+» Sun Nov/6
+    13.00  Ponte Preta               v Santos                    1-2
+    19.00  Vitória                   v Athletico                 3-2
+    19.00  Santa Cruz                v América Mineiro           1-0
+    19.00  Palmeiras                 v Internacional             1-0
+    19.00  Cruzeiro                  v Fluminense                4-2
+    21.30  Coritiba                  v Atlético Mineiro          2-0
+    21.30  Chapecoense               v Figueirense               1-0
+
+» Mon Nov/7
+    22.00  Grêmio                    v Sport Recife              0-3
+
+» Tue Nov/15
+    19.00  Fluminense                v Athletico                 1-1
+
+» Wed Nov/16
+    21.30  Botafogo                  v Chapecoense               0-2
+    23.00  Coritiba                  v Santa Cruz                1-0
+    23.45  Sport Recife              v Cruzeiro                  0-1
+    23.45  Figueirense               v Corinthians               1-1
+    23.45  América Mineiro           v Flamengo                  0-1
+
+» Thu Nov/17
+    21.30  São Paulo                 v Grêmio                    1-1
+    21.30  Santos                    v Vitória                   3-2
+    23.00  Internacional             v Ponte Preta               1-1
+    23.00  Atlético Mineiro          v Palmeiras                 1-1
+
+» Sun Nov/20
+    19.00  Vitória                   v Figueirense               4-0
+    19.00  Ponte Preta               v Fluminense                1-0
+    19.00  Palmeiras                 v Botafogo                  1-0
+    19.00  Grêmio                    v América Mineiro           3-0
+    19.00  Cruzeiro                  v Santos                    2-2
+    19.00  Athletico                 v Sport Recife              2-0
+    21.30  Santa Cruz                v Atlético Mineiro          3-3
+    21.30  Flamengo                  v Coritiba                  2-2
+    21.30  Chapecoense               v São Paulo                 2-0
+
+» Mon Nov/21
+    22.00  Corinthians               v Internacional             1-0
+
+» Sat Nov/26
+    22.00  Botafogo                  v Ponte Preta               1-1
+    22.00  América Mineiro           v Sport Recife              2-2
+    23.00  Corinthians               v Athletico                 0-0
+
+» Sun Nov/27
+    19.00  Palmeiras                 v Chapecoense               1-0
+    19.00  Internacional             v Cruzeiro                  1-0
+    19.00  Flamengo                  v Santos                    2-0
+    19.00  Atlético Mineiro          v São Paulo                 1-2
+    21.30  Santa Cruz                v Grêmio                    5-1
+    21.30  Figueirense               v Fluminense                1-0
+
+» Mon Nov/28
+    22.00  Coritiba                  v Vitória                   0-1
+
+» Sun Dec/4
+    19.00  Chapecoense               v Atlético Mineiro          None-None
+
+» Sun Dec/11
+    19.00  Vitória                   v Palmeiras                 1-2
+    19.00  São Paulo                 v Santa Cruz                5-0
+    19.00  Sport Recife              v Figueirense               2-0
+    19.00  Santos                    v América Mineiro           1-0
+    19.00  Ponte Preta               v Coritiba                  2-0
+    19.00  Grêmio                    v Botafogo                  0-1
+    19.00  Fluminense                v Internacional             1-1
+    19.00  Cruzeiro                  v Corinthians               3-2
+    19.00  Chapecoense               v Atlético Mineiro          None-None
+    19.00  Athletico                 v Flamengo                  0-0

@@ -23,7 +23,8 @@ def download_logos():
     teams = Team.objects.filter(api_id__startswith='sofa_')
     
     # Base directory for static logos
-    base_dir = os.path.join(os.path.dirname(__file__), 'matches', 'static', 'teams')
+    # Base directory for static logos, assuming this script is in the project root
+    base_dir = os.path.join(os.path.dirname(__file__), 'static', 'teams')
     
     downloaded = 0
     skipped = 0

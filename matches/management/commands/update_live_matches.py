@@ -133,8 +133,8 @@ class Command(BaseCommand):
                             # Filtra apenas jogos que realmente pertencem a esse país/liga (api_manager retorna tudo se ids forem genéricos)
                             filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
                             
-                            # PROTEÇÃO SOFASCORE: Ignorar França, Áustria e Austrália de receberem atualizações LIVE da API-Football (conflito de nomes)
-                            filtered_fixtures = [f for f in filtered_fixtures if lg['name'] not in ['Ligue 1', 'Bundesliga', 'A-League']]
+                            # PROTEÇÃO SOFASCORE: Ignorar França, Áustria, Austrália e Brasil de receberem atualizações LIVE da API-Football (conflito de nomes)
+                            filtered_fixtures = [f for f in filtered_fixtures if lg['name'] not in ['Ligue 1', 'Bundesliga', 'A-League', 'Brasileirão']]
                             
                             if filtered_fixtures:
                                 self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")

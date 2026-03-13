@@ -1,0 +1,610 @@
+= Brasil | Brasileirao 2017
+
+# Date       Sat May/13 2017 - Sun Dec/3 2017 (204d)
+# Teams      20
+# Matches    381
+# Stages     Regular Season (381)
+
+
+
+
+» Sat May/13
+    19.00  Flamengo                  v Atlético Mineiro          1-1
+    22.00  Corinthians               v Chapecoense               1-1
+
+» Sun May/14
+    14.00  Fluminense                v Santos                    3-2
+    19.00  Ponte Preta               v Sport Recife              4-0
+    19.00  Palmeiras                 v Vasco da Gama             4-0
+    19.00  Cruzeiro                  v São Paulo                 1-0
+    19.00  Bahia                     v Athletico                 6-2
+    19.00  Avai                      v Vitória                   0-0
+    22.00  Grêmio                    v Botafogo                  2-0
+
+» Mon May/15
+    23.00  Coritiba                  v Atlético Goianiense       4-1
+
+» Sat May/20
+    19.00  Santos                    v Coritiba                  1-0
+    22.00  Chapecoense               v Palmeiras                 1-0
+    22.00  Atlético Goianiense       v Flamengo                  0-3
+
+» Sun May/21
+    14.00  Vasco da Gama             v Bahia                     2-1
+    19.00  Vitória                   v Corinthians               0-1
+    19.00  Atlético Mineiro          v Fluminense                1-2
+    19.00  Athletico                 v Grêmio                    0-2
+    21.00  Botafogo                  v Ponte Preta               2-0
+    22.00  Sport Recife              v Cruzeiro                  1-1
+
+» Mon May/22
+    23.00  São Paulo                 v Avai                      2-0
+
+» Sat May/27
+    19.00  Vasco da Gama             v Fluminense                3-2
+    22.00  São Paulo                 v Palmeiras                 2-0
+
+» Sun May/28
+    00.00  Vitória                   v Coritiba                  0-1
+    14.00  Atlético Mineiro          v Ponte Preta               2-2
+    19.00  Santos                    v Cruzeiro                  0-1
+    19.00  Atlético Goianiense       v Corinthians               0-1
+    19.00  Athletico                 v Flamengo                  1-1
+    21.00  Sport Recife              v Grêmio                    4-3
+    22.00  Botafogo                  v Bahia                     1-0
+
+» Mon May/29
+    23.00  Chapecoense               v Avai                      2-0
+
+» Sat Jun/3
+    19.00  Coritiba                  v Athletico                 1-0
+    21.00  Fluminense                v Vitória                   2-1
+    22.00  Corinthians               v Santos                    2-0
+
+» Sun Jun/4
+    14.00  Flamengo                  v Botafogo                  0-0
+    14.00  Avai                      v Sport Recife              1-0
+    19.00  Ponte Preta               v São Paulo                 1-0
+    19.00  Palmeiras                 v Atlético Mineiro          0-0
+    19.00  Grêmio                    v Vasco da Gama             2-0
+    22.00  Cruzeiro                  v Chapecoense               0-2
+
+» Mon Jun/5
+    23.00  Bahia                     v Atlético Goianiense       3-0
+
+» Tue Jun/6
+    23.00  Fluminense                v Athletico                 1-1
+
+» Wed Jun/7
+    22.30  Coritiba                  v Palmeiras                 1-0
+    22.30  Atlético Mineiro          v Avai                      1-0
+
+» Thu Jun/8
+    00.00  Santos                    v Botafogo                  1-0
+    00.45  Vasco da Gama             v Corinthians               2-5
+    00.45  Sport Recife              v Flamengo                  2-0
+    22.30  São Paulo                 v Vitória                   2-0
+    22.30  Atlético Goianiense       v Ponte Preta               3-0
+    23.00  Chapecoense               v Grêmio                    3-6
+
+» Fri Jun/9
+    00.00  Bahia                     v Cruzeiro                  1-0
+
+» Sat Jun/10
+    19.00  Palmeiras                 v Fluminense                3-1
+    22.00  Vasco da Gama             v Sport Recife              2-1
+
+» Sun Jun/11
+    14.00  Botafogo                  v Coritiba                  2-2
+    19.00  Vitória                   v Atlético Mineiro          2-0
+    19.00  Ponte Preta               v Chapecoense               3-2
+    19.00  Corinthians               v São Paulo                 3-2
+    19.00  Avai                      v Flamengo                  1-1
+    21.30  Cruzeiro                  v Atlético Goianiense       2-0
+    22.00  Athletico                 v Santos                    0-2
+
+» Mon Jun/12
+    23.00  Grêmio                    v Bahia                     1-0
+
+» Wed Jun/14
+    22.30  Vitória                   v Botafogo                  2-2
+    22.30  Sport Recife              v São Paulo                 0-0
+    22.30  Atlético Mineiro          v Athletico                 0-1
+    22.30  Atlético Goianiense       v Avai                      3-1
+
+» Thu Jun/15
+    00.00  Flamengo                  v Ponte Preta               2-0
+    00.45  Santos                    v Palmeiras                 1-0
+    00.45  Corinthians               v Cruzeiro                  1-0
+    00.45  Chapecoense               v Vasco da Gama             2-1
+    19.00  Coritiba                  v Bahia                     0-0
+
+» Fri Jun/16
+    00.00  Fluminense                v Grêmio                    0-2
+
+» Sat Jun/17
+    19.00  Atlético Goianiense       v Athletico                 0-1
+    22.00  Vasco da Gama             v Avai                      1-0
+
+» Sun Jun/18
+    00.00  Santos                    v Ponte Preta               0-0
+    14.00  Coritiba                  v Corinthians               0-0
+    19.00  São Paulo                 v Atlético Mineiro          1-2
+    19.00  Fluminense                v Flamengo                  2-2
+    19.00  Chapecoense               v Botafogo                  0-2
+    19.00  Bahia                     v Palmeiras                 2-4
+    22.00  Sport Recife              v Vitória                   1-3
+
+» Mon Jun/19
+    23.00  Cruzeiro                  v Grêmio                    3-3
+
+» Wed Jun/21
+    22.30  Vitória                   v Santos                    0-2
+
+» Thu Jun/22
+    00.00  Palmeiras                 v Atlético Goianiense       1-0
+    00.00  Botafogo                  v Vasco da Gama             3-1
+    00.45  Avai                      v Fluminense                0-3
+    00.45  Atlético Mineiro          v Sport Recife              2-2
+    00.45  Athletico                 v São Paulo                 1-0
+    22.30  Ponte Preta               v Cruzeiro                  1-0
+    22.30  Corinthians               v Bahia                     3-0
+
+» Fri Jun/23
+    00.00  Grêmio                    v Coritiba                  2-0
+    00.00  Flamengo                  v Chapecoense               5-1
+
+» Sat Jun/24
+    22.00  Santos                    v Sport Recife              0-1
+
+» Sun Jun/25
+    14.00  Vasco da Gama             v Atlético Goianiense       1-0
+    19.00  São Paulo                 v Fluminense                1-1
+    19.00  Ponte Preta               v Palmeiras                 1-2
+    19.00  Grêmio                    v Corinthians               0-1
+    19.00  Cruzeiro                  v Coritiba                  2-0
+    19.00  Athletico                 v Vitória                   4-1
+    21.30  Bahia                     v Flamengo                  0-1
+    22.00  Chapecoense               v Atlético Mineiro          0-1
+
+» Mon Jun/26
+    23.00  Botafogo                  v Avai                      0-2
+
+» Sat Jul/1
+    19.00  Palmeiras                 v Grêmio                    1-0
+    22.00  Atlético Goianiense       v Santos                    1-1
+
+» Sun Jul/2
+    19.00  Vitória                   v Bahia                     0-0
+    19.00  Sport Recife              v Athletico                 1-0
+    19.00  Flamengo                  v São Paulo                 2-0
+    19.00  Corinthians               v Botafogo                  1-0
+    19.00  Atlético Mineiro          v Cruzeiro                  3-1
+    22.00  Coritiba                  v Vasco da Gama             2-2
+    22.00  Avai                      v Ponte Preta               0-0
+
+» Mon Jul/3
+    23.00  Fluminense                v Chapecoense               3-3
+
+» Sat Jul/8
+    19.00  Atlético Goianiense       v Vitória                   1-2
+    21.00  Vasco da Gama             v Flamengo                  0-1
+    22.00  Corinthians               v Ponte Preta               2-0
+
+» Sun Jul/9
+    14.00  Chapecoense               v Athletico                 1-1
+    19.00  Grêmio                    v Avai                      0-2
+    19.00  Cruzeiro                  v Palmeiras                 3-1
+    19.00  Bahia                     v Fluminense                1-1
+    22.00  Santos                    v São Paulo                 3-2
+    22.00  Botafogo                  v Atlético Mineiro          1-1
+
+» Mon Jul/10
+    23.00  Coritiba                  v Sport Recife              0-3
+
+» Wed Jul/12
+    22.30  Ponte Preta               v Bahia                     0-3
+    22.30  Atlético Mineiro          v Santos                    0-1
+
+» Thu Jul/13
+    00.00  Fluminense                v Botafogo                  0-1
+    00.45  Vitória                   v Vasco da Gama             1-4
+    00.45  Palmeiras                 v Corinthians               0-2
+    00.45  Athletico                 v Cruzeiro                  0-2
+    22.30  São Paulo                 v Atlético Goianiense       2-2
+    22.30  Sport Recife              v Chapecoense               3-0
+    22.30  Flamengo                  v Grêmio                    0-1
+
+» Fri Jul/14
+    00.00  Avai                      v Coritiba                  1-4
+
+» Sat Jul/15
+    22.00  Corinthians               v Athletico                 2-2
+
+» Sun Jul/16
+    14.00  Palmeiras                 v Vitória                   4-2
+    19.00  Vasco da Gama             v Santos                    0-0
+    19.00  Grêmio                    v Ponte Preta               3-1
+    19.00  Cruzeiro                  v Flamengo                  1-1
+    19.00  Chapecoense               v São Paulo                 2-0
+    19.00  Atlético Goianiense       v Atlético Mineiro          1-2
+    22.00  Coritiba                  v Fluminense                1-2
+    22.00  Bahia                     v Avai                      1-1
+
+» Mon Jul/17
+    23.00  Botafogo                  v Sport Recife              2-1
+
+» Wed Jul/19
+    22.30  Vitória                   v Grêmio                    1-3
+    22.30  Santos                    v Chapecoense               1-0
+
+» Thu Jul/20
+    00.00  Ponte Preta               v Coritiba                  4-0
+    00.00  Avai                      v Corinthians               0-0
+    00.45  São Paulo                 v Vasco da Gama             1-0
+    00.45  Flamengo                  v Palmeiras                 2-2
+    00.45  Atlético Mineiro          v Bahia                     0-2
+    22.30  Fluminense                v Cruzeiro                  1-1
+    23.00  Sport Recife              v Atlético Goianiense       4-0
+
+» Fri Jul/21
+    00.00  Athletico                 v Botafogo                  0-0
+
+» Sat Jul/22
+    19.00  Vitória                   v Chapecoense               1-2
+    22.00  Flamengo                  v Coritiba                  2-1
+
+» Sun Jul/23
+    14.00  Santos                    v Bahia                     3-0
+    19.00  Sport Recife              v Palmeiras                 0-2
+    19.00  Fluminense                v Corinthians               0-1
+    19.00  Avai                      v Cruzeiro                  1-0
+    22.00  Atlético Mineiro          v Vasco da Gama             1-2
+    22.00  Atlético Goianiense       v Botafogo                  1-1
+    22.00  Athletico                 v Ponte Preta               0-2
+
+» Mon Jul/24
+    23.00  São Paulo                 v Grêmio                    1-1
+
+» Sat Jul/29
+    19.00  Botafogo                  v São Paulo                 3-4
+    22.00  Palmeiras                 v Avai                      2-0
+
+» Sun Jul/30
+    14.00  Chapecoense               v Atlético Goianiense       1-2
+    19.00  Ponte Preta               v Fluminense                None-None
+    19.00  Coritiba                  v Atlético Mineiro          0-2
+    19.00  Corinthians               v Flamengo                  1-1
+    19.00  Bahia                     v Sport Recife              1-3
+    22.00  Grêmio                    v Santos                    1-1
+    22.00  Cruzeiro                  v Vitória                   0-0
+
+» Mon Jul/31
+    23.00  Vasco da Gama             v Athletico                 0-1
+
+» Wed Aug/2
+    22.30  Sport Recife              v Fluminense                2-2
+    22.30  Chapecoense               v Bahia                     1-1
+
+» Thu Aug/3
+    00.00  Vitória                   v Ponte Preta               3-1
+    00.00  Atlético Mineiro          v Corinthians               0-2
+    00.45  Santos                    v Flamengo                  3-2
+    00.45  Botafogo                  v Palmeiras                 1-2
+    00.45  Atlético Goianiense       v Grêmio                    0-1
+    22.30  São Paulo                 v Coritiba                  1-2
+    22.30  Athletico                 v Avai                      5-0
+    23.00  Vasco da Gama             v Cruzeiro                  0-3
+
+» Sat Aug/5
+    22.00  Fluminense                v Atlético Goianiense       3-1
+    22.00  Corinthians               v Sport Recife              3-1
+
+» Sun Aug/6
+    14.00  Flamengo                  v Vitória                   0-2
+    19.00  Palmeiras                 v Athletico                 0-1
+    19.00  Grêmio                    v Atlético Mineiro          2-0
+    19.00  Cruzeiro                  v Botafogo                  0-0
+    19.00  Coritiba                  v Chapecoense               2-0
+    19.00  Bahia                     v São Paulo                 2-1
+    22.00  Ponte Preta               v Vasco da Gama             0-0
+    22.00  Avai                      v Santos                    0-0
+
+» Wed Aug/9
+    23.00  Ponte Preta               v Fluminense                0-0
+
+» Sat Aug/12
+    19.00  Atlético Goianiense       v Coritiba                  1-0
+    22.00  Vitória                   v Avai                      0-1
+
+» Sun Aug/13
+    14.00  São Paulo                 v Cruzeiro                  3-2
+    19.00  Vasco da Gama             v Palmeiras                 1-1
+    19.00  Sport Recife              v Ponte Preta               0-0
+    19.00  Atlético Mineiro          v Flamengo                  2-0
+    22.00  Botafogo                  v Grêmio                    1-0
+    22.00  Athletico                 v Bahia                     4-1
+
+» Mon Aug/14
+    23.00  Santos                    v Fluminense                0-0
+
+» Sat Aug/19
+    19.00  Corinthians               v Vitória                   0-1
+    22.00  Flamengo                  v Atlético Goianiense       2-0
+
+» Sun Aug/20
+    14.00  Grêmio                    v Athletico                 0-0
+    19.00  Ponte Preta               v Botafogo                  2-1
+    19.00  Cruzeiro                  v Sport Recife              2-0
+    19.00  Bahia                     v Vasco da Gama             3-0
+    19.00  Avai                      v São Paulo                 1-1
+    22.00  Palmeiras                 v Chapecoense               0-2
+    22.00  Coritiba                  v Santos                    0-0
+
+» Mon Aug/21
+    23.00  Fluminense                v Atlético Mineiro          2-1
+
+» Wed Aug/23
+    22.30  Chapecoense               v Corinthians               0-1
+
+» Sat Aug/26
+    19.00  Fluminense                v Vasco da Gama             0-1
+    22.00  Corinthians               v Atlético Goianiense       0-1
+
+» Sun Aug/27
+    19.00  Ponte Preta               v Atlético Mineiro          1-2
+    19.00  Palmeiras                 v São Paulo                 4-2
+    19.00  Flamengo                  v Athletico                 2-0
+    19.00  Bahia                     v Botafogo                  1-2
+    22.00  Cruzeiro                  v Santos                    1-1
+    22.00  Avai                      v Chapecoense               1-0
+
+» Mon Aug/28
+    23.00  Coritiba                  v Vitória                   0-1
+
+» Sat Sep/2
+    19.00  Grêmio                    v Sport Recife              5-0
+
+» Sat Sep/9
+    19.00  Atlético Mineiro          v Palmeiras                 1-1
+    21.00  Vasco da Gama             v Grêmio                    1-0
+    22.00  São Paulo                 v Ponte Preta               2-2
+
+» Sun Sep/10
+    14.00  Athletico                 v Coritiba                  1-1
+    19.00  Vitória                   v Fluminense                2-2
+    19.00  Sport Recife              v Avai                      0-1
+    19.00  Santos                    v Corinthians               2-0
+    22.00  Chapecoense               v Cruzeiro                  1-2
+    22.00  Botafogo                  v Flamengo                  2-0
+
+» Mon Sep/11
+    23.00  Atlético Goianiense       v Bahia                     1-1
+
+» Sat Sep/16
+    22.00  Botafogo                  v Santos                    2-0
+
+» Sun Sep/17
+    00.00  Ponte Preta               v Atlético Goianiense       1-3
+    14.00  Avai                      v Atlético Mineiro          1-1
+    19.00  Vitória                   v São Paulo                 1-2
+    19.00  Grêmio                    v Chapecoense               0-1
+    19.00  Flamengo                  v Sport Recife              2-0
+    19.00  Corinthians               v Vasco da Gama             1-0
+    19.00  Athletico                 v Fluminense                3-1
+    22.00  Cruzeiro                  v Bahia                     1-0
+
+» Mon Sep/18
+    23.00  Palmeiras                 v Coritiba                  1-0
+
+» Sat Sep/23
+    22.00  Flamengo                  v Avai                      1-1
+
+» Sun Sep/24
+    00.00  Santos                    v Athletico                 1-0
+    14.00  São Paulo                 v Corinthians               1-1
+    19.00  Fluminense                v Palmeiras                 0-1
+    19.00  Coritiba                  v Botafogo                  2-3
+    19.00  Chapecoense               v Ponte Preta               1-0
+    19.00  Atlético Goianiense       v Cruzeiro                  1-2
+    22.00  Bahia                     v Grêmio                    1-0
+    22.00  Atlético Mineiro          v Vitória                   1-3
+
+» Mon Sep/25
+    23.00  Sport Recife              v Vasco da Gama             1-1
+
+» Sat Sep/30
+    19.00  Vasco da Gama             v Chapecoense               1-1
+    19.00  Bahia                     v Coritiba                  1-1
+    22.00  Palmeiras                 v Santos                    0-1
+
+» Sun Oct/1
+    19.00  São Paulo                 v Sport Recife              1-0
+    19.00  Grêmio                    v Fluminense                1-0
+    19.00  Cruzeiro                  v Corinthians               1-1
+    19.00  Botafogo                  v Vitória                   2-3
+    19.00  Avai                      v Atlético Goianiense       0-2
+    22.00  Athletico                 v Atlético Mineiro          0-2
+
+» Mon Oct/2
+    23.00  Ponte Preta               v Flamengo                  1-0
+
+» Sat Oct/7
+    19.00  Cruzeiro                  v Ponte Preta               2-1
+
+» Wed Oct/11
+    22.30  Botafogo                  v Chapecoense               2-1
+    22.30  Athletico                 v Atlético Goianiense       2-2
+
+» Thu Oct/12
+    00.00  Corinthians               v Coritiba                  3-1
+    00.45  Grêmio                    v Cruzeiro                  0-1
+    00.45  Avai                      v Vasco da Gama             1-2
+    00.45  Atlético Mineiro          v São Paulo                 1-0
+    20.00  Vitória                   v Sport Recife              1-2
+    20.00  Ponte Preta               v Santos                    1-1
+    20.00  Flamengo                  v Fluminense                1-1
+
+» Fri Oct/13
+    00.00  Palmeiras                 v Bahia                     2-2
+
+» Sat Oct/14
+    22.00  Vasco da Gama             v Botafogo                  1-0
+
+» Sun Oct/15
+    00.00  São Paulo                 v Athletico                 2-1
+    19.00  Sport Recife              v Atlético Mineiro          1-1
+    19.00  Fluminense                v Avai                      1-0
+    19.00  Chapecoense               v Flamengo                  0-1
+    19.00  Atlético Goianiense       v Palmeiras                 1-3
+    21.00  Coritiba                  v Grêmio                    0-1
+    21.00  Bahia                     v Corinthians               2-0
+
+» Mon Oct/16
+    22.00  Santos                    v Vitória                   2-2
+
+» Wed Oct/18
+    21.30  Coritiba                  v Cruzeiro                  1-0
+    21.30  Atlético Goianiense       v Vasco da Gama             0-1
+    23.00  Atlético Mineiro          v Chapecoense               2-3
+    23.45  Fluminense                v São Paulo                 3-1
+    23.45  Corinthians               v Grêmio                    0-0
+    23.45  Avai                      v Botafogo                  1-1
+
+» Thu Oct/19
+    22.00  Vitória                   v Athletico                 2-3
+    22.00  Palmeiras                 v Ponte Preta               2-0
+    23.00  Sport Recife              v Santos                    1-1
+    23.00  Flamengo                  v Bahia                     4-1
+
+» Sat Oct/21
+    19.00  Vasco da Gama             v Coritiba                  1-1
+
+» Sun Oct/22
+    19.00  São Paulo                 v Flamengo                  2-0
+    19.00  Santos                    v Atlético Goianiense       1-0
+    19.00  Grêmio                    v Palmeiras                 1-3
+    19.00  Cruzeiro                  v Atlético Mineiro          1-3
+    19.00  Bahia                     v Vitória                   2-1
+    19.00  Athletico                 v Sport Recife              2-1
+    21.00  Ponte Preta               v Avai                      1-2
+    21.00  Chapecoense               v Fluminense                2-0
+
+» Mon Oct/23
+    22.00  Botafogo                  v Corinthians               2-1
+
+» Sat Oct/28
+    19.00  São Paulo                 v Santos                    2-1
+    21.00  Flamengo                  v Vasco da Gama             0-0
+    23.00  Athletico                 v Chapecoense               0-0
+
+» Sun Oct/29
+    19.00  Ponte Preta               v Corinthians               1-0
+    19.00  Fluminense                v Bahia                     1-1
+    19.00  Atlético Mineiro          v Botafogo                  0-0
+    20.00  Vitória                   v Atlético Goianiense       1-1
+    20.00  Sport Recife              v Coritiba                  3-4
+    21.00  Avai                      v Grêmio                    2-2
+
+» Mon Oct/30
+    22.00  Palmeiras                 v Cruzeiro                  2-2
+
+» Sat Nov/4
+    19.00  Santos                    v Atlético Mineiro          3-1
+    21.00  Botafogo                  v Fluminense                1-2
+    21.00  Atlético Goianiense       v São Paulo                 0-1
+    23.00  Coritiba                  v Avai                      4-0
+
+» Sun Nov/5
+    19.00  Grêmio                    v Flamengo                  3-1
+    19.00  Cruzeiro                  v Athletico                 1-0
+    19.00  Corinthians               v Palmeiras                 3-2
+    20.00  Bahia                     v Ponte Preta               2-0
+    21.00  Vasco da Gama             v Vitória                   1-1
+    21.00  Chapecoense               v Sport Recife              1-1
+
+» Wed Nov/8
+    21.30  Ponte Preta               v Grêmio                    0-1
+    21.30  Avai                      v Bahia                     1-2
+    23.00  Sport Recife              v Botafogo                  1-2
+    23.00  Athletico                 v Corinthians               0-1
+    23.45  Vitória                   v Palmeiras                 3-1
+    23.45  Santos                    v Vasco da Gama             1-2
+    23.45  Flamengo                  v Cruzeiro                  2-0
+
+» Thu Nov/9
+    22.00  São Paulo                 v Chapecoense               2-2
+    22.00  Atlético Mineiro          v Atlético Goianiense       3-2
+    23.00  Fluminense                v Coritiba                  2-2
+
+» Sat Nov/11
+    19.00  Botafogo                  v Athletico                 0-1
+    21.00  Corinthians               v Avai                      1-0
+
+» Sun Nov/12
+    19.00  Vasco da Gama             v São Paulo                 1-1
+    19.00  Palmeiras                 v Flamengo                  2-0
+    19.00  Grêmio                    v Vitória                   1-1
+    19.00  Atlético Goianiense       v Sport Recife              2-0
+    20.00  Bahia                     v Atlético Mineiro          2-2
+    21.00  Cruzeiro                  v Fluminense                3-1
+    21.00  Coritiba                  v Ponte Preta               1-1
+
+» Mon Nov/13
+    22.00  Chapecoense               v Santos                    2-0
+
+» Wed Nov/15
+    19.00  Ponte Preta               v Athletico                 2-1
+    21.30  Grêmio                    v São Paulo                 1-0
+    21.30  Cruzeiro                  v Avai                      2-2
+    23.45  Vasco da Gama             v Atlético Mineiro          1-1
+    23.45  Corinthians               v Fluminense                3-1
+
+» Thu Nov/16
+    22.00  Palmeiras                 v Sport Recife              5-1
+    22.00  Chapecoense               v Vitória                   2-1
+    22.00  Botafogo                  v Atlético Goianiense       1-2
+    23.00  Coritiba                  v Flamengo                  1-0
+    23.00  Bahia                     v Santos                    3-1
+
+» Sun Nov/19
+    19.00  Vitória                   v Cruzeiro                  1-1
+    19.00  São Paulo                 v Botafogo                  0-0
+    19.00  Sport Recife              v Bahia                     1-0
+    19.00  Flamengo                  v Corinthians               3-0
+    19.00  Atlético Goianiense       v Chapecoense               1-1
+    21.00  Santos                    v Grêmio                    1-0
+    21.00  Atlético Mineiro          v Coritiba                  3-0
+    21.00  Athletico                 v Vasco da Gama             3-1
+
+» Mon Nov/20
+    19.00  Fluminense                v Ponte Preta               2-0
+    22.00  Avai                      v Palmeiras                 2-1
+
+» Sat Nov/25
+    19.00  Fluminense                v Sport Recife              1-2
+
+» Sun Nov/26
+    19.00  Ponte Preta               v Vitória                   2-3
+    19.00  Grêmio                    v Atlético Goianiense       1-1
+    19.00  Cruzeiro                  v Vasco da Gama             0-1
+    19.00  Coritiba                  v São Paulo                 1-2
+    19.00  Corinthians               v Atlético Mineiro          2-2
+    19.00  Avai                      v Athletico                 1-0
+    21.00  Flamengo                  v Santos                    1-2
+    21.00  Bahia                     v Chapecoense               0-1
+
+» Mon Nov/27
+    22.00  Palmeiras                 v Botafogo                  2-0
+
+» Sun Dec/3
+    19.00  Vitória                   v Flamengo                  1-2
+    19.00  Vasco da Gama             v Ponte Preta               2-1
+    19.00  São Paulo                 v Bahia                     1-1
+    19.00  Sport Recife              v Corinthians               1-0
+    19.00  Santos                    v Avai                      1-1
+    19.00  Chapecoense               v Coritiba                  2-1
+    19.00  Botafogo                  v Cruzeiro                  2-2
+    19.00  Atlético Mineiro          v Grêmio                    4-3
+    19.00  Atlético Goianiense       v Fluminense                1-1
+    19.00  Athletico                 v Palmeiras                 3-0

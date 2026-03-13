@@ -16,10 +16,26 @@ def fetch_api(session, url):
         print(f"Exceção ao acessar {url}: {e}")
         return None
 
+def fetch_seasons(session, tournament_id):
+    url = f"https://api.sofascore.com/api/v1/unique-tournament/{tournament_id}/seasons"
+    data = fetch_api(session, url)
+    if not data:
+        return []
+    seasons = data.get("seasons", [])
+    def to_int(v):
+        try:
+            return int(v)
+        except Exception:
+            return 0
+    seasons_sorted = sorted(seasons, key=lambda s: to_int(s.get("year")), reverse=True)
+    return seasons_sorted
+
 def main():
     parser = argparse.ArgumentParser(description="Busca payloads do SofaScore e salva em payload.json")
     parser.add_argument('--tournament', type=int, required=True, help="ID do Torneio (ex: 136 para A-League)")
-    parser.add_argument('--season', type=int, required=True, help="ID da Temporada (ex: 82603)")
+    parser.add_argument('--season', type=int, required=False, help="ID da Temporada (ex: 82603)")
+    parser.add_argument('--list-seasons', action='store_true', help="Lista os Season IDs disponíveis para o torneio informado")
+    parser.add_argument('--min-year', type=int, default=2016, help="Filtro mínimo de ano para --list-seasons (default: 2016)")
     args = parser.parse_args()
 
     session = requests.Session(impersonate="chrome110")
@@ -29,6 +45,22 @@ def main():
         "Origin": "https://www.sofascore.com",
         "Referer": "https://www.sofascore.com/"
     })
+
+    if args.list_seasons:
+        seasons = fetch_seasons(session, args.tournament)
+        if not seasons:
+            print("Nenhuma season encontrada (ou falha na API).")
+            return
+        def season_year(s):
+            try:
+                return int(s.get("year"))
+            except Exception:
+                return 0
+        print(json.dumps(seasons, indent=2, ensure_ascii=False))
+        return
+
+    if not args.season:
+        raise SystemExit("Você deve fornecer --season (ou usar --list-seasons).")
 
     print(f"Iniciando raspagem crua para Torneio {args.tournament}, Temporada {args.season}...")
 

@@ -20,11 +20,12 @@ class Command(BaseCommand):
             'db_name': 'Liga Profesional',
             'country': 'Argentina'
         },
-        'soccer_brazil_campeonato': {
-            'env_key': 'ODDS_API_KEY_BRAZIL_UPCOMING',
-            'db_name': 'Brasileirão',
-            'country': 'Brasil'
-        },
+        # REMOVIDO PARA SOFASCORE:
+        # 'soccer_brazil_campeonato': {
+        #     'env_key': 'ODDS_API_KEY_BRAZIL_UPCOMING',
+        #     'db_name': 'Brasileirão',
+        #     'country': 'Brasil'
+        # },
         'soccer_epl': {
             'env_key': 'ODDS_API_KEY_ENGLAND_UPCOMING',
             'db_name': 'Premier League',

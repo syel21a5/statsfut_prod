@@ -1,0 +1,603 @@
+= Brasil | Brasileirao 2023
+
+# Date       Sat Apr/15 2023 - Thu Dec/7 2023 (235d)
+# Teams      20
+# Matches    380
+# Stages     Regular Season (380)
+
+
+
+
+» Sat Apr/15
+    19.00  Palmeiras                 v Cuiaba                    2-1
+    19.00  América Mineiro           v Fluminense                0-3
+    21.30  Red Bull Bragantino       v Bahia                     2-1
+    21.30  Fortaleza                 v Internacional             1-1
+    21.30  Botafogo                  v São Paulo                 2-1
+    21.30  Athletico                 v Goias                     2-0
+
+» Sun Apr/16
+    00.00  Atlético Mineiro          v Vasco da Gama             1-2
+    19.00  Flamengo                  v Coritiba                  3-0
+    19.00  Corinthians               v Cruzeiro                  2-1
+    21.30  Grêmio                    v Santos                    1-0
+
+» Sat Apr/22
+    19.00  Fluminense                v Athletico                 2-0
+    21.30  São Paulo                 v América Mineiro           3-0
+    21.30  Cuiaba                    v Red Bull Bragantino       1-1
+
+» Sun Apr/23
+    00.00  Cruzeiro                  v Grêmio                    1-0
+    14.00  Internacional             v Flamengo                  2-1
+    19.00  Vasco da Gama             v Palmeiras                 2-2
+    19.00  Santos                    v Atlético Mineiro          0-0
+    21.30  Coritiba                  v Fortaleza                 0-3
+    22.00  Goias                     v Corinthians               3-1
+
+» Mon Apr/24
+    23.00  Bahia                     v Botafogo                  1-2
+
+» Sat Apr/29
+    19.30  Fortaleza                 v Fluminense                4-2
+    19.30  Coritiba                  v São Paulo                 1-1
+    21.30  Santos                    v América Mineiro           3-2
+    21.30  Red Bull Bragantino       v Cruzeiro                  0-3
+    21.30  Palmeiras                 v Corinthians               2-1
+
+» Sun Apr/30
+    00.00  Atlético Mineiro          v Athletico                 2-1
+    19.00  Flamengo                  v Botafogo                  2-3
+    21.30  Internacional             v Goias                     1-0
+    21.30  Cuiaba                    v Grêmio                    1-2
+
+» Mon May/1
+    23.00  Vasco da Gama             v Bahia                     0-1
+
+» Sat May/6
+    19.00  Cruzeiro                  v Santos                    2-1
+
+» Sun May/7
+    00.00  Fluminense                v Vasco da Gama             1-1
+    14.00  América Mineiro           v Cuiaba                    1-2
+    19.00  São Paulo                 v Internacional             2-0
+    19.00  Bahia                     v Coritiba                  3-1
+    19.00  Athletico                 v Flamengo                  2-1
+    21.30  Grêmio                    v Red Bull Bragantino       3-3
+    21.30  Goias                     v Palmeiras                 0-5
+    21.30  Botafogo                  v Atlético Mineiro          2-0
+
+» Mon May/8
+    23.00  Corinthians               v Fortaleza                 1-1
+
+» Wed May/10
+    22.00  Santos                    v Bahia                     3-0
+    22.00  Red Bull Bragantino       v América Mineiro           2-2
+    22.00  Internacional             v Athletico                 0-2
+    23.00  Flamengo                  v Goias                     2-0
+    23.00  Cuiaba                    v Atlético Mineiro          0-4
+
+» Thu May/11
+    00.30  Palmeiras                 v Grêmio                    4-1
+    00.30  Cruzeiro                  v Fluminense                0-2
+    22.00  Coritiba                  v Vasco da Gama             1-1
+    22.30  Botafogo                  v Corinthians               3-0
+    23.00  Fortaleza                 v São Paulo                 0-0
+
+» Sat May/13
+    19.00  Bahia                     v Flamengo                  2-3
+    21.30  Palmeiras                 v Red Bull Bragantino       1-1
+    21.30  Fluminense                v Cuiaba                    2-0
+
+» Sun May/14
+    00.00  Atlético Mineiro          v Internacional             2-0
+    19.00  Vasco da Gama             v Santos                    0-1
+    19.00  Grêmio                    v Fortaleza                 0-0
+    19.00  Corinthians               v São Paulo                 1-1
+    21.30  Goias                     v Botafogo                  2-1
+    21.30  Athletico                 v Coritiba                  3-2
+    21.30  América Mineiro           v Cruzeiro                  0-4
+
+» Sat May/20
+    19.00  Bahia                     v Goias                     1-1
+    21.30  São Paulo                 v Vasco da Gama             4-2
+    21.30  Red Bull Bragantino       v Athletico                 2-0
+    21.30  Coritiba                  v Atlético Mineiro          1-2
+    21.30  Botafogo                  v Fluminense                1-0
+    21.30  América Mineiro           v Fortaleza                 2-1
+
+» Sun May/21
+    00.00  Santos                    v Palmeiras                 0-0
+    19.00  Flamengo                  v Corinthians               1-0
+    21.30  Grêmio                    v Internacional             3-1
+
+» Mon May/22
+    23.00  Cruzeiro                  v Cuiaba                    0-1
+
+» Sat May/27
+    19.00  Fortaleza                 v Vasco da Gama             2-0
+    19.00  Athletico                 v Grêmio                    1-2
+    21.30  Flamengo                  v Cruzeiro                  1-1
+    21.30  Cuiaba                    v Coritiba                  1-1
+
+» Sun May/28
+    00.00  São Paulo                 v Goias                     2-1
+    19.00  Internacional             v Bahia                     2-0
+    19.00  Corinthians               v Fluminense                2-0
+    21.30  Red Bull Bragantino       v Santos                    2-0
+    21.30  Atlético Mineiro          v Palmeiras                 1-1
+    22.00  Botafogo                  v América Mineiro           2-0
+
+» Sat Jun/3
+    19.00  Fortaleza                 v Bahia                     0-0
+    21.30  Cruzeiro                  v Atlético Mineiro          0-1
+    21.30  Athletico                 v Botafogo                  1-0
+    21.30  América Mineiro           v Corinthians               2-0
+
+» Sun Jun/4
+    00.00  Santos                    v Internacional             1-1
+    19.00  Grêmio                    v São Paulo                 2-1
+    19.00  Fluminense                v Red Bull Bragantino       2-1
+    21.30  Palmeiras                 v Coritiba                  3-1
+    21.30  Goias                     v Cuiaba                    0-1
+
+» Mon Jun/5
+    23.00  Vasco da Gama             v Flamengo                  1-4
+
+» Sat Jun/10
+    19.00  Coritiba                  v Santos                    0-0
+    21.30  Corinthians               v Cuiaba                    1-1
+    21.30  Bahia                     v Cruzeiro                  2-2
+    21.30  Atlético Mineiro          v Red Bull Bragantino       1-1
+
+» Sun Jun/11
+    00.00  Botafogo                  v Fortaleza                 2-0
+    14.00  América Mineiro           v Athletico                 2-2
+    19.00  São Paulo                 v Palmeiras                 0-2
+    19.00  Internacional             v Vasco da Gama             2-1
+    21.30  Goias                     v Fluminense                2-2
+    21.30  Flamengo                  v Grêmio                    3-0
+
+» Wed Jun/21
+    22.00  São Paulo                 v Athletico                 2-1
+    22.00  Cruzeiro                  v Fortaleza                 0-1
+    23.00  Santos                    v Corinthians               0-2
+
+» Thu Jun/22
+    00.30  Fluminense                v Atlético Mineiro          1-1
+    00.30  Bahia                     v Palmeiras                 1-0
+    22.00  Grêmio                    v América Mineiro           3-1
+    23.00  Vasco da Gama             v Goias                     0-1
+    23.00  Cuiaba                    v Botafogo                  0-1
+    23.00  Coritiba                  v Internacional             0-1
+
+» Fri Jun/23
+    00.30  Red Bull Bragantino       v Flamengo                  4-0
+
+» Sat Jun/24
+    19.00  Athletico                 v Corinthians               1-0
+    21.30  Fortaleza                 v Atlético Mineiro          2-1
+    21.30  Fluminense                v Bahia                     2-1
+
+» Sun Jun/25
+    00.00  Cruzeiro                  v São Paulo                 1-0
+    19.00  Palmeiras                 v Botafogo                  0-1
+    19.00  Grêmio                    v Coritiba                  5-1
+    21.30  Santos                    v Flamengo                  2-3
+    21.30  Red Bull Bragantino       v Goias                     2-0
+    21.30  América Mineiro           v Internacional             1-2
+
+» Tue Jun/27
+    00.00  Vasco da Gama             v Cuiaba                    1-0
+
+» Sat Jul/1
+    19.00  São Paulo                 v Fluminense                1-0
+    21.30  Flamengo                  v Fortaleza                 2-0
+    21.30  Bahia                     v Grêmio                    1-2
+
+» Sun Jul/2
+    00.00  Internacional             v Cruzeiro                  0-0
+    14.00  Corinthians               v Red Bull Bragantino       0-1
+    19.00  Botafogo                  v Vasco da Gama             2-0
+    19.00  Atlético Mineiro          v América Mineiro           2-2
+    19.00  Athletico                 v Palmeiras                 2-2
+    21.30  Cuiaba                    v Santos                    3-0
+
+» Mon Jul/3
+    23.00  Goias                     v Coritiba                  1-2
+
+» Sat Jul/8
+    19.00  Vasco da Gama             v Cruzeiro                  0-1
+    19.00  Cuiaba                    v Bahia                     1-1
+    21.30  Coritiba                  v América Mineiro           3-1
+    21.30  Atlético Mineiro          v Corinthians               0-1
+
+» Sun Jul/9
+    00.00  Palmeiras                 v Flamengo                  1-1
+    14.00  Santos                    v Goias                     4-3
+    19.00  Red Bull Bragantino       v São Paulo                 0-0
+    19.00  Fluminense                v Internacional             2-0
+    21.30  Grêmio                    v Botafogo                  0-2
+    21.30  Fortaleza                 v Athletico                 1-0
+
+» Sun Jul/16
+    00.00  Botafogo                  v Red Bull Bragantino       2-0
+    14.00  Cruzeiro                  v Coritiba                  0-0
+    19.00  São Paulo                 v Santos                    4-1
+    19.00  Fortaleza                 v Cuiaba                    0-1
+    19.00  Fluminense                v Flamengo                  0-0
+    21.30  Internacional             v Palmeiras                 0-0
+    21.30  Athletico                 v Bahia                     2-0
+
+» Mon Jul/17
+    23.00  Goias                     v Atlético Mineiro          0-0
+
+» Sat Jul/22
+    19.00  Palmeiras                 v Fortaleza                 3-1
+    19.00  Flamengo                  v América Mineiro           1-1
+    21.30  Cuiaba                    v São Paulo                 2-1
+    21.30  Bahia                     v Corinthians               0-0
+
+» Sun Jul/23
+    00.00  Grêmio                    v Atlético Mineiro          1-0
+    19.00  Santos                    v Botafogo                  2-2
+    19.00  Red Bull Bragantino       v Internacional             0-0
+    19.00  Cruzeiro                  v Goias                     0-1
+    21.30  Vasco da Gama             v Athletico                 0-2
+
+» Mon Jul/24
+    22.00  Coritiba                  v Fluminense                2-0
+
+» Sat Jul/29
+    19.00  Internacional             v Cuiaba                    1-2
+    19.00  Fluminense                v Santos                    1-0
+    19.00  Athletico                 v Cruzeiro                  3-3
+    21.30  Fortaleza                 v Red Bull Bragantino       0-3
+    21.30  Corinthians               v Vasco da Gama             3-1
+
+» Sun Jul/30
+    00.00  Atlético Mineiro          v Flamengo                  1-2
+    14.00  São Paulo                 v Bahia                     0-0
+    19.00  Botafogo                  v Coritiba                  4-1
+    19.00  América Mineiro           v Palmeiras                 1-4
+    21.30  Goias                     v Grêmio                    1-1
+
+» Sat Aug/5
+    19.00  Santos                    v Athletico                 1-1
+    21.30  Internacional             v Corinthians               2-2
+    21.30  Goias                     v Fortaleza                 1-0
+
+» Sun Aug/6
+    00.00  Fluminense                v Palmeiras                 2-1
+    19.00  Vasco da Gama             v Grêmio                    1-0
+    19.00  São Paulo                 v Atlético Mineiro          0-2
+    21.30  Cruzeiro                  v Botafogo                  0-0
+    21.30  Coritiba                  v Red Bull Bragantino       0-1
+    21.30  Bahia                     v América Mineiro           3-1
+    23.00  Cuiaba                    v Flamengo                  3-0
+
+» Sun Aug/13
+    00.00  Botafogo                  v Internacional             3-1
+    14.00  Atlético Mineiro          v Bahia                     1-0
+    19.00  Grêmio                    v Fluminense                2-1
+    19.00  Corinthians               v Coritiba                  3-1
+    19.00  América Mineiro           v Goias                     0-1
+    21.30  Fortaleza                 v Santos                    4-0
+    21.30  Flamengo                  v São Paulo                 1-1
+
+» Mon Aug/14
+    22.00  Palmeiras                 v Cruzeiro                  1-0
+
+» Tue Aug/15
+    00.00  Red Bull Bragantino       v Vasco da Gama             1-1
+    23.00  Athletico                 v Cuiaba                    2-0
+
+» Sat Aug/19
+    19.00  São Paulo                 v Botafogo                  0-0
+    19.00  Internacional             v Fortaleza                 0-1
+    21.30  Fluminense                v América Mineiro           3-1
+    21.30  Cuiaba                    v Palmeiras                 0-2
+
+» Sun Aug/20
+    00.00  Cruzeiro                  v Corinthians               1-1
+    14.00  Vasco da Gama             v Atlético Mineiro          1-0
+    19.00  Santos                    v Grêmio                    2-1
+    19.00  Coritiba                  v Flamengo                  2-3
+    19.00  Bahia                     v Red Bull Bragantino       4-0
+
+» Mon Aug/21
+    23.00  Goias                     v Athletico                 1-1
+
+» Sat Aug/26
+    21.30  Flamengo                  v Internacional             0-0
+
+» Sun Aug/27
+    00.00  Corinthians               v Goias                     1-1
+    14.00  Red Bull Bragantino       v Cuiaba                    2-0
+    19.00  Botafogo                  v Bahia                     3-0
+    19.00  Atlético Mineiro          v Santos                    2-0
+    19.00  América Mineiro           v São Paulo                 2-1
+    21.30  Palmeiras                 v Vasco da Gama             1-0
+    21.30  Fortaleza                 v Coritiba                  3-1
+    21.30  Athletico                 v Fluminense                2-2
+    22.00  Grêmio                    v Cruzeiro                  3-0
+
+» Sat Sep/2
+    19.00  Goias                     v Internacional             0-0
+    19.00  Athletico                 v Atlético Mineiro          1-1
+
+» Sun Sep/3
+    00.00  Botafogo                  v Flamengo                  1-2
+    14.00  Grêmio                    v Cuiaba                    2-0
+    19.00  Fluminense                v Fortaleza                 1-0
+    19.00  Corinthians               v Palmeiras                 0-0
+    21.30  Cruzeiro                  v Red Bull Bragantino       0-0
+    21.30  Bahia                     v Vasco da Gama             1-1
+    21.30  América Mineiro           v Santos                    2-0
+
+» Thu Sep/14
+    00.30  Internacional             v São Paulo                 2-1
+    00.30  Flamengo                  v Athletico                 0-3
+    22.00  Santos                    v Cruzeiro                  0-3
+    22.00  Fortaleza                 v Corinthians               2-1
+    23.00  Coritiba                  v Bahia                     2-4
+
+» Fri Sep/15
+    00.30  Red Bull Bragantino       v Grêmio                    2-0
+    23.00  Cuiaba                    v América Mineiro           2-2
+
+» Sat Sep/16
+    00.30  Palmeiras                 v Goias                     1-0
+    19.00  Vasco da Gama             v Fluminense                4-2
+
+» Sun Sep/17
+    00.00  Atlético Mineiro          v Botafogo                  1-0
+
+» Mon Sep/18
+    23.00  Bahia                     v Santos                    1-2
+
+» Tue Sep/19
+    00.00  Corinthians               v Grêmio                    4-4
+
+» Wed Sep/20
+    00.30  América Mineiro           v Red Bull Bragantino       0-2
+    22.00  Goias                     v Flamengo                  0-0
+
+» Thu Sep/21
+    00.30  São Paulo                 v Fortaleza                 1-2
+    00.30  Fluminense                v Cruzeiro                  1-0
+    22.00  Vasco da Gama             v Coritiba                  5-1
+    22.30  Athletico                 v Internacional             2-1
+
+» Fri Sep/22
+    00.30  Grêmio                    v Palmeiras                 1-0
+    23.00  Corinthians               v Botafogo                  1-0
+
+» Sun Sep/24
+    00.00  Atlético Mineiro          v Cuiaba                    1-0
+
+» Mon Sep/25
+    23.00  América Mineiro           v Vasco da Gama             0-1
+
+» Wed Sep/27
+    22.00  São Paulo                 v Coritiba                  2-1
+
+» Sat Sep/30
+    19.00  Fortaleza                 v Grêmio                    1-1
+    19.00  Flamengo                  v Bahia                     1-0
+    21.30  São Paulo                 v Corinthians               2-1
+    21.30  Cuiaba                    v Fluminense                3-0
+
+» Sun Oct/1
+    00.00  Internacional             v Atlético Mineiro          0-2
+    19.00  Santos                    v Vasco da Gama             4-1
+    19.00  Cruzeiro                  v América Mineiro           1-1
+    19.00  Coritiba                  v Athletico                 2-0
+    21.30  Red Bull Bragantino       v Palmeiras                 2-1
+
+» Mon Oct/2
+    23.00  Botafogo                  v Goias                     1-1
+
+» Sat Oct/7
+    19.00  Goias                     v Bahia                     4-6
+    21.30  Vasco da Gama             v São Paulo                 0-0
+
+» Sun Oct/8
+    00.00  Corinthians               v Flamengo                  1-1
+    19.00  Palmeiras                 v Santos                    1-2
+    19.00  Internacional             v Grêmio                    3-2
+    19.00  Fluminense                v Botafogo                  0-2
+    21.30  Fortaleza                 v América Mineiro           3-2
+    21.30  Atlético Mineiro          v Coritiba                  1-2
+    21.30  Athletico                 v Red Bull Bragantino       1-1
+
+» Sun Oct/15
+    00.00  Cuiaba                    v Cruzeiro                  0-0
+
+» Wed Oct/18
+    22.00  Grêmio                    v Athletico                 1-2
+    23.00  Coritiba                  v Cuiaba                    0-3
+    23.00  América Mineiro           v Botafogo                  1-2
+
+» Thu Oct/19
+    00.30  Vasco da Gama             v Fortaleza                 1-0
+    00.30  Goias                     v São Paulo                 2-0
+    00.30  Bahia                     v Internacional             1-0
+    22.00  Palmeiras                 v Atlético Mineiro          0-2
+    22.00  Cruzeiro                  v Flamengo                  0-2
+    23.00  Santos                    v Red Bull Bragantino       1-3
+
+» Fri Oct/20
+    00.30  Fluminense                v Corinthians               3-3
+
+» Sat Oct/21
+    21.30  São Paulo                 v Grêmio                    3-0
+    21.30  Cuiaba                    v Goias                     1-1
+    21.30  Bahia                     v Fortaleza                 2-0
+
+» Sun Oct/22
+    00.00  Botafogo                  v Athletico                 1-1
+    19.00  Internacional             v Santos                    7-1
+    19.00  Flamengo                  v Vasco da Gama             1-0
+    19.00  Atlético Mineiro          v Cruzeiro                  0-1
+    21.30  Red Bull Bragantino       v Fluminense                1-0
+    21.30  Coritiba                  v Palmeiras                 0-2
+    21.30  Corinthians               v América Mineiro           1-1
+
+» Wed Oct/25
+    22.00  Red Bull Bragantino       v Atlético Mineiro          1-2
+    22.00  Fluminense                v Goias                     5-3
+    22.00  Athletico                 v América Mineiro           3-2
+    23.00  Palmeiras                 v São Paulo                 5-0
+    23.00  Cruzeiro                  v Bahia                     3-0
+
+» Thu Oct/26
+    00.30  Grêmio                    v Flamengo                  3-2
+    00.30  Cuiaba                    v Corinthians               0-1
+    22.00  Vasco da Gama             v Internacional             1-2
+
+» Fri Oct/27
+    00.30  Santos                    v Coritiba                  2-1
+
+» Sat Oct/28
+    22.00  Palmeiras                 v Bahia                     1-0
+    22.00  América Mineiro           v Grêmio                    3-4
+
+» Sun Oct/29
+    00.00  Atlético Mineiro          v Fluminense                2-0
+    19.00  Goias                     v Vasco da Gama             1-1
+    19.00  Athletico                 v São Paulo                 1-1
+    21.30  Internacional             v Coritiba                  3-4
+    21.30  Corinthians               v Santos                    1-1
+    23.00  Botafogo                  v Cuiaba                    0-1
+
+» Tue Oct/31
+    22.00  Bahia                     v Fluminense                1-0
+
+» Wed Nov/1
+    22.00  Internacional             v América Mineiro           1-1
+    22.00  Corinthians               v Athletico                 1-0
+    23.00  Flamengo                  v Santos                    1-2
+    23.00  Coritiba                  v Grêmio                    1-2
+
+» Thu Nov/2
+    00.30  Botafogo                  v Palmeiras                 3-4
+    00.30  Atlético Mineiro          v Fortaleza                 3-1
+    20.00  Cuiaba                    v Vasco da Gama             0-2
+    21.00  Goias                     v Red Bull Bragantino       0-2
+    23.00  São Paulo                 v Cruzeiro                  1-0
+
+» Sat Nov/4
+    22.30  Grêmio                    v Bahia                     1-0
+    22.30  América Mineiro           v Atlético Mineiro          1-1
+
+» Sun Nov/5
+    00.30  Palmeiras                 v Athletico                 1-0
+    19.00  Red Bull Bragantino       v Corinthians               1-0
+    19.00  Fortaleza                 v Flamengo                  0-2
+    19.00  Cruzeiro                  v Internacional             1-2
+    21.30  Coritiba                  v Goias                     0-1
+
+» Mon Nov/6
+    22.00  Vasco da Gama             v Botafogo                  1-0
+
+» Tue Nov/7
+    00.00  Santos                    v Cuiaba                    0-0
+
+» Wed Nov/8
+    22.00  Internacional             v Fluminense                0-0
+    22.00  América Mineiro           v Coritiba                  0-3
+    23.00  São Paulo                 v Red Bull Bragantino       1-0
+    23.00  Athletico                 v Fortaleza                 1-1
+
+» Thu Nov/9
+    00.30  Flamengo                  v Palmeiras                 3-0
+    22.00  Goias                     v Santos                    0-1
+    22.00  Corinthians               v Atlético Mineiro          1-1
+    23.00  Botafogo                  v Grêmio                    3-4
+    23.00  Bahia                     v Cuiaba                    0-3
+
+» Sat Nov/11
+    19.00  Coritiba                  v Cruzeiro                  1-0
+    21.30  Flamengo                  v Fluminense                1-1
+
+» Sun Nov/12
+    00.00  Palmeiras                 v Internacional             3-0
+    19.00  Red Bull Bragantino       v Botafogo                  2-2
+    19.00  Grêmio                    v Corinthians               0-1
+    21.30  Vasco da Gama             v América Mineiro           2-1
+    21.30  Santos                    v São Paulo                 0-0
+    21.30  Cuiaba                    v Fortaleza                 2-1
+    21.30  Bahia                     v Athletico                 1-1
+    21.30  Atlético Mineiro          v Goias                     2-1
+
+» Sat Nov/18
+    21.30  Fortaleza                 v Cruzeiro                  0-1
+
+» Wed Nov/22
+    22.00  Cruzeiro                  v Vasco da Gama             2-2
+
+» Thu Nov/23
+    00.30  Fluminense                v São Paulo                 1-0
+    22.00  Fortaleza                 v Botafogo                  2-2
+
+» Fri Nov/24
+    00.30  Flamengo                  v Red Bull Bragantino       1-0
+
+» Sat Nov/25
+    00.00  Corinthians               v Bahia                     1-5
+    22.30  Athletico                 v Vasco da Gama             0-0
+
+» Sun Nov/26
+    00.00  Fluminense                v Coritiba                  2-1
+    19.00  Botafogo                  v Santos                    1-1
+    19.00  Atlético Mineiro          v Grêmio                    3-0
+    21.30  São Paulo                 v Cuiaba                    0-0
+    21.30  Internacional             v Red Bull Bragantino       1-0
+    21.30  Fortaleza                 v Palmeiras                 2-2
+    21.30  América Mineiro           v Flamengo                  0-3
+
+» Tue Nov/28
+    00.00  Goias                     v Cruzeiro                  0-1
+
+» Wed Nov/29
+    00.30  Vasco da Gama             v Corinthians               2-4
+    22.00  Santos                    v Fluminense                0-3
+    22.30  Flamengo                  v Atlético Mineiro          0-3
+    23.00  Cuiaba                    v Internacional             0-2
+    23.00  Bahia                     v São Paulo                 0-1
+
+» Thu Nov/30
+    00.30  Palmeiras                 v América Mineiro           4-0
+    00.30  Coritiba                  v Botafogo                  1-1
+    22.00  Grêmio                    v Goias                     2-1
+    23.00  Cruzeiro                  v Athletico                 1-1
+    23.30  Red Bull Bragantino       v Fortaleza                 1-2
+
+» Sat Dec/2
+    21.00  Corinthians               v Internacional             1-2
+
+» Sun Dec/3
+    00.00  Atlético Mineiro          v São Paulo                 2-1
+    19.00  Palmeiras                 v Fluminense                1-0
+    19.00  Flamengo                  v Cuiaba                    2-1
+    21.30  Red Bull Bragantino       v Coritiba                  1-0
+    21.30  Grêmio                    v Vasco da Gama             1-0
+    21.30  Fortaleza                 v Goias                     1-0
+    21.30  Botafogo                  v Cruzeiro                  0-0
+    21.30  Athletico                 v Santos                    3-0
+    21.30  América Mineiro           v Bahia                     3-2
+
+» Wed Dec/6
+    22.00  Goias                     v América Mineiro           1-0
+
+» Thu Dec/7
+    00.30  Vasco da Gama             v Red Bull Bragantino       2-1
+    00.30  São Paulo                 v Flamengo                  1-0
+    00.30  Santos                    v Fortaleza                 1-2
+    00.30  Internacional             v Botafogo                  3-1
+    00.30  Fluminense                v Grêmio                    2-3
+    00.30  Cuiaba                    v Athletico                 3-0
+    00.30  Cruzeiro                  v Palmeiras                 1-1
+    00.30  Coritiba                  v Corinthians               0-2
+    00.30  Bahia                     v Atlético Mineiro          4-1
