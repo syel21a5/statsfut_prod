@@ -9,9 +9,10 @@ jobs:
   update-belgium:
     runs-on: ubuntu-latest
     env:
-      SSH_KEY: ${{ secrets.PROD_SERVER_SSH_KEY }}
+      SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       SSH_HOST: ${{ secrets.PROD_SERVER_HOST }}
-      SSH_USER: ${{ secrets.PROD_SERVER_USER }}
+      SSH_USER: root
+      PROD_PATH: ${{ secrets.PROD_SERVER_PATH }}
     steps:
       - name: Checkout statsfut
         uses: actions/checkout@v3
@@ -30,9 +31,10 @@ jobs:
 
       - name: Run Remote Update
         run: |
-          ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-            cd /www/wwwroot/statsfut.com
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+            cd $PROD_PATH
             source venv/bin/activate
+            git pull origin main
             # Pro League Belgium: Tournament 38, Season 77040 (2025/26)
             python proxy_sofascore_fetcher.py --tournament 38 --season 77040
             python manage.py import_sofascore_payload --file payload.json --league_name "Pro League" --country "Belgica" --season_year 2026

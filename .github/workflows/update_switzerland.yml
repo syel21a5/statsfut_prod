@@ -9,9 +9,10 @@ jobs:
   update-switzerland:
     runs-on: ubuntu-latest
     env:
-      SSH_KEY: ${{ secrets.PROD_SERVER_SSH_KEY }}
+      SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       SSH_HOST: ${{ secrets.PROD_SERVER_HOST }}
-      SSH_USER: ${{ secrets.PROD_SERVER_USER }}
+      SSH_USER: root
+      PROD_PATH: ${{ secrets.PROD_SERVER_PATH }}
     steps:
       - name: Checkout statsfut
         uses: actions/checkout@v3
@@ -30,12 +31,13 @@ jobs:
 
       - name: Run Remote Update
         run: |
-          ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-            cd /var/www/statsfut
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << 'EOF'
+            cd $PROD_PATH
             source venv/bin/activate
+            git pull origin main
             # Super League Switzerland: Tournament 215, Season 77152
             python proxy_sofascore_fetcher.py --tournament 215 --season 77152
-            python manage.py import_sofascore_payload --file payload.json --league_id 42 --season_year 2026
-            python manage.py recalculate_standings --league_name "Super League" --country "Suica" --season_year 2026
-            python manage.py clear_cache
+            python manage.py import_sofascore_payload --file payload.json --league_name "Super League" --country "Suica" --season_year 2026
+            python manage.py recalculate_standings --league_name "Super League" --country "Suica" --season_year 2026 --smart
+            python manage.py shell -c "from django.core.cache import cache; cache.clear()"
           EOF
