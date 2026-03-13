@@ -15,8 +15,8 @@ def repair_database():
 
     # 1. Mapeamento de Correção de Nomes e API IDs (DB Name -> Sofa Name)
     mappings = {
-        # SUIÇA (42)
-        42: {
+        # SUIÇA
+        "Suica": {
             "Young Boys": "BSC Young Boys",
             "Basel": "Basel",
             "Lugano": "FC Lugano",
@@ -31,8 +31,8 @@ def repair_database():
             "Thun": "FC Thun",
             "Yverdon": "Yverdon-Sport",
         },
-        # BÉLGICA (32)
-        32: {
+        # BÉLGICA
+        "Belgica": {
             "Anderlecht": "RSC Anderlecht",
             "Antwerp": "Royal Antwerp FC",
             "Cercle Brugge": "Cercle Brugge",
@@ -54,8 +54,8 @@ def repair_database():
             "Kortrijk": "KV Kortrijk",
             "Beerschot": "Beerschot VA",
         },
-        # BRASIL (130)
-        130: {
+        # BRASIL
+        "Brasil": {
             "Athletico-PR": "Athletico",
             "Botafogo-RJ": "Botafogo",
             "Red Bull Bragantino": "Red Bull Bragantino",
@@ -85,12 +85,12 @@ def repair_database():
 
     print("\n--- PASSO 1: Padronizando Nomes dos Times ---")
     with transaction.atomic():
-        for league_id, name_map in mappings.items():
+        for country_key, name_map in mappings.items():
             for old_name, new_name in name_map.items():
-                teams = Team.objects.filter(league_id=league_id, name=old_name)
-                for team in teams:
-                    if old_name != new_name:
-                        print(f"Renomeando: '{old_name}' -> '{new_name}' (Liga {league_id})")
+                if old_name != new_name:
+                    teams = Team.objects.filter(league__country__icontains=country_key, name=old_name)
+                    for team in teams:
+                        print(f"Renomeando: '{old_name}' -> '{new_name}' (Liga {team.league.name} ID {team.league_id})")
                         team.name = new_name
                         team.save()
 
