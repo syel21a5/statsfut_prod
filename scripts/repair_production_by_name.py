@@ -98,7 +98,7 @@ def repair_by_name():
             # Filtramos por país para evitar conflitos (ex: "Vasco" no Brasil)
             teams = Team.objects.filter(
                 models.Q(name__icontains=name_query),
-                models.Q(league__country__icontains=country) | models.Q(country__icontains=country)
+                models.Q(league__country__icontains=country)
             ).distinct()
 
             if teams.count() == 0:
