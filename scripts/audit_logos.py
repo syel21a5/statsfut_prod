@@ -43,8 +43,8 @@ def audit_logos():
                 country_missing += 1 # type: ignore
                 continue
                 
-            country_slug = slugify(team.league.country)
-            league_slug = slugify(team.league.name)
+            country_slug = slugify(team.league.country) # type: ignore
+            league_slug = slugify(team.league.name) # type: ignore
             
             file_path = os.path.join(static_dir, 'teams', country_slug, league_slug, f"{team.api_id}.png")
             

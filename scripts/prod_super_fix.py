@@ -38,20 +38,20 @@ def super_fix():
                     garbage.append(b)
         
         if official:
-            print(f" >> OFICIAL DEFINIDO: {official.name} (ID: {official.id})")
-            official.name = "Red Bull Bragantino"
-            official.api_id = "sofa_1999"
-            official.save()
+            print(f" >> OFICIAL DEFINIDO: {official.name} (ID: {official.id})") # type: ignore
+            official.name = "Red Bull Bragantino" # type: ignore
+            official.api_id = "sofa_1999" # type: ignore
+            official.save() # type: ignore
             
             for g in garbage:
-                print(f" >> Removendo duplicado: {g.name} (ID: {g.id})")
+                print(f" >> Removendo duplicado: {g.name} (ID: {g.id})") # type: ignore
                 # Transferir jogos que por acaso estejam no duplicado
-                Match.objects.filter(home_team=g).update(home_team=official)
-                Match.objects.filter(away_team=g).update(away_team=official)
+                Match.objects.filter(home_team=g).update(home_team=official) # type: ignore
+                Match.objects.filter(away_team=g).update(away_team=official) # type: ignore
                 # Remover das classificações
-                LeagueStanding.objects.filter(team=g).delete()
+                LeagueStanding.objects.filter(team=g).delete() # type: ignore
                 # Deletar o time fantasma
-                g.delete()
+                g.delete() # type: ignore
     else:
         print(" -> Nenhum duplicado de Bragantino detectado.")
 
@@ -115,10 +115,10 @@ def super_fix():
                     conflict.api_id = None
                     conflict.save()
                 
-                t.api_id = fixed_id
-                t.save()
-                print(f" ✓ {t.name} -> {t.api_id}")
-                updated += 1
+                t.api_id = fixed_id # type: ignore
+                t.save() # type: ignore
+                print(f" ✓ {t.name} -> {t.api_id}") # type: ignore
+                updated += 1 # type: ignore
             else:
                 print(f" ? Time não mapeado: {t.name}")
         

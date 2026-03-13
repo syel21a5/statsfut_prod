@@ -20,9 +20,9 @@ def find_orphans():
         if not teams.exists(): 
             continue
         
-        country_slug = slugify(teams[0].league.country)
-        league_slug = slugify(teams[0].league.name)
-        folder = os.path.join(static_dir, 'teams', country_slug, league_slug)
+        country_slug = slugify(teams[0].league.country) # type: ignore
+        league_slug = slugify(teams[0].league.name) # type: ignore
+        folder = os.path.join(static_dir, 'teams', country_slug, league_slug) # type: ignore
         
         if not os.path.exists(folder): 
             print(f"[{country.upper()}] Pasta não encontrada: {folder}")
