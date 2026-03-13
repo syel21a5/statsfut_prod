@@ -177,6 +177,13 @@ def repair_database():
         for t_name, t_api in api_ids.items():
             teams = Team.objects.filter(name=t_name)
             for team in teams:
+                # Remove o api_id de qualquer outro time que já o possua
+                conflicting_teams = Team.objects.filter(api_id=t_api).exclude(id=team.id)
+                for c_team in conflicting_teams:
+                    print(f"Removendo API ID '{t_api}' do time '{c_team.name}' (conflito)")
+                    c_team.api_id = None
+                    c_team.save()
+
                 team.api_id = t_api
                 team.save()
                 print(f"API ID {t_api} definido para {team.name} (Liga {team.league_id})")
