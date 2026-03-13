@@ -9,6 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
 from matches.models import Team, League, LeagueStanding, Match # type: ignore
+from django.core.cache import cache # type: ignore
 
 def super_fix():
     print("=== INICIANDO REPARO DEFINITIVO NA PRODUÇÃO ===")
@@ -38,6 +39,15 @@ def super_fix():
                     garbage.append(b)
         
         if official:
+            # Limpa os IDs da "sucata" e de qualquer outro time que segure o sofa_1999
+            # para evitar o erro de MySQLdb.IntegrityError: (1062, "Duplicate entry 'sofa_1999'")
+            print(f" >> Preparando terreno: Limpando conflitos de ID para 'sofa_1999'")
+            Team.objects.filter(api_id="sofa_1999").update(api_id=None)
+            for g in garbage:
+                if g.api_id:
+                    g.api_id = None
+                    g.save()
+
             print(f" >> OFICIAL DEFINIDO: {official.name} (ID: {official.id})") # type: ignore
             official.name = "Red Bull Bragantino" # type: ignore
             official.api_id = "sofa_1999" # type: ignore
@@ -126,7 +136,11 @@ def super_fix():
     else:
         print(" !! Erro: Liga 'Brasileirão' não encontrada no banco.")
 
-    print("\n=== REPARO CONCLUÍDO. LIMPE O CACHE E RECARREGUE O SITE. ===")
+    print("\n[3/3] Limpando o Cache do Django...")
+    cache.clear() # type: ignore
+    print(" ✓ Cache limpo.")
+
+    print("\n=== REPARO CONCLUÍDO COM SUCESSO! RECARREGUE O SITE. ===")
 
 if __name__ == '__main__':
     super_fix()
