@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from curl_cffi import requests
+from curl_cffi import requests  # type: ignore
 
 def sync_switzerland():
     # 1. SofaScore Teams from Payload 2025/26
