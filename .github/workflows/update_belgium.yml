@@ -1,60 +1,41 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Update Belgium Pro League via SofaScore
+name: Update Belgium Pro League
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '15 */6 * * *'  # Escalonado: Áustria (:00), Austrália (:15), Bélgica (:15), França (:30), Brasil (:45)
+    - cron: '15 */6 * * *'  # Every 6 hours at :15
+  workflow_dispatch:
 
 jobs:
-  proxy-and-deploy:
+  update-belgium:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+    env:
+      SSH_KEY: ${{ secrets.PROD_SERVER_SSH_KEY }}
+      SSH_HOST: ${{ secrets.PROD_SERVER_HOST }}
+      SSH_USER: ${{ secrets.PROD_SERVER_USER }}
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v4
+      - name: Checkout statsfut
+        uses: actions/checkout@v3
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.11'
 
-      - name: Instalar dependências
-        run: |
-          pip install curl_cffi requests
-
-      - name: Rodar fetcher do SofaScore (Bélgica)
-        run: |
-          # Tournament 38 (Pro League), Season 77040 (2025/26)
-          python proxy_sofascore_fetcher.py --tournament 38 --season 77040
-
-      - name: Enviar payload e processar na VPS
-        env:
-          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
-          PROD_SERVER_USER: root
-          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
 
-          # Upload do arquivo
-          scp -o StrictHostKeyChecking=no payload.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_belgium.json
-
-          # Comando SSH remoto
-          ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << 'EOF'
-            cd ${{ secrets.PROD_SERVER_PATH }}
-            git pull origin main
-            
-            # Importa o payload usando Nome da Liga e País
-            ./venv/bin/python manage.py import_sofascore_payload --file payload_belgium.json --league_name 'Pro League' --country 'Belgica' --season_year 2026
-            
-            # Recalcula e limpa
-            ./venv/bin/python manage.py recalculate_standings --league_name 'Pro League' --country 'Belgica' --smart
-            
-            # Limpa cache
-            ./venv/bin/python manage.py shell -c "from django.core.cache import cache; cache.clear()"
-            
-            rm payload_belgium.json
+      - name: Run Remote Update
+        run: |
+          ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
+            cd /www/wwwroot/statsfut.com
+            source venv/bin/activate
+            # Pro League Belgium: Tournament 38, Season 77040 (2025/26)
+            python proxy_sofascore_fetcher.py --tournament 38 --season 77040
+            python manage.py import_sofascore_payload --file payload.json --league_name "Pro League" --country "Belgica" --season_year 2026
+            python manage.py recalculate_standings --league_name "Pro League" --country "Belgica" --season_year 2026 --smart
+            python manage.py shell -c "from django.core.cache import cache; cache.clear()"
           EOF
