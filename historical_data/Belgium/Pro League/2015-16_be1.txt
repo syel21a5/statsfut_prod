@@ -1,0 +1,533 @@
+= Belgica | Pro League 2015/16
+
+# Date       Fri Jul/24 2015 - Sun May/22 2016 (302d)
+# Teams      16
+# Matches    298
+# Stages     Regular Season (298)
+
+
+
+
+» Fri Jul/24
+    18.30  Sint-Truidense VV         v Club Brugge KV            2-1
+
+» Sat Jul/25
+    16.00  KV Kortrijk               v Standard Li?ge            2-1
+    18.00  SV Zulte Waregem          v KSC Lokeren Oost-Vlaanderen 3-1
+    18.00  KV Oostende               v KV Mechelen               3-1
+    18.00  KRC Genk                  v Oud-Heverlee Leuven       3-1
+
+» Sun Jul/26
+    12.30  KVC Westerlo              v KAA Gent                  1-1
+    16.00  RSC Anderlecht            v SK Beveren                3-2
+    18.00  RC Sporting Charleroi     v Royal Excel Mouscron      2-1
+
+» Fri Jul/31
+    18.30  KAA Gent                  v KRC Genk                  1-0
+
+» Sat Aug/1
+    16.00  Club Brugge KV            v KV Mechelen               3-0
+    18.00  SK Beveren                v KV Kortrijk               2-1
+    18.00  Royal Excel Mouscron      v Sint-Truidense VV         0-2
+    18.00  KV Oostende               v KVC Westerlo              2-1
+
+» Sun Aug/2
+    12.30  KSC Lokeren Oost-Vlaanderen v RC Sporting Charleroi     2-2
+    16.00  Standard Li?ge            v SV Zulte Waregem          2-1
+    18.00  Oud-Heverlee Leuven       v RSC Anderlecht            0-2
+
+» Fri Aug/7
+    18.30  SV Zulte Waregem          v KRC Genk                  0-0
+
+» Sat Aug/8
+    16.00  KV Kortrijk               v KSC Lokeren Oost-Vlaanderen 0-0
+    18.00  Sint-Truidense VV         v KV Oostende               1-1
+    18.00  KVC Westerlo              v Oud-Heverlee Leuven       3-2
+    18.00  KV Mechelen               v Royal Excel Mouscron      3-1
+
+» Sun Aug/9
+    12.30  RSC Anderlecht            v KAA Gent                  1-1
+    16.00  RC Sporting Charleroi     v Club Brugge KV            0-0
+    18.00  Standard Li?ge            v SK Beveren                1-0
+
+» Fri Aug/14
+    18.30  Club Brugge KV            v KV Kortrijk               2-1
+
+» Sat Aug/15
+    16.00  Royal Excel Mouscron      v Standard Li?ge            1-1
+    18.00  SK Beveren                v SV Zulte Waregem          2-1
+    18.00  KSC Lokeren Oost-Vlaanderen v KV Mechelen               2-0
+    18.00  KRC Genk                  v KVC Westerlo              2-1
+
+» Sun Aug/16
+    12.30  KV Oostende               v RSC Anderlecht            3-1
+    16.00  KAA Gent                  v Sint-Truidense VV         1-0
+    18.00  Oud-Heverlee Leuven       v RC Sporting Charleroi     2-0
+
+» Fri Aug/21
+    18.30  Sint-Truidense VV         v KRC Genk                  3-1
+
+» Sat Aug/22
+    16.00  SV Zulte Waregem          v Club Brugge KV            2-0
+    18.00  SK Beveren                v Royal Excel Mouscron      3-3
+    18.00  KV Mechelen               v Oud-Heverlee Leuven       2-1
+    18.30  RC Sporting Charleroi     v KVC Westerlo              0-0
+
+» Sun Aug/23
+    12.30  RSC Anderlecht            v KSC Lokeren Oost-Vlaanderen 1-0
+    16.00  Standard Li?ge            v KV Oostende               1-2
+    18.00  KV Kortrijk               v KAA Gent                  0-0
+
+» Fri Aug/28
+    18.30  KRC Genk                  v RC Sporting Charleroi     2-0
+
+» Sat Aug/29
+    16.00  Oud-Heverlee Leuven       v Sint-Truidense VV         1-0
+    18.00  Royal Excel Mouscron      v KV Kortrijk               0-1
+    18.00  KV Oostende               v SV Zulte Waregem          0-2
+    18.30  KAA Gent                  v KV Mechelen               2-2
+
+» Sun Aug/30
+    12.30  Club Brugge KV            v Standard Li?ge            7-1
+    16.00  KVC Westerlo              v RSC Anderlecht            0-3
+    18.00  KSC Lokeren Oost-Vlaanderen v SK Beveren                1-2
+
+» Fri Sep/11
+    18.30  Royal Excel Mouscron      v Club Brugge KV            2-1
+
+» Sat Sep/12
+    16.00  SV Zulte Waregem          v KAA Gent                  1-1
+    18.00  SK Beveren                v KV Oostende               1-5
+    18.00  KV Kortrijk               v Oud-Heverlee Leuven       0-0
+    18.30  KV Mechelen               v KVC Westerlo              2-2
+
+» Sun Sep/13
+    12.30  Standard Li?ge            v KSC Lokeren Oost-Vlaanderen 0-1
+    16.00  RSC Anderlecht            v KRC Genk                  0-0
+    18.00  Sint-Truidense VV         v RC Sporting Charleroi     1-1
+
+» Fri Sep/18
+    18.30  KRC Genk                  v KV Mechelen               3-1
+
+» Sat Sep/19
+    16.00  KV Oostende               v KV Kortrijk               1-0
+    18.00  Oud-Heverlee Leuven       v SV Zulte Waregem          2-3
+    18.00  KVC Westerlo              v Sint-Truidense VV         0-3
+    18.30  KSC Lokeren Oost-Vlaanderen v Royal Excel Mouscron      1-2
+
+» Sun Sep/20
+    12.30  KAA Gent                  v Standard Li?ge            4-1
+    16.00  RC Sporting Charleroi     v RSC Anderlecht            1-1
+    18.00  Club Brugge KV            v SK Beveren                5-1
+
+» Fri Sep/25
+    18.30  SV Zulte Waregem          v KVC Westerlo              4-2
+
+» Sat Sep/26
+    16.00  SK Beveren                v KAA Gent                  1-3
+    18.00  Royal Excel Mouscron      v KV Oostende               2-2
+    18.00  KV Mechelen               v RC Sporting Charleroi     0-1
+    18.30  Standard Li?ge            v Oud-Heverlee Leuven       2-2
+
+» Sun Sep/27
+    12.30  KSC Lokeren Oost-Vlaanderen v Club Brugge KV            0-1
+    16.00  RSC Anderlecht            v Sint-Truidense VV         1-0
+    18.00  KV Kortrijk               v KRC Genk                  1-0
+
+» Fri Oct/2
+    18.30  KV Oostende               v KSC Lokeren Oost-Vlaanderen 2-0
+
+» Sat Oct/3
+    16.00  RC Sporting Charleroi     v SV Zulte Waregem          3-0
+    18.00  Oud-Heverlee Leuven       v Royal Excel Mouscron      1-1
+    18.00  KVC Westerlo              v KV Kortrijk               1-1
+    18.30  Sint-Truidense VV         v SK Beveren                1-3
+
+» Sun Oct/4
+    12.30  KAA Gent                  v Club Brugge KV            4-1
+    16.00  KRC Genk                  v Standard Li?ge            3-1
+    18.00  RSC Anderlecht            v KV Mechelen               1-1
+
+» Fri Oct/16
+    18.30  Royal Excel Mouscron      v KAA Gent                  1-2
+
+» Sat Oct/17
+    16.00  Standard Li?ge            v KVC Westerlo              1-2
+    18.00  SK Beveren                v KRC Genk                  0-1
+    18.00  KSC Lokeren Oost-Vlaanderen v Oud-Heverlee Leuven       1-2
+    18.30  KV Mechelen               v Sint-Truidense VV         3-0
+
+» Sun Oct/18
+    12.30  Club Brugge KV            v KV Oostende               1-0
+    16.00  SV Zulte Waregem          v RSC Anderlecht            0-4
+    18.00  KV Kortrijk               v RC Sporting Charleroi     2-0
+
+» Fri Oct/23
+    18.30  KRC Genk                  v Royal Excel Mouscron      0-4
+
+» Sat Oct/24
+    16.00  KV Mechelen               v SV Zulte Waregem          3-4
+    18.00  Oud-Heverlee Leuven       v SK Beveren                0-2
+    18.00  KVC Westerlo              v KSC Lokeren Oost-Vlaanderen 1-2
+    18.30  KAA Gent                  v KV Oostende               2-2
+
+» Sun Oct/25
+    13.30  RSC Anderlecht            v Club Brugge KV            3-1
+    17.00  RC Sporting Charleroi     v Standard Li?ge            2-3
+    19.00  Sint-Truidense VV         v KV Kortrijk               2-1
+
+» Tue Oct/27
+    19.30  Royal Excel Mouscron      v KVC Westerlo              2-2
+    19.30  KV Oostende               v KRC Genk                  3-2
+    19.30  KSC Lokeren Oost-Vlaanderen v KAA Gent                  1-2
+
+» Wed Oct/28
+    19.30  Standard Li?ge            v KV Mechelen               2-1
+    19.30  SV Zulte Waregem          v Sint-Truidense VV         4-0
+    19.30  SK Beveren                v RC Sporting Charleroi     0-1
+    19.30  Club Brugge KV            v Oud-Heverlee Leuven       2-0
+
+» Thu Oct/29
+    19.30  KV Kortrijk               v RSC Anderlecht            1-1
+
+» Fri Oct/30
+    19.30  KRC Genk                  v KSC Lokeren Oost-Vlaanderen 0-2
+
+» Sat Oct/31
+    17.00  Oud-Heverlee Leuven       v KAA Gent                  0-2
+    19.00  RC Sporting Charleroi     v KV Oostende               1-1
+    19.00  KV Mechelen               v SK Beveren                2-0
+    19.30  KVC Westerlo              v Club Brugge KV            0-2
+
+» Sun Nov/1
+    13.30  Sint-Truidense VV         v Standard Li?ge            1-0
+    17.00  RSC Anderlecht            v Royal Excel Mouscron      2-0
+    19.00  SV Zulte Waregem          v KV Kortrijk               2-2
+
+» Fri Nov/6
+    19.30  Royal Excel Mouscron      v SV Zulte Waregem          2-2
+
+» Sat Nov/7
+    17.00  KV Oostende               v Oud-Heverlee Leuven       3-0
+    19.00  SK Beveren                v KVC Westerlo              2-2
+    19.00  KSC Lokeren Oost-Vlaanderen v Sint-Truidense VV         1-1
+    19.30  KV Kortrijk               v KV Mechelen               1-0
+
+» Sun Nov/8
+    13.30  Standard Li?ge            v RSC Anderlecht            1-0
+    17.00  Club Brugge KV            v KRC Genk                  1-0
+    19.00  KAA Gent                  v RC Sporting Charleroi     1-3
+
+» Fri Nov/20
+    19.30  KAA Gent                  v KVC Westerlo              5-0
+
+» Sat Nov/21
+    17.00  Club Brugge KV            v SV Zulte Waregem          3-0
+    19.00  SK Beveren                v Sint-Truidense VV         2-1
+    19.00  Oud-Heverlee Leuven       v KRC Genk                  1-3
+    19.30  KSC Lokeren Oost-Vlaanderen v RSC Anderlecht            None-None
+
+» Sun Nov/22
+    13.30  Standard Li?ge            v KV Kortrijk               1-1
+    17.00  Royal Excel Mouscron      v RC Sporting Charleroi     None-None
+    19.00  KV Mechelen               v KV Oostende               2-1
+
+» Fri Nov/27
+    19.30  SV Zulte Waregem          v Standard Li?ge            2-3
+
+» Sat Nov/28
+    17.00  KRC Genk                  v KAA Gent                  0-1
+    19.00  RC Sporting Charleroi     v KSC Lokeren Oost-Vlaanderen 1-2
+    19.00  KV Kortrijk               v SK Beveren                3-1
+    19.30  Sint-Truidense VV         v Royal Excel Mouscron      0-1
+
+» Sun Nov/29
+    13.30  RSC Anderlecht            v Oud-Heverlee Leuven       3-2
+    13.30  KV Mechelen               v Club Brugge KV            1-4
+    19.00  KVC Westerlo              v KV Oostende               0-1
+
+» Fri Dec/4
+    19.30  KAA Gent                  v SV Zulte Waregem          2-2
+
+» Sat Dec/5
+    17.00  KV Oostende               v Sint-Truidense VV         1-2
+    19.00  Royal Excel Mouscron      v KV Mechelen               2-3
+    19.00  Oud-Heverlee Leuven       v KVC Westerlo              5-1
+    19.30  SK Beveren                v Standard Li?ge            0-0
+
+» Sun Dec/6
+    13.30  Club Brugge KV            v RC Sporting Charleroi     2-1
+    17.00  KRC Genk                  v RSC Anderlecht            0-0
+    19.00  KSC Lokeren Oost-Vlaanderen v KV Kortrijk               3-1
+
+» Fri Dec/11
+    19.30  KVC Westerlo              v KRC Genk                  0-0
+
+» Sat Dec/12
+    17.00  RC Sporting Charleroi     v Oud-Heverlee Leuven       2-1
+    19.00  SV Zulte Waregem          v SK Beveren                2-1
+    19.00  KV Mechelen               v KSC Lokeren Oost-Vlaanderen 1-1
+    19.30  KV Kortrijk               v Royal Excel Mouscron      1-3
+
+» Sun Dec/13
+    13.30  Standard Li?ge            v Club Brugge KV            2-0
+    17.00  Sint-Truidense VV         v KAA Gent                  0-2
+    19.00  RSC Anderlecht            v KV Oostende               1-1
+
+» Fri Dec/18
+    19.30  KSC Lokeren Oost-Vlaanderen v SV Zulte Waregem          1-1
+
+» Sat Dec/19
+    17.00  KRC Genk                  v Sint-Truidense VV         3-0
+    19.00  Royal Excel Mouscron      v SK Beveren                0-1
+    19.00  KVC Westerlo              v RC Sporting Charleroi     2-1
+    19.30  Oud-Heverlee Leuven       v KV Mechelen               3-1
+
+» Sun Dec/20
+    13.30  Club Brugge KV            v RSC Anderlecht            1-4
+    17.00  KV Oostende               v Standard Li?ge            4-1
+    19.00  KAA Gent                  v KV Kortrijk               3-0
+
+» Tue Dec/22
+    19.30  Royal Excel Mouscron      v RC Sporting Charleroi     0-1
+
+» Wed Dec/23
+    19.30  KSC Lokeren Oost-Vlaanderen v RSC Anderlecht            1-1
+
+» Sat Dec/26
+    13.30  KV Kortrijk               v Club Brugge KV            1-4
+    17.00  RC Sporting Charleroi     v KRC Genk                  1-0
+    19.00  SK Beveren                v KSC Lokeren Oost-Vlaanderen 2-3
+    19.00  KV Mechelen               v KAA Gent                  2-0
+    19.30  Sint-Truidense VV         v Oud-Heverlee Leuven       2-2
+
+» Sun Dec/27
+    13.30  Standard Li?ge            v Royal Excel Mouscron      3-0
+    17.00  RSC Anderlecht            v KVC Westerlo              2-1
+    19.00  SV Zulte Waregem          v KV Oostende               1-0
+
+» Fri Jan/15
+    19.30  KRC Genk                  v SV Zulte Waregem          2-1
+
+» Sat Jan/16
+    17.00  Club Brugge KV            v Royal Excel Mouscron      3-0
+    19.00  Oud-Heverlee Leuven       v KV Kortrijk               1-0
+    19.00  KVC Westerlo              v KV Mechelen               3-2
+    19.30  RC Sporting Charleroi     v Sint-Truidense VV         0-0
+
+» Sun Jan/17
+    13.30  KAA Gent                  v RSC Anderlecht            2-0
+    17.00  KSC Lokeren Oost-Vlaanderen v Standard Li?ge            0-2
+    19.00  KV Oostende               v SK Beveren                3-3
+
+» Fri Jan/22
+    17.00  Standard Li?ge            v KAA Gent                  None-None
+    17.00  SK Beveren                v Club Brugge KV            None-None
+    19.30  KV Kortrijk               v KV Oostende               2-1
+
+» Sat Jan/23
+    17.00  KV Mechelen               v KRC Genk                  1-1
+    19.00  Sint-Truidense VV         v KVC Westerlo              1-2
+    19.00  SV Zulte Waregem          v Oud-Heverlee Leuven       2-2
+    19.30  Royal Excel Mouscron      v KSC Lokeren Oost-Vlaanderen 1-1
+
+» Sun Jan/24
+    13.30  RSC Anderlecht            v RC Sporting Charleroi     2-1
+    17.00  Standard Li?ge            v KAA Gent                  0-3
+    19.00  SK Beveren                v Club Brugge KV            1-2
+
+» Fri Jan/29
+    19.30  Sint-Truidense VV         v RSC Anderlecht            1-2
+
+» Sat Jan/30
+    17.00  Oud-Heverlee Leuven       v Standard Li?ge            0-2
+    19.00  RC Sporting Charleroi     v KV Mechelen               3-2
+    19.00  KVC Westerlo              v SV Zulte Waregem          1-2
+    19.30  KRC Genk                  v KV Kortrijk               1-0
+
+» Sun Jan/31
+    13.30  KV Oostende               v Royal Excel Mouscron      3-3
+    17.00  Club Brugge KV            v KSC Lokeren Oost-Vlaanderen 2-1
+    19.00  KAA Gent                  v SK Beveren                2-1
+
+» Fri Feb/5
+    19.30  KV Mechelen               v RSC Anderlecht            2-2
+
+» Sat Feb/6
+    17.00  Royal Excel Mouscron      v KRC Genk                  0-1
+    19.00  SK Beveren                v Oud-Heverlee Leuven       2-2
+    19.00  KV Kortrijk               v KVC Westerlo              1-1
+    19.30  SV Zulte Waregem          v RC Sporting Charleroi     2-3
+
+» Sun Feb/7
+    13.30  Club Brugge KV            v KAA Gent                  1-0
+    17.00  Standard Li?ge            v Sint-Truidense VV         1-2
+    19.00  KSC Lokeren Oost-Vlaanderen v KV Oostende               0-1
+
+» Fri Feb/12
+    19.30  KAA Gent                  v Royal Excel Mouscron      2-0
+
+» Sat Feb/13
+    17.00  RC Sporting Charleroi     v KV Kortrijk               1-1
+    19.00  RSC Anderlecht            v SV Zulte Waregem          3-0
+    19.00  Oud-Heverlee Leuven       v KSC Lokeren Oost-Vlaanderen 3-3
+    19.30  KRC Genk                  v SK Beveren                6-1
+
+» Sun Feb/14
+    13.30  KV Oostende               v Club Brugge KV            0-2
+    17.00  KVC Westerlo              v Standard Li?ge            2-0
+    19.00  Sint-Truidense VV         v KV Mechelen               0-3
+
+» Fri Feb/19
+    19.30  Club Brugge KV            v KVC Westerlo              6-0
+
+» Sat Feb/20
+    17.00  Standard Li?ge            v RC Sporting Charleroi     3-0
+    19.00  Royal Excel Mouscron      v Oud-Heverlee Leuven       3-1
+    19.00  KV Kortrijk               v Sint-Truidense VV         3-0
+    19.30  KSC Lokeren Oost-Vlaanderen v KRC Genk                  0-0
+
+» Sun Feb/21
+    13.30  KV Oostende               v KAA Gent                  5-2
+    17.00  SK Beveren                v RSC Anderlecht            1-0
+    19.00  SV Zulte Waregem          v KV Mechelen               2-3
+
+» Fri Feb/26
+    19.30  KAA Gent                  v KSC Lokeren Oost-Vlaanderen 3-1
+
+» Sat Feb/27
+    17.00  Oud-Heverlee Leuven       v KV Oostende               4-1
+    19.00  KVC Westerlo              v Royal Excel Mouscron      2-2
+    19.00  KV Mechelen               v KV Kortrijk               0-2
+    19.30  Sint-Truidense VV         v SV Zulte Waregem          1-2
+
+» Sun Feb/28
+    13.30  KRC Genk                  v Club Brugge KV            3-2
+    17.00  RSC Anderlecht            v Standard Li?ge            3-3
+    19.00  RC Sporting Charleroi     v SK Beveren                2-3
+
+» Fri Mar/4
+    19.30  KAA Gent                  v Oud-Heverlee Leuven       1-1
+
+» Sat Mar/5
+    19.00  Standard Li?ge            v KRC Genk                  2-1
+    19.00  SK Beveren                v KV Mechelen               0-0
+    19.00  Royal Excel Mouscron      v RSC Anderlecht            2-1
+    19.00  KV Oostende               v RC Sporting Charleroi     2-1
+    19.00  KV Kortrijk               v SV Zulte Waregem          1-0
+    19.00  KSC Lokeren Oost-Vlaanderen v KVC Westerlo              2-1
+    19.00  Club Brugge KV            v Sint-Truidense VV         3-0
+
+» Sun Mar/13
+    17.00  Sint-Truidense VV         v KSC Lokeren Oost-Vlaanderen 1-1
+    17.00  SV Zulte Waregem          v Royal Excel Mouscron      3-0
+    17.00  RSC Anderlecht            v KV Kortrijk               3-0
+    17.00  RC Sporting Charleroi     v KAA Gent                  1-1
+    17.00  Oud-Heverlee Leuven       v Club Brugge KV            0-1
+    17.00  KVC Westerlo              v SK Beveren                1-0
+    17.00  KV Mechelen               v Standard Li?ge            4-0
+    17.00  KRC Genk                  v KV Oostende               4-1
+
+» Fri Apr/1
+    18.30  KAA Gent                  v SV Zulte Waregem          1-1
+
+» Sat Apr/2
+    16.00  KV Oostende               v Club Brugge KV            0-1
+    18.00  Sint-Truidense VV         v KV Mechelen               0-1
+    18.00  KV Kortrijk               v Royal Excel Mouscron      0-0
+    18.30  KSC Lokeren Oost-Vlaanderen v RC Sporting Charleroi     1-0
+
+» Sun Apr/3
+    16.00  RSC Anderlecht            v KRC Genk                  1-0
+    18.00  SK Beveren                v Standard Li?ge            0-1
+
+» Fri Apr/8
+    18.30  KRC Genk                  v KV Oostende               4-0
+
+» Sat Apr/9
+    16.00  Club Brugge KV            v KAA Gent                  2-0
+    18.00  Royal Excel Mouscron      v SK Beveren                0-0
+    18.00  KV Mechelen               v KSC Lokeren Oost-Vlaanderen 2-1
+    18.30  RC Sporting Charleroi     v Sint-Truidense VV         1-1
+
+» Sun Apr/10
+    16.00  SV Zulte Waregem          v RSC Anderlecht            1-2
+    18.00  Standard Li?ge            v KV Kortrijk               1-1
+
+» Fri Apr/15
+    18.30  KAA Gent                  v KV Oostende               2-0
+
+» Sat Apr/16
+    16.00  SV Zulte Waregem          v KRC Genk                  1-2
+    18.00  SK Beveren                v KV Kortrijk               2-3
+    18.00  KSC Lokeren Oost-Vlaanderen v Sint-Truidense VV         1-0
+    18.30  KV Mechelen               v RC Sporting Charleroi     2-3
+
+» Sun Apr/17
+    16.00  RSC Anderlecht            v Club Brugge KV            1-0
+    18.00  Royal Excel Mouscron      v Standard Li?ge            2-0
+
+» Tue Apr/19
+    18.30  KV Oostende               v SV Zulte Waregem          3-3
+
+» Wed Apr/20
+    18.30  KRC Genk                  v Club Brugge KV            4-2
+
+» Thu Apr/21
+    18.30  KAA Gent                  v RSC Anderlecht            1-1
+
+» Fri Apr/22
+    18.30  Standard Li?ge            v Royal Excel Mouscron      4-1
+
+» Sat Apr/23
+    16.00  Club Brugge KV            v SV Zulte Waregem          5-0
+    18.00  Sint-Truidense VV         v KSC Lokeren Oost-Vlaanderen 2-2
+    18.00  KV Kortrijk               v SK Beveren                5-0
+    18.30  RC Sporting Charleroi     v KV Mechelen               4-0
+
+» Sun Apr/24
+    16.00  KV Oostende               v RSC Anderlecht            4-2
+    18.30  KRC Genk                  v KAA Gent                  1-2
+
+» Fri Apr/29
+    18.30  SV Zulte Waregem          v KV Oostende               1-2
+
+» Sat Apr/30
+    16.00  RC Sporting Charleroi     v KSC Lokeren Oost-Vlaanderen 2-2
+    16.00  KV Mechelen               v Sint-Truidense VV         1-1
+    18.30  SK Beveren                v Royal Excel Mouscron      1-0
+    18.30  KV Kortrijk               v Standard Li?ge            1-0
+
+» Sun May/1
+    12.30  RSC Anderlecht            v KAA Gent                  2-0
+    16.00  Club Brugge KV            v KRC Genk                  3-1
+
+» Fri May/6
+    18.30  KRC Genk                  v SV Zulte Waregem          2-0
+
+» Sat May/7
+    16.00  Standard Li?ge            v SK Beveren                2-0
+    16.00  Royal Excel Mouscron      v KV Kortrijk               2-3
+    18.30  Sint-Truidense VV         v RC Sporting Charleroi     0-3
+    18.30  KSC Lokeren Oost-Vlaanderen v KV Mechelen               5-1
+
+» Sun May/8
+    12.30  RSC Anderlecht            v KV Oostende               2-1
+    16.00  KAA Gent                  v Club Brugge KV            1-4
+
+» Sat May/14
+    18.00  KV Oostende               v KRC Genk                  2-1
+
+» Sun May/15
+    12.30  Club Brugge KV            v RSC Anderlecht            4-0
+    16.00  SV Zulte Waregem          v KAA Gent                  4-2
+
+» Thu May/19
+    18.30  SV Zulte Waregem          v Club Brugge KV            0-2
+    18.30  KV Oostende               v KAA Gent                  0-1
+    18.30  KRC Genk                  v RSC Anderlecht            5-2
+
+» Sun May/22
+    12.30  RSC Anderlecht            v SV Zulte Waregem          2-0
+    12.30  KAA Gent                  v KRC Genk                  0-0
+    12.30  Club Brugge KV            v KV Oostende               2-2

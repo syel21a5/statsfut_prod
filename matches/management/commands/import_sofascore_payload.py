@@ -126,12 +126,24 @@ class Command(BaseCommand):
                         sofa_api_id = f"sofa_{team_id}"
                         # 1. Tenta por API ID
                         team = Team.objects.filter(api_id=sofa_api_id).first()
+                        if team:
+                            changed = False
+                            if team.league_id != league.id:
+                                team.league = league
+                                changed = True
+                            if team.name != team_name:
+                                team.name = team_name
+                                changed = True
+                            if changed:
+                                team.save()
                         
                         # 2. Se não achou por API_ID, tenta por nome na mesma liga
                         if not team:
                             team = Team.objects.filter(name=team_name, league=league).first()
                             if team and not team.api_id:
                                 team.api_id = sofa_api_id
+                                if team.name != team_name:
+                                    team.name = team_name
                                 team.save()
                         
                         # 3. Cria se não existir nada

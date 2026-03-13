@@ -435,117 +435,6 @@ class StatsDispatchView(View):
         return view(request, country_name=arg1, league_name=arg2)
 
 
-def calculate_team_season_stats(team, league, season):
-    """
-    Helper to calculate comprehensive stats for a team in a season.
-    Returns a dict with 'overall', 'home', 'away' and 'last_8' stats.
-    """
-    # Get all finished matches for the team in the season
-    matches = Match.objects.filter(
-        league=league,
-        season=season,
-        status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
-    ).filter(
-        models.Q(home_team=team) | models.Q(away_team=team)
-    ).order_by('date')
-
-    # Helper to calculate stats for a list of matches
-    def calc_stats(match_list, filter_type='all'):
-        gp = len(match_list)
-        if gp == 0:
-            return {
-                'gp': 0, 'w': 0, 'd': 0, 'l': 0, 
-                'gf': 0, 'ga': 0, 'pts': 0, 'ppg': 0.0,
-                'ppg_pct': 0,
-                'w_pct': 0, 'd_pct': 0, 'l_pct': 0,
-                'gf_avg': 0.0, 'ga_avg': 0.0, 'tg_avg': 0.0,
-                'over_25_pct': 0,
-                'form': []
-            }
-
-        w = 0; d = 0; l = 0; gf = 0; ga = 0; pts = 0
-        over_25 = 0
-        form = []
-
-        # Sort matches by date descending for form
-        sorted_matches = sorted(match_list, key=lambda x: (x.date if x.date else timezone.now(), x.id), reverse=True)
-
-        # Calculate aggregates
-        for m in match_list:
-            is_home = m.home_team == team
-            
-            # Skip if filtering by home/away and match doesn't match
-            if filter_type == 'home' and not is_home: continue
-            if filter_type == 'away' and is_home: continue
-
-            team_score = m.home_score if is_home else m.away_score
-            opp_score = m.away_score if is_home else m.home_score
-            
-            # Handle None
-            team_score = team_score or 0
-            opp_score = opp_score or 0
-
-            gf += team_score
-            ga += opp_score
-            
-            if team_score > opp_score: 
-                w += 1; pts += 3
-            elif team_score == opp_score: 
-                d += 1; pts += 1
-            else: 
-                l += 1
-            
-            if (team_score + opp_score) > 2.5:
-                over_25 += 1
-
-        # Calculate Form (Last 4)
-        # Note: sorted_matches is already descending
-        last_4_matches = sorted_matches[:4]
-        for m in last_4_matches:
-            is_home = m.home_team == team
-            if filter_type == 'home' and not is_home: continue
-            if filter_type == 'away' and is_home: continue
-            
-            ts = m.home_score if is_home else m.away_score
-            os = m.away_score if is_home else m.home_score
-            ts = ts or 0; os = os or 0
-            
-            if ts > os: form.append('W')
-            elif ts == os: form.append('D')
-            else: form.append('L')
-        
-        # Averages
-        ppg = pts / gp
-        return {
-            'gp': gp, 'w': w, 'd': d, 'l': l,
-            'gf': gf, 'ga': ga, 'pts': pts,
-            'ppg': round(ppg, 2),
-            'ppg_pct': int((ppg / 3) * 100),
-            'w_pct': int((w / gp) * 100),
-            'd_pct': int((d / gp) * 100),
-            'l_pct': int((l / gp) * 100),
-            'gf_avg': round(gf / gp, 2),
-            'ga_avg': round(ga / gp, 2),
-            'tg_avg': round((gf + ga) / gp, 2),
-            'over_25_pct': int((over_25 / gp) * 100),
-            'form': form
-        }
-
-    # Filter lists
-    home_matches = [m for m in matches if m.home_team == team]
-    away_matches = [m for m in matches if m.away_team == team]
-    
-    # Last 8 matches (overall)
-    # Convert queryset to list and sort
-    all_matches_sorted = sorted(matches, key=lambda x: (x.date if x.date else timezone.now(), x.id), reverse=True)
-    last_8_matches = all_matches_sorted[:8]
-
-    return {
-        'overall': calc_stats(matches),
-        'home': calc_stats(home_matches),
-        'away': calc_stats(away_matches),
-        'last_8': calc_stats(last_8_matches)
-    }
 
 
 class LeagueDetailView(DetailView):
@@ -1848,6 +1737,10 @@ class TeamDetailView(DetailView):
                 'cagliari': 'Cagliari',
                 'verona': 'Verona',
                 'hellas verona': 'Verona',
+            },
+            'pro-league': {
+                'standard lige': 'Standard Liège',
+                'standard-lige': 'Standard Liège',
             }
         }
         

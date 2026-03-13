@@ -1,0 +1,436 @@
+= Suica | Super League 2024-25
+
+# Date       Sat Jul/20 2024 - Sat May/24 2025 (308d)
+# Teams      13
+# Matches    245
+# Stages     Regular Season (245)
+
+
+
+
+» Sat Jul/20
+    17.00  Yverdon                   v Zurich                    0-2
+    17.00  Lugano                    v Grasshoppers              2-1
+    19.30  Winterthur                v St. Gallen                1-0
+
+» Sun Jul/21
+    13.15  Young Boys                v Sion                      1-2
+    15.30  Luzern                    v Servette                  1-2
+    15.30  Lausanne                  v Basel                     3-2
+
+» Wed Jul/24
+    19.30  Servette                  v Young Boys                3-1
+
+» Sat Jul/27
+    17.00  Sion                      v Lausanne                  4-0
+    17.00  Grasshoppers              v Luzern                    2-2
+    19.30  Basel                     v Lugano                    1-2
+
+» Sun Jul/28
+    13.15  Servette                  v Yverdon                   3-2
+    15.30  Zurich                    v Winterthur                4-2
+    15.30  St. Gallen                v Young Boys                4-0
+
+» Sat Aug/3
+    17.00  Lugano                    v Servette                  3-1
+    17.00  Grasshoppers              v Basel                     0-3
+    19.30  Luzern                    v Sion                      1-0
+
+» Sun Aug/4
+    13.15  Lausanne                  v St. Gallen                3-4
+    15.30  Young Boys                v Zurich                    2-2
+    15.30  Winterthur                v Yverdon                   0-0
+
+» Sat Aug/10
+    17.00  Sion                      v Winterthur                2-0
+    19.30  Yverdon                   v Young Boys                2-2
+
+» Sun Aug/11
+    13.15  St. Gallen                v Grasshoppers              1-0
+    15.30  Zurich                    v Lausanne                  2-0
+    15.30  Servette                  v Basel                     0-6
+    15.30  Lugano                    v Luzern                    2-3
+
+» Sat Aug/24
+    17.00  Luzern                    v Winterthur                3-0
+    19.30  Grasshoppers              v Sion                      3-1
+
+» Sun Aug/25
+    15.30  Basel                     v Yverdon                   2-0
+
+» Sat Aug/31
+    17.00  Sion                      v Basel                     1-1
+    17.00  Yverdon                   v Grasshoppers              2-1
+    19.30  Young Boys                v Lausanne                  1-1
+
+» Sun Sep/1
+    13.15  Winterthur                v Servette                  0-1
+    15.30  Zurich                    v Luzern                    1-1
+    15.30  Lugano                    v St. Gallen                1-1
+
+» Wed Sep/18
+    18.30  Lausanne                  v Lugano                    1-2
+
+» Sat Sep/21
+    17.00  St. Gallen                v Luzern                    2-3
+    17.00  Grasshoppers              v Servette                  2-2
+    19.30  Basel                     v Zurich                    0-2
+
+» Sun Sep/22
+    13.15  Lausanne                  v Yverdon                   3-1
+    15.30  Winterthur                v Young Boys                1-4
+    15.30  Sion                      v Lugano                    0-0
+
+» Tue Sep/24
+    19.30  St. Gallen                v Zurich                    4-1
+
+» Sat Sep/28
+    17.00  Yverdon                   v St. Gallen                1-0
+    17.00  Servette                  v Lausanne                  1-0
+    19.30  Young Boys                v Grasshoppers              0-1
+
+» Sun Sep/29
+    13.15  Zurich                    v Sion                      1-0
+    15.30  Luzern                    v Basel                     1-0
+    15.30  Lugano                    v Winterthur                2-1
+
+» Sat Oct/5
+    17.00  Sion                      v Yverdon                   1-1
+    17.00  Luzern                    v Lausanne                  2-2
+    19.30  Winterthur                v Grasshoppers              1-0
+
+» Sun Oct/6
+    13.15  Zurich                    v Lugano                    1-1
+    15.30  St. Gallen                v Servette                  1-1
+    15.30  Basel                     v Young Boys                1-0
+
+» Sat Oct/19
+    17.00  Young Boys                v Luzern                    2-1
+    17.00  Grasshoppers              v Zurich                    1-2
+    19.30  Servette                  v Sion                      3-0
+
+» Sun Oct/20
+    15.30  Yverdon                   v Lugano                    2-0
+    15.30  Lausanne                  v Winterthur                2-0
+    15.30  Basel                     v St. Gallen                2-1
+
+» Sat Oct/26
+    17.00  Winterthur                v Basel                     1-6
+    17.00  Lausanne                  v Grasshoppers              3-0
+    19.30  Luzern                    v Yverdon                   2-3
+
+» Sun Oct/27
+    13.15  Sion                      v St. Gallen                2-2
+    15.30  Zurich                    v Servette                  1-3
+    15.30  Lugano                    v Young Boys                2-0
+
+» Tue Oct/29
+    19.30  Yverdon                   v Lausanne                  0-3
+
+» Wed Oct/30
+    19.30  Young Boys                v Basel                     3-2
+    19.30  St. Gallen                v Winterthur                2-2
+    19.30  Sion                      v Zurich                    0-2
+
+» Thu Oct/31
+    19.30  Servette                  v Luzern                    2-2
+    19.30  Grasshoppers              v Lugano                    1-1
+
+» Sat Nov/2
+    17.00  Zurich                    v Young Boys                0-0
+    17.00  Basel                     v Winterthur                5-0
+    19.30  St. Gallen                v Sion                      1-1
+
+» Sun Nov/3
+    13.15  Lausanne                  v Servette                  1-0
+    15.30  Luzern                    v Grasshoppers              2-0
+    15.30  Lugano                    v Yverdon                   2-0
+
+» Sat Nov/9
+    17.00  Yverdon                   v Basel                     1-4
+    17.00  Winterthur                v Lausanne                  1-0
+    19.30  Servette                  v Zurich                    1-1
+
+» Sun Nov/10
+    13.15  Sion                      v Luzern                    4-2
+    15.30  Young Boys                v Lugano                    2-1
+    15.30  Grasshoppers              v St. Gallen                1-2
+
+» Sat Nov/23
+    17.00  Luzern                    v Young Boys                1-1
+    17.00  Grasshoppers              v Winterthur                1-1
+    19.30  Lausanne                  v Sion                      1-0
+
+» Sun Nov/24
+    13.15  Lugano                    v Zurich                    4-1
+    15.30  St. Gallen                v Yverdon                   0-0
+    15.30  Basel                     v Servette                  3-1
+
+» Sat Nov/30
+    17.00  Yverdon                   v Luzern                    0-1
+    17.00  Basel                     v Lausanne                  1-1
+    19.30  Zurich                    v Grasshoppers              1-1
+
+» Sun Dec/1
+    13.15  Winterthur                v Sion                      1-3
+    15.30  Young Boys                v St. Gallen                3-1
+    15.30  Servette                  v Lugano                    3-0
+
+» Sat Dec/7
+    17.00  Sion                      v Young Boys                3-1
+    17.00  Grasshoppers              v Yverdon                   1-1
+    19.30  Luzern                    v Lugano                    1-4
+
+» Sun Dec/8
+    13.15  Lausanne                  v Zurich                    3-0
+    15.30  St. Gallen                v Basel                     1-1
+    15.30  Servette                  v Winterthur                1-1
+
+» Sat Dec/14
+    17.00  Yverdon                   v Sion                      0-1
+    17.00  Winterthur                v Luzern                    3-4
+    19.30  Basel                     v Grasshoppers              0-1
+
+» Sun Dec/15
+    13.15  Young Boys                v Servette                  2-1
+    15.30  Lugano                    v Lausanne                  1-4
+    15.30  Zurich                    v St. Gallen                0-2
+
+» Sat Jan/18
+    17.00  Young Boys                v Winterthur                0-0
+    17.00  Sion                      v Grasshoppers              0-1
+    19.30  Servette                  v St. Gallen                1-1
+
+» Sun Jan/19
+    13.15  Zurich                    v Yverdon                   1-0
+    15.30  Lugano                    v Basel                     2-2
+    15.30  Lausanne                  v Luzern                    0-0
+
+» Sat Jan/25
+    17.00  Yverdon                   v Servette                  0-0
+    17.00  Grasshoppers              v Young Boys                0-0
+    19.30  Winterthur                v Lugano                    2-3
+
+» Sun Jan/26
+    13.15  St. Gallen                v Lausanne                  3-2
+    15.30  Luzern                    v Zurich                    3-1
+    15.30  Basel                     v Sion                      4-1
+
+» Sat Feb/1
+    00.00  Basel                     v Thun                      1-2
+    17.00  Lugano                    v Sion                      3-2
+    17.00  Lausanne                  v Young Boys                1-2
+    19.30  Servette                  v Grasshoppers              1-1
+
+» Sun Feb/2
+    13.15  Luzern                    v St. Gallen                2-0
+    15.30  Zurich                    v Basel                     0-1
+    15.30  Yverdon                   v Winterthur                3-0
+
+» Tue Feb/4
+    19.30  Sion                      v Servette                  3-3
+    19.30  Grasshoppers              v Lausanne                  2-2
+
+» Wed Feb/5
+    19.30  Young Boys                v Yverdon                   6-1
+    19.30  St. Gallen                v Lugano                    2-1
+
+» Thu Feb/6
+    19.30  Winterthur                v Zurich                    0-2
+    19.30  Basel                     v Luzern                    2-1
+
+» Fri Feb/7
+    00.00  Winterthur                v Lugano                    1-1
+    00.00  Sion                      v Luzern                    0-0
+
+» Sat Feb/8
+    00.00  Servette                  v Thun                      1-3
+    00.00  Basel                     v Zurich                    2-1
+    00.00  Lausanne                  v St. Gallen                1-1
+    17.00  Lugano                    v Grasshoppers              1-1
+    17.00  Lausanne                  v Yverdon                   4-1
+    19.30  Young Boys                v Sion                      5-1
+
+» Sun Feb/9
+    13.15  Servette                  v Basel                     2-1
+    15.30  Zurich                    v St. Gallen                1-2
+    15.30  Luzern                    v Winterthur                3-2
+
+» Mon Feb/10
+    00.00  Luzern                    v Grasshoppers              4-3
+
+» Wed Feb/12
+    00.00  Thun                      v Lausanne                  5-1
+    00.00  Sion                      v Basel                     2-0
+
+» Fri Feb/14
+    00.00  Young Boys                v Winterthur                6-1
+
+» Sat Feb/15
+    00.00  Thun                      v Sion                      1-0
+    17.00  Sion                      v Zurich                    2-1
+    17.00  Lugano                    v Luzern                    2-0
+    19.30  Winterthur                v Young Boys                1-0
+
+» Sun Feb/16
+    13.15  Yverdon                   v St. Gallen                1-0
+    15.30  Grasshoppers              v Servette                  1-2
+    15.30  Basel                     v Lausanne                  1-1
+
+» Fri Feb/21
+    00.00  Servette                  v St. Gallen                1-1
+
+» Sat Feb/22
+    00.00  Lugano                    v Lausanne                  2-1
+    00.00  Sion                      v Young Boys                3-1
+    17.00  Zurich                    v Yverdon                   2-1
+    17.00  Lausanne                  v Grasshoppers              2-2
+    19.30  St. Gallen                v Basel                     2-2
+
+» Sun Feb/23
+    13.15  Luzern                    v Sion                      2-1
+    15.30  Young Boys                v Lugano                    1-0
+    15.30  Servette                  v Winterthur                3-1
+
+» Tue Feb/25
+    00.00  Winterthur                v Thun                      0-3
+
+» Fri Feb/28
+    17.00  Thun                      v Luzern                    None-None
+    19.30  Servette                  v Sion                      None-None
+
+» Sat Mar/1
+    17.00  Winterthur                v St. Gallen                4-0
+    17.00  Basel                     v Sion                      2-0
+    19.30  Lausanne                  v Servette                  0-1
+
+» Sun Mar/2
+    13.15  Lugano                    v Zurich                    0-3
+    15.30  Yverdon                   v Luzern                    2-2
+    15.30  Grasshoppers              v Young Boys                1-0
+
+» Sat Mar/8
+    17.00  Yverdon                   v Winterthur                2-1
+    17.00  Young Boys                v Lausanne                  3-0
+    19.30  St. Gallen                v Grasshoppers              3-1
+
+» Sun Mar/9
+    13.15  Zurich                    v Servette                  1-3
+    15.30  Sion                      v Lugano                    2-1
+    15.30  Luzern                    v Basel                     1-1
+
+» Sat Mar/15
+    17.00  St. Gallen                v Lausanne                  0-2
+    17.00  Servette                  v Yverdon                   2-3
+    19.30  Zurich                    v Luzern                    3-2
+
+» Sun Mar/16
+    13.15  Grasshoppers              v Sion                      1-1
+    15.30  Lugano                    v Winterthur                2-1
+    15.30  Basel                     v Young Boys                1-2
+
+» Sat Mar/29
+    17.00  Young Boys                v St. Gallen                1-0
+    17.00  Sion                      v Yverdon                   1-1
+    19.30  Lugano                    v Servette                  0-2
+
+» Sun Mar/30
+    13.15  Winterthur                v Basel                     0-2
+    15.30  Lausanne                  v Luzern                    1-4
+    15.30  Grasshoppers              v Zurich                    1-2
+
+» Tue Apr/1
+    19.30  Yverdon                   v Lugano                    0-2
+    19.30  Servette                  v Young Boys                0-1
+
+» Wed Apr/2
+    19.30  Zurich                    v Lausanne                  2-2
+    19.30  Sion                      v Winterthur                1-2
+
+» Thu Apr/3
+    19.30  Luzern                    v St. Gallen                1-1
+    19.30  Basel                     v Grasshoppers              2-1
+
+» Sat Apr/5
+    17.00  Winterthur                v Zurich                    0-0
+    17.00  Lausanne                  v Sion                      2-0
+    19.30  Young Boys                v Yverdon                   1-1
+
+» Sun Apr/6
+    13.15  St. Gallen                v Servette                  1-0
+    15.30  Grasshoppers              v Luzern                    3-1
+    15.30  Basel                     v Lugano                    2-0
+
+» Sat Apr/12
+    17.00  Yverdon                   v Grasshoppers              1-2
+    17.00  Winterthur                v Lausanne                  1-0
+    19.30  Zurich                    v Basel                     0-4
+
+» Sun Apr/13
+    13.15  Lugano                    v St. Gallen                1-1
+    15.30  Sion                      v Servette                  1-1
+    15.30  Luzern                    v Young Boys                5-0
+
+» Sat Apr/19
+    17.00  Grasshoppers              v Winterthur                0-1
+
+» Mon Apr/21
+    15.30  Young Boys                v Zurich                    2-1
+    15.30  St. Gallen                v Sion                      1-0
+    15.30  Servette                  v Luzern                    2-1
+    15.30  Lausanne                  v Lugano                    2-0
+    15.30  Basel                     v Yverdon                   5-0
+
+» Sat May/3
+    17.00  Winterthur                v Grasshoppers              2-0
+    19.30  Lausanne                  v Young Boys                3-2
+
+» Sun May/4
+    13.15  Sion                      v Zurich                    2-1
+    15.30  Luzern                    v Lugano                    0-2
+    15.30  Basel                     v Servette                  5-1
+
+» Tue May/6
+    18.00  Yverdon                   v St. Gallen                1-1
+
+» Sat May/10
+    17.00  Zurich                    v Grasshoppers              3-0
+    17.00  Yverdon                   v Sion                      1-1
+    17.00  St. Gallen                v Winterthur                1-4
+    19.30  Lugano                    v Basel                     2-5
+
+» Sun May/11
+    13.15  Luzern                    v Lausanne                  1-1
+    15.30  Servette                  v Young Boys                0-0
+
+» Tue May/13
+    19.30  Zurich                    v Winterthur                4-1
+    19.30  Sion                      v St. Gallen                1-1
+
+» Wed May/14
+    19.30  Lausanne                  v Basel                     2-3
+    19.30  Grasshoppers              v Yverdon                   5-0
+
+» Thu May/15
+    19.30  Young Boys                v Luzern                    2-1
+    19.30  Servette                  v Lugano                    4-1
+
+» Sat May/17
+    17.00  Winterthur                v Yverdon                   2-2
+    17.00  St. Gallen                v Zurich                    3-2
+    19.30  Sion                      v Grasshoppers              2-1
+
+» Sun May/18
+    13.15  Young Boys                v Basel                     6-2
+    15.30  Luzern                    v Servette                  3-4
+    15.30  Lausanne                  v Lugano                    1-1
+
+» Thu May/22
+    19.30  Yverdon                   v Zurich                    3-2
+    19.30  Winterthur                v Sion                      2-0
+    19.30  Grasshoppers              v St. Gallen                2-0
+
+» Sat May/24
+    17.00  Servette                  v Lausanne                  3-3
+    17.00  Lugano                    v Young Boys                1-1
+    17.00  Basel                     v Luzern                    4-0
