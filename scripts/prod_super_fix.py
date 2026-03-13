@@ -16,7 +16,8 @@ def super_fix():
     # 1. LIMPEZA DO BRAGANTINO DUPLICADO
     print("\n[1/2] Limpando duplicados do Bragantino...")
     all_brants = Team.objects.filter(name__icontains='Bragantino').order_by('-id')
-    if all_brants.count() sail_count := all_brants.count() > 1:
+    
+    if all_brants.count() > 1:
         official = None
         garbage = []
         
@@ -24,11 +25,17 @@ def super_fix():
         for b in all_brants:
             games = Match.objects.filter(Q(home_team=b) | Q(away_team=b)).count()
             print(f" -> Time: {b.name} (ID: {b.id}) - Jogos: {games}")
-            if official is None or games > Match.objects.filter(Q(home_team=official) | Q(away_team=official)).count():
-                if official: garbage.append(official)
+            
+            if official is None:
                 official = b
             else:
-                garbage.append(b)
+                # Compara contagem de jogos de forma segura para o linter
+                official_games = Match.objects.filter(Q(home_team=official) | Q(away_team=official)).count()
+                if games > official_games:
+                    garbage.append(official)
+                    official = b
+                else:
+                    garbage.append(b)
         
         if official:
             print(f" >> OFICIAL DEFINIDO: {official.name} (ID: {official.id})")

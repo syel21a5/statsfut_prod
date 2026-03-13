@@ -1,15 +1,15 @@
 import os
 import sys
-import django
-from django.utils.text import slugify
+import django # type: ignore
+from django.utils.text import slugify # type: ignore
 
 # Configurar Django para rodar script avulso
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from matches.models import Team
-from django.conf import settings
+from matches.models import Team # type: ignore
+from django.conf import settings # type: ignore
 
 def audit_logos():
     countries = ['Austria', 'Australia', 'Belgica', 'Brasil', 'Suica', 'Franca']
@@ -32,15 +32,15 @@ def audit_logos():
             continue
             
         country_missing = 0
-        country_total = teams.count()
+        country_total = teams.count() # type: ignore
         
         for team in teams:
-            total_teams += 1
+            total_teams += 1 # type: ignore
             
             if not team.api_id or not team.api_id.startswith('sofa_'):
                 print(f"  [X] ID Inválido: {team.name} | API_ID Atual: '{team.api_id}'")
-                missing_ids += 1
-                country_missing += 1
+                missing_ids += 1 # type: ignore
+                country_missing += 1 # type: ignore
                 continue
                 
             country_slug = slugify(team.league.country)
@@ -50,8 +50,8 @@ def audit_logos():
             
             if not os.path.exists(file_path):
                 print(f"  [X] Imagem Faltando: {team.name} | Esperado em: static/teams/{country_slug}/{league_slug}/{team.api_id}.png")
-                missing_logos += 1
-                country_missing += 1
+                missing_logos += 1 # type: ignore
+                country_missing += 1 # type: ignore
                 
         if country_missing == 0:
             print(f"  ✓ 100% COMPLETO: Todos os {country_total} times estão com IDs e Imagens corretas!")
@@ -62,7 +62,7 @@ def audit_logos():
     print(f"RESUMO FINAL: {total_teams} Times Verificados")
     print(f" - Times com ID incorreto ou vazio: {missing_ids}")
     print(f" - Times com a imagem (.png) ausente no HD: {missing_logos}")
-    print(f" - Times Perfeitos: {total_teams - missing_ids - missing_logos}")
+    print(f" - Times Perfeitos: {total_teams - missing_ids - missing_logos}") # type: ignore
     print("="*40)
 
 if __name__ == '__main__':

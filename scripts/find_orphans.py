@@ -1,14 +1,14 @@
 import os
 import sys
-import django
-from django.utils.text import slugify
+import django # type: ignore
+from django.utils.text import slugify # type: ignore
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from matches.models import Team
-from django.conf import settings
+from matches.models import Team # type: ignore
+from django.conf import settings # type: ignore
 
 def find_orphans():
     static_dir = os.path.join(settings.BASE_DIR, 'static')
