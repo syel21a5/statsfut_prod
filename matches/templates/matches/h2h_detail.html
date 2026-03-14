@@ -30,11 +30,6 @@
                     <div class="row align-items-center">
                         <!-- Team 1 -->
                         <div class="col-md-4 text-center">
-                            {% get_team_logo team1 as team1_logo %}
-                            {% if team1_logo %}
-                            <img src="{{ team1_logo }}" alt="{{ team1.name }}" class="mb-3 rounded-circle bg-white"
-                                style="width: 80px; height: 80px; object-fit: contain; padding: 5px;">
-                            {% endif %}
                             <h3 class="fw-bold mb-1">{{ team1.name }}</h3>
                             {% if t1_standing %}
                             <span
@@ -85,11 +80,6 @@
 
                         <!-- Team 2 -->
                         <div class="col-md-4 text-center">
-                            {% get_team_logo team2 as team2_logo %}
-                            {% if team2_logo %}
-                            <img src="{{ team2_logo }}" alt="{{ team2.name }}" class="mb-3 rounded-circle bg-white"
-                                style="width: 80px; height: 80px; object-fit: contain; padding: 5px;">
-                            {% endif %}
                             <h3 class="fw-bold mb-1">{{ team2.name }}</h3>
                             {% if t2_standing %}
                             <span

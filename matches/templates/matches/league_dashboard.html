@@ -332,8 +332,6 @@
                                                     <td class="text-start fw-bold text-white">
                                                         <div class="d-flex align-items-center">
                                                             <span class="badge bg-success me-1">H</span>
-
-
                                                             <span>{{ item.match.home_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -363,8 +361,6 @@
                                                     <td class="text-start fw-bold text-white">
                                                         <div class="d-flex align-items-center">
                                                             <span class="badge bg-danger me-1">A</span>
-
-
                                                             <span>{{ item.match.away_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -650,9 +646,6 @@
                                         <td class="text-start fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
-                                                {% if row.team.logo %}
-                                                <img src="{{ row.team.logo }}" height="20" class="me-2">
-                                                {% endif %}
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -704,9 +697,6 @@
                                         <td class="text-start fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white">
-                                                {% if row.team.logo %}
-                                                <img src="{{ row.team.logo }}" height="20" class="me-2">
-                                                {% endif %}
                                                 {{ row.team.name }}
                                             </a>
                                         </td>
@@ -769,11 +759,6 @@
                                         <td class="text-start fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                 class="text-decoration-none text-white d-flex align-items-center">
-                                                {% get_team_logo row.team as team_logo %}
-                                                {% if team_logo %}
-                                                <img src="{{ team_logo }}" class="me-2 rounded-circle bg-white"
-                                                    style="width: 22px; height: 22px; padding: 2px; object-fit: contain;">
-                                                {% endif %}
                                                 <span>{{ row.team.name }}</span>
                                             </a>
                                         </td>
