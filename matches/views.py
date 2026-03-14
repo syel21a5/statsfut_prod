@@ -3756,12 +3756,28 @@ class HeadToHeadView(TemplateView):
                 t = Team.objects.filter(league=league, name__iexact=name).first()
                 if not t:
                     t = Team.objects.filter(league=league, name__icontains=name).first()
+                
+                # Robust Slug Fallback (Matches TeamDetailView logic)
+                if not t:
+                    from django.utils.text import slugify
+                    for team_obj in Team.objects.filter(league=league):
+                        if slugify(team_obj.name) == slug:
+                            return team_obj
+                
                 if t: return t
             
             # 2. Global Fallback
             t = Team.objects.filter(name__iexact=name).first()
             if not t:
                 t = Team.objects.filter(name__icontains=name).first()
+            
+            if not t:
+                from django.utils.text import slugify
+                # Limit global search to avoid performance issues if possible, 
+                # but for H2H we need to find the team.
+                for team_obj in Team.objects.all()[:1000]: # Safety limit for global scan
+                    if slugify(team_obj.name) == slug:
+                        return team_obj
             return t
 
         country_slug = self.kwargs.get('country_name')
