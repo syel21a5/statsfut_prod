@@ -31,6 +31,8 @@ def run_sync():
         # Construir comando mysql
         cmd = [
             'mysql',
+            '--binary-mode',
+            '--default-character-set=utf8mb4',
             f'-h{db_host}',
             f'-P{db_port}',
             f'-u{db_user}',
