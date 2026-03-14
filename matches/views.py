@@ -3729,6 +3729,7 @@ class HeadToHeadView(TemplateView):
                     if slugify(l.name) == slug:
                          candidates = League.objects.filter(id=l.id).annotate(s_count=Count('standings'))
                          break
+                         break
 
             if country_slug:
                  country_clean = country_slug.replace('-', ' ')
