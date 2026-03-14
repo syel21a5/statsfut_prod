@@ -50,24 +50,40 @@ def run_sync():
         print(f" !! ERRO: Arquivo {dump_file} não encontrado.")
         return
 
-    # 2. Substituir Logos
+    # 2. Substituir Logos (EXTRAÇÃO CIRÚRGICA)
     if os.path.exists(zip_file):
-        print("\n[2/3] Substituindo pasta de logos...")
+        print("\n[2/3] Substituindo pasta de logos (CIRURGIA ANTIFANTASMA)...")
         target_dir = "/www/wwwroot/statsfut.com/static/teams/"
         
-        # Backup da pasta antiga (opcional mas seguro)
-        backup_dir = "/www/wwwroot/statsfut.com/static/teams_backup_sync"
         if os.path.exists(target_dir):
-            if os.path.exists(backup_dir):
-                shutil.rmtree(backup_dir)
-            shutil.move(target_dir, backup_dir)
-            print(f" -> Pasta antiga movida para {backup_dir}")
+            shutil.rmtree(target_dir)
+            print(" -> Limpando vestígios de logos antigas...")
         
         os.makedirs(target_dir, exist_ok=True)
         
-        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-            zip_ref.extractall(target_dir)
-        print(" ✓ Novas logos extraídas com sucesso.")
+        extracted_count = 0
+        with zipfile.ZipFile(zip_file, 'r') as z:
+            for info in z.infolist():
+                filename = info.filename
+                if not filename.endswith('.png'): continue
+                if '__MACOSX' in filename or '/.' in filename or '\\.' in filename or filename.startswith('.'):
+                    continue
+                
+                # Normalizar caminhos Windows/Linux
+                clean_name = filename.replace('\\', '/')
+                if clean_name.startswith('static/teams/'):
+                    clean_name = clean_name.replace('static/teams/', '', 1)
+                elif clean_name.startswith('teams/'):
+                    clean_name = clean_name.replace('teams/', '', 1)
+                    
+                dest = os.path.join(target_dir, clean_name)
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                
+                with open(dest, 'wb') as f:
+                    f.write(z.read(filename))
+                extracted_count += 1
+                
+        print(f" ✓ {extracted_count} logos extraídas cirurgicamente com sucesso.")
     else:
         print(f" !! AVISO: {zip_file} não encontrado. Pulando etapa de logos.")
 
