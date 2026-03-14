@@ -41,7 +41,7 @@ def fix_windows_paths(base_dir):
         
         print(f"Movendo: '{bad_path}' -> '{dest_path}'")
         shutil.move(bad_path, dest_path)
-        fixed_count += 1
+        fixed_count += 1  # type: ignore[operator]
         
     print(f"Concluído! {fixed_count} caminhos corrigidos.")
 

@@ -18,7 +18,7 @@ def clean_extract():
     print("Extraindo APENAS as imagens perfeitas...")
     os.makedirs(extract_dir, exist_ok=True)
 
-    extracted_count = 0
+    extracted_count: int = 0
     with zipfile.ZipFile(zip_path, 'r') as z:
         for info in z.infolist():
             # Pegamos o nome exato dentro do zip (ex: alemanha\bundesliga\sofa_123.png)
@@ -51,7 +51,7 @@ def clean_extract():
             with open(dest, 'wb') as f:
                 f.write(z.read(filename))
                 
-            extracted_count += 1
+            extracted_count = extracted_count + 1  # type: ignore[operator]
 
     print(f"-> SUCESSO ABSOLUTO! {extracted_count} imagens de logos extraídas.")
     print("Zero pastas fantasmas. Zero contra-barras malditas.")

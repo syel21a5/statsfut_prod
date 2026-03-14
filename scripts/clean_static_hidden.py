@@ -3,7 +3,7 @@ import shutil
 
 def clean_hidden_files(directory):
     print(f"Limpando arquivos ocultos/inválidos em: {directory}")
-    removed_count = 0
+    removed_count: int = 0
     for root, dirs, files in os.walk(directory):
         for file in files:
             # Remover arquivos ocultos (começam com .) ou arquivos que criam nomes vazios
@@ -17,7 +17,7 @@ def clean_hidden_files(directory):
                     print(f" Erro ao remover {path}: {e}")
                     
         # Remover diretórios ocultos (ex: .DS_Store)
-        for d in dirs[:]:
+        for d in list(dirs):
             if d.startswith('.'):
                 path = os.path.join(root, d)
                 try:
