@@ -88,6 +88,12 @@ class Match(models.Model):
     
     class Meta:
         ordering = ['date']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['home_team', 'away_team', 'date'], 
+                name='unique_match_fixture'
+            )
+        ]
 
     @property
     def total_goals(self):
