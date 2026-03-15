@@ -120,6 +120,16 @@ class Command(BaseCommand):
                         }
                         team_name = mapping.get(team_name, team_name)
                     
+                    is_brazil = league.name.lower() in ["brasileirão", "brasileirao", "serie a"] or league.country.lower() in ["brasil", "brazil"]
+                    if is_brazil:
+                        brazil_mapping = {
+                            "Atlético Mineiro": "Atletico-MG",
+                            "Vasco da Gama": "Vasco",
+                            "Red Bull Bragantino": "Bragantino",
+                            "Athletico Paranaense": "Athletico"
+                        }
+                        team_name = brazil_mapping.get(team_name, team_name)
+                    
                     # Limpeza extra
                     team_name = team_name.strip()
                     if team_id and team_name:
