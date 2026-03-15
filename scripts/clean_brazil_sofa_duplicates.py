@@ -17,11 +17,21 @@ def merge_teams(source_name, target_name):
     if source_team and target_team and source_team.id != target_team.id:
         print(f"Mesclando '{source_team.name}' (ID {source_team.id}) -> '{target_team.name}' (ID {target_team.id})")
         
-        # Move matches
-        Match.objects.filter(home_team=source_team).update(home_team=target_team)
-        Match.objects.filter(away_team=source_team).update(away_team=target_team)
-        
-        # Move goals
+        # Move or delete matches where source is home
+        for m in Match.objects.filter(home_team=source_team):
+            if Match.objects.filter(home_team=target_team, away_team=m.away_team, date=m.date).exists():
+                m.delete() # Duplicate fixture, delete
+            else:
+                m.home_team = target_team
+                m.save()
+                
+        # Move or delete matches where source is away
+        for m in Match.objects.filter(away_team=source_team):
+            if Match.objects.filter(home_team=m.home_team, away_team=target_team, date=m.date).exists():
+                m.delete() # Duplicate fixture, delete
+            else:
+                m.away_team = target_team
+                m.save()
         Goal.objects.filter(team=source_team).update(team=target_team)
         
         # Delete source standings/timings to avoid constraint conflicts (they will be recalculated anyway)
