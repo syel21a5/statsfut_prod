@@ -138,9 +138,6 @@ class Command(BaseCommand):
                         team = Team.objects.filter(api_id=sofa_api_id).first()
                         if team:
                             changed = False
-                            if team.league_id != league.id:
-                                team.league = league
-                                changed = True
                             if team.name != team_name:
                                 team.name = team_name
                                 changed = True
