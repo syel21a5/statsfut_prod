@@ -55,11 +55,10 @@ def force_clean():
             
             bad.delete()
 
-    # Recalcula do zero
+    # Recalcula do zero usando a via oficial do Django
     print("Recalculando classificação final oficial...")
-    from matches.management.commands.recalculate_standings import Command
-    cmd = Command()
-    cmd.handle(league_name=league.name, country=league.country, full=True)
+    from django.core.management import call_command
+    call_command('recalculate_standings', league_name=league.name, country=league.country)
 
     print("Limpeza finalizada com sucesso! Verifique a tabela de classificação.")
 
