@@ -41,6 +41,11 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'league'], name='unique_team_name_per_league')
+        ]
+
 class Match(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='matches')
     season = models.ForeignKey('Season', on_delete=models.CASCADE, related_name='matches', null=True)
