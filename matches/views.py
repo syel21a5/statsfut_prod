@@ -570,7 +570,15 @@ class LeagueDetailView(DetailView):
         ).order_by('-date')[:10]
         context['latest_results'] = finished_matches
         
-        latest_season = league.standings.order_by('-season__year').first().season if league.standings.exists() else None
+        latest_season_standing = league.standings.order_by('-season__year').first()
+        latest_season = latest_season_standing.season if latest_season_standing else None
+        
+        if not latest_season:
+            # Fallback: Tenta pegar a temporada do último jogo importado para não deixar a página vazia
+            last_match = Match.objects.filter(league=league).select_related('season').order_by('-season__year', '-date').first()
+            if last_match:
+                latest_season = last_match.season
+        
         context['latest_season'] = latest_season
         
         if latest_season:
@@ -3667,6 +3675,15 @@ def calculate_team_season_stats(team, league, season):
             s['ppg_pct'] = int((s['ppg'] / 3.0) * 100)
             s['avg_gf'] = round(s['gf'] / s['gp'], 2)
             s['avg_ga'] = round(s['ga'] / s['gp'], 2)
+            
+            # Aliases e cálculos adicionais para compatibilidade com o template league_dashboard.html
+            s['w_pct'] = int((s['w'] / s['gp']) * 100)
+            s['d_pct'] = int((s['d'] / s['gp']) * 100)
+            s['l_pct'] = int((s['l'] / s['gp']) * 100)
+            s['gf_avg'] = s['avg_gf']
+            s['ga_avg'] = s['avg_ga']
+            s['tg_avg'] = round(s['avg_gf'] + s['avg_ga'], 2)
+            
             if 'over_25' in s:
                 s['over_05_pct'] = int((s['over_05'] / s['gp']) * 100)
                 s['over_15_pct'] = int((s['over_15'] / s['gp']) * 100)

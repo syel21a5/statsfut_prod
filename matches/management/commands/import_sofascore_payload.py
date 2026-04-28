@@ -1,9 +1,9 @@
 import json
 import traceback
 from datetime import datetime, timezone
-from django.core.management.base import BaseCommand
-from matches.models import League, Team, Match, Season
-from django.db import transaction
+from django.core.management.base import BaseCommand  # type: ignore
+from matches.models import League, Team, Match, Season  # type: ignore
+from django.db import transaction  # type: ignore
 
 class Command(BaseCommand):
     help = "Lê um payload.json do SofaScore e processa nativamente no banco de dados de produção (Proxy Architecture)."
@@ -128,10 +128,10 @@ class Command(BaseCommand):
                             "Red Bull Bragantino": "Bragantino",
                             "Athletico Paranaense": "Athletico"
                         }
-                        team_name = brazil_mapping.get(team_name, team_name)
+                        team_name = brazil_mapping.get(str(team_name), str(team_name))
                     
                     # Limpeza extra
-                    team_name = team_name.strip()
+                    team_name = (team_name or '').strip()
                     if team_id and team_name:
                         sofa_api_id = f"sofa_{team_id}"
                         # 1. Tenta por API ID
