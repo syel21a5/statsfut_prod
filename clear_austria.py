@@ -30,11 +30,20 @@ def clear_austria():
         timings_count = league.goal_timings.count()
         
         FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED', 'finished']
-        finished_count = league.matches.filter(status__in=FINISHED_STATUSES).count()
-        print(f"Deletando {finished_count} partidas FINALIZADAS (preservando jogos futuros)...")
-        league.matches.filter(status__in=FINISHED_STATUSES).delete()
         
-        print(f"Deletando {standings_count} posições da tabela...")
+        # PROTEGER O HISTÓRICO: Limpar apenas a temporada atual (2026)
+        from matches.models import Season
+        current_season = Season.objects.filter(year=2026).first()
+        
+        if current_season:
+            matches_to_delete = league.matches.filter(status__in=FINISHED_STATUSES, season=current_season)
+            finished_count = matches_to_delete.count()
+            print(f"Deletando {finished_count} partidas FINALIZADAS da temporada 2026 (preservando histórico e futuros)...")
+            matches_to_delete.delete()
+        else:
+            print("Temporada 2026 não encontrada para limpeza de partidas.")
+        
+        print(f"Deletando {standings_count} posições da tabela (serão recriadas)...")
         league.standings.all().delete()
         
         print(f"Deletando {timings_count} estatísticas de tempo de gol...")
