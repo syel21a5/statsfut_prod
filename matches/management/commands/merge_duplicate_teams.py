@@ -18,13 +18,19 @@ class Command(BaseCommand):
             {'wrong': 'Austria Vienna',      'correct': 'Austria Wien',        'country': 'Austria'},
             {'wrong': 'FK Austria Wien',     'correct': 'Austria Wien',        'country': 'Austria'},
             {'wrong': 'Red Bull Salzburg',   'correct': 'Salzburg',            'country': 'Austria'},
+            {'wrong': 'FC Salzburg',         'correct': 'Salzburg',            'country': 'Austria'},
             {'wrong': 'LASK',                'correct': 'LASK Linz',           'country': 'Austria'},
             {'wrong': 'SV Ried',             'correct': 'Ried',                'country': 'Austria'},
             {'wrong': 'WSG Tirol',           'correct': 'Tirol',               'country': 'Austria'},
             {'wrong': 'Grazer AK 1902',      'correct': 'Grazer AK',           'country': 'Austria'},
+            {'wrong': 'GAK 1902',            'correct': 'Grazer AK',           'country': 'Austria'},
             {'wrong': 'FC Blau-Weiß Linz',   'correct': 'FC Blau Weiß Linz',   'country': 'Austria'},
             {'wrong': 'FC Blau Weiss Linz',  'correct': 'FC Blau Weiß Linz',   'country': 'Austria'},
             {'wrong': 'SV Grödig',           'correct': 'SV Grodig',           'country': 'Austria'},
+            {'wrong': 'SK Sturm Graz',       'correct': 'Sturm Graz',          'country': 'Austria'},
+            {'wrong': 'Wolfsberger AC',      'correct': 'Wolfsberger AC',      'country': 'Austria'}, # Just in case
+            {'wrong': 'CASHPOINT SCR Altach','correct': 'SC Rheindorf Altach', 'country': 'Austria'},
+            {'wrong': 'SCR Altach',          'correct': 'SC Rheindorf Altach', 'country': 'Austria'},
             
             # BRASIL - Sincronizado com Server (ID 2)
             {'wrong': 'Vasco da Gama',       'correct': 'Vasco',               'country': 'Brasil'},
