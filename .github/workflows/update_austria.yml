@@ -47,9 +47,6 @@ jobs:
             cd ${{ secrets.PROD_SERVER_PATH }}
             git pull origin main
             
-            # Limpa dados antigos da Áustria
-            ./venv/bin/python clear_austria.py
-            
             # Puxa o arquivo com IDs flexíveis (mais seguro que ID fixo)
             ./venv/bin/python manage.py import_sofascore_payload --file payload_austria.json --league_name 'Bundesliga' --country 'Austria' --season_year 2026
             
