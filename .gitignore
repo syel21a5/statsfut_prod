@@ -36,7 +36,9 @@ check_score.py
 scrape_error.txt
 *.csv
 
-# Local debug/check helpers (não vão para o repositório)
+# Local testing/simulation helpers
+payload.json
+simulate_cron.py
 check_*.py
 dump_*.py
 extract_html.py
