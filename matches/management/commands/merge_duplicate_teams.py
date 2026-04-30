@@ -2,6 +2,7 @@
 from django.core.management.base import BaseCommand
 from matches.models import Team, Match, League
 from django.db.models import Q
+from django.db import IntegrityError
 
 class Command(BaseCommand):
     help = 'Merge duplicate teams (e.g. "Rapid Vienna" -> "Rapid Wien") and cleanup leagues'
@@ -41,6 +42,27 @@ class Command(BaseCommand):
             {'wrong': 'Grêmio',              'correct': 'Gremio',              'country': 'Brasil'},
             {'wrong': 'Sao Paulo',           'correct': 'São Paulo',           'country': 'Brasil'},
             {'wrong': 'Ceará',               'correct': 'Ceara',               'country': 'Brasil'},
+            # ARGENTINA - Sincronizado com SofaScore
+            {'wrong': 'Estudiantes de La Plata', 'correct': 'Estudiantes L.P.',    'country': 'Argentina'},
+            {'wrong': 'Vélez Sarsfield',         'correct': 'Velez Sarsfield',     'country': 'Argentina'},
+            {'wrong': 'CA Talleres',             'correct': 'Talleres Cordoba',    'country': 'Argentina'},
+            {'wrong': 'CA Lanús',                'correct': 'Lanus',               'country': 'Argentina'},
+            {'wrong': 'CA Independiente',        'correct': 'Independiente',       'country': 'Argentina'},
+            {'wrong': 'Club Atlético Unión de Santa Fe', 'correct': 'Union de Santa Fe', 'country': 'Argentina'},
+            {'wrong': 'Instituto De Córdoba',    'correct': 'Instituto',           'country': 'Argentina'},
+            {'wrong': 'Club Atlético Platense',  'correct': 'Platense',            'country': 'Argentina'},
+            {'wrong': 'Gimnasia y Esgrima Mendoza', 'correct': 'Gimnasia Mendoza', 'country': 'Argentina'},
+            {'wrong': "Newell's Old Boys",       'correct': 'Newells Old Boys',    'country': 'Argentina'},
+            {'wrong': 'Deportivo Riestra',       'correct': 'Dep. Riestra',        'country': 'Argentina'},
+            {'wrong': 'Independiente Rivadavia', 'correct': 'Ind. Rivadavia',      'country': 'Argentina'},
+            {'wrong': 'Argentinos Juniors',      'correct': 'Argentinos Jrs',      'country': 'Argentina'},
+            {'wrong': 'Club Atlético Belgrano',  'correct': 'Belgrano',            'country': 'Argentina'},
+            {'wrong': 'Gimnasia y Esgrima',      'correct': 'Gimnasia L.P.',       'country': 'Argentina'},
+            {'wrong': 'Huracán',                 'correct': 'Huracan',             'country': 'Argentina'},
+            {'wrong': 'Atlético Tucumán',        'correct': 'Atl. Tucuman',        'country': 'Argentina'},
+            {'wrong': 'Sarmiento',               'correct': 'Sarmiento Junin',     'country': 'Argentina'},
+            {'wrong': 'Estudiantes de Río Cuarto', 'correct': 'Estudiantes Rio Cuarto', 'country': 'Argentina'},
+            {'wrong': 'Central Córdoba',         'correct': 'Central Cordoba',     'country': 'Argentina'},
             
             # AUSTRALIA - Sincronizado com Server (ID 21)
             {'wrong': 'Newcastle Jets FC',    'correct': 'Newcastle Jets',      'country': 'Australia'},
@@ -73,16 +95,27 @@ class Command(BaseCommand):
         wrong_teams = Team.objects.filter(w_query).exclude(id=correct_team.id)
 
         for wrong_team in wrong_teams:
-            if wrong_team.league != correct_team.league:
-                self.stdout.write(f"Skipping merge: '{wrong_team}' and '{correct_team}' are in different leagues.")
-                continue
-
             self.stdout.write(f"Merging '{wrong_team.name}' into '{correct_team.name}'...")
             
-            # Update Matches (Home)
-            Match.objects.filter(home_team=wrong_team).update(home_team=correct_team)
-            # Update Matches (Away)
-            Match.objects.filter(away_team=wrong_team).update(away_team=correct_team)
+            # Update Matches (Home) - also fix league if needed
+            for m in Match.objects.filter(home_team=wrong_team):
+                try:
+                    m.home_team = correct_team
+                    if m.league != correct_team.league:
+                        m.league = correct_team.league
+                    m.save()
+                except IntegrityError:
+                    m.delete()  # Duplicate already exists
+                    
+            # Update Matches (Away) - also fix league if needed
+            for m in Match.objects.filter(away_team=wrong_team):
+                try:
+                    m.away_team = correct_team
+                    if m.league != correct_team.league:
+                        m.league = correct_team.league
+                    m.save()
+                except IntegrityError:
+                    m.delete()  # Duplicate already exists
             
             # Delete wrong team
             wrong_team.delete()

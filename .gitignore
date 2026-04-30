@@ -44,3 +44,4 @@ dump_*.py
 extract_html.py
 find_in_debug.py
 debug_*.html
+get_ids.py

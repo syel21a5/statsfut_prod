@@ -106,7 +106,6 @@ class Command(BaseCommand):
             # O código acima já chamou as APIs se necessário.
             
         if mode == 'upcoming' or mode == 'both':
-            fetch_upcoming_odds_api_argentina()
             fetch_upcoming_odds_api_australia()
             # Futuramente: fetch_upcoming_odds_api_brazil()
             # Futuramente: fetch_upcoming_odds_api_england()
@@ -147,14 +146,6 @@ class Command(BaseCommand):
 
         
         if mode in ['upcoming', 'both']:
-            # The Odds API for Argentina (Special Handling)
-            self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando PRÓXIMOS JOGOS da Liga Profesional (Argentina) via The Odds API...'))
-            try:
-                fetch_upcoming_odds_api_argentina()
-                self.stdout.write(self.style.SUCCESS('✅ Próximos jogos da Liga Profesional atualizados via The Odds API.'))
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f'❌ Erro ao buscar jogos da Liga Profesional: {e}'))
-
             # The Odds API for Australia (Special Handling - Upcoming)
             self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando PRÓXIMOS JOGOS da A-League (Australia) via The Odds API...'))
             try:

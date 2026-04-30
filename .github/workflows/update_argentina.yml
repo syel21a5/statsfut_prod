@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Update Argentina Data via SofaScore
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 */6 * * *'
+
+jobs:
+  proxy-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4.1.7
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5.1.1
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          pip install curl_cffi requests
+
+      - name: Rodar fetcher do SofaScore (Argentina)
+        run: |
+          # Tournament 155 (Liga Profesional), Season 87913 (2026)
+          python proxy_sofascore_fetcher.py --tournament 155 --season 87913
+
+      - name: Enviar payload e processar na VPS
+        env:
+          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          PROD_SERVER_USER: root
+          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Upload do arquivo
+          scp -o StrictHostKeyChecking=no payload.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_argentina.json
+
+          # Comando SSH remoto
+          ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << 'EOF'
+            cd ${{ secrets.PROD_SERVER_PATH }}
+            git pull origin main
+            
+            # Puxa o arquivo com IDs flexíveis (mais seguro que ID fixo)
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_argentina.json --league_name 'Liga Profesional' --country 'Argentina' --season_year 2026
+            
+            # Recalcula as posições e limpa duplicatas
+            ./venv/bin/python manage.py merge_duplicate_teams
+            ./venv/bin/python manage.py recalculate_standings --division ARG
+            
+            # Limpa rastros
+            rm payload_argentina.json
+          EOF

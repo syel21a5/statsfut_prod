@@ -880,19 +880,86 @@ class LeagueDetailView(DetailView):
                     'Estudiantes Rio Cuarto',
                 ]:
                     group_map[_norm_name(name)] = 'B'
+                # Calculate accurate Group Standings (only first 14 matches per team - Copa de la Liga)
+                from matches.models import Match
+                group_matches = Match.objects.filter(league=league, season=latest_season, status='Finished').order_by('date')
+                
+                class GroupRow:
+                    def __init__(self, team):
+                        self.team = team
+                        self.played = 0
+                        self.won = 0
+                        self.drawn = 0
+                        self.lost = 0
+                        self.goals_for = 0
+                        self.goals_against = 0
+                        self.goal_diff = 0
+                        self.points = 0
+                        self.group_position = 0
+
+                group_stats = {}
+                team_match_count = {}
+                
+                # Initialize rows from current standings
+                for s in standings:
+                    key = _norm_name(s.team.name)
+                    g = group_map.get(key)
+                    if g:
+                        group_stats[s.team.id] = GroupRow(s.team)
+                        team_match_count[s.team.id] = 0
+                
+                for m in group_matches:
+                    hid = m.home_team_id
+                    aid = m.away_team_id
+                    
+                    if hid in team_match_count and aid in team_match_count:
+                        if team_match_count[hid] < 15 and team_match_count[aid] < 15:
+                            team_match_count[hid] += 1
+                            team_match_count[aid] += 1
+                            
+                            hr = group_stats[hid]
+                            ar = group_stats[aid]
+                            
+                            hr.played += 1
+                            ar.played += 1
+                            hr.goals_for += m.home_score
+                            hr.goals_against += m.away_score
+                            ar.goals_for += m.away_score
+                            ar.goals_against += m.home_score
+                            
+                            if m.home_score > m.away_score:
+                                hr.won += 1
+                                hr.points += 3
+                                ar.lost += 1
+                            elif m.away_score > m.home_score:
+                                ar.won += 1
+                                ar.points += 3
+                                hr.lost += 1
+                            else:
+                                hr.drawn += 1
+                                ar.drawn += 1
+                                hr.points += 1
+                                ar.points += 1
+                                
+                            hr.goal_diff = hr.goals_for - hr.goals_against
+                            ar.goal_diff = ar.goals_for - ar.goals_against
+
                 groups = {'A': [], 'B': []}
                 for s in standings:
                     key = _norm_name(s.team.name)
                     g = group_map.get(key)
-                    if g in groups:
-                        groups[g].append(s)
+                    if g and s.team.id in group_stats:
+                        groups[g].append(group_stats[s.team.id])
+
                 def _sort_key(s):
                     return (-s.points, -s.goal_diff, -s.goals_for, s.team.name)
+
                 for code in ['A', 'B']:
                     lst = groups[code]
                     lst.sort(key=_sort_key)
                     for idx, row in enumerate(lst, 1):
                         row.group_position = idx
+
                 arg_groups = groups
             context['arg_groups'] = arg_groups
 
