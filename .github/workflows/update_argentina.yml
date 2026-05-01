@@ -52,7 +52,7 @@ jobs:
             
             # Recalcula as posições e limpa duplicatas
             ./venv/bin/python manage.py merge_duplicate_teams
-            ./venv/bin/python manage.py recalculate_standings --division ARG
+            ./venv/bin/python manage.py recalculate_standings --league_name 'Liga Profesional' --country 'Argentina' --season_year 2026
             
             # Limpa rastros
             rm payload_argentina.json

@@ -38,7 +38,7 @@ def main():
     parser.add_argument('--min-year', type=int, default=2016, help="Filtro mínimo de ano para --list-seasons (default: 2016)")
     args = parser.parse_args()
 
-    session = requests.Session(impersonate="chrome110")
+    session = requests.Session(impersonate="chrome120")
     session.headers.update({
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
         "Accept": "*/*",
