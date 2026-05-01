@@ -111,7 +111,16 @@ def main():
                         "events": events_data.get('events', [])
                     })
 
-    print(f"\nRaspagem concluída. Salvando payload.json...")
+    # VALIDAÇÃO CRÍTICA: Se não coletou nenhuma rodada, ABORTAR com erro
+    if len(payload['rounds']) == 0:
+        print("\n❌ ERRO FATAL: Nenhuma rodada foi coletada!")
+        print("   Provável bloqueio do SofaScore (403 Forbidden).")
+        print("   O payload NÃO será salvo para evitar sobrescrever dados válidos.")
+        import sys
+        sys.exit(1)
+
+    print(f"\nRaspagem concluída. {len(payload['rounds'])} blocos de rodadas coletados.")
+    print(f"Salvando payload.json...")
     with open('payload.json', 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     print("payload.json gerado com sucesso!")

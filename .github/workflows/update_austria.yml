@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout código
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4
 
       - name: Configurar Python
-        uses: actions/setup-python@v5.1.1
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -24,10 +24,34 @@ jobs:
         run: |
           pip install curl_cffi requests
 
-      - name: Rodar fetcher do SofaScore (Áustria)
+      - name: Rodar fetcher do SofaScore (Áustria) com retry
         run: |
-          # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 45 --season 77382
+          # Tenta até 3 vezes com delays crescentes para contornar bloqueios temporários
+          MAX_RETRIES=3
+          RETRY=0
+          SUCCESS=false
+          
+          while [ $RETRY -lt $MAX_RETRIES ]; do
+            RETRY=$((RETRY + 1))
+            echo "=== Tentativa $RETRY de $MAX_RETRIES ==="
+            
+            # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
+            python proxy_sofascore_fetcher.py --tournament 45 --season 77382 && {
+              SUCCESS=true
+              break
+            }
+            
+            echo "Tentativa $RETRY falhou. Aguardando 30s antes de tentar novamente..."
+            sleep 30
+          done
+          
+          if [ "$SUCCESS" = false ]; then
+            echo "❌ TODAS AS TENTATIVAS FALHARAM! O SofaScore bloqueou o acesso."
+            echo "   Os dados do servidor NÃO serão alterados (proteção contra dados vazios)."
+            exit 1
+          fi
+          
+          echo "✅ Dados coletados com sucesso!"
 
       - name: Enviar payload e processar na VPS
         env:
@@ -47,7 +71,7 @@ jobs:
             cd ${{ secrets.PROD_SERVER_PATH }}
             git pull origin main
             
-            # Puxa o arquivo com IDs flexíveis (mais seguro que ID fixo)
+            # Importa os dados
             ./venv/bin/python manage.py import_sofascore_payload --file payload_austria.json --league_name 'Bundesliga' --country 'Austria' --season_year 2026
             
             # Recalcula as posições e limpa duplicatas
