@@ -8,12 +8,23 @@ on:
 
 jobs:
   proxy-and-deploy:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
+
+      - name: Instalar Cloudflare WARP (VPN Grátis para burlar bloqueio)
+        run: |
+          curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+          sudo apt-get update && sudo apt-get install -y cloudflare-warp
+          warp-cli --accept-tos registration new
+          warp-cli --accept-tos mode warp+
+          warp-cli --accept-tos connect
+          sleep 5
+          curl -s https://www.cloudflare.com/cdn-cgi/trace | grep warp
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -26,7 +37,6 @@ jobs:
 
       - name: Rodar fetcher do SofaScore (Áustria) com retry
         run: |
-          # Tenta até 3 vezes com delays crescentes para contornar bloqueios temporários
           MAX_RETRIES=3
           RETRY=0
           SUCCESS=false
