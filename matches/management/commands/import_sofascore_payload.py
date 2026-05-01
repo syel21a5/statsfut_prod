@@ -130,38 +130,97 @@ class Command(BaseCommand):
                         }
                         team_name = brazil_mapping.get(str(team_name), str(team_name))
                     
+                    is_argentina = league.name.lower() in ["liga profesional", "copa de la liga"] or league.country.lower() in ["argentina"]
+                    if is_argentina:
+                        arg_mapping = {
+                            "Estudiantes de La Plata": "Estudiantes L.P.",
+                            "Vélez Sarsfield": "Velez Sarsfield",
+                            "CA Talleres": "Talleres Cordoba",
+                            "CA Lanús": "Lanus",
+                            "CA Independiente": "Independiente",
+                            "Club Atlético Unión de Santa Fe": "Union de Santa Fe",
+                            "Instituto De Córdoba": "Instituto",
+                            "Club Atlético Platense": "Platense",
+                            "Gimnasia y Esgrima Mendoza": "Gimnasia Mendoza",
+                            "Newell's Old Boys": "Newells Old Boys",
+                            "Deportivo Riestra": "Dep. Riestra",
+                            "Independiente Rivadavia": "Ind. Rivadavia",
+                            "Argentinos Juniors": "Argentinos Jrs",
+                            "Club Atlético Belgrano": "Belgrano",
+                            "Gimnasia y Esgrima": "Gimnasia L.P.",
+                            "Huracán": "Huracan",
+                            "Atlético Tucumán": "Atl. Tucuman",
+                            "Sarmiento": "Sarmiento Junin",
+                            "Estudiantes de Río Cuarto": "Estudiantes Rio Cuarto",
+                            "Central Córdoba": "Central Cordoba",
+                        }
+                        team_name = arg_mapping.get(team_name, team_name)
+
+                    is_austria = league.name.lower() in ["bundesliga"] or league.country.lower() in ["austria"]
+                    if is_austria:
+                        aus_mapping = {
+                            "Rapid Vienna": "Rapid Wien",
+                            "SK Rapid Wien": "Rapid Wien",
+                            "Austria Vienna": "Austria Wien",
+                            "FK Austria Wien": "Austria Wien",
+                            "Red Bull Salzburg": "Salzburg",
+                            "FC Salzburg": "Salzburg",
+                            "LASK": "LASK Linz",
+                            "SV Ried": "Ried",
+                            "WSG Tirol": "Tirol",
+                            "Grazer AK 1902": "Grazer AK",
+                            "GAK 1902": "Grazer AK",
+                            "FC Blau-Weiß Linz": "FC Blau Weiß Linz",
+                            "FC Blau Weiss Linz": "FC Blau Weiß Linz",
+                            "SV Grödig": "SV Grodig",
+                            "SK Sturm Graz": "Sturm Graz",
+                            "Wolfsberger AC": "Wolfsberger AC",
+                            "CASHPOINT SCR Altach": "Altach",
+                            "SCR Altach": "Altach",
+                            "SC Rheindorf Altach": "Altach",
+                            "TSV Hartberg": "Hartberg",
+                        }
+                        team_name = aus_mapping.get(team_name, team_name)
+                    
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:
                         sofa_api_id = f"sofa_{team_id}"
-                        # 1. Tenta por API ID
-                        team = Team.objects.filter(api_id=sofa_api_id).first()
-                        if team:
-                            changed = False
-                            if team.name != team_name:
-                                team.name = team_name
-                                changed = True
-                            if changed:
-                                team.save()
-                        
-                        # 2. Se não achou por API_ID, tenta por nome na mesma liga
-                        if not team:
-                            team = Team.objects.filter(name=team_name, league=league).first()
-                            if team and not team.api_id:
-                                team.api_id = sofa_api_id
+                        try:
+                            # 1. Tenta por API ID
+                            team = Team.objects.filter(api_id=sofa_api_id).first()
+                            if team:
+                                changed = False
                                 if team.name != team_name:
                                     team.name = team_name
-                                team.save()
-                        
-                        # 3. Cria se não existir nada
-                        if not team:
-                            team = Team.objects.create(
-                                api_id=sofa_api_id,
-                                name=team_name,
-                                league=league
-                            )
-                                
-                        teams_map[int(team_id)] = team
+                                    changed = True
+                                if changed:
+                                    team.save()
+                            
+                            # 2. Se não achou por API_ID, tenta por nome na mesma liga
+                            if not team:
+                                team = Team.objects.filter(name=team_name, league=league).first()
+                                if team and not team.api_id:
+                                    team.api_id = sofa_api_id
+                                    if team.name != team_name:
+                                        team.name = team_name
+                                    team.save()
+                            
+                            # 3. Cria se não existir nada
+                            if not team:
+                                team = Team.objects.create(
+                                    api_id=sofa_api_id,
+                                    name=team_name,
+                                    league=league
+                                )
+                                    
+                            teams_map[int(team_id)] = team
+                        except Exception as te:
+                            self.stdout.write(self.style.WARNING(f"Erro ao sincronizar time {team_name} ({team_id}): {te}"))
+                            # Tenta fallback por nome se API ID falhou
+                            team = Team.objects.filter(name=team_name, league=league).first()
+                            if team:
+                                teams_map[int(team_id)] = team
                     
             self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/sincronizados no total."))
         else:

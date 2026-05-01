@@ -573,11 +573,11 @@ class LeagueDetailView(DetailView):
         latest_season_standing = league.standings.order_by('-season__year').first()
         latest_season = latest_season_standing.season if latest_season_standing else None
         
-        if not latest_season:
-            # Fallback: Tenta pegar a temporada do último jogo importado para não deixar a página vazia
-            last_match = Match.objects.filter(league=league).select_related('season').order_by('-season__year', '-date').first()
-            if last_match:
-                latest_season = last_match.season
+        # Fallback: Tenta pegar a temporada do último jogo importado para não deixar a página vazia
+        # Prioriza season que tem jogos agendados ou recentes
+        last_match = Match.objects.filter(league=league).select_related('season').order_by('-season__year', '-date').first()
+        if last_match and (not latest_season or last_match.season.year >= latest_season.year):
+            latest_season = last_match.season
         
         context['latest_season'] = latest_season
         
@@ -753,7 +753,7 @@ class LeagueDetailView(DetailView):
                     if m.status in FINISHED_STATUSES:
                         played_opp_ppg_sum += opp_ppg
                         played_count += 1
-                    elif m.status == 'Scheduled':
+                    elif m.status in ['Scheduled', 'Not Started', 'TIMED', 'UTC', 'Not started']:
                         remaining_opp_ppg_sum += opp_ppg
                         remaining_count += 1
                         upcoming_scheduled.append({'match': m, 'opp_ppg': opp_ppg})
@@ -789,13 +789,21 @@ class LeagueDetailView(DetailView):
                 standing.proj_ppg = round(standing.ppg_season * standing.proj_ratio, 2)
                 
                 # Games Remaining
-                standing.games_remaining = 38 - standing.played
+                # Dinâmico por liga
+                total_games = 38
+                if league.country == "Austria": total_games = 32
+                elif league.name == "Ligue 1": total_games = 34
+                elif league.country == "Alemanha": total_games = 34
+                elif league.name == "Eredivisie": total_games = 34
+                elif league.country == "Portugal": total_games = 34
+                
+                standing.games_remaining = max(0, total_games - standing.played)
                 
                 # Projected Points = pPPG x Games Remaining
                 standing.proj_points = round(standing.proj_ppg * standing.games_remaining, 2)
                 
                 # Projected Total = Current Points + Projected Points
-                standing.proj_total = round(standing.points + standing.proj_points, 2)
+                standing.proj_total = round(float(standing.points) + float(standing.proj_points), 2)
 
                 # --- Additional Stats for Main Table ---
                 # Clean Sheets (CS): matches where GA = 0
@@ -881,7 +889,6 @@ class LeagueDetailView(DetailView):
                 ]:
                     group_map[_norm_name(name)] = 'B'
                 # Calculate accurate Group Standings (only first 14 matches per team - Copa de la Liga)
-                from matches.models import Match
                 group_matches = Match.objects.filter(league=league, season=latest_season, status='Finished').order_by('date')
                 
                 class GroupRow:
