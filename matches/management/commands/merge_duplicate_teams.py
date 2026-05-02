@@ -74,6 +74,15 @@ class Command(BaseCommand):
             {'wrong': 'Newcastle Jets FC',    'correct': 'Newcastle Jets',      'country': 'Australia'},
             {'wrong': 'Wellington Phoenix FC','correct': 'Wellington Phoenix',   'country': 'Australia'},
             {'wrong': 'Melbourne City FC',   'correct': 'Melbourne City',      'country': 'Australia'},
+            
+            # BELGICA
+            {'wrong': 'Club Brugge KV',      'correct': 'Club Brugge',         'country': 'Belgica'},
+            {'wrong': 'Standard Liège',      'correct': 'Standard Liege',      'country': 'Belgica'},
+            {'wrong': 'Royal Antwerp FC',    'correct': 'Antwerp',             'country': 'Belgica'},
+            {'wrong': 'Royale Union Saint-Gilloise', 'correct': 'Union St. Gilloise', 'country': 'Belgica'},
+            {'wrong': 'KAA Gent',            'correct': 'Gent',                'country': 'Belgica'},
+            {'wrong': 'KRC Genk',            'correct': 'Genk',                'country': 'Belgica'},
+            {'wrong': 'RC Sporting Charleroi', 'correct': 'Charleroi',          'country': 'Belgica'},
         ]
 
         for item in merge_map:
