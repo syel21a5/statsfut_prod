@@ -88,6 +88,12 @@ class Command(BaseCommand):
             {'wrong': 'RC Sporting Charleroi', 'correct': 'Charleroi',          'country': 'Belgica'},
             {'wrong': 'OH Leuven',           'correct': 'Oud-Heverlee Leuven', 'country': 'Belgica'},
             {'wrong': 'Saint-Truidense VV',  'correct': 'Sint-Truidense VV',   'country': 'Belgica'},
+
+            # SUICA
+            {'wrong': 'BSC Young Boys',      'correct': 'Young Boys',          'country': 'Suica'},
+            {'wrong': 'FC St. Gallen 1879',  'correct': 'St. Gallen',          'country': 'Suica'},
+            {'wrong': 'Grasshopper Club Zürich', 'correct': 'Grasshoppers',     'country': 'Suica'},
+            {'wrong': 'FC Lausanne-Sport',   'correct': 'Lausanne',            'country': 'Suica'},
         ]
 
         for item in merge_map:
