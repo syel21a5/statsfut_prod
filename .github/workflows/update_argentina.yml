@@ -15,6 +15,12 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
+
+      - name: WARP
+        uses: fscarmen/warp-on-actions@v1.2
+        with:
+          stack: dual
+
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
@@ -35,7 +41,78 @@ jobs:
             echo "=== Tentativa $RETRY de $MAX_RETRIES ==="
             
             # Tournament 155 (Liga Profesional), Season 87913 (2026)
-            python proxy_sofascore_fetcher.py --tournament 155 --season 87913 && {
+
+            
+                      MAX_RETRIES=3
+
+            
+                      RETRY=0
+
+            
+                      SUCCESS=false
+
+            
+                      
+
+            
+                      while [ $RETRY -lt $MAX_RETRIES ]; do
+
+            
+                        RETRY=$((RETRY + 1))
+
+            
+                        echo "=== Tentativa $RETRY de $MAX_RETRIES ==="
+
+            
+                        
+
+            
+                        python proxy_sofascore_fetcher.py --tournament 155 --season 87913 && {
+
+            
+                          SUCCESS=true
+
+            
+                          break
+
+            
+                        }
+
+            
+                        
+
+            
+                        echo "Tentativa $RETRY falhou. Aguardando 30s antes de tentar novamente..."
+
+            
+                        sleep 30
+
+            
+                      done
+
+            
+                      
+
+            
+                      if [ "$SUCCESS" = false ]; then
+
+            
+                        echo "❌ TODAS AS TENTATIVAS FALHARAM! O SofaScore bloqueou o acesso."
+
+            
+                        echo "   Os dados do servidor NÃO serão alterados (proteção contra dados vazios)."
+
+            
+                        exit 1
+
+            
+                      fi
+
+            
+                      
+
+            
+                      echo "✅ Dados coletados com sucesso!"
               SUCCESS=true
               break
             }

@@ -13,10 +13,16 @@ jobs:
 
     steps:
       - name: Checkout código
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4
+
+
+      - name: WARP
+        uses: fscarmen/warp-on-actions@v1.2
+        with:
+          stack: dual
 
       - name: Configurar Python
-        uses: actions/setup-python@v5.1.1
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -27,7 +33,54 @@ jobs:
       - name: Rodar fetcher do SofaScore (Austrália)
         run: |
           # Tournament 136 (A-League Men), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 136 --season 82603
+
+                    MAX_RETRIES=3
+
+                    RETRY=0
+
+                    SUCCESS=false
+
+                    
+
+                    while [ $RETRY -lt $MAX_RETRIES ]; do
+
+                      RETRY=$((RETRY + 1))
+
+                      echo "=== Tentativa $RETRY de $MAX_RETRIES ==="
+
+                      
+
+                      python proxy_sofascore_fetcher.py --tournament 136 --season 82603 && {
+
+                        SUCCESS=true
+
+                        break
+
+                      }
+
+                      
+
+                      echo "Tentativa $RETRY falhou. Aguardando 30s antes de tentar novamente..."
+
+                      sleep 30
+
+                    done
+
+                    
+
+                    if [ "$SUCCESS" = false ]; then
+
+                      echo "❌ TODAS AS TENTATIVAS FALHARAM! O SofaScore bloqueou o acesso."
+
+                      echo "   Os dados do servidor NÃO serão alterados (proteção contra dados vazios)."
+
+                      exit 1
+
+                    fi
+
+                    
+
+                    echo "✅ Dados coletados com sucesso!"
 
       - name: Enviar payload e processar na VPS
         env:
