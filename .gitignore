@@ -39,6 +39,7 @@ scrape_error.txt
 # Local testing/simulation helpers
 payload*.json
 *.docx
+*.doc
 simulate_cron.py
 check_*.py
 dump_*.py
