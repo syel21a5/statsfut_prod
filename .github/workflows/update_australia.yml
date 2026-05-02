@@ -75,10 +75,13 @@ jobs:
             cd ${{ secrets.PROD_SERVER_PATH }}
             git pull origin main
             
-            # Importa os dados (A-League 25/26 termina em 2026)
+            # 1. LIMPEZA PREVENTIVA: Remove partidas antigas para evitar duplicatas ou dados poluídos (21 vs 26 jogos)
+            ./venv/bin/python manage.py shell -c "from matches.models import Match, League, Season; l=League.objects.filter(name='A-League Men', country='Australia').first(); s=Season.objects.filter(year=2026).first(); Match.objects.filter(league=l, season=s).delete() if l and s else None; print('Limpeza da Australia 2026 concluída.')"
+            
+            # 2. Importa os dados frescos (A-League 25/26 termina em 2026)
             ./venv/bin/python manage.py import_sofascore_payload --file payload_australia.json --league_name 'A-League Men' --country 'Australia' --season_year 2026
             
-            # Recalcula as posições e limpa duplicatas
+            # 3. Recalcula as posições e limpa duplicatas (agora com mapeamento Australia no código)
             ./venv/bin/python manage.py merge_duplicate_teams
             ./venv/bin/python manage.py recalculate_standings --league_name 'A-League Men' --country 'Australia' --season_year 2026
             

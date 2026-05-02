@@ -58,6 +58,10 @@ class Command(BaseCommand):
             {'wrong': 'Deportivo Riestra',       'correct': 'Dep. Riestra',        'country': 'Argentina'},
             {'wrong': 'Independiente Rivadavia', 'correct': 'Ind. Rivadavia',      'country': 'Argentina'},
             {'wrong': 'Argentinos Juniors',      'correct': 'Argentinos Jrs',      'country': 'Argentina'},
+            
+            # AUSTRALIA
+            {'wrong': 'Newcastle Jets FC',       'correct': 'Newcastle Jets',      'country': 'Australia'},
+            {'wrong': 'WS Wanderers',            'correct': 'Western Sydney Wanderers', 'country': 'Australia'},
             {'wrong': 'Club Atlético Belgrano',  'correct': 'Belgrano',            'country': 'Argentina'},
             {'wrong': 'Gimnasia y Esgrima',      'correct': 'Gimnasia L.P.',       'country': 'Argentina'},
             {'wrong': 'Huracán',                 'correct': 'Huracan',             'country': 'Argentina'},
