@@ -117,6 +117,17 @@ class Command(BaseCommand):
             {'wrong': 'VfL Wolfsburg',       'correct': 'Wolfsburg',           'country': 'Alemanha'},
             {'wrong': 'FC St. Pauli',        'correct': 'St Pauli',            'country': 'Alemanha'},
             {'wrong': 'Hamburger SV',        'correct': 'Hamburg',             'country': 'Alemanha'},
+
+            # FRANCA
+            {'wrong': 'Paris Saint-Germain', 'correct': 'PSG',                 'country': 'Franca'},
+            {'wrong': 'AS Monaco',           'correct': 'Monaco',               'country': 'Franca'},
+            {'wrong': 'Olympique Lyonnais',  'correct': 'Lyon',                'country': 'Franca'},
+            {'wrong': 'Olympique de Marseille', 'correct': 'Marseille',          'country': 'Franca'},
+            {'wrong': 'RC Lens',             'correct': 'Lens',                'country': 'Franca'},
+            {'wrong': 'RC Strasbourg',       'correct': 'Strasbourg',          'country': 'Franca'},
+            {'wrong': 'Stade Brestois',      'correct': 'Brest',               'country': 'Franca'},
+            {'wrong': 'Stade Rennais',       'correct': 'Rennes',              'country': 'Franca'},
+            {'wrong': 'Stade de Reims',      'correct': 'Reims',               'country': 'Franca'},
         ]
 
         for item in merge_map:
