@@ -61,6 +61,11 @@ class Command(BaseCommand):
             'env_key': 'ODDS_API_KEY_GERMANY_UPCOMING',
             'db_name': 'Bundesliga',
             'country': 'Alemanha'
+        },
+        'soccer_france_ligue_one': {
+            'env_key': 'ODDS_API_KEY_FRANCE_UPCOMING',
+            'db_name': 'Ligue 1',
+            'country': 'Franca'
         }
     }
 
