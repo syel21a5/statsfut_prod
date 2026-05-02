@@ -39,8 +39,11 @@ class Command(BaseCommand):
             {'wrong': 'Vasco da Gama',       'correct': 'Vasco',               'country': 'Brasil'},
             {'wrong': 'Bragantino-SP',       'correct': 'Bragantino',          'country': 'Brasil'},
             {'wrong': 'RB Bragantino',       'correct': 'Bragantino',          'country': 'Brasil'},
+            {'wrong': 'Red Bull Bragantino', 'correct': 'Bragantino',          'country': 'Brasil'},
             {'wrong': 'Atletico Mineiro',    'correct': 'Atletico-MG',         'country': 'Brasil'},
-            {'wrong': 'Athletico Paranaense','correct': 'Athletico-PR',         'country': 'Brasil'},
+            {'wrong': 'Atlético Mineiro',    'correct': 'Atletico-MG',         'country': 'Brasil'},
+            {'wrong': 'Athletico Paranaense','correct': 'Athletico-PR',        'country': 'Brasil'},
+            {'wrong': 'Athletico',           'correct': 'Athletico-PR',        'country': 'Brasil'},
             {'wrong': 'Grêmio',              'correct': 'Gremio',              'country': 'Brasil'},
             {'wrong': 'Sao Paulo',           'correct': 'São Paulo',           'country': 'Brasil'},
             {'wrong': 'Ceará',               'correct': 'Ceara',               'country': 'Brasil'},
@@ -83,6 +86,8 @@ class Command(BaseCommand):
             {'wrong': 'KAA Gent',            'correct': 'Gent',                'country': 'Belgica'},
             {'wrong': 'KRC Genk',            'correct': 'Genk',                'country': 'Belgica'},
             {'wrong': 'RC Sporting Charleroi', 'correct': 'Charleroi',          'country': 'Belgica'},
+            {'wrong': 'OH Leuven',           'correct': 'Oud-Heverlee Leuven', 'country': 'Belgica'},
+            {'wrong': 'Saint-Truidense VV',  'correct': 'Sint-Truidense VV',   'country': 'Belgica'},
         ]
 
         for item in merge_map:
