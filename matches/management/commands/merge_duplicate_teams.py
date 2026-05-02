@@ -94,6 +94,29 @@ class Command(BaseCommand):
             {'wrong': 'FC St. Gallen 1879',  'correct': 'St. Gallen',          'country': 'Suica'},
             {'wrong': 'Grasshopper Club Zürich', 'correct': 'Grasshoppers',     'country': 'Suica'},
             {'wrong': 'FC Lausanne-Sport',   'correct': 'Lausanne',            'country': 'Suica'},
+
+            # ALEMANHA
+            {'wrong': 'FC Bayern München',   'correct': 'Bayern Munich',       'country': 'Alemanha'},
+            {'wrong': 'Bayer 04 Leverkusen', 'correct': 'Leverkusen',          'country': 'Alemanha'},
+            {'wrong': 'Bayer Leverkusen',    'correct': 'Leverkusen',          'country': 'Alemanha'},
+            {'wrong': "Borussia M'gladbach", 'correct': 'M Gladbach',          'country': 'Alemanha'},
+            {'wrong': 'Monchengladbach',     'correct': 'M Gladbach',          'country': 'Alemanha'},
+            {'wrong': '1. FC Union Berlin',  'correct': 'Union Berlin',        'country': 'Alemanha'},
+            {'wrong': '1. FSV Mainz 05',     'correct': 'Mainz',               'country': 'Alemanha'},
+            {'wrong': '1. FC Köln',          'correct': 'Koln',                'country': 'Alemanha'},
+            {'wrong': 'FC Koln',             'correct': 'Koln',                'country': 'Alemanha'},
+            {'wrong': 'SV Werder Bremen',    'correct': 'Werder Bremen',       'country': 'Alemanha'},
+            {'wrong': '1. FC Heidenheim',    'correct': 'Heidenheim',          'country': 'Alemanha'},
+            {'wrong': 'Borussia Dortmund',   'correct': 'Dortmund',            'country': 'Alemanha'},
+            {'wrong': 'RB Leipzig',          'correct': 'Leipzig',             'country': 'Alemanha'},
+            {'wrong': 'VfB Stuttgart',       'correct': 'Stuttgart',           'country': 'Alemanha'},
+            {'wrong': 'TSG Hoffenheim',      'correct': 'Hoffenheim',          'country': 'Alemanha'},
+            {'wrong': 'Eintracht Frankfurt', 'correct': 'Frankfurt',           'country': 'Alemanha'},
+            {'wrong': 'SC Freiburg',         'correct': 'Freiburg',            'country': 'Alemanha'},
+            {'wrong': 'FC Augsburg',         'correct': 'Augsburg',            'country': 'Alemanha'},
+            {'wrong': 'VfL Wolfsburg',       'correct': 'Wolfsburg',           'country': 'Alemanha'},
+            {'wrong': 'FC St. Pauli',        'correct': 'St Pauli',            'country': 'Alemanha'},
+            {'wrong': 'Hamburger SV',        'correct': 'Hamburg',             'country': 'Alemanha'},
         ]
 
         for item in merge_map:
