@@ -920,7 +920,8 @@ class LeagueDetailView(DetailView):
                     aid = m.away_team_id
                     
                     if hid in team_match_count and aid in team_match_count:
-                        if team_match_count[hid] < 15 and team_match_count[aid] < 15:
+                        # O Apertura de 2026 tem 16 rodadas na fase de grupos
+                        if team_match_count[hid] < 16 and team_match_count[aid] < 16:
                             team_match_count[hid] += 1
                             team_match_count[aid] += 1
                             
