@@ -889,7 +889,7 @@ class LeagueDetailView(DetailView):
                 ]:
                     group_map[_norm_name(name)] = 'B'
                 # Calculate accurate Group Standings (only first 14 matches per team - Copa de la Liga)
-                group_matches = Match.objects.filter(league=league, season=latest_season, status='Finished').order_by('date')
+                group_matches = Match.objects.filter(league=league, season=latest_season, status__in=['Finished', 'FT']).order_by('date')
                 
                 class GroupRow:
                     def __init__(self, team):
