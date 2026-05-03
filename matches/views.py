@@ -7,7 +7,8 @@ from django.db.models import Q
 from datetime import datetime, timedelta
 from .models import Match, League, Team, Season, LeagueStanding, Goal
 from django.db import models
-from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+from matches.utils import COUNTRY_REVERSE_TRANSLATIONS, get_flag_code
+
 
 from .api_manager import APIManager
 import json
@@ -298,22 +299,57 @@ class HomeView(ListView):
         if filter_type == 'tomorrow':
             start_date = start_of_day + timedelta(days=1)
             end_date = start_date + timedelta(days=1)
-            return Match.objects.filter(date__range=(start_date, end_date)).order_by('date')
+            return Match.objects.filter(date__range=(start_date, end_date)).select_related('league', 'home_team', 'away_team').order_by('date')
             
         elif filter_type == 'next_round':
             # Próximos 14 dias para garantir
             start_date = start_of_day + timedelta(days=2)
             end_date = start_date + timedelta(days=14)
-            return Match.objects.filter(date__range=(start_date, end_date)).order_by('date')
+            return Match.objects.filter(date__range=(start_date, end_date)).select_related('league', 'home_team', 'away_team').order_by('date')
             
         else: # today
             end_date = start_of_day + timedelta(days=1)
-            return Match.objects.filter(date__range=(start_of_day, end_date)).order_by('status', 'date')
+            return Match.objects.filter(date__range=(start_of_day, end_date)).select_related('league', 'home_team', 'away_team').order_by('status', 'date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        matches = context['matches']
         filter_type = self.request.GET.get('filter', 'today')
         context['current_filter'] = filter_type
+        
+        # Group matches by Country -> League
+        grouped = {}
+        for m in matches:
+            country = m.league.country
+            league_name = m.league.name
+            if country not in grouped:
+                grouped[country] = {}
+            if league_name not in grouped[country]:
+                grouped[country][league_name] = []
+            grouped[country][league_name].append(m)
+            
+        # Convert to a sorted list of countries for the template
+        # Sort logic: Brazil first, then alphabetical
+        sorted_countries = sorted(grouped.keys(), key=lambda x: (x != 'Brasil', x))
+        
+        grouped_list = []
+        for country in sorted_countries:
+            leagues = []
+            for league_name, league_matches in grouped[country].items():
+                leagues.append({
+                    'name': league_name,
+                    'matches': league_matches,
+                    'league_obj': league_matches[0].league
+                })
+            # Sort leagues by name
+            leagues.sort(key=lambda x: x['name'])
+            grouped_list.append({
+                'country': country,
+                'flag_code': get_flag_code(country),
+                'leagues': leagues
+            })
+            
+        context['grouped_matches'] = grouped_list
         
         if filter_type == 'tomorrow':
             context['page_title'] = "Tomorrow's Matches"

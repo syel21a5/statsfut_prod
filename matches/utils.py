@@ -403,3 +403,79 @@ def normalize_team_name(name):
     # Tenta busca case-insensitive se necessário (opcional, mas seguro)
     # Por enquanto o strip já resolve 99% dos casos do CSV.
     return clean_name
+def get_flag_code(country_name):
+    """
+    Helper to map country names to Flag Icons (fi fi-xx).
+    """
+    country_lower = country_name.lower()
+    
+    # Map common names to ISO codes or 'fi' codes
+    mapping = {
+        'england': 'gb-eng',
+        'uk': 'gb',
+        'united kingdom': 'gb',
+        'spain': 'es',
+        'brazil': 'br',
+        'brasil': 'br',
+        'italy': 'it',
+        'germany': 'de',
+        'france': 'fr',
+        'portugal': 'pt',
+        'netherlands': 'nl',
+        'holland': 'nl',
+        'belgium': 'be',
+        'argentina': 'ar',
+        'usa': 'us',
+        'united states': 'us',
+        'turkey': 'tr',
+        'russia': 'ru',
+        'ukraine': 'ua',
+        'sweden': 'se',
+        'norway': 'no',
+        'denmark': 'dk',
+        'finland': 'fi',
+        'austria': 'at',
+        'switzerland': 'ch',
+        'czech republic': 'cz',
+        'czechia': 'cz',
+        'poland': 'pl',
+        'greece': 'gr',
+        'scotland': 'gb-sct',
+        'wales': 'gb-wls',
+        'ireland': 'ie',
+        'colombia': 'co',
+        'chile': 'cl',
+        'mexico': 'mx',
+        'uruguay': 'uy',
+        'japan': 'jp',
+        'south korea': 'kr',
+        'china': 'cn',
+        'australia': 'au',
+        # Add Portuguese names just in case
+        'inglaterra': 'gb-eng',
+        'espanha': 'es',
+        'italia': 'it',
+        'alemanha': 'de',
+        'franca': 'fr',
+        'frança': 'fr',
+        'holanda': 'nl',
+        'belgica': 'be',
+        'bélgica': 'be',
+        'estados unidos': 'us',
+        'turquia': 'tr',
+        'russia': 'ru',
+        'ucrania': 'ua',
+        'ucrânia': 'ua',
+        'suecia': 'se',
+        'suécia': 'se',
+        'noruega': 'no',
+        'dinamarca': 'dk',
+        'finlandia': 'fi',
+        'finlândia': 'fi',
+        'grecia': 'gr',
+        'grécia': 'gr',
+        'japao': 'jp',
+        'japão': 'jp',
+    }
+    
+    return mapping.get(country_lower, 'xx') # 'xx' as generic/unknown

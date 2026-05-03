@@ -15,10 +15,10 @@
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
     
     <!-- Date Filters -->
-    <div class="bg-dark p-1 rounded-3 d-inline-flex">
-        <a href="?filter=today" class="btn btn-sm {% if current_filter == 'today' %}btn-dark active text-white fw-bold{% else %}btn-link text-decoration-none text-muted{% endif %} px-3 rounded-2">Today</a>
-        <a href="?filter=tomorrow" class="btn btn-sm {% if current_filter == 'tomorrow' %}btn-dark active text-white fw-bold{% else %}btn-link text-decoration-none text-muted{% endif %} px-3 rounded-2">Tomorrow</a>
-        <a href="?filter=next_round" class="btn btn-sm {% if current_filter == 'next_round' %}btn-dark active text-white fw-bold{% else %}btn-link text-decoration-none text-muted{% endif %} px-3 rounded-2">Next Round</a>
+    <div class="bg-dark p-1 rounded-3 d-inline-flex border border-secondary border-opacity-25">
+        <a href="?filter=today" class="btn btn-sm {% if current_filter == 'today' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">Today</a>
+        <a href="?filter=tomorrow" class="btn btn-sm {% if current_filter == 'tomorrow' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">Tomorrow</a>
+        <a href="?filter=next_round" class="btn btn-sm {% if current_filter == 'next_round' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">Next Round</a>
     </div>
 
     <!-- Status Filters -->
@@ -82,6 +82,17 @@
             if (shouldShow) visibleCount++;
         });
 
+        // Hide empty leagues and countries
+        document.querySelectorAll('.league-group').forEach(league => {
+            const visibleMatches = league.querySelectorAll('.match-card-wrapper[style="display: block;"]').length;
+            league.style.display = visibleMatches > 0 ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.country-section').forEach(country => {
+            const visibleLeagues = country.querySelectorAll('.league-group[style="display: block;"]').length;
+            country.style.display = visibleLeagues > 0 ? 'block' : 'none';
+        });
+
         // Show message if no cards visible
         const emptyMsg = document.getElementById('empty-message');
         if (visibleCount === 0) {
@@ -117,74 +128,115 @@
     /* Ensure grid works with Bootstrap */
     .matches-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
     }
 </style>
 
-<div class="matches-grid">
-    {% for match in matches %}
-    <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="text-decoration-none text-inherit match-card-wrapper">
-        <div class="match-card p-3 rounded-4 border border-secondary bg-dark-subtle position-relative overflow-hidden hover-effect" data-status="{{ match.status }}">
-            <div class="d-flex justify-content-between mb-3 small text-muted">
-                <div class="d-flex align-items-center gap-2 text-primary fw-bold">
-                    <i class="fa-solid fa-circle-notch"></i> {{ match.league.name }}
+<div class="matches-container">
+    {% for country_data in grouped_matches %}
+    <div class="country-section mb-5" id="country-{{ forloop.counter }}">
+        <h2 class="h4 text-white fw-bold d-flex align-items-center gap-3 mb-4 section-title">
+            <span class="fi fi-{{ country_data.flag_code }} rounded-1 shadow-sm"></span>
+            {{ country_data.country }}
+            <div class="flex-grow-1 border-bottom border-secondary border-opacity-25 ms-2"></div>
+        </h2>
+        
+        {% for league_data in country_data.leagues %}
+        <div class="league-group mb-4" id="league-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
+            <div class="league-header-premium p-3 mb-3 d-flex justify-content-between align-items-center rounded-3">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-circle-nodes text-primary small"></i>
+                    <span class="fw-bold text-uppercase tracking-wider small">{{ league_data.name }}</span>
                 </div>
-                <div class="fw-bold">
-                    {% if match.status == 'Live' %}
-                    <span class="text-success">{{ match.elapsed_time }}' </span>
-                    <span class="live-dot d-inline-block align-middle bg-success rounded-circle" style="width: 6px; height: 6px;"></span>
-                    {% elif match.status == 'Scheduled' %}
-                    {{ match.date|date:"H:i" }}
-                    {% else %}
-                    <span class="text-muted">{{ match.status }}</span>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="d-flex flex-column gap-2 mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-2 text-white fw-medium">
-                        {{ match.home_team.name }}
-                    </div>
-                    <div class="fw-bold {% if match.home_score > match.away_score %}text-info{% else %}text-white{% endif %}">
-                        {% if match.status == 'Scheduled' %}
-                            {{ match.home_score|default:"-" }}
-                        {% else %}
-                            {{ match.home_score|default:"0" }}
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-2 text-white fw-medium">
-                        {{ match.away_team.name }}
-                    </div>
-                    <div class="fw-bold {% if match.away_score > match.home_score %}text-info{% else %}text-white{% endif %}">
-                        {% if match.status == 'Scheduled' %}
-                            {{ match.away_score|default:"-" }}
-                        {% else %}
-                            {{ match.away_score|default:"0" }}
-                        {% endif %}
-                    </div>
+                <div class="small text-muted fw-medium">
+                    <span class="match-count">{{ league_data.matches|length }}</span> matches
                 </div>
             </div>
+            
+            <div class="matches-grid">
+                {% for match in league_data.matches %}
+                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="text-decoration-none text-inherit match-card-wrapper">
+                    <div class="match-card glass-card p-2 px-3 rounded-4 border border-secondary position-relative overflow-hidden hover-effect" data-status="{{ match.status }}">
+                        <div class="d-flex justify-content-between mb-2 small text-white">
+                            <div class="fw-bold d-flex align-items-center gap-2">
+                                {% if match.status == 'Live' %}
+                                <span class="text-success pulse-text">LIVE</span>
+                                <span class="live-dot"></span>
+                                {% else %}
+                                <i class="fa-regular fa-clock text-white-50"></i>
+                                {% endif %}
+                                
+                                {% if match.status == 'Scheduled' %}
+                                    {{ match.date|date:"H:i" }}
+                                {% elif match.status == 'Live' %}
+                                    {{ match.elapsed_time }}'
+                                {% else %}
+                                    {{ match.status }}
+                                {% endif %}
+                            </div>
+                            <div class="text-xs text-white-50 fw-medium">
+                                {{ match.round_name|default:"" }}
+                            </div>
+                        </div>
 
-            <div class="d-flex gap-2 text-xs fw-bold">
-                <div class="badge bg-dark border border-secondary text-success p-2">OVER 2.5: {{ match.over_25_prob }}%</div>
-                <div class="badge bg-dark border border-secondary text-danger p-2">UNDER 1.5: {{ match.under_15_prob }}%</div>
+                        <div class="d-flex mb-3 align-items-center">
+                            <!-- Teams Column -->
+                            <div class="d-flex flex-column gap-2 flex-grow-1">
+                                <div class="team-name d-flex align-items-center gap-2">
+                                    <div class="team-initial bg-primary bg-opacity-10 text-primary">{{ match.home_team.name|slice:":1" }}</div>
+                                    <span class="{% if match.home_score > match.away_score %}text-white fw-bold{% else %}text-light{% endif %} text-truncate" style="max-width: 150px;">{{ match.home_team.name }}</span>
+                                </div>
+                                <div class="team-name d-flex align-items-center gap-2">
+                                    <div class="team-initial bg-accent bg-opacity-10 text-accent">{{ match.away_team.name|slice:":1" }}</div>
+                                    <span class="{% if match.away_score > match.home_score %}text-white fw-bold{% else %}text-light{% endif %} text-truncate" style="max-width: 150px;">{{ match.away_team.name }}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Scores Column -->
+                            <div class="d-flex flex-column gap-2 align-items-center justify-content-center px-3 py-2 rounded-4 border border-secondary border-opacity-25" style="background: rgba(0,0,0,0.2);">
+                                <div class="score-display {% if match.home_score > match.away_score %}active text-white{% else %}text-light{% endif %}">
+                                    {% if match.status == 'Scheduled' %}-{% else %}{{ match.home_score|default:"0" }}{% endif %}
+                                </div>
+                                <div class="score-display {% if match.away_score > match.home_score %}active text-white{% else %}text-light{% endif %}">
+                                    {% if match.status == 'Scheduled' %}-{% else %}{{ match.away_score|default:"0" }}{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-stats-row mt-2">
+                            <div class="prob-badge prob-over position-relative overflow-hidden">
+                                <div class="position-absolute top-0 start-0 h-100 bg-success opacity-25" style="width: {{ match.over_25_prob }}%; transition: width 1s ease-in-out;"></div>
+                                <span class="label text-white fw-bold position-relative z-1"><i class="fa-solid fa-arrow-up text-success me-1"></i>O2.5</span>
+                                <span class="value fw-bold text-success position-relative z-1">{{ match.over_25_prob }}%</span>
+                            </div>
+                            <div class="prob-badge prob-under position-relative overflow-hidden">
+                                <div class="position-absolute top-0 start-0 h-100 bg-danger opacity-25" style="width: {{ match.under_15_prob }}%; transition: width 1s ease-in-out;"></div>
+                                <span class="label text-white fw-bold position-relative z-1"><i class="fa-solid fa-arrow-down text-danger me-1"></i>U1.5</span>
+                                <span class="value fw-bold text-danger position-relative z-1">{{ match.under_15_prob }}%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-glow"></div>
+                    </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
-    </a>
+        {% endfor %}
+    </div>
     {% empty %}
-    <!-- Empty State -->
+    <div class="text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
+        <i class="fa-solid fa-ghost mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+        <p class="mb-1">No matches found for this period.</p>
+        <p class="small opacity-75">Try checking another date or filter.</p>
+    </div>
     {% endfor %}
     
-    <!-- Hidden Empty Message for Filter -->
-    <div id="empty-message" class="d-none text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="grid-column: 1 / -1; background: var(--bg-panel);">
-        <i class="fa-solid fa-ghost mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
-        <p class="mb-1">No matches found.</p>
-        <p class="small opacity-75">Check if the scraper has run recently.</p>
+    <div id="empty-message" class="d-none text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
+        <i class="fa-solid fa-magnifying-glass mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+        <p class="mb-1">No matches match your filter.</p>
+        <p class="small opacity-75">Try resetting the status filter.</p>
     </div>
 </div>
 

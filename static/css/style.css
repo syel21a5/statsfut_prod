@@ -512,3 +512,109 @@ body {
     backdrop-filter: blur(5px);
     background-color: rgba(15, 23, 42, 0.95) !important; /* Matches --bg-sidebar slightly transparent */
 }
+
+/* --- PREMIUM HOME REDESIGN --- */
+
+.section-title {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    color: var(--text-main);
+}
+
+.section-title .fi {
+    width: 32px;
+    height: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.league-header-premium {
+    background: linear-gradient(90deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.4));
+    border: 1px solid var(--border);
+    backdrop-filter: blur(4px);
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.glass-card:hover {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: var(--primary) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.team-initial {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.75rem;
+}
+
+.score-display {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    min-width: 20px;
+    text-align: center;
+}
+
+.score-display.active {
+    color: var(--primary);
+    text-shadow: 0 0 15px var(--primary-glow);
+}
+
+.card-stats-row {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.prob-badge {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.prob-over .label { color: var(--text-muted); }
+.prob-over .value { color: var(--success); }
+
+.prob-under .label { color: var(--text-muted); }
+.prob-under .value { color: var(--accent); }
+
+.pulse-text {
+    animation: pulse-opacity 2s infinite;
+}
+
+@keyframes pulse-opacity {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.card-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at top right, var(--primary-glow), transparent 70%);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.tracking-wider { letter-spacing: 0.05em; }
+.text-xs { font-size: 0.75rem; }
