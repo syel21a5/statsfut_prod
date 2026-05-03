@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from django.http import JsonResponse
 from django.db.models import Q
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from .models import Match, League, Team, Season, LeagueStanding, Goal
 from django.db import models
 from matches.utils import COUNTRY_REVERSE_TRANSLATIONS, get_flag_code
@@ -293,8 +294,12 @@ class HomeView(ListView):
     
     def get_queryset(self):
         filter_type = self.request.GET.get('filter', 'today')
-        now = timezone.now()
-        start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        
+        # Use Brazil timezone for day boundaries so matches at 21:00 BRT
+        # (which is 00:00 UTC next day) are correctly attributed to the right day
+        br_tz = ZoneInfo('America/Sao_Paulo')
+        now_br = timezone.now().astimezone(br_tz)
+        start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
         
         if filter_type == 'tomorrow':
             start_date = start_of_day + timedelta(days=1)
