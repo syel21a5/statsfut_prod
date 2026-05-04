@@ -38,27 +38,47 @@ class Command(BaseCommand):
                 elapsed = item.get('elapsed')
 
                 # Tenta encontrar a liga
-                league = League.objects.filter(name__icontains=league_name, country__icontains=country).first()
-                if not league:
-                    # Se não achou por nome parcial, tenta criar ou pular?
-                    # Para live, vamos focar em atualizar o que já existe
-                    continue
-
+                league = None
+                if league_name != "Desconhecida":
+                    league = League.objects.filter(name__icontains=league_name, country__icontains=country).first()
+                
                 # Busca o jogo que está acontecendo hoje ou recentemente
-                # Filtramos por times e liga
-                match = Match.objects.filter(
-                    league=league,
-                    home_team__name=home_name,
-                    away_team__name=away_name,
-                    status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
-                ).order_by('-date').first()
+                # Se temos a liga, usamos ela. Se não, buscamos apenas pelos times (mais flexível)
+                if league:
+                    match_query = Match.objects.filter(
+                        league=league,
+                        home_team__name=home_name,
+                        away_team__name=away_name,
+                        status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
+                    )
+                else:
+                    match_query = Match.objects.filter(
+                        home_team__name=home_name,
+                        away_team__name=away_name,
+                        status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
+                    )
+
+                match = match_query.order_by('-date').first()
 
                 if match:
                     # Atualiza placar e status
                     match.home_score = score_home
                     match.away_score = score_away
                     match.status = status
-                    match.elapsed_time = elapsed
+                    
+                    try:
+                        # Converte minuto para inteiro se possível
+                        match.elapsed_time = int(elapsed)
+                    except (ValueError, TypeError):
+                        if elapsed == "FT":
+                            match.elapsed_time = 90
+                            match.status = "Finished"
+                        elif elapsed == "HT":
+                            match.elapsed_time = 45
+                            match.status = "HT"
+                        else:
+                            match.elapsed_time = None
+
                     match.save()
                     count_updated += 1
                     self.stdout.write(f"✅ Atualizado: {home_name} {score_home}-{score_away} {away_name} ({elapsed}')")
