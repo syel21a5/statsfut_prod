@@ -4,7 +4,9 @@ name: Update Live Scores via BeSoccer
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/10 * * * *'
+    # A cada 15 min, somente das 16h-04h UTC (13h-01h BRT) = horários de jogo
+    - cron: '*/15 16-23 * * *'
+    - cron: '*/15 0-4 * * *'
 
 jobs:
   scrape-and-deploy:
