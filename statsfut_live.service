@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=root
 Group=root
-WorkingDirectory=/var/www/html/statsfut
-Environment="PATH=/var/www/html/statsfut/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=/var/www/html/statsfut/venv/bin/python manage.py live_score_daemon
+WorkingDirectory=/www/wwwroot/statsfut.com
+Environment="PATH=/www/wwwroot/statsfut.com/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/www/wwwroot/statsfut.com/venv/bin/python manage.py live_score_daemon
 Restart=always
 RestartSec=60
 
