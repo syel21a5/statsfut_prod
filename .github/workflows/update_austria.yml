@@ -9,54 +9,37 @@ on:
 jobs:
   proxy-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10 # Reduzi de 15 para 10
 
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: WARP
-        uses: fscarmen/warp-on-actions@v1.2
+      - name: Instalar uv (Instalador Ultra Rápido)
+        uses: astral-sh/setup-uv@v5
         with:
-          stack: dual
+          enable-cache: true
+          cache-dependency-glob: "**/requirements.txt"
 
-      - name: Configurar Python
+      - name: Configurar Python e Cache
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Instalar dependências
+      - name: Instalar dependências (Super Rápido com uv)
         run: |
-          pip install curl_cffi requests
+          uv pip install --system curl_cffi requests
 
-      - name: Rodar fetcher do SofaScore (Áustria) com retry
+      - name: WARP (Apenas se necessário ou sempre para segurança)
+        uses: fscarmen/warp-on-actions@v1.2
+        with:
+          stack: dual
+
+      - name: Rodar fetcher do SofaScore (Áustria)
         run: |
-          MAX_RETRIES=3
-          RETRY=0
-          SUCCESS=false
+          # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 45 --season 77382
           
-          while [ $RETRY -lt $MAX_RETRIES ]; do
-            RETRY=$((RETRY + 1))
-            echo "=== Tentativa $RETRY de $MAX_RETRIES ==="
-            
-            # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
-            python proxy_sofascore_fetcher.py --tournament 45 --season 77382 && {
-              SUCCESS=true
-              break
-            }
-            
-            echo "Tentativa $RETRY falhou. Aguardando 30s antes de tentar novamente..."
-            sleep 30
-          done
-          
-          if [ "$SUCCESS" = false ]; then
-            echo "❌ TODAS AS TENTATIVAS FALHARAM! O SofaScore bloqueou o acesso."
-            echo "   Os dados do servidor NÃO serão alterados (proteção contra dados vazios)."
-            exit 1
-          fi
-          
-          echo "✅ Dados coletados com sucesso!"
-
       - name: Enviar payload e processar na VPS
         env:
           PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
