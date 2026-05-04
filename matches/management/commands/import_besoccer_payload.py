@@ -1,0 +1,69 @@
+import json
+import os
+from django.core.management.base import BaseCommand
+from django.utils import timezone
+from matches.models import Match, League, Team, Season
+from matches.utils import normalize_team_name
+from datetime import datetime
+
+class Command(BaseCommand):
+    help = 'Importa placares ao vivo do BeSoccer via payload JSON'
+
+    def add_arguments(self, parser):
+        parser.add_argument('--file', type=str, required=True, help='Caminho do arquivo payload.json')
+
+    def handle(self, *args, **options):
+        file_path = options['file']
+        if not os.path.exists(file_path):
+            self.stdout.write(self.style.ERROR(f'Arquivo não encontrado: {file_path}'))
+            return
+
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        count_updated = 0
+        now = timezone.now()
+        current_year = now.year
+        season_obj, _ = Season.objects.get_or_create(year=current_year)
+
+        for item in data:
+            try:
+                league_name = item.get('league')
+                country = item.get('country')
+                home_name = normalize_team_name(item.get('home_team'))
+                away_name = normalize_team_name(item.get('away_team'))
+                score_home = item.get('home_score')
+                score_away = item.get('away_score')
+                status = item.get('status', 'Live')
+                elapsed = item.get('elapsed')
+
+                # Tenta encontrar a liga
+                league = League.objects.filter(name__icontains=league_name, country__icontains=country).first()
+                if not league:
+                    # Se não achou por nome parcial, tenta criar ou pular?
+                    # Para live, vamos focar em atualizar o que já existe
+                    continue
+
+                # Busca o jogo que está acontecendo hoje ou recentemente
+                # Filtramos por times e liga
+                match = Match.objects.filter(
+                    league=league,
+                    home_team__name=home_name,
+                    away_team__name=away_name,
+                    status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
+                ).order_by('-date').first()
+
+                if match:
+                    # Atualiza placar e status
+                    match.home_score = score_home
+                    match.away_score = score_away
+                    match.status = status
+                    match.elapsed_time = elapsed
+                    match.save()
+                    count_updated += 1
+                    self.stdout.write(f"✅ Atualizado: {home_name} {score_home}-{score_away} {away_name} ({elapsed}')")
+                
+            except Exception as e:
+                self.stdout.write(self.style.WARNING(f"Erro ao processar item: {e}"))
+
+        self.stdout.write(self.style.SUCCESS(f'Sucesso: {count_updated} jogos atualizados via BeSoccer.'))

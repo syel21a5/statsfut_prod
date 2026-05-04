@@ -1,0 +1,66 @@
+name: Update Live Scores via BeSoccer
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/10 * * * *' # Executa a cada 10 minutos
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Cloudflare WARP (Ocultar IP)
+        uses: fscarmen/warp-on-actions@v1.2
+        with:
+          stack: dual
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Rodar Scraper BeSoccer
+        run: |
+          python scrape_besoccer_live_payload.py
+
+      - name: Enviar para Produção e Processar
+        env:
+          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          PROD_SERVER_USER: root
+          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Upload do payload
+          if [ -f payload_besoccer.json ]; then
+            scp -o StrictHostKeyChecking=no payload_besoccer.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_besoccer.json
+            
+            # Executa o comando remoto para importar os dados
+            ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << 'EOF'
+              cd ${{ secrets.PROD_SERVER_PATH }}
+              # Sincroniza o código (caso tenha mudado o comando de importação)
+              git pull origin main
+              
+              # Importa o placar ao vivo
+              ./venv/bin/python manage.py import_besoccer_payload --file payload_besoccer.json
+              
+              # Limpa o cache para mostrar os novos placares imediatamente
+              ./venv/bin/python manage.py shell -c "from django.core.cache import cache; cache.clear()"
+              
+              # Remove o arquivo temporário
+              rm payload_besoccer.json
+            EOF
+          else
+            echo "Nenhum jogo ao vivo encontrado, pulando upload."
+          fi
