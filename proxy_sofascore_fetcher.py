@@ -3,9 +3,9 @@ import time
 import argparse
 from curl_cffi import requests
 
-def fetch_api(session, url):
+def fetch_api(session, url, sleep_time=0.7):
     try:
-        time.sleep(1.5)  # Rate limiting
+        time.sleep(sleep_time)  # Rate limiting otimizado
         response = session.get(url, timeout=15)
         if response.status_code == 200:
             return response.json()
@@ -31,11 +31,11 @@ def fetch_seasons(session, tournament_id):
     return seasons_sorted
 
 def main():
-    parser = argparse.ArgumentParser(description="Busca payloads do SofaScore e salva em payload.json")
-    parser.add_argument('--tournament', type=int, required=True, help="ID do Torneio (ex: 136 para A-League)")
-    parser.add_argument('--season', type=int, required=False, help="ID da Temporada (ex: 82603)")
-    parser.add_argument('--list-seasons', action='store_true', help="Lista os Season IDs disponíveis para o torneio informado")
-    parser.add_argument('--min-year', type=int, default=2016, help="Filtro mínimo de ano para --list-seasons (default: 2016)")
+    parser = argparse.ArgumentParser(description="Busca payloads do SofaScore de forma otimizada")
+    parser.add_argument('--tournament', type=int, required=True, help="ID do Torneio")
+    parser.add_argument('--season', type=int, required=False, help="ID da Temporada")
+    parser.add_argument('--list-seasons', action='store_true', help="Lista Season IDs")
+    parser.add_argument('--last-rounds', type=int, default=None, help="Limitar busca às últimas X rodadas (economiza muitos minutos)")
     args = parser.parse_args()
 
     session = requests.Session(impersonate="chrome120")
@@ -48,21 +48,14 @@ def main():
 
     if args.list_seasons:
         seasons = fetch_seasons(session, args.tournament)
-        if not seasons:
-            print("Nenhuma season encontrada (ou falha na API).")
-            return
-        def season_year(s):
-            try:
-                return int(s.get("year"))
-            except Exception:
-                return 0
+        if not seasons: return
         print(json.dumps(seasons, indent=2, ensure_ascii=False))
         return
 
     if not args.season:
-        raise SystemExit("Você deve fornecer --season (ou usar --list-seasons).")
+        raise SystemExit("Forneça --season ou --list-seasons.")
 
-    print(f"Iniciando raspagem crua para Torneio {args.tournament}, Temporada {args.season}...")
+    print(f"Raspagem OTIMIZADA para Torneio {args.tournament}, Temporada {args.season}...")
 
     payload = {
         "tournament_id": args.tournament,
@@ -71,37 +64,42 @@ def main():
         "rounds": []
     }
 
-    # 1. Obter Standings (contém lista de times formatados)
+    # 1. Standings
     standings_url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/standings/total"
-    print(f"Buscando Standings...")
     standings_data = fetch_api(session, standings_url)
     if standings_data:
         payload['standings'] = standings_data
 
-    # 2. Descobrir torneios extras (Playoffs/Championship)
-    tournaments_to_scrape = [(args.tournament, "Regular Season", True)] # id, label, is_unique
-    
+    # 2. Torneios extras
+    tournaments_to_scrape = [(args.tournament, "Regular Season", True)]
     if standings_data and 'standings' in standings_data:
         for group in standings_data['standings']:
             group_name = group.get('name', 'League')
             sub_id = group.get('tournament', {}).get('id')
             if sub_id and sub_id != args.tournament:
-                # Se o ID é diferente do principal, é um sub-torneio (ex: Playoff)
                 if not any(t[0] == sub_id for t in tournaments_to_scrape):
                     tournaments_to_scrape.append((sub_id, group_name, False))
 
-    # 3. Obter Rodadas e Eventos para cada torneio
+    # 3. Rodadas
     for t_id, label, is_unique in tournaments_to_scrape:
-        print(f"\n>>> Raspando {label} (ID: {t_id})...")
-        
+        print(f"\n>>> Raspando {label}...")
         prefix = "unique-tournament" if is_unique else "tournament"
         rounds_url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/rounds"
         rounds_data = fetch_api(session, rounds_url)
         
         if rounds_data and 'rounds' in rounds_data:
-            for round_info in rounds_data['rounds']:
+            all_rounds = rounds_data['rounds']
+            
+            # FILTRO DE RODADAS OTIMIZADO
+            if args.last_rounds:
+                # SofaScore costuma marcar a rodada atual ou podemos pegar as últimas X
+                # Vamos pegar as X últimas rodadas que possuem ID (ordem cronológica)
+                all_rounds = all_rounds[-args.last_rounds:]
+                print(f"Filtrando apenas as últimas {len(all_rounds)} rodadas para economizar tempo.")
+
+            for round_info in all_rounds:
                 round_num = round_info['round']
-                print(f"Buscando Eventos de {label} - Rodada {round_num}...")
+                print(f"Buscando {label} - Rodada {round_num}...")
                 events_url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/events/round/{round_num}"
                 events_data = fetch_api(session, events_url)
                 if events_data:
@@ -111,19 +109,17 @@ def main():
                         "events": events_data.get('events', [])
                     })
 
-    # VALIDAÇÃO CRÍTICA: Se não coletou nenhuma rodada, ABORTAR com erro
     if len(payload['rounds']) == 0:
-        print("\n❌ ERRO FATAL: Nenhuma rodada foi coletada!")
-        print("   Provável bloqueio do SofaScore (403 Forbidden).")
-        print("   O payload NÃO será salvo para evitar sobrescrever dados válidos.")
+        print("\n❌ ERRO: Nenhuma rodada coletada!")
         import sys
         sys.exit(1)
 
-    print(f"\nRaspagem concluída. {len(payload['rounds'])} blocos de rodadas coletados.")
-    print(f"Salvando payload.json...")
     with open('payload.json', 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
-    print("payload.json gerado com sucesso!")
+    print(f"✅ Sucesso! {len(payload['rounds'])} rodadas salvas.")
+
+if __name__ == '__main__':
+    main()
 
 if __name__ == '__main__':
     main()

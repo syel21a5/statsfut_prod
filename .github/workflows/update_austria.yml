@@ -38,7 +38,7 @@ jobs:
       - name: Rodar fetcher do SofaScore (Áustria)
         run: |
           # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 45 --season 77382
+          python proxy_sofascore_fetcher.py --tournament 45 --season 77382 --last-rounds 4
           
       - name: Enviar payload e processar na VPS
         env:
