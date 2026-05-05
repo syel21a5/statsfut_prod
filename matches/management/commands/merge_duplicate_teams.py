@@ -157,57 +157,56 @@ class Command(BaseCommand):
         for wrong_team in wrong_teams:
             self.stdout.write(f"Merging '{wrong_team.name}' into '{correct_team.name}'...")
             
-            # Update Matches (Home) - also fix league if needed
+            # Update Matches (Home)
             for m in Match.objects.filter(home_team=wrong_team):
-                # Check if duplicate already exists
+                # Check if duplicate already exists in the same league and same day
                 existing = Match.objects.filter(
                     home_team=correct_team,
                     away_team=m.away_team,
-                    league=correct_team.league,
+                    league=m.league, # Mantém na liga original do jogo!
                     date__date=m.date.date() if m.date else None
-                ).first()
+                ).exclude(id=m.id).first()
                 
                 if existing:
-                    # Keep the one with more data (scores, status)
-                    if existing.home_score is None and m.home_score is not None:
+                    # Se já existe, apenas atualiza o placar se o novo tiver mais info
+                    if (existing.home_score is None or existing.home_score == "") and m.home_score is not None:
                         existing.home_score = m.home_score
                         existing.away_score = m.away_score
                         existing.status = m.status
                         existing.save()
-                    m.delete()
+                    self.stdout.write(f"  - Match duplicate found, skipping merge to avoid data loss.")
                 else:
                     m.home_team = correct_team
-                    if m.league != correct_team.league:
-                        m.league = correct_team.league
                     try:
                         m.save()
                     except IntegrityError:
-                        m.delete()
+                        self.stdout.write(self.style.WARNING(f"  - IntegrityError merging match {m.id}, skipping..."))
                     
-            # Update Matches (Away) - also fix league if needed
+            # Update Matches (Away)
             for m in Match.objects.filter(away_team=wrong_team):
                 existing = Match.objects.filter(
                     home_team=m.home_team,
                     away_team=correct_team,
-                    league=correct_team.league,
+                    league=m.league, # Mantém na liga original do jogo!
                     date__date=m.date.date() if m.date else None
-                ).first()
+                ).exclude(id=m.id).first()
                 
                 if existing:
-                    if existing.home_score is None and m.home_score is not None:
+                    if (existing.home_score is None or existing.home_score == "") and m.home_score is not None:
                         existing.home_score = m.home_score
                         existing.away_score = m.away_score
                         existing.status = m.status
                         existing.save()
-                    m.delete()
+                    self.stdout.write(f"  - Match duplicate found, skipping merge.")
                 else:
                     m.away_team = correct_team
-                    if m.league != correct_team.league:
-                        m.league = correct_team.league
                     try:
                         m.save()
                     except IntegrityError:
-                        m.delete()
+                        self.stdout.write(self.style.WARNING(f"  - IntegrityError merging match {m.id}, skipping..."))
             
-            # Delete wrong team
-            wrong_team.delete()
+            # Delete wrong team safely (only if no matches left)
+            if not Match.objects.filter(Q(home_team=wrong_team) | Q(away_team=wrong_team)).exists():
+                wrong_team.delete()
+            else:
+                self.stdout.write(self.style.ERROR(f"  - Could not delete team '{wrong_team.name}' because it still has matches!"))
