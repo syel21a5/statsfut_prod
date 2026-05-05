@@ -171,6 +171,18 @@ class Command(BaseCommand):
             return
 
         for season in seasons:
+            # TRAVA DE SEGURANÇA: Se a liga tem múltiplos grupos (playoffs, etc),
+            # nós confiamos na importação do SofaScore (que já traz os pontos acumulados/divididos)
+            # e NÃO recalculamos do zero para não estragar a regra complexa de pontos.
+            complex_groups = LeagueStanding.objects.filter(
+                league=league, 
+                season=season
+            ).exclude(group_name='Regular Season').exists()
+
+            if complex_groups:
+                self.stdout.write(self.style.WARNING(f"PULANDO: {league.name} possui grupos complexos (Playoffs). A classificação é mantida via API."))
+                continue
+
             self.stdout.write(
                 self.style.SUCCESS(
                     f"Recalculando tabela para {league.name}, temporada {season.year}"

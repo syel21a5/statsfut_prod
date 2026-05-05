@@ -153,6 +153,7 @@ class LeagueStanding(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='standings')
     season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name='standings')
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='standings')
+    group_name = models.CharField(max_length=100, default="Regular Season", help_text="Ex: Regular Season, Championship Round")
     
     position = models.IntegerField()
     played = models.IntegerField()
@@ -164,8 +165,8 @@ class LeagueStanding(models.Model):
     points = models.IntegerField()
 
     class Meta:
-        ordering = ['season', 'league', 'position']
-        unique_together = ['league', 'season', 'team']
+        ordering = ['season', 'league', 'group_name', 'position']
+        unique_together = ['league', 'season', 'team', 'group_name']
 
     def __str__(self):
         return f"{self.season} - {self.team} ({self.position}º)"

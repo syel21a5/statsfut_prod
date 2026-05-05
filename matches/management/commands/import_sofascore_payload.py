@@ -2,7 +2,7 @@ import json
 import traceback
 from datetime import datetime, timezone
 from django.core.management.base import BaseCommand  # type: ignore
-from matches.models import League, Team, Match, Season  # type: ignore
+from matches.models import League, Team, Match, Season, LeagueStanding  # type: ignore
 from django.db import transaction  # type: ignore
 
 class Command(BaseCommand):
@@ -223,9 +223,42 @@ class Command(BaseCommand):
                                 teams_map[int(team_id)] = team
                     
             self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/sincronizados no total."))
+            
+            # 1.5. Salvar a Classificação (Standings) Perfeita do SofaScore
+            self.stdout.write("Importando Classificações exatas do SofaScore...")
+            with transaction.atomic():
+                # Remove as classificações antigas para esta liga/temporada para evitar sujeira
+                LeagueStanding.objects.filter(league=league, season=season).delete()
+                
+                standings_saved = 0
+                for group in standings_data['standings']:
+                    group_name = group.get('name', 'Regular Season')
+                    standings_list = group.get('rows', [])
+                    for row in standings_list:
+                        team_id = str(row.get('team', {}).get('id'))
+                        team = teams_map.get(int(team_id)) if team_id.isdigit() else None
+                        
+                        if team:
+                            LeagueStanding.objects.create(
+                                league=league,
+                                season=season,
+                                team=team,
+                                group_name=group_name,
+                                position=row.get('position', 0),
+                                played=row.get('matches', 0),
+                                won=row.get('wins', 0),
+                                drawn=row.get('draws', 0),
+                                lost=row.get('losses', 0),
+                                goals_for=row.get('scoresFor', 0),
+                                goals_against=row.get('scoresAgainst', 0),
+                                points=row.get('points', 0)
+                            )
+                            standings_saved += 1
+                            
+                self.stdout.write(self.style.SUCCESS(f"{standings_saved} posições de classificação salvas com sucesso em seus respectivos grupos."))
+                
         else:
             self.stdout.write(self.style.ERROR("Nenhum dado de classificação (standings) encontrado no payload."))
-            return
 
         # 2. Iterar Partidas
         matches_created = 0

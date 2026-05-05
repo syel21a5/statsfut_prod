@@ -718,83 +718,139 @@
             </div>
             {% endif %}
 
-            <!-- Main League Table -->
+            <!-- Main League Table (com sub-abas dinâmicas por fase) -->
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
                             <h5 class="mb-0 fw-bold">League Table</h5>
+                            {% if has_multiple_groups %}
+                            <div class="d-flex flex-wrap gap-2" id="standings-tab-btns">
+                                {% for group_name, group_rows in standings_by_group.items %}
+                                {% with tab_id=group_name|slugify %}
+                                <button
+                                    class="btn btn-sm {% if forloop.first %}btn-light text-dark{% else %}btn-outline-secondary text-white{% endif %} standings-tab-btn fw-semibold"
+                                    data-target="standings-tab-{{ tab_id }}"
+                                    style="font-size:0.8rem;">
+                                    {{ group_name }}
+                                </button>
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
-                                style="font-size: 0.9rem;">
-                                <thead>
-                                    <tr class="text-secondary text-uppercase">
-                                        <th class="ps-3 text-start">#</th>
-                                        <th class="text-start">Team</th>
-                                        <th class="text-success">GP</th>
-                                        <th>W</th>
-                                        <th>D</th>
-                                        <th>L</th>
-                                        <th class="text-info">GF</th>
-                                        <th class="text-danger">GA</th>
-                                        <th>GD</th>
-                                        <th class="fw-bold text-white" style="font-size: 1rem;">PTS</th>
-                                        <th>Form</th>
-                                        <th>PPG</th>
-                                        <th class="text-success">Last 8</th>
-                                        <th>CS</th>
-                                        <th>SR</th>
-                                        <th>MPP</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in standings %}
-                                    <tr>
-                                        <td class="ps-3 text-start">
-                                            <span
-                                                class="badge {% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill"
-                                                style="width: 25px;">{{ row.position }}</span>
-                                        </td>
-                                        <td class="text-start fw-bold">
-                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
-                                                class="text-decoration-none text-white d-flex align-items-center">
-                                                <span>{{ row.team.name }}</span>
-                                            </a>
-                                        </td>
-                                        <td class="text-success fw-bold">{{ row.played }}</td>
-                                        <td>{{ row.won }}</td>
-                                        <td>{{ row.drawn }}</td>
-                                        <td>{{ row.lost }}</td>
-                                        <td class="text-info">{{ row.goals_for }}</td>
-                                        <td class="text-danger">{{ row.goals_against }}</td>
-                                        <td>{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
-                                        <td class="fw-bold fs-6">{{ row.points }}</td>
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-1">
-                                                {% for res in row.form_history %}
+
+                        {% if has_multiple_groups %}
+                        {% for group_name, group_rows in standings_by_group.items %}
+                        {% with tab_id=group_name|slugify %}
+                        <div id="standings-tab-{{ tab_id }}" class="standings-tab-panel {% if not forloop.first %}d-none{% endif %}">
+                        {% endwith %}
+                        {% else %}
+                        <div>
+                        {% endif %}
+
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                    style="font-size: 0.9rem;">
+                                    <thead>
+                                        <tr class="text-secondary text-uppercase">
+                                            <th class="ps-3 text-start">#</th>
+                                            <th class="text-start">Team</th>
+                                            <th class="text-success">GP</th>
+                                            <th>W</th>
+                                            <th>D</th>
+                                            <th>L</th>
+                                            <th class="text-info">GF</th>
+                                            <th class="text-danger">GA</th>
+                                            <th>GD</th>
+                                            <th class="fw-bold text-white" style="font-size: 1rem;">PTS</th>
+                                            <th>Form</th>
+                                            <th>PPG</th>
+                                            <th class="text-success">Last 8</th>
+                                            <th>CS</th>
+                                            <th>SR</th>
+                                            <th>MPP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if has_multiple_groups %}
+                                        {% for row in group_rows %}
+                                        {% else %}
+                                        {% for row in standings %}
+                                        {% endif %}
+                                        <tr>
+                                            <td class="ps-3 text-start">
                                                 <span
-                                                    class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
-                                                    style="width: 6px; height: 10px; display: inline-block;"></span>
-                                                {% endfor %}
-                                            </div>
-                                        </td>
-                                        <td>{{ row.ppg_season }}</td>
-                                        <td
-                                            class="fw-bold {% if row.ppg_8 > row.ppg_season %}text-success{% elif row.ppg_8 < row.ppg_season %}text-danger{% else %}text-warning{% endif %}">
-                                            {{ row.ppg_8 }}
-                                        </td>
-                                        <td>{{ row.clean_sheets }}</td>
-                                        <td>{{ row.scoring_rate }}</td>
-                                        <td class="text-secondary">{{ row.max_possible_points }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                                    class="badge {% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill"
+                                                    style="width: 25px;">{{ row.position }}</span>
+                                            </td>
+                                            <td class="text-start fw-bold">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-decoration-none text-white d-flex align-items-center">
+                                                    <span>{{ row.team.name }}</span>
+                                                </a>
+                                            </td>
+                                            <td class="text-success fw-bold">{{ row.played }}</td>
+                                            <td>{{ row.won }}</td>
+                                            <td>{{ row.drawn }}</td>
+                                            <td>{{ row.lost }}</td>
+                                            <td class="text-info">{{ row.goals_for }}</td>
+                                            <td class="text-danger">{{ row.goals_against }}</td>
+                                            <td>{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
+                                            <td class="fw-bold fs-6">{{ row.points }}</td>
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-1">
+                                                    {% for res in row.form_history %}
+                                                    <span
+                                                        class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                        style="width: 6px; height: 10px; display: inline-block;"></span>
+                                                    {% endfor %}
+                                                </div>
+                                            </td>
+                                            <td>{{ row.ppg_season }}</td>
+                                            <td
+                                                class="fw-bold {% if row.ppg_8 > row.ppg_season %}text-success{% elif row.ppg_8 < row.ppg_season %}text-danger{% else %}text-warning{% endif %}">
+                                                {{ row.ppg_8 }}
+                                            </td>
+                                            <td>{{ row.clean_sheets }}</td>
+                                            <td>{{ row.scoring_rate }}</td>
+                                            <td class="text-secondary">{{ row.max_possible_points }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        {% if has_multiple_groups %}{% endfor %}{% endif %}
                     </div>
                 </div>
             </div>
+
+            {% if has_multiple_groups %}
+            <script>
+            (function() {
+                var btns = document.querySelectorAll('.standings-tab-btn');
+                btns.forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        // Hide all panels
+                        document.querySelectorAll('.standings-tab-panel').forEach(function(p) { p.classList.add('d-none'); });
+                        // Deactivate all buttons
+                        btns.forEach(function(b) {
+                            b.classList.remove('btn-light', 'text-dark');
+                            b.classList.add('btn-outline-secondary', 'text-white');
+                        });
+                        // Show target panel
+                        var target = document.getElementById(btn.dataset.target);
+                        if (target) target.classList.remove('d-none');
+                        // Activate clicked button
+                        btn.classList.add('btn-light', 'text-dark');
+                        btn.classList.remove('btn-outline-secondary', 'text-white');
+                    });
+                });
+            })();
+            </script>
+            {% endif %}
+
 
             <!-- Home / Away Tables -->
             <div class="row g-4 mb-4">
