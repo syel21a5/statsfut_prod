@@ -9,7 +9,7 @@ on:
 jobs:
   proxy-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10 # Reduzi de 15 para 10
+    timeout-minutes: 15 # Temporariamente 15min para importação COMPLETA
 
     steps:
       - name: Checkout código
@@ -35,10 +35,11 @@ jobs:
         with:
           stack: dual
 
-      - name: Rodar fetcher do SofaScore (Áustria)
+      - name: Rodar fetcher do SofaScore (Áustria) - IMPORTAÇÃO COMPLETA
         run: |
           # Tournament 45 (Austrian Bundesliga), Season 77382 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 45 --season 77382 --last-rounds 4
+          # SEM --last-rounds para buscar TODAS as rodadas e restaurar dados completos
+          python proxy_sofascore_fetcher.py --tournament 45 --season 77382
           
       - name: Enviar payload e processar na VPS
         env:
