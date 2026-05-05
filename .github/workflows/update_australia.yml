@@ -9,7 +9,7 @@ on:
 jobs:
   proxy-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout código
@@ -37,7 +37,7 @@ jobs:
       - name: Rodar fetcher (Austrália)
         run: |
           # Tournament 136 (A-League), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 136 --season 82603 --last-rounds 4
+          python proxy_sofascore_fetcher.py --tournament 136 --season 82603
 
       - name: Enviar payload e processar na VPS
         env:

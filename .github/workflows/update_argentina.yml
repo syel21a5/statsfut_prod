@@ -37,7 +37,7 @@ jobs:
       - name: Rodar fetcher do SofaScore (Argentina)
         run: |
           # Tournament 155 (Liga Profesional), Season 82603 (2026)
-          python proxy_sofascore_fetcher.py --tournament 155 --season 82603 --last-rounds 4
+          python proxy_sofascore_fetcher.py --tournament 155 --season 82603
 
       - name: Enviar payload e processar na VPS
         env:
