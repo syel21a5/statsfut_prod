@@ -16,8 +16,8 @@ urlpatterns = [
     path('team/<int:pk>/', views.TeamDetailView.as_view(), name='team_detail'),
     
     # Rota genérica para Liga OU País (resolvido na View)
-    path('stats/<str:slug>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='country_stats'),
-    path('stats/<str:league_name>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='league_stats'),
+    path('stats/<str:slug>/', views.LeagueDetailView.as_view(), name='country_stats'),
+    path('stats/<str:league_name>/', views.LeagueDetailView.as_view(), name='league_stats'),
     
     # Rota específica para Gols (deve vir ANTES do Dispatcher genérico)
     path('stats/<str:country_name>/<str:league_name>/goals/', views.LeagueGoalsView.as_view(), name='league_goals'),

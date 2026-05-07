@@ -760,6 +760,12 @@
                                                 <th class="text-danger">GA</th>
                                                 <th>GD</th>
                                                 <th class="fw-bold text-white" style="font-size: 1rem;">PTS</th>
+                                                <th>Form</th>
+                                                <th>PPG</th>
+                                                <th class="text-success">Last 8</th>
+                                                <th>CS</th>
+                                                <th>SR</th>
+                                                <th>MPP</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -784,6 +790,20 @@
                                                 <td class="text-danger">{{ row.goals_against }}</td>
                                                 <td>{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
                                                 <td class="fw-bold fs-6">{{ row.points }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-1">
+                                                        {% for res in row.form_history %}
+                                                        <span
+                                                            class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                            style="width: 6px; height: 10px; display: inline-block;"></span>
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td>{{ row.ppg_season }}</td>
+                                                <td class="text-success fw-bold">{{ row.ppg_8 }}</td>
+                                                <td>{{ row.clean_sheets }}</td>
+                                                <td>{{ row.scoring_rate }}</td>
+                                                <td>{{ row.max_possible_points }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

@@ -611,20 +611,53 @@ class LeagueDetailView(DetailView):
         ).order_by('-date')[:10]
         context['latest_results'] = finished_matches
         
+        # --- NEW: Standing Groups Logic ---
         latest_season_standing = league.standings.order_by('-season__year').first()
         latest_season = latest_season_standing.season if latest_season_standing else None
         
         # Fallback: Tenta pegar a temporada do último jogo importado para não deixar a página vazia
-        # Prioriza season que tem jogos agendados ou recentes
         last_match = Match.objects.filter(league=league).select_related('season').order_by('-season__year', '-date').first()
         if last_match and (not latest_season or last_match.season.year >= latest_season.year):
             latest_season = last_match.season
         
         context['latest_season'] = latest_season
-        
+        context['season'] = latest_season
+
         if latest_season:
-            # Fetch all necessary data in bulk to avoid N+1 queries
-            standings = list(league.standings.filter(season=latest_season).order_by('position'))
+            # Agrupa por fase (Regular Season, Championship Round, etc.)
+            all_standings_qs = league.standings.filter(season=latest_season).select_related('team').order_by('group_name', 'position')
+            
+            from collections import OrderedDict
+            standings_by_group = OrderedDict()
+            for st in all_standings_qs:
+                g = (st.group_name or 'Regular Season').strip()
+                if g not in standings_by_group:
+                    standings_by_group[g] = []
+                standings_by_group[g].append(st)
+            
+            # Ordenação: Garante que a "Regular Season" venha primeiro
+            if standings_by_group:
+                ordered = OrderedDict()
+                reg_key = None
+                for key in standings_by_group.keys():
+                    if 'regular' in key.lower() or 'season' in key.lower():
+                        reg_key = key
+                        break
+                if reg_key:
+                    ordered[reg_key] = standings_by_group.pop(reg_key)
+                ordered.update(standings_by_group)
+                standings_by_group = ordered
+            
+            # Context variables para o template
+            first_group_key = next(iter(standings_by_group), None)
+            standings = standings_by_group.get(first_group_key, [])
+            has_multiple_groups = len(standings_by_group) > 1
+            
+            context['standings'] = standings
+            context['standings_by_group'] = standings_by_group
+            context['has_multiple_groups'] = has_multiple_groups
+            # -----------------------------------
+
             all_matches = Match.objects.filter(
                 league=league,
                 season=latest_season,
@@ -639,13 +672,14 @@ class LeagueDetailView(DetailView):
 
             # Pre-calculate PPG for all teams for Relative Performance calculation
             team_ppg_map = {}
-            for s in standings:
+            all_standings_flat = [s for group_list in standings_by_group.values() for s in group_list]
+            for s in all_standings_flat:
                 if s.played > 0:
                     team_ppg_map[s.team.id] = s.points / s.played
                 else:
                     team_ppg_map[s.team.id] = 0.0
 
-            for standing in standings:
+            for standing in all_standings_flat:
                 team_id = standing.team.id
                 team_stats[team_id] = {
                    'team': standing.team,
@@ -3034,6 +3068,11 @@ class LeagueGoalsView(TemplateView):
 
         # Get Latest Season
         latest_season = Season.objects.filter(standings__league=league).order_by('-year').first()
+        if not latest_season:
+            latest_season = Season.objects.filter(matches__league=league).order_by('-year').first()
+        if not latest_season:
+            latest_season = Season.objects.order_by('-year').first()
+            
         context['season'] = latest_season
 
         # Get Standings - Agrupados por fase (Regular Season, Championship Round, etc.)
@@ -3047,28 +3086,32 @@ class LeagueGoalsView(TemplateView):
             from collections import OrderedDict
             standings_by_group = OrderedDict()
             for st in all_standings:
-                g = st.group_name or 'Regular Season'
+                # Remove espaços extras que podem bugar o agrupamento
+                g = (st.group_name or 'Regular Season').strip()
                 if g not in standings_by_group:
                     standings_by_group[g] = []
                 standings_by_group[g].append(st)
             
-            # A aba principal é sempre a "Regular Season" (ou o único grupo se só tiver um)
-            # Garante que "Regular Season" seja o primeiro grupo exibido
+            # Ordenação: Garante que a "Regular Season" venha primeiro
             if standings_by_group:
                 ordered = OrderedDict()
-                # Primeiro, coloca a Regular Season
-                for key in list(standings_by_group.keys()):
-                    if 'regular' in key.lower():
-                        ordered[key] = standings_by_group.pop(key)
+                # Procura por Regular Season ou similar
+                reg_key = None
+                for key in standings_by_group.keys():
+                    if 'regular' in key.lower() or 'season' in key.lower():
+                        reg_key = key
                         break
-                # Depois, adiciona o resto (Championship, Relegation, Qualifying...)
+                
+                if reg_key:
+                    ordered[reg_key] = standings_by_group.pop(reg_key)
+                
+                # Adiciona os demais (Championship, etc.)
                 ordered.update(standings_by_group)
                 standings_by_group = ordered
             
-            # Para compatibilidade com templates que usam 'standings' diretamente
-            # passamos o primeiro grupo como 'standings' e todos os grupos como 'standings_groups'
+            # Pega o primeiro grupo para exibir por padrão
             first_group_key = next(iter(standings_by_group), None)
-            standings = standings_by_group.get(first_group_key, LeagueStanding.objects.none())
+            standings = standings_by_group.get(first_group_key, [])
             has_multiple_groups = len(standings_by_group) > 1
         else:
             standings = LeagueStanding.objects.none()
@@ -3695,7 +3738,7 @@ class LeagueGoalsView(TemplateView):
 
         # --- Segments Table Logic ---
         segments_data = []
-        if standings.exists():
+        if standings:
             max_pts = standings[0].points
             if max_pts > 0:
                 step = max_pts / 5.0
