@@ -725,14 +725,17 @@ class LeagueDetailView(DetailView):
                         elif away_score == home_score: s['d'] += 1; s['pts'] += 1
                         else: s['l'] += 1
 
+                # Form (Last 5)
                 form_5 = []
-                form_details = []  # NEW: Detailed info for tooltips
+                form_details = []
                 for m in team_matches[:5]:
                     # Determine if team was home or away
                     is_home = m.home_team_id == team_id
                     opponent = m.away_team if is_home else m.home_team
-                    team_score = m.home_score if is_home else m.away_score
-                    opp_score = m.away_score if is_home else m.home_score
+                    team_score = m.home_score if m.home_score is not None else 0
+                    opp_score = m.away_score if m.away_score is not None else 0
+                    if not is_home:
+                        team_score, opp_score = opp_score, team_score
                     
                     # Determine result
                     if team_score > opp_score:
@@ -741,12 +744,12 @@ class LeagueDetailView(DetailView):
                         result = 'D'
                     else:
                         result = 'L'
-                    
+                        
                     form_5.append(result)
                     
-                    # Add detailed info
+                    # Tooltip details
                     form_details.append({
-                        'date': m.date.strftime('%d %b') if m.date else '-',
+                        'date': m.date.strftime('%d/%m/%Y') if m.date else 'N/A',
                         'opponent': opponent.name,
                         'score': f"{team_score}-{opp_score}",
                         'result': result,
@@ -761,13 +764,16 @@ class LeagueDetailView(DetailView):
                 pts_8 = 0
                 for m in team_matches[:8]:
                     result = ''
+                    h_score = m.home_score if m.home_score is not None else 0
+                    a_score = m.away_score if m.away_score is not None else 0
+                    
                     if m.home_team_id == team_id:
-                        if m.home_score > m.away_score: result = 'W'; pts_8 += 3
-                        elif m.home_score == m.away_score: result = 'D'; pts_8 += 1
+                        if h_score > a_score: result = 'W'; pts_8 += 3
+                        elif h_score == a_score: result = 'D'; pts_8 += 1
                         else: result = 'L'
                     else:
-                        if m.away_score > m.home_score: result = 'W'; pts_8 += 3
-                        elif m.away_score == m.home_score: result = 'D'; pts_8 += 1
+                        if a_score > h_score: result = 'W'; pts_8 += 3
+                        elif a_score == h_score: result = 'D'; pts_8 += 1
                         else: result = 'L'
                     form_8.append(result)
                 
@@ -890,8 +896,8 @@ class LeagueDetailView(DetailView):
                 
                 # Scoring Rate (SR): percentage of matches where team scored
                 matches_scored = sum(1 for m in team_matches if (
-                    (m.home_team_id == team_id and m.home_score > 0) or
-                    (m.away_team_id == team_id and m.away_score > 0)
+                    (m.home_team_id == team_id and m.home_score is not None and m.home_score > 0) or
+                    (m.away_team_id == team_id and m.away_score is not None and m.away_score > 0)
                 ))
                 standing.scoring_rate = f"{round((matches_scored / len(team_matches) * 100) if team_matches else 0)}%"
                 
