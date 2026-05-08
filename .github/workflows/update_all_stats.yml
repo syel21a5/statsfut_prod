@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Update All Stats (Smart Manager)
+
+on:
+  workflow_dispatch:
+    inputs:
+      full_scan:
+        description: 'Fazer carga total de todas as temporadas? (Leva mais tempo)'
+        required: true
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  smart-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          uv pip install --system curl_cffi requests jq
+
+      - name: WARP
+        uses: fscarmen/warp-on-actions@v1.2
+        with:
+          stack: dual
+
+      - name: Rodar Master Fetcher
+        run: |
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python master_fetcher.py --full-scan
+          else
+            python master_fetcher.py
+          fi
+
+      - name: Processar payloads na VPS
+        env:
+          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          PROD_SERVER_USER: root
+          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
+          # Se não houver ligas para atualizar, encerra
+          if [ ! -s updated_leagues.json ] || [ "$(jq 'length' updated_leagues.json)" == "0" ]; then
+            echo "Nenhuma liga para atualizar hoje. Finalizando."
+            exit 0
+          fi
+          
+          # Loop pelas ligas atualizadas
+          jq -c '.[]' updated_leagues.json | while read league; do
+            NAME=$(echo $league | jq -r '.name')
+            COUNTRY=$(echo $league | jq -r '.country')
+            YEAR=$(echo $league | jq -r '.year')
+            FILE_ID=$(echo $COUNTRY | tr '[:upper:]' '[:lower:]')
+            FILE_NAME="payload_$FILE_ID.json"
+            
+            echo ">>> Enviando e processando $NAME ($COUNTRY)..."
+            
+            scp -o StrictHostKeyChecking=no $FILE_NAME $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/
+            
+            ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << EOF
+              cd $PROD_SERVER_PATH
+              git pull origin main
+              ./venv/bin/python manage.py import_sofascore_payload --file $FILE_NAME --league_name "$NAME" --country "$COUNTRY" --season_year $YEAR
+              ./venv/bin/python manage.py merge_duplicate_teams
+              ./venv/bin/python manage.py recalculate_standings --league_name "$NAME" --country "$COUNTRY" --season_year $YEAR
+              rm $FILE_NAME
+EOF
+          done
+          
+          echo "✅ Todas as ligas processadas com sucesso."
