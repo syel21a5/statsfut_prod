@@ -132,8 +132,9 @@ class Command(BaseCommand):
                             # Filtra apenas jogos que realmente pertencem a esse país/liga (api_manager retorna tudo se ids forem genéricos)
                             filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
                             
-                            # PROTEÇÃO SOFASCORE: Ignorar França, Áustria, Austrália e Brasil de receberem atualizações LIVE da API-Football (conflito de nomes)
-                            filtered_fixtures = [f for f in filtered_fixtures if lg['name'] not in ['Ligue 1', 'Bundesliga', 'A-League', 'Brasileirão']]
+                            # PROTEÇÃO SOFASCORE: Ignorar ligas gerenciadas pelo SofaScore de receberem atualizações LIVE da API-Football
+                            if lg['name'] in ['Ligue 1', 'Bundesliga', 'Pro League', 'Super League']:
+                                continue
                             
                             if filtered_fixtures:
                                 self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
@@ -201,7 +202,7 @@ class Command(BaseCommand):
             
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 # PROTEÇÃO SOFASCORE: Pular ligas gerenciadas pelas GitHub Actions
-                if league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League']:
+                if league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League']:
                     continue
                     
                 self.stdout.write(f"  > Processando {league_name}...")

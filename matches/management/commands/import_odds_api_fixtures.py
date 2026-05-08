@@ -42,16 +42,16 @@ class Command(BaseCommand):
         #     'db_name': 'A-League Men',
         #     'country': 'Australia'
         # },
-        'soccer_belgium_first_div': {
-            'env_key': 'ODDS_API_KEY_BELGIUM_UPCOMING',
-            'db_name': 'Pro League',
-            'country': 'Belgica'
-        },
-        'soccer_switzerland_superleague': {
-            'env_key': 'ODDS_API_KEY_SWITZERLAND_UPCOMING',
-            'db_name': 'Super League',
-            'country': 'Suica'
-        },
+        # 'soccer_belgium_first_div': {
+        #     'env_key': 'ODDS_API_KEY_BELGIUM_UPCOMING',
+        #     'db_name': 'Pro League',
+        #     'country': 'Belgica'
+        # },
+        # 'soccer_switzerland_superleague': {
+        #     'env_key': 'ODDS_API_KEY_SWITZERLAND_UPCOMING',
+        #     'db_name': 'Super League',
+        #     'country': 'Suica'
+        # },
         'soccer_denmark_superliga': {
             'env_key': 'ODDS_API_KEY_DENMARK_UPCOMING',
             'db_name': 'Superliga',
