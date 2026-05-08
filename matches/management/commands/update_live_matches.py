@@ -132,9 +132,13 @@ class Command(BaseCommand):
                             # Filtra apenas jogos que realmente pertencem a esse país/liga (api_manager retorna tudo se ids forem genéricos)
                             filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
                             
-                            # PROTEÇÃO SOFASCORE: Ignorar ligas gerenciadas pelo SofaScore de receberem atualizações LIVE da API-Football
-                            if lg['name'] in ['Ligue 1', 'Bundesliga', 'Pro League', 'Super League']:
-                                continue
+                            # SINCRONIZAÇÃO INTELIGENTE: Ligas do SofaScore permitem atualização de placar, mas com travas
+                            is_sofascore_league = lg['name'] in ['Ligue 1', 'Bundesliga', 'Pro League', 'Super League']
+                            
+                            if filtered_fixtures:
+                                self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
+                                # Passa a flag de proteção para o processador
+                                self.process_fixtures(filtered_fixtures, is_live=True, readonly_structure=is_sofascore_league)
                             
                             if filtered_fixtures:
                                 self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
@@ -201,16 +205,15 @@ class Command(BaseCommand):
             # Vamos manter o loop para garantir controle e log detalhado.
             
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
-                # PROTEÇÃO SOFASCORE: Pular ligas gerenciadas pelas GitHub Actions
-                if league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League']:
-                    continue
-                    
+                # SINCRONIZAÇÃO INTELIGENTE: Pular criação de jogos, mas permitir atualização se o jogo já existir
+                is_sofascore_league = league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League']
+                
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
                     # Football-Data.org logic (implemented in api_manager)
                     past_fixtures = api_manager.get_past_fixtures(league_name=league_name, days_back=days_back)
                     if past_fixtures:
-                        self.process_fixtures(past_fixtures, is_live=False)
+                        self.process_fixtures(past_fixtures, is_live=False, readonly_structure=is_sofascore_league)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {len(past_fixtures)} jogos processados para {league_name}'))
                     else:
                         self.stdout.write(f"    Nenhum jogo recente encontrado para {league_name}")
@@ -253,8 +256,8 @@ class Command(BaseCommand):
             raise e
 
 
-    def process_fixtures(self, fixtures, is_live=False):
-        """Processa fixtures e salva/atualiza no banco"""
+    def process_fixtures(self, fixtures, is_live=False, readonly_structure=False):
+        """Processa fixtures e salva/atualiza no banco. readonly_structure=True impede criação de novos jogos."""
         
         count_new = 0
         count_updated = 0
@@ -433,6 +436,11 @@ class Command(BaseCommand):
                         pass
                 
                 if not match_obj:
+                    # Se readonly_structure estiver ativo, NUNCA criamos jogos novos para evitar duplicatas do SofaScore
+                    if readonly_structure:
+                        self.stdout.write(self.style.WARNING(f'  ⚠️ Ignorado (Read-Only): {home_team.name} vs {away_team.name} não existe no banco.'))
+                        continue
+
                     # Se não achou por ID, tenta por chaves naturais (mas cuidado com api_id duplicado no defaults)
                     # Se formos criar, precisamos garantir que o api_id não colida (o que não deve acontecer se o passo acima falhou)
                     match_obj, created = Match.objects.update_or_create(
