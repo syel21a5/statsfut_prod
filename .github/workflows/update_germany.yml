@@ -36,8 +36,8 @@ jobs:
 
       - name: Rodar fetcher (Alemanha)
         run: |
-          # Tournament 35 (Bundesliga), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 35 --season 82603
+          # Tournament 35 (Bundesliga), Season 77333 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 35 --season 77333
 
       - name: Enviar payload e processar na VPS
         env:

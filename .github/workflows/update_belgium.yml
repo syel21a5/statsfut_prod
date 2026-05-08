@@ -36,8 +36,8 @@ jobs:
 
       - name: Rodar fetcher (Bélgica)
         run: |
-          # Tournament 38 (Pro League), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 38 --season 82603
+          # Tournament 38 (Pro League), Season 77040 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 38 --season 77040
 
       - name: Enviar payload e processar na VPS
         env:

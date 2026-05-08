@@ -36,8 +36,8 @@ jobs:
 
       - name: Rodar fetcher (Suíça)
         run: |
-          # Tournament 36 (Super League), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 36 --season 82603
+          # Tournament 215 (Super League), Season 77152 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 215 --season 77152
 
       - name: Enviar payload e processar na VPS
         env:

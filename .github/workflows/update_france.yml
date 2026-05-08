@@ -36,8 +36,8 @@ jobs:
 
       - name: Rodar fetcher (França)
         run: |
-          # Tournament 34 (Ligue 1), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 34 --season 82603
+          # Tournament 34 (Ligue 1), Season 77356 (2025/2026)
+          python proxy_sofascore_fetcher.py --tournament 34 --season 77356
 
       - name: Enviar payload e processar na VPS
         env:
