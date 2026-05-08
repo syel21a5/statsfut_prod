@@ -46,14 +46,14 @@ def should_update(session, t_id, s_id):
     yesterday = today - timedelta(days=1)
     tomorrow = today + timedelta(days=1)
     
-    relevant_dates = [today, yesterday, tomorrow]
+    relevant_dates = [yesterday, today, tomorrow, today + timedelta(days=2), today + timedelta(days=3)]
     
     for event in data_events.get('events', []):
         ts = event.get('startTimestamp')
         if ts:
             dt = datetime.fromtimestamp(ts).date()
             if dt in relevant_dates:
-                # Se o jogo ainda não terminou ou terminou hoje/ontem, precisamos atualizar
+                # Se o jogo ainda não terminou ou está na nossa janela de interesse, atualiza
                 status = event.get('status', {}).get('type')
                 if status != 'finished' or dt >= yesterday:
                     return True
@@ -92,8 +92,8 @@ def scrape_league(session, t_id, s_id, last_rounds=None):
             if last_rounds:
                 # Lógica Inteligente: Pegar a rodada atual e as adjacentes
                 current_r = r_data.get('currentRound', {}).get('round', 1)
-                # Queremos a anterior (para resultados), a atual e a próxima (para futuros)
-                target_rounds = [current_r - 1, current_r, current_r + 1]
+                # Queremos a anterior (para resultados), a atual e as próximas (para futuros)
+                target_rounds = [current_r - 1, current_r, current_r + 1, current_r + 2]
                 all_r = [r for r in all_r if r['round'] in target_rounds]
                 print(f"    - {label}: Processando rodadas {target_rounds}")
             
