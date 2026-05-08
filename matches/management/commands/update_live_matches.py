@@ -167,11 +167,14 @@ class Command(BaseCommand):
             
             # Itera sobre cada liga mapeada para garantir uso correto das APIs
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
+                # SINCRONIZAÇÃO INTELIGENTE: Pular criação de jogos, mas permitir atualização se o jogo já existir
+                is_sofascore_league = league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League']
+                
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
                     upcoming_fixtures = api_manager.get_upcoming_fixtures(league_name=league_name, days_ahead=days_upcoming)
                     if upcoming_fixtures:
-                        self.process_fixtures(upcoming_fixtures, is_live=False)
+                        self.process_fixtures(upcoming_fixtures, is_live=False, readonly_structure=is_sofascore_league)
                         self.stdout.write(self.style.SUCCESS(f'    ✅ {len(upcoming_fixtures)} jogos encontrados para {league_name}'))
                     else:
                         self.stdout.write(f"    Nenhum jogo encontrado para {league_name}")
