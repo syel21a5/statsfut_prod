@@ -24,7 +24,8 @@ def fetch_api(session, url, sleep_time=0.5):
         if response.status_code == 200:
             return response.json()
         return None
-    except:
+    except Exception as e:
+        print(f"Erro ao acessar {url}: {e}")
         return None
 
 def should_update(session, t_id, s_id):
@@ -44,7 +45,8 @@ def should_update(session, t_id, s_id):
     now = datetime.now()
     today = now.date()
     yesterday = today - timedelta(days=1)
-    relevant_dates = [yesterday, today, today + timedelta(days=1), today + timedelta(days=2), today + timedelta(days=3)]
+    # Aumentado para 10 dias para garantir captura de hiatos em playoffs
+    relevant_dates = [yesterday, today] + [today + timedelta(days=i) for i in range(1, 11)]
     
     for tid, is_unique in tournaments:
         prefix = "unique-tournament" if is_unique else "tournament"
@@ -59,7 +61,9 @@ def should_update(session, t_id, s_id):
         # Pegar eventos da rodada atual
         e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{current_round}"
         data_events = fetch_api(session, e_url)
-        if not data_events: continue
+        if not data_events: 
+            print(f"AVISO: Falha ao buscar eventos para {tid} rodada {current_round}")
+            continue
         
         for event in data_events.get('events', []):
             ts = event.get('startTimestamp')
