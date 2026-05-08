@@ -3,8 +3,12 @@ name: Update Australia Data via SofaScore
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '15 */6 * * *'
+    inputs:
+      full_scan:
+        description: 'Fazer carga total da temporada?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   proxy-and-deploy:
@@ -36,8 +40,11 @@ jobs:
 
       - name: Rodar fetcher (Austrália)
         run: |
-          # Tournament 136 (A-League), Season 82603 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 136 --season 82603
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python proxy_sofascore_fetcher.py --tournament 420 --season 78592
+          else
+            python proxy_sofascore_fetcher.py --tournament 420 --season 78592 --last-rounds 3
+          fi
 
       - name: Enviar payload e processar na VPS
         env:

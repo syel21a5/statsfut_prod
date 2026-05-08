@@ -3,8 +3,12 @@ name: Update Switzerland Data via SofaScore
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '50 */6 * * *'
+    inputs:
+      full_scan:
+        description: 'Fazer carga total da temporada?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   proxy-and-deploy:
@@ -36,8 +40,11 @@ jobs:
 
       - name: Rodar fetcher (Suíça)
         run: |
-          # Tournament 215 (Super League), Season 77152 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 215 --season 77152
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python proxy_sofascore_fetcher.py --tournament 215 --season 77152
+          else
+            python proxy_sofascore_fetcher.py --tournament 215 --season 77152 --last-rounds 3
+          fi
 
       - name: Enviar payload e processar na VPS
         env:

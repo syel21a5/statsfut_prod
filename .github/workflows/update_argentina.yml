@@ -3,8 +3,12 @@ name: Update Argentina Data via SofaScore
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'
+    inputs:
+      full_scan:
+        description: 'Fazer carga total da temporada?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   proxy-and-deploy:
@@ -36,8 +40,11 @@ jobs:
 
       - name: Rodar fetcher do SofaScore (Argentina)
         run: |
-          # Tournament 155 (Liga Profesional), Season 87913 (2026)
-          python proxy_sofascore_fetcher.py --tournament 155 --season 87913
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python proxy_sofascore_fetcher.py --tournament 155 --season 87913
+          else
+            python proxy_sofascore_fetcher.py --tournament 155 --season 87913 --last-rounds 3
+          fi
 
       - name: Enviar payload e processar na VPS
         env:

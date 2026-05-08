@@ -3,8 +3,12 @@ name: Update Brazil Data via SofaScore
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '45 */6 * * *'
+    inputs:
+      full_scan:
+        description: 'Fazer carga total da temporada?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   proxy-and-deploy:
@@ -36,8 +40,11 @@ jobs:
 
       - name: Rodar fetcher do SofaScore (Brasil)
         run: |
-          # Tournament 325 (Brasileirão), Season 87678 (2026)
-          python proxy_sofascore_fetcher.py --tournament 325 --season 87678
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python proxy_sofascore_fetcher.py --tournament 325 --season 87678
+          else
+            python proxy_sofascore_fetcher.py --tournament 325 --season 87678 --last-rounds 3
+          fi
 
       - name: Enviar payload e processar na VPS
         env:

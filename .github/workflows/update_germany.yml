@@ -3,8 +3,12 @@ name: Update Germany Data via SofaScore
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '40 */6 * * *'
+    inputs:
+      full_scan:
+        description: 'Fazer carga total da temporada?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   proxy-and-deploy:
@@ -36,8 +40,11 @@ jobs:
 
       - name: Rodar fetcher (Alemanha)
         run: |
-          # Tournament 35 (Bundesliga), Season 77333 (2025/2026)
-          python proxy_sofascore_fetcher.py --tournament 35 --season 77333
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python proxy_sofascore_fetcher.py --tournament 35 --season 77333
+          else
+            python proxy_sofascore_fetcher.py --tournament 35 --season 77333 --last-rounds 3
+          fi
 
       - name: Enviar payload e processar na VPS
         env:
