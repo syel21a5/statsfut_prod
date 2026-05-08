@@ -77,14 +77,14 @@ jobs:
             
             scp -o StrictHostKeyChecking=no $FILE_NAME $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/
             
-            ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST << EOF
+            ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
               cd $PROD_SERVER_PATH
               git pull origin main
-              ./venv/bin/python manage.py import_sofascore_payload --file $FILE_NAME --league_name "$NAME" --country "$COUNTRY" --season_year $YEAR
+              ./venv/bin/python manage.py import_sofascore_payload --file $FILE_NAME --league_name \"$NAME\" --country \"$COUNTRY\" --season_year $YEAR
               ./venv/bin/python manage.py merge_duplicate_teams
-              ./venv/bin/python manage.py recalculate_standings --league_name "$NAME" --country "$COUNTRY" --season_year $YEAR
+              ./venv/bin/python manage.py recalculate_standings --league_name \"$NAME\" --country \"$COUNTRY\" --season_year $YEAR
               rm $FILE_NAME
-EOF
+            "
           done
           
           echo "✅ Todas as ligas processadas com sucesso."
