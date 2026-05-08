@@ -28,35 +28,47 @@ def fetch_api(session, url, sleep_time=0.5):
         return None
 
 def should_update(session, t_id, s_id):
-    """Verifica se existem jogos hoje, ontem ou amanhã."""
-    # 1. Pegar a rodada atual
-    url_rounds = f"https://api.sofascore.com/api/v1/unique-tournament/{t_id}/season/{s_id}/rounds"
-    data_rounds = fetch_api(session, url_rounds)
-    if not data_rounds: return True # Na dúvida, atualiza
+    """Verifica se existem jogos hoje, ontem ou nos próximos dias, incluindo sub-torneios (Playoffs)."""
+    # 1. Obter Standings para descobrir sub-torneios (ex: Austria Championship Round)
+    st_url = f"https://api.sofascore.com/api/v1/unique-tournament/{t_id}/season/{s_id}/standings/total"
+    st_data = fetch_api(session, st_url)
     
-    current_round = data_rounds.get('currentRound', {}).get('round', 1)
-    
-    # 2. Pegar eventos da rodada atual
-    url_events = f"https://api.sofascore.com/api/v1/unique-tournament/{t_id}/season/{s_id}/events/round/{current_round}"
-    data_events = fetch_api(session, url_events)
-    if not data_events: return True
+    tournaments = [(t_id, True)] # (id, is_unique)
+    if st_data and 'standings' in st_data:
+        for group in st_data['standings']:
+            sub_id = group.get('tournament', {}).get('id')
+            if sub_id and sub_id != t_id:
+                if not any(t[0] == sub_id for t in tournaments):
+                    tournaments.append((sub_id, False))
     
     now = datetime.now()
     today = now.date()
     yesterday = today - timedelta(days=1)
-    tomorrow = today + timedelta(days=1)
+    relevant_dates = [yesterday, today, today + timedelta(days=1), today + timedelta(days=2), today + timedelta(days=3)]
     
-    relevant_dates = [yesterday, today, tomorrow, today + timedelta(days=2), today + timedelta(days=3)]
-    
-    for event in data_events.get('events', []):
-        ts = event.get('startTimestamp')
-        if ts:
-            dt = datetime.fromtimestamp(ts).date()
-            if dt in relevant_dates:
-                # Se o jogo ainda não terminou ou está na nossa janela de interesse, atualiza
-                status = event.get('status', {}).get('type')
-                if status != 'finished' or dt >= yesterday:
-                    return True
+    for tid, is_unique in tournaments:
+        prefix = "unique-tournament" if is_unique else "tournament"
+        
+        # Pegar a rodada atual do torneio específico
+        r_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/rounds"
+        r_data = fetch_api(session, r_url)
+        if not r_data: continue
+        
+        current_round = r_data.get('currentRound', {}).get('round', 1)
+        
+        # Pegar eventos da rodada atual
+        e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{current_round}"
+        data_events = fetch_api(session, e_url)
+        if not data_events: continue
+        
+        for event in data_events.get('events', []):
+            ts = event.get('startTimestamp')
+            if ts:
+                dt = datetime.fromtimestamp(ts).date()
+                if dt in relevant_dates:
+                    status = event.get('status', {}).get('type')
+                    if status != 'finished' or dt >= yesterday:
+                        return True
     
     return False
 
