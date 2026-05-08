@@ -90,7 +90,12 @@ def scrape_league(session, t_id, s_id, last_rounds=None):
         if r_data and 'rounds' in r_data:
             all_r = r_data['rounds']
             if last_rounds:
-                all_r = all_r[-last_rounds:]
+                # Lógica Inteligente: Pegar a rodada atual e as adjacentes
+                current_r = r_data.get('currentRound', {}).get('round', 1)
+                # Queremos a anterior (para resultados), a atual e a próxima (para futuros)
+                target_rounds = [current_r - 1, current_r, current_r + 1]
+                all_r = [r for r in all_r if r['round'] in target_rounds]
+                print(f"    - {label}: Processando rodadas {target_rounds}")
             
             for r_info in all_r:
                 r_num = r_info['round']
