@@ -596,11 +596,18 @@ class LeagueDetailView(DetailView):
         league = self.object
         now = timezone.now()
         
+        # Allow matches that are Scheduled even if slightly in the past (Limbo protection)
+        # Also include LIVE statuses so they don't disappear during the game
+        valid_statuses = ['Scheduled', 'Not Started', 'TIMED', 'UTC', '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
+        
+        # We show matches from yesterday onwards to catch any 'Scheduled' matches that haven't been updated to 'Finished' yet
+        cutoff_date = now - timedelta(days=2)
+        
         upcoming_matches_qs = Match.objects.filter(
             league=league,
-            date__gte=now,
-            status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC']
-        ).select_related('home_team', 'away_team').order_by('date')[:10]
+            date__gte=cutoff_date,
+            status__in=valid_statuses
+        ).select_related('home_team', 'away_team').order_by('date')[:15]
         context['upcoming_matches'] = upcoming_matches_qs
         
         # Include all statuses that indicate a finished match

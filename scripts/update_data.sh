@@ -52,8 +52,9 @@ echo "Normalizing teams..." >> "$LOG_FILE"
 python manage.py normalize_teams --league_name "Premier League" >> "$LOG_FILE" 2>&1
 python manage.py normalize_teams --league_name "Bundesliga" --country "Alemanha" >> "$LOG_FILE" 2>&1
 
-# 5. Remove Match Duplicates (Safety net for duplicate games)
-echo "Removing duplicate matches..." >> "$LOG_FILE"
+# 5. Remove Match Duplicates (Safety net - CORRIGIDO: agora usa data+hora para deduplicar,
+#    preservando jogos de playoff onde os mesmos times se enfrentam mais de uma vez por temporada)
+echo "Removing duplicate matches (safe mode)..." >> "$LOG_FILE"
 python manage.py remove_match_duplicates >> "$LOG_FILE" 2>&1
 
 # 6. Recalculate Standings (CRITICAL: Tables won't update without this)

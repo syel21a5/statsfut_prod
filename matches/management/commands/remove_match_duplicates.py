@@ -2,8 +2,9 @@ from django.core.management.base import BaseCommand
 from django.db.models import Count
 from matches.models import Match, League, Season
 
+
 class Command(BaseCommand):
-    help = "Remove jogos duplicados (mesma temporada, mandante e visitante)"
+    help = "Remove jogos duplicados (mesma data, mandante e visitante)"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -43,9 +44,16 @@ class Command(BaseCommand):
             seasons = Season.objects.filter(year=season_year)
             qs = qs.filter(season__in=seasons)
 
+        # Fase 1: Remover matches órfãos (sem time)
+        orphan_home = qs.filter(home_team__isnull=True).count()
+        orphan_away = qs.filter(away_team__isnull=True).count()
         qs.filter(home_team__isnull=True).delete()
         qs.filter(away_team__isnull=True).delete()
+        if orphan_home or orphan_away:
+            self.stdout.write(f"Removidos {orphan_home + orphan_away} jogos órfãos (sem time).")
 
+        # Fase 2: Duplicatas EXATAS (mesma data E hora, mesmos times)
+        # Isso pega registros que são realmente o mesmo jogo importado duas vezes
         duplicates_strict = (
             qs.values("date", "home_team", "away_team")
             .annotate(count=Count("id"))
@@ -54,10 +62,10 @@ class Command(BaseCommand):
         
         count_strict = 0
         total_items = duplicates_strict.count()
-        self.stdout.write(f"Encontrados {total_items} grupos de duplicatas exatas (data/home/away).")
+        self.stdout.write(f"Encontrados {total_items} grupos de duplicatas exatas (data+hora/home/away).")
 
         for i, item in enumerate(duplicates_strict):
-            if i % 100 == 0:
+            if i % 100 == 0 and i > 0:
                 self.stdout.write(f"Processando grupo {i}/{total_items}...")
             matches = qs.filter(
                 date=item["date"],
@@ -65,52 +73,23 @@ class Command(BaseCommand):
                 away_team=item["away_team"],
             ).order_by("-api_id", "-id")
             
-            # Mantém o primeiro, deleta o resto
+            # Mantém o primeiro (melhor), deleta o resto
             for m in matches[1:]:
                 m.delete()
                 count_strict += 1
                 
         self.stdout.write(f"Removidas {count_strict} duplicatas exatas.")
 
-        duplicates = (
-            qs.values("season", "home_team", "away_team")
-            .annotate(count=Count("id"))
-            .filter(count__gt=1)
-        )
+        # =====================================================================
+        # SEGURANÇA: NÃO DELETAR jogos apenas por season+home+away!
+        # Em ligas com playoffs (Suíça, Áustria, Bélgica), os mesmos times
+        # se enfrentam MAIS DE UMA VEZ na mesma temporada.
+        # A Fase 2 acima já garante que jogos com a MESMA DATA+HORA são
+        # tratados como duplicatas reais. Jogos em datas diferentes são
+        # partidas LEGÍTIMAS (fase regular vs playoff).
+        # =====================================================================
 
-        total_groups = duplicates.count()
-        total_deleted = 0
-        
-        self.stdout.write(f"Encontrados {total_groups} confrontos duplicados (mesma temporada/mandante/visitante).")
-
-        for item in duplicates:
-            matches = qs.filter(
-                season=item["season"],
-                home_team=item["home_team"],
-                away_team=item["away_team"],
-            )
-            
-            # Critério de desempate para manter o "melhor" jogo:
-            # 1. Tem API ID (veio da API paga/oficial)
-            # 2. Tem status 'Finished'
-            # 3. Tem placar (home_score não é nulo)
-            # 4. Data mais recente (assumindo correção)
-            # 5. ID maior (último inserido)
-            
-            sorted_matches = sorted(matches, key=lambda m: (
-                1 if m.api_id else 0,
-                1 if m.status == 'Finished' else 0,
-                1 if m.home_score is not None else 0,
-                m.date,
-                m.id
-            ), reverse=True)
-            
-            keep = sorted_matches[0]
-            delete_list = sorted_matches[1:]
-            
-            for m in delete_list:
-                self.stdout.write(f"Removendo duplicata: {m.home_team} vs {m.away_team} ({m.date}) [ID: {m.id}]")
-                m.delete()
-                total_deleted += 1
-                
-        self.stdout.write(self.style.SUCCESS(f"Limpeza concluída. Removidos {total_deleted} jogos duplicados."))
+        self.stdout.write(self.style.SUCCESS(
+            f"Limpeza concluída. Removidos {count_strict} jogos duplicados. "
+            f"Jogos de playoff preservados com segurança."
+        ))
