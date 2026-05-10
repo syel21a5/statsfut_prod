@@ -164,6 +164,12 @@ class LeagueStanding(models.Model):
     goals_against = models.IntegerField()
     points = models.IntegerField()
 
+    # Campos específicos para Promedios (Argentina)
+    points_prev_prev_season = models.IntegerField(default=0, null=True, blank=True)
+    points_prev_season = models.IntegerField(default=0, null=True, blank=True)
+    points_curr_season = models.IntegerField(default=0, null=True, blank=True)
+    points_per_game = models.FloatField(default=0.0, null=True, blank=True)
+
     class Meta:
         ordering = ['season', 'league', 'group_name', 'position']
         unique_together = ['league', 'season', 'team', 'group_name']

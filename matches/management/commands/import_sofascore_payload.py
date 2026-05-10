@@ -224,45 +224,42 @@ class Command(BaseCommand):
                     
             self.stdout.write(self.style.SUCCESS(f"{len(teams_map)} times carregados/sincronizados no total."))
             
-            # 1.5. Salvar a Classificação (Standings) Perfeita do SofaScore
-            # EXCEÇÃO: A Argentina (Liga Profesional) possui um layout e um motor
-            # de recálculo customizados (Grupos A/B/Promedios). Não importamos a tabela bruta.
-            if league.country == 'Argentina' and 'profesional' in league.name.lower():
-                self.stdout.write(self.style.WARNING("Pulando importação de classificação para a Argentina (regras customizadas)."))
-            else:
-                self.stdout.write("Importando Classificações exatas do SofaScore...")
-                with transaction.atomic():
-                    # Remove as classificações antigas para esta liga/temporada para evitar sujeira
-                    LeagueStanding.objects.filter(league=league, season=season).delete()
-                    
-                    standings_saved = 0
-                    for group in standings_data['standings']:
-                        group_name = group.get('name', 'Regular Season')
-                        standings_list = group.get('rows', [])
-                        for row in standings_list:
-                            team_id = str(row.get('team', {}).get('id'))
-                            team = teams_map.get(int(team_id)) if team_id.isdigit() else None
-                            
-                            if team:
-                                LeagueStanding.objects.create(
-                                    league=league,
-                                    season=season,
-                                    team=team,
-                                    group_name=group_name,
-                                    position=row.get('position', 0),
-                                    played=row.get('matches', 0),
-                                    won=row.get('wins', 0),
-                                    drawn=row.get('draws', 0),
-                                    lost=row.get('losses', 0),
-                                    goals_for=row.get('scoresFor', 0),
-                                    goals_against=row.get('scoresAgainst', 0),
-                                    points=row.get('points', 0)
-                                )
-                                standings_saved += 1
-                                
-                    self.stdout.write(self.style.SUCCESS(f"{standings_saved} posições de classificação salvas com sucesso em seus respectivos grupos."))
-
+            self.stdout.write("Importando Classificações exatas do SofaScore...")
+            with transaction.atomic():
+                # Remove as classificações antigas para esta liga/temporada para evitar sujeira
+                LeagueStanding.objects.filter(league=league, season=season).delete()
                 
+                standings_saved = 0
+                for group in standings_data['standings']:
+                    group_name = group.get('name', 'Regular Season')
+                    standings_list = group.get('rows', [])
+                    for row in standings_list:
+                        team_id = str(row.get('team', {}).get('id'))
+                        team = teams_map.get(int(team_id)) if team_id.isdigit() else None
+                        
+                        if team:
+                            LeagueStanding.objects.create(
+                                league=league,
+                                season=season,
+                                team=team,
+                                group_name=group_name,
+                                position=row.get('position', 0),
+                                played=row.get('matches', 0),
+                                won=row.get('wins', 0),
+                                drawn=row.get('draws', 0),
+                                lost=row.get('losses', 0),
+                                goals_for=row.get('scoresFor', 0),
+                                goals_against=row.get('scoresAgainst', 0),
+                                points=row.get('points', 0),
+                                # Campos específicos para Promedios
+                                points_prev_prev_season=row.get('pointsPrevPrevSeason'),
+                                points_prev_season=row.get('pointsPrevSeason'),
+                                points_curr_season=row.get('pointsCurrSeason'),
+                                points_per_game=row.get('pointsPerGame')
+                            )
+                            standings_saved += 1
+                            
+                self.stdout.write(self.style.SUCCESS(f"{standings_saved} posições de classificação salvas com sucesso em seus respectivos grupos."))
         else:
             self.stdout.write(self.style.ERROR("Nenhum dado de classificação (standings) encontrado no payload."))
 
