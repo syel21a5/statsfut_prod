@@ -1,0 +1,390 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+<div class="header-minimal">
+    <a href="javascript:history.back()" class="btn-back-minimal"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="header-info">
+        <span class="league-tag"><i class="fa-solid fa-trophy"></i> {{ match.league.name }}</span>
+        <span class="status-tag {% if match.status == 'Live' %}live{% endif %}">{{ match.status }}</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="premium-dashboard">
+
+    <!-- PLACAR E TIMES (COMPACTO) -->
+    <div class="match-hero-minimal mb-4">
+        <div class="team-mini">
+            <div class="t-logo">{{ match.home_team.name|slice:":1" }}</div>
+            <span class="t-name">{{ match.home_team.name }}</span>
+        </div>
+        <div class="score-mini">
+            {% if match.status == 'Scheduled' %}
+                <span class="vs">VS</span>
+            {% else %}
+                <span class="val">{{ match.home_score }}</span>
+                <span class="sep">:</span>
+                <span class="val">{{ match.away_score }}</span>
+            {% endif %}
+        </div>
+        <div class="team-mini">
+            <div class="t-logo away">{{ match.away_team.name|slice:":1" }}</div>
+            <span class="t-name">{{ match.away_team.name }}</span>
+        </div>
+    </div>
+
+    {% if advanced_stats %}
+    
+    <!-- MAIN ANALYTIC BOARD (Fiel ao Excel) -->
+    <div class="analytic-board">
+        <div class="board-header">
+            Probabilidades de Over e Under / BTTS / Primeiro a marcar / Over 0.5 HT
+        </div>
+        
+        <div class="board-body">
+            
+            <!-- LINHA 1: ANÉIS E SUGESTÕES -->
+            <div class="stats-row-top">
+                <!-- Over 0.5 & 1.5 -->
+                <div class="ring-group">
+                    <div class="ring-box">
+                        <div class="ring-label-top">0.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.over_05 }} 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">{{ advanced_stats.goals.over_05 }}%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ring-box">
+                        <div class="ring-label-top">1.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.over_15 }} 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">{{ advanced_stats.goals.over_15 }}%</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Central Sugestões -->
+                <div class="suggestions-central">
+                    <div class="sugg-title">Sugestões de Entrada</div>
+                    <div class="sugg-list">
+                        <div class="sugg-item">
+                            <span class="market">0.5 ></span>
+                            <span class="perc perc-high">{{ advanced_stats.goals.over_05 }}%</span>
+                            <span class="rec">Recomendado</span>
+                        </div>
+                        <div class="sugg-item">
+                            <span class="market">1.5 ></span>
+                            <span class="perc perc-high">{{ advanced_stats.goals.over_15 }}%</span>
+                            <span class="rec">Recomendado</span>
+                        </div>
+                        <div class="sugg-item">
+                            <span class="market">2.5 ></span>
+                            <span class="perc">{{ advanced_stats.goals.over_25 }}%</span>
+                            <span class="rec">{% if advanced_stats.goals.over_25 > 50 %}Over 2.5{% else %}Under 2.5{% endif %}</span>
+                        </div>
+                        <div class="sugg-item">
+                            <span class="market">3.5 ></span>
+                            <span class="perc">{{ advanced_stats.goals.over_35 }}%</span>
+                            <span class="rec">{% if advanced_stats.goals.over_35 > 50 %}Over 3.5{% else %}Under 3.5{% endif %}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Over 2.5 & 3.5 -->
+                <div class="ring-group">
+                    <div class="ring-box">
+                        <div class="ring-label-top">2.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.over_25 }} 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">{{ advanced_stats.goals.over_25 }}%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ring-box">
+                        <div class="ring-label-top">3.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.over_35 }} 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">{{ advanced_stats.goals.over_35 }}%</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LINHA 2: PIE BTTS E CHANCE 1ST -->
+            <div class="stats-row-mid mt-4">
+                <div class="first-score-box">
+                    <div class="box-label">Chance de marcar primeiro</div>
+                    <div class="f-score-vals">
+                        <div class="f-val">
+                            <span class="num">{{ advanced_stats.goals.home_first_score }}%</span>
+                            <span class="lab">Mandante</span>
+                        </div>
+                        <div class="f-val">
+                            <span class="num">{{ advanced_stats.goals.away_first_score }}%</span>
+                            <span class="lab">Visitante</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btts-pie-box">
+                    <div class="box-label">BTTS</div>
+                    <div class="pie-wrap">
+                        <svg viewBox="0 0 36 36" class="pie-chart">
+                            <circle class="pie-no" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                            <circle class="pie-yes" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.btts }} 100" stroke="#fff"></circle>
+                        </svg>
+                        <div class="pie-legend">
+                            <div><span class="dot white"></span> Sim {{ advanced_stats.goals.btts }}%</div>
+                            <div><span class="dot red"></span> Não {{ 100|add:advanced_stats.goals.btts|add:"-100" }}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-items">
+                        <div class="res-item">
+                            <span class="l">Dupla</span>
+                            <span class="v big">{{ advanced_stats.odds_probs.double_bet }}</span>
+                        </div>
+                        <div class="res-item highlight-ht">
+                            <div class="ht-glow-box">
+                                <span class="ht-title">Probabilidade de Gol HT</span>
+                                <span class="ht-main">GOL HT</span>
+                                <span class="ht-perc">{{ advanced_stats.goals.ht_goal }}%</span>
+                            </div>
+                        </div>
+                        <div class="res-item">
+                            <span class="l">Vence</span>
+                            <span class="v big">{{ advanced_stats.odds_probs.best_bet }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- IA SUMMARY (GLASS) -->
+    <div class="ia-panel-modern mt-4">
+        <div class="ia-header"><i class="fa-solid fa-microchip"></i> ANÁLISE DO ROBÔ</div>
+        <p>{{ advanced_stats.summary }}</p>
+    </div>
+
+    <!-- FOOTER STATS (CORNERS & FORM) -->
+    <div class="row mt-4 g-3">
+        <div class="col-md-6">
+            <div class="footer-panel">
+                <div class="panel-title-mini">PROJEÇÃO DE ESCANTEIOS</div>
+                <div class="corner-projection-line">
+                    {% for k, v in advanced_stats.corners.match_overs.items %}
+                    <div class="c-point">
+                        <span class="l">O{{ k }}</span>
+                        <span class="v">{{ v }}%</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="footer-panel">
+                <div class="panel-title-mini">EFICIÊNCIA (ÚLT. 10 JOGOS)</div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <div class="eff-team">
+                        <span>{{ match.home_team.name|truncatechars:12 }}</span>
+                        <div class="eff-bar"><div class="fill green" style="width: {{ advanced_stats.general_form.home.win_pct }}%"></div></div>
+                    </div>
+                    <div class="eff-team text-end">
+                        <span>{{ match.away_team.name|truncatechars:12 }}</span>
+                        <div class="eff-bar"><div class="fill blue" style="width: {{ advanced_stats.general_form.away.win_pct }}%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+<style>
+    /* MASTERCLASS UI - EXCEL TWIN PREMIUM */
+    :root {
+        --bg-black: #05070a;
+        --bg-board: #0c111d;
+        --text-bright: #ffffff;
+        --text-dim: #94a3b8;
+        --excel-red: #ef4444;
+        --excel-green: #10b981;
+        --primary-cyan: #06b6d4;
+    }
+
+    body {
+        background-color: var(--bg-black) !important;
+        font-family: 'Inter', sans-serif;
+        color: var(--text-bright);
+        margin: 0;
+    }
+
+    .premium-dashboard {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+
+    /* HEADER */
+    .header-minimal {
+        display: flex; align-items: center; gap: 1.5rem; padding: 1rem 0;
+    }
+    .btn-back-minimal {
+        color: var(--text-dim); font-size: 1.2rem; text-decoration: none;
+    }
+    .league-tag {
+        background: rgba(255,255,255,0.05); padding: 0.3rem 0.8rem; border-radius: 6px;
+        font-size: 0.75rem; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .status-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--primary-cyan); margin-left: 0.5rem; }
+    .status-tag.live { color: var(--excel-red); animation: blink 1.5s infinite; }
+
+    /* HERO */
+    .match-hero-minimal {
+        display: flex; align-items: center; justify-content: center; gap: 3rem;
+        background: linear-gradient(180deg, #111827, #05070a);
+        padding: 2rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .team-mini { text-align: center; }
+    .t-logo {
+        width: 60px; height: 60px; background: var(--primary-cyan); border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 900;
+        margin-bottom: 0.5rem; border: 3px solid rgba(255,255,255,0.1);
+    }
+    .t-logo.away { background: #475569; }
+    .t-name { font-weight: 800; font-size: 1.1rem; }
+    .score-mini { font-size: 3rem; font-weight: 900; letter-spacing: -2px; }
+    .score-mini .vs { color: var(--text-dim); opacity: 0.4; }
+
+    /* ANALYTIC BOARD (THE EXCEL FEEL) */
+    .analytic-board {
+        background: var(--bg-board);
+        border-radius: 12px;
+        border: 1px solid #1e293b;
+        overflow: hidden;
+    }
+    .board-header {
+        background: #1e293b; color: #fff; text-align: center; padding: 0.5rem;
+        font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .board-body { padding: 2rem; }
+
+    .stats-row-top { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 2rem; align-items: center; }
+    
+    .ring-group { display: flex; justify-content: space-around; }
+    .ring-box { text-align: center; }
+    .ring-label-top {
+        background: #fff; color: #000; font-weight: 900; padding: 0.1rem 0.8rem;
+        border-radius: 4px; display: inline-block; margin-bottom: 1rem; position: relative;
+    }
+    .ring-label-top::after {
+        content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+        border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid #fff;
+    }
+    .ring-svg-wrap { width: 100px; height: 100px; }
+    .excel-ring { transform: rotate(-90deg); }
+    .ring-under { fill: transparent; stroke-width: 4; }
+    .ring-over { fill: transparent; stroke-width: 4; stroke-linecap: butt; }
+    .ring-text { fill: #fff; font-size: 0.6rem; font-weight: 900; transform: rotate(90deg); transform-origin: center; text-anchor: middle; }
+
+    /* CENTRAL SUGGESTIONS */
+    .suggestions-central { text-align: center; }
+    .sugg-title { color: #facc15; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 1rem; }
+    .sugg-list { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,0.05); }
+    .sugg-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .sugg-item:last-child { margin-bottom: 0; }
+    .sugg-item .market { color: var(--text-dim); font-weight: 700; }
+    .sugg-item .perc { font-weight: 900; min-width: 50px; }
+    .sugg-item .perc-high { color: var(--excel-green); }
+    .sugg-item .rec { color: #fff; font-weight: 600; text-align: right; flex: 1; margin-left: 1rem; }
+
+    /* MID ROW */
+    .stats-row-mid { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 2rem; align-items: flex-end; }
+    .box-label { text-align: center; font-weight: 800; color: #fff; font-size: 0.9rem; margin-bottom: 1rem; text-transform: uppercase; }
+    
+    .f-score-vals { display: flex; justify-content: space-around; }
+    .f-val { text-align: center; }
+    .f-val .num { display: block; font-size: 2rem; font-weight: 900; }
+    .f-val .lab { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; }
+
+    .pie-wrap { display: flex; align-items: center; gap: 1rem; justify-content: center; }
+    .pie-chart { width: 80px; height: 80px; transform: rotate(-90deg); }
+    .pie-no { fill: transparent; stroke-width: 32; }
+    .pie-yes { fill: transparent; stroke-width: 32; }
+    .pie-legend { font-size: 0.8rem; font-weight: 700; }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; }
+    .dot.white { background: #fff; }
+    .dot.red { background: var(--excel-red); }
+
+    /* RESULT & HT GLOW */
+    .result-items { display: flex; align-items: center; justify-content: space-between; }
+    .res-item { text-align: center; }
+    .res-item .l { display: block; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .res-item .v.big { font-size: 2.5rem; font-weight: 900; font-family: 'Outfit', sans-serif; }
+
+    .ht-glow-box {
+        background: linear-gradient(180deg, #064e3b, #065f46);
+        padding: 1rem 1.5rem; border-radius: 8px;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        text-align: center; border: 1px solid #10b981;
+    }
+    .ht-title { display: block; font-size: 0.6rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+    .ht-main { display: block; font-size: 1.4rem; font-weight: 900; font-style: italic; letter-spacing: 2px; color: #fff; }
+    .ht-perc { display: block; font-size: 1.1rem; font-weight: 800; margin-top: 0.5rem; }
+
+    /* IA PANEL */
+    .ia-panel-modern {
+        background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 12px; padding: 1.5rem;
+    }
+    .ia-header { font-weight: 800; font-size: 0.75rem; color: var(--primary-cyan); margin-bottom: 0.5rem; }
+    .ia-panel-modern p { margin: 0; color: var(--text-dim); line-height: 1.6; }
+
+    /* FOOTER PANELS */
+    .footer-panel {
+        background: var(--bg-board); border: 1px solid #1e293b;
+        border-radius: 12px; padding: 1rem;
+    }
+    .panel-title-mini { font-size: 0.7rem; font-weight: 800; color: var(--text-dim); margin-bottom: 1rem; }
+    
+    .corner-projection-line { display: flex; justify-content: space-between; }
+    .c-point { text-align: center; }
+    .c-point .l { display: block; font-size: 0.6rem; color: var(--text-dim); }
+    .c-point .v { font-weight: 800; font-size: 1rem; }
+
+    .eff-team { width: 45%; }
+    .eff-team span { font-size: 0.7rem; font-weight: 700; }
+    .eff-bar { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-top: 0.3rem; }
+    .eff-bar .fill { height: 100%; border-radius: 2px; }
+    .eff-bar .fill.green { background: var(--excel-green); }
+    .eff-bar .fill.blue { background: var(--primary-cyan); }
+
+    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+    @media (max-width: 768px) {
+        .stats-row-top, .stats-row-mid { grid-template-columns: 1fr; gap: 3rem; }
+        .match-hero-minimal { gap: 1rem; flex-direction: column; }
+        .result-items { flex-direction: column; gap: 2rem; }
+    }
+</style>
+{% endblock %}

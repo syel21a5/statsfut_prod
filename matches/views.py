@@ -252,6 +252,7 @@ def debug_leagues(request):
         return HttpResponse(f"<h1>Erro Interno (500) - Detalhes:</h1><pre>{traceback.format_exc()}</pre>")
 
 from django.views.decorators.csrf import csrf_exempt
+from .services.advanced_stats import MatchAnalyzer
 
 @csrf_exempt
 def debug_leagues_wrapper(request):
@@ -284,6 +285,14 @@ class MatchDetailView(DetailView):
             else:
                 print(f"Match {match.id} sem API_ID. Ignorando fetch de predictions.")
         
+        # Instantiate the advanced stats engine
+        try:
+            analyzer = MatchAnalyzer(match)
+            context['advanced_stats'] = analyzer.generate_full_report()
+        except Exception as e:
+            print(f"Error generating advanced stats: {e}")
+            context['advanced_stats'] = None
+            
         return context
 
 class HomeView(ListView):
