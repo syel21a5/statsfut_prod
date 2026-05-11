@@ -83,10 +83,10 @@ class MatchAnalyzer:
 
     def _eval_strength(self, avg_goals):
         if avg_goals >= 1.6:
-            return "Forte"
+            return "Strong"
         elif avg_goals >= 1.0:
-            return "Razoável"
-        return "Fraca"
+            return "Average"
+        return "Weak"
 
     def get_team_strength(self):
         general = self.get_general_form()
@@ -228,7 +228,7 @@ class MatchAnalyzer:
             match_unders[k] = 100 - match_overs[k]
             
         # Basic recommendation logic (e.g., highest line with >= 70% probability)
-        recommendation = "Sem sugestão clara"
+        recommendation = "No clear suggestion"
         for k in sorted(match_overs.keys(), reverse=True):
             if match_overs[k] >= 70:
                 recommendation = f"Over {k}.5"
@@ -339,12 +339,12 @@ class MatchAnalyzer:
         away = general['away']
         
         text = (
-            f"O {self.home_team.name} tem um aproveitamento de {home['win_pct']}% jogando em casa "
-            f"(marcando em média {home['avg_gf']} gols). Seu ataque é considerado {strength['home_attack']} "
-            f"e a defesa {strength['home_defense']}. Do outro lado, o {self.away_team.name} como visitante "
-            f"vence {away['win_pct']}% dos jogos, com um ataque {strength['away_attack']}. "
-            f"Estatisticamente, este confronto tem {goals['over_15']}% de chances de bater Over 1.5 "
-            f"e {goals['btts']}% de chances de Ambas Marcarem (BTTS)."
+            f"{self.home_team.name} has a {home['win_pct']}% win rate playing at home "
+            f"(scoring an average of {home['avg_gf']} goals). Their attack is considered {strength['home_attack'].lower()} "
+            f"and defense {strength['home_defense'].lower()}. On the other hand, {self.away_team.name} as the away team "
+            f"wins {away['win_pct']}% of their matches, with an {strength['away_attack'].lower()} attack. "
+            f"Statistically, this matchup has a {goals['over_15']}% chance of hitting Over 1.5 "
+            f"and a {goals['btts']}% chance of Both Teams to Score (BTTS)."
         )
         return text
 

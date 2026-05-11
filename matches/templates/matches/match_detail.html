@@ -42,7 +42,7 @@
     <!-- MAIN ANALYTIC BOARD (Twin Excel) -->
     <div class="analytic-board">
         <div class="board-header">
-            Probabilidades de Over e Under / BTTS / Primeiro a marcar / Over 0.5 HT
+            OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT
         </div>
         
         <div class="board-body">
@@ -75,17 +75,17 @@
 
                 <!-- Central Sugestões -->
                 <div class="suggestions-central">
-                    <div class="sugg-title">Sugestões de Entrada</div>
+                    <div class="sugg-title">BETTING SUGGESTIONS</div>
                     <div class="sugg-list">
                         <div class="sugg-item">
                             <span class="market">0.5 ></span>
                             <span class="perc perc-high">{{ advanced_stats.goals.over_05 }}%</span>
-                            <span class="rec">Recomendado</span>
+                            <span class="rec">Recommended</span>
                         </div>
                         <div class="sugg-item">
                             <span class="market">1.5 ></span>
                             <span class="perc perc-high">{{ advanced_stats.goals.over_15 }}%</span>
-                            <span class="rec">Recomendado</span>
+                            <span class="rec">Recommended</span>
                         </div>
                         <div class="sugg-item">
                             <span class="market">2.5 ></span>
@@ -128,15 +128,15 @@
             <!-- LINHA 2: PIE BTTS E CHANCE 1ST -->
             <div class="stats-row-mid mt-4">
                 <div class="first-score-box">
-                    <div class="box-label">Chance de marcar primeiro</div>
+                    <div class="box-label">Chance to score first</div>
                     <div class="f-score-vals">
                         <div class="f-val">
                             <span class="num">{{ advanced_stats.goals.home_first_score }}%</span>
-                            <span class="lab">Mandante</span>
+                            <span class="lab">Home</span>
                         </div>
                         <div class="f-val">
                             <span class="num">{{ advanced_stats.goals.away_first_score }}%</span>
-                            <span class="lab">Visitante</span>
+                            <span class="lab">Away</span>
                         </div>
                     </div>
                 </div>
@@ -149,8 +149,8 @@
                             <circle class="pie-yes" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.btts }} 100" stroke="#fff"></circle>
                         </svg>
                         <div class="pie-legend">
-                            <div><span class="dot white"></span> Sim {{ advanced_stats.goals.btts }}%</div>
-                            <div><span class="dot red"></span> Não {{ 100|add:advanced_stats.goals.btts|add:"-100" }}%</div>
+                            <div><span class="dot white"></span> Yes {{ advanced_stats.goals.btts }}%</div>
+                            <div><span class="dot red"></span> No {{ 100|add:advanced_stats.goals.btts|add:"-100" }}%</div>
                         </div>
                     </div>
                 </div>
@@ -158,18 +158,18 @@
                 <div class="result-box">
                     <div class="result-items">
                         <div class="res-item">
-                            <span class="l">Dupla</span>
+                            <span class="l">Double</span>
                             <span class="v big">{{ advanced_stats.odds_probs.double_bet }}</span>
                         </div>
                         <div class="res-item highlight-ht">
                             <div class="ht-glow-box">
-                                <span class="ht-title">Probabilidade de Gol HT</span>
-                                <span class="ht-main">GOL HT</span>
+                                <span class="ht-title">HT Goal Probability</span>
+                                <span class="ht-main">HT GOAL</span>
                                 <span class="ht-perc">{{ advanced_stats.goals.ht_goal }}%</span>
                             </div>
                         </div>
                         <div class="res-item">
-                            <span class="l">Vence</span>
+                            <span class="l">To Win</span>
                             <span class="v big">{{ advanced_stats.odds_probs.best_bet }}</span>
                         </div>
                     </div>
@@ -181,16 +181,16 @@
 
     <!-- IA SUMMARY -->
     <div class="ia-panel-modern mt-4 mb-4">
-        <div class="ia-header"><i class="fa-solid fa-microchip"></i> ANÁLISE DO ROBÔ</div>
+        <div class="ia-header"><i class="fa-solid fa-microchip"></i> MATCH ANALYSIS</div>
         <p>{{ advanced_stats.summary }}</p>
     </div>
 
     <!-- ESTATÍSTICAS DE ELITE (NOVO) -->
-    <div class="elite-stats-grid">
-        
-        <!-- PROJEÇÃO DE ESCANTEIOS MASTERCLASS -->
-        <div class="elite-card">
-            <h4 class="e-title"><i class="fa-solid fa-flag"></i> PROJEÇÃO DE ESCANTEIOS ELITE</h4>
+    <div class="analytic-board mb-4">
+        <div class="board-header">
+            ELITE CORNERS PROJECTION
+        </div>
+        <div class="board-body" style="padding-top: 1rem;">
             <div class="corner-board">
                 <!-- MANDANTE -->
                 <div class="corner-team-panel">
@@ -199,15 +199,15 @@
                     </div>
                     <div class="ctp-stats-grid">
                         <div class="ctp-stat-box green">
-                            <span class="label">Marcou</span>
+                            <span class="label">Scored</span>
                             <span class="value">{{ advanced_stats.corners.home.avg_scored }}</span>
                         </div>
                         <div class="ctp-stat-box red">
-                            <span class="label">Concedeu</span>
+                            <span class="label">Conceded</span>
                             <span class="value">{{ advanced_stats.corners.home.avg_conceded }}</span>
                         </div>
                         <div class="ctp-total-huge">
-                            <span class="l">Média Total</span>
+                            <span class="l">Total Avg</span>
                             <span class="v">{{ advanced_stats.corners.home.avg_total }}</span>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                     </div>
                     <div class="sugg-list w-100">
                         <div class="sugg-item" style="border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.5rem; border-radius: 8px; background: rgba(16, 185, 129, 0.05);">
-                            <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Melhor Entrada</span>
+                            <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Best Pick</span>
                             <span class="perc-high" style="font-size: 1.1rem; font-weight: 900; margin-left: 0.5rem;">{{ advanced_stats.corners.recommendation }}</span>
                         </div>
                     </div>
@@ -234,15 +234,15 @@
                     </div>
                     <div class="ctp-stats-grid">
                         <div class="ctp-stat-box green">
-                            <span class="label">Marcou</span>
+                            <span class="label">Scored</span>
                             <span class="value">{{ advanced_stats.corners.away.avg_scored }}</span>
                         </div>
                         <div class="ctp-stat-box red">
-                            <span class="label">Concedeu</span>
+                            <span class="label">Conceded</span>
                             <span class="value">{{ advanced_stats.corners.away.avg_conceded }}</span>
                         </div>
                         <div class="ctp-total-huge">
-                            <span class="l">Média Total</span>
+                            <span class="l">Total Avg</span>
                             <span class="v">{{ advanced_stats.corners.away.avg_total }}</span>
                         </div>
                     </div>
@@ -252,7 +252,7 @@
             <!-- TABELA DE PROBABILIDADES -->
             <div class="corner-prob-table">
                 <div class="cpt-header">
-                    <span>Métrica</span>
+                    <span>Metric</span>
                     <span>Over 6.5</span>
                     <span>Over 7.5</span>
                     <span>Over 8.5</span>
@@ -305,47 +305,56 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-        <!-- CARTÕES E FALTAS -->
-        <div class="elite-card">
-            <h4 class="e-title"><i class="fa-solid fa-rectangle-ad"></i> DISCIPLINA (MÉDIA)</h4>
+    <!-- CARTÕES E FALTAS -->
+    <div class="analytic-board mb-4">
+        <div class="board-header">
+            DISCIPLINE (AVERAGE)
+        </div>
+        <div class="board-body" style="padding-top: 1rem;">
             {% if advanced_stats.disciplinary.match_has_data %}
             <div class="discipline-grid">
                 <div class="d-team home">
                     <div class="d-val"><strong>{{ advanced_stats.disciplinary.home.yellow }}</strong><span class="y-card"></span></div>
-                    <div class="d-val"><strong>{{ advanced_stats.disciplinary.home.fouls }}</strong><span>Faltas</span></div>
+                    <div class="d-val"><strong>{{ advanced_stats.disciplinary.home.fouls }}</strong><span>Fouls</span></div>
                 </div>
                 <div class="d-vs">VS</div>
                 <div class="d-team away">
                     <div class="d-val"><strong>{{ advanced_stats.disciplinary.away.yellow }}</strong><span class="y-card"></span></div>
-                    <div class="d-val"><strong>{{ advanced_stats.disciplinary.away.fouls }}</strong><span>Faltas</span></div>
+                    <div class="d-val"><strong>{{ advanced_stats.disciplinary.away.fouls }}</strong><span>Fouls</span></div>
                 </div>
             </div>
-            <div class="red-card-alert mt-2 text-center">
-                Média de Vermelhos: <span class="text-danger fw-bold">{{ advanced_stats.disciplinary.home.red|add:advanced_stats.disciplinary.away.red }}</span> por jogo
+            <div class="red-card-alert mt-3 text-center">
+                Red Cards Avg: <span class="text-danger fw-bold">{{ advanced_stats.disciplinary.home.red|add:advanced_stats.disciplinary.away.red }}</span> per game
             </div>
             {% else %}
             <div class="text-center text-muted mt-4 mb-4" style="padding: 2rem 0;">
                 <i class="fa-solid fa-gavel mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
-                <p class="small m-0">Dados disciplinares insuficientes</p>
+                <p class="small m-0">Insufficient disciplinary data</p>
             </div>
             {% endif %}
         </div>
+    </div>
 
-        <!-- EFICIÊNCIA DE CHUTES -->
-        <div class="elite-card">
-            <h4 class="e-title"><i class="fa-solid fa-bullseye"></i> EFICIÊNCIA NO ATAQUE</h4>
+    <!-- EFICIÊNCIA DE CHUTES -->
+    <div class="analytic-board mb-4">
+        <div class="board-header">
+            ATTACK EFFICIENCY
+        </div>
+        <div class="board-body" style="padding-top: 1rem;">
             {% if advanced_stats.efficiency.match_has_data %}
             <div class="eff-stats">
                 <div class="eff-row">
-                    <span class="l">Pontaria (Alvo)</span>
+                    <span class="l">Shot Accuracy (Target)</span>
                     <div class="eff-bars">
                         <div class="bar-fill home" data-accuracy="{{ advanced_stats.efficiency.home.accuracy }}%">{{ advanced_stats.efficiency.home.accuracy }}%</div>
                         <div class="bar-fill away" data-accuracy="{{ advanced_stats.efficiency.away.accuracy }}%">{{ advanced_stats.efficiency.away.accuracy }}%</div>
                     </div>
                 </div>
-                <div class="eff-row mt-3">
-                    <span class="l">Chutes p/ Gol</span>
+                <div class="eff-row mt-4">
+                    <span class="l">Shots per Goal</span>
                     <div class="eff-vals">
                         <div class="v"><strong>{{ advanced_stats.efficiency.home.conversion }}</strong><span>{{ match.home_team.name|slice:":3" }}</span></div>
                         <div class="v"><strong>{{ advanced_stats.efficiency.away.conversion }}</strong><span>{{ match.away_team.name|slice:":3" }}</span></div>
@@ -355,11 +364,10 @@
             {% else %}
             <div class="text-center text-muted mt-4 mb-4" style="padding: 2rem 0;">
                 <i class="fa-solid fa-futbol mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
-                <p class="small m-0">Estatísticas de chutes indisponíveis</p>
+                <p class="small m-0">Shot statistics unavailable</p>
             </div>
             {% endif %}
         </div>
-
     </div>
 
     {% endif %}
