@@ -455,7 +455,7 @@ class StatsDispatchView(View):
 
         # 2. Se não for país, assume que é LIGA e arg2 é TIME
         # Verifica se existe liga com esse nome
-        is_league = League.objects.filter(Q(name__icontains=slug1) | Q(name__iexact=arg1)).exists()
+        is_league = League.objects.filter(models.Q(name__icontains=slug1) | models.Q(name__iexact=arg1)).exists()
         
         # Fallback Slugify for League
         if not is_league:
@@ -605,23 +605,16 @@ class LeagueDetailView(DetailView):
         league = self.object
         now = timezone.now()
         
-        # Allow matches that are Scheduled even if slightly in the past (Limbo protection)
-        # Also include LIVE statuses so they don't disappear during the game
+        # Show Live matches and Scheduled matches that are not too old
         live_statuses = ['1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
         scheduled_statuses = ['Scheduled', 'Not Started', 'TIMED', 'UTC']
-        
-        # Smart cutoff: For Scheduled matches, only show if kickoff is in the future
-        # or at most 3 hours in the past (grace period for delayed status updates).
-        # For Live matches, always show regardless of date.
         grace_cutoff = now - timedelta(hours=3)
         
         upcoming_matches_qs = Match.objects.filter(
-            league=league,
+            league=league
         ).filter(
-            # Live matches: always show
-            Q(status__in=live_statuses) |
-            # Scheduled matches: only if kickoff hasn't passed by more than 3 hours
-            Q(status__in=scheduled_statuses, date__gte=grace_cutoff)
+            models.Q(status__in=live_statuses) |
+            models.Q(status__in=scheduled_statuses, date__gte=grace_cutoff)
         ).select_related('home_team', 'away_team').order_by('date')[:15]
         context['upcoming_matches'] = upcoming_matches_qs
         
