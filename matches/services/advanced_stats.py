@@ -330,6 +330,40 @@ class MatchAnalyzer:
                 }
         return None
 
+    def get_lay_bets(self):
+        lays = []
+        odds = self.get_match_odds_probs()
+        goals = self.get_goal_markets()
+        
+        # Lay Match Odds
+        if odds['home_win'] <= 25:
+            lays.append({'market': f"Lay {self.home_team.name}", 'prob': 100 - odds['home_win'], 'reason': f"Home win probability is only {odds['home_win']}%"})
+        if odds['away_win'] <= 25:
+            lays.append({'market': f"Lay {self.away_team.name}", 'prob': 100 - odds['away_win'], 'reason': f"Away win probability is only {odds['away_win']}%"})
+        if odds['draw'] <= 25:
+            lays.append({'market': "Lay Draw", 'prob': 100 - odds['draw'], 'reason': f"Draw probability is only {odds['draw']}%"})
+            
+        # Lay Goals
+        if goals['over_25'] <= 35:
+            lays.append({'market': "Lay Over 2.5 Goals", 'prob': 100 - goals['over_25'], 'reason': f"Over 2.5 probability is only {goals['over_25']}%"})
+        elif goals['over_25'] >= 65:
+            lays.append({'market': "Lay Under 2.5 Goals", 'prob': goals['over_25'], 'reason': f"Over 2.5 probability is {goals['over_25']}% (high)"})
+            
+        # Lay BTTS
+        if goals['btts'] <= 35:
+            lays.append({'market': "Lay BTTS (Yes)", 'prob': 100 - goals['btts'], 'reason': f"BTTS probability is only {goals['btts']}%"})
+            
+        # Lay Correct Score
+        if goals['over_05'] >= 85:
+            lays.append({'market': "Lay Score 0-0", 'prob': goals['over_05'], 'reason': f"Over 0.5 goals probability is {goals['over_05']}%"})
+            
+        if goals['over_25'] <= 35:
+            lays.append({'market': "Lay Any Other Score (4+ goals)", 'prob': 100 - goals['over_25'], 'reason': f"Low probability of a high scoring match"})
+            
+        # Sort by highest lay success probability
+        lays.sort(key=lambda x: x['prob'], reverse=True)
+        return lays
+
     def get_summary_text(self):
         general = self.get_general_form()
         strength = self.get_team_strength()
@@ -359,5 +393,6 @@ class MatchAnalyzer:
             'efficiency': self.get_shot_efficiency(),
             'odds_probs': self.get_match_odds_probs(),
             'value_bet': self.get_value_bet(),
+            'lay_bets': self.get_lay_bets(),
             'summary': self.get_summary_text()
         }

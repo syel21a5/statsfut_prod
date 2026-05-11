@@ -607,15 +607,21 @@ class LeagueDetailView(DetailView):
         
         # Allow matches that are Scheduled even if slightly in the past (Limbo protection)
         # Also include LIVE statuses so they don't disappear during the game
-        valid_statuses = ['Scheduled', 'Not Started', 'TIMED', 'UTC', '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
+        live_statuses = ['1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
+        scheduled_statuses = ['Scheduled', 'Not Started', 'TIMED', 'UTC']
         
-        # We show matches from yesterday onwards to catch any 'Scheduled' matches that haven't been updated to 'Finished' yet
-        cutoff_date = now - timedelta(days=2)
+        # Smart cutoff: For Scheduled matches, only show if kickoff is in the future
+        # or at most 3 hours in the past (grace period for delayed status updates).
+        # For Live matches, always show regardless of date.
+        grace_cutoff = now - timedelta(hours=3)
         
         upcoming_matches_qs = Match.objects.filter(
             league=league,
-            date__gte=cutoff_date,
-            status__in=valid_statuses
+        ).filter(
+            # Live matches: always show
+            Q(status__in=live_statuses) |
+            # Scheduled matches: only if kickoff hasn't passed by more than 3 hours
+            Q(status__in=scheduled_statuses, date__gte=grace_cutoff)
         ).select_related('home_team', 'away_team').order_by('date')[:15]
         context['upcoming_matches'] = upcoming_matches_qs
         
