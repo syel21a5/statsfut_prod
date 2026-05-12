@@ -623,7 +623,8 @@ class LeagueDetailView(DetailView):
         finished_matches = Match.objects.filter(
             league=league,
             status__in=FINISHED_STATUSES
-        ).order_by('-date')[:10]
+        ).select_related('home_team', 'away_team').order_by('-date')[:15]
+        context['finished_matches'] = finished_matches
         context['latest_results'] = finished_matches
         
         # --- NEW: Standing Groups Logic ---
