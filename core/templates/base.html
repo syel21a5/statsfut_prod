@@ -153,11 +153,10 @@
 
             <!-- Center: Banner -->
             <div class="col-md-6 text-center">
-                <div class="ad-slot-leaderboard mx-auto">
-                    <div class="ad-placeholder-inner">
-                        <i class="fa-solid fa-rectangle-ad me-2"></i>
-                        <span>StatsFut Analytics Partner</span>
-                    </div>
+                <div class="ad-slot-leaderboard mx-auto rounded-3 overflow-hidden border border-secondary border-opacity-25">
+                    <a href="/">
+                        <img src="{% static 'images/banners/banner1.png' %}" class="img-fluid w-100" alt="Elite Analytics">
+                    </a>
                 </div>
             </div>
 
@@ -191,6 +190,9 @@
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'matches:terms_of_use' %}" class="nav-link p-0 text-secondary hover-white">Terms of Use</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:contact_us' %}" class="nav-link p-0 text-secondary hover-white">Contact Us</a>
                         </li>
                     </ul>
                 </div>

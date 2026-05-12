@@ -101,6 +101,9 @@ class SitemapView(TemplateView):
         context['base_url'] = self.request.build_absolute_uri('/')[:-1]
         return context
 
+class ContactView(TemplateView):
+    template_name = "matches/contact.html"
+
 def debug_leagues(request):
     try:
         from .models import League, Team, Match, Season, LeagueStanding

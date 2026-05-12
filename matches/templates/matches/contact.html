@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - StatsFut{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm overflow-hidden rounded-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle mb-3" style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-paper-plane text-primary display-6"></i>
+                        </div>
+                        <h2 class="fw-bold h1">Get in Touch</h2>
+                        <p class="text-secondary">Have questions about our data or suggestions for new features? We'd love to hear from you.</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-4 border border-secondary border-opacity-25 h-100 bg-dark bg-opacity-25">
+                                <i class="fa-solid fa-envelope text-info mb-3 fs-3"></i>
+                                <h5 class="fw-bold mb-1">Email Support</h5>
+                                <p class="small text-secondary mb-0">For general inquiries and support:</p>
+                                <a href="mailto:support@statsfut.com" class="text-info text-decoration-none fw-bold">support@statsfut.com</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 rounded-4 border border-secondary border-opacity-25 h-100 bg-dark bg-opacity-25">
+                                <i class="fa-solid fa-business-time text-accent mb-3 fs-3"></i>
+                                <h5 class="fw-bold mb-1">Business</h5>
+                                <p class="small text-secondary mb-0">For advertising and partnerships:</p>
+                                <a href="mailto:ads@statsfut.com" class="text-accent text-decoration-none fw-bold">ads@statsfut.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-5 border-secondary border-opacity-25">
+
+                    <div class="text-center">
+                        <h5 class="fw-bold mb-3">Our Response Time</h5>
+                        <p class="text-secondary small">We typically respond to all inquiries within 24-48 business hours. Thank you for your patience.</p>
+                        
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-4"><i class="fa-brands fa-x-twitter me-2"></i>Twitter</a>
+                            <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-4"><i class="fa-brands fa-discord me-2"></i>Discord</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
