@@ -3,6 +3,9 @@
 {% load matches_extras %}
 {% load flag_tags %}
 
+{% block title %}{{ team.name }} - Statistics & Analysis | StatsFut{% endblock %}
+{% block meta_description %}{{ team.name }} statistics: win rate, goals, clean sheets, form, upcoming matches and head-to-head data. {{ league.name }} ({{ league.country|country_en }}).{% endblock %}
+
 {% block content %}
 <div class="container-fluid py-4">
     <!-- Header -->

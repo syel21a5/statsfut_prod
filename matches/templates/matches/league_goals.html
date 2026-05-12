@@ -2,6 +2,9 @@
 {% load static %}
 {% load matches_extras team_tags %}
 
+{% block title %}{{ league.name }} Goals & Over/Under Statistics | StatsFut{% endblock %}
+{% block meta_description %}Deep goal analysis for {{ league.name }}: Over/Under 2.5, BTTS (Both Teams to Score), average goals per match and most common scores. Essential data for football analysts.{% endblock %}
+
 {% block content %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -71,12 +74,10 @@
         <div class="col-lg-9" id="stats-content">
 
             <!-- Horizontal Ad Slot (Top) -->
-            <div class="card border-0 bg-transparent mb-4 d-none d-md-block">
-                <div
-                    class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
-                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal
-                        Banner)</span>
-                    <!-- Insert Ad Code Here -->
+            <div class="ad-slot-league mb-4 d-none d-md-block">
+                <div class="ad-placeholder-inner py-3">
+                    <i class="fa-solid fa-chart-simple me-2"></i>
+                    <span>Premium Goal Analytics Partner</span>
                 </div>
             </div>
 
@@ -677,23 +678,18 @@
             <div class="sticky-top" style="top: 20px; z-index: 100;">
 
                 <!-- Vertical Ad Slot 1 -->
-                <div class="card border-0 bg-transparent mb-4">
-                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
-                        style="min-height: 250px;">
-                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
-                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
+                <div class="ad-slot-vertical mb-4" style="min-height: 250px;">
+                    <div class="ad-placeholder-inner">
+                        <i class="fa-solid fa-rectangle-ad fa-2x mb-2 d-block"></i>
+                        <span>Partner</span>
                     </div>
                 </div>
 
-
-
                 <!-- Vertical Ad Slot 2 (Tall) -->
-                <div class="card border-0 bg-transparent mb-4">
-                    <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
-                        style="min-height: 600px;">
-                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
-                        <!-- Insert Ad Code Here -->
-                        <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>
+                <div class="ad-slot-vertical mb-4" style="min-height: 600px;">
+                    <div class="ad-placeholder-inner">
+                        <i class="fa-solid fa-rectangle-ad fa-3x mb-2 d-block"></i>
+                        <span>StatsFut Ads</span>
                     </div>
                 </div>
 

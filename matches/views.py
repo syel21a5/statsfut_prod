@@ -59,6 +59,48 @@ class GlobalSearchView(View):
                 
         return JsonResponse({'results': results})
 
+
+class RobotsView(TemplateView):
+    template_name = "matches/robots.txt"
+    content_type = "text/plain"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Dynamic base URL based on current request
+        context['base_url'] = self.request.build_absolute_uri('/')[:-1]
+        return context
+
+
+class SitemapView(TemplateView):
+    template_name = "matches/sitemap.xml"
+    content_type = "application/xml"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from matches.utils import COUNTRY_TRANSLATIONS
+        
+        # Limit quantities for performance in large DBs, or use pagination
+        leagues = League.objects.all()
+        teams = Team.objects.all()[:1000] # Limit teams to avoid massive XML in dev
+        
+        league_urls = []
+        for l in leagues:
+            country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
+            league_urls.append(f"/stats/{slugify(country_en)}/{slugify(l.name)}/")
+            
+        team_urls = []
+        for t in teams:
+            try:
+                country_en = COUNTRY_TRANSLATIONS.get(t.league.country, t.league.country)
+                team_urls.append(f"/stats/{slugify(country_en)}/{slugify(t.league.name)}/{slugify(t.name)}/")
+            except:
+                continue
+            
+        context['league_urls'] = league_urls
+        context['team_urls'] = team_urls
+        context['base_url'] = self.request.build_absolute_uri('/')[:-1]
+        return context
+
 def debug_leagues(request):
     try:
         from .models import League, Team, Match, Season, LeagueStanding

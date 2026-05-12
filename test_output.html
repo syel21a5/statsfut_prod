@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetStats Pro | Analytics</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main Style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/7.1.0/css/flag-icons.min.css">
+</head>
+
+<body>
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>statsfut<span style="color:var(--primary)">.com</span></span>
+        </div>
+
+        <div class="menu-label">Main</div>
+        <a href="/" class="nav-link active">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+        <!-- Live Page Removed per user request -->
+
+        <a href="#" class="nav-link">
+            <i class="fa-solid fa-star"></i> Favorites
+        </a>
+
+        <div class="menu-label">Countries & Leagues</div>
+        
+        <div class="accordion accordion-flush sidebar-accordion" id="accordionLeagues" style="max-height: 70vh; overflow-y: auto;">
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingargentina">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseargentina" aria-expanded="false" aria-controls="collapseargentina">
+                        <span class="fi fi-ar me-2"></span> Argentina
+                    </button>
+                </h2>
+                <div id="collapseargentina" class="accordion-collapse collapse" aria-labelledby="headingargentina" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/argentina/liga-profesional/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Liga Profesional</a>
+                        
+                        <a href="/stats/argentina/primera-division/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Primera Division</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingaustralia">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseaustralia" aria-expanded="false" aria-controls="collapseaustralia">
+                        <span class="fi fi-au me-2"></span> Australia
+                    </button>
+                </h2>
+                <div id="collapseaustralia" class="accordion-collapse collapse" aria-labelledby="headingaustralia" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/australia/a-league-men/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">A-League Men</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingaustria">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseaustria" aria-expanded="false" aria-controls="collapseaustria">
+                        <span class="fi fi-at me-2"></span> Austria
+                    </button>
+                </h2>
+                <div id="collapseaustria" class="accordion-collapse collapse" aria-labelledby="headingaustria" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/austria/bundesliga/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Bundesliga</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingbelgium">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsebelgium" aria-expanded="false" aria-controls="collapsebelgium">
+                        <span class="fi fi-be me-2"></span> Belgium
+                    </button>
+                </h2>
+                <div id="collapsebelgium" class="accordion-collapse collapse" aria-labelledby="headingbelgium" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/belgium/pro-league/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Pro League</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingbrazil">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsebrazil" aria-expanded="false" aria-controls="collapsebrazil">
+                        <span class="fi fi-br me-2"></span> Brazil
+                    </button>
+                </h2>
+                <div id="collapsebrazil" class="accordion-collapse collapse" aria-labelledby="headingbrazil" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/brazil/brasileirao/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Brasileirão</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingchile">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsechile" aria-expanded="false" aria-controls="collapsechile">
+                        <span class="fi fi-cl me-2"></span> Chile
+                    </button>
+                </h2>
+                <div id="collapsechile" class="accordion-collapse collapse" aria-labelledby="headingchile" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/chile/primera-division/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Primera Division</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingcolombia">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsecolombia" aria-expanded="false" aria-controls="collapsecolombia">
+                        <span class="fi fi-co me-2"></span> Colombia
+                    </button>
+                </h2>
+                <div id="collapsecolombia" class="accordion-collapse collapse" aria-labelledby="headingcolombia" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/colombia/primera-a/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Primera A</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingcoreia-do-sul">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsecoreia-do-sul" aria-expanded="false" aria-controls="collapsecoreia-do-sul">
+                        <span class="fi fi-xx me-2"></span> Coreia do Sul
+                    </button>
+                </h2>
+                <div id="collapsecoreia-do-sul" class="accordion-collapse collapse" aria-labelledby="headingcoreia-do-sul" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/coreia-do-sul/k-league-1/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">K League 1</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingdenmark">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsedenmark" aria-expanded="false" aria-controls="collapsedenmark">
+                        <span class="fi fi-dk me-2"></span> Denmark
+                    </button>
+                </h2>
+                <div id="collapsedenmark" class="accordion-collapse collapse" aria-labelledby="headingdenmark" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/denmark/superliga/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Superliga</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingengland">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseengland" aria-expanded="false" aria-controls="collapseengland">
+                        <span class="fi fi-gb-eng me-2"></span> England
+                    </button>
+                </h2>
+                <div id="collapseengland" class="accordion-collapse collapse" aria-labelledby="headingengland" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/england/premier-league/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Premier League</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingescocia">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseescocia" aria-expanded="false" aria-controls="collapseescocia">
+                        <span class="fi fi-xx me-2"></span> Escocia
+                    </button>
+                </h2>
+                <div id="collapseescocia" class="accordion-collapse collapse" aria-labelledby="headingescocia" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/escocia/premiership/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Premiership</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingestados-unidos">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseestados-unidos" aria-expanded="false" aria-controls="collapseestados-unidos">
+                        <span class="fi fi-us me-2"></span> Estados Unidos
+                    </button>
+                </h2>
+                <div id="collapseestados-unidos" class="accordion-collapse collapse" aria-labelledby="headingestados-unidos" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/estados-unidos/mls/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">MLS</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingfinland">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefinland" aria-expanded="false" aria-controls="collapsefinland">
+                        <span class="fi fi-fi me-2"></span> Finland
+                    </button>
+                </h2>
+                <div id="collapsefinland" class="accordion-collapse collapse" aria-labelledby="headingfinland" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/finland/veikkausliiga/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Veikkausliiga</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingfrance">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefrance" aria-expanded="false" aria-controls="collapsefrance">
+                        <span class="fi fi-fr me-2"></span> France
+                    </button>
+                </h2>
+                <div id="collapsefrance" class="accordion-collapse collapse" aria-labelledby="headingfrance" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/france/ligue-1/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Ligue 1</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headinggales">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsegales" aria-expanded="false" aria-controls="collapsegales">
+                        <span class="fi fi-xx me-2"></span> Gales
+                    </button>
+                </h2>
+                <div id="collapsegales" class="accordion-collapse collapse" aria-labelledby="headinggales" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/gales/cymru-premier/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Cymru Premier</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headinggermany">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsegermany" aria-expanded="false" aria-controls="collapsegermany">
+                        <span class="fi fi-de me-2"></span> Germany
+                    </button>
+                </h2>
+                <div id="collapsegermany" class="accordion-collapse collapse" aria-labelledby="headinggermany" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/germany/bundesliga/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Bundesliga</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headinggreece">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsegreece" aria-expanded="false" aria-controls="collapsegreece">
+                        <span class="fi fi-gr me-2"></span> Greece
+                    </button>
+                </h2>
+                <div id="collapsegreece" class="accordion-collapse collapse" aria-labelledby="headinggreece" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/greece/super-league/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Super League</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingirlanda">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseirlanda" aria-expanded="false" aria-controls="collapseirlanda">
+                        <span class="fi fi-xx me-2"></span> Irlanda
+                    </button>
+                </h2>
+                <div id="collapseirlanda" class="accordion-collapse collapse" aria-labelledby="headingirlanda" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/irlanda/premier-division/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Premier Division</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingitaly">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseitaly" aria-expanded="false" aria-controls="collapseitaly">
+                        <span class="fi fi-it me-2"></span> Italy
+                    </button>
+                </h2>
+                <div id="collapseitaly" class="accordion-collapse collapse" aria-labelledby="headingitaly" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/italy/serie-a/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Serie A</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingjapan">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsejapan" aria-expanded="false" aria-controls="collapsejapan">
+                        <span class="fi fi-jp me-2"></span> Japan
+                    </button>
+                </h2>
+                <div id="collapsejapan" class="accordion-collapse collapse" aria-labelledby="headingjapan" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/japan/j1-league/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">J1 League</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingmexico">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsemexico" aria-expanded="false" aria-controls="collapsemexico">
+                        <span class="fi fi-mx me-2"></span> Mexico
+                    </button>
+                </h2>
+                <div id="collapsemexico" class="accordion-collapse collapse" aria-labelledby="headingmexico" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/mexico/liga-mx/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Liga MX</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingnetherlands">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsenetherlands" aria-expanded="false" aria-controls="collapsenetherlands">
+                        <span class="fi fi-nl me-2"></span> Netherlands
+                    </button>
+                </h2>
+                <div id="collapsenetherlands" class="accordion-collapse collapse" aria-labelledby="headingnetherlands" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/netherlands/eredivisie/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Eredivisie</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingnorway">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsenorway" aria-expanded="false" aria-controls="collapsenorway">
+                        <span class="fi fi-no me-2"></span> Norway
+                    </button>
+                </h2>
+                <div id="collapsenorway" class="accordion-collapse collapse" aria-labelledby="headingnorway" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/norway/eliteserien/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Eliteserien</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingpoland">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsepoland" aria-expanded="false" aria-controls="collapsepoland">
+                        <span class="fi fi-pl me-2"></span> Poland
+                    </button>
+                </h2>
+                <div id="collapsepoland" class="accordion-collapse collapse" aria-labelledby="headingpoland" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/poland/ekstraklasa/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Ekstraklasa</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingportugal">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseportugal" aria-expanded="false" aria-controls="collapseportugal">
+                        <span class="fi fi-pt me-2"></span> Portugal
+                    </button>
+                </h2>
+                <div id="collapseportugal" class="accordion-collapse collapse" aria-labelledby="headingportugal" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/portugal/primeira-liga/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Primeira Liga</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingspain">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsespain" aria-expanded="false" aria-controls="collapsespain">
+                        <span class="fi fi-es me-2"></span> Spain
+                    </button>
+                </h2>
+                <div id="collapsespain" class="accordion-collapse collapse" aria-labelledby="headingspain" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/spain/la-liga/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">La Liga</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingsweden">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesweden" aria-expanded="false" aria-controls="collapsesweden">
+                        <span class="fi fi-se me-2"></span> Sweden
+                    </button>
+                </h2>
+                <div id="collapsesweden" class="accordion-collapse collapse" aria-labelledby="headingsweden" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/sweden/allsvenskan/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Allsvenskan</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingswitzerland">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseswitzerland" aria-expanded="false" aria-controls="collapseswitzerland">
+                        <span class="fi fi-ch me-2"></span> Switzerland
+                    </button>
+                </h2>
+                <div id="collapseswitzerland" class="accordion-collapse collapse" aria-labelledby="headingswitzerland" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/switzerland/super-league/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Super League</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingtest-country">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetest-country" aria-expanded="false" aria-controls="collapsetest-country">
+                        <span class="fi fi-xx me-2"></span> Test Country
+                    </button>
+                </h2>
+                <div id="collapsetest-country" class="accordion-collapse collapse" aria-labelledby="headingtest-country" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/test-country/test-league/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Test League</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingturkey">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseturkey" aria-expanded="false" aria-controls="collapseturkey">
+                        <span class="fi fi-tr me-2"></span> Turkey
+                    </button>
+                </h2>
+                <div id="collapseturkey" class="accordion-collapse collapse" aria-labelledby="headingturkey" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        
+                        <a href="/stats/turkey/super-lig/" class="nav-link-sub text-muted d-block py-1 text-decoration-none">Super Lig</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Header Bar -->
+        <header class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25 gap-3">
+            
+            <!-- Mobile Menu Toggle & Brand -->
+            <div class="d-flex d-md-none align-items-center gap-2">
+                <button class="btn text-white shadow-none p-0" id="mobileMenuBtn" style="font-size: 1.5rem;">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="brand mb-0 ms-2" style="font-size: 1.25rem;">
+                    <i class="fa-solid fa-chart-simple text-primary"></i>
+                </div>
+            </div>
+
+            <!-- Global Search -->
+            <div class="position-relative flex-grow-1" style="max-width: 500px;">
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-end-0"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="global-search" class="form-control bg-dark border-secondary border-opacity-25 text-white shadow-none border-start-0" placeholder="Search teams, leagues..." autocomplete="off">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-start-0 small" style="font-size: 0.75rem;">Ctrl+K</span>
+                </div>
+                <div id="search-results" class="list-group position-absolute mt-1 shadow-lg d-none w-100" style="z-index: 1050;"></div>
+            </div>
+
+            <!-- User / Date -->
+            <div class="d-flex align-items-center gap-3">
+                <div class="date-badge d-none d-md-inline-block">
+                    <i class="fa-regular fa-clock me-1"></i> May 11, 2026, 22:37
+                </div>
+                <!-- Optional: User Profile or Settings could go here -->
+            </div>
+        </header>
+
+        <!-- Country Flags Navigation -->
+        <div class="d-flex flex-wrap gap-2 justify-content-center align-items-center p-3 mb-4 rounded shadow-sm" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            <a href="/stats/argentina/" class="flag-btn" data-bs-toggle="tooltip" title="Argentina"><span class="fi fi-ar"></span></a>
+            <a href="/stats/austria/" class="flag-btn" data-bs-toggle="tooltip" title="Austria"><span class="fi fi-at"></span></a>
+            <a href="/stats/australia/" class="flag-btn" data-bs-toggle="tooltip" title="Australia"><span class="fi fi-au"></span></a>
+            <a href="/stats/belgium/" class="flag-btn" data-bs-toggle="tooltip" title="Belgium"><span class="fi fi-be"></span></a>
+            <a href="/stats/brazil/" class="flag-btn" data-bs-toggle="tooltip" title="Brazil"><span class="fi fi-br"></span></a>
+            <a href="/stats/switzerland/" class="flag-btn" data-bs-toggle="tooltip" title="Switzerland"><span class="fi fi-ch"></span></a>
+            <a href="/stats/germany/" class="flag-btn" data-bs-toggle="tooltip" title="Germany"><span class="fi fi-de"></span></a>
+            <a href="/stats/denmark/" class="flag-btn" data-bs-toggle="tooltip" title="Denmark"><span class="fi fi-dk"></span></a>
+            <a href="/stats/england/" class="flag-btn" data-bs-toggle="tooltip" title="England"><span class="fi fi-gb-eng"></span></a>
+            <a href="/stats/spain/" class="flag-btn" data-bs-toggle="tooltip" title="Spain"><span class="fi fi-es"></span></a>
+            <a href="/stats/finland/" class="flag-btn" data-bs-toggle="tooltip" title="Finland"><span class="fi fi-fi"></span></a>
+            <a href="/stats/france/" class="flag-btn" data-bs-toggle="tooltip" title="France"><span class="fi fi-fr"></span></a>
+            <a href="/stats/greece/" class="flag-btn" data-bs-toggle="tooltip" title="Greece"><span class="fi fi-gr"></span></a>
+            <a href="/stats/netherlands/" class="flag-btn" data-bs-toggle="tooltip" title="Netherlands"><span class="fi fi-nl"></span></a>
+            <a href="/stats/italy/" class="flag-btn" data-bs-toggle="tooltip" title="Italy"><span class="fi fi-it"></span></a>
+            <a href="/stats/japan/" class="flag-btn" data-bs-toggle="tooltip" title="Japan"><span class="fi fi-jp"></span></a>
+            <a href="/stats/norway/" class="flag-btn" data-bs-toggle="tooltip" title="Norway"><span class="fi fi-no"></span></a>
+            <a href="/stats/poland/" class="flag-btn" data-bs-toggle="tooltip" title="Poland"><span class="fi fi-pl"></span></a>
+            <a href="/stats/portugal/" class="flag-btn" data-bs-toggle="tooltip" title="Portugal"><span class="fi fi-pt"></span></a>
+            <a href="/stats/russia/" class="flag-btn" data-bs-toggle="tooltip" title="Russia"><span class="fi fi-ru"></span></a>
+            <a href="/stats/sweden/" class="flag-btn" data-bs-toggle="tooltip" title="Sweden"><span class="fi fi-se"></span></a>
+            <a href="/stats/turkey/" class="flag-btn" data-bs-toggle="tooltip" title="Turkey"><span class="fi fi-tr"></span></a>
+            <a href="/stats/ukraine/" class="flag-btn" data-bs-toggle="tooltip" title="Ukraine"><span class="fi fi-ua"></span></a>
+        </div>
+
+        <!-- Header & Banner Layout -->
+        <div class="row align-items-center mb-4">
+            <!-- Left: Page Title -->
+            <div class="col-md-3">
+                <div class="page-title">
+                    
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+<!-- ATUALIZACAO FINAL: 10/05/2026 -->
+<div class="header-minimal">
+    <a href="javascript:history.back()" class="btn-back-minimal"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="header-info">
+        <span class="league-tag"><i class="fa-solid fa-trophy"></i> Premier League</span>
+        <span class="status-tag ">Scheduled</span>
+    </div>
+</div>
+
+                </div>
+            </div>
+
+            <!-- Center: Banner -->
+            <div class="col-md-6 text-center">
+                <div class="ad-slot ad-slot-leaderboard mx-auto" style="margin-top: 0; margin-bottom: 0;">
+                    Top banner – 970x90 / 728x90 (or 320x100 mobile)
+                </div>
+            </div>
+
+            <!-- Right: Date (Removed, moved to top header) -->
+            <!-- <div class="col-md-3 text-md-end text-start mt-2 mt-md-0">
+                <div class="date-badge d-inline-block">
+                    <i class="fa-regular fa-clock me-1"></i> May 11, 2026, 22:37
+                </div>
+            </div> -->
+        </div>
+
+        
+<div class="premium-dashboard">
+
+    <!-- PLACAR E TIMES (COMPACTO) -->
+    <div class="match-hero-minimal mb-4">
+        <div class="team-mini">
+            <div class="t-logo">T</div>
+            <span class="t-name">Tottenham</span>
+        </div>
+        <div class="score-mini">
+            
+                <span class="vs">VS</span>
+            
+        </div>
+        <div class="team-mini">
+            <div class="t-logo away">L</div>
+            <span class="t-name">Leeds Utd</span>
+        </div>
+    </div>
+
+    
+    
+    <!-- MAIN ANALYTIC BOARD (Twin Excel) -->
+    <div class="analytic-board">
+        <div class="board-header">
+            OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT
+        </div>
+        
+        <div class="board-body">
+            
+            <!-- LINHA 1: ANÉIS E SUGESTÕES -->
+            <div class="stats-row-top">
+                <!-- Over 0.5 & 1.5 -->
+                <div class="ring-group">
+                    <div class="ring-box">
+                        <div class="ring-label-top">0.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="90 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">90%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ring-box">
+                        <div class="ring-label-top">1.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="70 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">70%</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Central Sugestões -->
+                <div class="suggestions-central">
+                    <div class="sugg-title">BETTING SUGGESTIONS</div>
+                    <div class="sugg-list">
+                        <div class="sugg-item">
+                            <span class="market">0.5 ></span>
+                            <span class="perc perc-high">90%</span>
+                            <span class="rec">Recommended</span>
+                        </div>
+                        <div class="sugg-item">
+                            <span class="market">1.5 ></span>
+                            <span class="perc perc-high">70%</span>
+                            <span class="rec">Recommended</span>
+                        </div>
+                        <div class="sugg-item">
+                            <span class="market">2.5 ></span>
+                            <span class="perc">55%</span>
+                            <span class="rec">Over 2.5</span>
+                        </div>
+                        <div class="sugg-item">
+                            <span class="market">3.5 ></span>
+                            <span class="perc">30%</span>
+                            <span class="rec">Under 3.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Over 2.5 & 3.5 -->
+                <div class="ring-group">
+                    <div class="ring-box">
+                        <div class="ring-label-top">2.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="55 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">55%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ring-box">
+                        <div class="ring-label-top">3.5</div>
+                        <div class="ring-svg-wrap">
+                            <svg viewBox="0 0 36 36" class="excel-ring">
+                                <circle class="ring-under" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                                <circle class="ring-over" cx="18" cy="18" r="15.915" stroke-dasharray="30 100" stroke="#fff"></circle>
+                                <text x="18" y="21" class="ring-text">30%</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LINHA 2: PIE BTTS E CHANCE 1ST -->
+            <div class="stats-row-mid mt-4">
+                <div class="first-score-box">
+                    <div class="box-label">Chance to score first</div>
+                    <div class="f-score-vals">
+                        <div class="f-val">
+                            <span class="num">70%</span>
+                            <span class="lab">Home</span>
+                        </div>
+                        <div class="f-val">
+                            <span class="num">60%</span>
+                            <span class="lab">Away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btts-pie-box">
+                    <div class="box-label">BTTS</div>
+                    <div class="pie-wrap">
+                        <svg viewBox="0 0 36 36" class="pie-chart">
+                            <circle class="pie-no" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
+                            <circle class="pie-yes" cx="18" cy="18" r="15.915" stroke-dasharray="55 100" stroke="#fff"></circle>
+                        </svg>
+                        <div class="pie-legend">
+                            <div><span class="dot white"></span> Yes 55%</div>
+                            <div><span class="dot red"></span> No 55%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-items">
+                        <div class="res-item">
+                            <span class="l">Double</span>
+                            <span class="v big">1X</span>
+                        </div>
+                        <div class="res-item highlight-ht">
+                            <div class="ht-glow-box">
+                                <span class="ht-title">HT Goal Probability</span>
+                                <span class="ht-main">HT GOAL</span>
+                                <span class="ht-perc">100%</span>
+                            </div>
+                        </div>
+                        <div class="res-item">
+                            <span class="l">To Win</span>
+                            <span class="v big">X</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- IA SUMMARY -->
+    <div class="ia-panel-modern mt-4 mb-4">
+        <div class="ia-header"><i class="fa-solid fa-microchip"></i> MATCH ANALYSIS</div>
+        <p>Tottenham has a 10% win rate playing at home (scoring an average of 0.8 goals). Their attack is considered weak and defense weak. On the other hand, Leeds Utd as the away team wins 30% of their matches, with an average attack. Statistically, this matchup has a 70% chance of hitting Over 1.5 and a 55% chance of Both Teams to Score (BTTS).</p>
+    </div>
+
+    <!-- ESTATÍSTICAS DE ELITE (NOVO) -->
+    <div class="analytic-board mb-4">
+        <div class="board-header">
+            ELITE CORNERS PROJECTION
+        </div>
+        <div class="board-body" style="padding-top: 1rem;">
+            <div class="corner-board">
+                <!-- MANDANTE -->
+                <div class="corner-team-panel">
+                    <div class="ctp-header">
+                        <span class="ctp-team-name">Tottenham</span>
+                    </div>
+                    <div class="ctp-stats-grid">
+                        <div class="ctp-stat-box green">
+                            <span class="label">Scored</span>
+                            <span class="value">4.29</span>
+                        </div>
+                        <div class="ctp-stat-box red">
+                            <span class="label">Conceded</span>
+                            <span class="value">6.14</span>
+                        </div>
+                        <div class="ctp-total-huge">
+                            <span class="l">Total Avg</span>
+                            <span class="v">10.43</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CENTRAL -->
+                <div class="corner-central-info">
+                    <div class="base-cantos-circle">
+                        <span class="l">Base</span>
+                        <span class="v">18.0</span>
+                    </div>
+                    <div class="sugg-list w-100">
+                        <div class="sugg-item" style="border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.5rem; border-radius: 8px; background: rgba(16, 185, 129, 0.05);">
+                            <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Best Pick</span>
+                            <span class="perc-high" style="font-size: 1.1rem; font-weight: 900; margin-left: 0.5rem;">Over 7.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VISITANTE -->
+                <div class="corner-team-panel">
+                    <div class="ctp-header text-end">
+                        <span class="ctp-team-name text-end">Leeds Utd</span>
+                    </div>
+                    <div class="ctp-stats-grid">
+                        <div class="ctp-stat-box green">
+                            <span class="label">Scored</span>
+                            <span class="value">3.71</span>
+                        </div>
+                        <div class="ctp-stat-box red">
+                            <span class="label">Conceded</span>
+                            <span class="value">4.86</span>
+                        </div>
+                        <div class="ctp-total-huge">
+                            <span class="l">Total Avg</span>
+                            <span class="v">8.57</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA DE PROBABILIDADES -->
+            <div class="corner-prob-table">
+                <div class="cpt-header">
+                    <span>Metric</span>
+                    <span>Over 6.5</span>
+                    <span>Over 7.5</span>
+                    <span>Over 8.5</span>
+                    <span>Over 9.5</span>
+                    <span>Over 10.5</span>
+                    <span>Over 11.5</span>
+                </div>
+                
+                <div class="cpt-row over">
+                    <div class="row-label">Prob. Over</div>
+                    <div class="cpt-cell high">
+                        85%
+                    </div>
+                    <div class="cpt-cell mid">
+                        71%
+                    </div>
+                    <div class="cpt-cell low">
+                        49%
+                    </div>
+                    <div class="cpt-cell low">
+                        42%
+                    </div>
+                    <div class="cpt-cell low">
+                        42%
+                    </div>
+                    <div class="cpt-cell low">
+                        35%
+                    </div>
+                </div>
+
+                <div class="cpt-row under">
+                    <div class="row-label">Prob. Under</div>
+                    <div class="cpt-cell low">
+                        15%
+                    </div>
+                    <div class="cpt-cell low">
+                        29%
+                    </div>
+                    <div class="cpt-cell low">
+                        51%
+                    </div>
+                    <div class="cpt-cell low">
+                        58%
+                    </div>
+                    <div class="cpt-cell low">
+                        58%
+                    </div>
+                    <div class="cpt-cell mid">
+                        65%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARTÕES E FALTAS -->
+    <div class="analytic-board mb-4">
+        <div class="board-header">
+            DISCIPLINE (AVERAGE)
+        </div>
+        <div class="board-body" style="padding-top: 1rem;">
+            
+            <div class="discipline-grid">
+                <div class="d-team home">
+                    <div class="d-val"><strong>2.3</strong><span class="y-card"></span></div>
+                    <div class="d-val"><strong>14.3</strong><span>Fouls</span></div>
+                </div>
+                <div class="d-vs">VS</div>
+                <div class="d-team away">
+                    <div class="d-val"><strong>3.0</strong><span class="y-card"></span></div>
+                    <div class="d-val"><strong>12.7</strong><span>Fouls</span></div>
+                </div>
+            </div>
+            <div class="red-card-alert mt-3 text-center">
+                Red Cards Avg: <span class="text-danger fw-bold">0</span> per game
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- EFICIÊNCIA DE CHUTES -->
+    <div class="analytic-board mb-4">
+        <div class="board-header">
+            ATTACK EFFICIENCY
+        </div>
+        <div class="board-body" style="padding-top: 1rem;">
+            
+            <div class="eff-stats">
+                <div class="eff-row">
+                    <span class="l">Shot Accuracy (Target)</span>
+                    <div class="eff-bars">
+                        <div class="bar-fill home" data-accuracy="32%">32%</div>
+                        <div class="bar-fill away" data-accuracy="30%">30%</div>
+                    </div>
+                </div>
+                <div class="eff-row mt-4">
+                    <span class="l">Shots per Goal</span>
+                    <div class="eff-vals">
+                        <div class="v"><strong>14.5</strong><span>Tot</span></div>
+                        <div class="v"><strong>10.0</strong><span>Lee</span></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+
+
+
+    </main>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        // Initialize Tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        // Global Search Logic
+        const searchInput = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+        let debounceTimer;
+        let activeIndex = -1; // Track active search result
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(debounceTimer);
+                const query = e.target.value.trim();
+                activeIndex = -1; // Reset active index on new input
+
+                if (query.length < 2) {
+                    searchResults.classList.add('d-none');
+                    searchResults.innerHTML = '';
+                    return;
+                }
+
+                debounceTimer = setTimeout(() => {
+                    fetch(`/search/?q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            searchResults.innerHTML = '';
+                            if (data.results.length > 0) {
+                                searchResults.classList.remove('d-none');
+                                data.results.forEach((result, index) => {
+                                    const item = document.createElement('a');
+                                    item.href = result.url;
+                                    item.className = 'list-group-item list-group-item-action bg-dark text-white border-secondary border-opacity-25 d-flex align-items-center gap-2 py-2 search-result-item';
+                                    item.dataset.index = index;
+                                    item.innerHTML = `
+                                        <div class="d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 rounded-circle" style="width: 30px; height: 30px;">
+                                            <i class="fa-solid ${result.icon} text-info small"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold" style="font-size: 0.9rem;">${result.name}</div>
+                                            <div class="text-secondary text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">${result.type}</div>
+                                        </div>
+                                    `;
+                                    // Add hover effect via JS to sync with keyboard nav
+                                    item.addEventListener('mouseenter', () => {
+                                        activeIndex = index;
+                                        updateActiveItem();
+                                    });
+                                    searchResults.appendChild(item);
+                                });
+                            } else {
+                                searchResults.classList.remove('d-none');
+                                searchResults.innerHTML = '<div class="list-group-item bg-dark text-secondary border-secondary border-opacity-25 small py-2">No results found</div>';
+                            }
+                        })
+                        .catch(err => console.error('Search error:', err));
+                }, 300);
+            });
+
+            // Handle keyboard navigation
+            searchInput.addEventListener('keydown', function(e) {
+                const items = searchResults.querySelectorAll('.search-result-item');
+                if (items.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    activeIndex = (activeIndex + 1) % items.length;
+                    updateActiveItem();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    activeIndex = (activeIndex - 1 + items.length) % items.length;
+                    updateActiveItem();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeIndex >= 0 && items[activeIndex]) {
+                        items[activeIndex].click();
+                    }
+                } else if (e.key === 'Escape') {
+                    searchResults.classList.add('d-none');
+                    searchInput.blur();
+                }
+            });
+
+            function updateActiveItem() {
+                const items = searchResults.querySelectorAll('.search-result-item');
+                items.forEach((item, index) => {
+                    if (index === activeIndex) {
+                        item.classList.add('active', 'bg-primary', 'bg-opacity-25');
+                        item.classList.remove('bg-dark');
+                    } else {
+                        item.classList.remove('active', 'bg-primary', 'bg-opacity-25');
+                        item.classList.add('bg-dark');
+                    }
+                });
+            }
+
+            // Close search when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.add('d-none');
+                }
+            });
+
+            // Keyboard shortcut (Ctrl/Cmd + K)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        }
+
+        // Mobile Sidebar Toggle Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        if (mobileMenuBtn && sidebar && sidebarOverlay) {
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('active');
+                document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+            }
+
+            mobileMenuBtn.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
+    </script>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-accuracy]').forEach(function(el) {
+            el.style.width = el.getAttribute('data-accuracy');
+        });
+    });
+</script>
+
+</body>
+
+</html>

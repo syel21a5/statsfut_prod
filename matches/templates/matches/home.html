@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static matches_extras %}
+
+{% block title %}StatsFut - Football Statistics, Predictions & Match Analysis{% endblock %}
+{% block meta_description %}Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge.{% endblock %}
 
 {% block header %}
 <h1 class="h2 fw-bold text-white mb-0">{{ page_title }}</h1>
@@ -7,8 +11,11 @@
 {% block content %}
 
 <!-- Home Banner -->
-<div class="ad-slot-inline mb-4 p-4 text-center text-muted border border-dashed border-secondary rounded" style="background: rgba(30, 41, 59, 0.5);">
-    Home banner – 728x90 (or 320x100 mobile)
+<div class="ad-slot-home mb-4">
+    <div class="ad-placeholder-inner py-4">
+        <i class="fa-solid fa-chart-line me-2"></i>
+        <span>Advanced Football Data & Predictive Insights</span>
+    </div>
 </div>
 
 <!-- Filters Row -->
@@ -138,7 +145,7 @@
     <div class="country-section mb-5" id="country-{{ forloop.counter }}">
         <h2 class="h4 text-white fw-bold d-flex align-items-center gap-3 mb-4 section-title">
             <span class="fi fi-{{ country_data.flag_code }} rounded-1 shadow-sm"></span>
-            {{ country_data.country }}
+            {{ country_data.country|country_en }}
             <div class="flex-grow-1 border-bottom border-secondary border-opacity-25 ms-2"></div>
         </h2>
         
@@ -206,12 +213,12 @@
 
                         <div class="card-stats-row mt-2">
                             <div class="prob-badge prob-over position-relative overflow-hidden">
-                                <div class="position-absolute top-0 start-0 h-100 bg-success opacity-25" style="width: {{ match.over_25_prob }}%; transition: width 1s ease-in-out;"></div>
+                                <div class="position-absolute top-0 start-0 h-100 bg-success opacity-25 js-prob-bar" data-width="{{ match.over_25_prob }}%" style="width: 0%; transition: width 1s ease-in-out;"></div>
                                 <span class="label text-white fw-bold position-relative z-1"><i class="fa-solid fa-arrow-up text-success me-1"></i>O2.5</span>
                                 <span class="value fw-bold text-success position-relative z-1">{{ match.over_25_prob }}%</span>
                             </div>
                             <div class="prob-badge prob-under position-relative overflow-hidden">
-                                <div class="position-absolute top-0 start-0 h-100 bg-danger opacity-25" style="width: {{ match.under_15_prob }}%; transition: width 1s ease-in-out;"></div>
+                                <div class="position-absolute top-0 start-0 h-100 bg-danger opacity-25 js-prob-bar" data-width="{{ match.under_15_prob }}%" style="width: 0%; transition: width 1s ease-in-out;"></div>
                                 <span class="label text-white fw-bold position-relative z-1"><i class="fa-solid fa-arrow-down text-danger me-1"></i>U1.5</span>
                                 <span class="value fw-bold text-danger position-relative z-1">{{ match.under_15_prob }}%</span>
                             </div>
@@ -244,5 +251,28 @@
 .hover-effect { transition: transform 0.2s, box-shadow 0.2s; }
 .hover-effect:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: var(--primary) !important; }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial load bars
+    document.querySelectorAll('.js-prob-bar').forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        setTimeout(() => { bar.style.width = width; }, 100);
+    });
+
+    // Also handle when status filter is used
+    const originalFilterStatus = window.filterStatus;
+    if (typeof originalFilterStatus === 'function') {
+        window.filterStatus = function(status) {
+            originalFilterStatus(status);
+            // Re-trigger bars for visible elements
+            document.querySelectorAll('.match-card-wrapper[style="display: block;"] .js-prob-bar').forEach(bar => {
+                bar.style.width = '0%';
+                setTimeout(() => { bar.style.width = bar.getAttribute('data-width'); }, 50);
+            });
+        };
+    }
+});
+</script>
 
 {% endblock %}

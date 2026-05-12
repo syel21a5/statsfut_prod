@@ -4,6 +4,9 @@
 {% load flag_tags %}
 {% load tz %}
 
+{% block title %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endblock %}
+{% block meta_description %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endblock %}
+
 {% block content %}
 <div class="container-fluid py-4">
     <!-- Header -->
@@ -32,12 +35,10 @@
         <div class="col-lg-9">
 
             <!-- Horizontal Ad Slot (Top) -->
-            <div class="card border-0 bg-transparent mb-4 d-none d-md-block">
-                <div
-                    class="ad-slot text-center py-3 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10">
-                    <span class="text-muted small text-uppercase letter-spacing-2">Advertisement Space (Horizontal
-                        Banner)</span>
-                    <!-- Insert Ad Code Here -->
+            <div class="ad-slot-league mb-4 d-none d-md-block">
+                <div class="ad-placeholder-inner py-3">
+                    <i class="fa-solid fa-shield-halved me-2"></i>
+                    <span>Official League Stats Provider</span>
                 </div>
             </div>
 
@@ -626,7 +627,7 @@
                                     class="btn btn-sm {% if forloop.first %}btn-light text-dark{% else %}btn-outline-secondary text-white{% endif %} standings-tab-btn fw-semibold"
                                     data-target="standings-tab-{{ tab_id }}"
                                     style="font-size:0.8rem;">
-                                    {{ group_name }}
+                                    {% if group_name == "Promedios" %}Averages{% else %}{{ group_name }}{% endif %}
                                 </button>
                                 {% endwith %}
                                 {% endfor %}
@@ -668,7 +669,7 @@
                                                     <th class="text-success">Last 8</th>
                                                     <th>CS</th>
                                                     <th>SR</th>
-                                                    <th>MPP</th>
+                                                    <th>Max Pts</th>
                                                 {% endif %}
                                             </tr>
                                         </thead>
@@ -677,7 +678,7 @@
                                             <tr>
                                                 <td class="ps-3 text-start">
                                                     <span
-                                                        class="badge {% if "Promedios" in group_name %}{% if forloop.revcounter <= 2 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %}{% else %}{% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %}{% endif %} rounded-pill"
+                                                        class="badge {% if "Promedios" in group_name or "Averages" in group_name %}{% if forloop.revcounter <= 2 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %}{% else %}{% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %}{% endif %} rounded-pill"
                                                         style="width: 25px;">{{ row.position }}</span>
                                                 </td>
                                                 <td class="text-start fw-bold">

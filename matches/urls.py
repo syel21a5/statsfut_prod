@@ -1,10 +1,18 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
+from django.views.generic import TemplateView
 from . import views
 
 app_name = 'matches'
 
 urlpatterns = [
+    path('robots.txt', views.RobotsView.as_view(), name='robots_txt'),
+    path('sitemap.xml', views.SitemapView.as_view(), name='sitemap_xml'),
+    
+    path('privacy-policy/', TemplateView.as_view(template_name='matches/privacy_policy.html'), name='privacy_policy'),
+    path('terms-of-use/', TemplateView.as_view(template_name='matches/terms_of_use.html'), name='terms_of_use'),
+    path('about-us/', TemplateView.as_view(template_name='matches/about_us.html'), name='about_us'),
+
     path('search/', views.GlobalSearchView.as_view(), name='global_search'),
     
     # Cache de 5 minutos na Home e Tabelas das Ligas

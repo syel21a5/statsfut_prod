@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}{{ match.home_team.name }} vs {{ match.away_team.name }} - Match Stats | StatsFut{% endblock %}
+{% block meta_description %}{{ match.home_team.name }} vs {{ match.away_team.name }} match statistics, pre-match analysis, head-to-head data and predictions. {{ match.league.name }}.{% endblock %}
+
 {% block header %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
 <!-- ATUALIZACAO FINAL: 10/05/2026 -->

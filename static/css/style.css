@@ -27,6 +27,38 @@
     --border: rgba(255, 255, 255, 0.08);
 }
 
+.hover-white:hover {
+    color: #ffffff !important;
+    transition: color 0.2s ease;
+}
+
+/* Ad Placeholders */
+.ad-slot-leaderboard, .ad-slot-home, .ad-slot-league, .ad-slot-vertical {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--text-muted);
+}
+
+.ad-slot-leaderboard { min-height: 90px; max-width: 728px; }
+.ad-slot-home { min-height: 100px; }
+.ad-slot-league { min-height: 90px; }
+.ad-slot-vertical { min-height: 250px; flex-direction: column; padding: 2rem 1rem; }
+
+.ad-placeholder-inner {
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
 * {
     margin: 0;
     padding: 0;

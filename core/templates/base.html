@@ -14,7 +14,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StatsFut | Football Analytics</title>
+    <title>{% block title %}StatsFut | Football Analytics & Predictions{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}StatsFut - Estatísticas avançadas de futebol, análises pré-jogo, Over/Under, BTTS e confrontos diretos das principais ligas do mundo.{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://statsfut.com{{ request.path }}">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,8 +153,11 @@
 
             <!-- Center: Banner -->
             <div class="col-md-6 text-center">
-                <div class="ad-slot ad-slot-leaderboard mx-auto" style="margin-top: 0; margin-bottom: 0;">
-                    Top banner – 970x90 / 728x90 (or 320x100 mobile)
+                <div class="ad-slot-leaderboard mx-auto">
+                    <div class="ad-placeholder-inner">
+                        <i class="fa-solid fa-rectangle-ad me-2"></i>
+                        <span>StatsFut Analytics Partner</span>
+                    </div>
                 </div>
             </div>
 
@@ -164,6 +170,32 @@
         </div>
 
         {% block content %}{% endblock %}
+
+        <!-- Footer -->
+        <footer class="mt-5 pt-5 pb-4 border-top border-secondary border-opacity-25">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <div class="brand mb-2" style="font-size: 1.1rem;">
+                        <i class="fa-solid fa-chart-simple text-primary"></i>
+                        <span class="text-white">statsfut<span style="color:var(--primary)">.com</span></span>
+                    </div>
+                    <p class="text-secondary small mb-0">&copy; 2026 StatsFut. All rights reserved. Professional statistics for analysts.</p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav justify-content-center justify-content-md-end gap-3 small">
+                        <li class="nav-item">
+                            <a href="{% url 'matches:about_us' %}" class="nav-link p-0 text-secondary hover-white">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:privacy_policy' %}" class="nav-link p-0 text-secondary hover-white">Privacy Policy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:terms_of_use' %}" class="nav-link p-0 text-secondary hover-white">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </main>
 
     <!-- Bootstrap Bundle with Popper -->
