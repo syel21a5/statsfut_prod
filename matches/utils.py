@@ -381,6 +381,8 @@ COUNTRY_TRANSLATIONS = {
     "Ucrania": "Ukraine",
     "Russia": "Russia",
     "Japao": "Japan",
+    "Coreia do Sul": "South Korea",
+    "Escocia": "Scotland",
 }
 
 COUNTRY_REVERSE_TRANSLATIONS = {v.lower(): k for k, v in COUNTRY_TRANSLATIONS.items()}

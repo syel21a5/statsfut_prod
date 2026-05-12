@@ -11,9 +11,9 @@
 {% block content %}
 
 <!-- Home Banner -->
-<div class="ad-slot-home mb-4 rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="max-height: 220px;">
-    <a href="/contact-us/">
-        <img src="{% static 'images/banners/banner3.png' %}" class="img-fluid w-100" alt="Live Tracker" style="height: 220px; object-fit: cover; object-position: center;">
+<div class="ad-slot-home mb-4 mx-auto rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="height: 200px; max-width: 1050px; position: relative;">
+    <a href="{% url 'matches:live_matches' %}" class="d-block w-100 h-100">
+        <img src="{% static 'images/banners/banner3.png' %}" alt="Live Matches" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
     </a>
 </div>
 

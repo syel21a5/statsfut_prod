@@ -48,10 +48,11 @@
         <a href="/" class="nav-link active">
             <i class="fa-solid fa-house"></i> Dashboard
         </a>
-        <!-- Live Page Removed per user request -->
-
         <a href="#" class="nav-link">
             <i class="fa-solid fa-star"></i> Favorites
+        </a>
+        <a href="{% url 'matches:live_matches' %}" class="nav-link text-danger fw-bold">
+            <i class="fa-solid fa-circle-dot live-pulse"></i> Live
         </a>
 
         <div class="menu-label">Countries & Leagues</div>
@@ -153,9 +154,9 @@
 
             <!-- Center: Banner -->
             <div class="col-md-6 text-center">
-                <div class="ad-slot-leaderboard mx-auto rounded-3 overflow-hidden border border-secondary border-opacity-25" style="max-height: 120px;">
-                    <a href="/">
-                        <img src="{% static 'images/banners/banner1.png' %}" class="img-fluid w-100" alt="Elite Analytics" style="height: 120px; object-fit: cover;">
+                <div class="ad-slot-leaderboard mx-auto rounded-3 overflow-hidden border border-secondary border-opacity-25" style="max-height: 90px; width: 100%; max-width: 728px;">
+                    <a href="/contact-us/" class="d-block w-100 h-100">
+                        <img src="{% static 'images/banners/banner1.png' %}" alt="Elite Analytics" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
                     </a>
                 </div>
             </div>

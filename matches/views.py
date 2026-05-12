@@ -410,6 +410,13 @@ class HomeView(ListView):
             
         context['grouped_matches'] = grouped_list
         
+        # Live matches for the rotating banner
+        live_statuses = [
+            '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 
+            'INT', 'SUSP', 'BREAK', 'PEN_LIVE'
+        ]
+        context['live_matches'] = Match.objects.filter(status__in=live_statuses).select_related('league', 'home_team', 'away_team')[:5]
+        
         if filter_type == 'tomorrow':
             context['page_title'] = "Tomorrow's Matches"
         elif filter_type == 'next_round':

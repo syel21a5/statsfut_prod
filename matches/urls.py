@@ -51,6 +51,6 @@ urlpatterns = [
     # Então, removemos as rotas conflitantes e deixamos o Dispatcher assumir.
     
     path('stats/<str:country_name>/<str:league_name>/h2h/<str:team1_name>/<str:team2_name>/', views.HeadToHeadView.as_view(), name='h2h_detail'),
-    # path('live/', views.LiveMatchesView.as_view(), name='live_matches'), # REMOVED per user request
+    path('live/', views.LiveMatchesView.as_view(), name='live_matches'),
     path('debug-leagues/', views.debug_leagues_wrapper, name='debug_leagues'),
 ]
