@@ -632,9 +632,14 @@ class LeagueDetailView(DetailView):
         latest_season = latest_season_standing.season if latest_season_standing else None
         
         # Fallback: Tenta pegar a temporada do último jogo importado para não deixar a página vazia
-        last_match = Match.objects.filter(league=league).select_related('season').order_by('-season__year', '-date').first()
-        if last_match and (not latest_season or last_match.season.year >= latest_season.year):
-            latest_season = last_match.season
+        last_match = Match.objects.filter(
+            league=league, 
+            season__isnull=False
+        ).select_related('season').order_by('-season__year', '-date').first()
+        
+        if last_match and last_match.season:
+            if not latest_season or last_match.season.year >= latest_season.year:
+                latest_season = last_match.season
         
         context['latest_season'] = latest_season
         context['season'] = latest_season
