@@ -683,7 +683,8 @@ class LeagueDetailView(DetailView):
                 league=league,
                 season=latest_season,
                 status__in=FINISHED_STATUSES,
-                # date__lt=today # REMOVED: Allow test data with NULL dates
+                home_score__isnull=False,
+                away_score__isnull=False,
             ).select_related('home_team', 'away_team')
 
             # Initialize data structures for Home/Away tables
@@ -1507,7 +1508,7 @@ class LeagueDetailView(DetailView):
                 
                 # Recalculate H/A specific form
                 h_matches = [m for m in all_matches if m.home_team_id == home_id]
-                h_matches.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                h_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 h_form_4 = []
                 for m in h_matches[:4]:
                     if m.home_score > m.away_score: h_form_4.append('W')
@@ -1515,7 +1516,7 @@ class LeagueDetailView(DetailView):
                     else: h_form_4.append('L')
                     
                 a_matches = [m for m in all_matches if m.away_team_id == away_id]
-                a_matches.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                a_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 a_form_4 = []
                 for m in a_matches[:4]:
                     if m.away_score > m.home_score: a_form_4.append('W')
@@ -1539,10 +1540,10 @@ class LeagueDetailView(DetailView):
                 }
                 
                 # Calculate Over 2.5 %
-                h_over_count = sum(1 for m in h_matches if (m.home_score + m.away_score) > 2.5)
+                h_over_count = sum(1 for m in h_matches if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
                 entry['h_over_25'] = int((h_over_count / len(h_matches) * 100)) if h_matches else 0
                 
-                a_over_count = sum(1 for m in a_matches if (m.home_score + m.away_score) > 2.5)
+                a_over_count = sum(1 for m in a_matches if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
                 entry['a_over_25'] = int((a_over_count / len(a_matches) * 100)) if a_matches else 0
                 
                 stats_entries.append(entry)
@@ -1583,34 +1584,34 @@ class LeagueDetailView(DetailView):
                 
                 # Last 4 Form (Overall)
                 h_matches_all = [m for m in all_matches if m.home_team_id == home_id or m.away_team_id == home_id]
-                h_matches_all.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                h_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 h_form_4 = []
                 for m in h_matches_all[:4]:
                     is_home = m.home_team_id == home_id
-                    team_score = m.home_score if is_home else m.away_score
-                    opp_score = m.away_score if is_home else m.home_score
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
                     
                     if team_score > opp_score: h_form_4.append('W')
                     elif team_score == opp_score: h_form_4.append('D')
                     else: h_form_4.append('L')
                     
                 a_matches_all = [m for m in all_matches if m.home_team_id == away_id or m.away_team_id == away_id]
-                a_matches_all.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                a_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 a_form_4 = []
                 for m in a_matches_all[:4]:
                     is_home = m.home_team_id == away_id
-                    team_score = m.home_score if is_home else m.away_score
-                    opp_score = m.away_score if is_home else m.home_score
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
                     
                     if team_score > opp_score: a_form_4.append('W')
                     elif team_score == opp_score: a_form_4.append('D')
                     else: a_form_4.append('L')
 
                 # Calculate Over 2.5 % (Overall)
-                h_over_count = sum(1 for m in h_matches_all if (m.home_score + m.away_score) > 2.5)
+                h_over_count = sum(1 for m in h_matches_all if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
                 h_over_pct = int((h_over_count / len(h_matches_all) * 100)) if h_matches_all else 0
                 
-                a_over_count = sum(1 for m in a_matches_all if (m.home_score + m.away_score) > 2.5)
+                a_over_count = sum(1 for m in a_matches_all if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
                 a_over_pct = int((a_over_count / len(a_matches_all) * 100)) if a_matches_all else 0
 
                 entry = {
@@ -1639,11 +1640,11 @@ class LeagueDetailView(DetailView):
                 
                 # Get last 8 matches for each team
                 h_matches_all = [m for m in all_matches if m.home_team_id == home_id or m.away_team_id == home_id]
-                h_matches_all.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                h_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 h_last8 = h_matches_all[:8]
                 
                 a_matches_all = [m for m in all_matches if m.home_team_id == away_id or m.away_team_id == away_id]
-                a_matches_all.sort(key=lambda x: (x.date if x.date else 0, x.id), reverse=True)
+                a_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 a_last8 = a_matches_all[:8]
                 
                 def calc_last8_stats(matches, team_id):
@@ -1654,8 +1655,8 @@ class LeagueDetailView(DetailView):
                     pts = 0; w = 0; d = 0; l = 0; gf = 0; ga = 0
                     for m in matches:
                         is_home = m.home_team_id == team_id
-                        team_score = m.home_score if is_home else m.away_score
-                        opp_score = m.away_score if is_home else m.home_score
+                        team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                        opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
                         
                         gf += team_score
                         ga += opp_score
@@ -1681,8 +1682,8 @@ class LeagueDetailView(DetailView):
                 h_form_4 = []
                 for m in h_last8[:4]:
                     is_home = m.home_team_id == home_id
-                    team_score = m.home_score if is_home else m.away_score
-                    opp_score = m.away_score if is_home else m.home_score
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
                     if team_score > opp_score: h_form_4.append('W')
                     elif team_score == opp_score: h_form_4.append('D')
                     else: h_form_4.append('L')
@@ -1690,17 +1691,17 @@ class LeagueDetailView(DetailView):
                 a_form_4 = []
                 for m in a_last8[:4]:
                     is_home = m.home_team_id == away_id
-                    team_score = m.home_score if is_home else m.away_score
-                    opp_score = m.away_score if is_home else m.home_score
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
                     if team_score > opp_score: a_form_4.append('W')
                     elif team_score == opp_score: a_form_4.append('D')
                     else: a_form_4.append('L')
                 
                 # Over 2.5 % (in Last 8)
-                h_over_count = sum(1 for m in h_last8 if (m.home_score + m.away_score) > 2.5)
+                h_over_count = sum(1 for m in h_last8 if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
                 h_over_pct = int((h_over_count / len(h_last8) * 100)) if h_last8 else 0
                 
-                a_over_count = sum(1 for m in a_last8 if (m.home_score + m.away_score) > 2.5)
+                a_over_count = sum(1 for m in a_last8 if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
                 a_over_pct = int((a_over_count / len(a_last8) * 100)) if a_last8 else 0
 
                 entry = {
