@@ -392,18 +392,18 @@ class Command(BaseCommand):
                 status_map = {
                     'NS': 'Scheduled',  # Not Started
                     'LIVE': 'Live',
-                    '1H': 'Live',  # First Half
-                    'HT': 'Live',  # Half Time
-                    '2H': 'Live',  # Second Half
-                    'FT': 'Finished',  # Full Time
-                    'AET': 'Finished',  # After Extra Time
-                    'PEN': 'Finished',  # Penalties
+                    '1H': '1H',  # First Half
+                    'HT': 'HT',  # Half Time
+                    '2H': '2H',  # Second Half
+                    'FT': 'FT',  # Full Time - PADRONIZADO com SofaScore
+                    'AET': 'AET',  # After Extra Time
+                    'PEN': 'PEN',  # Penalties
                     'PST': 'Postponed',
                     'CANC': 'Cancelled',
                     'ABD': 'Abandoned',
                     'SCHEDULED': 'Scheduled',
-                    'IN_PLAY': 'Live',
-                    'FINISHED': 'Finished',
+                    'IN_PLAY': 'LIVE',
+                    'FINISHED': 'FT',  # PADRONIZADO: sempre usar FT
                 }
                 
                 status = status_map.get(fixture['status'], 'Scheduled')
@@ -414,11 +414,16 @@ class Command(BaseCommand):
                 defaults = {
                     'date': match_date,
                     'status': status,
-                    'home_score': fixture['home_score'],
-                    'away_score': fixture['away_score'],
                     'elapsed_time': fixture.get('elapsed'),
                     'api_id': match_api_id
                 }
+                
+                # PROTEÇÃO: Só atualiza scores se a API realmente trouxe dados
+                # Evita sobrescrever scores válidos do SofaScore com None
+                if fixture['home_score'] is not None:
+                    defaults['home_score'] = fixture['home_score']
+                if fixture['away_score'] is not None:
+                    defaults['away_score'] = fixture['away_score']
                 
                 # Lógica segura para Match: Prioriza busca por api_id
                 match_obj = None
