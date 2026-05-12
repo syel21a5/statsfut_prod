@@ -304,6 +304,33 @@ def debug_leagues_wrapper(request):
     return debug_leagues(request)
 
 
+class LiveMatchesView(TemplateView):
+    template_name = 'matches/live_matches.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        live_statuses = ['1H', '2H', 'HT', 'LIVE', 'Live', 'ET', 'BT', 'P', 'INT']
+        live_matches = Match.objects.filter(
+            status__in=live_statuses
+        ).select_related('home_team', 'away_team', 'league').order_by('league__name', 'date')
+        
+        # Group matches by league name
+        grouped = {}
+        for match in live_matches:
+            league_name = match.league.name
+            if league_name not in grouped:
+                grouped[league_name] = {
+                    'league': match.league,
+                    'matches': []
+                }
+            grouped[league_name]['matches'].append(match)
+        
+        context['matches'] = live_matches
+        context['grouped_matches'] = grouped
+        return context
+
+
 class MatchDetailView(DetailView):
     model = Match
     template_name = 'matches/match_detail.html'
