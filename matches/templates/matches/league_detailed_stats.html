@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ league.name }} Elite Stats - Corners & Cards | StatsFut{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white fw-bold mb-0">
+                <i class="fa-solid fa-bolt text-primary me-2"></i>
+                Elite Statistics - {{ league.name }}
+            </h2>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">{{ season.year }} Season</span>
+                <span class="text-muted small">| Average statistics per match for all teams</span>
+            </div>
+        </div>
+        <div class="stats-summary-badges d-flex gap-3">
+            <div class="badge-item">
+                <span class="label">LEAGUE CORNERS (AVG)</span>
+                <span class="value text-primary"><i class="fa-solid fa-flag me-1" style="font-size: 0.8rem;"></i> {{ league_avg_corners|default:"0" }}</span>
+            </div>
+            <div class="badge-item">
+                <span class="label">LEAGUE YELLOWS (AVG)</span>
+                <span class="value text-warning"><i class="fa-solid fa-copy me-1" style="font-size: 0.8rem;"></i> {{ league_avg_yellow|default:"0" }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Legend -->
+    <div class="alert alert-info bg-info bg-opacity-10 border-info border-opacity-25 text-info mb-4" style="font-size: 0.85rem;">
+        <i class="fa-solid fa-circle-info me-2"></i>
+        <strong>How to use:</strong> These values represent the <strong>average per game</strong>. High values in "Total Avg" for corners indicate teams involved in high-corner matches.
+    </div>
+
+    <div class="row g-4">
+        <!-- CORNERS RANKING -->
+        <div class="col-lg-12">
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm overflow-hidden">
+                <div class="card-header bg-transparent border-bottom border-white border-opacity-10 p-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fa-solid fa-flag text-info me-2"></i> Corner Kicks (Ranking)</h5>
+                    <span class="small text-muted">Sorted by Total Match Average</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover mb-0 align-middle">
+                            <thead>
+                                <tr class="text-muted small text-uppercase">
+                                    <th class="ps-4">Team</th>
+                                    <th class="text-center">GP</th>
+                                    <th class="text-center">For <i class="fa-solid fa-arrow-up text-success ms-1"></i></th>
+                                    <th class="text-center">Against <i class="fa-solid fa-arrow-down text-danger ms-1"></i></th>
+                                    <th class="text-center bg-primary bg-opacity-10" style="width: 150px;">Total Avg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in team_stats %}
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="team-dot" style="background: var(--primary);"></div>
+                                            <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white fw-bold">
+                                                {{ s.team.name }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-center opacity-50">{{ s.gp }}</td>
+                                    <td class="text-center fw-bold">{{ s.avg_corners_for }}</td>
+                                    <td class="text-center">{{ s.avg_corners_against }}</td>
+                                    <td class="text-center fw-bold text-primary bg-primary bg-opacity-10">
+                                        {{ s.avg_corners_total }}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">No corner data available yet. Processing matches...</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARDS & SHOTS -->
+        <div class="col-lg-6">
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                <div class="card-header bg-transparent border-bottom border-white border-opacity-10 p-3">
+                    <h5 class="mb-0"><i class="fa-solid fa-copy text-warning me-2"></i> Disciplinary Cards (Avg)</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover mb-0 align-middle">
+                            <thead>
+                                <tr class="text-muted small text-uppercase">
+                                    <th class="ps-3">Team</th>
+                                    <th class="text-center">Yellows</th>
+                                    <th class="text-center">Reds</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in team_stats|dictsortreversed:"avg_yellow" %}
+                                <tr>
+                                    <td class="ps-3">{{ s.team.name }}</td>
+                                    <td class="text-center">
+                                        <div class="card-mini yellow mx-auto">{{ s.avg_yellow }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="card-mini red mx-auto">{{ s.avg_red }}</div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                <div class="card-header bg-transparent border-bottom border-white border-opacity-10 p-3">
+                    <h5 class="mb-0"><i class="fa-solid fa-bullseye text-danger me-2"></i> Offensive (Avg Shots)</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover mb-0 align-middle">
+                            <thead>
+                                <tr class="text-muted small text-uppercase">
+                                    <th class="ps-3">Team</th>
+                                    <th class="text-center">Shots/Game</th>
+                                    <th class="text-center">Effort</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in team_stats|dictsortreversed:"avg_shots" %}
+                                <tr>
+                                    <td class="ps-3">{{ s.team.name }}</td>
+                                    <td class="text-center fw-bold text-danger">{{ s.avg_shots }}</td>
+                                    <td class="text-center">
+                                        <div class="progress" style="height: 4px; width: 60px; margin: 0 auto;">
+                                            <div class="progress-bar bg-danger" style="width: {{ s.avg_shots|mul:5 }}%"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stats-summary-badges .badge-item {
+        background: rgba(255,255,255,0.05);
+        padding: 0.5rem 1.25rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
+        min-width: 140px;
+    }
+    .badge-item .label { display: block; font-size: 0.6rem; text-transform: uppercase; color: #94a3b8; font-weight: 800; letter-spacing: 1px; margin-bottom: 2px; }
+    .badge-item .value { font-size: 1.3rem; font-weight: 900; }
+    
+    .team-dot { width: 8px; height: 8px; border-radius: 50%; }
+    
+    .card-mini {
+        width: 35px;
+        height: 45px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .card-mini.yellow { background: #facc15; color: #000; }
+    .card-mini.red { background: #ef4444; color: #fff; }
+
+    .table-dark { --bs-table-bg: transparent; }
+    .table-hover tbody tr:hover { background-color: rgba(255,255,255,0.03) !important; }
+    
+    th { font-weight: 700 !important; }
+</style>
+{% endblock %}

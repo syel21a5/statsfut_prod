@@ -39,6 +39,75 @@
             <span class="t-name">{{ match.away_team.name }}</span>
         </div>
     </div>
+    
+    <!-- MATCH REPORT (REAL DATA) -->
+    {% if match.goals.all or match.home_corners is not None %}
+    <div class="match-report-section mb-4">
+        <div class="report-tabs">
+            <div class="tab-item active" onclick="switchTab('timeline')">TIMELINE</div>
+            <div class="tab-item" onclick="switchTab('stats')">MATCH STATS</div>
+        </div>
+
+        <div class="report-content" id="timeline-content">
+            <div class="timeline-wrap">
+                {% for goal in match.goals.all|dictsort:"minute" %}
+                <div class="timeline-event {% if goal.team == match.home_team %}home{% else %}away{% endif %}">
+                    <div class="event-time">{{ goal.minute }}'</div>
+                    <div class="event-icon"><i class="fa-solid fa-futbol"></i></div>
+                    <div class="event-detail">
+                        <span class="player">{{ goal.player_name }}</span>
+                        {% if goal.is_penalty %}<span class="badge bg-warning text-dark ms-1" style="font-size: 0.6rem;">PEN</span>{% endif %}
+                        {% if goal.is_own_goal %}<span class="badge bg-danger ms-1" style="font-size: 0.6rem;">OG</span>{% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-4 text-muted small">No goal events recorded</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="report-content d-none" id="stats-content">
+            <div class="real-stats-grid">
+                {% with h=match.home_corners|default:0 a=match.away_corners|default:0 %}
+                <div class="stat-compare-row">
+                    <div class="s-label">Corner Kicks</div>
+                    <div class="s-bar-wrap">
+                        <span class="v h">{{ h }}</span>
+                        <div class="s-bar">
+                            <div class="fill h" style="width: {% if h|add:a > 0 %}{{ h|add:0|divisibleby:h|add:a }}{% else %}50{% endif %}%"></div>
+                        </div>
+                        <span class="v a">{{ a }}</span>
+                    </div>
+                </div>
+                {% endwith %}
+
+                {% with h=match.home_shots|default:0 a=match.away_shots|default:0 %}
+                <div class="stat-compare-row">
+                    <div class="s-label">Total Shots</div>
+                    <div class="s-bar-wrap">
+                        <span class="v h">{{ h }}</span>
+                        <div class="s-bar">
+                            <div class="fill h" style="width: 50%"></div>
+                        </div>
+                        <span class="v a">{{ a }}</span>
+                    </div>
+                </div>
+                {% endwith %}
+
+                <div class="stat-compare-row">
+                    <div class="s-label">Yellow Cards</div>
+                    <div class="s-bar-wrap">
+                        <span class="v h">{{ match.home_yellow|default:0 }}</span>
+                        <div class="s-bar card-bar">
+                            <div class="fill yellow" style="width: 50%"></div>
+                        </div>
+                        <span class="v a">{{ match.away_yellow|default:0 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     {% if advanced_stats %}
     
@@ -405,10 +474,41 @@
 
 {% block extra_js %}
 <script>
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.report-content').forEach(el => el.classList.add('d-none'));
+        
+        if (tab === 'timeline') {
+            document.querySelector('.tab-item:nth-child(1)').classList.add('active');
+            document.getElementById('timeline-content').classList.remove('d-none');
+        } else {
+            document.querySelector('.tab-item:nth-child(2)').classList.add('active');
+            document.getElementById('stats-content').classList.remove('d-none');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('[data-accuracy]').forEach(function(el) {
             el.style.width = el.getAttribute('data-accuracy');
         });
+        
+        // Dynamic bar widths for real stats
+        {% if match.home_corners is not None %}
+        function updateBars() {
+            const stats = [
+                { h: {{ match.home_corners|default:0 }}, a: {{ match.away_corners|default:0 }} },
+                { h: {{ match.home_shots|default:0 }}, a: {{ match.away_shots|default:0 }} },
+                { h: {{ match.home_yellow|default:0 }}, a: {{ match.away_yellow|default:0 }} }
+            ];
+            const bars = document.querySelectorAll('.stat-compare-row .fill');
+            stats.forEach((s, i) => {
+                const total = s.h + s.a;
+                const perc = total > 0 ? (s.h / total) * 100 : 50;
+                if(bars[i]) bars[i].style.width = perc + '%';
+            });
+        }
+        updateBars();
+        {% endif %}
     });
 </script>
 {% endblock %}

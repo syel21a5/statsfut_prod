@@ -1820,10 +1820,20 @@ class TeamDetailView(DetailView):
     context_object_name = 'team'
 
     def get_object(self):
-        # Captura os parâmetros da URL
+        # 1. Se tiver PK na URL, busca direto pelo ID (mais seguro)
+        pk = self.kwargs.get('pk')
+        if pk:
+            from django.shortcuts import get_object_or_404
+            return get_object_or_404(Team, pk=pk)
+
+        # 2. Captura os parâmetros da URL (Slugs)
         league_slug = self.kwargs.get('league_name')
         team_slug = self.kwargs.get('team_name')
         
+        if not league_slug or not team_slug:
+            from django.http import Http404
+            raise Http404("Team not found")
+
         # Converte slugs para busca aproximada (ex: premier-league -> Premier League)
         league_name_query = league_slug.replace('-', ' ')
         team_name_query = team_slug.replace('-', ' ')
@@ -3750,6 +3760,81 @@ class LeagueGoalsView(TemplateView):
                 
                 context['segments_table'] = segments
                 context['max_pts'] = max_pts
+        
+        return context
+
+class LeagueDetailedStatsView(TemplateView):
+    template_name = 'matches/league_detailed_stats.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        league_slug = self.kwargs.get('league_name')
+        
+        # 1. Localizar a Liga
+        from django.db.models import Avg, Sum, Q, Count
+        name_query = league_slug.replace('-', ' ')
+        league = League.objects.filter(Q(name__iexact=name_query) | Q(name__icontains=name_query)).first()
+        context['league'] = league
+        
+        if not league:
+            return context
+
+        # 2. Localizar a Temporada Recente
+        latest_season = Season.objects.filter(matches__league=league).order_by('-year').first()
+        context['season'] = latest_season
+        
+        if not latest_season:
+            return context
+
+        # 3. Calcular Médias por Time
+        teams = Team.objects.filter(
+            Q(home_matches__league=league, home_matches__season=latest_season) |
+            Q(away_matches__league=league, away_matches__season=latest_season)
+        ).distinct()
+
+        team_stats = []
+        for team in teams:
+            # Jogos finalizados do time com dados de escanteios
+            matches = Match.objects.filter(
+                league=league, season=latest_season,
+                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
+            ).filter(Q(home_team=team) | Q(away_team=team)).filter(home_corners__isnull=False)
+
+            gp = matches.count()
+            if gp > 0:
+                corners_for = 0
+                corners_against = 0
+                yellow_for = 0
+                red_for = 0
+                shots_for = 0
+                
+                for m in matches:
+                    is_home = (m.home_team_id == team.id)
+                    corners_for += (m.home_corners or 0) if is_home else (m.away_corners or 0)
+                    corners_against += (m.away_corners or 0) if is_home else (m.home_corners or 0)
+                    yellow_for += (m.home_yellow or 0) if is_home else (m.away_yellow or 0)
+                    red_for += (m.home_red or 0) if is_home else (m.away_red or 0)
+                    shots_for += (m.home_shots or 0) if is_home else (m.away_shots or 0)
+
+                team_stats.append({
+                    'team': team,
+                    'gp': gp,
+                    'avg_corners_for': round(corners_for / gp, 2),
+                    'avg_corners_against': round(corners_against / gp, 2),
+                    'avg_corners_total': round((corners_for + corners_against) / gp, 2),
+                    'avg_yellow': round(yellow_for / gp, 2),
+                    'avg_red': round(red_for / gp, 2),
+                    'avg_shots': round(shots_for / gp, 1),
+                })
+
+        # Ordenar por maior média de escanteios totais por padrão
+        team_stats.sort(key=lambda x: x['avg_corners_total'], reverse=True)
+        context['team_stats'] = team_stats
+        
+        # 4. Médias Gerais da Liga
+        if team_stats:
+            context['league_avg_corners'] = round(sum(s['avg_corners_total'] for s in team_stats) / len(team_stats), 2)
+            context['league_avg_yellow'] = round(sum(s['avg_yellow'] for s in team_stats) / len(team_stats), 2)
         
         return context
 

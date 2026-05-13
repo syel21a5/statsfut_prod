@@ -30,6 +30,7 @@ urlpatterns = [
     
     # Rota específica para Gols (deve vir ANTES do Dispatcher genérico)
     path('stats/<str:country_name>/<str:league_name>/goals/', views.LeagueGoalsView.as_view(), name='league_goals'),
+    path('stats/<str:country_name>/<str:league_name>/detailed/', views.LeagueDetailedStatsView.as_view(), name='league_detailed'),
 
     # Alias para reverse url compatibility
     # O primeiro pattern captura a requisição (DispatchView recebe arg1, arg2)
