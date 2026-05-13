@@ -4,7 +4,8 @@ import django
 import sys
 
 # Setup Django
-sys.path.append(os.getcwd())
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'statsfut.settings')
 django.setup()
 
