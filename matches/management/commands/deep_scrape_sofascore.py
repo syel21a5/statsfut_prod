@@ -228,7 +228,7 @@ class Command(BaseCommand):
             
             if inc_data and 'incidents' in inc_data:
                 # incidentClass: 'goal'
-                goals_list = [i for i in inc_data['incidents'] if i.get('incidentClass') == 'goal']
+                goals_list = [i for i in inc_data['incidents'] if i.get('incidentType') == 'goal']
                 
                 if goals_list:
                     # Limpa gols antigos para evitar duplicidade

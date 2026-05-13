@@ -170,7 +170,7 @@ class Command(BaseCommand):
             inc_data = self.fetch_api(incidents_url)
             
             if inc_data and 'incidents' in inc_data:
-                goals_list = [i for i in inc_data['incidents'] if i.get('incidentClass') == 'goal']
+                goals_list = [i for i in inc_data['incidents'] if i.get('incidentType') == 'goal']
                 if goals_list:
                     Goal.objects.filter(match=match).delete()
                     with transaction.atomic():
