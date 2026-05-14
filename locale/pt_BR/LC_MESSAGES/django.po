@@ -141,3 +141,57 @@ msgid ""
 "analisar o mercado de \"Under\".\n"
 "                        "
 msgstr ""
+
+# ============================================================
+# HOME PAGE - BUTTONS & FILTERS
+# ============================================================
+msgid "Today"
+msgstr "Hoje"
+
+msgid "Tomorrow"
+msgstr "Amanhã"
+
+msgid "Next Round"
+msgstr "Próxima Rodada"
+
+msgid "Upcoming"
+msgstr "Próximos"
+
+msgid "Finished"
+msgstr "Finalizados"
+
+msgid "matches"
+msgstr "jogos"
+
+# ============================================================
+# HOME PAGE - EMPTY STATES
+# ============================================================
+msgid "No matches found for this period."
+msgstr "Nenhum jogo encontrado para este período."
+
+msgid "Try checking another date or filter."
+msgstr "Tente verificar outra data ou filtro."
+
+msgid "No matches match your filter."
+msgstr "Nenhum jogo corresponde ao seu filtro."
+
+msgid "Try resetting the status filter."
+msgstr "Tente redefinir o filtro de status."
+
+# ============================================================
+# FOOTER
+# ============================================================
+msgid "All rights reserved. Professional statistics for analysts."
+msgstr "Todos os direitos reservados. Estatísticas profissionais para analistas."
+
+msgid "About Us"
+msgstr "Sobre Nós"
+
+msgid "Privacy Policy"
+msgstr "Política de Privacidade"
+
+msgid "Terms of Use"
+msgstr "Termos de Uso"
+
+msgid "Contact Us"
+msgstr "Fale Conosco"

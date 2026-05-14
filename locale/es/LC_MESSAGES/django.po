@@ -182,3 +182,57 @@ msgstr ""
 "(Precisión por debajo del 30%%). Partido con tendencia a pocos goles, ideal "
 "para analizar el mercado de \"Under\".\n"
 "                        "
+
+# ============================================================
+# HOME PAGE - BUTTONS & FILTERS
+# ============================================================
+msgid "Today"
+msgstr "Hoy"
+
+msgid "Tomorrow"
+msgstr "Mañana"
+
+msgid "Next Round"
+msgstr "Próxima Fecha"
+
+msgid "Upcoming"
+msgstr "Próximos"
+
+msgid "Finished"
+msgstr "Finalizados"
+
+msgid "matches"
+msgstr "partidos"
+
+# ============================================================
+# HOME PAGE - EMPTY STATES
+# ============================================================
+msgid "No matches found for this period."
+msgstr "No se encontraron partidos para este período."
+
+msgid "Try checking another date or filter."
+msgstr "Intenta verificar otra fecha o filtro."
+
+msgid "No matches match your filter."
+msgstr "Ningún partido coincide con tu filtro."
+
+msgid "Try resetting the status filter."
+msgstr "Intenta restablecer el filtro de estado."
+
+# ============================================================
+# FOOTER
+# ============================================================
+msgid "All rights reserved. Professional statistics for analysts."
+msgstr "Todos los derechos reservados. Estadísticas profesionales para analistas."
+
+msgid "About Us"
+msgstr "Sobre Nosotros"
+
+msgid "Privacy Policy"
+msgstr "Política de Privacidad"
+
+msgid "Terms of Use"
+msgstr "Términos de Uso"
+
+msgid "Contact Us"
+msgstr "Contáctenos"

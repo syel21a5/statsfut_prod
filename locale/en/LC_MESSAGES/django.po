@@ -182,3 +182,57 @@ msgstr ""
 "(Accuracy below 30%%). Match trending towards few goals, ideal for "
 "analyzing the \"Under\" market.\n"
 "                        "
+
+# ============================================================
+# HOME PAGE - BUTTONS & FILTERS
+# ============================================================
+msgid "Today"
+msgstr "Today"
+
+msgid "Tomorrow"
+msgstr "Tomorrow"
+
+msgid "Next Round"
+msgstr "Next Round"
+
+msgid "Upcoming"
+msgstr "Upcoming"
+
+msgid "Finished"
+msgstr "Finished"
+
+msgid "matches"
+msgstr "matches"
+
+# ============================================================
+# HOME PAGE - EMPTY STATES
+# ============================================================
+msgid "No matches found for this period."
+msgstr "No matches found for this period."
+
+msgid "Try checking another date or filter."
+msgstr "Try checking another date or filter."
+
+msgid "No matches match your filter."
+msgstr "No matches match your filter."
+
+msgid "Try resetting the status filter."
+msgstr "Try resetting the status filter."
+
+# ============================================================
+# FOOTER
+# ============================================================
+msgid "All rights reserved. Professional statistics for analysts."
+msgstr "All rights reserved. Professional statistics for analysts."
+
+msgid "About Us"
+msgstr "About Us"
+
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+msgid "Terms of Use"
+msgstr "Terms of Use"
+
+msgid "Contact Us"
+msgstr "Contact Us"

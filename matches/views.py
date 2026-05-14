@@ -367,6 +367,8 @@ class MatchDetailView(DetailView):
             
         return context
 
+from django.utils.translation import gettext_lazy as _
+
 class HomeView(ListView):
 
     model = Match
@@ -445,11 +447,11 @@ class HomeView(ListView):
         context['live_matches'] = Match.objects.filter(status__in=live_statuses).select_related('league', 'home_team', 'away_team')[:5]
         
         if filter_type == 'tomorrow':
-            context['page_title'] = "Tomorrow's Matches"
+            context['page_title'] = _("Tomorrow's Matches")
         elif filter_type == 'next_round':
-            context['page_title'] = 'Next Round'
+            context['page_title'] = _('Next Round')
         else:
-            context['page_title'] = "Today\'s Matches"
+            context['page_title'] = _("Today's Matches")
             
         return context
 
@@ -479,7 +481,7 @@ class LiveMatchesView(ListView):
             grouped_matches[league_name]['matches'].append(match)
             
         context['grouped_matches'] = grouped_matches
-        context['page_title'] = 'Live Matches'
+        context['page_title'] = _('Live Matches')
         return context
 
 class StatsDispatchView(View):

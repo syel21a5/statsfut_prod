@@ -169,7 +169,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'en'
+
+# Se True, até o idioma padrão (EN) terá prefixo /en/
+# Se False, inglês fica sem prefixo (URL limpa), outros idiomas ganham prefixo
+PREFIX_DEFAULT_LANGUAGE = True
 
 TIME_ZONE = 'America/Sao_Paulo'
 
