@@ -1,5 +1,6 @@
 from django.db.models import Q
 from matches.models import Match
+from django.utils.translation import gettext_lazy as _
 
 class MatchAnalyzer:
     """
@@ -235,10 +236,10 @@ class MatchAnalyzer:
             match_unders[k] = 100 - match_overs[k]
             
         # Basic recommendation logic (e.g., highest line with >= 70% probability)
-        recommendation = "No clear suggestion"
+        recommendation = _("No clear suggestion")
         for k in sorted(match_overs.keys(), reverse=True):
             if match_overs[k] >= 70:
-                recommendation = f"Over {k}.5"
+                recommendation = _("Over %(val)s.5") % {'val': k}
                 break
 
         return {
@@ -345,28 +346,28 @@ class MatchAnalyzer:
         
         # Lay Match Odds
         if odds['home_win'] <= 25:
-            lays.append({'market': f"Lay {self.home_team.name}", 'prob': 100 - odds['home_win'], 'reason': f"Home win probability is only {odds['home_win']}%"})
+            lays.append({'market': _("Lay %(team)s") % {'team': self.home_team.name}, 'prob': 100 - odds['home_win'], 'reason': _("Home win probability is only %(prob)s%%") % {'prob': odds['home_win']}})
         if odds['away_win'] <= 25:
-            lays.append({'market': f"Lay {self.away_team.name}", 'prob': 100 - odds['away_win'], 'reason': f"Away win probability is only {odds['away_win']}%"})
+            lays.append({'market': _("Lay %(team)s") % {'team': self.away_team.name}, 'prob': 100 - odds['away_win'], 'reason': _("Away win probability is only %(prob)s%%") % {'prob': odds['away_win']}})
         if odds['draw'] <= 25:
-            lays.append({'market': "Lay Draw", 'prob': 100 - odds['draw'], 'reason': f"Draw probability is only {odds['draw']}%"})
+            lays.append({'market': _("Lay Draw"), 'prob': 100 - odds['draw'], 'reason': _("Draw probability is only %(prob)s%%") % {'prob': odds['draw']}})
             
         # Lay Goals
         if goals['over_25'] <= 35:
-            lays.append({'market': "Lay Over 2.5 Goals", 'prob': 100 - goals['over_25'], 'reason': f"Over 2.5 probability is only {goals['over_25']}%"})
+            lays.append({'market': _("Lay Over 2.5 Goals"), 'prob': 100 - goals['over_25'], 'reason': _("Over 2.5 probability is only %(prob)s%%") % {'prob': goals['over_25']}})
         elif goals['over_25'] >= 65:
-            lays.append({'market': "Lay Under 2.5 Goals", 'prob': goals['over_25'], 'reason': f"Over 2.5 probability is {goals['over_25']}% (high)"})
+            lays.append({'market': _("Lay Under 2.5 Goals"), 'prob': goals['over_25'], 'reason': _("Over 2.5 probability is %(prob)s%% (high)") % {'prob': goals['over_25']}})
             
         # Lay BTTS
         if goals['btts'] <= 35:
-            lays.append({'market': "Lay BTTS (Yes)", 'prob': 100 - goals['btts'], 'reason': f"BTTS probability is only {goals['btts']}%"})
+            lays.append({'market': _("Lay BTTS (Yes)"), 'prob': 100 - goals['btts'], 'reason': _("BTTS probability is only %(prob)s%%") % {'prob': goals['btts']}})
             
         # Lay Correct Score
         if goals['over_05'] >= 85:
-            lays.append({'market': "Lay Score 0-0", 'prob': goals['over_05'], 'reason': f"Over 0.5 goals probability is {goals['over_05']}%"})
+            lays.append({'market': _("Lay Score 0-0"), 'prob': goals['over_05'], 'reason': _("Over 0.5 goals probability is %(prob)s%%") % {'prob': goals['over_05']}})
             
         if goals['over_25'] <= 35:
-            lays.append({'market': "Lay Any Other Score (4+ goals)", 'prob': 100 - goals['over_25'], 'reason': f"Low probability of a high scoring match"})
+            lays.append({'market': _("Lay Any Other Score (4+ goals)"), 'prob': 100 - goals['over_25'], 'reason': _("Low probability of a high scoring match")})
             
         # Sort by highest lay success probability
         lays.sort(key=lambda x: x['prob'], reverse=True)
@@ -380,14 +381,28 @@ class MatchAnalyzer:
         home = general['home']
         away = general['away']
         
-        text = (
-            f"{self.home_team.name} has a {home['win_pct']}% win rate playing at home "
-            f"(scoring an average of {home['avg_gf']} goals). Their attack is considered {strength['home_attack'].lower()} "
-            f"and defense {strength['home_defense'].lower()}. On the other hand, {self.away_team.name} as the away team "
-            f"wins {away['win_pct']}% of their matches, with an {strength['away_attack'].lower()} attack. "
-            f"Statistically, this matchup has a {goals['over_15']}% chance of hitting Over 1.5 "
-            f"and a {goals['btts']}% chance of Both Teams to Score (BTTS)."
-        )
+        # We need to map strengths to translated versions
+        # Using string replacement so it can be picked up by makemessages properly
+        
+        text = _(
+            "%(home_team)s has a %(win_pct)s%% win rate playing at home "
+            "(scoring an average of %(avg_gf)s goals). Their attack is considered %(home_atk)s "
+            "and defense %(home_def)s. On the other hand, %(away_team)s as the away team "
+            "wins %(away_win_pct)s%% of their matches, with an %(away_atk)s attack. "
+            "Statistically, this matchup has a %(over_15)s%% chance of hitting Over 1.5 "
+            "and a %(btts)s%% chance of Both Teams to Score (BTTS)."
+        ) % {
+            'home_team': self.home_team.name,
+            'win_pct': home['win_pct'],
+            'avg_gf': home['avg_gf'],
+            'home_atk': _(strength['home_attack']).lower(),
+            'home_def': _(strength['home_defense']).lower(),
+            'away_team': self.away_team.name,
+            'away_win_pct': away['win_pct'],
+            'away_atk': _(strength['away_attack']).lower(),
+            'over_15': goals['over_15'],
+            'btts': goals['btts']
+        }
         return text
 
     def generate_full_report(self):
