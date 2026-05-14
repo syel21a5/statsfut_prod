@@ -315,9 +315,9 @@
                         <span class="v">{{ advanced_stats.corners.home.avg_total|add:advanced_stats.corners.away.avg_total|floatformat:1 }}</span>
                     </div>
                     <div class="sugg-list w-100">
-                        <div class="sugg-item" style="border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.5rem; border-radius: 8px; background: rgba(16, 185, 129, 0.05);">
-                            <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Best Pick</span>
-                            <span class="perc-high" style="font-size: 1.1rem; font-weight: 900; margin-left: 0.5rem;">{{ advanced_stats.corners.recommendation }}</span>
+                        <div class="sugg-item flex-column justify-content-center text-center" style="border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.5rem; border-radius: 8px; background: rgba(16, 185, 129, 0.05); min-height: 70px;">
+                            <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 2px;">Best Pick</span>
+                            <span class="perc-high" style="font-size: 0.95rem; font-weight: 900; line-height: 1.2;">{{ advanced_stats.corners.recommendation }}</span>
                         </div>
                     </div>
                 </div>

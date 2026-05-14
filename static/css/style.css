@@ -816,7 +816,7 @@ body {
 
 /* EFFICIENCY */
 .eff-row .l { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
-.eff-bars { height: 24px; display: flex; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.05); }
+.eff-bars { height: 24px; display: flex; justify-content: space-between; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.05); }
 .bar-fill { display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 900; color: #000; }
 .bar-fill.home { background: var(--primary); }
 .bar-fill.away { background: #475569; color: #fff; }
@@ -995,7 +995,7 @@ body {
 
 .cpt-cell.high { color: var(--excel-green); text-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
 .cpt-cell.mid { color: #facc15; }
-.cpt-cell.low { color: var(--excel-red); opacity: 0.4; }
+.cpt-cell.low { color: var(--excel-red); opacity: 0.8; font-weight: 700; }
 
 @media (max-width: 992px) {
     .corner-board { grid-template-columns: 1fr; }
