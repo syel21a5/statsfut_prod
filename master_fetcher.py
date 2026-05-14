@@ -58,21 +58,23 @@ def should_update(session, t_id, s_id):
         
         current_round = r_data.get('currentRound', {}).get('round', 1)
         
-        # Pegar eventos da rodada atual
-        e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{current_round}"
-        data_events = fetch_api(session, e_url)
-        if not data_events: 
-            print(f"AVISO: Falha ao buscar eventos para {tid} rodada {current_round}")
-            continue
+        # Tenta a rodada atual e a próxima (para capturar jogos futuros se a atual estiver vazia)
+        rounds_to_check = [current_round, current_round + 1]
         
-        for event in data_events.get('events', []):
-            ts = event.get('startTimestamp')
-            if ts:
-                dt = datetime.fromtimestamp(ts).date()
-                if dt in relevant_dates:
-                    status = event.get('status', {}).get('type')
-                    if status != 'finished' or dt >= yesterday:
-                        return True
+        for r_num in rounds_to_check:
+            e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{r_num}"
+            data_events = fetch_api(session, e_url)
+            if not data_events or not data_events.get('events'): 
+                continue
+            
+            for event in data_events.get('events', []):
+                ts = event.get('startTimestamp')
+                if ts:
+                    dt = datetime.fromtimestamp(ts).date()
+                    if dt in relevant_dates:
+                        status = event.get('status', {}).get('type')
+                        if status != 'finished' or dt >= yesterday:
+                            return True
     
     return False
 
