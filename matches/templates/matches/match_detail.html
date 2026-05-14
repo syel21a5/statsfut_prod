@@ -276,7 +276,7 @@
 
     <!-- IA SUMMARY -->
     <div class="ia-panel-modern mt-4 mb-4">
-        <div class="ia-header"><i class="fa-solid fa-microchip"></i> MATCH ANALYSIS</div>
+        <div class="ia-header"><i class="fa-solid fa-microchip"></i> {% translate "MATCH ANALYSIS" %}</div>
         <p>{{ advanced_stats.summary }}</p>
     </div>
 
@@ -311,7 +311,7 @@
                 <!-- CENTRAL -->
                 <div class="corner-central-info">
                     <div class="base-cantos-circle">
-                        <span class="l">Base</span>
+                        <span class="l">{% translate "Base" %}</span>
                         <span class="v">{{ advanced_stats.corners.home.avg_total|add:advanced_stats.corners.away.avg_total|floatformat:1 }}</span>
                     </div>
                     <div class="sugg-list w-100">

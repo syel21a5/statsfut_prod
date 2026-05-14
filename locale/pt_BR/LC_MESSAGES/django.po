@@ -195,3 +195,82 @@ msgstr "Termos de Uso"
 
 msgid "Contact Us"
 msgstr "Fale Conosco"
+
+# ============================================================
+# MATCH DETAIL - NEW STRINGS
+# ============================================================
+msgid "MATCH ANALYSIS"
+msgstr "ANÁLISE DO JOGO"
+
+msgid "Base"
+msgstr "Base"
+
+msgid "No clear suggestion"
+msgstr "Nenhuma sugestão clara"
+
+msgid "Over %(val)s.5"
+msgstr "Mais de %(val)s.5"
+
+# ============================================================
+# AI INSIGHTS - LAY BETS
+# ============================================================
+msgid "Lay %(team)s"
+msgstr "Lay %(team)s (Contra)"
+
+msgid "Home win probability is only %(prob)s%%"
+msgstr "A probabilidade de vitória do mandante é de apenas %(prob)s%%"
+
+msgid "Away win probability is only %(prob)s%%"
+msgstr "A probabilidade de vitória do visitante é de apenas %(prob)s%%"
+
+msgid "Draw probability is only %(prob)s%%"
+msgstr "A probabilidade de empate é de apenas %(prob)s%%"
+
+msgid "Lay Draw"
+msgstr "Lay Empate"
+
+msgid "Lay Over 2.5 Goals"
+msgstr "Lay Over 2.5 Gols"
+
+msgid "Over 2.5 probability is only %(prob)s%%"
+msgstr "A probabilidade de Over 2.5 é de apenas %(prob)s%%"
+
+msgid "Lay Under 2.5 Goals"
+msgstr "Lay Under 2.5 Gols"
+
+msgid "Over 2.5 probability is %(prob)s%% (high)"
+msgstr "A probabilidade de Over 2.5 é de %(prob)s%% (alta)"
+
+msgid "Lay BTTS (Yes)"
+msgstr "Lay Ambas Marcam (Sim)"
+
+msgid "BTTS probability is only %(prob)s%%"
+msgstr "A probabilidade de Ambas Marcam é de apenas %(prob)s%%"
+
+msgid "Lay Score 0-0"
+msgstr "Lay Placar 0-0"
+
+msgid "Over 0.5 goals probability is %(prob)s%%"
+msgstr "A probabilidade de Over 0.5 gols é de %(prob)s%%"
+
+msgid "Lay Any Other Score (4+ goals)"
+msgstr "Lay Qualquer Outro Placar (4+ gols)"
+
+msgid "Low probability of a high scoring match"
+msgstr "Baixa probabilidade de um jogo com muitos gols"
+
+# ============================================================
+# AI INSIGHTS - SUMMARY TEXT
+# ============================================================
+msgid "%(home_team)s has a %(win_pct)s%% win rate playing at home (scoring an average of %(avg_gf)s goals). Their attack is considered %(home_atk)s and defense %(home_def)s. On the other hand, %(away_team)s as the away team wins %(away_win_pct)s%% of their matches, with an %(away_atk)s attack. Statistically, this matchup has a %(over_15)s%% chance of hitting Over 1.5 and a %(btts)s%% chance of Both Teams to Score (BTTS)."
+msgstr "O %(home_team)s tem uma taxa de vitória de %(win_pct)s%% jogando em casa (marcando uma média de %(avg_gf)s gols). Seu ataque é considerado %(home_atk)s e sua defesa %(home_def)s. Por outro lado, o %(away_team)s como visitante vence %(away_win_pct)s%% de seus jogos, com um ataque %(away_atk)s. Estatisticamente, este confronto tem %(over_15)s%% de chance de bater Over 1.5 e %(btts)s%% de chance de Ambas Marcam (BTTS)."
+
+msgid "Strong"
+msgstr "Forte"
+
+msgid "Average"
+msgstr "Médio"
+
+msgid "Weak"
+msgstr "Fraco"
+

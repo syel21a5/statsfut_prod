@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static matches_extras %}
+{% load static matches_extras i18n %}
 
 {% block title %}StatsFut - Football Statistics, Predictions & Match Analysis{% endblock %}
 {% block meta_description %}Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge.{% endblock %}
@@ -22,15 +22,15 @@
     
     <!-- Date Filters -->
     <div class="bg-dark p-1 rounded-3 d-inline-flex border border-secondary border-opacity-25">
-        <a href="?filter=today" class="btn btn-sm {% if current_filter == 'today' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">Today</a>
-        <a href="?filter=tomorrow" class="btn btn-sm {% if current_filter == 'tomorrow' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">Tomorrow</a>
-        <a href="?filter=next_round" class="btn btn-sm {% if current_filter == 'next_round' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">Next Round</a>
+        <a href="?filter=today" class="btn btn-sm {% if current_filter == 'today' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">{% translate "Today" %}</a>
+        <a href="?filter=tomorrow" class="btn btn-sm {% if current_filter == 'tomorrow' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">{% translate "Tomorrow" %}</a>
+        <a href="?filter=next_round" class="btn btn-sm {% if current_filter == 'next_round' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">{% translate "Next Round" %}</a>
     </div>
 
     <!-- Status Filters -->
     <div class="d-flex gap-2">
-        <button onclick="filterStatus('upcoming')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-upcoming">Upcoming</button>
-        <button onclick="filterStatus('finished')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-finished">Finished</button>
+        <button onclick="filterStatus('upcoming')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-upcoming">{% translate "Upcoming" %}</button>
+        <button onclick="filterStatus('finished')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-finished">{% translate "Finished" %}</button>
     </div>
 </div>
 
@@ -156,7 +156,7 @@
                     <span class="fw-bold text-uppercase tracking-wider small">{{ league_data.name }}</span>
                 </div>
                 <div class="small text-muted fw-medium">
-                    <span class="match-count">{{ league_data.matches|length }}</span> matches
+                    <span class="match-count">{{ league_data.matches|length }}</span> {% translate "matches" %}
                 </div>
             </div>
             
@@ -234,15 +234,15 @@
     {% empty %}
     <div class="text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
         <i class="fa-solid fa-ghost mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
-        <p class="mb-1">No matches found for this period.</p>
-        <p class="small opacity-75">Try checking another date or filter.</p>
+        <p class="mb-1">{% translate "No matches found for this period." %}</p>
+        <p class="small opacity-75">{% translate "Try checking another date or filter." %}</p>
     </div>
     {% endfor %}
     
     <div id="empty-message" class="d-none text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
         <i class="fa-solid fa-magnifying-glass mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
-        <p class="mb-1">No matches match your filter.</p>
-        <p class="small opacity-75">Try resetting the status filter.</p>
+        <p class="mb-1">{% translate "No matches match your filter." %}</p>
+        <p class="small opacity-75">{% translate "Try resetting the status filter." %}</p>
     </div>
 </div>
 
