@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 12:10-0300\n"
+"POT-Creation-Date: 2026-05-14 13:20-0300\n"
 "Language: es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -23,6 +23,69 @@ msgstr ""
 #: core/settings.py:192
 msgid "German"
 msgstr ""
+
+#: core/templates/admin/matches/league/change_list.html:7
+msgid "Gerar Backup JSON"
+msgstr ""
+
+#: core/templates/admin/matches/league/change_list.html:12
+msgid "Limpeza de Duplicatas (Super Merge)"
+msgstr ""
+
+# ============================================================
+# MENU / SIDEBAR
+# ============================================================
+#: core/templates/base.html:47
+msgid "Main"
+msgstr "Principal"
+
+#: core/templates/base.html:49
+msgid "Dashboard"
+msgstr "Panel"
+
+#: core/templates/base.html:52
+msgid "Favorites"
+msgstr "Favoritos"
+
+#: core/templates/base.html:55
+msgid "Live"
+msgstr "En Vivo"
+
+#: core/templates/base.html:58
+msgid "Countries & Leagues"
+msgstr "Países y Ligas"
+
+#: core/templates/base.html:102
+msgid "Search teams, leagues..."
+msgstr "Buscar equipos, ligas..."
+
+#: core/templates/base.html:182
+msgid "Overview"
+msgstr "Resumen"
+
+# ============================================================
+# FOOTER
+# ============================================================
+#: core/templates/base.html:214
+msgid "All rights reserved. Professional statistics for analysts."
+msgstr ""
+"Todos los derechos reservados. Estadísticas profesionales para analistas."
+
+#: core/templates/base.html:219
+msgid "About Us"
+msgstr "Sobre Nosotros"
+
+#: core/templates/base.html:222
+msgid "Privacy Policy"
+msgstr "Política de Privacidad"
+
+#: core/templates/base.html:225
+msgid "Terms of Use"
+msgstr "Términos de Uso"
+
+#: core/templates/base.html:228
+msgid "Contact Us"
+msgstr "Contáctenos"
 
 #: matches/services/advanced_stats.py:239
 msgid "No clear suggestion"
@@ -111,17 +174,275 @@ msgid ""
 "%(away_win_pct)s%% of their matches, with an %(away_atk)s attack. "
 "Statistically, this matchup has a %(over_15)s%% chance of hitting Over 1.5 "
 "and a %(btts)s%% chance of Both Teams to Score (BTTS)."
-msgstr "O %(home_team)s tiene una tasa de victoria del %(win_pct)s%% jugando en casa (marcando un promedio de %(avg_gf)s goles). Su ataque es considerado %(home_atk)s y su defensa %(home_def)s. Por otro lado, el %(away_team)s como visitante vence el %(away_win_pct)s%% de sus partidos, con un ataque %(away_atk)s. Estadísticamente, este enfrentamiento tiene un %(over_15)s%% de probabilidad de Over 1.5 y un %(btts)s%% de probabilidad de Ambos Marcan (BTTS)."
+msgstr ""
+"O %(home_team)s tiene una tasa de victoria del %(win_pct)s%% jugando en casa "
+"(marcando un promedio de %(avg_gf)s goles). Su ataque es considerado "
+"%(home_atk)s y su defensa %(home_def)s. Por otro lado, el %(away_team)s como "
+"visitante vence el %(away_win_pct)s%% de sus partidos, con un ataque "
+"%(away_atk)s. Estadísticamente, este enfrentamiento tiene un %(over_15)s%% "
+"de probabilidad de Over 1.5 y un %(btts)s%% de probabilidad de Ambos Marcan "
+"(BTTS)."
+
+# ============================================================
+# HOME PAGE - BUTTONS & FILTERS
+# ============================================================
+#: matches/templates/matches/home.html:25
+msgid "Today"
+msgstr "Hoy"
+
+#: matches/templates/matches/home.html:26
+msgid "Tomorrow"
+msgstr "Mañana"
+
+#: matches/templates/matches/home.html:27 matches/views.py:452
+msgid "Next Round"
+msgstr "Próxima Fecha"
+
+#: matches/templates/matches/home.html:32
+msgid "Upcoming"
+msgstr "Próximos"
+
+#: matches/templates/matches/home.html:33
+msgid "Finished"
+msgstr "Finalizados"
+
+#: matches/templates/matches/home.html:159
+msgid "matches"
+msgstr "partidos"
+
+# ============================================================
+# HOME PAGE - EMPTY STATES
+# ============================================================
+#: matches/templates/matches/home.html:237
+msgid "No matches found for this period."
+msgstr "No se encontraron partidos para este período."
+
+#: matches/templates/matches/home.html:238
+msgid "Try checking another date or filter."
+msgstr "Intenta verificar otra fecha o filtro."
+
+#: matches/templates/matches/home.html:244
+msgid "No matches match your filter."
+msgstr "Ningún partido coincide con tu filtro."
+
+#: matches/templates/matches/home.html:245
+msgid "Try resetting the status filter."
+msgstr "Intenta restablecer el filtro de estado."
+
+#: matches/templates/matches/match_detail.html:117
+msgid "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT"
+msgstr "PROBABILIDADES OVER/UNDER / BTTS / PRIMERO EN MARCAR / OVER 0.5 HT"
+
+#: matches/templates/matches/match_detail.html:150
+msgid "BETTING SUGGESTIONS"
+msgstr "SUGERENCIAS DE APUESTA"
+
+#: matches/templates/matches/match_detail.html:155
+#: matches/templates/matches/match_detail.html:160
+msgid "Recommended"
+msgstr "Recomendado"
+
+#: matches/templates/matches/match_detail.html:165
+#: matches/templates/matches/match_detail.html:170
+msgid "Over"
+msgstr "Más de"
+
+#: matches/templates/matches/match_detail.html:165
+#: matches/templates/matches/match_detail.html:170
+msgid "Under"
+msgstr "Menos de"
+
+#: matches/templates/matches/match_detail.html:203
+msgid "Chance to score first"
+msgstr "Probabilidad de anotar primero"
+
+#: matches/templates/matches/match_detail.html:207
+msgid "Home"
+msgstr "Local"
+
+#: matches/templates/matches/match_detail.html:211
+msgid "Away"
+msgstr "Visitante"
+
+#: matches/templates/matches/match_detail.html:217
+msgid "BTTS"
+msgstr "Ambos Marcan"
+
+#: matches/templates/matches/match_detail.html:224
+msgid "Yes"
+msgstr "Sí"
+
+#: matches/templates/matches/match_detail.html:225
+msgid "No"
+msgstr "No"
+
+#: matches/templates/matches/match_detail.html:233
+msgid "Double"
+msgstr "Doble"
+
+#: matches/templates/matches/match_detail.html:238
+msgid "HT Goal Probability"
+msgstr "Probabilidad de Gol HT"
+
+#: matches/templates/matches/match_detail.html:239
+msgid "HT GOAL"
+msgstr "GOL HT"
+
+#: matches/templates/matches/match_detail.html:244
+msgid "To Win"
+msgstr "Para Ganar"
+
+#: matches/templates/matches/match_detail.html:279
+msgid "MATCH ANALYSIS"
+msgstr "ANÁLISIS DEL PARTIDO"
+
+# ============================================================
+# MATCH DETAIL - HEADERS
+# ============================================================
+#: matches/templates/matches/match_detail.html:286
+msgid "ELITE CORNERS PROJECTION"
+msgstr "PROYECCIÓN ÉLITE DE CÓRNERS"
+
+# ============================================================
+# MATCH DETAIL - LABELS
+# ============================================================
+#: matches/templates/matches/match_detail.html:297
+#: matches/templates/matches/match_detail.html:332
+msgid "Scored"
+msgstr "Ejecutados"
+
+#: matches/templates/matches/match_detail.html:301
+#: matches/templates/matches/match_detail.html:336
+msgid "Conceded"
+msgstr "Concedidos"
+
+#: matches/templates/matches/match_detail.html:305
+#: matches/templates/matches/match_detail.html:340
+msgid "Total Avg"
+msgstr "Promedio Total"
+
+#: matches/templates/matches/match_detail.html:314
+msgid "Base"
+msgstr "Base"
+
+#: matches/templates/matches/match_detail.html:319
+msgid "Best Pick"
+msgstr "Mejor Opción"
+
+#: matches/templates/matches/match_detail.html:408
+msgid "Analyst Insight: How to Profit"
+msgstr "Visión del Analista: Cómo Ganar"
+
+#: matches/templates/matches/match_detail.html:413
+#, python-format
+msgid ""
+"This game has a <strong>Base of %(base)s corners</strong>, indicating high "
+"offensive volume. With an Over 8.5 prob. at %(prob)s%%, the scenario is "
+"ideal for seeking \"Over 8.5 or 9.5\" corner markets."
+msgstr "Este partido presenta una <strong>Base de %(base)s córners</strong>, indicando alto volumen ofensivo. Con la Prob. Over 8.5 en %(prob)s%%, el escenario es ideal para buscar mercados de \"Más de 8.5 o 9.5\" córners."
+
+#: matches/templates/matches/match_detail.html:417
+#, python-format
+msgid ""
+"The base of %(base)s suggests moderate volume. The best strategy here is to "
+"look for safety markets like \"Over 7.5\" or wait for \"Live\" for better "
+"odds."
+msgstr "La base de %(base)s sugiere un volumen moderado. La mejor estrategia aquí es buscar mercados seguros como \"Over 7.5\" o esperar al \"En Vivo\" para mejores cuotas."
+
+#: matches/templates/matches/match_detail.html:421
+#, python-format
+msgid ""
+"Game with a tendency for low lateral volume (Base %(base)s). Be cautious "
+"with Over bets; the \"Under\" market or specific corners by time may be more "
+"profitable."
+msgstr "Partido con tendencia de bajo volumen lateral (Base %(base)s). Tenga cautela con apuestas de Over; el mercado de \"Under\" o córners específicos por tiempo puede ser más rentable."
+
+#: matches/templates/matches/match_detail.html:434
+msgid "DISCIPLINE (AVERAGE)"
+msgstr "DISCIPLINA (PROMEDIO)"
+
+#: matches/templates/matches/match_detail.html:441
+msgid "Fouls"
+msgstr "Faltas"
+
+#: matches/templates/matches/match_detail.html:450
+msgid "Red Cards Avg:"
+msgstr "Promedio de Tarjetas Rojas:"
+
+#: matches/templates/matches/match_detail.html:450
+msgid "per game"
+msgstr "por partido"
+
+#: matches/templates/matches/match_detail.html:455
+msgid "Insufficient disciplinary data"
+msgstr "Datos disciplinarios insuficientes"
+
+#: matches/templates/matches/match_detail.html:463
+msgid "Disciplinary Tip"
+msgstr "Consejo Disciplinario"
+
+#: matches/templates/matches/match_detail.html:468
+#, python-format
+msgid ""
+"With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game "
+"with many stops. The chance of cards (currently %(cards)s yellows/game) is "
+"high."
+msgstr "Con un promedio de <strong>%(fouls)s faltas</strong>, esperamos un partido tenso y con muchas interrupciones. La probabilidad de tarjetas (actualmente %(cards)s amarillas/partido) es elevada."
+
+#: matches/templates/matches/match_detail.html:472
+#, python-format
+msgid ""
+"Game with a tendency to be more fluid (only %(fouls)s fouls on average). The "
+"\"Under Cards\" or \"Less than 4.5\" market could be a good choice if the "
+"referee is not strict."
+msgstr "Partido con tendencia a ser más fluido (solo %(fouls)s faltas de promedio). El mercado de \"Under Tarjetas\" o \"Menos de 4.5\" puede ser buena opción si el árbitro no es estricto."
+
+#: matches/templates/matches/match_detail.html:485
+msgid "ATTACK EFFICIENCY"
+msgstr "EFICIENCIA DE ATAQUE"
+
+#: matches/templates/matches/match_detail.html:491
+msgid "Shot Accuracy (Target)"
+msgstr "Precisión de Tiro (al Arco)"
+
+#: matches/templates/matches/match_detail.html:510
+msgid "Shots per Goal"
+msgstr "Tiros por Gol"
+
+#: matches/templates/matches/match_detail.html:520
+msgid "Shot statistics unavailable"
+msgstr "Estadísticas de tiro no disponibles"
+
+#: matches/templates/matches/match_detail.html:528
+msgid "Efficiency Guide"
+msgstr "Guía de Eficiencia"
+
+#: matches/templates/matches/match_detail.html:532
+#, python-format
+msgid ""
+"Both teams have accuracy above 30%% on target. This is a very strong signal "
+"for the <strong>\"Both Teams to Score: Yes\"</strong> or \"Over 1.5/2.5 "
+"Goals\" market."
+msgstr "Ambos equipos tienen precisión superior al 30%% al arco. Esta es una señal fortísima para el mercado de <strong>\"Ambos Marcan: Sí\"</strong> o \"Over 1.5/2.5 Gols\"."
+
+#: matches/templates/matches/match_detail.html:536
+msgid ""
+"Only one of the teams is being lethal in finishing. Consider betting on the "
+"\"Team Goals\" market for the one with higher accuracy."
+msgstr "Solo uno de los equipos está siendo letal en las finalizaciones. Considere apostar en el mercado de \"Goles del Equipo\" para el que tenga mayor precisión."
+
+#: matches/templates/matches/match_detail.html:540
+#, python-format
+msgid ""
+"Both teams are struggling with finishing (Accuracy below 30%%). Game with a "
+"tendency for few goals, ideal for analyzing the \"Under\" market."
+msgstr "Ambos equipos están fallando en la definición (Precisión por debajo del 30%%). Partido con tendencia a pocos goles, ideal para analizar el mercado de \"Under\"."
 
 #: matches/views.py:450
 #, fuzzy
 #| msgid "Tomorrow"
 msgid "Tomorrow's Matches"
 msgstr "Mañana"
-
-#: matches/views.py:452
-msgid "Next Round"
-msgstr "Próxima Fecha"
 
 #: matches/views.py:454
 msgid "Today's Matches"
@@ -132,157 +453,6 @@ msgstr "Partidos de Hoy"
 #| msgid "matches"
 msgid "Live Matches"
 msgstr "partidos"
-
-# ============================================================
-# MENU / SIDEBAR
-# ============================================================
-#~ msgid "Main"
-#~ msgstr "Principal"
-
-#~ msgid "Dashboard"
-#~ msgstr "Panel"
-
-#~ msgid "Favorites"
-#~ msgstr "Favoritos"
-
-#~ msgid "Live"
-#~ msgstr "En Vivo"
-
-#~ msgid "Countries & Leagues"
-#~ msgstr "Países y Ligas"
-
-#~ msgid "Search teams, leagues..."
-#~ msgstr "Buscar equipos, ligas..."
-
-#~ msgid "Overview"
-#~ msgstr "Resumen"
-
-# ============================================================
-# FOOTER
-# ============================================================
-#~ msgid "All rights reserved. Professional statistics for analysts."
-#~ msgstr ""
-#~ "Todos los derechos reservados. Estadísticas profesionales para analistas."
-
-#~ msgid "About Us"
-#~ msgstr "Sobre Nosotros"
-
-#~ msgid "Privacy Policy"
-#~ msgstr "Política de Privacidad"
-
-#~ msgid "Terms of Use"
-#~ msgstr "Términos de Uso"
-
-#~ msgid "Contact Us"
-#~ msgstr "Contáctenos"
-
-# ============================================================
-# HOME PAGE - BUTTONS & FILTERS
-# ============================================================
-#~ msgid "Today"
-#~ msgstr "Hoy"
-
-#~ msgid "Tomorrow"
-#~ msgstr "Mañana"
-
-#~ msgid "Upcoming"
-#~ msgstr "Próximos"
-
-#~ msgid "Finished"
-#~ msgstr "Finalizados"
-
-#~ msgid "matches"
-#~ msgstr "partidos"
-
-# ============================================================
-# HOME PAGE - EMPTY STATES
-# ============================================================
-#~ msgid "No matches found for this period."
-#~ msgstr "No se encontraron partidos para este período."
-
-#~ msgid "Try checking another date or filter."
-#~ msgstr "Intenta verificar otra fecha o filtro."
-
-#~ msgid "No matches match your filter."
-#~ msgstr "Ningún partido coincide con tu filtro."
-
-#~ msgid "Try resetting the status filter."
-#~ msgstr "Intenta restablecer el filtro de estado."
-
-#~ msgid "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT"
-#~ msgstr "PROBABILIDADES OVER/UNDER / BTTS / PRIMERO EN MARCAR / OVER 0.5 HT"
-
-#~ msgid "BETTING SUGGESTIONS"
-#~ msgstr "SUGERENCIAS DE APUESTA"
-
-#~ msgid "Recommended"
-#~ msgstr "Recomendado"
-
-#~ msgid "Over"
-#~ msgstr "Más de"
-
-#~ msgid "Under"
-#~ msgstr "Menos de"
-
-#~ msgid "Chance to score first"
-#~ msgstr "Probabilidad de anotar primero"
-
-#~ msgid "Home"
-#~ msgstr "Local"
-
-#~ msgid "Away"
-#~ msgstr "Visitante"
-
-#~ msgid "BTTS"
-#~ msgstr "Ambos Marcan"
-
-#~ msgid "Yes"
-#~ msgstr "Sí"
-
-#~ msgid "No"
-#~ msgstr "No"
-
-#~ msgid "Double"
-#~ msgstr "Doble"
-
-#~ msgid "HT Goal Probability"
-#~ msgstr "Probabilidad de Gol HT"
-
-#~ msgid "HT GOAL"
-#~ msgstr "GOL HT"
-
-#~ msgid "To Win"
-#~ msgstr "Para Ganar"
-
-#~ msgid "MATCH ANALYSIS"
-#~ msgstr "ANÁLISIS DEL PARTIDO"
-
-# ============================================================
-# MATCH DETAIL - HEADERS
-# ============================================================
-#~ msgid "ELITE CORNERS PROJECTION"
-#~ msgstr "PROYECCIÓN ÉLITE DE CÓRNERS"
-
-# ============================================================
-# MATCH DETAIL - LABELS
-# ============================================================
-#~ msgid "Scored"
-#~ msgstr "Ejecutados"
-
-#~ msgid "Conceded"
-#~ msgstr "Concedidos"
-
-#~ msgid "Total Avg"
-#~ msgstr "Promedio Total"
-
-#~ msgid "Base"
-#~ msgstr "Base"
-
-#~ msgid "Best Pick"
-#~ msgstr "Mejor Opción"
-
-#~ msgid "Analyst Insight: How to Profit"
-#~ msgstr "Visión del Analista: Cómo Ganar"
 
 # ============================================================
 # ANALYST INSIGHTS - CORNERS
@@ -331,24 +501,6 @@ msgstr "partidos"
 #~ "\"Under\" o córners específicos por tiempo puede ser más rentable.\n"
 #~ "                        "
 
-#~ msgid "DISCIPLINE (AVERAGE)"
-#~ msgstr "DISCIPLINA (PROMEDIO)"
-
-#~ msgid "Fouls"
-#~ msgstr "Faltas"
-
-#~ msgid "Red Cards Avg:"
-#~ msgstr "Promedio de Tarjetas Rojas:"
-
-#~ msgid "per game"
-#~ msgstr "por partido"
-
-#~ msgid "Insufficient disciplinary data"
-#~ msgstr "Datos disciplinarios insuficientes"
-
-#~ msgid "Disciplinary Tip"
-#~ msgstr "Consejo Disciplinario"
-
 # ============================================================
 # ANALYST INSIGHTS - DISCIPLINE
 # ============================================================
@@ -380,21 +532,6 @@ msgstr "partidos"
 #~ "%(fouls)s faltas de promedio). El mercado de \"Under Tarjetas\" o \"Menos "
 #~ "de 4.5\" puede ser buena opción si el árbitro no es estricto.\n"
 #~ "                        "
-
-#~ msgid "ATTACK EFFICIENCY"
-#~ msgstr "EFICIENCIA DE ATAQUE"
-
-#~ msgid "Shot Accuracy (Target)"
-#~ msgstr "Precisión de Tiro (al Arco)"
-
-#~ msgid "Shots per Goal"
-#~ msgstr "Tiros por Gol"
-
-#~ msgid "Shot statistics unavailable"
-#~ msgstr "Estadísticas de tiro no disponibles"
-
-#~ msgid "Efficiency Guide"
-#~ msgstr "Guía de Eficiencia"
 
 # ============================================================
 # ANALYST INSIGHTS - EFFICIENCY

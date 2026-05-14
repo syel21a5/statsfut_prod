@@ -410,16 +410,16 @@
                 <p class="ai-text">
                     {% with total_base=advanced_stats.corners.home.avg_total|add:advanced_stats.corners.away.avg_total %}
                     {% if total_base >= 10 %}
-                        {% blocktranslate with base=total_base|floatformat:1 prob=advanced_stats.corners.match_overs.8 %}
-                        Este jogo apresenta uma <strong>Base de {{ base }} cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em {{ prob }}%, o cenário é ideal para buscar mercados de "Mais de 8.5 ou 9.5" cantos.
+                        {% blocktranslate with base=total_base|floatformat:1 prob=advanced_stats.corners.match_overs.8 trimmed %}
+                        This game has a <strong>Base of {{ base }} corners</strong>, indicating high offensive volume. With an Over 8.5 prob. at {{ prob }}%, the scenario is ideal for seeking "Over 8.5 or 9.5" corner markets.
                         {% endblocktranslate %}
                     {% elif total_base >= 8 %}
-                        {% blocktranslate with base=total_base|floatformat:1 %}
-                        A base de {{ base }} sugere um volume moderado. A melhor estratégia aqui é buscar mercados de segurança como "Over 7.5" ou esperar o "Live" para odds melhores.
+                        {% blocktranslate with base=total_base|floatformat:1 trimmed %}
+                        The base of {{ base }} suggests moderate volume. The best strategy here is to look for safety markets like "Over 7.5" or wait for "Live" for better odds.
                         {% endblocktranslate %}
                     {% else %}
-                        {% blocktranslate with base=total_base|floatformat:1 %}
-                        Jogo com tendência de baixo volume lateral (Base {{ base }}). Tenha cautela com apostas de Over; o mercado de "Under" ou cantos específicos por tempo pode ser mais lucrativo.
+                        {% blocktranslate with base=total_base|floatformat:1 trimmed %}
+                        Game with a tendency for low lateral volume (Base {{ base }}). Be cautious with Over bets; the "Under" market or specific corners by time may be more profitable.
                         {% endblocktranslate %}
                     {% endif %}
                     {% endwith %}
@@ -465,12 +465,12 @@
                 <p class="ai-text">
                     {% with total_fouls=advanced_stats.disciplinary.home.fouls|add:advanced_stats.disciplinary.away.fouls %}
                     {% if total_fouls >= 25 %}
-                        {% blocktranslate with fouls=total_fouls|floatformat:0 cards=advanced_stats.disciplinary.home.yellow|add:advanced_stats.disciplinary.away.yellow|floatformat:1 %}
-                        Com uma média de <strong>{{ fouls }} faltas</strong>, esperamos um jogo tenso e com muitas paradas. A chance de cartões (atualmente {{ cards }} amarelos/jogo) é elevada.
+                        {% blocktranslate with fouls=total_fouls|floatformat:0 cards=advanced_stats.disciplinary.home.yellow|add:advanced_stats.disciplinary.away.yellow|floatformat:1 trimmed %}
+                        With an average of <strong>{{ fouls }} fouls</strong>, we expect a tense game with many stops. The chance of cards (currently {{ cards }} yellows/game) is high.
                         {% endblocktranslate %}
                     {% else %}
-                        {% blocktranslate with fouls=total_fouls|floatformat:0 %}
-                        Jogo com tendência a ser mais fluido (apenas {{ fouls }} faltas de média). O mercado de "Under Cartões" ou "Menos de 4.5" pode ser uma boa pedida se o juiz não for rigoroso.
+                        {% blocktranslate with fouls=total_fouls|floatformat:0 trimmed %}
+                        Game with a tendency to be more fluid (only {{ fouls }} fouls on average). The "Under Cards" or "Less than 4.5" market could be a good choice if the referee is not strict.
                         {% endblocktranslate %}
                     {% endif %}
                     {% endwith %}
@@ -529,16 +529,16 @@
                 </div>
                 <p class="ai-text">
                     {% if advanced_stats.efficiency.home.accuracy >= 30 and advanced_stats.efficiency.away.accuracy >= 30 %}
-                        {% blocktranslate %}
-                        Ambos os times possuem precisão acima de 30% no alvo. Isso é um sinal fortíssimo para o mercado de <strong>"Ambas Marcam: Sim"</strong> ou "Over 1.5/2.5 Gols".
+                        {% blocktranslate trimmed %}
+                        Both teams have accuracy above 30% on target. This is a very strong signal for the <strong>"Both Teams to Score: Yes"</strong> or "Over 1.5/2.5 Goals" market.
                         {% endblocktranslate %}
                     {% elif advanced_stats.efficiency.home.accuracy >= 30 or advanced_stats.efficiency.away.accuracy >= 30 %}
-                        {% blocktranslate %}
-                        Apenas um dos times está sendo letal nas finalizações. Considere apostar no mercado de "Gols do Time" para aquele com maior precisão.
+                        {% blocktranslate trimmed %}
+                        Only one of the teams is being lethal in finishing. Consider betting on the "Team Goals" market for the one with higher accuracy.
                         {% endblocktranslate %}
                     {% else %}
-                        {% blocktranslate %}
-                        Ambas as equipes estão pecando na finalização (Accuracy abaixo de 30%). Jogo com tendência de poucos gols, ideal para analisar o mercado de "Under".
+                        {% blocktranslate trimmed %}
+                        Both teams are struggling with finishing (Accuracy below 30%). Game with a tendency for few goals, ideal for analyzing the "Under" market.
                         {% endblocktranslate %}
                     {% endif %}
                 </p>
