@@ -17,6 +17,11 @@ python manage.py migrate
 echo "Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
 
-# Iniciar Gunicorn
-echo "Iniciando Gunicorn..."
-exec gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3
+# Iniciar o Tor
+echo "Iniciando serviço do Tor..."
+service tor start || tor &
+sleep 5
+
+# Executar o comando passado pelo Docker (respeita o command do docker-compose)
+echo "Iniciando aplicação com comando: $@"
+exec "$@"

@@ -128,10 +128,28 @@ def scrape_league(session, t_id, s_id, last_rounds=None):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--full-scan', action='store_true')
+    parser.add_argument('--tor', action='store_true', help='Usar proxy Tor (127.0.0.1:9050 ou 9150)')
     args = parser.parse_args()
     
     session = requests.Session(impersonate="chrome120")
-    session.headers.update({"User-Agent": "Mozilla/5.0", "Origin": "https://www.sofascore.com", "Referer": "https://www.sofascore.com/"})
+    
+    if args.tor:
+        # Tenta 9050 (Docker/Linux) ou 9150 (Windows Tor Browser)
+        proxies = {"http": "socks5://127.0.0.1:9050", "https": "socks5://127.0.0.1:9050"}
+        try:
+            session.get("https://api.sofascore.com/api/v1/unique-tournament/35/season/52331/standings/total", proxies=proxies, timeout=5)
+            session.proxies = proxies
+            print("🌐 Usando Tor (Porta 9050)")
+        except:
+            proxies = {"http": "socks5://127.0.0.1:9150", "https": "socks5://127.0.0.1:9150"}
+            session.proxies = proxies
+            print("🌐 Usando Tor (Porta 9150)")
+
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Origin": "https://www.sofascore.com",
+        "Referer": "https://www.sofascore.com/"
+    })
     
     updated_leagues = []
     

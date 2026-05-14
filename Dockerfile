@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     netcat-openbsd \
     curl \
+    tor \
+    procps \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar dependências Python
