@@ -1,0 +1,143 @@
+# StatsFut Português (Brasil) Translation
+# Copyright (C) 2026 StatsFut
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# ============================================================
+# MENU / SIDEBAR
+# ============================================================
+msgid "Main"
+msgstr "Principal"
+
+msgid "Dashboard"
+msgstr "Painel"
+
+msgid "Favorites"
+msgstr "Favoritos"
+
+msgid "Live"
+msgstr "Ao Vivo"
+
+msgid "Countries & Leagues"
+msgstr "Países e Ligas"
+
+msgid "Search teams, leagues..."
+msgstr "Buscar times, ligas..."
+
+msgid "Overview"
+msgstr "Visão Geral"
+
+# ============================================================
+# MATCH DETAIL - HEADERS
+# ============================================================
+msgid "ELITE CORNERS PROJECTION"
+msgstr "PROJEÇÃO ELITE DE ESCANTEIOS"
+
+msgid "DISCIPLINE (AVERAGE)"
+msgstr "DISCIPLINA (MÉDIA)"
+
+msgid "ATTACK EFFICIENCY"
+msgstr "EFICIÊNCIA DE ATAQUE"
+
+# ============================================================
+# MATCH DETAIL - LABELS
+# ============================================================
+msgid "Scored"
+msgstr "Feitos"
+
+msgid "Conceded"
+msgstr "Sofridos"
+
+msgid "Total Avg"
+msgstr "Média Total"
+
+msgid "Best Pick"
+msgstr "Melhor Aposta"
+
+msgid "Shot Accuracy (Target)"
+msgstr "Precisão de Chute (no Gol)"
+
+msgid "Shots per Goal"
+msgstr "Chutes por Gol"
+
+# ============================================================
+# ANALYST INSIGHTS - CORNERS
+# ============================================================
+#, python-format
+msgid ""
+"\n"
+"                        Este jogo apresenta uma <strong>Base de %(base)s "
+"cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em "
+"%(prob)s%%, o cenário é ideal para buscar mercados de \"Mais de 8.5 ou 9.5"
+"\" cantos.\n"
+"                        "
+msgstr ""
+
+#, python-format
+msgid ""
+"\n"
+"                        A base de %(base)s sugere um volume moderado. A "
+"melhor estratégia aqui é buscar mercados de segurança como \"Over 7.5\" ou "
+"esperar o \"Live\" para odds melhores.\n"
+"                        "
+msgstr ""
+
+#, python-format
+msgid ""
+"\n"
+"                        Jogo com tendência de baixo volume lateral (Base "
+"%(base)s). Tenha cautela com apostas de Over; o mercado de \"Under\" ou "
+"cantos específicos por tempo pode ser mais lucrativo.\n"
+"                        "
+msgstr ""
+
+# ============================================================
+# ANALYST INSIGHTS - DISCIPLINE
+# ============================================================
+#, python-format
+msgid ""
+"\n"
+"                        Com uma média de <strong>%(fouls)s faltas</strong>, "
+"esperamos um jogo tenso e com muitas paradas. A chance de cartões "
+"(atualmente %(cards)s amarelos/jogo) é elevada.\n"
+"                        "
+msgstr ""
+
+#, python-format
+msgid ""
+"\n"
+"                        Jogo com tendência a ser mais fluido (apenas "
+"%(fouls)s faltas de média). O mercado de \"Under Cartões\" ou \"Menos de "
+"4.5\" pode ser uma boa pedida se o juiz não for rigoroso.\n"
+"                        "
+msgstr ""
+
+# ============================================================
+# ANALYST INSIGHTS - EFFICIENCY
+# ============================================================
+msgid ""
+"\n"
+"                        Ambos os times possuem precisão acima de 30%% no "
+"alvo. Isso é um sinal fortíssimo para o mercado de <strong>\"Ambas Marcam: "
+"Sim\"</strong> ou \"Over 1.5/2.5 Gols\".\n"
+"                        "
+msgstr ""
+
+msgid ""
+"\n"
+"                        Apenas um dos times está sendo letal nas "
+"finalizações. Considere apostar no mercado de \"Gols do Time\" para aquele "
+"com maior precisão.\n"
+"                        "
+msgstr ""
+
+msgid ""
+"\n"
+"                        Ambas as equipes estão pecando na finalização "
+"(Accuracy abaixo de 30%%). Jogo com tendência de poucos gols, ideal para "
+"analisar o mercado de \"Under\".\n"
+"                        "
+msgstr ""

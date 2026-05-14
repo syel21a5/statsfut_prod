@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     tor \
     procps \
+    gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar dependências Python

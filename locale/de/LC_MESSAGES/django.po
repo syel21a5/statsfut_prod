@@ -1,0 +1,184 @@
+# StatsFut German Translation
+# Copyright (C) 2026 StatsFut
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# ============================================================
+# MENU / SIDEBAR
+# ============================================================
+msgid "Main"
+msgstr "Hauptmenü"
+
+msgid "Dashboard"
+msgstr "Übersicht"
+
+msgid "Favorites"
+msgstr "Favoriten"
+
+msgid "Live"
+msgstr "Live"
+
+msgid "Countries & Leagues"
+msgstr "Länder & Ligen"
+
+msgid "Search teams, leagues..."
+msgstr "Teams, Ligen suchen..."
+
+msgid "Overview"
+msgstr "Überblick"
+
+# ============================================================
+# MATCH DETAIL - HEADERS
+# ============================================================
+msgid "ELITE CORNERS PROJECTION"
+msgstr "ELITE-ECKEN-PROGNOSE"
+
+msgid "DISCIPLINE (AVERAGE)"
+msgstr "DISZIPLIN (DURCHSCHNITT)"
+
+msgid "ATTACK EFFICIENCY"
+msgstr "ANGRIFFSEFFIZIENZ"
+
+# ============================================================
+# MATCH DETAIL - LABELS
+# ============================================================
+msgid "Scored"
+msgstr "Erzielt"
+
+msgid "Conceded"
+msgstr "Kassiert"
+
+msgid "Total Avg"
+msgstr "Gesamt Ø"
+
+msgid "Best Pick"
+msgstr "Beste Wahl"
+
+msgid "Shot Accuracy (Target)"
+msgstr "Schussgenauigkeit (Aufs Tor)"
+
+msgid "Shots per Goal"
+msgstr "Schüsse pro Tor"
+
+# ============================================================
+# ANALYST INSIGHTS - CORNERS
+# ============================================================
+#, python-format
+msgid ""
+"\n"
+"                        Este jogo apresenta uma <strong>Base de %(base)s "
+"cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em "
+"%(prob)s%%, o cenário é ideal para buscar mercados de \"Mais de 8.5 ou 9.5"
+"\" cantos.\n"
+"                        "
+msgstr ""
+"\n"
+"                        Dieses Spiel hat eine <strong>Basis von %(base)s "
+"Ecken</strong>, was auf hohes Offensivvolumen hinweist. Mit der Over 8.5 "
+"Wahrscheinlichkeit bei %(prob)s%% ist das Szenario ideal für \"Über 8.5 oder 9.5"
+"\" Ecken-Märkte.\n"
+"                        "
+
+#, python-format
+msgid ""
+"\n"
+"                        A base de %(base)s sugere um volume moderado. A "
+"melhor estratégia aqui é buscar mercados de segurança como \"Over 7.5\" ou "
+"esperar o \"Live\" para odds melhores.\n"
+"                        "
+msgstr ""
+"\n"
+"                        Eine Basis von %(base)s deutet auf moderates Volumen hin. "
+"Die beste Strategie ist, sichere Märkte wie \"Über 7.5\" zu suchen oder auf "
+"\"Live\" für bessere Quoten zu warten.\n"
+"                        "
+
+#, python-format
+msgid ""
+"\n"
+"                        Jogo com tendência de baixo volume lateral (Base "
+"%(base)s). Tenha cautela com apostas de Over; o mercado de \"Under\" ou "
+"cantos específicos por tempo pode ser mais lucrativo.\n"
+"                        "
+msgstr ""
+"\n"
+"                        Spiel mit Tendenz zu niedrigem Flankenvolumen (Basis "
+"%(base)s). Vorsicht bei Over-Wetten; der \"Under\"-Markt oder "
+"zeitspezifische Ecken können profitabler sein.\n"
+"                        "
+
+# ============================================================
+# ANALYST INSIGHTS - DISCIPLINE
+# ============================================================
+#, python-format
+msgid ""
+"\n"
+"                        Com uma média de <strong>%(fouls)s faltas</strong>, "
+"esperamos um jogo tenso e com muitas paradas. A chance de cartões "
+"(atualmente %(cards)s amarelos/jogo) é elevada.\n"
+"                        "
+msgstr ""
+"\n"
+"                        Mit durchschnittlich <strong>%(fouls)s Fouls</strong> "
+"erwarten wir ein angespanntes Spiel mit vielen Unterbrechungen. Die "
+"Kartenchance (derzeit %(cards)s Gelbe/Spiel) ist hoch.\n"
+"                        "
+
+#, python-format
+msgid ""
+"\n"
+"                        Jogo com tendência a ser mais fluido (apenas "
+"%(fouls)s faltas de média). O mercado de \"Under Cartões\" ou \"Menos de "
+"4.5\" pode ser uma boa pedida se o juiz não for rigoroso.\n"
+"                        "
+msgstr ""
+"\n"
+"                        Spiel mit Tendenz zu flüssigerem Verlauf (nur "
+"%(fouls)s Fouls im Schnitt). Der \"Under Karten\"- oder \"Unter 4.5\"-Markt "
+"könnte eine gute Wahl sein, wenn der Schiedsrichter nicht streng ist.\n"
+"                        "
+
+# ============================================================
+# ANALYST INSIGHTS - EFFICIENCY
+# ============================================================
+msgid ""
+"\n"
+"                        Ambos os times possuem precisão acima de 30%% no "
+"alvo. Isso é um sinal fortíssimo para o mercado de <strong>\"Ambas Marcam: "
+"Sim\"</strong> ou \"Over 1.5/2.5 Gols\".\n"
+"                        "
+msgstr ""
+"\n"
+"                        Beide Teams haben eine Genauigkeit über 30%% aufs "
+"Tor. Dies ist ein sehr starkes Signal für den <strong>\"Beide Teams treffen: "
+"Ja\"</strong>- oder \"Über 1.5/2.5 Tore\"-Markt.\n"
+"                        "
+
+msgid ""
+"\n"
+"                        Apenas um dos times está sendo letal nas "
+"finalizações. Considere apostar no mercado de \"Gols do Time\" para aquele "
+"com maior precisão.\n"
+"                        "
+msgstr ""
+"\n"
+"                        Nur eines der Teams ist beim Abschluss tödlich. "
+"Erwägen Sie eine Wette auf den \"Team-Tore\"-Markt für das Team mit "
+"höherer Genauigkeit.\n"
+"                        "
+
+msgid ""
+"\n"
+"                        Ambas as equipes estão pecando na finalização "
+"(Accuracy abaixo de 30%%). Jogo com tendência de poucos gols, ideal para "
+"analisar o mercado de \"Under\".\n"
+"                        "
+msgstr ""
+"\n"
+"                        Beide Teams schwächeln beim Abschluss "
+"(Genauigkeit unter 30%%). Spiel mit Tendenz zu wenigen Toren, ideal um "
+"den \"Under\"-Markt zu analysieren.\n"
+"                        "
