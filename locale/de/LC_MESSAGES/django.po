@@ -2,237 +2,439 @@
 # Copyright (C) 2026 StatsFut
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 12:10-0300\n"
 "Language: de\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/settings.py:189
+msgid "Portuguese"
+msgstr ""
+
+#: core/settings.py:190
+msgid "English"
+msgstr ""
+
+#: core/settings.py:191
+msgid "Spanish"
+msgstr ""
+
+#: core/settings.py:192
+msgid "German"
+msgstr ""
+
+#: matches/services/advanced_stats.py:239
+msgid "No clear suggestion"
+msgstr "Kein klarer Vorschlag"
+
+#: matches/services/advanced_stats.py:242
+#, python-format
+msgid "Over %(val)s.5"
+msgstr "Über %(val)s.5"
+
+#: matches/services/advanced_stats.py:349
+#: matches/services/advanced_stats.py:351
+#, python-format
+msgid "Lay %(team)s"
+msgstr "Lay %(team)s (Dagegen)"
+
+#: matches/services/advanced_stats.py:349
+#, python-format
+msgid "Home win probability is only %(prob)s%%"
+msgstr "Heimsiegwahrscheinlichkeit beträgt nur %(prob)s%%"
+
+#: matches/services/advanced_stats.py:351
+#, python-format
+msgid "Away win probability is only %(prob)s%%"
+msgstr "Auswärtssiegwahrscheinlichkeit beträgt nur %(prob)s%%"
+
+#: matches/services/advanced_stats.py:353
+msgid "Lay Draw"
+msgstr "Lay Unentschieden"
+
+#: matches/services/advanced_stats.py:353
+#, python-format
+msgid "Draw probability is only %(prob)s%%"
+msgstr "Unentschieden-Wahrscheinlichkeit beträgt nur %(prob)s%%"
+
+#: matches/services/advanced_stats.py:357
+msgid "Lay Over 2.5 Goals"
+msgstr "Lay Over 2.5 Tore"
+
+#: matches/services/advanced_stats.py:357
+#, python-format
+msgid "Over 2.5 probability is only %(prob)s%%"
+msgstr "Over 2.5 Wahrscheinlichkeit beträgt nur %(prob)s%%"
+
+#: matches/services/advanced_stats.py:359
+msgid "Lay Under 2.5 Goals"
+msgstr "Lay Under 2.5 Tore"
+
+#: matches/services/advanced_stats.py:359
+#, python-format
+msgid "Over 2.5 probability is %(prob)s%% (high)"
+msgstr "Over 2.5 Wahrscheinlichkeit beträgt %(prob)s%% (hoch)"
+
+#: matches/services/advanced_stats.py:363
+msgid "Lay BTTS (Yes)"
+msgstr "Lay BTTS (Ja)"
+
+#: matches/services/advanced_stats.py:363
+#, python-format
+msgid "BTTS probability is only %(prob)s%%"
+msgstr "BTTS-Wahrscheinlichkeit beträgt nur %(prob)s%%"
+
+#: matches/services/advanced_stats.py:367
+msgid "Lay Score 0-0"
+msgstr "Lay Ergebnis 0-0"
+
+#: matches/services/advanced_stats.py:367
+#, python-format
+msgid "Over 0.5 goals probability is %(prob)s%%"
+msgstr "Over 0.5 Tore Wahrscheinlichkeit beträgt %(prob)s%%"
+
+#: matches/services/advanced_stats.py:370
+msgid "Lay Any Other Score (4+ goals)"
+msgstr "Lay Jedes andere Ergebnis (4+ Tore)"
+
+#: matches/services/advanced_stats.py:370
+msgid "Low probability of a high scoring match"
+msgstr "Geringe Wahrscheinlichkeit für ein torreiches Spiel"
+
+#: matches/services/advanced_stats.py:388
+#, python-format
+msgid ""
+"%(home_team)s has a %(win_pct)s%% win rate playing at home (scoring an "
+"average of %(avg_gf)s goals). Their attack is considered %(home_atk)s and "
+"defense %(home_def)s. On the other hand, %(away_team)s as the away team wins "
+"%(away_win_pct)s%% of their matches, with an %(away_atk)s attack. "
+"Statistically, this matchup has a %(over_15)s%% chance of hitting Over 1.5 "
+"and a %(btts)s%% chance of Both Teams to Score (BTTS)."
+msgstr "%(home_team)s hat eine Siegquote von %(win_pct)s%% zu Hause (erzielt durchschnittlich %(avg_gf)s Tore). Ihr Angriff gilt als %(home_atk)s und die Abwehr als %(home_def)s. Auf der anderen Seite gewinnt %(away_team)s als Auswärtsteam %(away_win_pct)s%% seiner Spiele bei einem %(away_atk)s Angriff. Statistisch gesehen hat diese Begegnung eine %(over_15)s%%ige Chance auf Over 1.5 und eine %(btts)s%%ige Chance, dass beide Teams treffen (BTTS)."
+
+#: matches/views.py:450
+#, fuzzy
+#| msgid "Tomorrow"
+msgid "Tomorrow's Matches"
+msgstr "Morgen"
+
+#: matches/views.py:452
+msgid "Next Round"
+msgstr "Nächste Runde"
+
+#: matches/views.py:454
+msgid "Today's Matches"
+msgstr "Heutige Spiele"
+
+#: matches/views.py:484
+#, fuzzy
+#| msgid "matches"
+msgid "Live Matches"
+msgstr "Spiele"
 
 # ============================================================
 # MENU / SIDEBAR
 # ============================================================
-msgid "Main"
-msgstr "Hauptmenü"
+#~ msgid "Main"
+#~ msgstr "Hauptmenü"
 
-msgid "Dashboard"
-msgstr "Übersicht"
+#~ msgid "Dashboard"
+#~ msgstr "Übersicht"
 
-msgid "Favorites"
-msgstr "Favoriten"
+#~ msgid "Favorites"
+#~ msgstr "Favoriten"
 
-msgid "Live"
-msgstr "Live"
+#~ msgid "Live"
+#~ msgstr "Live"
 
-msgid "Countries & Leagues"
-msgstr "Länder & Ligen"
+#~ msgid "Countries & Leagues"
+#~ msgstr "Länder & Ligen"
 
-msgid "Search teams, leagues..."
-msgstr "Teams, Ligen suchen..."
+#~ msgid "Search teams, leagues..."
+#~ msgstr "Teams, Ligen suchen..."
 
-msgid "Overview"
-msgstr "Überblick"
+#~ msgid "Overview"
+#~ msgstr "Überblick"
+
+# ============================================================
+# FOOTER
+# ============================================================
+#~ msgid "All rights reserved. Professional statistics for analysts."
+#~ msgstr "Alle Rechte vorbehalten. Professionelle Statistiken für Analysten."
+
+#~ msgid "About Us"
+#~ msgstr "Über Uns"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Datenschutzrichtlinie"
+
+#~ msgid "Terms of Use"
+#~ msgstr "Nutzungsbedingungen"
+
+#~ msgid "Contact Us"
+#~ msgstr "Kontaktiere Uns"
+
+# ============================================================
+# HOME PAGE - BUTTONS & FILTERS
+# ============================================================
+#~ msgid "Today"
+#~ msgstr "Heute"
+
+#~ msgid "Tomorrow"
+#~ msgstr "Morgen"
+
+#~ msgid "Upcoming"
+#~ msgstr "Kommende"
+
+#~ msgid "Finished"
+#~ msgstr "Beendet"
+
+#~ msgid "matches"
+#~ msgstr "Spiele"
+
+# ============================================================
+# HOME PAGE - EMPTY STATES
+# ============================================================
+#~ msgid "No matches found for this period."
+#~ msgstr "Keine Spiele für diesen Zeitraum gefunden."
+
+#~ msgid "Try checking another date or filter."
+#~ msgstr "Versuchen Sie ein anderes Datum oder einen anderen Filter."
+
+#~ msgid "No matches match your filter."
+#~ msgstr "Keine Spiele entsprechen Ihrem Filter."
+
+#~ msgid "Try resetting the status filter."
+#~ msgstr "Versuchen Sie, den Statusfilter zurückzusetzen."
+
+#~ msgid "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT"
+#~ msgstr "OVER/UNDER WAHRSCHEINLICHKEITEN / BTTS / ERSTES TOR / OVER 0.5 HT"
+
+#~ msgid "BETTING SUGGESTIONS"
+#~ msgstr "WETTVORSCHLÄGE"
+
+#~ msgid "Recommended"
+#~ msgstr "Empfohlen"
+
+#~ msgid "Over"
+#~ msgstr "Über"
+
+#~ msgid "Under"
+#~ msgstr "Unter"
+
+#~ msgid "Chance to score first"
+#~ msgstr "Chance auf das erste Tor"
+
+#~ msgid "Home"
+#~ msgstr "Heim"
+
+#~ msgid "Away"
+#~ msgstr "Auswärts"
+
+#~ msgid "BTTS"
+#~ msgstr "BTTS"
+
+#~ msgid "Yes"
+#~ msgstr "Ja"
+
+#~ msgid "No"
+#~ msgstr "Nein"
+
+#~ msgid "Double"
+#~ msgstr "Doppel"
+
+#~ msgid "HT Goal Probability"
+#~ msgstr "HT Torwahrscheinlichkeit"
+
+#~ msgid "HT GOAL"
+#~ msgstr "HT TOR"
+
+#~ msgid "To Win"
+#~ msgstr "Sieg"
+
+#~ msgid "MATCH ANALYSIS"
+#~ msgstr "SPIELANALYSE"
 
 # ============================================================
 # MATCH DETAIL - HEADERS
 # ============================================================
-msgid "ELITE CORNERS PROJECTION"
-msgstr "ELITE-ECKEN-PROGNOSE"
-
-msgid "DISCIPLINE (AVERAGE)"
-msgstr "DISZIPLIN (DURCHSCHNITT)"
-
-msgid "ATTACK EFFICIENCY"
-msgstr "ANGRIFFSEFFIZIENZ"
+#~ msgid "ELITE CORNERS PROJECTION"
+#~ msgstr "ELITE-ECKEN-PROGNOSE"
 
 # ============================================================
 # MATCH DETAIL - LABELS
 # ============================================================
-msgid "Scored"
-msgstr "Erzielt"
+#~ msgid "Scored"
+#~ msgstr "Erzielt"
 
-msgid "Conceded"
-msgstr "Kassiert"
+#~ msgid "Conceded"
+#~ msgstr "Kassiert"
 
-msgid "Total Avg"
-msgstr "Gesamt Ø"
+#~ msgid "Total Avg"
+#~ msgstr "Gesamt Ø"
 
-msgid "Best Pick"
-msgstr "Beste Wahl"
+#~ msgid "Base"
+#~ msgstr "Basis"
 
-msgid "Shot Accuracy (Target)"
-msgstr "Schussgenauigkeit (Aufs Tor)"
+#~ msgid "Best Pick"
+#~ msgstr "Beste Wahl"
 
-msgid "Shots per Goal"
-msgstr "Schüsse pro Tor"
+#~ msgid "Analyst Insight: How to Profit"
+#~ msgstr "Analysten-Einblick: Wie man profitiert"
 
 # ============================================================
 # ANALYST INSIGHTS - CORNERS
 # ============================================================
 #, python-format
-msgid ""
-"\n"
-"                        Este jogo apresenta uma <strong>Base de %(base)s "
-"cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em "
-"%(prob)s%%, o cenário é ideal para buscar mercados de \"Mais de 8.5 ou 9.5"
-"\" cantos.\n"
-"                        "
-msgstr ""
-"\n"
-"                        Dieses Spiel hat eine <strong>Basis von %(base)s "
-"Ecken</strong>, was auf hohes Offensivvolumen hinweist. Mit der Over 8.5 "
-"Wahrscheinlichkeit bei %(prob)s%% ist das Szenario ideal für \"Über 8.5 oder 9.5"
-"\" Ecken-Märkte.\n"
-"                        "
+#~ msgid ""
+#~ "\n"
+#~ "                        Este jogo apresenta uma <strong>Base de %(base)s "
+#~ "cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em "
+#~ "%(prob)s%%, o cenário é ideal para buscar mercados de \"Mais de 8.5 ou "
+#~ "9.5\" cantos.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Dieses Spiel hat eine <strong>Basis von %(base)s "
+#~ "Ecken</strong>, was auf hohes Offensivvolumen hinweist. Mit der Over 8.5 "
+#~ "Wahrscheinlichkeit bei %(prob)s%% ist das Szenario ideal für \"Über 8.5 "
+#~ "oder 9.5\" Ecken-Märkte.\n"
+#~ "                        "
 
 #, python-format
-msgid ""
-"\n"
-"                        A base de %(base)s sugere um volume moderado. A "
-"melhor estratégia aqui é buscar mercados de segurança como \"Over 7.5\" ou "
-"esperar o \"Live\" para odds melhores.\n"
-"                        "
-msgstr ""
-"\n"
-"                        Eine Basis von %(base)s deutet auf moderates Volumen hin. "
-"Die beste Strategie ist, sichere Märkte wie \"Über 7.5\" zu suchen oder auf "
-"\"Live\" für bessere Quoten zu warten.\n"
-"                        "
+#~ msgid ""
+#~ "\n"
+#~ "                        A base de %(base)s sugere um volume moderado. A "
+#~ "melhor estratégia aqui é buscar mercados de segurança como \"Over 7.5\" "
+#~ "ou esperar o \"Live\" para odds melhores.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Eine Basis von %(base)s deutet auf moderates "
+#~ "Volumen hin. Die beste Strategie ist, sichere Märkte wie \"Über 7.5\" zu "
+#~ "suchen oder auf \"Live\" für bessere Quoten zu warten.\n"
+#~ "                        "
 
 #, python-format
-msgid ""
-"\n"
-"                        Jogo com tendência de baixo volume lateral (Base "
-"%(base)s). Tenha cautela com apostas de Over; o mercado de \"Under\" ou "
-"cantos específicos por tempo pode ser mais lucrativo.\n"
-"                        "
-msgstr ""
-"\n"
-"                        Spiel mit Tendenz zu niedrigem Flankenvolumen (Basis "
-"%(base)s). Vorsicht bei Over-Wetten; der \"Under\"-Markt oder "
-"zeitspezifische Ecken können profitabler sein.\n"
-"                        "
+#~ msgid ""
+#~ "\n"
+#~ "                        Jogo com tendência de baixo volume lateral (Base "
+#~ "%(base)s). Tenha cautela com apostas de Over; o mercado de \"Under\" ou "
+#~ "cantos específicos por tempo pode ser mais lucrativo.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Spiel mit Tendenz zu niedrigem Flankenvolumen "
+#~ "(Basis %(base)s). Vorsicht bei Over-Wetten; der \"Under\"-Markt oder "
+#~ "zeitspezifische Ecken können profitabler sein.\n"
+#~ "                        "
+
+#~ msgid "DISCIPLINE (AVERAGE)"
+#~ msgstr "DISZIPLIN (DURCHSCHNITT)"
+
+#~ msgid "Fouls"
+#~ msgstr "Fouls"
+
+#~ msgid "Red Cards Avg:"
+#~ msgstr "Rote Karten Durchschn.:"
+
+#~ msgid "per game"
+#~ msgstr "pro Spiel"
+
+#~ msgid "Insufficient disciplinary data"
+#~ msgstr "Unzureichende Disziplinardaten"
+
+#~ msgid "Disciplinary Tip"
+#~ msgstr "Disziplinarischer Tipp"
 
 # ============================================================
 # ANALYST INSIGHTS - DISCIPLINE
 # ============================================================
 #, python-format
-msgid ""
-"\n"
-"                        Com uma média de <strong>%(fouls)s faltas</strong>, "
-"esperamos um jogo tenso e com muitas paradas. A chance de cartões "
-"(atualmente %(cards)s amarelos/jogo) é elevada.\n"
-"                        "
-msgstr ""
-"\n"
-"                        Mit durchschnittlich <strong>%(fouls)s Fouls</strong> "
-"erwarten wir ein angespanntes Spiel mit vielen Unterbrechungen. Die "
-"Kartenchance (derzeit %(cards)s Gelbe/Spiel) ist hoch.\n"
-"                        "
+#~ msgid ""
+#~ "\n"
+#~ "                        Com uma média de <strong>%(fouls)s faltas</"
+#~ "strong>, esperamos um jogo tenso e com muitas paradas. A chance de "
+#~ "cartões (atualmente %(cards)s amarelos/jogo) é elevada.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Mit durchschnittlich <strong>%(fouls)s Fouls</"
+#~ "strong> erwarten wir ein angespanntes Spiel mit vielen Unterbrechungen. "
+#~ "Die Kartenchance (derzeit %(cards)s Gelbe/Spiel) ist hoch.\n"
+#~ "                        "
 
 #, python-format
-msgid ""
-"\n"
-"                        Jogo com tendência a ser mais fluido (apenas "
-"%(fouls)s faltas de média). O mercado de \"Under Cartões\" ou \"Menos de "
-"4.5\" pode ser uma boa pedida se o juiz não for rigoroso.\n"
-"                        "
-msgstr ""
-"\n"
-"                        Spiel mit Tendenz zu flüssigerem Verlauf (nur "
-"%(fouls)s Fouls im Schnitt). Der \"Under Karten\"- oder \"Unter 4.5\"-Markt "
-"könnte eine gute Wahl sein, wenn der Schiedsrichter nicht streng ist.\n"
-"                        "
+#~ msgid ""
+#~ "\n"
+#~ "                        Jogo com tendência a ser mais fluido (apenas "
+#~ "%(fouls)s faltas de média). O mercado de \"Under Cartões\" ou \"Menos de "
+#~ "4.5\" pode ser uma boa pedida se o juiz não for rigoroso.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Spiel mit Tendenz zu flüssigerem Verlauf (nur "
+#~ "%(fouls)s Fouls im Schnitt). Der \"Under Karten\"- oder \"Unter 4.5\"-"
+#~ "Markt könnte eine gute Wahl sein, wenn der Schiedsrichter nicht streng "
+#~ "ist.\n"
+#~ "                        "
+
+#~ msgid "ATTACK EFFICIENCY"
+#~ msgstr "ANGRIFFSEFFIZIENZ"
+
+#~ msgid "Shot Accuracy (Target)"
+#~ msgstr "Schussgenauigkeit (Aufs Tor)"
+
+#~ msgid "Shots per Goal"
+#~ msgstr "Schüsse pro Tor"
+
+#~ msgid "Shot statistics unavailable"
+#~ msgstr "Schussstatistiken nicht verfügbar"
+
+#~ msgid "Efficiency Guide"
+#~ msgstr "Effizienz-Leitfaden"
 
 # ============================================================
 # ANALYST INSIGHTS - EFFICIENCY
 # ============================================================
-msgid ""
-"\n"
-"                        Ambos os times possuem precisão acima de 30%% no "
-"alvo. Isso é um sinal fortíssimo para o mercado de <strong>\"Ambas Marcam: "
-"Sim\"</strong> ou \"Over 1.5/2.5 Gols\".\n"
-"                        "
-msgstr ""
-"\n"
-"                        Beide Teams haben eine Genauigkeit über 30%% aufs "
-"Tor. Dies ist ein sehr starkes Signal für den <strong>\"Beide Teams treffen: "
-"Ja\"</strong>- oder \"Über 1.5/2.5 Tore\"-Markt.\n"
-"                        "
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "                        Ambos os times possuem precisão acima de 30%% no "
+#~ "alvo. Isso é um sinal fortíssimo para o mercado de <strong>\"Ambas "
+#~ "Marcam: Sim\"</strong> ou \"Over 1.5/2.5 Gols\".\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Beide Teams haben eine Genauigkeit über 30%% aufs "
+#~ "Tor. Dies ist ein sehr starkes Signal für den <strong>\"Beide Teams "
+#~ "treffen: Ja\"</strong>- oder \"Über 1.5/2.5 Tore\"-Markt.\n"
+#~ "                        "
 
-msgid ""
-"\n"
-"                        Apenas um dos times está sendo letal nas "
-"finalizações. Considere apostar no mercado de \"Gols do Time\" para aquele "
-"com maior precisão.\n"
-"                        "
-msgstr ""
-"\n"
-"                        Nur eines der Teams ist beim Abschluss tödlich. "
-"Erwägen Sie eine Wette auf den \"Team-Tore\"-Markt für das Team mit "
-"höherer Genauigkeit.\n"
-"                        "
+#~ msgid ""
+#~ "\n"
+#~ "                        Apenas um dos times está sendo letal nas "
+#~ "finalizações. Considere apostar no mercado de \"Gols do Time\" para "
+#~ "aquele com maior precisão.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Nur eines der Teams ist beim Abschluss tödlich. "
+#~ "Erwägen Sie eine Wette auf den \"Team-Tore\"-Markt für das Team mit "
+#~ "höherer Genauigkeit.\n"
+#~ "                        "
 
-msgid ""
-"\n"
-"                        Ambas as equipes estão pecando na finalização "
-"(Accuracy abaixo de 30%%). Jogo com tendência de poucos gols, ideal para "
-"analisar o mercado de \"Under\".\n"
-"                        "
-msgstr ""
-"\n"
-"                        Beide Teams schwächeln beim Abschluss "
-"(Genauigkeit unter 30%%). Spiel mit Tendenz zu wenigen Toren, ideal um "
-"den \"Under\"-Markt zu analysieren.\n"
-"                        "
-
-# ============================================================
-# HOME PAGE - BUTTONS & FILTERS
-# ============================================================
-msgid "Today"
-msgstr "Heute"
-
-msgid "Tomorrow"
-msgstr "Morgen"
-
-msgid "Next Round"
-msgstr "Nächste Runde"
-
-msgid "Upcoming"
-msgstr "Kommende"
-
-msgid "Finished"
-msgstr "Beendet"
-
-msgid "matches"
-msgstr "Spiele"
-
-# ============================================================
-# HOME PAGE - EMPTY STATES
-# ============================================================
-msgid "No matches found for this period."
-msgstr "Keine Spiele für diesen Zeitraum gefunden."
-
-msgid "Try checking another date or filter."
-msgstr "Versuchen Sie ein anderes Datum oder einen anderen Filter."
-
-msgid "No matches match your filter."
-msgstr "Keine Spiele entsprechen Ihrem Filter."
-
-msgid "Try resetting the status filter."
-msgstr "Versuchen Sie, den Statusfilter zurückzusetzen."
-
-# ============================================================
-# FOOTER
-# ============================================================
-msgid "All rights reserved. Professional statistics for analysts."
-msgstr "Alle Rechte vorbehalten. Professionelle Statistiken für Analysten."
-
-msgid "About Us"
-msgstr "Über Uns"
-
-msgid "Privacy Policy"
-msgstr "Datenschutzrichtlinie"
-
-msgid "Terms of Use"
-msgstr "Nutzungsbedingungen"
-
-msgid "Contact Us"
-msgstr "Kontaktiere Uns"
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "                        Ambas as equipes estão pecando na finalização "
+#~ "(Accuracy abaixo de 30%%). Jogo com tendência de poucos gols, ideal para "
+#~ "analisar o mercado de \"Under\".\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Beide Teams schwächeln beim Abschluss "
+#~ "(Genauigkeit unter 30%%). Spiel mit Tendenz zu wenigen Toren, ideal um "
+#~ "den \"Under\"-Markt zu analysieren.\n"
+#~ "                        "

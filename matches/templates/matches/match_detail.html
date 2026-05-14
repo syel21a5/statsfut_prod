@@ -114,7 +114,7 @@
     <!-- MAIN ANALYTIC BOARD (Twin Excel) -->
     <div class="analytic-board mb-4">
         <div class="board-header">
-            OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT
+            {% translate "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT" %}
         </div>
         
         <div class="board-body">
@@ -147,27 +147,27 @@
 
                 <!-- Central Sugestões -->
                 <div class="suggestions-central">
-                    <div class="sugg-title">BETTING SUGGESTIONS</div>
+                    <div class="sugg-title">{% translate "BETTING SUGGESTIONS" %}</div>
                     <div class="sugg-list">
                         <div class="sugg-item">
                             <span class="market">0.5 ></span>
                             <span class="perc perc-high">{{ advanced_stats.goals.over_05 }}%</span>
-                            <span class="rec">Recommended</span>
+                            <span class="rec">{% translate "Recommended" %}</span>
                         </div>
                         <div class="sugg-item">
                             <span class="market">1.5 ></span>
                             <span class="perc perc-high">{{ advanced_stats.goals.over_15 }}%</span>
-                            <span class="rec">Recommended</span>
+                            <span class="rec">{% translate "Recommended" %}</span>
                         </div>
                         <div class="sugg-item">
                             <span class="market">2.5 ></span>
                             <span class="perc">{{ advanced_stats.goals.over_25 }}%</span>
-                            <span class="rec">{% if advanced_stats.goals.over_25 > 50 %}Over 2.5{% else %}Under 2.5{% endif %}</span>
+                            <span class="rec">{% if advanced_stats.goals.over_25 > 50 %}{% translate "Over" %} 2.5{% else %}{% translate "Under" %} 2.5{% endif %}</span>
                         </div>
                         <div class="sugg-item">
                             <span class="market">3.5 ></span>
                             <span class="perc">{{ advanced_stats.goals.over_35 }}%</span>
-                            <span class="rec">{% if advanced_stats.goals.over_35 > 50 %}Over 3.5{% else %}Under 3.5{% endif %}</span>
+                            <span class="rec">{% if advanced_stats.goals.over_35 > 50 %}{% translate "Over" %} 3.5{% else %}{% translate "Under" %} 3.5{% endif %}</span>
                         </div>
                     </div>
                 </div>
@@ -200,29 +200,29 @@
             <!-- LINHA 2: PIE BTTS E CHANCE 1ST -->
             <div class="stats-row-mid mt-4">
                 <div class="first-score-box">
-                    <div class="box-label">Chance to score first</div>
+                    <div class="box-label">{% translate "Chance to score first" %}</div>
                     <div class="f-score-vals">
                         <div class="f-val">
                             <span class="num">{{ advanced_stats.goals.home_first_score }}%</span>
-                            <span class="lab">Home</span>
+                            <span class="lab">{% translate "Home" %}</span>
                         </div>
                         <div class="f-val">
                             <span class="num">{{ advanced_stats.goals.away_first_score }}%</span>
-                            <span class="lab">Away</span>
+                            <span class="lab">{% translate "Away" %}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="btts-pie-box">
-                    <div class="box-label">BTTS</div>
+                    <div class="box-label">{% translate "BTTS" %}</div>
                     <div class="pie-wrap">
                         <svg viewBox="0 0 36 36" class="pie-chart">
                             <circle class="pie-no" cx="18" cy="18" r="15.915" stroke="#ef4444"></circle>
                             <circle class="pie-yes" cx="18" cy="18" r="15.915" stroke-dasharray="{{ advanced_stats.goals.btts }} 100" stroke="#fff"></circle>
                         </svg>
                         <div class="pie-legend">
-                            <div><span class="dot white"></span> Yes {{ advanced_stats.goals.btts }}%</div>
-                            <div><span class="dot red"></span> No {{ 100|add:advanced_stats.goals.btts|add:"-100" }}%</div>
+                            <div><span class="dot white"></span> {% translate "Yes" %} {{ advanced_stats.goals.btts }}%</div>
+                            <div><span class="dot red"></span> {% translate "No" %} {{ 100|add:advanced_stats.goals.btts|add:"-100" }}%</div>
                         </div>
                     </div>
                 </div>
@@ -230,18 +230,18 @@
                 <div class="result-box">
                     <div class="result-items">
                         <div class="res-item">
-                            <span class="l">Double</span>
+                            <span class="l">{% translate "Double" %}</span>
                             <span class="v big">{{ advanced_stats.odds_probs.double_bet }}</span>
                         </div>
                         <div class="res-item highlight-ht">
                             <div class="ht-glow-box">
-                                <span class="ht-title">HT Goal Probability</span>
-                                <span class="ht-main">HT GOAL</span>
+                                <span class="ht-title">{% translate "HT Goal Probability" %}</span>
+                                <span class="ht-main">{% translate "HT GOAL" %}</span>
                                 <span class="ht-perc">{{ advanced_stats.goals.ht_goal }}%</span>
                             </div>
                         </div>
                         <div class="res-item">
-                            <span class="l">To Win</span>
+                            <span class="l">{% translate "To Win" %}</span>
                             <span class="v big">{{ advanced_stats.odds_probs.best_bet }}</span>
                         </div>
                     </div>
@@ -405,7 +405,7 @@
             <div class="analyst-insight mt-3">
                 <div class="ai-header">
                     <i class="fa-solid fa-lightbulb text-warning me-2"></i>
-                    <span>Analyst Insight: How to Profit</span>
+                    <span>{% translate "Analyst Insight: How to Profit" %}</span>
                 </div>
                 <p class="ai-text">
                     {% with total_base=advanced_stats.corners.home.avg_total|add:advanced_stats.corners.away.avg_total %}
@@ -438,7 +438,7 @@
             <div class="discipline-grid">
                 <div class="d-team home">
                     <div class="d-val"><strong>{{ advanced_stats.disciplinary.home.yellow }}</strong><span class="y-card"></span></div>
-                    <div class="d-val"><strong>{{ advanced_stats.disciplinary.home.fouls }}</strong><span>Fouls</span></div>
+                    <div class="d-val"><strong>{{ advanced_stats.disciplinary.away.fouls }}</strong><span>{% translate "Fouls" %}</span></div>
                 </div>
                 <div class="d-vs">VS</div>
                 <div class="d-team away">
@@ -447,12 +447,12 @@
                 </div>
             </div>
             <div class="red-card-alert mt-3 text-center">
-                Red Cards Avg: <span class="text-danger fw-bold">{{ advanced_stats.disciplinary.home.red|add:advanced_stats.disciplinary.away.red }}</span> per game
+                {% translate "Red Cards Avg:" %} <span class="text-danger fw-bold">{{ advanced_stats.disciplinary.home.red|add:advanced_stats.disciplinary.away.red }}</span> {% translate "per game" %}
             </div>
             {% else %}
             <div class="text-center text-muted mt-4 mb-4" style="padding: 2rem 0;">
                 <i class="fa-solid fa-gavel mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
-                <p class="small m-0">Insufficient disciplinary data</p>
+                <p class="small m-0">{% translate "Insufficient disciplinary data" %}</p>
             </div>
             {% endif %}
 
@@ -460,7 +460,7 @@
             <div class="analyst-insight mt-3">
                 <div class="ai-header">
                     <i class="fa-solid fa-shield-halved text-info me-2"></i>
-                    <span>Disciplinary Tip</span>
+                    <span>{% translate "Disciplinary Tip" %}</span>
                 </div>
                 <p class="ai-text">
                     {% with total_fouls=advanced_stats.disciplinary.home.fouls|add:advanced_stats.disciplinary.away.fouls %}
@@ -517,7 +517,7 @@
             {% else %}
             <div class="text-center text-muted mt-4 mb-4" style="padding: 2rem 0;">
                 <i class="fa-solid fa-futbol mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
-                <p class="small m-0">Shot statistics unavailable</p>
+                <p class="small m-0">{% translate "Shot statistics unavailable" %}</p>
             </div>
             {% endif %}
 
@@ -525,7 +525,7 @@
             <div class="analyst-insight mt-3">
                 <div class="ai-header">
                     <i class="fa-solid fa-chart-line text-success me-2"></i>
-                    <span>Efficiency Guide</span>
+                    <span>{% translate "Efficiency Guide" %}</span>
                 </div>
                 <p class="ai-text">
                     {% if advanced_stats.efficiency.home.accuracy >= 30 and advanced_stats.efficiency.away.accuracy >= 30 %}
