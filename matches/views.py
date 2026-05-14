@@ -3769,11 +3769,20 @@ class LeagueDetailedStatsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         league_slug = self.kwargs.get('league_name')
+        country_slug = self.kwargs.get('country_name', '').replace('-', ' ')
         
-        # 1. Localizar a Liga
+        # 1. Localizar a Liga (considerando país e nome)
         from django.db.models import Avg, Sum, Q, Count
         name_query = league_slug.replace('-', ' ')
-        league = League.objects.filter(Q(name__iexact=name_query) | Q(name__icontains=name_query)).first()
+        
+        # Busca por nome da liga e também filtra pelo país para evitar duplicatas (ex: Bundesliga Áustria vs Alemanha)
+        league = League.objects.filter(
+            Q(name__iexact=name_query) | Q(name__icontains=name_query)
+        )
+        if country_slug:
+            league = league.filter(country__icontains=country_slug)
+            
+        league = league.first()
         context['league'] = league
         
         if not league:

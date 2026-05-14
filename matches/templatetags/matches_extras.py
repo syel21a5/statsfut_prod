@@ -53,3 +53,9 @@ def probability_label(val1, val2):
         return "Low"
     except (ValueError, TypeError):
         return "-"
+@register.filter
+def mul(value, arg):
+    try:
+        return float(value) * float(arg)
+    except (ValueError, TypeError):
+        return 0
