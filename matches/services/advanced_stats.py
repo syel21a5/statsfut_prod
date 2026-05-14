@@ -44,8 +44,15 @@ class MatchAnalyzer:
         gf = ga = 0
         total = len(matches)
         if total == 0:
-            return {'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'total': 0, 'win_pct': 0}
-            
+            return {
+                'w': 0, 'd': 0, 'l': 0, 
+                'gf': 0, 'ga': 0, 
+                'avg_gf': 0.0,
+                'avg_ga': 0.0,
+                'total': 0, 
+                'win_pct': 0,
+                'loss_pct': 0
+            }
         for m in matches:
             is_home = (m.home_team_id == team.id)
             score_for = m.home_score if is_home else m.away_score
@@ -198,9 +205,9 @@ class MatchAnalyzer:
                     team_c = m.home_corners if is_home else m.away_corners
                     opp_c = m.away_corners if is_home else m.home_corners
                     
-                    scored += team_c
-                    conceded += opp_c
-                    total_c = team_c + opp_c
+                    scored += (team_c or 0)
+                    conceded += (opp_c or 0)
+                    total_c = (team_c or 0) + (opp_c or 0)
                     
                     for k in overs.keys():
                         if total_c > k:
@@ -248,12 +255,13 @@ class MatchAnalyzer:
             yellow = red = fouls = 0
             valid = 0
             for m in matches:
-                if m.home_yellow is not None and m.home_fouls is not None:
+                # Check for basic disciplinary data (yellows)
+                if m.home_yellow is not None or m.away_yellow is not None:
                     valid += 1
                     is_home = (m.home_team_id == team.id)
-                    yellow += m.home_yellow if is_home else m.away_yellow
-                    red += m.home_red if is_home else m.away_red
-                    fouls += m.home_fouls if is_home else m.away_fouls
+                    yellow += (m.home_yellow or 0) if is_home else (m.away_yellow or 0)
+                    red += (m.home_red or 0) if is_home else (m.away_red or 0)
+                    fouls += (m.home_fouls or 0) if is_home else (m.away_fouls or 0)
             
             if valid == 0: return {'has_data': False, 'yellow': 0, 'red': 0, 'fouls': 0}
             return {
@@ -279,9 +287,9 @@ class MatchAnalyzer:
                 if m.home_shots is not None and m.home_shots_on_target is not None:
                     valid += 1
                     is_home = (m.home_team_id == team.id)
-                    s = m.home_shots if is_home else m.away_shots
-                    st = m.home_shots_on_target if is_home else m.away_shots_on_target
-                    g = m.home_score if is_home else m.away_score
+                    s = (m.home_shots or 0) if is_home else (m.away_shots or 0)
+                    st = (m.home_shots_on_target or 0) if is_home else (m.away_shots_on_target or 0)
+                    g = (m.home_score or 0) if is_home else (m.away_score or 0)
                     shots += s
                     on_target += st
                     goals += g

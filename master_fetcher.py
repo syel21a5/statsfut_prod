@@ -45,8 +45,8 @@ def should_update(session, t_id, s_id):
     now = datetime.now()
     today = now.date()
     yesterday = today - timedelta(days=1)
-    # Aumentado para 10 dias para garantir captura de hiatos em playoffs
-    relevant_dates = [yesterday, today] + [today + timedelta(days=i) for i in range(1, 11)]
+    # Aumentado para 30 dias para garantir captura de hiatos longos em playoffs ou pausas da liga
+    relevant_dates = [yesterday, today] + [today + timedelta(days=i) for i in range(1, 30)]
     
     for tid, is_unique in tournaments:
         prefix = "unique-tournament" if is_unique else "tournament"
@@ -75,6 +75,20 @@ def should_update(session, t_id, s_id):
                         status = event.get('status', {}).get('type')
                         if status != 'finished' or dt >= yesterday:
                             return True
+                            
+        # Fallback: Verificar last/next events se as rodadas falharam ou não encontraram nada
+        for endpoint in ['last/0', 'next/0']:
+            e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/{endpoint}"
+            data_events = fetch_api(session, e_url)
+            if data_events and data_events.get('events'):
+                for event in data_events.get('events', []):
+                    ts = event.get('startTimestamp')
+                    if ts:
+                        dt = datetime.fromtimestamp(ts).date()
+                        if dt in relevant_dates:
+                            status = event.get('status', {}).get('type')
+                            if status != 'finished' or dt >= yesterday:
+                                return True
     
     return False
 
@@ -119,12 +133,24 @@ def scrape_league(session, t_id, s_id, last_rounds=None):
                 r_num = r_info['round']
                 e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{r_num}"
                 e_data = fetch_api(session, e_url)
-                if e_data:
+                if e_data and e_data.get('events'):
                     payload['rounds'].append({
                         "round_label": label,
                         "round_number": r_num,
                         "events": e_data.get('events', [])
                     })
+                    
+        # Fallback agressivo: Sempre tentar pegar last/0 e next/0 para cobrir buracos
+        for endpoint, r_num_fake in [('last/0', 998), ('next/0', 999)]:
+            e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/{endpoint}"
+            e_data = fetch_api(session, e_url)
+            if e_data and e_data.get('events'):
+                payload['rounds'].append({
+                    "round_label": f"{label} (Fallback {endpoint})",
+                    "round_number": r_num_fake,
+                    "events": e_data.get('events', [])
+                })
+                
     return payload
 
 def main():

@@ -32,11 +32,20 @@ class Command(BaseCommand):
 
     def _create_session(self):
         ua = random.choice(USER_AGENTS)
-        impersonate_version = random.choice(["chrome110", "chrome116", "chrome119", "chrome120", "chrome124"])
+        # Removido chrome124 para compatibilidade com versões antigas da curl_cffi no Docker
+        impersonate_version = random.choice(["chrome101", "chrome110", "chrome116", "chrome119", "chrome120"])
         self.session = requests.Session(impersonate=impersonate_version)
         
         chrome_version = impersonate_version.replace("chrome", "")
-        full_version = "124.0.6367.201" if chrome_version == "124" else ("120.0.6099.129" if chrome_version == "120" else "119.0.6045.160")
+        # Versões fixas para os headers sec-ch-ua
+        version_map = {
+            "120": "120.0.6099.129",
+            "119": "119.0.6045.160",
+            "116": "116.0.5845.96",
+            "110": "110.0.5481.77",
+            "101": "101.0.4951.64"
+        }
+        full_version = version_map.get(chrome_version, "110.0.5481.77")
         
         self.session.headers.update({
             "User-Agent": ua,
@@ -59,11 +68,15 @@ class Command(BaseCommand):
             self.session.proxies = {"http": self.proxy, "https": self.proxy}
 
     def _restart_tor(self):
-        """Reinicia o serviço do Tor no Linux para forçar a troca de IP"""
-        self.stdout.write(self.style.WARNING("🔄 Fui bloqueado (403)! Forçando troca de IP (Restartando Tor via systemctl)..."))
+        """Reinicia o serviço do Tor para trocar de IP (Compatível com VPS e Docker)"""
+        self.stdout.write(self.style.WARNING("🔄 Bloqueio detectado! Tentando trocar de IP..."))
         try:
-            # Requer permissões root (geralmente como o cron roda na VPS)
-            os.system("systemctl restart tor")
+            # Tenta comando de Docker/Linux simples primeiro (SIGHUP)
+            if os.path.exists('/var/run/tor/tor.pid') or os.system("pgrep tor > /dev/null") == 0:
+                os.system("killall -HUP tor 2>/dev/null || pkill -HUP tor 2>/dev/null")
+            else:
+                # Fallback para VPS com systemd
+                os.system("systemctl restart tor 2>/dev/null")
             self.stdout.write(self.style.WARNING("⏳ Aguardando 10 segundos para o Tor se reconectar à rede..."))
             time.sleep(10)
             self._create_session() # Nova sessão para limpar os cookies/headers antigos
