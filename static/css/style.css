@@ -1153,3 +1153,30 @@ body {
     background: #facc15 !important;
     box-shadow: 0 0 10px rgba(250, 204, 21, 0.4) !important;
 }
+/* ANALYST INSIGHTS */
+.analyst-insight {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+.ai-header {
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: var(--text-bright);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+.ai-text {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.ai-text strong {
+    color: var(--primary);
+}
