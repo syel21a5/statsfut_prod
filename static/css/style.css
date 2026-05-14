@@ -816,10 +816,10 @@ body {
 
 /* EFFICIENCY */
 .eff-row .l { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
-.eff-bars { height: 24px; display: flex; justify-content: space-between; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.05); }
+.eff-bars { height: 28px; display: flex; justify-content: space-between; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); }
 .bar-fill { display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 900; color: #000; }
 .bar-fill.home { background: var(--primary); }
-.bar-fill.away { background: #475569; color: #fff; }
+.bar-fill.away { background: #6366f1; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
 
 .eff-vals { display: flex; justify-content: space-around; }
 .eff-vals .v { text-align: center; }
