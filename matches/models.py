@@ -52,7 +52,7 @@ class Match(models.Model):
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_matches')
     away_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='away_matches')
     date = models.DateTimeField(null=True, blank=True)
-    round_name = models.CharField(max_length=50, blank=True, null=True)
+    round_name = models.CharField(max_length=150, blank=True, null=True)
     status = models.CharField(max_length=20, default="Scheduled")
     api_id = models.CharField(max_length=255, unique=True, null=True, blank=True, help_text="ID da Fixture na API")
     elapsed_time = models.IntegerField(null=True, blank=True)
