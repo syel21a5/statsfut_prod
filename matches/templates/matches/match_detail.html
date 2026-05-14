@@ -401,14 +401,22 @@
                 </div>
             </div>
 
-            <!-- INSIGHT DO ANALISTA -->
+            <!-- INSIGHT DO ANALISTA DINÂMICO -->
             <div class="analyst-insight mt-3">
                 <div class="ai-header">
                     <i class="fa-solid fa-lightbulb text-warning me-2"></i>
                     <span>Analyst Insight: How to Profit</span>
                 </div>
                 <p class="ai-text">
-                    Observe a <strong>Base</strong> central: valores acima de 10.0 indicam jogos de alto volume ofensivo. Combine isso com uma probabilidade amarela (acima de 70%) para identificar entradas de valor no mercado de cantos.
+                    {% with total_base=advanced_stats.corners.home.avg_total|add:advanced_stats.corners.away.avg_total %}
+                    {% if total_base >= 10 %}
+                        Este jogo apresenta uma <strong>Base de {{ total_base|floatformat:1 }} cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em {{ advanced_stats.corners.match_overs.8 }}%, o cenário é ideal para buscar mercados de "Mais de 8.5 ou 9.5" cantos.
+                    {% elif total_base >= 8 %}
+                        A base de {{ total_base|floatformat:1 }} sugere um volume moderado. A melhor estratégia aqui é buscar mercados de segurança como "Over 7.5" ou esperar o "Live" para odds melhores.
+                    {% else %}
+                        Jogo com tendência de baixo volume lateral (Base {{ total_base|floatformat:1 }}). Tenha cautela com apostas de Over; o mercado de "Under" ou cantos específicos por tempo pode ser mais lucrativo.
+                    {% endif %}
+                    {% endwith %}
                 </p>
             </div>
         </div>
@@ -442,14 +450,20 @@
             </div>
             {% endif %}
 
-            <!-- INSIGHT DO ANALISTA -->
+            <!-- INSIGHT DO ANALISTA DINÂMICO -->
             <div class="analyst-insight mt-3">
                 <div class="ai-header">
                     <i class="fa-solid fa-shield-halved text-info me-2"></i>
                     <span>Disciplinary Tip</span>
                 </div>
                 <p class="ai-text">
-                    Jogos com mais de <strong>25 faltas</strong> combinadas tendem a ser mais nervosos. Se a média de cartões vermelhos for maior que 0.2, o mercado de expulsão torna-se uma opção interessante de valor.
+                    {% with total_fouls=advanced_stats.disciplinary.home.fouls|add:advanced_stats.disciplinary.away.fouls %}
+                    {% if total_fouls >= 25 %}
+                        Com uma média de <strong>{{ total_fouls|floatformat:0 }} faltas</strong>, esperamos um jogo tenso e com muitas paradas. A chance de cartões (atualmente {{ advanced_stats.disciplinary.home.yellow|add:advanced_stats.disciplinary.away.yellow|floatformat:1 }} amarelos/jogo) é elevada.
+                    {% else %}
+                        Jogo com tendência a ser mais fluido (apenas {{ total_fouls|floatformat:0 }} faltas de média). O mercado de "Under Cartões" ou "Menos de 4.5" pode ser uma boa pedida se o juiz não for rigoroso.
+                    {% endif %}
+                    {% endwith %}
                 </p>
             </div>
         </div>
@@ -497,14 +511,20 @@
             </div>
             {% endif %}
 
-            <!-- INSIGHT DO ANALISTA -->
+            <!-- INSIGHT DO ANALISTA DINÂMICO -->
             <div class="analyst-insight mt-3">
                 <div class="ai-header">
                     <i class="fa-solid fa-chart-line text-success me-2"></i>
                     <span>Efficiency Guide</span>
                 </div>
                 <p class="ai-text">
-                    Uma <strong>Precisão (Accuracy)</strong> acima de 30% indica um ataque letal. Se um time tem baixa precisão mas muitos chutes, ele está "amadurecendo" o gol e pode surpreender a qualquer momento.
+                    {% if advanced_stats.efficiency.home.accuracy >= 30 and advanced_stats.efficiency.away.accuracy >= 30 %}
+                        Ambos os times possuem precisão acima de 30% no alvo. Isso é um sinal fortíssimo para o mercado de <strong>"Ambas Marcam: Sim"</strong> ou "Over 1.5/2.5 Gols".
+                    {% elif advanced_stats.efficiency.home.accuracy >= 30 or advanced_stats.efficiency.away.accuracy >= 30 %}
+                        Apenas um dos times está sendo letal nas finalizações. Considere apostar no mercado de "Gols do Time" para aquele com maior precisão.
+                    {% else %}
+                        Ambas as equipes estão pecando na finalização (Accuracy abaixo de 30%). Jogo com tendência de poucos gols, ideal para analisar o mercado de "Under".
+                    {% endif %}
                 </p>
             </div>
         </div>
