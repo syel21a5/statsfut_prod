@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}{{ match.home_team.name }} vs {{ match.away_team.name }} - Match Stats | StatsFut{% endblock %}
 {% block meta_description %}{{ match.home_team.name }} vs {{ match.away_team.name }} match statistics, pre-match analysis, head-to-head data and predictions. {{ match.league.name }}.{% endblock %}
@@ -283,7 +283,7 @@
     <!-- ESTATÍSTICAS DE ELITE (NOVO) -->
     <div class="analytic-board mb-4">
         <div class="board-header">
-            ELITE CORNERS PROJECTION
+            {% translate "ELITE CORNERS PROJECTION" %}
         </div>
         <div class="board-body" style="padding-top: 1rem;">
             <div class="corner-board">
@@ -294,15 +294,15 @@
                     </div>
                     <div class="ctp-stats-grid">
                         <div class="ctp-stat-box green">
-                            <span class="label">Scored</span>
+                            <span class="label">{% translate "Scored" %}</span>
                             <span class="value">{{ advanced_stats.corners.home.avg_scored }}</span>
                         </div>
                         <div class="ctp-stat-box red">
-                            <span class="label">Conceded</span>
+                            <span class="label">{% translate "Conceded" %}</span>
                             <span class="value">{{ advanced_stats.corners.home.avg_conceded }}</span>
                         </div>
                         <div class="ctp-total-huge">
-                            <span class="l">Total Avg</span>
+                            <span class="l">{% translate "Total Avg" %}</span>
                             <span class="v">{{ advanced_stats.corners.home.avg_total }}</span>
                         </div>
                     </div>
@@ -316,7 +316,7 @@
                     </div>
                     <div class="sugg-list w-100">
                         <div class="sugg-item flex-column justify-content-center text-center" style="border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.5rem; border-radius: 8px; background: rgba(16, 185, 129, 0.05); min-height: 70px;">
-                            <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 2px;">Best Pick</span>
+                            <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 2px;">{% translate "Best Pick" %}</span>
                             <span class="perc-high" style="font-size: 0.95rem; font-weight: 900; line-height: 1.2;">{{ advanced_stats.corners.recommendation }}</span>
                         </div>
                     </div>
@@ -337,7 +337,7 @@
                             <span class="value">{{ advanced_stats.corners.away.avg_conceded }}</span>
                         </div>
                         <div class="ctp-total-huge">
-                            <span class="l">Total Avg</span>
+                            <span class="l">{% translate "Total Avg" %}</span>
                             <span class="v">{{ advanced_stats.corners.away.avg_total }}</span>
                         </div>
                     </div>
@@ -410,11 +410,17 @@
                 <p class="ai-text">
                     {% with total_base=advanced_stats.corners.home.avg_total|add:advanced_stats.corners.away.avg_total %}
                     {% if total_base >= 10 %}
-                        Este jogo apresenta uma <strong>Base de {{ total_base|floatformat:1 }} cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em {{ advanced_stats.corners.match_overs.8 }}%, o cenário é ideal para buscar mercados de "Mais de 8.5 ou 9.5" cantos.
+                        {% blocktranslate with base=total_base|floatformat:1 prob=advanced_stats.corners.match_overs.8 %}
+                        Este jogo apresenta uma <strong>Base de {{ base }} cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em {{ prob }}%, o cenário é ideal para buscar mercados de "Mais de 8.5 ou 9.5" cantos.
+                        {% endblocktranslate %}
                     {% elif total_base >= 8 %}
-                        A base de {{ total_base|floatformat:1 }} sugere um volume moderado. A melhor estratégia aqui é buscar mercados de segurança como "Over 7.5" ou esperar o "Live" para odds melhores.
+                        {% blocktranslate with base=total_base|floatformat:1 %}
+                        A base de {{ base }} sugere um volume moderado. A melhor estratégia aqui é buscar mercados de segurança como "Over 7.5" ou esperar o "Live" para odds melhores.
+                        {% endblocktranslate %}
                     {% else %}
-                        Jogo com tendência de baixo volume lateral (Base {{ total_base|floatformat:1 }}). Tenha cautela com apostas de Over; o mercado de "Under" ou cantos específicos por tempo pode ser mais lucrativo.
+                        {% blocktranslate with base=total_base|floatformat:1 %}
+                        Jogo com tendência de baixo volume lateral (Base {{ base }}). Tenha cautela com apostas de Over; o mercado de "Under" ou cantos específicos por tempo pode ser mais lucrativo.
+                        {% endblocktranslate %}
                     {% endif %}
                     {% endwith %}
                 </p>
@@ -425,7 +431,7 @@
     <!-- CARTÕES E FALTAS -->
     <div class="analytic-board mb-4">
         <div class="board-header">
-            DISCIPLINE (AVERAGE)
+            {% translate "DISCIPLINE (AVERAGE)" %}
         </div>
         <div class="board-body" style="padding-top: 1rem;">
             {% if advanced_stats.disciplinary.match_has_data %}
@@ -459,9 +465,13 @@
                 <p class="ai-text">
                     {% with total_fouls=advanced_stats.disciplinary.home.fouls|add:advanced_stats.disciplinary.away.fouls %}
                     {% if total_fouls >= 25 %}
-                        Com uma média de <strong>{{ total_fouls|floatformat:0 }} faltas</strong>, esperamos um jogo tenso e com muitas paradas. A chance de cartões (atualmente {{ advanced_stats.disciplinary.home.yellow|add:advanced_stats.disciplinary.away.yellow|floatformat:1 }} amarelos/jogo) é elevada.
+                        {% blocktranslate with fouls=total_fouls|floatformat:0 cards=advanced_stats.disciplinary.home.yellow|add:advanced_stats.disciplinary.away.yellow|floatformat:1 %}
+                        Com uma média de <strong>{{ fouls }} faltas</strong>, esperamos um jogo tenso e com muitas paradas. A chance de cartões (atualmente {{ cards }} amarelos/jogo) é elevada.
+                        {% endblocktranslate %}
                     {% else %}
-                        Jogo com tendência a ser mais fluido (apenas {{ total_fouls|floatformat:0 }} faltas de média). O mercado de "Under Cartões" ou "Menos de 4.5" pode ser uma boa pedida se o juiz não for rigoroso.
+                        {% blocktranslate with fouls=total_fouls|floatformat:0 %}
+                        Jogo com tendência a ser mais fluido (apenas {{ fouls }} faltas de média). O mercado de "Under Cartões" ou "Menos de 4.5" pode ser uma boa pedida se o juiz não for rigoroso.
+                        {% endblocktranslate %}
                     {% endif %}
                     {% endwith %}
                 </p>
@@ -472,13 +482,13 @@
     <!-- EFICIÊNCIA DE CHUTES -->
     <div class="analytic-board mb-4">
         <div class="board-header">
-            ATTACK EFFICIENCY
+            {% translate "ATTACK EFFICIENCY" %}
         </div>
         <div class="board-body" style="padding-top: 1rem;">
             {% if advanced_stats.efficiency.match_has_data %}
             <div class="eff-stats">
                 <div class="eff-row">
-                    <span class="l">Shot Accuracy (Target)</span>
+                    <span class="l">{% translate "Shot Accuracy (Target)" %}</span>
                     <div class="eff-bars-container mt-2">
                         <!-- Casa -->
                         <div class="eff-team-row mb-2">
@@ -497,7 +507,7 @@
                     </div>
                 </div>
                 <div class="eff-row mt-4">
-                    <span class="l">Shots per Goal</span>
+                    <span class="l">{% translate "Shots per Goal" %}</span>
                     <div class="eff-vals">
                         <div class="v"><strong>{{ advanced_stats.efficiency.home.conversion }}</strong><span>{{ match.home_team.name|slice:":3" }}</span></div>
                         <div class="v"><strong>{{ advanced_stats.efficiency.away.conversion }}</strong><span>{{ match.away_team.name|slice:":3" }}</span></div>
@@ -519,11 +529,17 @@
                 </div>
                 <p class="ai-text">
                     {% if advanced_stats.efficiency.home.accuracy >= 30 and advanced_stats.efficiency.away.accuracy >= 30 %}
+                        {% blocktranslate %}
                         Ambos os times possuem precisão acima de 30% no alvo. Isso é um sinal fortíssimo para o mercado de <strong>"Ambas Marcam: Sim"</strong> ou "Over 1.5/2.5 Gols".
+                        {% endblocktranslate %}
                     {% elif advanced_stats.efficiency.home.accuracy >= 30 or advanced_stats.efficiency.away.accuracy >= 30 %}
+                        {% blocktranslate %}
                         Apenas um dos times está sendo letal nas finalizações. Considere apostar no mercado de "Gols do Time" para aquele com maior precisão.
+                        {% endblocktranslate %}
                     {% else %}
+                        {% blocktranslate %}
                         Ambas as equipes estão pecando na finalização (Accuracy abaixo de 30%). Jogo com tendência de poucos gols, ideal para analisar o mercado de "Under".
+                        {% endblocktranslate %}
                     {% endif %}
                 </p>
             </div>

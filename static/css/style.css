@@ -1180,3 +1180,15 @@ body {
 .ai-text strong {
     color: var(--primary);
 }
+/* LANGUAGE SWITCHER */
+.language-switcher button {
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    filter: grayscale(20%);
+}
+.language-switcher button:hover {
+    opacity: 1;
+    transform: scale(1.2);
+    filter: grayscale(0%);
+}
+.language-switcher form { line-height: 0; }

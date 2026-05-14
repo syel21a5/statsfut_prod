@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,18 +44,18 @@
             <span>statsfut<span style="color:var(--primary)">.com</span></span>
         </div>
 
-        <div class="menu-label">Main</div>
+        <div class="menu-label">{% translate "Main" %}</div>
         <a href="/" class="nav-link active">
-            <i class="fa-solid fa-house"></i> Dashboard
+            <i class="fa-solid fa-house"></i> {% translate "Dashboard" %}
         </a>
         <a href="#" class="nav-link">
-            <i class="fa-solid fa-star"></i> Favorites
+            <i class="fa-solid fa-star"></i> {% translate "Favorites" %}
         </a>
         <a href="{% url 'matches:live_matches' %}" class="nav-link text-danger fw-bold">
-            <i class="fa-solid fa-circle-dot live-pulse"></i> Live
+            <i class="fa-solid fa-circle-dot live-pulse"></i> {% translate "Live" %}
         </a>
 
-        <div class="menu-label">Countries & Leagues</div>
+        <div class="menu-label">{% translate "Countries & Leagues" %}</div>
         
         <div class="accordion accordion-flush sidebar-accordion" id="accordionLeagues" style="max-height: 70vh; overflow-y: auto;">
             {% for country in sidebar_countries %}
@@ -99,14 +99,46 @@
             <div class="position-relative flex-grow-1" style="max-width: 500px;">
                 <div class="input-group">
                     <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-end-0"><i class="fa-solid fa-magnifying-glass"></i></span>
-                    <input type="text" id="global-search" class="form-control bg-dark border-secondary border-opacity-25 text-white shadow-none border-start-0" placeholder="Search teams, leagues..." autocomplete="off">
+                    <input type="text" id="global-search" class="form-control bg-dark border-secondary border-opacity-25 text-white shadow-none border-start-0" placeholder="{% translate 'Search teams, leagues...' %}" autocomplete="off">
                     <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-start-0 small" style="font-size: 0.75rem;">Ctrl+K</span>
                 </div>
                 <div id="search-results" class="list-group position-absolute mt-1 shadow-lg d-none w-100" style="z-index: 1050;"></div>
             </div>
 
-            <!-- User / Date -->
+            <!-- User / Date / Language -->
             <div class="d-flex align-items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="language-switcher d-flex gap-2 me-2">
+                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <button name="language" value="pt-br" class="btn btn-link p-0 border-0 shadow-none" title="Português">
+                            <span class="fi fi-br" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                        </button>
+                    </form>
+                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <button name="language" value="en" class="btn btn-link p-0 border-0 shadow-none" title="English">
+                            <span class="fi fi-us" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                        </button>
+                    </form>
+                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <button name="language" value="es" class="btn btn-link p-0 border-0 shadow-none" title="Español">
+                            <span class="fi fi-es" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                        </button>
+                    </form>
+                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <button name="language" value="de" class="btn btn-link p-0 border-0 shadow-none" title="Deutsch">
+                            <span class="fi fi-de" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                        </button>
+                    </form>
+                </div>
+
                 <div class="date-badge d-none d-md-inline-block">
                     <i class="fa-regular fa-clock me-1"></i> {% now "M d, Y, H:i" %}
                 </div>
@@ -147,7 +179,7 @@
             <div class="col-md-3">
                 <div class="page-title">
                     {% block header %}
-                    <h1 class="h3 mb-0 text-white">Overview</h1>
+                    <h1 class="h3 mb-0 text-white">{% translate "Overview" %}</h1>
                     {% endblock %}
                 </div>
             </div>
