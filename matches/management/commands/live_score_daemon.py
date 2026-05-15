@@ -4,18 +4,25 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.core.cache import cache
-from matches.models import Match
+from matches.models import Match, League
+from matches.utils import normalize_team_name
 
 # Configuração de logging
 logger = logging.getLogger(__name__)
+# Configuração de Proxy para o Tor
+TOR_PROXIES = {
+    'http': 'socks5h://127.0.0.1:9050',
+    'https': 'socks5h://127.0.0.1:9050'
+}
 
 class ScraperAdapter:
     """Classe base para os raspadores de placar ao vivo"""
     name = "BaseAdapter"
+    use_tor = False
     
     def fetch_live_scores(self):
         """Deve retornar uma lista de dicionários com:
-        home_team, away_team, home_score, away_score, status, elapsed
+        home_team, away_team, home_score, away_score, status, elapsed, league, country
         """
         raise NotImplementedError()
 
@@ -24,6 +31,8 @@ class ScraperAdapter:
 
 class BeSoccerAdapter(ScraperAdapter):
     name = "BeSoccer"
+    use_tor = True # BeSoccer bloqueia rápido, Tor é essencial aqui
+    
     def fetch_live_scores(self):
         from curl_cffi import requests as requests_cffi
         from bs4 import BeautifulSoup
@@ -31,16 +40,18 @@ class BeSoccerAdapter(ScraperAdapter):
         url = "https://www.besoccer.com/livescore"
         session = requests_cffi.Session(impersonate="chrome120")
         session.headers.update({
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/122.0.0.0",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
             "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
             "Referer": "https://www.google.com/"
         })
 
         try:
-            response = session.get(url, timeout=20)
+            # Tenta usar Tor se habilitado
+            proxies = TOR_PROXIES if self.use_tor else None
+            response = session.get(url, timeout=30, proxies=proxies)
             if response.status_code != 200:
-                logger.error(f"BeSoccer retornou status {response.status_code}")
+                logger.error(f"BeSoccer retornou status {response.status_code} (Tor: {self.use_tor})")
                 return []
             
             soup = BeautifulSoup(response.text, 'html.parser')
@@ -70,13 +81,30 @@ class BeSoccerAdapter(ScraperAdapter):
                     home_score = match.select_one('.r1').get_text(strip=True) if match.select_one('.r1') else "0"
                     away_score = match.select_one('.r2').get_text(strip=True) if match.select_one('.r2') else "0"
 
+                    # Detecção avançada de Liga e País
+                    league_name = "Desconhecida"
+                    country = "Global"
+                    parent_panel = match.find_parent(class_='panel')
+                    if parent_panel:
+                        title_tag = parent_panel.select_one('.comp-title') or \
+                                    parent_panel.select_one('.head-title') or \
+                                    parent_panel.select_one('.panel-title') or \
+                                    parent_panel.select_one('.title')
+                        if title_tag:
+                            league_name = title_tag.get_text(strip=True)
+                            flag = title_tag.find_previous('img', class_='flag') or parent_panel.select_one('img.flag')
+                            if flag and flag.get('alt'):
+                                country = flag.get('alt')
+
                     payload.append({
                         'home_team': home_team,
                         'away_team': away_team,
                         'home_score': home_score,
                         'away_score': away_score,
                         'status': 'Live' if is_live else 'Finished',
-                        'elapsed': elapsed
+                        'elapsed': elapsed,
+                        'league': league_name,
+                        'country': country
                     })
                 except Exception:
                     continue
@@ -89,6 +117,7 @@ class BeSoccerAdapter(ScraperAdapter):
 
 class GEAdapter(ScraperAdapter):
     name = "GloboEsporte"
+    use_tor = False # GE bloqueia Tor geralmente
     def fetch_live_scores(self):
         from curl_cffi import requests as requests_cffi
         from bs4 import BeautifulSoup
@@ -118,7 +147,9 @@ class GEAdapter(ScraperAdapter):
                         'home_score': score_home.get_text(strip=True),
                         'away_score': score_away.get_text(strip=True),
                         'status': 'Live',
-                        'elapsed': '45'
+                        'elapsed': '45',
+                        'league': 'Brasileirão',
+                        'country': 'Brasil'
                     })
                 except Exception:
                     continue
@@ -272,17 +303,34 @@ class Command(BaseCommand):
             
         updated_count = 0
         for item in live_data:
-            home_name = item.get('home_team')
-            away_name = item.get('away_team')
-            if not home_name or not away_name:
+            home_name_raw = item.get('home_team')
+            away_name_raw = item.get('away_team')
+            league_name_raw = item.get('league', 'Desconhecida')
+            country_raw = item.get('country', 'Global')
+            
+            if not home_name_raw or not away_name_raw:
                 continue
                 
-            # Busca flexível
-            match = Match.objects.filter(
-                home_team__name__icontains=home_name[:5], # Busca parcial flexível
-                away_team__name__icontains=away_name[:5],
-                status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
-            ).order_by('-date').first()
+            home_name = normalize_team_name(home_name_raw)
+            away_name = normalize_team_name(away_name_raw)
+                
+            # 1. Tenta busca ultra-precisa por Liga + Times
+            match = None
+            if league_name_raw != "Desconhecida":
+                match = Match.objects.filter(
+                    league__name__icontains=league_name_raw[:5],
+                    home_team__name__icontains=home_name[:6],
+                    away_team__name__icontains=away_name[:6],
+                    status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
+                ).order_by('-date').first()
+            
+            # 2. Fallback: Busca apenas pelos times (mais flexível)
+            if not match:
+                match = Match.objects.filter(
+                    home_team__name__icontains=home_name[:6],
+                    away_team__name__icontains=away_name[:6],
+                    status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
+                ).order_by('-date').first()
             
             if match:
                 if not dry_run:

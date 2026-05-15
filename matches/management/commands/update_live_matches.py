@@ -118,9 +118,22 @@ class Command(BaseCommand):
             try:
                 # RESTRITIVO: Busca apenas as ligas que o usuário habilitou expressamente
                 enabled_leagues = [
+                    {'name': 'Brasileirao', 'country': 'Brasil'},
+                    {'name': 'La Liga', 'country': 'Espanha'},
+                    {'name': 'Premier League', 'country': 'Inglaterra'},
+                    {'name': 'Serie A', 'country': 'Italia'},
+                    {'name': 'Primeira Liga', 'country': 'Portugal'},
                     {'name': 'Ligue 1', 'country': 'Franca'},
+                    {'name': 'Bundesliga', 'country': 'Alemanha'},
                     {'name': 'Bundesliga', 'country': 'Austria'},
                     {'name': 'A-League', 'country': 'Australia'},
+                    {'name': 'Pro League', 'country': 'Belgica'},
+                    {'name': 'Super League', 'country': 'Suica'},
+                    {'name': 'Eredivisie', 'country': 'Holanda'},
+                    {'name': 'Super Lig', 'country': 'Turquia'},
+                    {'name': 'Superliga', 'country': 'Dinamarca'},
+                    {'name': 'Super League', 'country': 'Grecia'},
+                    {'name': 'Liga Profesional', 'country': 'Argentina'},
                 ]
                 
                 for lg in enabled_leagues:
