@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 {% load matches_extras %}
 {% load flag_tags %}
 
@@ -18,12 +18,12 @@
                 <span class="text-info">{{ league.country|country_en }}</span> <i
                     class="fa-solid fa-chevron-right mx-2 small"></i>
                 <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i>
-                Team Stats
+                {% translate "Team Stats" %}
             </p>
         </div>
         <a href="{% url 'matches:league_goals' country_name=league.country|country_en|slugify league_name=league.name|slugify %}"
             class="btn btn-outline-secondary btn-sm">
-            <i class="fa-solid fa-arrow-left me-1"></i> Back to League
+            <i class="fa-solid fa-arrow-left me-1"></i> {% translate "Back to League" %}
         </a>
     </div>
 
@@ -35,7 +35,7 @@
                 <div class="col-lg-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Latest Matches</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Latest Matches" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
@@ -44,7 +44,7 @@
                                         <tr class="text-secondary">
                                             <th>Date</th>
                                             <th class="text-end">Home</th>
-                                            <th>Score</th>
+                                            <th>{% translate "Score" %}</th>
                                             <th class="text-start">Away</th>
                                             <th>H2H</th>
                                         </tr>
@@ -86,7 +86,7 @@
                 <div class="col-lg-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Upcoming Matches</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Upcoming Matches" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
@@ -138,7 +138,7 @@
                                 {% else %}
                                 <div class="p-4 text-center text-secondary">
                                     <i class="fa-regular fa-calendar-xmark fa-2x mb-2"></i>
-                                    <p class="mb-0">No upcoming matches scheduled.</p>
+                                    <p class="mb-0">{% translate "No upcoming matches scheduled." %}</p>
                                 </div>
                                 {% endif %}
                             </div>
@@ -154,7 +154,7 @@
                     <!-- 1. Seasonal Match Statistics -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Seasonal Match Statistics</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Seasonal Match Statistics" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -211,7 +211,7 @@
                             <!-- PPG Bars -->
                             <div class="p-3 border-top border-secondary border-opacity-25">
                                 <div class="d-flex align-items-center mb-2 small">
-                                    <div style="width: 100px;" class="text-secondary">PPG (Home):</div>
+                                    <div style="width: 100px;" class="text-secondary">{% translate "PPG (Home):" %}</div>
                                     <div class="flex-grow-1 mx-2 bg-secondary bg-opacity-25 rounded-pill"
                                         style="height: 6px;">
                                         <div class="bg-info rounded-pill"
@@ -221,7 +221,7 @@
                                     <div class="fw-bold" style="width: 40px; text-align: right;">{{ stats.home.ppg|floatformat:2 }}</div>
                                 </div>
                                 <div class="d-flex align-items-center mb-2 small">
-                                    <div style="width: 100px;" class="text-secondary">PPG (Away):</div>
+                                    <div style="width: 100px;" class="text-secondary">{% translate "PPG (Away):" %}</div>
                                     <div class="flex-grow-1 mx-2 bg-secondary bg-opacity-25 rounded-pill"
                                         style="height: 6px;">
                                         <div class="bg-info rounded-pill"
@@ -231,7 +231,7 @@
                                     <div class="fw-bold" style="width: 40px; text-align: right;">{{ stats.away.ppg|floatformat:2 }}</div>
                                 </div>
                                 <div class="d-flex align-items-center mb-2 small">
-                                    <div style="width: 100px;" class="text-secondary fw-bold">PPG (Total):</div>
+                                    <div style="width: 100px;" class="text-secondary fw-bold">{% translate "PPG (Total):" %}</div>
                                     <div class="flex-grow-1 mx-2 bg-secondary bg-opacity-25 rounded-pill"
                                         style="height: 8px;">
                                         <div class="bg-primary rounded-pill"
@@ -247,7 +247,7 @@
                     <!-- 2. Relative Form -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Relative Form</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Relative Form" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
@@ -255,13 +255,13 @@
                                     <tr class="text-secondary">
                                         <th></th>
                                         <th>All</th>
-                                        <th>Last 8</th>
-                                        <th>Diff</th>
+                                        <th>{% translate "Last 8" %}</th>
+                                        <th>{% translate "Diff" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-start ps-3 text-secondary">Points per Game</td>
+                                        <td class="text-start ps-3 text-secondary">{% translate "Points per Game" %}</td>
                                         <td>{{ relative_form.ppg.all }}</td>
                                         <td class="text-info fw-bold">{{ relative_form.ppg.l8 }}</td>
                                         <td
@@ -270,7 +270,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-secondary">AVG Goals For</td>
+                                        <td class="text-start ps-3 text-secondary">{% translate "AVG Goals For" %}</td>
                                         <td>{{ relative_form.avg_gf.all }}</td>
                                         <td class="text-info fw-bold">{{ relative_form.avg_gf.l8 }}</td>
                                         <td
@@ -279,7 +279,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-secondary">AVG Goals Against</td>
+                                        <td class="text-start ps-3 text-secondary">{% translate "AVG Goals Against" %}</td>
                                         <td>{{ relative_form.avg_ga.all }}</td>
                                         <td class="text-info fw-bold">{{ relative_form.avg_ga.l8 }}</td>
                                         <td
@@ -295,7 +295,7 @@
                     <!-- 3. No Goal Scored / Conceded -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Clean Sheets & Failure to Score</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Clean Sheets & Failure to Score" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
@@ -309,31 +309,31 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Clean Sheets</td>
+                                        <td class="text-start ps-3 text-success">{% translate "Clean Sheets" %}</td>
                                         <td>{{ rates.home.cs_pct }}%</td>
                                         <td>{{ rates.away.cs_pct }}%</td>
                                         <td>{{ rates.total.cs_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-info">Both Teams Scored</td>
+                                        <td class="text-start ps-3 text-info">{% translate "Both Teams Scored" %}</td>
                                         <td>{{ rates.home.bts_pct }}%</td>
                                         <td>{{ rates.away.bts_pct }}%</td>
                                         <td>{{ rates.total.bts_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Won-to-Nil</td>
+                                        <td class="text-start ps-3 text-success">{% translate "Won-to-Nil" %}</td>
                                         <td>{{ rates.home.wtn_pct }}%</td>
                                         <td>{{ rates.away.wtn_pct }}%</td>
                                         <td>{{ rates.total.wtn_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-warning">Failed to Score</td>
+                                        <td class="text-start ps-3 text-warning">{% translate "Failed to Score" %}</td>
                                         <td>{{ rates.home.fts_pct }}%</td>
                                         <td>{{ rates.away.fts_pct }}%</td>
                                         <td>{{ rates.total.fts_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-danger">Lost-to-Nil</td>
+                                        <td class="text-start ps-3 text-danger">{% translate "Lost-to-Nil" %}</td>
                                         <td>{{ rates.home.ltn_pct }}%</td>
                                         <td>{{ rates.away.ltn_pct }}%</td>
                                         <td>{{ rates.total.ltn_pct }}%</td>
@@ -346,16 +346,16 @@
                     <!-- 4. Progression Chart -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">{{ team.name }}'s Progression</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% blocktranslate with name=team.name %}{{ name }}'s Progression{% endblocktranslate %}</h6>
                         </div>
                         <div class="card-body p-3">
                             <div style="height: 200px;">
                                 <canvas id="progressionChart" data-chart='{{ chart_data_json|safe }}'></canvas>
                             </div>
                             <div class="d-flex justify-content-center gap-3 mt-2 small">
-                                <span class="text-success"><i class="fa-solid fa-circle small"></i> Win (+2)</span>
-                                <span class="text-warning"><i class="fa-solid fa-circle small"></i> Draw (0)</span>
-                                <span class="text-danger"><i class="fa-solid fa-circle small"></i> Loss (-1)</span>
+                                <span class="text-success"><i class="fa-solid fa-circle small"></i> {% translate "Win (+2)" %}</span>
+                                <span class="text-warning"><i class="fa-solid fa-circle small"></i> {% translate "Draw (0)" %}</span>
+                                <span class="text-danger"><i class="fa-solid fa-circle small"></i> {% translate "Loss (-1)" %}</span>
                             </div>
                         </div>
                     </div>
@@ -363,7 +363,7 @@
                     <!-- 5. Comparison with League Average -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Comparison with League Average</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Comparison with League Average" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <!-- Tabs -->
@@ -372,30 +372,20 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active text-white bg-transparent" id="comp-total-tab"
                                         data-bs-toggle="tab" data-bs-target="#comp-total" type="button"
-                                        role="tab">Total</button>
+                                        role="tab">{% translate "Total" %}</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link text-white bg-transparent" id="comp-home-tab"
                                         data-bs-toggle="tab" data-bs-target="#comp-home" type="button"
-                                        role="tab">Home</button>
+                                        role="tab">{% translate "Home" %}</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link text-white bg-transparent" id="comp-away-tab"
                                         data-bs-toggle="tab" data-bs-target="#comp-away" type="button"
-                                        role="tab">Away</button>
+                                        role="tab">{% translate "Away" %}</button>
                                 </li>
                             </ul>
                             <div class="tab-content p-0" id="comparisonTabContent">
-                                {% for cat in cats %}
-                                <!-- Note: Implementing tabs via JS logic inside the loop or repeating the loop inside tabs. 
-                                  To keep it simple, I will assume we can just list the stats. 
-                                  Actually, the original had tabs for Total/Home/Away but the content was similar. 
-                                  I will just show TOTAL here for brevity or implement a simple toggle if needed.
-                                  Let's stick to showing Total for now or use the loop variable 'cat' effectively. 
-                                  Wait, 'cats' is ['total', 'home', 'away']. Ah! So I should loop through 'cats' and create tab panes.
-                             -->
-                                {% endfor %}
-
                                 {% for c in cats %}
                                 <div class="tab-pane fade {% if c == 'total' %}show active{% endif %}" id="comp-{{ c }}"
                                     role="tabpanel">
@@ -403,15 +393,15 @@
                                         <table class="table table-dark table-sm mb-0 small align-middle">
                                             <thead>
                                                 <tr class="text-secondary text-center">
-                                                    <th class="text-start ps-3">Stat</th>
+                                                    <th class="text-start ps-3">{% translate "Stat" %}</th>
                                                     <th>{{ team.name }}</th>
-                                                    <th>League Avg</th>
+                                                    <th>{% translate "League Avg" %}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <!-- Wins -->
                                                 <tr>
-                                                    <td class="text-start ps-3">% Wins</td>
+                                                    <td class="text-start ps-3">{% translate "% Wins" %}</td>
                                                     <td class="text-center"><span class="badge bg-success">{{ stats|get_item:c|get_item:'win_pct' }}%</span></td>
                                                     <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'win_pct'|floatformat:0 }}%</td>
                                                 </tr>
@@ -429,25 +419,25 @@
                                                 </tr>
                                                 <!-- Draws -->
                                                 <tr>
-                                                    <td class="text-start ps-3">% Draws</td>
+                                                    <td class="text-start ps-3">{% translate "% Draws" %}</td>
                                                     <td class="text-center"><span class="badge bg-warning text-dark">{{ stats|get_item:c|get_item:'draw_pct' }}%</span></td>
                                                     <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'draw_pct'|floatformat:0 }}%</td>
                                                 </tr>
                                                 <!-- Loss -->
                                                 <tr>
-                                                    <td class="text-start ps-3">% Defeats</td>
+                                                    <td class="text-start ps-3">{% translate "% Defeats" %}</td>
                                                     <td class="text-center"><span class="badge bg-danger">{{ stats|get_item:c|get_item:'loss_pct' }}%</span></td>
                                                     <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'loss_pct'|floatformat:0 }}%</td>
                                                 </tr>
                                                 <!-- Goals Scored -->
                                                 <tr>
-                                                    <td class="text-start ps-3">Goals Scored / Match</td>
+                                                    <td class="text-start ps-3">{% translate "Goals Scored / Match" %}</td>
                                                     <td class="text-center fw-bold text-success">{{ stats|get_item:c|get_item:'avg_gf' }}</td>
                                                     <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'avg_gf' }}</td>
                                                 </tr>
                                                 <!-- Goals Conceded -->
                                                 <tr>
-                                                    <td class="text-start ps-3">Goals Conceded / Match</td>
+                                                    <td class="text-start ps-3">{% translate "Goals Conceded / Match" %}</td>
                                                     <td class="text-center fw-bold text-danger">{{ stats|get_item:c|get_item:'avg_ga' }}</td>
                                                     <td class="text-center text-secondary">{{ league_avg|get_item:c|get_item:'avg_ga' }}</td>
                                                 </tr>
@@ -477,13 +467,13 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-start ps-3">Wins</td>
+                                        <td class="text-start ps-3">{% translate "Wins" %}</td>
                                         <td class="{% if streaks.home.win > 0 %}text-success fw-bold{% endif %}">{{ streaks.home.win }}</td>
                                         <td class="{% if streaks.away.win > 0 %}text-success fw-bold{% endif %}">{{ streaks.away.win }}</td>
                                         <td class="{% if streaks.total.win > 0 %}text-success fw-bold{% endif %}">{{ streaks.total.win }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3">Unbeaten (No Defeat)</td>
+                                        <td class="text-start ps-3">{% translate "Unbeaten (No Defeat)" %}</td>
                                         <td class="{% if streaks.home.no_defeat > 0 %}text-success fw-bold{% endif %}">
                                             {{ streaks.home.no_defeat }}</td>
                                         <td class="{% if streaks.away.no_defeat > 0 %}text-success fw-bold{% endif %}">
@@ -492,19 +482,19 @@
                                             {{ streaks.total.no_defeat }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3">Draws</td>
+                                        <td class="text-start ps-3">{% translate "Draws" %}</td>
                                         <td class="{% if streaks.home.draw > 0 %}text-warning fw-bold{% endif %}">{{ streaks.home.draw }}</td>
                                         <td class="{% if streaks.away.draw > 0 %}text-warning fw-bold{% endif %}">{{ streaks.away.draw }}</td>
                                         <td class="{% if streaks.total.draw > 0 %}text-warning fw-bold{% endif %}">{{ streaks.total.draw }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3">Defeats</td>
+                                        <td class="text-start ps-3">{% translate "Defeats" %}</td>
                                         <td class="{% if streaks.home.loss > 0 %}text-danger fw-bold{% endif %}">{{ streaks.home.loss }}</td>
                                         <td class="{% if streaks.away.loss > 0 %}text-danger fw-bold{% endif %}">{{ streaks.away.loss }}</td>
                                         <td class="{% if streaks.total.loss > 0 %}text-danger fw-bold{% endif %}">{{ streaks.total.loss }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3">No Win</td>
+                                        <td class="text-start ps-3">{% translate "No Win" %}</td>
                                         <td class="{% if streaks.home.no_win > 0 %}text-danger fw-bold{% endif %}">{{ streaks.home.no_win }}</td>
                                         <td class="{% if streaks.away.no_win > 0 %}text-danger fw-bold{% endif %}">{{ streaks.away.no_win }}</td>
                                         <td class="{% if streaks.total.no_win > 0 %}text-danger fw-bold{% endif %}">{{ streaks.total.no_win }}</td>
@@ -517,7 +507,7 @@
                     <!-- 6.5. Run-In Difficulty -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Upcoming Opponents (Difficulty)</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Upcoming Opponents (Difficulty)" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -526,9 +516,9 @@
                                         <tr class="text-secondary">
                                             <th class="text-start ps-3">Date</th>
                                             <th class="text-start">Opponent</th>
-                                            <th>Venue</th>
-                                            <th>Strength (PPG)</th>
-                                            <th>Difficulty</th>
+                                            <th>{% translate "Venue" %}</th>
+                                            <th>{% translate "Strength (PPG)" %}</th>
+                                            <th>{% translate "Difficulty" %}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -575,12 +565,10 @@
                             <div
                                 class="p-2 border-top border-secondary border-opacity-25 d-flex justify-content-around small">
                                 <div>
-                                    <span class="text-secondary">Avg Opp (Home):</span>
-                                    <span class="fw-bold text-white">{{ run_in.avg_opp_ppg_home }}</span>
+                                    <span class="fw-bold text-white">{% translate "Avg Opp (Home):" %} {{ run_in.avg_opp_ppg_home }}</span>
                                 </div>
                                 <div>
-                                    <span class="text-secondary">Avg Opp (Away):</span>
-                                    <span class="fw-bold text-white">{{ run_in.avg_opp_ppg_away }}</span>
+                                    <span class="fw-bold text-white">{% translate "Avg Opp (Away):" %} {{ run_in.avg_opp_ppg_away }}</span>
                                 </div>
                             </div>
                         </div>
@@ -589,7 +577,7 @@
                     <!-- 7. Scoring & Conceding Rates -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Scoring & Conceding Rates</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Scoring & Conceding Rates" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
@@ -603,37 +591,37 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Scoring Rate</td>
+                                        <td class="text-start ps-3 text-success">{% translate "Scoring Rate" %}</td>
                                         <td>{{ rates.home.scoring_rate_pct }}%</td>
                                         <td>{{ rates.away.scoring_rate_pct }}%</td>
                                         <td class="fw-bold">{{ rates.total.scoring_rate_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Scoring Rate 1st Half</td>
+                                        <td class="text-start ps-3 text-success">{% translate "Scoring Rate 1st Half" %}</td>
                                         <td>{{ rates.home.score_1h_pct }}%</td>
                                         <td>{{ rates.away.score_1h_pct }}%</td>
                                         <td class="fw-bold">{{ rates.total.score_1h_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Scoring Rate 2nd Half</td>
+                                        <td class="text-start ps-3 text-success">{% translate "Scoring Rate 2nd Half" %}</td>
                                         <td>{{ rates.home.score_2h_pct }}%</td>
                                         <td>{{ rates.away.score_2h_pct }}%</td>
                                         <td class="fw-bold">{{ rates.total.score_2h_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Scored in Both Halves</td>
+                                        <td class="text-start ps-3 text-success">{% translate "Scored in Both Halves" %}</td>
                                         <td>{{ rates.home.score_both_pct }}%</td>
                                         <td>{{ rates.away.score_both_pct }}%</td>
                                         <td class="fw-bold">{{ rates.total.score_both_pct }}%</td>
                                     </tr>
                                     <tr class="bg-white bg-opacity-10">
-                                        <td class="text-start ps-3 text-warning">Both Teams Scored</td>
+                                        <td class="text-start ps-3 text-warning">{% translate "Both Teams Scored" %}</td>
                                         <td>{{ rates.home.bts_pct }}%</td>
                                         <td>{{ rates.away.bts_pct }}%</td>
                                         <td class="fw-bold">{{ rates.total.bts_pct }}%</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-danger">Conceding Rate</td>
+                                        <td class="text-start ps-3 text-danger">{% translate "Conceding Rate" %}</td>
                                         <td>{{ rates.home.conceding_rate_pct }}%</td>
                                         <td>{{ rates.away.conceding_rate_pct }}%</td>
                                         <td class="fw-bold">{{ rates.total.conceding_rate_pct }}%</td>
@@ -646,14 +634,14 @@
                     <!-- 8. Timing of Goals -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Timing of Goals</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Timing of Goals" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table table-dark table-sm mb-0 text-center small">
                                     <thead>
                                         <tr class="text-secondary">
-                                            <th class="text-start ps-3">Period</th>
+                                            <th class="text-start ps-3">{% translate "Period" %}</th>
                                             <th>0-15</th>
                                             <th>16-30</th>
                                             <th>31-45</th>
@@ -664,13 +652,13 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-start ps-3 text-success">Scored</td>
+                                            <td class="text-start ps-3 text-success">{% translate "Scored" %}</td>
                                             {% for c in timing_stats.scored.total %}
                                             <td>{{ c }}</td>
                                             {% endfor %}
                                         </tr>
                                         <tr>
-                                            <td class="text-start ps-3 text-danger">Conceded</td>
+                                            <td class="text-start ps-3 text-danger">{% translate "Conceded" %}</td>
                                             {% for c in timing_stats.conceded.total %}
                                             <td>{{ c }}</td>
                                             {% endfor %}
@@ -684,14 +672,14 @@
                     <!-- 9. Cards & Corners -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Cards & Corners (Average)</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Cards & Corners (Average)" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="row g-0">
                                 <div class="col-md-6 border-end border-secondary border-opacity-25">
                                     <div
                                         class="p-2 text-center text-secondary small text-uppercase fw-bold border-bottom border-secondary border-opacity-25">
-                                        Cards</div>
+                                        {% translate "Cards" %}</div>
                                     <table class="table table-dark table-sm mb-0 text-center small">
                                         <thead>
                                             <tr class="text-secondary">
@@ -703,13 +691,13 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="text-start ps-3 text-warning">Yellow</td>
+                                                <td class="text-start ps-3 text-warning">{% translate "Yellow" %}</td>
                                                 <td>{{ card_avgs.yellow.home }}</td>
                                                 <td>{{ card_avgs.yellow.away }}</td>
                                                 <td class="fw-bold">{{ card_avgs.yellow.total }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-start ps-3 text-danger">Red</td>
+                                                <td class="text-start ps-3 text-danger">{% translate "Red" %}</td>
                                                 <td>{{ card_avgs.red.home }}</td>
                                                 <td>{{ card_avgs.red.away }}</td>
                                                 <td class="fw-bold">{{ card_avgs.red.total }}</td>
@@ -720,7 +708,7 @@
                                 <div class="col-md-6">
                                     <div
                                         class="p-2 text-center text-secondary small text-uppercase fw-bold border-bottom border-secondary border-opacity-25">
-                                        Corners</div>
+                                        {% translate "Corners" %}</div>
                                     <table class="table table-dark table-sm mb-0 text-center small">
                                         <thead>
                                             <tr class="text-secondary">
@@ -732,19 +720,19 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="text-start ps-3 text-success">For</td>
+                                                <td class="text-start ps-3 text-success">{% translate "For" %}</td>
                                                 <td>{{ corner_data.for.home.avg }}</td>
                                                 <td>{{ corner_data.for.away.avg }}</td>
                                                 <td class="fw-bold">{{ corner_data.for.total.avg }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-start ps-3 text-danger">Against</td>
+                                                <td class="text-start ps-3 text-danger">{% translate "Against" %}</td>
                                                 <td>{{ corner_data.against.home.avg }}</td>
                                                 <td>{{ corner_data.against.away.avg }}</td>
                                                 <td class="fw-bold">{{ corner_data.against.total.avg }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-start ps-3 text-info">Total Match</td>
+                                                <td class="text-start ps-3 text-info">{% translate "Total Match" %}</td>
                                                 <td>{{ corner_data.total.home.avg }}</td>
                                                 <td>{{ corner_data.total.away.avg }}</td>
                                                 <td class="fw-bold">{{ corner_data.total.total.avg }}</td>
@@ -808,45 +796,45 @@
                     <!-- 2. Goals Scored & Conceded -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Goals Scored & Conceded</h6>
+                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Goals Scored & Conceded" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
                                 <thead>
                                     <tr class="text-secondary">
                                         <th></th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                        <th>Total</th>
+                                        <th>{% translate "Home" %}</th>
+                                        <th>{% translate "Away" %}</th>
+                                        <th>{% translate "Total" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-start ps-3 text-success">Goals For (GF)</td>
+                                         <td class="text-start ps-3 text-success">{% translate "Goals For (GF)" %}</td>
                                         <td>{{ stats.home.gf }}</td>
                                         <td>{{ stats.away.gf }}</td>
                                         <td class="fw-bold">{{ stats.total.gf }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3">GF per match</td>
+                                         <td class="text-start ps-3">{% translate "GF per match" %}</td>
                                         <td>{{ stats.home.avg_gf|floatformat:2 }}</td>
                                         <td>{{ stats.away.avg_gf|floatformat:2 }}</td>
                                         <td class="fw-bold">{{ stats.total.avg_gf|floatformat:2 }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-danger">Goals Against (GA)</td>
+                                         <td class="text-start ps-3 text-danger">{% translate "Goals Against (GA)" %}</td>
                                         <td>{{ stats.home.ga }}</td>
                                         <td>{{ stats.away.ga }}</td>
                                         <td class="fw-bold">{{ stats.total.ga }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3">GA per match</td>
+                                         <td class="text-start ps-3">{% translate "GA per match" %}</td>
                                         <td>{{ stats.home.avg_ga|floatformat:2 }}</td>
                                         <td>{{ stats.away.avg_ga|floatformat:2 }}</td>
                                         <td class="fw-bold">{{ stats.total.avg_ga|floatformat:2 }}</td>
                                     </tr>
                                     <tr class="bg-white bg-opacity-10">
-                                        <td class="text-start ps-3">GF + GA per match</td>
+                                         <td class="text-start ps-3">{% translate "GF + GA per match" %}</td>
                                         <td>{{ stats.home.avg_total_goals|floatformat:2 }}</td>
                                         <td>{{ stats.away.avg_total_goals|floatformat:2 }}</td>
                                         <td class="fw-bold">{{ stats.total.avg_total_goals|floatformat:2 }}</td>
@@ -859,22 +847,22 @@
                     <!-- 3. Over / Under Stats -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Match Total Goals Stats</h6>
+                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Match Total Goals Stats" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
                                 <thead>
                                     <tr class="text-secondary">
-                                        <th class="text-start ps-3">Threshold</th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                        <th>Total</th>
+                                         <th class="text-start ps-3">{% translate "Threshold" %}</th>
+                                        <th>{% translate "Home" %}</th>
+                                        <th>{% translate "Away" %}</th>
+                                        <th>{% translate "Total" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for t in thresholds %}
                                     <tr>
-                                        <td class="text-start ps-3">Over {{ t }} Goals</td>
+                                         <td class="text-start ps-3">{% blocktranslate with t=t %}Over {{ t }} Goals{% endblocktranslate %}</td>
                                         <td>{{ goal_stats.match_total.home|get_key_pct:t }}%</td>
                                         <td>{{ goal_stats.match_total.away|get_key_pct:t }}%</td>
                                         <td class="fw-bold">{{ goal_stats.match_total.total|get_key_pct:t }}%</td>
@@ -888,7 +876,7 @@
                     <!-- 4. Corners For -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Total Corners (For)</h6>
+                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Total Corners (For)" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -896,7 +884,7 @@
                                     <thead>
                                         <tr class="text-secondary">
                                             <th class="text-start ps-3"></th>
-                                            <th>Avg</th>
+                                            <th>{% translate "Avg" %}</th>
                                             {% for t in corner_thresholds %}
                                             <th>{{ t }}+</th>
                                             {% endfor %}
@@ -904,21 +892,21 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-start ps-3">Home</td>
+                                            <td class="text-start ps-3">{% translate "Home" %}</td>
                                             <td class="text-info">{{ corner_data.for.home.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.for.home.thresholds|get_item:t }}%</td>
                                             {% endfor %}
                                         </tr>
                                         <tr>
-                                            <td class="text-start ps-3">Away</td>
+                                            <td class="text-start ps-3">{% translate "Away" %}</td>
                                             <td class="text-info">{{ corner_data.for.away.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.for.away.thresholds|get_item:t }}%</td>
                                             {% endfor %}
                                         </tr>
                                         <tr class="fw-bold bg-white bg-opacity-10">
-                                            <td class="text-start ps-3">Total</td>
+                                            <td class="text-start ps-3">{% translate "Total" %}</td>
                                             <td class="text-info">{{ corner_data.for.total.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.for.total.thresholds|get_item:t }}%</td>
@@ -933,7 +921,7 @@
                     <!-- 5. Corners Against -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Total Corners (Against)</h6>
+                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Total Corners (Against)" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -941,7 +929,7 @@
                                     <thead>
                                         <tr class="text-secondary">
                                             <th class="text-start ps-3"></th>
-                                            <th>Avg</th>
+                                            <th>{% translate "Avg" %}</th>
                                             {% for t in corner_thresholds %}
                                             <th>{{ t }}+</th>
                                             {% endfor %}
@@ -949,21 +937,21 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-start ps-3">Home</td>
+                                            <td class="text-start ps-3">{% translate "Home" %}</td>
                                             <td class="text-info">{{ corner_data.against.home.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.against.home.thresholds|get_item:t }}%</td>
                                             {% endfor %}
                                         </tr>
                                         <tr>
-                                            <td class="text-start ps-3">Away</td>
+                                            <td class="text-start ps-3">{% translate "Away" %}</td>
                                             <td class="text-info">{{ corner_data.against.away.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.against.away.thresholds|get_item:t }}%</td>
                                             {% endfor %}
                                         </tr>
                                         <tr class="fw-bold bg-white bg-opacity-10">
-                                            <td class="text-start ps-3">Total</td>
+                                            <td class="text-start ps-3">{% translate "Total" %}</td>
                                             <td class="text-info">{{ corner_data.against.total.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.against.total.thresholds|get_item:t }}%</td>
@@ -978,7 +966,7 @@
                     <!-- 6. Match Corners (Total) -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Match Corners (Total)</h6>
+                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Match Corners (Total)" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -986,7 +974,7 @@
                                     <thead>
                                         <tr class="text-secondary">
                                             <th class="text-start ps-3"></th>
-                                            <th>Avg</th>
+                                            <th>{% translate "Avg" %}</th>
                                             {% for t in corner_thresholds %}
                                             <th>{{ t }}+</th>
                                             {% endfor %}
@@ -994,21 +982,21 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-start ps-3">Home</td>
+                                            <td class="text-start ps-3">{% translate "Home" %}</td>
                                             <td class="text-info">{{ corner_data.total.home.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.total.home.thresholds|get_item:t }}%</td>
                                             {% endfor %}
                                         </tr>
                                         <tr>
-                                            <td class="text-start ps-3">Away</td>
+                                            <td class="text-start ps-3">{% translate "Away" %}</td>
                                             <td class="text-info">{{ corner_data.total.away.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.total.away.thresholds|get_item:t }}%</td>
                                             {% endfor %}
                                         </tr>
                                         <tr class="fw-bold bg-white bg-opacity-10">
-                                            <td class="text-start ps-3">Total</td>
+                                            <td class="text-start ps-3">{% translate "Total" %}</td>
                                             <td class="text-info">{{ corner_data.total.total.avg }}</td>
                                             {% for t in corner_thresholds %}
                                             <td>{{ corner_data.total.total.thresholds|get_item:t }}%</td>
@@ -1022,27 +1010,27 @@
                     <!-- Cards -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Cards</h6>
+                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Cards" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
                                 <thead>
                                     <tr class="text-secondary">
                                         <th></th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                        <th>Total</th>
+                                        <th>{% translate "Home" %}</th>
+                                        <th>{% translate "Away" %}</th>
+                                        <th>{% translate "Total" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-start ps-3 text-warning">Yellow Cards</td>
+                                         <td class="text-start ps-3 text-warning">{% translate "Yellow Cards" %}</td>
                                         <td>{{ card_stats.yellow.home }}</td>
                                         <td>{{ card_stats.yellow.away }}</td>
                                         <td class="fw-bold">{{ card_stats.yellow.total }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-start ps-3 text-danger">Red Cards</td>
+                                         <td class="text-start ps-3 text-danger">{% translate "Red Cards" %}</td>
                                         <td>{{ card_stats.red.home }}</td>
                                         <td>{{ card_stats.red.away }}</td>
                                         <td class="fw-bold">{{ card_stats.red.total }}</td>
@@ -1064,7 +1052,7 @@
                 <div class="card border-0 bg-transparent mb-4">
                     <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
                         style="min-height: 250px;">
-                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement</span>
+                         <span class="text-muted small text-uppercase letter-spacing-2 mb-2">{% translate "Advertisement" %}</span>
                         <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-2x"></i></div>
                         <!-- Insert Ad Code Here -->
                     </div>
@@ -1074,8 +1062,7 @@
                 <div class="card border-0 bg-transparent mb-4">
                     <div class="ad-slot text-center py-5 bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
                         style="min-height: 600px;">
-                        <span class="text-muted small text-uppercase letter-spacing-2 mb-2">Advertisement
-                            (Skyscraper)</span>
+                         <span class="text-muted small text-uppercase letter-spacing-2 mb-2">{% translate "Advertisement (Skyscraper)" %}</span>
                         <div class="text-white-50 small"><i class="fa-solid fa-rectangle-ad fa-3x"></i></div>
                         <!-- Insert Ad Code Here -->
                     </div>

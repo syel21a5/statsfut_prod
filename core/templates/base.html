@@ -1,6 +1,6 @@
 {% load static i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ request.LANGUAGE_CODE }}">
 
 <head>
     <!-- Google Analytics (GA4) -->
@@ -14,8 +14,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}StatsFut | Football Analytics & Predictions{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}StatsFut - Estatísticas avançadas de futebol, análises pré-jogo, Over/Under, BTTS e confrontos diretos das principais ligas do mundo.{% endblock %}">
+    <title>{% block title %}{% translate "StatsFut | Football Analytics & Predictions" %}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{% translate "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, BTTS and direct confrontations of the world's main leagues." %}{% endblock %}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://statsfut.com{{ request.path }}">
 
@@ -75,7 +75,7 @@
             </div>
             {% empty %}
             <!-- Fallback if no leagues found in DB (e.g. during migration) -->
-            <div class="px-3 py-2 text-muted small">Loading leagues...</div>
+            <div class="px-3 py-2 text-muted small">{% translate "Loading leagues..." %}</div>
             {% endfor %}
         </div>
     </aside>
@@ -123,6 +123,7 @@
                             <span class="fi fi-us" style="font-size: 1.1rem; border-radius: 2px;"></span>
                         </button>
                     </form>
+
                     <form action="{% url 'set_language' %}" method="post" class="d-inline">
                         {% csrf_token %}
                         <input name="next" type="hidden" value="{{ request.get_full_path }}">

@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static matches_extras i18n %}
 
-{% block title %}StatsFut - Football Statistics, Predictions & Match Analysis{% endblock %}
-{% block meta_description %}Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge.{% endblock %}
+{% block title %}{% translate "StatsFut - Football Statistics, Predictions & Match Analysis" %}{% endblock %}
+{% block meta_description %}{% translate "Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge." %}{% endblock %}
 
 {% block header %}
 <h1 class="h2 fw-bold text-white mb-0">{{ page_title }}</h1>
@@ -13,7 +13,7 @@
 <!-- Home Banner -->
 <div class="ad-slot-home mb-4 mx-auto rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="height: 200px; max-width: 1050px; position: relative;">
     <a href="{% url 'matches:live_matches' %}" class="d-block w-100 h-100">
-        <img src="{% static 'images/banners/banner3.png' %}" alt="Live Matches" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+        <img src="{% static 'images/banners/banner3.png' %}" alt="{% translate 'Live Matches' %}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
     </a>
 </div>
 
@@ -167,7 +167,7 @@
                         <div class="d-flex justify-content-between mb-2 small text-white">
                             <div class="fw-bold d-flex align-items-center gap-2">
                                 {% if match.status == 'Live' %}
-                                <span class="text-success pulse-text">LIVE</span>
+                                <span class="text-success pulse-text">{% translate "LIVE" %}</span>
                                 <span class="live-dot"></span>
                                 {% else %}
                                 <i class="fa-regular fa-clock text-white-50"></i>

@@ -173,7 +173,7 @@ LANGUAGE_CODE = 'en'
 
 # Se True, até o idioma padrão (EN) terá prefixo /en/
 # Se False, inglês fica sem prefixo (URL limpa), outros idiomas ganham prefixo
-PREFIX_DEFAULT_LANGUAGE = True
+PREFIX_DEFAULT_LANGUAGE = False
 
 TIME_ZONE = 'America/Sao_Paulo'
 

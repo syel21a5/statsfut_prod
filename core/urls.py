@@ -23,7 +23,7 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 
-# Todas as rotas do site com prefixo de idioma (/en/, /pt-br/, /es/, /de/)
+# Rotas com prefixo de idioma (/pt-br/, /es/, /de/) - inglês sem prefixo (/)
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('matches.urls')),

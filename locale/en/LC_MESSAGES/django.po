@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 13:20-0300\n"
+"POT-Creation-Date: 2026-05-14 14:13-0300\n"
 "Language: en\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -32,6 +32,16 @@ msgstr ""
 msgid "Limpeza de Duplicatas (Super Merge)"
 msgstr ""
 
+#: core/templates/base.html:17
+msgid "StatsFut | Football Analytics & Predictions"
+msgstr ""
+
+#: core/templates/base.html:18
+msgid ""
+"StatsFut - Advanced football statistics, pre-match analysis, Over/Under, "
+"BTTS and direct confrontations of the world's main leagues."
+msgstr ""
+
 # ============================================================
 # MENU / SIDEBAR
 # ============================================================
@@ -47,13 +57,18 @@ msgstr "Dashboard"
 msgid "Favorites"
 msgstr "Favorites"
 
-#: core/templates/base.html:55
+#: core/templates/base.html:55 matches/templates/matches/live_matches.html:15
+#: matches/templates/matches/live_matches.html:55
 msgid "Live"
 msgstr "Live"
 
 #: core/templates/base.html:58
 msgid "Countries & Leagues"
 msgstr "Countries & Leagues"
+
+#: core/templates/base.html:78
+msgid "Loading leagues..."
+msgstr ""
 
 #: core/templates/base.html:102
 msgid "Search teams, leagues..."
@@ -175,6 +190,747 @@ msgid ""
 "and a %(btts)s%% chance of Both Teams to Score (BTTS)."
 msgstr ""
 
+#: matches/templates/matches/h2h_detail.html:15
+msgid "Head-to-Head"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:18
+#, python-format
+msgid "%(t1)s vs %(t2)s"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:23
+#: matches/templates/matches/team_detail.html:26
+msgid "Back to League"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:40
+#: matches/templates/matches/h2h_detail.html:90
+#, python-format
+msgid "%(pos)sth Place"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:54
+#, python-format
+msgid "Total %(count)s Matches Played"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:62
+#: matches/templates/matches/h2h_detail.html:73
+#, python-format
+msgid "%(w)s Wins"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:78
+#: matches/templates/matches/h2h_detail.html:1024
+#: matches/templates/matches/h2h_detail.html:1606
+#: matches/templates/matches/h2h_detail.html:1752
+#: matches/templates/matches/team_detail.html:485
+msgid "Draws"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:111
+#: matches/templates/matches/h2h_detail.html:376
+msgid "this season"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:117
+#: matches/templates/matches/h2h_detail.html:382
+msgid "Seasonal match statistics"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:133
+#: matches/templates/matches/h2h_detail.html:398
+#: matches/templates/matches/h2h_detail.html:726
+#: matches/templates/matches/h2h_detail.html:735
+#: matches/templates/matches/h2h_detail.html:891
+#: matches/templates/matches/h2h_detail.html:946
+#: matches/templates/matches/h2h_detail.html:1067
+#: matches/templates/matches/h2h_detail.html:1584
+#: matches/templates/matches/h2h_detail.html:1730
+#: matches/templates/matches/h2h_detail.html:1875
+#: matches/templates/matches/match_detail.html:207
+#: matches/templates/matches/team_detail.html:380
+#: matches/templates/matches/team_detail.html:806
+#: matches/templates/matches/team_detail.html:857
+#: matches/templates/matches/team_detail.html:895
+#: matches/templates/matches/team_detail.html:940
+#: matches/templates/matches/team_detail.html:985
+#: matches/templates/matches/team_detail.html:1020
+msgid "Home"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:140
+#: matches/templates/matches/h2h_detail.html:405
+#: matches/templates/matches/h2h_detail.html:726
+#: matches/templates/matches/h2h_detail.html:739
+#: matches/templates/matches/h2h_detail.html:892
+#: matches/templates/matches/h2h_detail.html:947
+#: matches/templates/matches/h2h_detail.html:1069
+#: matches/templates/matches/h2h_detail.html:1585
+#: matches/templates/matches/h2h_detail.html:1731
+#: matches/templates/matches/h2h_detail.html:1877
+#: matches/templates/matches/match_detail.html:211
+#: matches/templates/matches/team_detail.html:385
+#: matches/templates/matches/team_detail.html:807
+#: matches/templates/matches/team_detail.html:858
+#: matches/templates/matches/team_detail.html:902
+#: matches/templates/matches/team_detail.html:947
+#: matches/templates/matches/team_detail.html:992
+#: matches/templates/matches/team_detail.html:1021
+msgid "Away"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:147
+#: matches/templates/matches/h2h_detail.html:412
+#: matches/templates/matches/h2h_detail.html:1586
+#: matches/templates/matches/h2h_detail.html:1732
+#: matches/templates/matches/h2h_detail.html:1873
+#: matches/templates/matches/team_detail.html:375
+#: matches/templates/matches/team_detail.html:808
+#: matches/templates/matches/team_detail.html:859
+#: matches/templates/matches/team_detail.html:909
+#: matches/templates/matches/team_detail.html:954
+#: matches/templates/matches/team_detail.html:999
+#: matches/templates/matches/team_detail.html:1022
+#, fuzzy
+#| msgid "Total Avg"
+msgid "Total"
+msgstr "Total Avg"
+
+#: matches/templates/matches/h2h_detail.html:159
+#: matches/templates/matches/h2h_detail.html:424
+#: matches/templates/matches/team_detail.html:214
+msgid "PPG (Home):"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:168
+#: matches/templates/matches/h2h_detail.html:433
+#: matches/templates/matches/team_detail.html:224
+msgid "PPG (Away):"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:177
+#: matches/templates/matches/h2h_detail.html:442
+#: matches/templates/matches/team_detail.html:234
+msgid "PPG (Total):"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:192
+#: matches/templates/matches/h2h_detail.html:457
+msgid "Relative form"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:199
+#: matches/templates/matches/h2h_detail.html:464
+#: matches/templates/matches/h2h_detail.html:678
+#: matches/templates/matches/h2h_detail.html:737
+msgid "Metric"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:200
+#: matches/templates/matches/h2h_detail.html:465
+msgid "All"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:201
+#: matches/templates/matches/h2h_detail.html:466
+#: matches/templates/matches/team_detail.html:258
+#, fuzzy
+#| msgid "matches"
+msgid "Last 8"
+msgstr "matches"
+
+#: matches/templates/matches/h2h_detail.html:202
+#: matches/templates/matches/h2h_detail.html:467
+msgid "Diff."
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:207
+#: matches/templates/matches/h2h_detail.html:472
+#: matches/templates/matches/team_detail.html:264
+#, fuzzy
+#| msgid "Shots per Goal"
+msgid "Points per Game"
+msgstr "Shots per Goal"
+
+#: matches/templates/matches/h2h_detail.html:216
+#: matches/templates/matches/h2h_detail.html:481
+#: matches/templates/matches/team_detail.html:273
+msgid "AVG Goals For"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:226
+#: matches/templates/matches/h2h_detail.html:491
+#: matches/templates/matches/team_detail.html:282
+msgid "AVG Goals Against"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:244
+#: matches/templates/matches/h2h_detail.html:509
+#, python-format
+msgid "%(name)s's progression (home & away)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:284
+#: matches/templates/matches/h2h_detail.html:549
+msgid "win:+2"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:285
+#: matches/templates/matches/h2h_detail.html:550
+msgid "draw:0"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:286
+#: matches/templates/matches/h2h_detail.html:551
+msgid "defeat:-1"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:294
+#: matches/templates/matches/h2h_detail.html:301
+#: matches/templates/matches/h2h_detail.html:559
+#: matches/templates/matches/h2h_detail.html:566
+#: matches/templates/matches/league_dashboard.html:232
+msgid "Results"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:639
+msgid "Key Probabilities"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:644
+#: matches/templates/matches/h2h_detail.html:1193
+#, fuzzy
+#| msgid "Overview"
+msgid "Over 2.5"
+msgstr "Overview"
+
+#: matches/templates/matches/h2h_detail.html:649
+msgid "BTS"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:654
+msgid "Avg Goals"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:656
+msgid "H2H Avg"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:670
+msgid "Overall Season Stats"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:690
+msgid "Goals For"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:695
+msgid "Goals Against"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:700
+#: matches/templates/matches/h2h_detail.html:761
+#, python-format
+msgid "BTS %%"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:705
+#: matches/templates/matches/h2h_detail.html:766
+#, python-format
+msgid "Over 2.5 %%"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:710
+#: matches/templates/matches/h2h_detail.html:771
+#, python-format
+msgid "Clean Sheet %%"
+msgstr ""
+
+# ============================================================
+# MATCH DETAIL - LABELS
+# ============================================================
+#: matches/templates/matches/h2h_detail.html:751
+#, fuzzy
+#| msgid "Scored"
+msgid "Avg Scored"
+msgstr "Scored"
+
+#: matches/templates/matches/h2h_detail.html:756
+#, fuzzy
+#| msgid "Conceded"
+msgid "Avg Conceded"
+msgstr "Conceded"
+
+#: matches/templates/matches/h2h_detail.html:786
+msgid "Recent H2H"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:793
+#: matches/templates/matches/h2h_detail.html:889
+#: matches/templates/matches/h2h_detail.html:944
+#: matches/templates/matches/h2h_detail.html:1066
+msgid "Date"
+msgstr ""
+
+# ============================================================
+# MATCH DETAIL - LABELS
+# ============================================================
+#: matches/templates/matches/h2h_detail.html:794
+#: matches/templates/matches/h2h_detail.html:1068
+#: matches/templates/matches/team_detail.html:47
+#, fuzzy
+#| msgid "Scored"
+msgid "Score"
+msgstr "Scored"
+
+#: matches/templates/matches/h2h_detail.html:795
+msgid "Winner"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:814
+#: matches/templates/matches/h2h_detail.html:1164
+#: matches/templates/matches/league_dashboard.html:149
+msgid "Draw"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:820
+#, fuzzy
+#| msgid "matches"
+msgid "No recent matches."
+msgstr "matches"
+
+#: matches/templates/matches/h2h_detail.html:835
+msgid "Detailed Goal Stats"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:845
+msgid "Goals"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:878
+msgid "Points Per Game (Remaining Matches Analysis)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:884
+#: matches/templates/matches/h2h_detail.html:939
+#, fuzzy, python-format
+#| msgid "Upcoming"
+msgid "%(name)s Upcoming"
+msgstr "Upcoming"
+
+#: matches/templates/matches/h2h_detail.html:890
+#: matches/templates/matches/h2h_detail.html:945
+#: matches/templates/matches/league_dashboard.html:309
+#: matches/templates/matches/league_dashboard.html:410
+#: matches/templates/matches/league_dashboard.html:504
+#, fuzzy
+#| msgid "matches"
+msgid "Match"
+msgstr "matches"
+
+#: matches/templates/matches/h2h_detail.html:893
+#: matches/templates/matches/h2h_detail.html:948
+msgid "Opp"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:894
+#: matches/templates/matches/h2h_detail.html:949
+msgid "Analysis"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:923
+#: matches/templates/matches/h2h_detail.html:978
+#: matches/templates/matches/league_dashboard.html:219
+msgid "No upcoming matches."
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:928
+#: matches/templates/matches/h2h_detail.html:983
+msgid "Avg Opponent PPG:"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1011
+msgid "Direct Head-to-Head History"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1021
+msgid "Summary"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1023
+#: matches/templates/matches/h2h_detail.html:1025
+#, python-format
+msgid "%(name)s Wins"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1031
+#: matches/templates/matches/h2h_detail.html:1037
+#, python-format
+msgid "%(count)s Wins"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1034
+#, python-format
+msgid "%(count)s Draws"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1039
+msgid "No Data"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1050
+#, fuzzy
+#| msgid "matches"
+msgid "Total Matches:"
+msgstr "matches"
+
+#: matches/templates/matches/h2h_detail.html:1051
+msgid "Total Goals:"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1052
+msgid "Avg Goals:"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1070
+msgid "Comp."
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1108
+msgid "No recorded matches between these teams."
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1128
+msgid "Estimated Probabilities (No DB H2H)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1129
+msgid "Base: current standings and league goal averages"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1143
+#: matches/templates/matches/h2h_detail.html:1229
+msgid "GF/GA per game"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1152
+msgid "League: Avg Goals"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1156
+#: matches/templates/matches/h2h_detail.html:1172
+#, python-format
+msgid "Win %(name)s"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1181
+msgid "Most probable scores"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1191
+msgid "Over/Under and BTTS (estimated)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1201
+#, fuzzy
+#| msgid "Overview"
+msgid "Over 3.5"
+msgstr "Overview"
+
+#: matches/templates/matches/h2h_detail.html:1248
+#: matches/templates/matches/h2h_detail.html:1405
+msgid "Historical statistics"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1258
+#: matches/templates/matches/h2h_detail.html:1415
+msgid "current vs previous"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1264
+#: matches/templates/matches/h2h_detail.html:1360
+#: matches/templates/matches/h2h_detail.html:1421
+#: matches/templates/matches/h2h_detail.html:1517
+msgid "Season"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1265
+#: matches/templates/matches/h2h_detail.html:1422
+msgid "Pld"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1266
+#: matches/templates/matches/h2h_detail.html:1423
+msgid "Avg Pts"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1267
+#: matches/templates/matches/h2h_detail.html:1424
+msgid "Avg GF"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1268
+#: matches/templates/matches/h2h_detail.html:1425
+msgid "Avg GA"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1269
+#: matches/templates/matches/h2h_detail.html:1426
+msgid "W"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1299
+#: matches/templates/matches/h2h_detail.html:1310
+#: matches/templates/matches/h2h_detail.html:1456
+#: matches/templates/matches/h2h_detail.html:1467
+msgid "home"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1323
+#: matches/templates/matches/h2h_detail.html:1334
+#: matches/templates/matches/h2h_detail.html:1480
+#: matches/templates/matches/h2h_detail.html:1491
+msgid "away"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1351
+#: matches/templates/matches/h2h_detail.html:1508
+msgid "Comparison with past seasons"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1354
+#: matches/templates/matches/h2h_detail.html:1511
+#, python-format
+msgid "%(name)s's record after %(count)s matches"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1564
+#, fuzzy
+#| msgid "Countries & Leagues"
+msgid "Current streaks & sequences"
+msgstr "Countries & Leagues"
+
+#: matches/templates/matches/h2h_detail.html:1583
+#: matches/templates/matches/h2h_detail.html:1729
+#: matches/templates/matches/h2h_detail.html:1897
+#: matches/templates/matches/h2h_detail.html:1961
+msgid "Statistic"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1592
+#: matches/templates/matches/h2h_detail.html:1738
+#: matches/templates/matches/team_detail.html:470
+msgid "Wins"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1618
+#: matches/templates/matches/h2h_detail.html:1764
+#: matches/templates/matches/team_detail.html:491
+msgid "Defeats"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1630
+#: matches/templates/matches/h2h_detail.html:1776
+msgid "No win"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1642
+#: matches/templates/matches/h2h_detail.html:1788
+msgid "No draw"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1648
+#: matches/templates/matches/h2h_detail.html:1794
+msgid "No defeat"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1660
+#: matches/templates/matches/h2h_detail.html:1806
+msgid "Scored 1+ goals"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1672
+#: matches/templates/matches/h2h_detail.html:1818
+#, fuzzy
+#| msgid "Conceded"
+msgid "Conceded 1+ goals"
+msgstr "Conceded"
+
+#: matches/templates/matches/h2h_detail.html:1684
+#: matches/templates/matches/h2h_detail.html:1830
+msgid "Did not score"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1696
+#: matches/templates/matches/h2h_detail.html:1842
+msgid "Did not concede"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1871
+msgid "Comparison with league average"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1898
+#: matches/templates/matches/h2h_detail.html:1962
+#: matches/templates/matches/league_dashboard.html:310
+#: matches/templates/matches/league_dashboard.html:411
+#: matches/templates/matches/league_dashboard.html:505
+#: matches/templates/matches/league_dashboard.html:648
+msgid "Team"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1900
+#: matches/templates/matches/h2h_detail.html:1964
+msgid "League"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1907
+#: matches/templates/matches/h2h_detail.html:1971
+msgid "Goals scored (GF)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1908
+#: matches/templates/matches/h2h_detail.html:1972
+msgid "Goals conceded (GA)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1909
+#: matches/templates/matches/h2h_detail.html:1973
+#, fuzzy
+#| msgid "Shots per Goal"
+msgid "Points per game"
+msgstr "Shots per Goal"
+
+#: matches/templates/matches/h2h_detail.html:1910
+#: matches/templates/matches/h2h_detail.html:1974
+msgid "Clean sheets"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1911
+#: matches/templates/matches/h2h_detail.html:1975
+msgid "Failed to score"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1912
+#: matches/templates/matches/h2h_detail.html:1976
+msgid "Over 1.5 goals"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1913
+#: matches/templates/matches/h2h_detail.html:1977
+msgid "Over 2.5 goals"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:1914
+#: matches/templates/matches/h2h_detail.html:1978
+msgid "Both teams to score"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2021
+#: matches/templates/matches/h2h_detail.html:2167
+msgid "First goal, leading & trailing"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2032
+#: matches/templates/matches/h2h_detail.html:2178
+msgid "Opening Goals (Total)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2035
+#: matches/templates/matches/h2h_detail.html:2181
+msgid "Team scored first"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2050
+#: matches/templates/matches/h2h_detail.html:2196
+msgid "Opponent scored first"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2066
+#: matches/templates/matches/h2h_detail.html:2212
+msgid "Avg. minute scored first"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2070
+#: matches/templates/matches/h2h_detail.html:2216
+msgid "Avg. minute conceded first"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2075
+#: matches/templates/matches/h2h_detail.html:2221
+msgid "Half-Time Lead (Total)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2079
+#: matches/templates/matches/h2h_detail.html:2225
+msgid "Leading at HT"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2095
+#: matches/templates/matches/h2h_detail.html:2241
+msgid "Trailing at HT"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2110
+#: matches/templates/matches/h2h_detail.html:2256
+msgid "Average Durations (Total)"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2114
+#: matches/templates/matches/h2h_detail.html:2260
+msgid "Leading"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2116
+#: matches/templates/matches/h2h_detail.html:2131
+#: matches/templates/matches/h2h_detail.html:2146
+#: matches/templates/matches/h2h_detail.html:2262
+#: matches/templates/matches/h2h_detail.html:2277
+#: matches/templates/matches/h2h_detail.html:2292
+#, python-format
+msgid "%(mins)s min"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2130
+#: matches/templates/matches/h2h_detail.html:2276
+msgid "Level"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2145
+#: matches/templates/matches/h2h_detail.html:2291
+msgid "Trailing"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2319
+#: matches/templates/matches/team_detail.html:1055
+msgid "Advertisement"
+msgstr ""
+
+#: matches/templates/matches/h2h_detail.html:2329
+#: matches/templates/matches/team_detail.html:1065
+msgid "Advertisement (Skyscraper)"
+msgstr ""
+
+#: matches/templates/matches/home.html:4
+msgid "StatsFut - Football Statistics, Predictions & Match Analysis"
+msgstr ""
+
+#: matches/templates/matches/home.html:5
+msgid ""
+"Explore advanced football statistics, pre-match analysis, Over/Under "
+"predictions and head-to-head data for the world's top leagues. StatsFut - "
+"Your data-driven edge."
+msgstr ""
+
+#: matches/templates/matches/home.html:16
+#: matches/templates/matches/live_matches.html:18 matches/views.py:484
+#, fuzzy
+#| msgid "matches"
+msgid "Live Matches"
+msgstr "matches"
+
 # ============================================================
 # HOME PAGE - BUTTONS & FILTERS
 # ============================================================
@@ -202,6 +958,11 @@ msgstr "Finished"
 msgid "matches"
 msgstr "matches"
 
+#: matches/templates/matches/home.html:170
+#: matches/templates/matches/live_matches.html:68
+msgid "LIVE"
+msgstr ""
+
 # ============================================================
 # HOME PAGE - EMPTY STATES
 # ============================================================
@@ -220,6 +981,146 @@ msgstr "No matches match your filter."
 #: matches/templates/matches/home.html:245
 msgid "Try resetting the status filter."
 msgstr "Try resetting the status filter."
+
+#: matches/templates/matches/league_dashboard.html:22
+msgid "League Stats"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:28
+msgid "Goals Stats"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:32
+msgid "Elite Stats"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:53
+msgid "Avg PPG"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:61
+msgid "Avg Goals/Team"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:69
+#, python-format
+msgid "Clean Sheets %%"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:77
+#: matches/templates/matches/team_detail.html:594
+msgid "Scoring Rate"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:89
+msgid "Over 1.5 Goals"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:97
+msgid "Over 2.5 Goals"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:113
+msgid "Avg Match Goals"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:125
+msgid "Match Outcomes Distribution"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:148
+msgid "Home Win"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:150
+msgid "Away Win"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:157
+msgid "Most Common Scores"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:180
+#, fuzzy
+#| msgid "matches"
+msgid "Matches"
+msgstr "matches"
+
+#: matches/templates/matches/league_dashboard.html:260
+msgid "No recent results."
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:277
+msgid "Pre-Match Analysis"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:279
+#, fuzzy
+#| msgid "matches"
+msgid "Next 10 Matches"
+msgstr "matches"
+
+#: matches/templates/matches/league_dashboard.html:284
+msgid "Home / Away"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:289
+#, fuzzy
+#| msgid "Overview"
+msgid "Overall"
+msgstr "Overview"
+
+#: matches/templates/matches/league_dashboard.html:293
+#, fuzzy
+#| msgid "matches"
+msgid "Last 8 Matches"
+msgstr "matches"
+
+#: matches/templates/matches/league_dashboard.html:321
+#: matches/templates/matches/league_dashboard.html:516
+msgid "Last 4"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:394
+#: matches/templates/matches/league_dashboard.html:580
+msgid "No upcoming matches analysis available."
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:620
+msgid "League Table"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:647
+msgid "#"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:654
+msgid "Last 5"
+msgstr ""
+
+#: matches/templates/matches/league_dashboard.html:666
+msgid "Form"
+msgstr ""
+
+#: matches/templates/matches/live_matches.html:24
+#, fuzzy
+#| msgid "Search teams, leagues..."
+msgid "Search leagues, teams..."
+msgstr "Search teams, leagues..."
+
+#: matches/templates/matches/live_matches.html:36
+msgid "No live matches currently"
+msgstr ""
+
+#: matches/templates/matches/live_matches.html:37
+msgid "Check back later or view upcoming fixtures in the dashboard."
+msgstr ""
+
+#: matches/templates/matches/live_matches.html:38
+#, fuzzy
+#| msgid "Dashboard"
+msgid "Go to Dashboard"
+msgstr "Dashboard"
 
 #: matches/templates/matches/match_detail.html:117
 msgid "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT"
@@ -250,23 +1151,17 @@ msgstr ""
 msgid "Chance to score first"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:207
-msgid "Home"
-msgstr ""
-
-#: matches/templates/matches/match_detail.html:211
-msgid "Away"
-msgstr ""
-
 #: matches/templates/matches/match_detail.html:217
 msgid "BTTS"
 msgstr ""
 
 #: matches/templates/matches/match_detail.html:224
+#: venv/Lib/site-packages/django/forms/widgets.py:797
 msgid "Yes"
 msgstr ""
 
 #: matches/templates/matches/match_detail.html:225
+#: venv/Lib/site-packages/django/forms/widgets.py:798
 msgid "No"
 msgstr ""
 
@@ -302,11 +1197,13 @@ msgstr "ELITE CORNERS PROJECTION"
 # ============================================================
 #: matches/templates/matches/match_detail.html:297
 #: matches/templates/matches/match_detail.html:332
+#: matches/templates/matches/team_detail.html:655
 msgid "Scored"
 msgstr "Scored"
 
 #: matches/templates/matches/match_detail.html:301
 #: matches/templates/matches/match_detail.html:336
+#: matches/templates/matches/team_detail.html:661
 msgid "Conceded"
 msgstr "Conceded"
 
@@ -432,6 +1329,275 @@ msgid ""
 "tendency for few goals, ideal for analyzing the \"Under\" market."
 msgstr ""
 
+#: matches/templates/matches/team_detail.html:21
+msgid "Team Stats"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:38
+#, fuzzy
+#| msgid "matches"
+msgid "Latest Matches"
+msgstr "matches"
+
+#: matches/templates/matches/team_detail.html:89
+#, fuzzy
+#| msgid "Upcoming"
+msgid "Upcoming Matches"
+msgstr "Upcoming"
+
+#: matches/templates/matches/team_detail.html:141
+msgid "No upcoming matches scheduled."
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:157
+msgid "Seasonal Match Statistics"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:250
+msgid "Relative Form"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:259
+msgid "Diff"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:298
+msgid "Clean Sheets & Failure to Score"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:312
+msgid "Clean Sheets"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:318
+#: matches/templates/matches/team_detail.html:618
+msgid "Both Teams Scored"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:324
+msgid "Won-to-Nil"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:330
+msgid "Failed to Score"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:336
+msgid "Lost-to-Nil"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:349
+#, python-format
+msgid "%(name)s's Progression"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:356
+msgid "Win (+2)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:357
+msgid "Draw (0)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:358
+msgid "Loss (-1)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:366
+msgid "Comparison with League Average"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:396
+msgid "Stat"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:398
+msgid "League Avg"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:404
+#, python-format
+msgid "%% Wins"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:422
+#, python-format
+msgid "%% Draws"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:428
+#, python-format
+msgid "%% Defeats"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:434
+msgid "Goals Scored / Match"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:440
+msgid "Goals Conceded / Match"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:476
+msgid "Unbeaten (No Defeat)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:497
+msgid "No Win"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:510
+msgid "Upcoming Opponents (Difficulty)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:519
+msgid "Venue"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:520
+msgid "Strength (PPG)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:521
+msgid "Difficulty"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:568
+msgid "Avg Opp (Home):"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:571
+msgid "Avg Opp (Away):"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:580
+msgid "Scoring & Conceding Rates"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:600
+msgid "Scoring Rate 1st Half"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:606
+msgid "Scoring Rate 2nd Half"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:612
+msgid "Scored in Both Halves"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:624
+#, fuzzy
+#| msgid "Conceded"
+msgid "Conceding Rate"
+msgstr "Conceded"
+
+#: matches/templates/matches/team_detail.html:637
+msgid "Timing of Goals"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:644
+msgid "Period"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:675
+msgid "Cards & Corners (Average)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:682
+#: matches/templates/matches/team_detail.html:1013
+msgid "Cards"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:694
+msgid "Yellow"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:700
+msgid "Red"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:711
+msgid "Corners"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:723
+msgid "For"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:729
+msgid "Against"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:735
+#, fuzzy
+#| msgid "matches"
+msgid "Total Match"
+msgstr "matches"
+
+#: matches/templates/matches/team_detail.html:799
+msgid "Goals Scored & Conceded"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:813
+msgid "Goals For (GF)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:819
+msgid "GF per match"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:825
+msgid "Goals Against (GA)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:831
+msgid "GA per match"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:837
+msgid "GF + GA per match"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:850
+msgid "Match Total Goals Stats"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:856
+msgid "Threshold"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:865
+#, python-format
+msgid "Over %(t)s Goals"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:879
+msgid "Total Corners (For)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:887
+#: matches/templates/matches/team_detail.html:932
+#: matches/templates/matches/team_detail.html:977
+msgid "Avg"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:924
+msgid "Total Corners (Against)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:969
+msgid "Match Corners (Total)"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:1027
+msgid "Yellow Cards"
+msgstr ""
+
+#: matches/templates/matches/team_detail.html:1033
+msgid "Red Cards"
+msgstr ""
+
 #: matches/views.py:450
 #, fuzzy
 #| msgid "Tomorrow"
@@ -442,11 +1608,1211 @@ msgstr "Tomorrow"
 msgid "Today's Matches"
 msgstr ""
 
-#: matches/views.py:484
-#, fuzzy
-#| msgid "matches"
-msgid "Live Matches"
-msgstr "matches"
+#: venv/Lib/site-packages/django/contrib/messages/apps.py:16
+msgid "Messages"
+msgstr ""
+
+#: venv/Lib/site-packages/django/contrib/sitemaps/apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: venv/Lib/site-packages/django/contrib/staticfiles/apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: venv/Lib/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: venv/Lib/site-packages/django/core/paginator.py:30
+msgid "…"
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/paginator.py:32
+msgid "That page number is not an integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/paginator.py:33
+msgid "That page number is less than 1"
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/paginator.py:34
+msgid "That page contains no results"
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:104
+#: venv/Lib/site-packages/django/forms/fields.py:760
+msgid "Enter a valid URL."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:165
+msgid "Enter a valid integer."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:176
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: venv/Lib/site-packages/django/core/validators.py:259
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:267
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:279
+#: venv/Lib/site-packages/django/core/validators.py:306
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:286
+#: venv/Lib/site-packages/django/core/validators.py:307
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:298
+#: venv/Lib/site-packages/django/core/validators.py:305
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:341
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:347
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:382
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:391
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:400
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:407
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:439
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/core/validators.py:457
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/core/validators.py:480
+#: venv/Lib/site-packages/django/forms/fields.py:355
+#: venv/Lib/site-packages/django/forms/fields.py:394
+msgid "Enter a number."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:482
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/core/validators.py:487
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/core/validators.py:492
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/core/validators.py:563
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/core/validators.py:624
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/base.py:1473
+#: venv/Lib/site-packages/django/forms/models.py:902
+msgid "and"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/base.py:1475
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/constraints.py:20
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:133
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:134
+msgid "This field cannot be null."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:135
+msgid "This field cannot be blank."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:136
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:140
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:179
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1150
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1151
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1153
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1203
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1205
+msgid "String (unlimited)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1309
+msgid "Comma-separated integers"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1410
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1414
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1549
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1418
+msgid "Date (without time)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1545
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1553
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1558
+msgid "Date (with time)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1685
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1687
+msgid "Decimal number"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1848
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1852
+msgid "Duration"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1904
+msgid "Email address"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:1929
+msgid "File path"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2007
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2009
+msgid "Floating point number"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2049
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2051
+msgid "Integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2147
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2164
+msgid "Small integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2172
+msgid "IPv4 address"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2203
+msgid "IP address"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2296
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2297
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2299
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2350
+msgid "Positive big integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2365
+msgid "Positive integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2380
+msgid "Positive small integer"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2396
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2432
+msgid "Text"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2507
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2511
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2515
+msgid "Time"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2623
+msgid "URL"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2647
+msgid "Raw binary data"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2712
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/__init__.py:2714
+msgid "Universally unique identifier"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/files.py:232
+msgid "File"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/files.py:393
+msgid "Image"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/json.py:26
+msgid "A JSON object"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/json.py:28
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/related.py:939
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/related.py:941
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/related.py:1235
+msgid "One-to-one relationship"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/related.py:1292
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/related.py:1294
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: venv/Lib/site-packages/django/db/models/fields/related.py:1342
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: venv/Lib/site-packages/django/forms/boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:304
+msgid "Enter a whole number."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:475
+#: venv/Lib/site-packages/django/forms/fields.py:1252
+msgid "Enter a valid date."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:498
+#: venv/Lib/site-packages/django/forms/fields.py:1253
+msgid "Enter a valid time."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:525
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:559
+msgid "Enter a valid duration."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:560
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:629
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:630
+msgid "No file was submitted."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:631
+msgid "The submitted file is empty."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:633
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:638
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:702
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:874
+#: venv/Lib/site-packages/django/forms/fields.py:960
+#: venv/Lib/site-packages/django/forms/models.py:1581
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:962
+#: venv/Lib/site-packages/django/forms/fields.py:1081
+#: venv/Lib/site-packages/django/forms/models.py:1579
+msgid "Enter a list of values."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:1082
+msgid "Enter a complete value."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:1321
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/fields.py:1351
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: venv/Lib/site-packages/django/forms/forms.py:94
+msgid ":"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/forms.py:231
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/forms/formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/forms/formsets.py:484
+#: venv/Lib/site-packages/django/forms/formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:895
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:900
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:907
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:916
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:1353
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:1444
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/models.py:1583
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/utils.py:227
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/widgets.py:457
+msgid "Clear"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/widgets.py:458
+msgid "Currently"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/widgets.py:459
+msgid "Change"
+msgstr ""
+
+#: venv/Lib/site-packages/django/forms/widgets.py:796
+msgid "Unknown"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: venv/Lib/site-packages/django/template/defaultfilters.py:875
+msgid "yes,no,maybe"
+msgstr ""
+
+#: venv/Lib/site-packages/django/template/defaultfilters.py:905
+#: venv/Lib/site-packages/django/template/defaultfilters.py:922
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/template/defaultfilters.py:924
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: venv/Lib/site-packages/django/template/defaultfilters.py:926
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: venv/Lib/site-packages/django/template/defaultfilters.py:928
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: venv/Lib/site-packages/django/template/defaultfilters.py:930
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: venv/Lib/site-packages/django/template/defaultfilters.py:932
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dateformat.py:73
+msgid "p.m."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dateformat.py:74
+msgid "a.m."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dateformat.py:79
+msgid "PM"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dateformat.py:80
+msgid "AM"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dateformat.py:152
+msgid "midnight"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dateformat.py:154
+msgid "noon"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:25
+msgid "January"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:26
+msgid "February"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:27
+msgid "March"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:28
+msgid "April"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:29
+msgid "May"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:30
+msgid "June"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:31
+msgid "July"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:32
+msgid "August"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:33
+msgid "September"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:34
+msgid "October"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:35
+msgid "November"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:36
+msgid "December"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:39
+msgid "jan"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:40
+msgid "feb"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:41
+msgid "mar"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:42
+msgid "apr"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:43
+msgid "may"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:44
+msgid "jun"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:45
+msgid "jul"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:46
+msgid "aug"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:47
+msgid "sep"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:48
+msgid "oct"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:49
+msgid "nov"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:50
+msgid "dec"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/text.py:70
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/text.py:270
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: venv/Lib/site-packages/django/utils/text.py:289
+#: venv/Lib/site-packages/django/utils/timesince.py:135
+msgid ", "
+msgstr ""
+
+#: venv/Lib/site-packages/django/utils/timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/utils/timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/utils/timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:64
+#: venv/Lib/site-packages/django/views/generic/dates.py:115
+#: venv/Lib/site-packages/django/views/generic/dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:349
+#: venv/Lib/site-packages/django/views/generic/dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/generic/list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/static.py:48
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/static.py:50
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/static.py:67
+#: venv/Lib/site-packages/django/views/templates/directory_index.html:8
+#: venv/Lib/site-packages/django/views/templates/directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:7
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:220
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:221
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:229
+msgid "Django Documentation"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:230
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:238
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:239
+msgid "Get started with Django"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:247
+msgid "Django Community"
+msgstr ""
+
+#: venv/Lib/site-packages/django/views/templates/default_urlconf.html:248
+msgid "Connect, get help, or contribute"
+msgstr ""
 
 # ============================================================
 # ANALYST INSIGHTS - CORNERS

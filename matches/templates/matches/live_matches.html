@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 {% load matches_extras %}
 {% load flag_tags %}
 
@@ -12,16 +12,16 @@
                 <span class="position-relative me-3">
                     <i class="fa-solid fa-satellite-dish text-danger"></i>
                     <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle live-pulse">
-                        <span class="visually-hidden">Live</span>
+                        <span class="visually-hidden">{% translate "Live" %}</span>
                     </span>
                 </span>
-                Live Matches
+                {% translate "Live Matches" %}
             </h2>
         </div>
         <div class="col-md-6 mt-3 mt-md-0">
             <div class="input-group">
                 <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" class="form-control bg-dark border-secondary text-white focus-ring-none" id="liveSearch" placeholder="Search leagues, teams...">
+                <input type="text" class="form-control bg-dark border-secondary text-white focus-ring-none" id="liveSearch" placeholder="{% translate 'Search leagues, teams...' %}">
             </div>
         </div>
     </div>
@@ -33,9 +33,9 @@
             <div class="mb-3">
                 <i class="fa-regular fa-calendar-xmark text-secondary display-1 opacity-25"></i>
             </div>
-            <h4 class="text-white fw-light">No live matches currently</h4>
-            <p class="text-white opacity-75">Check back later or view upcoming fixtures in the dashboard.</p>
-            <a href="/" class="btn btn-outline-primary btn-sm mt-2 rounded-pill px-4">Go to Dashboard</a>
+            <h4 class="text-white fw-light">{% translate "No live matches currently" %}</h4>
+            <p class="text-white opacity-75">{% translate "Check back later or view upcoming fixtures in the dashboard." %}</p>
+            <a href="/" class="btn btn-outline-primary btn-sm mt-2 rounded-pill px-4">{% translate "Go to Dashboard" %}</a>
         </div>
     </div>
     {% else %}
@@ -52,7 +52,7 @@
                     {% endif %}
                     <span class="text-white fw-bold text-uppercase small tracking-wide">{{ league_name }}</span>
                 </div>
-                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 rounded-pill">{{ data.matches|length }} Live</span>
+                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 rounded-pill">{{ data.matches|length }} {% translate "Live" %}</span>
             </div>
 
             <!-- Matches Grid -->
@@ -65,7 +65,7 @@
                                 <!-- Status/Time -->
                                 <div class="col-2 text-center border-end border-secondary border-opacity-10 pe-2">
                                     <div class="text-danger fw-bold small live-pulse-text mb-1">
-                                        {% if match.status == 'Live' %}LIVE{% else %}{{ match.status }}{% endif %}
+                                        {% if match.status == 'Live' %}{% translate "LIVE" %}{% else %}{{ match.status }}{% endif %}
                                     </div>
                                     <div class="text-info small font-monospace">{{ match.elapsed_time }}'</div>
                                 </div>
