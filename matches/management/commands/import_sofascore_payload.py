@@ -202,6 +202,24 @@ class Command(BaseCommand):
                         }
                         team_name = den_mapping.get(team_name, team_name)
 
+                    is_england = league.name.lower() in ["premier league"] or league.country.lower() in ["england", "inglaterra"]
+                    if is_england:
+                        eng_mapping = {
+                            "Manchester United": "Manchester Utd",
+                            "West Ham United": "West Ham Utd",
+                            "Newcastle United": "Newcastle Utd",
+                            "Nottingham Forest": "Nottm Forest",
+                            "Tottenham Hotspur": "Tottenham",
+                            "Wolverhampton Wanderers": "Wolverhampton",
+                            "Brighton & Hove Albion": "Brighton",
+                            "Leeds United": "Leeds Utd",
+                            "Leicester City": "Leicester",
+                            "Norwich City": "Norwich",
+                            "Sheffield United": "Sheffield United", # Já está ok
+                            "Luton Town": "Luton",
+                        }
+                        team_name = eng_mapping.get(team_name, team_name)
+
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:
