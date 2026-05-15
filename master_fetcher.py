@@ -12,7 +12,7 @@ LEAGUES = [
     {"id": 35, "season": 77333, "name": "Bundesliga", "country": "Alemanha", "year": 2026},
     {"id": 215, "season": 77152, "name": "Super League", "country": "Suica", "year": 2026},
     {"id": 155, "season": 87913, "name": "Liga Profesional", "country": "Argentina", "year": 2026},
-    {"id": 420, "season": 78592, "name": "A-League Men", "country": "Australia", "year": 2026},
+    {"id": 136, "season": 82603, "name": "A-League Men", "country": "Australia", "year": 2026},
     {"id": 45, "season": 77382, "name": "Bundesliga", "country": "Austria", "year": 2026},
     {"id": 325, "season": 87678, "name": "Brasileirão", "country": "Brasil", "year": 2026},
 ]

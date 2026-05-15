@@ -41,9 +41,9 @@ jobs:
       - name: Rodar fetcher (Austrália)
         run: |
           if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
-            python proxy_sofascore_fetcher.py --tournament 420 --season 78592
+            python proxy_sofascore_fetcher.py --tournament 136 --season 82603
           else
-            python proxy_sofascore_fetcher.py --tournament 420 --season 78592 --last-rounds 3
+            python proxy_sofascore_fetcher.py --tournament 136 --season 82603 --last-rounds 3
           fi
 
       - name: Enviar payload e processar na VPS
