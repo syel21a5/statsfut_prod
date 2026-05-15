@@ -57,12 +57,14 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           
-          scp -o StrictHostKeyChecking=no payload_england.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/
+          # O fetcher gera 'payload.json', renomeamos para 'payload_england.json' no envio
+          scp -o StrictHostKeyChecking=no payload.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_england.json
           
           ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
             cd $PROD_SERVER_PATH
             git pull origin main
             ./venv/bin/python manage.py import_sofascore_payload --file payload_england.json --league_name \"Premier League\" --country \"Inglaterra\" --season_year 2026
+            ./venv/bin/python manage.py merge_duplicate_teams
             ./venv/bin/python manage.py recalculate_standings --league_name \"Premier League\" --country \"Inglaterra\" --season_year 2026
             rm payload_england.json
           "
