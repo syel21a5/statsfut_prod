@@ -15,6 +15,7 @@ LEAGUES = [
     {"id": 136, "season": 82603, "name": "A-League Men", "country": "Australia", "year": 2026},
     {"id": 45, "season": 77382, "name": "Bundesliga", "country": "Austria", "year": 2026},
     {"id": 325, "season": 87678, "name": "Brasileirão", "country": "Brasil", "year": 2026},
+    {"id": 39, "season": 76491, "name": "Superliga", "country": "Dinamarca", "year": 2026},
 ]
 
 def fetch_api(session, url, sleep_time=0.5):

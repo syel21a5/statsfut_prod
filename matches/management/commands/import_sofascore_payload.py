@@ -182,6 +182,26 @@ class Command(BaseCommand):
                         }
                         team_name = aus_mapping.get(team_name, team_name)
                     
+                    is_denmark = league.name.lower() in ["superliga", "superligaen"] or league.country.lower() in ["denmark", "dinamarca"]
+                    if is_denmark:
+                        den_mapping = {
+                            "FC København": "FC Copenhagen",
+                            "Brøndby IF": "Brondby",
+                            "FC Nordsjælland": "Nordsjaelland",
+                            "Sønderjyske Fodbold": "Sonderjyske",
+                            "Aarhus GF": "Aarhus",
+                            "AGF": "Aarhus",
+                            "Lyngby BK": "Lyngby",
+                            "Viborg FF": "Viborg",
+                            "Randers FC": "Randers",
+                            "Aalborg BK": "Aalborg",
+                            "AaB": "Aalborg",
+                            "Vejle Boldklub": "Vejle",
+                            "Silkeborg IF": "Silkeborg",
+                            "Odense Boldklub": "Odense BK",
+                        }
+                        team_name = den_mapping.get(team_name, team_name)
+
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:
