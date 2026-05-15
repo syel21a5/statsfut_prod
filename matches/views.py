@@ -437,6 +437,7 @@ class LiveMatchesView(ListView):
     model = Match
     template_name = 'matches/live_matches.html'
     context_object_name = 'matches'
+
     def get_queryset(self):
         # Todos os status que indicam jogo ao vivo
         live_statuses = [

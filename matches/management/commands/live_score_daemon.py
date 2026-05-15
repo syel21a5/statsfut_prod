@@ -407,9 +407,9 @@ class Command(BaseCommand):
                 # 5. Rotaciona o adaptador para o próximo ciclo
                 current_adapter_index = (current_adapter_index + 1) % len(adapters)
                 
-                # 6. Aguarda 60 segundos antes da próxima consulta
-                self.stdout.write("Aguardando 60 segundos para o próximo ciclo...")
-                time.sleep(60)
+                # 6. Aguarda 40 segundos antes da próxima consulta
+                self.stdout.write("Aguardando 40 segundos para o próximo ciclo...")
+                time.sleep(40)
                 
             except KeyboardInterrupt:
                 self.stdout.write(self.style.WARNING('\nDaemon interrompido pelo usuário. Saindo...'))
