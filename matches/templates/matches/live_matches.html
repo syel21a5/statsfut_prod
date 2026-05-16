@@ -123,8 +123,9 @@
 </style>
 
 <script>
-document.getElementById('liveSearch').addEventListener('keyup', function() {
-    const searchText = this.value.toLowerCase();
+// --- Função de Busca ---
+function applySearchFilter() {
+    const searchText = document.getElementById('liveSearch').value.toLowerCase();
     const leagues = document.querySelectorAll('.league-group');
     
     leagues.forEach(league => {
@@ -132,7 +133,6 @@ document.getElementById('liveSearch').addEventListener('keyup', function() {
         const matches = league.querySelectorAll('.match-item');
         let hasVisibleMatch = false;
         
-        // Check if league matches search
         const leagueMatch = leagueName.includes(searchText);
         
         matches.forEach(match => {
@@ -151,6 +151,41 @@ document.getElementById('liveSearch').addEventListener('keyup', function() {
             league.classList.add('d-none');
         }
     });
-});
+}
+
+document.getElementById('liveSearch').addEventListener('keyup', applySearchFilter);
+
+// --- Atualização Automática (AJAX) ---
+function refreshLiveMatches() {
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            // Cria um elemento temporário para parsear o novo HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Pega o novo container de jogos
+            const newContainer = doc.getElementById('liveMatchesContainer');
+            const currentContainer = document.getElementById('liveMatchesContainer');
+            
+            if (newContainer && currentContainer) {
+                // Substitui o HTML interno
+                currentContainer.innerHTML = newContainer.innerHTML;
+                
+                // Reaplica o filtro de busca caso o usuário esteja pesquisando
+                applySearchFilter();
+            } else if (doc.querySelector('.card.border-0.bg-dark')) {
+                 // Se os jogos acabaram e voltou para a tela vazia
+                 const mainContainer = document.querySelector('.container-fluid.py-4');
+                 // Atualiza a página toda para mostrar a tela vazia corretamente se necessário
+                 window.location.reload();
+            }
+        })
+        .catch(err => console.error('Erro ao atualizar jogos ao vivo:', err));
+}
+
+// Atualiza a cada 30 segundos (30000 milissegundos)
+setInterval(refreshLiveMatches, 30000);
+
 </script>
 {% endblock %}
