@@ -59,7 +59,7 @@ class BeSoccerAdapter(ScraperAdapter):
 
             # Seleção mais agressiva: pega qualquer link que pareça uma partida
             match_links = soup.select('a[href*="/match/"]')
-            self.stdout.write(f"Scraper encontrou {len(match_links)} blocos de link de jogo no HTML.")
+            print(f"[BeSoccer] Scraper encontrou {len(match_links)} blocos de link de jogo no HTML.")
             
             for match in match_links:
                 try:
