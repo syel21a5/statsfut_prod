@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Update Finland Data via SofaScore
+
+on:
+  workflow_dispatch:
+    inputs:
+      full_scan:
+        description: 'Fazer carga total de todas as rodadas?'
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  update-finland:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          uv pip install --system curl_cffi requests
+
+      - name: WARP
+        uses: fscarmen/warp-on-actions@v1.2
+        with:
+          stack: dual
+
+      - name: Rodar fetcher (Finlândia)
+        run: |
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            python proxy_sofascore_fetcher.py --tournament 41 --season 87930
+          else
+            python proxy_sofascore_fetcher.py --tournament 41 --season 87930 --last-rounds 3
+          fi
+
+      - name: Enviar payload e processar na VPS
+        env:
+          PROD_SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          PROD_SERVER_USER: root
+          PROD_SERVER_PATH: ${{ secrets.PROD_SERVER_PATH }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
+          # O fetcher gera 'payload.json', renomeamos para 'payload_finlandia.json' no envio
+          scp -o StrictHostKeyChecking=no payload.json $PROD_SERVER_USER@$PROD_SERVER_HOST:$PROD_SERVER_PATH/payload_finlandia.json
+          
+          ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
+            cd $PROD_SERVER_PATH
+            git pull origin main
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_finlandia.json --league_name \"Veikkausliiga\" --country \"Finlandia\" --season_year 2026
+            ./venv/bin/python manage.py merge_duplicate_teams
+            ./venv/bin/python manage.py recalculate_standings --league_name \"Veikkausliiga\" --country \"Finlandia\" --season_year 2026
+            rm payload_finlandia.json
+          "
