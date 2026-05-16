@@ -358,6 +358,10 @@ class Command(BaseCommand):
                 
                 updated_count += 1
                 self.stdout.write(self.style.SUCCESS(f"[{item.get('source')}] Atualizado: {home_name} {item.get('home_score')}-{item.get('away_score')} {away_name}"))
+            else:
+                # Log para debug de nomes que não batem
+                if league_name_raw == "Bundesliga": # Focar na liga que estamos debulhando
+                    self.stdout.write(self.style.WARNING(f"[{item.get('source')}] Não encontrou no DB: {home_name_raw} vs {away_name_raw} (League: {league_name_raw})"))
                 
         if updated_count > 0 and not dry_run:
             cache.clear()
