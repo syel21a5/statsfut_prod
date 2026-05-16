@@ -244,7 +244,7 @@ class ESPNAdapter(ScraperAdapter):
                         'away_team': away_team,
                         'home_score': home_score,
                         'away_score': away_score,
-                        'status': 'Finished' if state == 'post' else 'Live',
+                        'status': 'FT' if state == 'post' else 'Live',
                         'elapsed': elapsed.replace("'", "")
                     })
                 except Exception:
@@ -376,6 +376,27 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--dry-run', action='store_true', help='Não salva no banco, apenas mostra os resultados')
+
+    def cleanup_stuck_live_matches(self):
+        """Marca jogos 'travados' como FT se já passaram mais de 3 horas desde o início.
+        Isso resolve o problema de jogos que ficam como 'Live' ou 'HT' quando o daemon reinicia."""
+        now = timezone.now()
+        three_hours_ago = now - timedelta(hours=3)
+        
+        stuck_matches = Match.objects.filter(
+            status__in=['Live', '1H', '2H', 'HT', 'In Play', 'LIVE', 'ET', 'P', 'BT'],
+            date__lt=three_hours_ago
+        )
+        
+        count = stuck_matches.count()
+        if count > 0:
+            stuck_matches.update(status='FT')
+            cache.clear()
+            self.stdout.write(self.style.WARNING(
+                f"  🧹 Limpeza: {count} jogo(s) travado(s) como 'Live' foram marcados como FT."
+            ))
+        
+        return count
 
     def get_active_or_upcoming_matches(self):
         """Verifica se há jogos ocorrendo AGORA ou nos próximos 30 minutos"""
@@ -527,6 +548,9 @@ class Command(BaseCommand):
                 cycle_count += 1
                 self.stdout.write(f"\n{'='*50}")
                 self.stdout.write(f"[{timezone.now().strftime('%H:%M:%S')}] Ciclo #{cycle_count}")
+                
+                # Limpa jogos travados como 'Live' que já deveriam ter terminado
+                self.cleanup_stuck_live_matches()
                 
                 # 2. SEMPRE tenta ESPN primeiro (API pública robusta)
                 self.stdout.write("  → ESPN (primário, busca por nome simplificado)...")
