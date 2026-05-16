@@ -375,51 +375,58 @@ class Command(BaseCommand):
                     # 1. Tenta por API_ID
                     match = Match.objects.filter(api_id=match_api_id).first()
                     
-                    # 2. Tenta por Times e Data (mesmo dia)
+                    # 2. Tenta por Times e Data (mesmo dia, mas com folga de 3 dias para evitar problemas de fuso horário do MySQL)
                     if not match and match_date:
+                        from datetime import timedelta
                         match = Match.objects.filter(
                             home_team=home_team,
                             away_team=away_team,
-                            date__date=match_date.date()
+                            date__gte=match_date - timedelta(days=3),
+                            date__lte=match_date + timedelta(days=3)
                         ).first()
+
                         
-                    if match:
-                        created = False
-                        match.api_id = match_api_id # Garante que agora tem o ID do SofaScore
-                        match.league = league
-                        match.season = season
-                        match.home_team = home_team
-                        match.away_team = away_team
-                        match.date = match_date
-                        match.round_name = f"{round_label} - Round {round_number}"
-                        match.status = match_status
-                        match.home_score = home_score
-                        match.away_score = away_score
-                        # Só atualiza HT se tiver dados (não sobrescreve dados existentes com None)
-                        if ht_home_score is not None:
-                            match.ht_home_score = ht_home_score
-                        if ht_away_score is not None:
-                            match.ht_away_score = ht_away_score
-                        match.save()
-                    else:
-                        match = Match.objects.create(
-                            api_id=match_api_id,
-                            league=league,
-                            season=season,
-                            home_team=home_team,
-                            away_team=away_team,
-                            date=match_date,
-                            round_name=f"{round_label} - Round {round_number}",
-                            status=match_status,
-                            home_score=home_score,
-                            away_score=away_score,
-                            ht_home_score=ht_home_score,
-                            ht_away_score=ht_away_score,
-                        )
-                        created = True
-                    
-                    if created: matches_created += 1
-                    else: matches_updated += 1
+                    try:
+                        if match:
+                            created = False
+                            match.api_id = match_api_id # Garante que agora tem o ID do SofaScore
+                            match.league = league
+                            match.season = season
+                            match.home_team = home_team
+                            match.away_team = away_team
+                            match.date = match_date
+                            match.round_name = f"{round_label} - Round {round_number}"
+                            match.status = match_status
+                            match.home_score = home_score
+                            match.away_score = away_score
+                            # Só atualiza HT se tiver dados (não sobrescreve dados existentes com None)
+                            if ht_home_score is not None:
+                                match.ht_home_score = ht_home_score
+                            if ht_away_score is not None:
+                                match.ht_away_score = ht_away_score
+                            match.save()
+                        else:
+                            match = Match.objects.create(
+                                api_id=match_api_id,
+                                league=league,
+                                season=season,
+                                home_team=home_team,
+                                away_team=away_team,
+                                date=match_date,
+                                round_name=f"{round_label} - Round {round_number}",
+                                status=match_status,
+                                home_score=home_score,
+                                away_score=away_score,
+                                ht_home_score=ht_home_score,
+                                ht_away_score=ht_away_score,
+                            )
+                            created = True
+                        
+                        if created: matches_created += 1
+                        else: matches_updated += 1
+                    except Exception as e:
+                        self.stdout.write(self.style.ERROR(f"Erro ao salvar partida {home_team} vs {away_team}: {e}"))
+
                         
         self.stdout.write(self.style.SUCCESS(f"Importação completa! {matches_created} partidas criadas, {matches_updated} atualizadas."))
                         
