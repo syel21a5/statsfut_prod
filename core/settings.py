@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',  # Adicionado para tradução
+    'core.middleware.ExplicitLocaleMiddleware',  # Ignora Accept-Language do browser, usa cookie/URL apenas
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -186,8 +186,8 @@ USE_TZ = True
 from django.utils.translation import gettext_lazy as _
 
 LANGUAGES = [
-    ('pt-br', _('Portuguese')),
     ('en', _('English')),
+    ('pt-br', _('Portuguese')),
     ('es', _('Spanish')),
     ('de', _('German')),
 ]
