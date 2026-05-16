@@ -508,7 +508,6 @@ class Command(BaseCommand):
         self.stdout.write('Intervalo: 30 segundos entre ciclos')
         
         # Fontes
-        sofascore = SofaScoreAdapter()
         espn = ESPNAdapter()
         besoccer = BeSoccerAdapter()
         
@@ -529,40 +528,28 @@ class Command(BaseCommand):
                 self.stdout.write(f"\n{'='*50}")
                 self.stdout.write(f"[{timezone.now().strftime('%H:%M:%S')}] Ciclo #{cycle_count}")
                 
-                # 2. SEMPRE tenta SofaScore primeiro (api_id = 100% precisão)
-                self.stdout.write("  → SofaScore (primário, busca por api_id)...")
-                sofa_data = sofascore.fetch_live_scores()
+                # 2. SEMPRE tenta ESPN primeiro (API pública robusta)
+                self.stdout.write("  → ESPN (primário, busca por nome simplificado)...")
+                espn_data = espn.fetch_live_scores()
                 
-                if sofa_data:
-                    for item in sofa_data:
-                        item['source'] = 'SofaScore'
-                    
-                    self.stdout.write(f"  Encontrados {len(sofa_data)} jogos ao vivo no SofaScore.")
-                    updated = self.update_matches_sofascore(sofa_data, dry_run=dry_run)
-                    self.stdout.write(f"  Sincronizou {updated} jogos via api_id.")
+                if espn_data:
+                    for item in espn_data:
+                        item['source'] = 'ESPN'
+                    self.stdout.write(f"  Encontrados {len(espn_data)} jogos ao vivo no ESPN.")
+                    updated = self.update_matches_by_name(espn_data, dry_run=dry_run)
+                    self.stdout.write(f"  Sincronizou {updated} jogos via nome.")
                 else:
-                    # SofaScore falhou — usa ESPN como fallback
-                    self.stdout.write(self.style.WARNING("  ⚠ SofaScore falhou. Usando ESPN como fallback..."))
-                    espn_data = espn.fetch_live_scores()
-                    
-                    if espn_data:
-                        for item in espn_data:
-                            item['source'] = 'ESPN'
-                        self.stdout.write(f"  Encontrados {len(espn_data)} jogos ao vivo no ESPN.")
-                        updated = self.update_matches_by_name(espn_data, dry_run=dry_run)
+                    # ESPN falhou — último recurso global: BeSoccer
+                    self.stdout.write(self.style.WARNING("  ⚠ ESPN falhou. Tentando BeSoccer..."))
+                    besoccer_data = besoccer.fetch_live_scores()
+                    if besoccer_data:
+                        for item in besoccer_data:
+                            item['source'] = 'BeSoccer'
+                        self.stdout.write(f"  Encontrados {len(besoccer_data)} jogos no BeSoccer.")
+                        updated = self.update_matches_by_name(besoccer_data, dry_run=dry_run)
                         self.stdout.write(f"  Sincronizou {updated} jogos via nome.")
                     else:
-                        # ESPN também falhou — último recurso: BeSoccer
-                        self.stdout.write(self.style.WARNING("  ⚠ ESPN também falhou. Tentando BeSoccer..."))
-                        besoccer_data = besoccer.fetch_live_scores()
-                        if besoccer_data:
-                            for item in besoccer_data:
-                                item['source'] = 'BeSoccer'
-                            self.stdout.write(f"  Encontrados {len(besoccer_data)} jogos no BeSoccer.")
-                            updated = self.update_matches_by_name(besoccer_data, dry_run=dry_run)
-                            self.stdout.write(f"  Sincronizou {updated} jogos via nome.")
-                        else:
-                            self.stdout.write(self.style.ERROR("  ✖ Nenhuma fonte disponível neste ciclo."))
+                        self.stdout.write(self.style.ERROR("  ✖ Nenhuma fonte global disponível neste ciclo."))
                 
                 # 3. A cada 3 ciclos, tenta também fontes brasileiras (complementar)
                 if cycle_count % 3 == 0:
