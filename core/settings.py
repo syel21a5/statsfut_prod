@@ -56,7 +56,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'core.middleware.ExplicitLocaleMiddleware',  # Ignora Accept-Language do browser, usa cookie/URL apenas
+    'core.middleware.ForceDefaultLanguageMiddleware',  # Força inglês para novos visitantes (ignora Accept-Language)
+    'django.middleware.locale.LocaleMiddleware',  # Processa i18n URLs normalmente
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

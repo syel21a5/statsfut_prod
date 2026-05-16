@@ -1,36 +1,35 @@
-from django.middleware.locale import LocaleMiddleware
-from django.conf import settings
 from django.utils import translation
+from django.conf import settings
 
 
-class ExplicitLocaleMiddleware(LocaleMiddleware):
+class ForceDefaultLanguageMiddleware:
     """
-    Middleware de idioma customizado que IGNORA o header Accept-Language do navegador.
+    Middleware que força o idioma padrão (inglês) para novos visitantes,
+    ignorando o Accept-Language do navegador.
     
-    O idioma só muda quando o usuário clica na bandeirinha (que define o cookie 'django_language')
-    ou quando o prefixo está explícito na URL (/pt-br/, /es/, /de/).
+    Deve ser posicionado ANTES do LocaleMiddleware no MIDDLEWARE.
     
-    Se não houver cookie nem prefixo, usa o idioma padrão (LANGUAGE_CODE = 'en').
-    Isso garante que o site sempre inicie em inglês para novos visitantes.
+    Lógica:
+    - Se o usuário já escolheu um idioma (cookie django_language), respeita.
+    - Se a URL tem prefixo de idioma (/pt-br/, /es/), respeita.
+    - Caso contrário, força o idioma padrão (en) ao invés de detectar do browser.
     """
 
-    def process_request(self, request):
-        # 1. Verifica se o idioma está na URL (/pt-br/, /es/, /de/)
-        url_lang = translation.get_language_from_path(request.path_info)
-        
-        # 2. Verifica se o usuário escolheu um idioma explicitamente (cookie da bandeirinha)
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Verifica se existe cookie de idioma (o usuário clicou na bandeirinha)
         cookie_lang = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
         
-        if url_lang:
-            # Idioma explícito na URL -> respeita
-            language = url_lang
-        elif cookie_lang:
-            # Usuário escolheu via bandeirinha -> respeita o cookie
-            language = cookie_lang
-        else:
-            # Nenhuma escolha explícita -> idioma padrão (inglês)
-            # NÃO detecta o Accept-Language do navegador
-            language = settings.LANGUAGE_CODE
+        # Verifica se a URL tem prefixo de idioma
+        url_lang = translation.get_language_from_path(request.path_info)
         
-        translation.activate(language)
-        request.LANGUAGE_CODE = translation.get_language()
+        if not cookie_lang and not url_lang:
+            # Nenhuma escolha explícita: força o idioma padrão
+            # Seta o cookie temporariamente no META para que o LocaleMiddleware
+            # use o idioma padrão ao invés do Accept-Language
+            request.META['HTTP_ACCEPT_LANGUAGE'] = settings.LANGUAGE_CODE
+        
+        response = self.get_response(request)
+        return response
