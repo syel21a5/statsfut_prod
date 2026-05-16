@@ -81,6 +81,7 @@ def main():
                     tournaments_to_scrape.append((sub_id, group_name, False))
 
     # 3. Rodadas
+    rounds_found = False
     for t_id, label, is_unique in tournaments_to_scrape:
         print(f"\n>>> Raspando {label}...")
         prefix = "unique-tournament" if is_unique else "tournament"
@@ -88,12 +89,11 @@ def main():
         rounds_data = fetch_api(session, rounds_url)
         
         if rounds_data and 'rounds' in rounds_data:
+            rounds_found = True
             all_rounds = rounds_data['rounds']
             
             # FILTRO DE RODADAS OTIMIZADO
             if args.last_rounds:
-                # SofaScore costuma marcar a rodada atual ou podemos pegar as últimas X
-                # Vamos pegar as X últimas rodadas que possuem ID (ordem cronológica)
                 all_rounds = all_rounds[-args.last_rounds:]
                 print(f"Filtrando apenas as últimas {len(all_rounds)} rodadas para economizar tempo.")
 
@@ -109,6 +109,54 @@ def main():
                         "events": events_data.get('events', [])
                     })
 
+    # 4. FALLBACK: Se /rounds não funcionou para nenhum torneio,
+    # usa endpoints paginados /events/last/ e /events/next/ (comum em ligas de ano civil)
+    if not rounds_found or len(payload['rounds']) == 0:
+        print(f"\n⚠️ Endpoint /rounds não disponível. Usando fallback via /events/last + /events/next...")
+        all_events = []
+        
+        # Busca jogos passados (paginado)
+        for page in range(10):  # Máximo 10 páginas
+            url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/last/{page}"
+            data = fetch_api(session, url)
+            if not data or not data.get('events'):
+                break
+            events = data['events']
+            all_events.extend(events)
+            print(f"  Página {page} (passados): {len(events)} eventos coletados")
+            if data.get('hasNextPage') == False:
+                break
+        
+        # Busca jogos futuros (paginado)
+        for page in range(5):  # Máximo 5 páginas
+            url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/next/{page}"
+            data = fetch_api(session, url)
+            if not data or not data.get('events'):
+                break
+            events = data['events']
+            all_events.extend(events)
+            print(f"  Página {page} (futuros): {len(events)} eventos coletados")
+            if data.get('hasNextPage') == False:
+                break
+        
+        if all_events:
+            # Agrupa eventos por rodada (roundInfo.round) se disponível, senão coloca tudo em uma "rodada"
+            rounds_map = {}
+            for ev in all_events:
+                round_num = ev.get('roundInfo', {}).get('round', 1) if ev.get('roundInfo') else 1
+                if round_num not in rounds_map:
+                    rounds_map[round_num] = []
+                rounds_map[round_num].append(ev)
+            
+            for round_num in sorted(rounds_map.keys()):
+                payload['rounds'].append({
+                    "round_label": "Regular Season",
+                    "round_number": round_num,
+                    "events": rounds_map[round_num]
+                })
+            
+            print(f"\n✅ Fallback coletou {len(all_events)} eventos em {len(rounds_map)} rodada(s).")
+
     if len(payload['rounds']) == 0:
         print("\n❌ ERRO: Nenhuma rodada coletada!")
         import sys
@@ -117,9 +165,6 @@ def main():
     with open('payload.json', 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     print(f"✅ Sucesso! {len(payload['rounds'])} rodadas salvas.")
-
-if __name__ == '__main__':
-    main()
 
 if __name__ == '__main__':
     main()

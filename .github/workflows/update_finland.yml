@@ -41,9 +41,9 @@ jobs:
       - name: Rodar fetcher (Finlândia)
         run: |
           if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
-            python proxy_sofascore_fetcher.py --tournament 41 --season 70853
+            python proxy_sofascore_fetcher.py --tournament 41 --season 87930
           else
-            python proxy_sofascore_fetcher.py --tournament 41 --season 70853 --last-rounds 3
+            python proxy_sofascore_fetcher.py --tournament 41 --season 87930 --last-rounds 3
           fi
 
 
@@ -64,9 +64,9 @@ jobs:
           ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
             cd $PROD_SERVER_PATH
             git pull origin main
-            ./venv/bin/python manage.py import_sofascore_payload --file payload_finlandia.json --league_name \"Veikkausliiga\" --country \"Finlandia\" --season_year 2025
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_finlandia.json --league_name \"Veikkausliiga\" --country \"Finlandia\" --season_year 2026
             ./venv/bin/python manage.py merge_duplicate_teams
-            ./venv/bin/python manage.py recalculate_standings --league_name \"Veikkausliiga\" --country \"Finlandia\" --season_year 2025
+            ./venv/bin/python manage.py recalculate_standings --league_name \"Veikkausliiga\" --country \"Finlandia\" --season_year 2026
 
             rm payload_finlandia.json
           "
