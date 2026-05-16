@@ -57,9 +57,7 @@ class BeSoccerAdapter(ScraperAdapter):
             soup = BeautifulSoup(response.text, 'html.parser')
             payload = []
 
-            # Seleção mais agressiva: pega qualquer link que pareça uma partida
-            match_links = soup.select('a[href*="/match/"]')
-            print(f"[BeSoccer] Scraper encontrou {len(match_links)} blocos de link de jogo no HTML.")
+            match_links = soup.select('a.match-link')
             
             for match in match_links:
                 try:
@@ -258,17 +256,100 @@ class ESPNAdapter(ScraperAdapter):
             logger.error(f"Erro no ESPNAdapter: {e}")
             return []
 
+class SofaScoreAdapter(ScraperAdapter):
+    name = "SofaScore"
+    use_tor = True  # SofaScore bloqueia IPs de VPS, Tor é essencial
+    
+    def fetch_live_scores(self):
+        import requests as std_requests
+        
+        url = "https://api.sofascore.com/api/v1/sport/football/events/live"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json',
+            'Referer': 'https://www.sofascore.com/',
+            'Origin': 'https://www.sofascore.com'
+        }
+        
+        try:
+            proxies = TOR_PROXIES if self.use_tor else None
+            response = std_requests.get(url, headers=headers, timeout=20, proxies=proxies)
+            if response.status_code != 200:
+                logger.error(f"SofaScore retornou status {response.status_code}")
+                return []
+            
+            data = response.json()
+            events = data.get('events', [])
+            payload = []
+            
+            for event in events:
+                try:
+                    # Status do jogo
+                    status_info = event.get('status', {})
+                    status_code = status_info.get('code', 0)
+                    status_desc = status_info.get('description', '')
+                    
+                    # Códigos SofaScore: 6=1H, 7=2H, 8=FT, 31=HT, etc.
+                    # Apenas jogos em andamento
+                    live_codes = [6, 7, 31, 41, 42, 43, 44]  # 1H, 2H, HT, ET1, ET2, PEN, etc.
+                    finished_codes = [8, 9, 10, 11, 12]  # FT, AET, AP, etc.
+                    
+                    if status_code not in live_codes and status_code not in finished_codes:
+                        continue
+                    
+                    home_team_data = event.get('homeTeam', {})
+                    away_team_data = event.get('awayTeam', {})
+                    
+                    home_name = home_team_data.get('name', '')
+                    away_name = away_team_data.get('name', '')
+                    
+                    if not home_name or not away_name:
+                        continue
+                    
+                    home_score = event.get('homeScore', {}).get('current', 0)
+                    away_score = event.get('awayScore', {}).get('current', 0)
+                    
+                    # Tempo do jogo
+                    elapsed = status_info.get('description', '0')
+                    if status_code == 31:
+                        elapsed = 'HT'
+                    elif status_code == 8:
+                        elapsed = 'FT'
+                    
+                    # Liga e país
+                    tournament = event.get('tournament', {})
+                    league_name = tournament.get('name', 'Desconhecida')
+                    country_name = tournament.get('category', {}).get('name', 'Global')
+                    
+                    is_live = status_code in live_codes
+                    
+                    payload.append({
+                        'home_team': home_name,
+                        'away_team': away_name,
+                        'home_score': str(home_score),
+                        'away_score': str(away_score),
+                        'status': 'Live' if is_live else 'Finished',
+                        'elapsed': elapsed,
+                        'league': league_name,
+                        'country': country_name
+                    })
+                except Exception:
+                    continue
+            
+            return payload
+            
+        except Exception as e:
+            logger.error(f"Erro no SofaScoreAdapter: {e}")
+            return []
+
 class SoccerwayAdapter(ScraperAdapter):
     name = "Soccerway"
     def fetch_live_scores(self):
-        # Implementação básica segura como fallback
         return []
 
 class BBCAdapter(ScraperAdapter):
     name = "BBC"
     def fetch_live_scores(self):
-        # A BBC tem uma API pública frequentemente usada, mas para simplificar, usamos fallback vazio até precisarmos.
-        # BeSoccer e ESPN já dão cobertura global massiva.
         return []
 
 # --- Comando Principal ---
@@ -375,14 +456,13 @@ class Command(BaseCommand):
         dry_run = options['dry_run']
         self.stdout.write(self.style.SUCCESS('Iniciando o Live Score Daemon...'))
         
-        # Lista de adaptadores em rodízio
+        # Lista de adaptadores em rodízio (prioridade: APIs confiáveis primeiro)
         adapters = [
-            BeSoccerAdapter(),
-            GEAdapter(),
-            UOLAdapter(),
-            ESPNAdapter(),
-            SoccerwayAdapter(),
-            BBCAdapter()
+            SofaScoreAdapter(),   # 🥇 API JSON + Tor = mais confiável
+            ESPNAdapter(),        # 🥈 API JSON pública = muito confiável
+            BeSoccerAdapter(),    # 🥉 Scraping HTML + Tor
+            GEAdapter(),          # Brasileirão foco
+            UOLAdapter(),         # Brasileirão foco
         ]
         
         current_adapter_index = 0
