@@ -220,6 +220,28 @@ class Command(BaseCommand):
                         }
                         team_name = eng_mapping.get(team_name, team_name)
 
+                    is_spain = league.name.lower() in ["la liga", "primera division"] or league.country.lower() in ["spain", "espanha"]
+                    if is_spain:
+                        esp_mapping = {
+                            "Athletic Club": "Ath Bilbao",
+                            "Atlético Madrid": "Ath Madrid",
+                            "Espanyol": "Espanol",
+                            "Real Sociedad": "Sociedad",
+                            "Real Betis": "Betis",
+                            "Celta Vigo": "Celta",
+                            "Sporting Gijón": "Sp Gijon",
+                            "Racing Santander": "Santander",
+                            "Alavés": "Alaves",
+                            "Leganés": "Leganes",
+                            "Cádiz": "Cadiz",
+                            "Deportivo La Coruña": "La Coruna",
+                            "Real Zaragoza": "Zaragoza",
+                            "UD Almería": "Almeria",
+                            "Real Valladolid": "Valladolid",
+                            "Málaga": "Malaga",
+                        }
+                        team_name = esp_mapping.get(team_name, team_name)
+
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:

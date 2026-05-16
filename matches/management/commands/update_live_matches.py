@@ -146,7 +146,7 @@ class Command(BaseCommand):
                             filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
                             
                             # SINCRONIZAÇÃO INTELIGENTE: Ligas do SofaScore permitem atualização de placar, mas com travas
-                            is_sofascore_league = lg['name'] in ['Ligue 1', 'Bundesliga', 'Pro League', 'Super League', 'Premier League', 'Superliga']
+                            is_sofascore_league = lg['name'] in ['Ligue 1', 'Bundesliga', 'Pro League', 'Super League', 'Premier League', 'Superliga', 'La Liga']
                             
                             if filtered_fixtures:
                                 self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
@@ -181,7 +181,7 @@ class Command(BaseCommand):
             # Itera sobre cada liga mapeada para garantir uso correto das APIs
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 # SINCRONIZAÇÃO INTELIGENTE: Pular criação de jogos, mas permitir atualização se o jogo já existir
-                is_sofascore_league = league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League', 'Premier League', 'Superliga']
+                is_sofascore_league = league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League', 'Premier League', 'Superliga', 'La Liga']
                 
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
@@ -222,7 +222,7 @@ class Command(BaseCommand):
             
             for league_name in api_manager.LEAGUE_MAPPINGS.keys():
                 # SINCRONIZAÇÃO INTELIGENTE: Pular criação de jogos, mas permitir atualização se o jogo já existir
-                is_sofascore_league = league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League', 'Premier League', 'Superliga']
+                is_sofascore_league = league_name in ['Ligue 1', 'Austrian Bundesliga', 'A-League', 'Bundesliga', 'Pro League', 'Super League', 'Swiss Super League', 'Premier League', 'Superliga', 'La Liga']
                 
                 self.stdout.write(f"  > Processando {league_name}...")
                 try:
