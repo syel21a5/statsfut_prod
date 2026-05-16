@@ -261,19 +261,19 @@ class SofaScoreAdapter(ScraperAdapter):
     use_tor = True  # SofaScore bloqueia IPs de VPS, Tor é essencial
     
     def fetch_live_scores(self):
-        import requests as std_requests
+        from curl_cffi import requests as requests_cffi
         
         url = "https://api.sofascore.com/api/v1/sport/football/events/live"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        session = requests_cffi.Session(impersonate="chrome120")
+        session.headers.update({
             'Accept': 'application/json',
             'Referer': 'https://www.sofascore.com/',
             'Origin': 'https://www.sofascore.com'
-        }
+        })
         
         try:
             proxies = TOR_PROXIES if self.use_tor else None
-            response = std_requests.get(url, headers=headers, timeout=20, proxies=proxies)
+            response = session.get(url, timeout=25, proxies=proxies)
             if response.status_code != 200:
                 logger.error(f"SofaScore retornou status {response.status_code}")
                 return []
