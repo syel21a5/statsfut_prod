@@ -284,15 +284,18 @@ class SofaScoreAdapter(ScraperAdapter):
             
             for event in events:
                 try:
+                    # ID do evento SofaScore (chave para busca no banco)
+                    event_id = str(event.get('id', ''))
+                    if not event_id:
+                        continue
+                    
                     # Status do jogo
                     status_info = event.get('status', {})
                     status_code = status_info.get('code', 0)
-                    status_desc = status_info.get('description', '')
                     
                     # Códigos SofaScore: 6=1H, 7=2H, 8=FT, 31=HT, etc.
-                    # Apenas jogos em andamento
-                    live_codes = [6, 7, 31, 41, 42, 43, 44]  # 1H, 2H, HT, ET1, ET2, PEN, etc.
-                    finished_codes = [8, 9, 10, 11, 12]  # FT, AET, AP, etc.
+                    live_codes = [6, 7, 31, 41, 42, 43, 44]
+                    finished_codes = [8, 9, 10, 11, 12]
                     
                     if status_code not in live_codes and status_code not in finished_codes:
                         continue
@@ -309,12 +312,25 @@ class SofaScoreAdapter(ScraperAdapter):
                     home_score = event.get('homeScore', {}).get('current', 0)
                     away_score = event.get('awayScore', {}).get('current', 0)
                     
-                    # Tempo do jogo
-                    elapsed = status_info.get('description', '0')
+                    # Calcular minutos de jogo com precisão
+                    elapsed = '0'
                     if status_code == 31:
                         elapsed = 'HT'
-                    elif status_code == 8:
+                    elif status_code in finished_codes:
                         elapsed = 'FT'
+                    else:
+                        # Tenta calcular a minutagem real
+                        import time as time_mod
+                        current_ts = event.get('time', {}).get('currentPeriodStartTimestamp')
+                        if current_ts:
+                            now_ts = int(time_mod.time())
+                            mins_in_period = (now_ts - current_ts) // 60
+                            if status_code == 7:  # 2H
+                                elapsed = str(45 + mins_in_period)
+                            else:
+                                elapsed = str(mins_in_period)
+                        else:
+                            elapsed = status_info.get('description', '0')
                     
                     # Liga e país
                     tournament = event.get('tournament', {})
@@ -324,11 +340,12 @@ class SofaScoreAdapter(ScraperAdapter):
                     is_live = status_code in live_codes
                     
                     payload.append({
+                        'sofa_id': event_id,
                         'home_team': home_name,
                         'away_team': away_name,
                         'home_score': str(home_score),
                         'away_score': str(away_score),
-                        'status': 'Live' if is_live else 'Finished',
+                        'status': 'Live' if is_live else 'FT',
                         'elapsed': elapsed,
                         'league': league_name,
                         'country': country_name
@@ -355,7 +372,7 @@ class BBCAdapter(ScraperAdapter):
 # --- Comando Principal ---
 
 class Command(BaseCommand):
-    help = 'Daemon inteligente para atualização de placares ao vivo em rodízio'
+    help = 'Daemon inteligente para atualização de placares ao vivo v2.0'
 
     def add_arguments(self, parser):
         parser.add_argument('--dry-run', action='store_true', help='Não salva no banco, apenas mostra os resultados')
@@ -365,58 +382,33 @@ class Command(BaseCommand):
         now = timezone.now()
         thirty_mins_from_now = now + timedelta(minutes=30)
         
-        # Jogos que estão com status de ao vivo
         live_matches = Match.objects.filter(
-            status__in=['Live', '1H', '2H', 'HT', 'In Play']
+            status__in=['Live', '1H', '2H', 'HT', 'In Play', 'LIVE']
         ).count()
         
-        # Jogos agendados para os próximos 30 minutos ou que já deveriam ter começado (mas não tiveram status atualizado)
         upcoming_matches = Match.objects.filter(
             status='Scheduled',
             date__lte=thirty_mins_from_now,
-            date__gte=now - timedelta(hours=3) # Considera jogos das últimas 3 horas que talvez tenham atrasado
+            date__gte=now - timedelta(hours=3)
         ).count()
         
         return live_matches + upcoming_matches > 0
 
-    def update_matches_in_db(self, live_data, dry_run=False):
-        """Atualiza os jogos no banco de dados baseado nos dados raspados"""
+    def update_matches_sofascore(self, live_data, dry_run=False):
+        """Atualiza jogos usando api_id do SofaScore — 100% de precisão, zero erro de nome"""
         if not live_data:
             return 0
             
         updated_count = 0
         for item in live_data:
-            home_name_raw = item.get('home_team')
-            away_name_raw = item.get('away_team')
-            league_name_raw = item.get('league', 'Desconhecida')
-            country_raw = item.get('country', 'Global')
-            
-            if not home_name_raw or not away_name_raw:
+            sofa_id = item.get('sofa_id')
+            if not sofa_id:
                 continue
-                
-            home_name = normalize_team_name(home_name_raw)
-            away_name = normalize_team_name(away_name_raw)
-                
-            # 1. Tenta busca ultra-precisa por Liga + Times (limpa pontos e espaços)
-            match = None
-            h_clean = home_name.replace('.', '').strip()
-            a_clean = away_name.replace('.', '').strip()
-
-            if league_name_raw != "Desconhecida":
-                match = Match.objects.filter(
-                    league__name__icontains=league_name_raw[:5],
-                    home_team__name__icontains=h_clean[:5],
-                    away_team__name__icontains=a_clean[:5],
-                    status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
-                ).order_by('-date').first()
             
-            # 2. Fallback: Busca apenas pelos times (mais flexível)
-            if not match:
-                match = Match.objects.filter(
-                    home_team__name__icontains=h_clean[:5],
-                    away_team__name__icontains=a_clean[:5],
-                    status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
-                ).order_by('-date').first()
+            match_api_id = f"sofa_{sofa_id}"
+            
+            # Busca DIRETA por api_id — sem necessidade de adivinhar nomes
+            match = Match.objects.filter(api_id=match_api_id).first()
             
             if match:
                 if not dry_run:
@@ -430,7 +422,7 @@ class Command(BaseCommand):
                     except (ValueError, TypeError):
                         if elapsed == "FT":
                             match.elapsed_time = 90
-                            match.status = "Finished"
+                            match.status = "FT"
                         elif elapsed == "HT":
                             match.elapsed_time = 45
                             match.status = "HT"
@@ -440,11 +432,68 @@ class Command(BaseCommand):
                     match.save()
                 
                 updated_count += 1
-                self.stdout.write(self.style.SUCCESS(f"[{item.get('source')}] Atualizado: {home_name} {item.get('home_score')}-{item.get('away_score')} {away_name}"))
-            else:
-                # Log para debug de nomes que não batem
-                if league_name_raw == "Bundesliga": # Focar na liga que estamos debulhando
-                    self.stdout.write(self.style.WARNING(f"[{item.get('source')}] Não encontrou no DB: {home_name_raw} vs {away_name_raw} (League: {league_name_raw})"))
+                home_name = match.home_team.name if match.home_team else '?'
+                away_name = match.away_team.name if match.away_team else '?'
+                self.stdout.write(self.style.SUCCESS(
+                    f"  ✓ {home_name} {item.get('home_score')}-{item.get('away_score')} {away_name} ({item.get('elapsed', '')}min)"
+                ))
+                
+        if updated_count > 0 and not dry_run:
+            cache.clear()
+            self.stdout.write("Cache limpo.")
+            
+        return updated_count
+
+    def update_matches_by_name(self, live_data, dry_run=False):
+        """Atualiza jogos buscando por nome de time (fallback para ESPN/BeSoccer)"""
+        if not live_data:
+            return 0
+            
+        updated_count = 0
+        for item in live_data:
+            home_name_raw = item.get('home_team')
+            away_name_raw = item.get('away_team')
+            
+            if not home_name_raw or not away_name_raw:
+                continue
+                
+            home_name = normalize_team_name(home_name_raw)
+            away_name = normalize_team_name(away_name_raw)
+            
+            h_clean = home_name.replace('.', '').strip()
+            a_clean = away_name.replace('.', '').strip()
+
+            match = Match.objects.filter(
+                home_team__name__icontains=h_clean[:5],
+                away_team__name__icontains=a_clean[:5],
+                status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play', 'LIVE']
+            ).order_by('-date').first()
+            
+            if match:
+                if not dry_run:
+                    match.home_score = item.get('home_score')
+                    match.away_score = item.get('away_score')
+                    match.status = item.get('status', 'Live')
+                    
+                    elapsed = item.get('elapsed')
+                    try:
+                        match.elapsed_time = int(elapsed)
+                    except (ValueError, TypeError):
+                        if elapsed == "FT":
+                            match.elapsed_time = 90
+                            match.status = "FT"
+                        elif elapsed == "HT":
+                            match.elapsed_time = 45
+                            match.status = "HT"
+                        else:
+                            match.elapsed_time = None
+                            
+                    match.save()
+                
+                updated_count += 1
+                self.stdout.write(self.style.SUCCESS(
+                    f"  ✓ [{item.get('source')}] {home_name} {item.get('home_score')}-{item.get('away_score')} {away_name}"
+                ))
                 
         if updated_count > 0 and not dry_run:
             cache.clear()
@@ -454,51 +503,82 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         dry_run = options['dry_run']
-        self.stdout.write(self.style.SUCCESS('Iniciando o Live Score Daemon...'))
+        self.stdout.write(self.style.SUCCESS('Iniciando o Live Score Daemon v2.0...'))
+        self.stdout.write('Estratégia: SofaScore (api_id) → ESPN (fallback) → BeSoccer (fallback)')
+        self.stdout.write('Intervalo: 30 segundos entre ciclos')
         
-        # Lista de adaptadores em rodízio (prioridade: APIs confiáveis primeiro)
-        adapters = [
-            SofaScoreAdapter(),   # 🥇 API JSON + Tor = mais confiável
-            ESPNAdapter(),        # 🥈 API JSON pública = muito confiável
-            BeSoccerAdapter(),    # 🥉 Scraping HTML + Tor
-            GEAdapter(),          # Brasileirão foco
-            UOLAdapter(),         # Brasileirão foco
-        ]
+        # Fontes
+        sofascore = SofaScoreAdapter()
+        espn = ESPNAdapter()
+        besoccer = BeSoccerAdapter()
         
-        current_adapter_index = 0
+        # Fontes brasileiras (complementares, rodam a cada 3 ciclos)
+        br_adapters = [GEAdapter(), UOLAdapter()]
+        br_index = 0
+        cycle_count = 0
         
         while True:
             try:
-                # 1. Verifica se precisamos trabalhar (Hibernação Inteligente)
+                # 1. Verifica se precisamos trabalhar
                 if not self.get_active_or_upcoming_matches():
                     self.stdout.write("Nenhum jogo ao vivo ou próximo. Dormindo por 15 minutos...")
-                    time.sleep(15 * 60) # Dorme 15 minutos
+                    time.sleep(15 * 60)
                     continue
                 
-                # 2. Estamos em horário de jogo! Escolhe o adaptador da vez
-                adapter = adapters[current_adapter_index]
-                self.stdout.write(f"\n[{timezone.now().strftime('%H:%M:%S')}] Usando scraper: {adapter.name}")
+                cycle_count += 1
+                self.stdout.write(f"\n{'='*50}")
+                self.stdout.write(f"[{timezone.now().strftime('%H:%M:%S')}] Ciclo #{cycle_count}")
                 
-                # 3. Puxa os dados
-                live_data = adapter.fetch_live_scores()
+                # 2. SEMPRE tenta SofaScore primeiro (api_id = 100% precisão)
+                self.stdout.write("  → SofaScore (primário, busca por api_id)...")
+                sofa_data = sofascore.fetch_live_scores()
                 
-                # Adiciona a fonte aos dados
-                for item in live_data:
-                    item['source'] = adapter.name
+                if sofa_data:
+                    for item in sofa_data:
+                        item['source'] = 'SofaScore'
+                    
+                    self.stdout.write(f"  Encontrados {len(sofa_data)} jogos ao vivo no SofaScore.")
+                    updated = self.update_matches_sofascore(sofa_data, dry_run=dry_run)
+                    self.stdout.write(f"  Sincronizou {updated} jogos via api_id.")
+                else:
+                    # SofaScore falhou — usa ESPN como fallback
+                    self.stdout.write(self.style.WARNING("  ⚠ SofaScore falhou. Usando ESPN como fallback..."))
+                    espn_data = espn.fetch_live_scores()
+                    
+                    if espn_data:
+                        for item in espn_data:
+                            item['source'] = 'ESPN'
+                        self.stdout.write(f"  Encontrados {len(espn_data)} jogos ao vivo no ESPN.")
+                        updated = self.update_matches_by_name(espn_data, dry_run=dry_run)
+                        self.stdout.write(f"  Sincronizou {updated} jogos via nome.")
+                    else:
+                        # ESPN também falhou — último recurso: BeSoccer
+                        self.stdout.write(self.style.WARNING("  ⚠ ESPN também falhou. Tentando BeSoccer..."))
+                        besoccer_data = besoccer.fetch_live_scores()
+                        if besoccer_data:
+                            for item in besoccer_data:
+                                item['source'] = 'BeSoccer'
+                            self.stdout.write(f"  Encontrados {len(besoccer_data)} jogos no BeSoccer.")
+                            updated = self.update_matches_by_name(besoccer_data, dry_run=dry_run)
+                            self.stdout.write(f"  Sincronizou {updated} jogos via nome.")
+                        else:
+                            self.stdout.write(self.style.ERROR("  ✖ Nenhuma fonte disponível neste ciclo."))
                 
-                self.stdout.write(f"Encontrados {len(live_data)} jogos ao vivo no {adapter.name}.")
+                # 3. A cada 3 ciclos, tenta também fontes brasileiras (complementar)
+                if cycle_count % 3 == 0:
+                    br_adapter = br_adapters[br_index % len(br_adapters)]
+                    self.stdout.write(f"  → {br_adapter.name} (complementar BR)...")
+                    br_data = br_adapter.fetch_live_scores()
+                    if br_data:
+                        for item in br_data:
+                            item['source'] = br_adapter.name
+                        updated = self.update_matches_by_name(br_data, dry_run=dry_run)
+                        self.stdout.write(f"  {br_adapter.name}: {updated} jogos BR atualizados.")
+                    br_index += 1
                 
-                # 4. Atualiza o banco
-                if live_data:
-                    updated = self.update_matches_in_db(live_data, dry_run=dry_run)
-                    self.stdout.write(f"Sincronizou {updated} jogos no banco.")
-                
-                # 5. Rotaciona o adaptador para o próximo ciclo
-                current_adapter_index = (current_adapter_index + 1) % len(adapters)
-                
-                # 6. Aguarda 40 segundos antes da próxima consulta
-                self.stdout.write("Aguardando 40 segundos para o próximo ciclo...")
-                time.sleep(40)
+                # 4. Aguarda 30 segundos (ótimo para apostas ao vivo)
+                self.stdout.write("Aguardando 30 segundos...")
+                time.sleep(30)
                 
             except KeyboardInterrupt:
                 self.stdout.write(self.style.WARNING('\nDaemon interrompido pelo usuário. Saindo...'))
