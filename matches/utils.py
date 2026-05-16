@@ -102,6 +102,16 @@ TEAM_NAME_MAPPINGS = {
     "Ein Frankfurt": "Frankfurt",
     "Bayer Leverkusen": "Leverkusen",
     "FSV Mainz": "Mainz",
+    "St. Pauli": "St Pauli",
+    "FC St. Pauli": "St Pauli",
+    "Bor. M'gladbach": "M Gladbach",
+    "Borussia M'gladbach": "M Gladbach",
+    "B. M'gladbach": "M Gladbach",
+    "M'gladbach": "M Gladbach",
+    "Hoffenheim": "Hoffenheim",
+    "TSG Hoffenheim": "Hoffenheim",
+    "VfL Wolfsburg": "Wolfsburg",
+    "Wolfsburg": "Wolfsburg",
 
     # Pro League (Bélgica)
     "Union St.Gilloise": "Royale Union SG",

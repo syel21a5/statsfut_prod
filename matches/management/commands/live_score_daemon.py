@@ -314,21 +314,24 @@ class Command(BaseCommand):
             home_name = normalize_team_name(home_name_raw)
             away_name = normalize_team_name(away_name_raw)
                 
-            # 1. Tenta busca ultra-precisa por Liga + Times
+            # 1. Tenta busca ultra-precisa por Liga + Times (limpa pontos e espaços)
             match = None
+            h_clean = home_name.replace('.', '').strip()
+            a_clean = away_name.replace('.', '').strip()
+
             if league_name_raw != "Desconhecida":
                 match = Match.objects.filter(
                     league__name__icontains=league_name_raw[:5],
-                    home_team__name__icontains=home_name[:6],
-                    away_team__name__icontains=away_name[:6],
+                    home_team__name__icontains=h_clean[:5],
+                    away_team__name__icontains=a_clean[:5],
                     status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
                 ).order_by('-date').first()
             
             # 2. Fallback: Busca apenas pelos times (mais flexível)
             if not match:
                 match = Match.objects.filter(
-                    home_team__name__icontains=home_name[:6],
-                    away_team__name__icontains=away_name[:6],
+                    home_team__name__icontains=h_clean[:5],
+                    away_team__name__icontains=a_clean[:5],
                     status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play']
                 ).order_by('-date').first()
             
