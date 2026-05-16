@@ -18,13 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 
+from core.views import custom_set_language
+
 # Rota de troca de idioma (sem prefixo, funciona de qualquer página)
 urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),
+    path('i18n/setlang/', custom_set_language, name='set_language'),
 ]
 
 # Rotas com prefixo de idioma (/pt-br/, /es/, /de/) - inglês sem prefixo (/)
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('matches.urls')),
+    prefix_default_language=False
 )

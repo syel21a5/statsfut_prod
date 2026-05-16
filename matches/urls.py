@@ -16,9 +16,9 @@ urlpatterns = [
 
     path('search/', views.GlobalSearchView.as_view(), name='global_search'),
     
-    # Cache de 5 minutos na Home e Tabelas das Ligas
-    path('', cache_page(60 * 5)(views.HomeView.as_view()), name='home'),
-    path('league/<int:pk>/', cache_page(60 * 5)(views.LeagueDetailView.as_view()), name='league_detail'),
+    # Cache de 5 minutos foi removido das Views inteiras porque quebra o CSRF token do seletor de idioma.
+    path('', views.HomeView.as_view(), name='home'),
+    path('league/<int:pk>/', views.LeagueDetailView.as_view(), name='league_detail'),
     
     path('match/<int:pk>/<slug:slug>/', views.MatchDetailView.as_view(), name='match_detail'),
     path('match/<int:pk>/', views.MatchDetailView.as_view(), name='match_detail_short'),
