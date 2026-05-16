@@ -275,7 +275,7 @@ class SofaScoreAdapter(ScraperAdapter):
             proxies = TOR_PROXIES if self.use_tor else None
             response = session.get(url, timeout=25, proxies=proxies)
             if response.status_code != 200:
-                logger.error(f"SofaScore retornou status {response.status_code}")
+                logger.warning(f"SofaScore retornou status {response.status_code}")
                 return []
             
             data = response.json()
