@@ -442,7 +442,7 @@ class LiveMatchesView(ListView):
         # Todos os status que indicam jogo ao vivo
         live_statuses = [
             '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 
-            'INT', 'SUSP', 'BREAK', 'PEN_LIVE'
+            'INT', 'SUSP', 'BREAK', 'PEN_LIVE', 'Live', 'In Play', 'IN PLAY'
         ]
         return Match.objects.filter(
             status__in=live_statuses,
