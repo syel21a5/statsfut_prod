@@ -258,7 +258,7 @@ class ESPNAdapter(ScraperAdapter):
 
 class SofaScoreAdapter(ScraperAdapter):
     name = "SofaScore"
-    use_tor = True  # O IP da VPS está bloqueado no Cloudflare, Tor é obrigatório
+    use_tor = False  # curl_cffi direto funciona! IPs do Tor estão na blacklist do Cloudflare
     
     def fetch_live_scores(self):
         from curl_cffi import requests as requests_cffi
