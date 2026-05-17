@@ -242,6 +242,28 @@ class Command(BaseCommand):
                         }
                         team_name = esp_mapping.get(team_name, team_name)
 
+                    is_greece = league.name.lower() in ["super league"] or league.country.lower() in ["greece", "grecia"]
+                    if is_greece:
+                        greece_mapping = {
+                            "Olympiacos": "Olympiakos",
+                            "Olympiacos FC": "Olympiakos",
+                            "AEK Athens": "AEK",
+                            "Panathinaikos FC": "Panathinaikos",
+                            "Aris Thessaloniki": "Aris",
+                            "NPS Volos": "Volos NFC",
+                            "Asteras Aktor": "Asteras Tripolis",
+                            "GFS Panetolikos": "Panetolikos",
+                            "APS Atromitos Athinon": "Atromitos",
+                            "MGS Panserraikos": "Panserraikos",
+                            "AEL Novibet": "Larisa",
+                            "APO Levadiakos": "Levadeiakos",
+                            "AE Kifisia": "Kifisia",
+                            "PAS Lamia 1964": "Lamia",
+                            "PAS Giannina": "Giannina",
+                            "Athens Kallithea FC": "Athens Kallithea",
+                        }
+                        team_name = greece_mapping.get(team_name, team_name)
+
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:

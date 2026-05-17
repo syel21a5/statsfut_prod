@@ -22,6 +22,7 @@ class Command(BaseCommand):
             'payload_inglaterra.json': {'name': 'Premier League', 'country': 'Inglaterra'},
             'payload_espanha.json': {'name': 'La Liga', 'country': 'Espanha'},
             'payload_finlandia.json': {'name': 'Veikkausliiga', 'country': 'Finlandia'},
+            'payload_grecia.json': {'name': 'Super League', 'country': 'Grecia'},
         }
 
         self.stdout.write("🔍 Iniciando busca de payloads na raiz...")

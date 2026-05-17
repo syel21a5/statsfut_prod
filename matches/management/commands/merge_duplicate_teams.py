@@ -128,6 +128,24 @@ class Command(BaseCommand):
             {'wrong': 'Stade Brestois',      'correct': 'Brest',               'country': 'Franca'},
             {'wrong': 'Stade Rennais',       'correct': 'Rennes',              'country': 'Franca'},
             {'wrong': 'Stade de Reims',      'correct': 'Reims',               'country': 'Franca'},
+
+            # GRECIA
+            {'wrong': 'Olympiacos',          'correct': 'Olympiakos',          'country': 'Grecia'},
+            {'wrong': 'Olympiacos FC',       'correct': 'Olympiakos',          'country': 'Grecia'},
+            {'wrong': 'AEK Athens',          'correct': 'AEK',                 'country': 'Grecia'},
+            {'wrong': 'Panathinaikos FC',    'correct': 'Panathinaikos',       'country': 'Grecia'},
+            {'wrong': 'Aris Thessaloniki',   'correct': 'Aris',                'country': 'Grecia'},
+            {'wrong': 'NPS Volos',           'correct': 'Volos NFC',           'country': 'Grecia'},
+            {'wrong': 'Asteras Aktor',       'correct': 'Asteras Tripolis',    'country': 'Grecia'},
+            {'wrong': 'GFS Panetolikos',     'correct': 'Panetolikos',         'country': 'Grecia'},
+            {'wrong': 'APS Atromitos Athinon', 'correct': 'Atromitos',         'country': 'Grecia'},
+            {'wrong': 'MGS Panserraikos',    'correct': 'Panserraikos',        'country': 'Grecia'},
+            {'wrong': 'AEL Novibet',         'correct': 'Larisa',              'country': 'Grecia'},
+            {'wrong': 'APO Levadiakos',      'correct': 'Levadeiakos',         'country': 'Grecia'},
+            {'wrong': 'AE Kifisia',          'correct': 'Kifisia',             'country': 'Grecia'},
+            {'wrong': 'PAS Lamia 1964',      'correct': 'Lamia',                'country': 'Grecia'},
+            {'wrong': 'PAS Giannina',        'correct': 'Giannina',            'country': 'Grecia'},
+            {'wrong': 'Athens Kallithea FC', 'correct': 'Athens Kallithea',    'country': 'Grecia'},
         ]
 
         for item in merge_map:
@@ -157,6 +175,16 @@ class Command(BaseCommand):
         for wrong_team in wrong_teams:
             self.stdout.write(f"Merging '{wrong_team.name}' into '{correct_team.name}'...")
             
+            # Transfer API ID if correct team has none
+            if wrong_team.api_id and not correct_team.api_id:
+                api_id_to_transfer = wrong_team.api_id
+                wrong_team.api_id = None
+                wrong_team.save()
+                
+                correct_team.api_id = api_id_to_transfer
+                correct_team.save()
+                self.stdout.write(f"  - Transferred API ID {api_id_to_transfer} to '{correct_team.name}'")
+
             # Update Matches (Home)
             for m in Match.objects.filter(home_team=wrong_team):
                 # Check if duplicate already exists in the same league and same day
@@ -174,7 +202,8 @@ class Command(BaseCommand):
                         existing.away_score = m.away_score
                         existing.status = m.status
                         existing.save()
-                    self.stdout.write(f"  - Match duplicate found, skipping merge to avoid data loss.")
+                    self.stdout.write(f"  - Match duplicate found, deleting duplicate match {m.id} to avoid data loss.")
+                    m.delete()
                 else:
                     m.home_team = correct_team
                     try:
@@ -197,7 +226,8 @@ class Command(BaseCommand):
                         existing.away_score = m.away_score
                         existing.status = m.status
                         existing.save()
-                    self.stdout.write(f"  - Match duplicate found, skipping merge.")
+                    self.stdout.write(f"  - Match duplicate found, deleting duplicate match {m.id}.")
+                    m.delete()
                 else:
                     m.away_team = correct_team
                     try:
