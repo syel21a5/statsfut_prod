@@ -529,6 +529,7 @@ class Command(BaseCommand):
         self.stdout.write('Intervalo: 30 segundos entre ciclos')
         
         # Fontes
+        sofascore = SofaScoreAdapter()
         espn = ESPNAdapter()
         besoccer = BeSoccerAdapter()
         
@@ -552,8 +553,19 @@ class Command(BaseCommand):
                 # Limpa jogos travados como 'Live' que já deveriam ter terminado
                 self.cleanup_stuck_live_matches()
                 
-                # 2. SEMPRE tenta ESPN primeiro (API pública robusta)
-                self.stdout.write("  → ESPN (primário, busca por nome simplificado)...")
+                # 2. SEMPRE tenta SofaScore primeiro (100% de precisão por api_id)
+                self.stdout.write("  → SofaScore (primário, busca por API ID)...")
+                sofascore_data = sofascore.fetch_live_scores()
+                
+                if sofascore_data:
+                    self.stdout.write(f"  Encontrados {len(sofascore_data)} jogos ao vivo no SofaScore.")
+                    updated = self.update_matches_sofascore(sofascore_data, dry_run=dry_run)
+                    self.stdout.write(f"  Sincronizou {updated} jogos via API ID.")
+                else:
+                    self.stdout.write(self.style.WARNING("  ⚠ SofaScore falhou ou não retornou dados."))
+                
+                # 3. Tenta ESPN como fallback por nome
+                self.stdout.write("  → ESPN (secundário, busca por nome)...")
                 espn_data = espn.fetch_live_scores()
                 
                 if espn_data:
