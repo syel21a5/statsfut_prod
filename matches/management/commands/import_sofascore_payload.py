@@ -394,8 +394,8 @@ class Command(BaseCommand):
             round_label = round_block.get('round_label', 'Round')
             events = round_block.get('events', [])
             
-            with transaction.atomic():
-                for ev in events:
+            for ev in events:
+                with transaction.atomic():
                     fixture_id = str(ev.get('id'))
                     match_api_id = f"sofa_{fixture_id}"
                     
