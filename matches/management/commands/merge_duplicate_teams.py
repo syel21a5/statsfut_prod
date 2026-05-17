@@ -163,6 +163,10 @@ class Command(BaseCommand):
             {'wrong': 'SBV Excelsior',       'correct': 'Excelsior',           'country': 'Holanda'},
             {'wrong': 'FC Volendam',         'correct': 'Volendam',            'country': 'Holanda'},
             {'wrong': 'Telstar 1963',        'correct': 'Telstar',             'country': 'Holanda'},
+
+            # ITALIA
+            {'wrong': 'US Cremonese',        'correct': 'Cremonese',           'country': 'Italia'},
+            {'wrong': 'AC Pisa 1909',        'correct': 'Pisa',                'country': 'Italia'},
         ]
 
         for item in merge_map:

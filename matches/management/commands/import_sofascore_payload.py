@@ -288,6 +288,20 @@ class Command(BaseCommand):
                         }
                         team_name = hol_mapping.get(team_name, team_name)
 
+                    is_italy = league.name.lower() in ["serie a"] or league.country.lower() in ["italia", "italy"]
+                    if is_italy:
+                        ita_mapping = {
+                            "Internazionale": "Inter",
+                            "AC Milan": "Milan",
+                            "Hellas Verona": "Verona",
+                            "Parma Calcio 1913": "Parma",
+                            "US Cremonese": "Cremonese",
+                            "AC Pisa 1909": "Pisa",
+                            "AS Roma": "Roma",
+                            "SS Lazio": "Lazio",
+                        }
+                        team_name = ita_mapping.get(team_name, team_name)
+
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:
