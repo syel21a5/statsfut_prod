@@ -146,6 +146,23 @@ class Command(BaseCommand):
             {'wrong': 'PAS Lamia 1964',      'correct': 'Lamia',                'country': 'Grecia'},
             {'wrong': 'PAS Giannina',        'correct': 'Giannina',            'country': 'Grecia'},
             {'wrong': 'Athens Kallithea FC', 'correct': 'Athens Kallithea',    'country': 'Grecia'},
+
+            # HOLANDA
+            {'wrong': 'Fortuna Sittard',     'correct': 'For Sittard',         'country': 'Holanda'},
+            {'wrong': "FC Twente '65",       'correct': 'Twente',              'country': 'Holanda'},
+            {'wrong': 'NEC',                 'correct': 'Nijmegen',            'country': 'Holanda'},
+            {'wrong': 'PEC Zwolle',          'correct': 'Zwolle',              'country': 'Holanda'},
+            {'wrong': 'SC Heerenveen',       'correct': 'Heerenveen',          'country': 'Holanda'},
+            {'wrong': 'Heracles Almelo',     'correct': 'Heracles',            'country': 'Holanda'},
+            {'wrong': 'AFC Ajax',            'correct': 'Ajax',                'country': 'Holanda'},
+            {'wrong': 'Feyenoord Rotterdam', 'correct': 'Feyenoord',            'country': 'Holanda'},
+            {'wrong': 'PSV',                 'correct': 'PSV Eindhoven',       'country': 'Holanda'},
+            {'wrong': 'AZ',                  'correct': 'AZ Alkmaar',          'country': 'Holanda'},
+            {'wrong': 'FC Groningen',        'correct': 'Groningen',           'country': 'Holanda'},
+            {'wrong': 'FC Utrecht',          'correct': 'Utrecht',             'country': 'Holanda'},
+            {'wrong': 'SBV Excelsior',       'correct': 'Excelsior',           'country': 'Holanda'},
+            {'wrong': 'FC Volendam',         'correct': 'Volendam',            'country': 'Holanda'},
+            {'wrong': 'Telstar 1963',        'correct': 'Telstar',             'country': 'Holanda'},
         ]
 
         for item in merge_map:

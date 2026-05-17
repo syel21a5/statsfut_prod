@@ -264,6 +264,30 @@ class Command(BaseCommand):
                         }
                         team_name = greece_mapping.get(team_name, team_name)
 
+                    is_holanda = league.name.lower() in ["eredivisie"] or league.country.lower() in ["holanda", "netherlands"]
+                    if is_holanda:
+                        hol_mapping = {
+                            "FC Twente": "Twente",
+                            "FC Utrecht": "Utrecht",
+                            "SC Heerenveen": "Heerenveen",
+                            "NEC Nijmegen": "Nijmegen",
+                            "PEC Zwolle": "Zwolle",
+                            "Fortuna Sittard": "For Sittard",
+                            "Heracles Almelo": "Heracles",
+                            "RKC Waalwijk": "Waalwijk",
+                            "Almere City FC": "Almere City",
+                            "Willem II Tilburg": "Willem II",
+                            "FC Groningen": "Groningen",
+                            "FC Volendam": "Volendam",
+                            "SBV Excelsior": "Excelsior",
+                            "Telstar 1963": "Telstar",
+                            "AFC Ajax": "Ajax",
+                            "Feyenoord Rotterdam": "Feyenoord",
+                            "PSV Eindhoven": "PSV Eindhoven",
+                            "AZ Alkmaar": "AZ Alkmaar",
+                        }
+                        team_name = hol_mapping.get(team_name, team_name)
+
                     # Limpeza extra
                     team_name = (team_name or '').strip()
                     if team_id and team_name:
