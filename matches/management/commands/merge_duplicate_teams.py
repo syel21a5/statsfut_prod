@@ -209,7 +209,23 @@ class Command(BaseCommand):
                     try:
                         m.save()
                     except IntegrityError:
-                        self.stdout.write(self.style.WARNING(f"  - IntegrityError merging match {m.id}, skipping..."))
+                        # Em caso de erro de integridade, procura o confronto exato que causou o conflito
+                        conflicting = Match.objects.filter(
+                            home_team=correct_team,
+                            away_team=m.away_team,
+                            date=m.date
+                        ).exclude(id=m.id).first()
+                        
+                        if conflicting:
+                            if (conflicting.home_score is None or conflicting.home_score == "") and m.home_score is not None:
+                                conflicting.home_score = m.home_score
+                                conflicting.away_score = m.away_score
+                                conflicting.status = m.status
+                                conflicting.save()
+                            self.stdout.write(self.style.WARNING(f"  - IntegrityError no jogo {m.id}, mesclado com o jogo conflitante {conflicting.id} e deletado com sucesso."))
+                            m.delete()
+                        else:
+                            self.stdout.write(self.style.ERROR(f"  - IntegrityError no jogo {m.id}, mas nenhum jogo conflitante foi localizado. Mantendo para segurança."))
                     
             # Update Matches (Away)
             for m in Match.objects.filter(away_team=wrong_team):
@@ -233,7 +249,23 @@ class Command(BaseCommand):
                     try:
                         m.save()
                     except IntegrityError:
-                        self.stdout.write(self.style.WARNING(f"  - IntegrityError merging match {m.id}, skipping..."))
+                        # Em caso de erro de integridade, procura o confronto exato que causou o conflito
+                        conflicting = Match.objects.filter(
+                            home_team=m.home_team,
+                            away_team=correct_team,
+                            date=m.date
+                        ).exclude(id=m.id).first()
+                        
+                        if conflicting:
+                            if (conflicting.home_score is None or conflicting.home_score == "") and m.home_score is not None:
+                                conflicting.home_score = m.home_score
+                                conflicting.away_score = m.away_score
+                                conflicting.status = m.status
+                                conflicting.save()
+                            self.stdout.write(self.style.WARNING(f"  - IntegrityError no jogo {m.id}, mesclado com o jogo conflitante {conflicting.id} e deletado com sucesso."))
+                            m.delete()
+                        else:
+                            self.stdout.write(self.style.ERROR(f"  - IntegrityError no jogo {m.id}, mas nenhum jogo conflitante foi localizado. Mantendo para segurança."))
             
             # Delete wrong team safely (only if no matches left)
             if not Match.objects.filter(Q(home_team=wrong_team) | Q(away_team=wrong_team)).exists():
