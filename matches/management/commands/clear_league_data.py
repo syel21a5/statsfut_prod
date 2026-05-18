@@ -9,6 +9,12 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            "--league_id",
+            type=int,
+            default=None,
+            help="ID específico da liga no banco de dados (ignora --league_name e --country)",
+        )
+        parser.add_argument(
             "--league_name",
             type=str,
             default="Premier League",
@@ -27,6 +33,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        league_id = options.get("league_id")
         league_name = options["league_name"]
         country = options["country"]
         confirm = options.get("confirm", False)
@@ -37,9 +44,12 @@ class Command(BaseCommand):
                     "ATENÇÃO: Este comando irá DELETAR todos os dados da liga!"
                 )
             )
-            cmd = f'python manage.py clear_league_data --league_name "{league_name}"'
-            if country:
-                cmd += f' --country "{country}"'
+            if league_id:
+                cmd = f'python manage.py clear_league_data --league_id {league_id}'
+            else:
+                cmd = f'python manage.py clear_league_data --league_name "{league_name}"'
+                if country:
+                    cmd += f' --country "{country}"'
             cmd += ' --confirm'
             
             self.stdout.write(
@@ -50,22 +60,28 @@ class Command(BaseCommand):
             return
 
         try:
-            leagues = League.objects.filter(name=league_name)
-            if country:
-                leagues = leagues.filter(country=country)
-            
-            if not leagues.exists():
-                self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
-                return
-            
-            if leagues.count() > 1:
-                self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}':"))
-                for l in leagues:
-                     self.stdout.write(self.style.WARNING(f" - ID: {l.id} | País: {l.country}"))
-                self.stdout.write(self.style.ERROR("Por favor, especifique o país com --country para desambiguar."))
-                return
+            if league_id:
+                league = League.objects.filter(id=league_id).first()
+                if not league:
+                    self.stdout.write(self.style.ERROR(f"Liga com ID {league_id} não encontrada."))
+                    return
+            else:
+                leagues = League.objects.filter(name=league_name)
+                if country:
+                    leagues = leagues.filter(country=country)
+                
+                if not leagues.exists():
+                    self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
+                    return
+                
+                if leagues.count() > 1:
+                    self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}':"))
+                    for l in leagues:
+                         self.stdout.write(self.style.WARNING(f" - ID: {l.id} | País: {l.country}"))
+                    self.stdout.write(self.style.ERROR("Existem múltiplas ligas. Use --league_id <ID> para especificar qual limpar."))
+                    return
 
-            league = leagues.first()
+                league = leagues.first()
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Erro ao buscar liga: {e}"))
             return
