@@ -382,6 +382,7 @@ COUNTRY_TRANSLATIONS = {
     "Argentina": "Argentina",
     "Australia": "Australia",
     "Suica": "Switzerland",
+    "Chile": "Chile",
     "Republica Tcheca": "Czech Republic",
     "Dinamarca": "Denmark",
     "Finlandia": "Finland",

@@ -7,6 +7,7 @@ COUNTRY_CODES = {
     'Belgium': 'be',
     'Germany': 'de',
     'Brazil': 'br',
+    'Chile': 'cl',
     'Spain': 'es',
     'Sweden': 'se',
     'Norway': 'no',
