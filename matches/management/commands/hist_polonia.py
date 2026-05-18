@@ -20,10 +20,10 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f"Iniciando importação histórica para {league.name} (ID: {league.id})"))
 
-        for year in range(2020, 2026):
+        for year in range(2021, 2027):
             filename = f"{base_dir}/{year}.json"
             if os.path.exists(filename):
-                self.stdout.write(self.style.WARNING(f"\n>>> Importando ano {year}/{year+1}..."))
+                self.stdout.write(self.style.WARNING(f"\n>>> Importando ano {year-1}/{year}..."))
                 try:
                     call_command('import_sofascore_payload', file=filename, league_id=league.id, season_year=year)
                     self.stdout.write(self.style.SUCCESS(f"-> Sucesso ao importar {year}.json"))
@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.NOTICE(f"Arquivo não encontrado: {filename}"))
 
         self.stdout.write(self.style.WARNING("\nRecalculando tabelas..."))
-        for year in range(2020, 2026):
+        for year in range(2021, 2027):
              call_command('recalculate_standings', league_name='Ekstraklasa', country='Polonia', season_year=year)
 
         self.stdout.write(self.style.SUCCESS(f"\n✅ Importação histórica da Polônia concluída!"))

@@ -62,8 +62,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
             cd $PROD_SERVER_PATH
             git pull origin main
-            ./venv/bin/python manage.py import_sofascore_payload --file payload_polonia.json --league_name \"Ekstraklasa\" --country \"Polonia\" --season_year 2025
-            ./venv/bin/python manage.py recalculate_standings --league_name \"Ekstraklasa\" --country \"Polonia\" --season_year 2025
+            ./venv/bin/python manage.py import_sofascore_payload --file payload_polonia.json --league_name \"Ekstraklasa\" --country \"Polonia\" --season_year 2026
+            ./venv/bin/python manage.py recalculate_standings --league_name \"Ekstraklasa\" --country \"Polonia\" --season_year 2026
 
             rm payload_polonia.json
           "
