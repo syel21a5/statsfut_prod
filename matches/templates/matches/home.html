@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static matches_extras i18n %}
+{% load static matches_extras i18n cache %}
 
 {% block title %}{% translate "StatsFut - Football Statistics, Predictions & Match Analysis" %}{% endblock %}
 {% block meta_description %}{% translate "Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge." %}{% endblock %}
@@ -140,6 +140,7 @@
 </style>
 
 <div class="matches-container">
+    {% cache 300 home_matches current_filter request.LANGUAGE_CODE %}
     {% for country_data in grouped_matches %}
     <div class="country-section mb-5" id="country-{{ forloop.counter }}">
         <h2 class="h4 text-white fw-bold d-flex align-items-center gap-3 mb-4 section-title">
@@ -238,6 +239,7 @@
         <p class="small opacity-75">{% translate "Try checking another date or filter." %}</p>
     </div>
     {% endfor %}
+    {% endcache %}
     
     <div id="empty-message" class="d-none text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
         <i class="fa-solid fa-magnifying-glass mb-3" style="font-size: 3rem; opacity: 0.5;"></i>

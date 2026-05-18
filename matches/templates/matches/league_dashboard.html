@@ -2,12 +2,13 @@
 {% load static i18n %}
 {% load matches_extras team_tags %}
 {% load flag_tags %}
-{% load tz %}
+{% load tz cache %}
 
 {% block title %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endblock %}
 {% block meta_description %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endblock %}
 
 {% block content %}
+{% cache 300 league_dashboard league.id request.LANGUAGE_CODE %}
 <div class="container-fluid py-4">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -1258,4 +1259,6 @@
         letter-spacing: 2px;
     }
 </style>
+</div>
+{% endcache %}
 {% endblock %}
