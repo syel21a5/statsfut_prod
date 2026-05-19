@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% translate "Login" %} | StatsFut{% endblock %}
+{% block meta_description %}{% translate "Login to access StatsFut Premium analytics and advanced football statistics." %}{% endblock %}
+
+{% block header %}
+<h1 class="h3 mb-0 text-white"><i class="fa-solid fa-right-to-bracket me-2 text-primary"></i>{% translate "Login" %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+        <div class="p-4 p-md-5 rounded-4 shadow-lg" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            
+            <!-- Header Icon -->
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary), #6366f1);">
+                    <i class="fa-solid fa-user-lock fa-2x text-white"></i>
+                </div>
+                <h2 class="h4 text-white mb-1">{% translate "Welcome Back" %}</h2>
+                <p class="text-secondary small mb-0">{% translate "Sign in to access your premium stats" %}</p>
+            </div>
+
+            <!-- Messages -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-0 small" role="alert" style="background: rgba({% if message.tags == 'success' %}34,197,94{% elif message.tags == 'error' %}239,68,68{% else %}59,130,246{% endif %}, 0.15); color: {% if message.tags == 'success' %}#22c55e{% elif message.tags == 'error' %}#ef4444{% else %}#3b82f6{% endif %};">
+                {{ message }}
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- Form Errors -->
+            {% if form.errors %}
+            <div class="alert border-0 small mb-3" style="background: rgba(239,68,68,0.15); color: #ef4444;">
+                <i class="fa-solid fa-circle-exclamation me-1"></i>
+                {% translate "Invalid username or password. Please try again." %}
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="post" id="login-form">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_login_username" class="form-label text-secondary small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-user me-1"></i>{% translate "Username" %}
+                    </label>
+                    {{ form.username }}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_login_password" class="form-label text-secondary small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-lock me-1"></i>{% translate "Password" %}
+                    </label>
+                    {{ form.password }}
+                </div>
+
+                <button type="submit" id="btn-login" class="btn btn-primary w-100 py-2 fw-bold mt-2" style="background: linear-gradient(135deg, var(--primary), #6366f1); border: none; border-radius: 10px; font-size: 1rem; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>{% translate "Sign In" %}
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="d-flex align-items-center my-4">
+                <hr class="flex-grow-1 border-secondary border-opacity-25">
+                <span class="px-3 text-secondary small">{% translate "OR" %}</span>
+                <hr class="flex-grow-1 border-secondary border-opacity-25">
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center">
+                <p class="text-secondary small mb-2">{% translate "Don't have an account?" %}</p>
+                <a href="{% url 'members:register' %}" id="link-register" class="btn btn-outline-light w-100 py-2" style="border-radius: 10px; border-color: var(--border);">
+                    <i class="fa-solid fa-user-plus me-2"></i>{% translate "Create Account" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #login-form .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+    }
+    #btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+    }
+    #link-register:hover {
+        background: rgba(255,255,255,0.05);
+        border-color: var(--primary);
+    }
+</style>
+{% endblock %}

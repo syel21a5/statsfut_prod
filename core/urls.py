@@ -28,6 +28,7 @@ urlpatterns = [
 # Rotas com prefixo de idioma (/pt-br/, /es/, /de/) - inglês sem prefixo (/)
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    path('members/', include('members.urls')),
     path('', include('matches.urls')),
     prefix_default_language=False
 )

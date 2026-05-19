@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% translate "My Profile" %} | StatsFut{% endblock %}
+
+{% block header %}
+<h1 class="h3 mb-0 text-white"><i class="fa-solid fa-user-circle me-2 text-primary"></i>{% translate "My Profile" %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="p-4 p-md-5 rounded-4 shadow-lg" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            
+            <!-- Profile Header -->
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), #6366f1); font-size: 2rem; color: white; font-weight: 700;">
+                    {{ user.username|first|upper }}
+                </div>
+                <h2 class="h4 text-white mb-1">{{ user.username }}</h2>
+                <p class="text-secondary small mb-0">{{ user.email }}</p>
+            </div>
+
+            <!-- Messages -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-0 small" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- Account Info -->
+            <div class="mb-4">
+                <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-2" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border);">
+                    <div>
+                        <span class="text-secondary small text-uppercase" style="letter-spacing: 0.5px;">{% translate "Status" %}</span>
+                        <div class="mt-1">
+                            {% if user.profile.is_premium_active %}
+                            <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #f59e0b, #f97316); font-size: 0.8rem;">
+                                <i class="fa-solid fa-crown me-1"></i>{% translate "Premium" %}
+                            </span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-secondary px-3 py-2" style="font-size: 0.8rem;">
+                                <i class="fa-solid fa-user me-1"></i>{% translate "Free" %}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if not user.profile.is_premium_active %}
+                    <a href="{% url 'members:paywall' %}" class="btn btn-sm btn-warning fw-bold px-3" style="border-radius: 8px;">
+                        <i class="fa-solid fa-rocket me-1"></i>{% translate "Upgrade" %}
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-2" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border);">
+                    <div>
+                        <span class="text-secondary small text-uppercase" style="letter-spacing: 0.5px;">{% translate "Member Since" %}</span>
+                        <div class="text-white mt-1">{{ user.date_joined|date:"M d, Y" }}</div>
+                    </div>
+                    <i class="fa-solid fa-calendar text-secondary"></i>
+                </div>
+
+                {% if user.profile.is_premium_active and user.profile.premium_until %}
+                <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-2" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border);">
+                    <div>
+                        <span class="text-secondary small text-uppercase" style="letter-spacing: 0.5px;">{% translate "Premium Until" %}</span>
+                        <div class="text-white mt-1">{{ user.profile.premium_until|date:"M d, Y" }}</div>
+                    </div>
+                    <i class="fa-solid fa-clock text-warning"></i>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Actions -->
+            <div class="d-grid gap-2">
+                <a href="{% url 'members:premium_dashboard' %}" class="btn btn-primary py-2" style="border-radius: 10px; background: linear-gradient(135deg, var(--primary), #6366f1); border: none;">
+                    <i class="fa-solid fa-chart-line me-2"></i>{% translate "Premium Dashboard" %}
+                </a>
+                <form method="post" action="{% url 'members:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger w-100 py-2" style="border-radius: 10px;">
+                        <i class="fa-solid fa-right-from-bracket me-2"></i>{% translate "Sign Out" %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

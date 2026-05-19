@@ -32,13 +32,16 @@ class MatchAnalyzer:
             qs = qs.filter(date__lt=self.match.date)
             
         if is_home:
-            qs = qs.filter(home_team=team)
+            qs = qs.filter(home_team=team).order_by('-date')[:limit]
+            return list(qs)
         elif is_away:
-            qs = qs.filter(away_team=team)
+            qs = qs.filter(away_team=team).order_by('-date')[:limit]
+            return list(qs)
         else:
-            qs = qs.filter(Q(home_team=team) | Q(away_team=team))
-            
-        return qs.order_by('-date')[:limit]
+            home_qs = qs.filter(home_team=team).order_by('-date')[:limit]
+            away_qs = qs.filter(away_team=team).order_by('-date')[:limit]
+            combined = sorted(list(home_qs) + list(away_qs), key=lambda x: x.date if x.date else x.created_at, reverse=True)[:limit]
+            return combined
 
     def _calc_win_draw_loss(self, matches, team):
         w = d = l = 0

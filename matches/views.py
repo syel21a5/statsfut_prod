@@ -4527,10 +4527,10 @@ class HeadToHeadView(TemplateView):
                     
                     records = []
                     # Get all seasons for this team in this league (via matches or standings)
-                    seasons = Season.objects.filter(
-                        models.Q(matches__league=lg, matches__home_team=team) | 
-                        models.Q(standings__league=lg, standings__team=team)
-                    ).distinct().order_by('-year')
+                    match_season_ids = Match.objects.filter(league=lg, home_team=team).values_list('season_id', flat=True).distinct()
+                    standing_season_ids = LeagueStanding.objects.filter(league=lg, team=team).values_list('season_id', flat=True).distinct()
+                    season_ids = set(list(match_season_ids) + list(standing_season_ids))
+                    seasons = Season.objects.filter(id__in=season_ids).order_by('-year')
                     
                     for s in seasons:
                         # Skip current if we want only past? Or include all.

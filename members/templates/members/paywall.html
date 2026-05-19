@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% translate "Upgrade to Premium" %} | StatsFut{% endblock %}
+{% block meta_description %}{% translate "Upgrade to StatsFut Premium for exclusive advanced football analytics, corner stats, card analysis and AI predictions." %}{% endblock %}
+
+{% block header %}
+<h1 class="h3 mb-0 text-white"><i class="fa-solid fa-crown me-2" style="color: #f59e0b;"></i>{% translate "Upgrade to Premium" %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="text-center mb-5">
+    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 88px; height: 88px; background: linear-gradient(135deg, #f59e0b, #f97316); box-shadow: 0 8px 32px rgba(245,158,11,0.3);">
+        <i class="fa-solid fa-crown fa-2x text-white"></i>
+    </div>
+    <h2 class="text-white mb-2">{% translate "Unlock the Full Power of StatsFut" %}</h2>
+    <p class="text-secondary mx-auto" style="max-width: 600px;">{% translate "Get access to advanced analytics used by professional bettors and analysts. Corner stats, card trends, AI predictions and much more." %}</p>
+</div>
+
+<!-- Pricing Cards -->
+<div class="row g-4 justify-content-center mb-5">
+
+    <!-- Free Plan -->
+    <div class="col-lg-4 col-md-6">
+        <div class="p-4 rounded-4 h-100 text-center" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            <div class="mb-3">
+                <span class="badge bg-secondary px-3 py-2 rounded-pill" style="font-size: 0.8rem;">{% translate "Free" %}</span>
+            </div>
+            <div class="mb-3">
+                <span class="h2 text-white fw-bold">R$ 0</span>
+                <span class="text-secondary small">/{% translate "forever" %}</span>
+            </div>
+            <hr class="border-secondary border-opacity-25">
+            <ul class="list-unstyled text-start mb-4">
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-secondary small">{% translate "Basic match statistics" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-secondary small">{% translate "League standings" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-secondary small">{% translate "Over/Under & BTTS" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-secondary small">{% translate "Live scores" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-xmark text-danger"></i>
+                    <span class="text-secondary small text-decoration-line-through">{% translate "Corner Analysis" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-xmark text-danger"></i>
+                    <span class="text-secondary small text-decoration-line-through">{% translate "Card Analysis" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-xmark text-danger"></i>
+                    <span class="text-secondary small text-decoration-line-through">{% translate "AI Predictions" %}</span>
+                </li>
+            </ul>
+            <span class="btn btn-outline-secondary w-100 py-2 disabled" style="border-radius: 10px;">
+                {% translate "Current Plan" %}
+            </span>
+        </div>
+    </div>
+
+    <!-- Premium Plan (Highlighted) -->
+    <div class="col-lg-4 col-md-6">
+        <div class="p-4 rounded-4 h-100 text-center position-relative" style="background: var(--bg-panel); border: 2px solid #f59e0b; box-shadow: 0 8px 40px rgba(245,158,11,0.15);">
+            <!-- Popular Badge -->
+            <div class="position-absolute top-0 start-50 translate-middle">
+                <span class="badge px-3 py-2 rounded-pill fw-bold" style="background: linear-gradient(135deg, #f59e0b, #f97316); font-size: 0.75rem;">
+                    <i class="fa-solid fa-fire me-1"></i>{% translate "MOST POPULAR" %}
+                </span>
+            </div>
+            <div class="mb-3 mt-2">
+                <span class="badge px-3 py-2 rounded-pill" style="background: rgba(245,158,11,0.15); color: #f59e0b; font-size: 0.8rem;">
+                    <i class="fa-solid fa-crown me-1"></i>{% translate "Premium" %}
+                </span>
+            </div>
+            <div class="mb-1">
+                <span class="h2 text-white fw-bold">R$ 29</span>
+                <span class="text-secondary small">/{% translate "month" %}</span>
+            </div>
+            <p class="text-success small mb-3"><i class="fa-solid fa-tag me-1"></i>{% translate "Save 40% with annual plan" %}</p>
+            <hr class="border-secondary border-opacity-25">
+            <ul class="list-unstyled text-start mb-4">
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-white small fw-bold">{% translate "Everything in Free" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+                    <span class="text-white small">{% translate "Advanced Corner Analysis" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+                    <span class="text-white small">{% translate "Card & Foul Trends" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+                    <span class="text-white small">{% translate "Shot Analysis & xG" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+                    <span class="text-white small">{% translate "AI Smart Predictions" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+                    <span class="text-white small">{% translate "Deep H2H Analytics" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+                    <span class="text-white small">{% translate "Goal Timing Breakdown" %}</span>
+                </li>
+            </ul>
+            <a href="{% url 'members:login' %}" id="btn-subscribe" class="btn w-100 py-2 fw-bold text-white" style="background: linear-gradient(135deg, #f59e0b, #f97316); border: none; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease;">
+                <i class="fa-solid fa-bolt me-2"></i>{% translate "Subscribe Now" %}
+            </a>
+        </div>
+    </div>
+
+    <!-- Annual Plan -->
+    <div class="col-lg-4 col-md-6">
+        <div class="p-4 rounded-4 h-100 text-center" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            <div class="mb-3">
+                <span class="badge px-3 py-2 rounded-pill" style="background: rgba(34,197,94,0.15); color: #22c55e; font-size: 0.8rem;">
+                    <i class="fa-solid fa-tag me-1"></i>{% translate "Best Value" %}
+                </span>
+            </div>
+            <div class="mb-1">
+                <span class="h2 text-white fw-bold">R$ 199</span>
+                <span class="text-secondary small">/{% translate "year" %}</span>
+            </div>
+            <p class="text-success small mb-3">
+                <del class="text-secondary">R$ 348</del> — {% translate "Save R$ 149" %}
+            </p>
+            <hr class="border-secondary border-opacity-25">
+            <ul class="list-unstyled text-start mb-4">
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-white small fw-bold">{% translate "Everything in Premium" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-white small">{% translate "12 months access" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-white small">{% translate "Priority support" %}</span>
+                </li>
+                <li class="py-2 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-check text-success"></i>
+                    <span class="text-white small">{% translate "Early access to new features" %}</span>
+                </li>
+            </ul>
+            <a href="{% url 'members:login' %}" class="btn btn-outline-success w-100 py-2 fw-bold" style="border-radius: 10px;">
+                <i class="fa-solid fa-rocket me-2"></i>{% translate "Get Annual" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="p-4 rounded-4 mb-4" style="background: var(--bg-panel); border: 1px solid var(--border);">
+    <h4 class="text-white mb-4 text-center"><i class="fa-solid fa-circle-question me-2 text-primary"></i>{% translate "Frequently Asked Questions" %}</h4>
+    <div class="accordion accordion-flush" id="faqAccordion">
+        <div class="accordion-item bg-transparent border-bottom border-secondary border-opacity-25">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-transparent text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                    {% translate "What payment methods do you accept?" %}
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary small">{% translate "We accept PIX, credit cards, and boleto bancário. International users can pay via credit card." %}</div>
+            </div>
+        </div>
+        <div class="accordion-item bg-transparent border-bottom border-secondary border-opacity-25">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-transparent text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    {% translate "Can I cancel anytime?" %}
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary small">{% translate "Yes! You can cancel your subscription at any time. You'll keep access until the end of your billing period." %}</div>
+            </div>
+        </div>
+        <div class="accordion-item bg-transparent border-0">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-transparent text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    {% translate "How often is the data updated?" %}
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary small">{% translate "All statistics are updated automatically every day. Live scores update in real-time during matches." %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #btn-subscribe:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
+    }
+    .accordion-button::after {
+        filter: invert(1);
+    }
+</style>
+{% endblock %}

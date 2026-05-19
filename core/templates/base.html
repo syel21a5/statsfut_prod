@@ -54,6 +54,13 @@
         <a href="{% url 'matches:live_matches' %}" class="nav-link text-danger fw-bold">
             <i class="fa-solid fa-circle-dot live-pulse"></i> {% translate "Live" %}
         </a>
+        {% if '127.0.0.1' in request.get_host or 'localhost' in request.get_host %}
+        <a href="{% url 'members:premium_dashboard' %}" class="nav-link premium-nav-link d-flex align-items-center">
+            <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+            <span class="ms-1">{% translate "Premium" %}</span>
+            <span class="badge ms-auto px-2 py-1 rounded-pill" style="background: linear-gradient(135deg, #f59e0b, #f97316); font-size: 0.6rem; color: #fff;">PRO</span>
+        </a>
+        {% endif %}
 
         <div class="menu-label">{% translate "Countries & Leagues" %}</div>
         
@@ -143,7 +150,34 @@
                 <div class="date-badge d-none d-md-inline-block">
                     <i class="fa-regular fa-clock me-1"></i> {% now "M d, Y, H:i" %}
                 </div>
-                <!-- Optional: User Profile or Settings could go here -->
+                <!-- User Auth Button -->
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-sm d-flex align-items-center gap-2 text-white shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="userDropdownBtn" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 10px; padding: 6px 14px;">
+                        <div class="d-flex align-items-center justify-content-center rounded-circle" style="width: 26px; height: 26px; background: linear-gradient(135deg, var(--primary), #6366f1); font-size: 0.7rem; font-weight: 700;">
+                            {{ user.username|first|upper }}
+                        </div>
+                        <span class="d-none d-md-inline small">{{ user.username }}</span>
+                        {% if user.profile.is_premium_active %}<i class="fa-solid fa-crown" style="color: #f59e0b; font-size: 0.65rem;"></i>{% endif %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" style="background: var(--bg-panel); border: 1px solid var(--border) !important; min-width: 200px;">
+                        <li><a class="dropdown-item text-white d-flex align-items-center gap-2 py-2" href="{% url 'members:profile' %}"><i class="fa-solid fa-user text-secondary"></i> {% translate "My Profile" %}</a></li>
+                        <li><a class="dropdown-item text-white d-flex align-items-center gap-2 py-2" href="{% url 'members:premium_dashboard' %}"><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> {% translate "Premium" %}</a></li>
+                        <li><hr class="dropdown-divider border-secondary border-opacity-25"></li>
+                        <li>
+                            <form method="post" action="{% url 'members:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2 py-2"><i class="fa-solid fa-right-from-bracket"></i> {% translate "Sign Out" %}</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'members:login' %}" class="btn btn-sm text-white d-flex align-items-center gap-2" id="headerLoginBtn" style="background: linear-gradient(135deg, var(--primary), #6366f1); border: none; border-radius: 10px; padding: 6px 14px;">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span class="d-none d-md-inline small">{% translate "Login" %}</span>
+                </a>
+                {% endif %}
             </div>
         </header>
 
