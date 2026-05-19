@@ -72,7 +72,9 @@ from matches.services.advanced_stats import MatchAnalyzer
 def premium_dashboard(request):
     """Dashboard premium: Scanner Inteligente das Melhores Oportunidades do Dia."""
     is_premium = False
-    if hasattr(request.user, 'profile'):
+    if request.user.is_superuser or request.user.is_staff:
+        is_premium = True
+    elif hasattr(request.user, 'profile'):
         is_premium = request.user.profile.is_premium_active
 
     br_tz = ZoneInfo('America/Sao_Paulo')

@@ -11,7 +11,8 @@ def premium_required(view_func):
     def _wrapped(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('members:login')
-        if not hasattr(request.user, 'profile') or not request.user.profile.is_premium_active:
-            return redirect('members:paywall')
+        if not (request.user.is_superuser or request.user.is_staff):
+            if not hasattr(request.user, 'profile') or not request.user.profile.is_premium_active:
+                return redirect('members:paywall')
         return view_func(request, *args, **kwargs)
     return _wrapped
