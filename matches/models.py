@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.core.cache import cache
 
 class League(models.Model):
     name = models.CharField(max_length=100)
@@ -19,24 +20,42 @@ class Team(models.Model):
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na API")
 
     def get_stats(self, market="over25"):
-        matches = Match.objects.filter(
-            models.Q(home_team=self) | models.Q(away_team=self),
+        cache_key = f"team_stats_{self.id}_{market}"
+        cached_val = cache.get(cache_key)
+        if cached_val is not None:
+            return cached_val
+
+        # Busca indexada otimizada (sem operador OR lento)
+        home_matches = list(Match.objects.filter(
+            home_team=self,
             home_score__isnull=False,
             away_score__isnull=False
-        ).order_by('-date')[:10]
+        ).order_by('-date')[:10])
+        
+        away_matches = list(Match.objects.filter(
+            away_team=self,
+            home_score__isnull=False,
+            away_score__isnull=False
+        ).order_by('-date')[:10])
+        
+        # Junta e ordena no Python de forma ultrarrápida
+        matches = sorted(home_matches + away_matches, key=lambda m: m.date, reverse=True)[:10]
         
         if not matches:
-            return 0
+            val = 0
+        else:
+            count = 0
+            for m in matches:
+                total = (m.home_score or 0) + (m.away_score or 0)
+                if market == "over25" and total > 2.5:
+                    count += 1
+                elif market == "under15" and total < 1.5:
+                    count += 1
+            val = int((count / len(matches)) * 100)
             
-        count = 0
-        for m in matches:
-            total = (m.home_score or 0) + (m.away_score or 0)
-            if market == "over25" and total > 2.5:
-                count += 1
-            elif market == "under15" and total < 1.5:
-                count += 1
-                
-        return int((count / len(matches)) * 100)
+        # Salva em cache por 6 horas
+        cache.set(cache_key, val, 3600 * 6)
+        return val
 
     def __str__(self):
         return self.name
