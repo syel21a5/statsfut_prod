@@ -54,13 +54,11 @@
         <a href="{% url 'matches:live_matches' %}" class="nav-link text-danger fw-bold">
             <i class="fa-solid fa-circle-dot live-pulse"></i> {% translate "Live" %}
         </a>
-        {% if '127.0.0.1' in request.get_host or 'localhost' in request.get_host %}
         <a href="{% url 'members:premium_dashboard' %}" class="nav-link premium-nav-link d-flex align-items-center">
             <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
             <span class="ms-1">{% translate "Premium" %}</span>
             <span class="badge ms-auto px-2 py-1 rounded-pill" style="background: linear-gradient(135deg, #f59e0b, #f97316); font-size: 0.6rem; color: #fff;">PRO</span>
         </a>
-        {% endif %}
 
         <div class="menu-label">{% translate "Countries & Leagues" %}</div>
         
