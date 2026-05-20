@@ -48,6 +48,16 @@ def should_update(session, t_id, s_id):
                 if not any(t[0] == sub_id for t in tournaments):
                     tournaments.append((sub_id, False))
     
+    # 1b. Buscar sub-torneios de playoffs (cuptrees)
+    ct_url = f"https://api.sofascore.com/api/v1/unique-tournament/{t_id}/season/{s_id}/cuptrees"
+    ct_data = fetch_api(session, ct_url)
+    if ct_data and 'cupTrees' in ct_data:
+        for tree in ct_data['cupTrees']:
+            sub_id = tree.get('tournament', {}).get('id')
+            if sub_id and sub_id != t_id:
+                if not any(t[0] == sub_id for t in tournaments):
+                    tournaments.append((sub_id, False))
+    
     now = datetime.now()
     today = now.date()
     yesterday = today - timedelta(days=1)
@@ -120,11 +130,24 @@ def scrape_league(session, t_id, s_id, last_rounds=None):
                 if not any(t[0] == sub_id for t in tournaments):
                     tournaments.append((sub_id, group.get('name', 'League'), False))
                     
+    # 2b. Descobrir sub-torneios de playoffs (cuptrees)
+    ct_url = f"https://api.sofascore.com/api/v1/unique-tournament/{t_id}/season/{s_id}/cuptrees"
+    ct_data = fetch_api(session, ct_url)
+    if ct_data and 'cupTrees' in ct_data:
+        for tree in ct_data['cupTrees']:
+            sub_t = tree.get('tournament', {})
+            sub_id = sub_t.get('id')
+            sub_name = sub_t.get('name', 'Playoffs')
+            if sub_id and sub_id != t_id:
+                if not any(t[0] == sub_id for t in tournaments):
+                    tournaments.append((sub_id, sub_name, False))
+                    
     # 3. Rodadas
     for tid, label, is_unique in tournaments:
         prefix = "unique-tournament" if is_unique else "tournament"
         r_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/rounds"
         r_data = fetch_api(session, r_url)
+        rounds_fetched_count = 0
         if r_data and 'rounds' in r_data:
             all_r = r_data['rounds']
             if last_rounds:
@@ -139,12 +162,58 @@ def scrape_league(session, t_id, s_id, last_rounds=None):
                 r_num = r_info['round']
                 e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{r_num}"
                 e_data = fetch_api(session, e_url)
-                if e_data and e_data.get('events'):
+                events_list = e_data.get('events', []) if e_data else []
+                if events_list:
+                    rounds_fetched_count += len(events_list)
                     payload['rounds'].append({
                         "round_label": label,
                         "round_number": r_num,
-                        "events": e_data.get('events', [])
+                        "events": events_list
                     })
+                    
+        # Se não conseguimos buscar nenhum evento pelas rodadas normais (ex: playoffs sem endpoint de rodada ativa)
+        if rounds_fetched_count == 0:
+            print(f"    - {label}: Sem eventos via /events/round/. Tentando fallback paginado...")
+            all_events = []
+            
+            # Busca jogos passados (paginado)
+            for page in range(5):
+                url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/last/{page}"
+                data = fetch_api(session, url)
+                if not data or not data.get('events'):
+                    break
+                events = data['events']
+                all_events.extend(events)
+                if data.get('hasNextPage') == False:
+                    break
+            
+            # Busca jogos futuros (paginado)
+            for page in range(5):
+                url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/next/{page}"
+                data = fetch_api(session, url)
+                if not data or not data.get('events'):
+                    break
+                events = data['events']
+                all_events.extend(events)
+                if data.get('hasNextPage') == False:
+                    break
+            
+            if all_events:
+                # Agrupa eventos por rodada (roundInfo.round) se disponível, senão coloca na rodada original se mapeada
+                rounds_map = {}
+                for ev in all_events:
+                    r_num = ev.get('roundInfo', {}).get('round', 1) if ev.get('roundInfo') else 1
+                    if r_num not in rounds_map:
+                        rounds_map[r_num] = []
+                    rounds_map[r_num].append(ev)
+                
+                for r_num in sorted(rounds_map.keys()):
+                    payload['rounds'].append({
+                        "round_label": label,
+                        "round_number": r_num,
+                        "events": rounds_map[r_num]
+                    })
+                print(f"    - {label}: Fallback de sub-torneio coletou {len(all_events)} eventos em {len(rounds_map)} rodada(s).")
                     
         # Fallback agressivo: Sempre tentar pegar last/0 e next/0 para cobrir buracos
         for endpoint, r_num_fake in [('last/0', 998), ('next/0', 999)]:
