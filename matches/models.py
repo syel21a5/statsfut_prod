@@ -243,3 +243,40 @@ class APIUsage(models.Model):
 
     def __str__(self):
         return f"{self.api_name}: {self.credits_remaining} restantes (em {self.last_updated.strftime('%d/%m %H:%M')})"
+
+class BetTicket(models.Model):
+    TICKET_TYPES = (
+        ('Double', 'Dupla'),
+        ('Treble', 'Tripla'),
+    )
+    STATUS_CHOICES = (
+        ('Pending', 'Pendente'),
+        ('Green', 'Green ✅'),
+        ('Red', 'Red ❌'),
+        ('Void', 'Anulada'),
+    )
+
+    title = models.CharField(max_length=200, help_text="Título do bilhete (ex: Dupla de Ouro HT)")
+    ticket_type = models.CharField(max_length=20, choices=TICKET_TYPES)
+    average_probability = models.IntegerField(default=0, help_text="Probabilidade média de acerto (%)")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    date_target = models.DateField(null=True, blank=True, help_text="Data alvo dos jogos deste bilhete")
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.title} - {self.get_status_display()}"
+
+
+class BetTicketSelection(models.Model):
+    ticket = models.ForeignKey(BetTicket, on_delete=models.CASCADE, related_name='selections')
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='ticket_selections')
+    prediction_market = models.CharField(max_length=100, help_text="Mercado escolhido (ex: over_15, ht_goal, home_win)")
+    prediction_label = models.CharField(max_length=100, help_text="Rótulo amigável (ex: Mais de 1.5 Gols FT)")
+    probability = models.IntegerField(default=0, help_text="Probabilidade específica deste jogo")
+    status = models.CharField(max_length=20, choices=BetTicket.STATUS_CHOICES, default='Pending')
+
+    def __str__(self):
+        return f"{self.match} -> {self.prediction_label} ({self.status})"

@@ -66,7 +66,7 @@ def profile_view(request):
 
 
 from django.db.models import Q
-from matches.models import Match, League, Team
+from matches.models import Match, League, Team, BetTicket
 from django.utils import timezone
 from datetime import timedelta
 from zoneinfo import ZoneInfo
@@ -100,6 +100,15 @@ def premium_dashboard(request):
             'upcoming_matches': matches[:15],
         }
         return render(request, 'members/premium_dashboard.html', context)
+
+    # Buscar Bilhetes Prontos (Estratégias)
+    active_tickets = BetTicket.objects.filter(
+        status='Pending'
+    ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league')
+    
+    history_tickets = BetTicket.objects.filter(
+        status__in=['Green', 'Red']
+    ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league')[:10]
 
     # Listas do Scanner de Gols
     high_ht_goals = []
@@ -185,6 +194,8 @@ def premium_dashboard(request):
         'high_win': high_win,
         'first_to_score': first_to_score,
         'high_corners': high_corners,
+        'active_tickets': active_tickets,
+        'history_tickets': history_tickets,
         'total_scanned': len(matches),
         'total_opportunities': len(high_ht_goals) + len(high_over15) + len(high_over25) + len(high_btts) + len(high_win) + len(first_to_score) + len(high_corners),
     }

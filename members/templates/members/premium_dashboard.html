@@ -18,6 +18,11 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
+        <button class="nav-link fw-bold text-secondary px-4 py-2 border-0 rounded-3" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets-pane" type="button" role="tab" aria-controls="tickets-pane" aria-selected="false" style="background: rgba(255,255,255,0.03); transition: all 0.3s ease;">
+            <i class="fa-solid fa-ticket me-2" style="color: #10b981;"></i>{% translate "Estratégias Prontas" %}
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
         <button class="nav-link fw-bold text-secondary px-4 py-2 border-0 rounded-3" id="features-tab" data-bs-toggle="tab" data-bs-target="#features-pane" type="button" role="tab" aria-controls="features-pane" aria-selected="false" style="background: rgba(255,255,255,0.03); transition: all 0.3s ease;">
             <i class="fa-solid fa-wand-magic-sparkles me-2"></i>{% translate "Premium Features Guide" %}
         </button>
@@ -531,6 +536,168 @@
                 }
             </style>
         {% endif %}     </div>
+
+
+    <!-- Tab 3: Bilhetes Prontos & Estratégias -->
+    <div class="tab-pane fade" id="tickets-pane" role="tabpanel" aria-labelledby="tickets-tab" tabindex="0">
+        {% if is_premium %}
+            <!-- Painel de Dicas Ativas -->
+            <div class="row g-4 mb-5">
+                <div class="col-12">
+                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-fire text-danger me-2"></i>Bilhetes do Especialista (Hoje)</h3>
+                    <p class="text-secondary small">Duplas e Triplas geradas automaticamente baseadas em nossa inteligência de dados com mais de 80% de precisão.</p>
+                </div>
+
+                {% if active_tickets %}
+                    {% for ticket in active_tickets %}
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important;">
+                            <div class="card-header border-0 bg-transparent p-4 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-success mb-2" style="background: rgba(16,185,129,0.15) !important; color: #10b981;">{{ ticket.get_ticket_type_display }}</span>
+                                    <h4 class="text-white fw-bold mb-0">{{ ticket.title }}</h4>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fs-3 fw-bold text-success" style="color: #10b981;">{{ ticket.average_probability }}%</div>
+                                    <div class="text-secondary small text-uppercase" style="font-size: 10px; letter-spacing: 1px;">Assertividade</div>
+                                </div>
+                            </div>
+                            <div class="card-body px-4 py-2">
+                                <hr class="my-0" style="border-color: rgba(255,255,255,0.05);">
+                                <div class="py-3">
+                                    {% for sel in ticket.selections.all %}
+                                    <div class="d-flex align-items-center justify-content-between py-3 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: rgba(99,102,241,0.1); color: #818cf8;">
+                                                <i class="fa-solid fa-futbol"></i>
+                                            </div>
+                                            <div>
+                                                <span class="text-secondary small d-block" style="font-size: 11px;">{{ sel.match.league.name }}</span>
+                                                <span class="text-white fw-bold">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-primary text-white fw-bold px-3 py-2" style="background: rgba(99,102,241,0.2) !important; color: #a5b4fc !important; border: 1px solid rgba(99,102,241,0.2);">{{ sel.prediction_label }}</span>
+                                            <span class="text-secondary small d-block mt-1" style="font-size: 11px;">Probabilidade: {{ sel.probability }}%</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card-footer border-0 p-4" style="background: rgba(0,0,0,0.15);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle bg-warning" style="width: 8px; height: 8px; animation: pulse 1.5s infinite;"></div>
+                                        <span class="text-warning small fw-bold">Aguardando início dos jogos</span>
+                                    </div>
+                                    <span class="text-secondary small" style="font-size: 11px;">{{ ticket.date_target|date:"d/m/Y" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="p-5 rounded-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
+                            <i class="fa-solid fa-clock fa-2x mb-3 text-secondary"></i>
+                            <h5 class="text-white fw-bold">Nenhum bilhete ativo no momento</h5>
+                            <p class="text-secondary small mb-0">Estratégias são geradas de manhã. Volte mais tarde para conferir as melhores duplas e triplas.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Histórico de Bilhetes (Greens & Reds) -->
+            <div class="row g-4 mb-4">
+                <div class="col-12 border-top pt-5" style="border-color: rgba(255,255,255,0.05) !important;">
+                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-chart-line text-success me-2"></i>Histórico das Últimas Entradas</h3>
+                    <p class="text-secondary small">Transparência total! Acompanhe o resultado das estratégias geradas nos dias anteriores.</p>
+                </div>
+
+                {% if history_tickets %}
+                    {% for ticket in history_tickets %}
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important; opacity: 0.85;">
+                            <div class="card-header border-0 bg-transparent p-4 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-secondary mb-2" style="background: rgba(255,255,255,0.08) !important;">{{ ticket.get_ticket_type_display }}</span>
+                                    <h4 class="text-white fw-bold mb-0">{{ ticket.title }}</h4>
+                                </div>
+                                <div class="text-end">
+                                    {% if ticket.status == 'Green' %}
+                                        <span class="badge bg-success px-4 py-2 fs-6 fw-bold" style="background: rgba(16,185,129,0.2) !important; color: #10b981 !important; border: 1px solid rgba(16,185,129,0.3);">GREEN ✅</span>
+                                    {% elif ticket.status == 'Red' %}
+                                        <span class="badge bg-danger px-4 py-2 fs-6 fw-bold" style="background: rgba(239,68,68,0.2) !important; color: #ef4444 !important; border: 1px solid rgba(239,68,68,0.3);">RED ❌</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary px-4 py-2 fs-6 fw-bold">{{ ticket.get_status_display }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-body px-4 py-2">
+                                <hr class="my-0" style="border-color: rgba(255,255,255,0.05);">
+                                <div class="py-3">
+                                    {% for sel in ticket.selections.all %}
+                                    <div class="d-flex align-items-center justify-content-between py-3 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: rgba(255,255,255,0.05); color: #9ca3af;">
+                                                <i class="fa-solid fa-futbol"></i>
+                                            </div>
+                                            <div>
+                                                <span class="text-secondary small d-block" style="font-size: 11px;">{{ sel.match.league.name }}</span>
+                                                <span class="text-white fw-bold">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
+                                                <span class="text-secondary small d-block mt-0.5" style="font-size: 11px;">Placar: {{ sel.match.home_score }} - {{ sel.match.away_score }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-secondary text-white fw-bold px-3 py-2" style="background: rgba(255,255,255,0.05) !important; color: #e5e7eb !important;">{{ sel.prediction_label }}</span>
+                                            <span class="text-secondary small d-block mt-1" style="font-size: 11px;">Probabilidade: {{ sel.probability }}%</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card-footer border-0 p-4" style="background: rgba(0,0,0,0.15);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-secondary small" style="font-size: 11px;">Data alvo: {{ ticket.date_target|date:"d/m/Y" }}</span>
+                                    <span class="text-secondary small" style="font-size: 11px;">Assertividade Média: {{ ticket.average_probability }}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="p-4 rounded-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
+                            <p class="text-secondary small mb-0">Nenhum bilhete resolvido no histórico.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <!-- Paywall para quem é gratuito -->
+            <div class="p-5 rounded-4 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(30,30,45,1) 0%, rgba(15,15,25,1) 100%); border: 1px solid rgba(255,255,255,0.05);">
+                <!-- Blurred background preview elements -->
+                <div class="filter-blur" style="filter: blur(8px); opacity: 0.15; pointer-events: none; margin-bottom: 2rem;">
+                    <div class="d-flex justify-content-center gap-4 mb-4 flex-wrap">
+                        <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div >
+                        <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div >
+                    </div>
+                </div>
+
+                <div class="position-relative z-index-1 py-4">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-4" style="width: 72px; height: 72px; background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 20px rgba(16,185,129,0.3);">
+                        <i class="fa-solid fa-lock text-white fa-2x"></i>
+                    </div>
+                    <h3 class="text-white fw-bold mb-3">🔒 Estratégias do Especialista Destravadas</h3>
+                    <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">Assine o Plano Premium para ter acesso instantâneo a bilhetes prontos (duplas e triplas) gerados por nossa Inteligência Artificial diariamente, com taxas de acerto acima de 80%!</p>
+                    <a href="{% url 'members:paywall' %}" class="btn btn-success btn-lg fw-bold px-5" style="border-radius: 12px; background: #10b981; border: none; box-shadow: 0 4px 15px rgba(16,185,129,0.3);">
+                        <i class="fa-solid fa-rocket me-2"></i>Quero Ser Premium Agora!
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 
 
     <!-- Tab 2: Premium Features Guide -->
