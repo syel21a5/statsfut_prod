@@ -394,6 +394,10 @@ COUNTRY_TRANSLATIONS = {
     "Japao": "Japan",
     "Coreia do Sul": "South Korea",
     "Escocia": "Scotland",
+    "Mexico": "Mexico",
+    "Estados Unidos": "USA",
+    "Irlanda": "Ireland",
+    "Gales": "Wales",
 }
 
 COUNTRY_REVERSE_TRANSLATIONS = {v.lower(): k for k, v in COUNTRY_TRANSLATIONS.items()}
@@ -468,6 +472,7 @@ def get_flag_code(country_name):
         'inglaterra': 'gb-eng',
         'espanha': 'es',
         'italia': 'it',
+        'itália': 'it',
         'alemanha': 'de',
         'franca': 'fr',
         'frança': 'fr',
@@ -477,6 +482,7 @@ def get_flag_code(country_name):
         'estados unidos': 'us',
         'turquia': 'tr',
         'russia': 'ru',
+        'rússia': 'ru',
         'ucrania': 'ua',
         'ucrânia': 'ua',
         'suecia': 'se',
@@ -489,6 +495,20 @@ def get_flag_code(country_name):
         'grécia': 'gr',
         'japao': 'jp',
         'japão': 'jp',
+        'polonia': 'pl',
+        'polônia': 'pl',
+        'austrália': 'au',
+        'áustria': 'at',
+        'suica': 'ch',
+        'suíça': 'ch',
+        'republica tcheca': 'cz',
+        'república tcheca': 'cz',
+        'coreia do sul': 'kr',
+        'escocia': 'gb-sct',
+        'escócia': 'gb-sct',
+        'méxico': 'mx',
+        'irlanda': 'ie',
+        'gales': 'gb-wls',
     }
     
     return mapping.get(country_lower, 'xx') # 'xx' as generic/unknown
