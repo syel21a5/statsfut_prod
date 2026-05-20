@@ -21,6 +21,19 @@ LEAGUES = [
     {"id": 41, "season": 87930, "name": "Veikkausliiga", "country": "Finlandia", "year": 2026},
     {"id": 11653, "season": 88493, "name": "Primera Division", "country": "Chile", "year": 2026},
     {"id": 11620, "season": 87699, "name": "Liga MX", "country": "Mexico", "year": 2026},
+    {"id": 242, "season": 86668, "name": "MLS", "country": "Estados Unidos", "year": 2026},
+    # Ligas adicionadas recentemente ao automático
+    {"id": 23, "season": 76457, "name": "Serie A", "country": "Italia", "year": 2026},
+    {"id": 238, "season": 77806, "name": "Primeira Liga", "country": "Portugal", "year": 2026},
+    {"id": 52, "season": 77805, "name": "Süper Lig", "country": "Turquia", "year": 2026},
+    {"id": 37, "season": 77012, "name": "Eredivisie", "country": "Holanda", "year": 2026},
+    {"id": 203, "season": 77142, "name": "Premier Liga", "country": "Russia", "year": 2026},
+    {"id": 218, "season": 77625, "name": "Premier League", "country": "Ucrania", "year": 2026},
+    {"id": 40, "season": 87925, "name": "Allsvenskan", "country": "Suecia", "year": 2026},
+    {"id": 20, "season": 87809, "name": "Eliteserien", "country": "Noruega", "year": 2026},
+    {"id": 202, "season": 76477, "name": "Ekstraklasa", "country": "Polonia", "year": 2026},
+    {"id": 196, "season": 87931, "name": "J1 League", "country": "Japao", "year": 2026},
+    {"id": 185, "season": 78175, "name": "Super League", "country": "Grecia", "year": 2026},
 ]
 
 def fetch_api(session, url, sleep_time=0.5):
