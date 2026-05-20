@@ -20,6 +20,7 @@ LEAGUES = [
     {"id": 8, "season": 77559, "name": "La Liga", "country": "Espanha", "year": 2026},
     {"id": 41, "season": 87930, "name": "Veikkausliiga", "country": "Finlandia", "year": 2026},
     {"id": 11653, "season": 88493, "name": "Primera Division", "country": "Chile", "year": 2026},
+    {"id": 11620, "season": 87699, "name": "Liga MX", "country": "Mexico", "year": 2026},
 ]
 
 def fetch_api(session, url, sleep_time=0.5):
