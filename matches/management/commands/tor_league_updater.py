@@ -101,13 +101,10 @@ class Command(BaseCommand):
         """Força o Tor a trocar de circuito (IP) quando detecta bloqueio."""
         self.stdout.write(self.style.WARNING("🔄 Bloqueio detectado! Forçando troca de IP do Tor..."))
         try:
-            # Método 1: SIGHUP (troca circuito sem reiniciar o processo)
-            result = os.system("killall -HUP tor 2>/dev/null || pkill -HUP tor 2>/dev/null")
-            if result != 0:
-                # Método 2: Reiniciar o serviço completo
-                os.system("systemctl restart tor 2>/dev/null")
+            # Reiniciar o serviço completo (mais confiável que SIGHUP)
+            os.system("systemctl restart tor 2>/dev/null")
 
-            wait_time = random.uniform(8, 15)
+            wait_time = random.uniform(12, 20)
             self.stdout.write(self.style.WARNING(f"⏳ Aguardando {wait_time:.0f}s para o Tor reconectar..."))
             time.sleep(wait_time)
 
@@ -121,6 +118,19 @@ class Command(BaseCommand):
                 if test_resp.status_code == 200:
                     new_ip = test_resp.json().get('ip', '???')
                     self.stdout.write(self.style.SUCCESS(f"✅ Novo IP do Tor: {new_ip}"))
+
+                    # Warm-up: testa se o novo IP consegue acessar o SofaScore
+                    self.stdout.write("  🔥 Testando novo IP no SofaScore...")
+                    time.sleep(random.uniform(3, 6))
+                    warmup_resp = self.session.get(
+                        "https://api.sofascore.com/api/v1/unique-tournament/17/season/76986/standings/total",
+                        timeout=15
+                    )
+                    if warmup_resp.status_code == 200:
+                        self.stdout.write(self.style.SUCCESS("  ✅ Novo IP aceito pelo SofaScore!"))
+                    else:
+                        self.stdout.write(self.style.WARNING(f"  ⚠️ SofaScore retornou {warmup_resp.status_code} com novo IP."))
+
                     return True
             except:
                 pass
@@ -131,26 +141,27 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"Erro ao rotacionar Tor: {e}"))
             return False
 
-    def fetch_api(self, url, sleep_range=(1.5, 4.0)):
+    def fetch_api(self, url, sleep_range=(6.0, 12.0)):
         """Faz uma requisição à API com rate limiting e retry automático com rotação de IP."""
         delay = random.uniform(*sleep_range)
         time.sleep(delay)
 
         for attempt in range(self.max_retries + 1):
             try:
-                response = self.session.get(url, timeout=20)
+                response = self.session.get(url, timeout=25)
 
                 if response.status_code == 200:
                     self.consecutive_errors = 0
                     return response.json()
                 elif response.status_code == 404:
+                    self.stdout.write(f"  (404 em {url.split('/')[-1]} - endpoint não disponível)")
                     return None
                 elif response.status_code == 403:
                     self.consecutive_errors += 1
-                    self.stdout.write(self.style.ERROR(f"❌ 403 Forbidden em {url}"))
+                    self.stdout.write(self.style.ERROR(f"❌ 403 Forbidden (tentativa {attempt+1}/{self.max_retries+1})"))
                     if attempt < self.max_retries:
                         self._rotate_tor_ip()
-                        time.sleep(random.uniform(2, 5))
+                        time.sleep(random.uniform(5, 10))
                         continue
                     return None
                 else:
@@ -158,10 +169,10 @@ class Command(BaseCommand):
                     return None
             except Exception as e:
                 self.consecutive_errors += 1
-                self.stdout.write(self.style.ERROR(f"Exceção em {url}: {e}"))
+                self.stdout.write(self.style.ERROR(f"Exceção (tentativa {attempt+1}): {e}"))
                 if attempt < self.max_retries:
                     self._rotate_tor_ip()
-                    time.sleep(random.uniform(2, 5))
+                    time.sleep(random.uniform(5, 10))
                     continue
                 return None
         return None
@@ -244,19 +255,27 @@ class Command(BaseCommand):
                 all_events = []
                 for page in range(10):
                     url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/last/{page}"
+                    self.stdout.write(f"    Página {page} (passados)...")
                     data = self.fetch_api(url)
                     if not data or not data.get('events'):
+                        self.stdout.write(f"    Página {page}: sem dados.")
                         break
-                    all_events.extend(data['events'])
+                    events = data['events']
+                    all_events.extend(events)
+                    self.stdout.write(f"    Página {page}: {len(events)} eventos coletados")
                     if data.get('hasNextPage') == False:
                         break
 
                 for page in range(5):
                     url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/next/{page}"
+                    self.stdout.write(f"    Página {page} (futuros)...")
                     data = self.fetch_api(url)
                     if not data or not data.get('events'):
+                        self.stdout.write(f"    Página {page}: sem dados.")
                         break
-                    all_events.extend(data['events'])
+                    events = data['events']
+                    all_events.extend(events)
+                    self.stdout.write(f"    Página {page}: {len(events)} eventos coletados")
                     if data.get('hasNextPage') == False:
                         break
 
@@ -272,6 +291,8 @@ class Command(BaseCommand):
                             "events": rounds_map[r_num]
                         })
                     self.stdout.write(f"  ✅ Fallback coletou {len(all_events)} eventos.")
+                else:
+                    self.stdout.write(f"  ❌ Fallback paginado também não retornou dados.")
 
         total_events = sum(len(r['events']) for r in payload['rounds'])
         self.stdout.write(self.style.SUCCESS(
