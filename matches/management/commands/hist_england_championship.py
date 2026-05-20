@@ -16,6 +16,15 @@ class Command(BaseCommand):
         league_name = 'Championship'
         country = 'Inglaterra'
 
+        # Garante a criação da liga se não existir no banco
+        league, created = League.objects.get_or_create(
+            name=league_name,
+            country=country,
+            defaults={'division': 2, 'soccerstats_slug': 'championship'}
+        )
+        if created:
+            self.stdout.write(self.style.SUCCESS(f"Liga '{league_name}' ({country}) criada no banco de dados com sucesso!"))
+
         self.stdout.write(self.style.SUCCESS(f"Iniciando importação histórica para {league_name} ({country})"))
 
         for year in range(2020, 2026):
