@@ -4,11 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
+from django.views.decorators.cache import never_cache
 
 from .forms import CustomLoginForm, CustomRegisterForm
 from .decorators import premium_required
 
 
+@never_cache
 def login_view(request):
     """Página de login com design premium dark."""
     if request.user.is_authenticated:
@@ -28,6 +30,7 @@ def login_view(request):
     return render(request, 'members/login.html', {'form': form})
 
 
+@never_cache
 def register_view(request):
     """Página de registro com design premium dark."""
     if request.user.is_authenticated:
@@ -47,6 +50,7 @@ def register_view(request):
 
 
 @require_POST
+@never_cache
 def logout_view(request):
     """Logout via POST (segurança CSRF)."""
     logout(request)
@@ -55,6 +59,7 @@ def logout_view(request):
 
 
 @login_required(login_url='members:login')
+@never_cache
 def profile_view(request):
     """Página de perfil do usuário."""
     return render(request, 'members/profile.html')
@@ -69,6 +74,7 @@ from zoneinfo import ZoneInfo
 from matches.services.advanced_stats import MatchAnalyzer
 
 @login_required(login_url='members:login')
+@never_cache
 def premium_dashboard(request):
     """Dashboard premium: Scanner Inteligente das Melhores Oportunidades do Dia."""
     is_premium = False
@@ -185,6 +191,7 @@ def premium_dashboard(request):
     return render(request, 'members/premium_dashboard.html', context)
 
 
+@never_cache
 def paywall_view(request):
     """Página que mostra os planos para quem não é premium."""
     return render(request, 'members/paywall.html')
