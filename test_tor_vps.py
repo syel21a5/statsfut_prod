@@ -20,7 +20,7 @@ except ImportError:
 
 def test_tor():
     test_url = "https://api.ipify.org?format=json"
-    sofascore_url = "https://web-api.sofascore.com/api/v1/unique-tournament/17/season/76986/events/last/0"
+    sofascore_url = "https://api.sofascore.com/api/v1/unique-tournament/17/season/76986/events/last/0"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "*/*",
