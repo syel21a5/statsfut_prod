@@ -2813,3 +2813,179 @@ msgstr ""
 
 #~ msgid "Weak"
 #~ msgstr "Fraco"
+
+# ============================================================
+# PREMIUM GUIDE CARDS & LABELS
+# ============================================================
+
+msgid "Premium Analytics"
+msgstr "Análises Premium"
+
+msgid "Access exclusive premium football analytics, advanced predictions and detailed match statistics."
+msgstr "Acesse análises exclusivas de futebol premium, previsões avançadas e estatísticas detalhadas das partidas."
+
+msgid "Upcoming Predictions"
+msgstr "Previsões Futuras"
+
+msgid "Premium Features Guide"
+msgstr "Guia de Recursos Premium"
+
+msgid "Premium Plan Active"
+msgstr "Plano Premium Ativo"
+
+msgid "You have full access to all advanced tables and AI smart predictions below."
+msgstr "Você tem acesso total a todas as tabelas avançadas e previsões inteligentes com IA abaixo."
+
+msgid "Free Account"
+msgstr "Conta Gratuita"
+
+msgid "Below is a preview of today's matches. Upgrade to Premium to unlock all advanced stats and AI Tips!"
+msgstr "Abaixo está uma prévia das partidas de hoje. Faça um upgrade para o Premium para desbloquear todas as estatísticas avançadas e dicas de IA!"
+
+msgid "Upgrade Now"
+msgstr "Assine Agora"
+
+msgid "Smart Scanner Status"
+msgstr "Status do Scanner Inteligente"
+
+msgid "Online & Scanning"
+msgstr "Online & Escaneando"
+
+msgid "Updated in real-time"
+msgstr "Atualizado em tempo real"
+
+msgid "Matches Scanned"
+msgstr "Partidas Escaneadas"
+
+msgid "Super Opportunities"
+msgstr "Super Oportunidades"
+
+msgid "Goals Market"
+msgstr "Mercado de Gols"
+
+msgid "Winner & First to Score"
+msgstr "Vencedor & Primeiro a Marcar"
+
+msgid "Goal in 1st Half (HT)"
+msgstr "Gol no 1º Tempo (HT)"
+
+msgid "Matches with +75% probability"
+msgstr "Partidas com +75% de probabilidade"
+
+msgid "No matches met the +75% HT Goal criteria today."
+msgstr "Nenhuma partida atendeu aos critérios de +75% de Gol HT hoje."
+
+msgid "Over 1.5 Goals (FT)"
+msgstr "Mais de 1.5 Gols (FT)"
+
+msgid "Matches with +80% probability"
+msgstr "Partidas com +80% de probabilidade"
+
+msgid "No matches met the +80% Over 1.5 criteria today."
+msgstr "Nenhuma partida atendeu aos critérios de +80% de Over 1.5 hoje."
+
+msgid "Over 2.5 Goals (FT)"
+msgstr "Mais de 2.5 Gols (FT)"
+
+msgid "Matches with +65% probability"
+msgstr "Partidas com +65% de probabilidade"
+
+msgid "No matches met the +65% Over 2.5 criteria today."
+msgstr "Nenhuma partida atendeu aos critérios de +65% de Over 2.5 hoje."
+
+msgid "Both Teams to Score (BTTS)"
+msgstr "Ambas Marcam (BTTS)"
+
+msgid "No matches met the +65% BTTS criteria today."
+msgstr "Nenhuma partida atendeu aos critérios de +65% de BTTS hoje."
+
+msgid "Match Winner (1X2)"
+msgstr "Vencedor da Partida (1X2)"
+
+msgid "Teams with +65% probability of winning"
+msgstr "Equipes com +65% de probabilidade de vitória"
+
+msgid "To Win:"
+msgstr "Para Vencer:"
+
+msgid "No teams met the +65% Win Probability today."
+msgstr "Nenhuma equipe atendeu aos critérios de +65% de probabilidade de vitória hoje."
+
+msgid "First to Score"
+msgstr "Primeiro a Marcar"
+
+msgid "Teams with +75% probability of scoring first"
+msgstr "Equipes com +75% de probabilidade de marcar primeiro"
+
+msgid "1st Goal:"
+msgstr "1º Gol:"
+
+msgid "No teams met the +75% First to Score criteria."
+msgstr "Nenhuma equipe atendeu aos critérios de +75% de Primeiro a Marcar."
+
+msgid "Corners Market"
+msgstr "Mercado de Escanteios"
+
+msgid "Matches with +70% probability of Over 9.5 Corners"
+msgstr "Partidas com +70% de probabilidade de Mais de 9.5 Escanteios"
+
+msgid "No matches met the +70% Over 9.5 Corners criteria today."
+msgstr "Nenhuma partida atendeu aos critérios de +70% de Mais de 9.5 Escanteios hoje."
+
+msgid "Goal in 1st Half Scanner"
+msgstr "Scanner de Gols no 1º Tempo"
+
+msgid "Over 1.5 Goals Scanner"
+msgstr "Scanner de Mais de 1.5 Gols"
+
+msgid "Smart AI Scanner Locked"
+msgstr "Scanner Inteligente com IA Bloqueado"
+
+msgid "Stop searching manually! Our Premium Smart Scanner analyzes every upcoming match and automatically filters the ones with the highest probabilities for HT Goals, Over 1.5, BTTS, and Corners."
+msgstr "Chega de procurar manualmente! Nosso Scanner Inteligente Premium analisa cada partida futura e filtra automaticamente aquelas com as maiores probabilidades para Gols HT, Over 1.5, BTTS e Escanteios."
+
+msgid "Unlock Premium Scanner"
+msgstr "Desbloquear Scanner Premium"
+
+msgid "Corner Analysis"
+msgstr "Análise de Escanteios"
+
+msgid "Deep corner kick statistics per team — average per half, Over/Under trends, and first corner probabilities."
+msgstr "Estatísticas detalhadas de escanteios por equipe — média por tempo, tendências de Mais/Menos e probabilidades do primeiro escanteio."
+
+msgid "Card Analysis"
+msgstr "Análise de Cartões"
+
+msgid "Yellow and red card trends, average cards per match, referee tendencies and disciplinary patterns."
+msgstr "Tendências de cartões amarelos e vermelhos, média de cartões por partida, comportamento da arbitragem e padrões disciplinares."
+
+msgid "Shot Analysis"
+msgstr "Análise de Finalizações"
+
+msgid "Shots on/off target, shot conversion rate, xG-style shooting efficiency per team across seasons."
+msgstr "Chutes a gol/chutes para fora, taxa de conversão de chutes e eficiência de finalizações no estilo xG por equipe ao longo das temporadas."
+
+msgid "Goal Timing"
+msgstr "Minutagem dos Gols"
+
+msgid "When teams score and concede — minute-by-minute breakdown with first/second half patterns."
+msgstr "Análise minuto a minuto dos gols marcados e sofridos pelas equipes, com padrões do primeiro e segundo tempo."
+
+msgid "Smart Predictions"
+msgstr "Previsões Inteligentes"
+
+msgid "AI-powered match outcome predictions based on historical data analysis and team form patterns."
+msgstr "Previsões de resultados de partidas com inteligência artificial, baseadas em análises de dados históricos e padrões de desempenho das equipes."
+
+msgid "Deep H2H"
+msgstr "Confronto Direto Avançado (H2H)"
+
+msgid "Extended head-to-head history with goal timing, venue-specific stats, and trend visualization."
+msgstr "Histórico detalhado de confrontos diretos com registro de gols, estatísticas específicas de cada local e visualização de tendências."
+
+msgid "More Features Coming Soon"
+msgstr "Mais Recursos em Breve"
+
+msgid "We are constantly adding new premium analytics tools. Stay tuned for live alerts, value bet detection, and more."
+msgstr "Estamos constantemente adicionando novas ferramentas de análises premium. Fique atento aos alertas ao vivo, detecção de apostas de valor e muito mais."
+
