@@ -34,7 +34,7 @@ SECONDARY_LEAGUES = [
     {
         "key": "championship",
         "tournament_id": 18,
-        "season_id": 76986,
+        "season_id": 77347,
         "name": "Championship",
         "country": "Inglaterra",
         "division": 2,
