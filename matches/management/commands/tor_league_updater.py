@@ -47,7 +47,16 @@ SECONDARY_LEAGUES = [
         "name": "Copa Libertadores",
         "country": "America do Sul",
         "division": 1,
-        "year": 2025,
+        "year": 2026,
+    },
+    {
+        "key": "sudamericana",
+        "tournament_id": 480,
+        "season_id": 87770,
+        "name": "Copa Sul-Americana",
+        "country": "America do Sul",
+        "division": 1,
+        "year": 2026,
     },
     # Para adicionar mais ligas secundárias, basta copiar o bloco acima e preencher:
     # {
@@ -103,7 +112,7 @@ class Command(BaseCommand):
             "Referer": "https://www.sofascore.com/",
             "Cache-Control": "no-cache",
         })
-        if self.proxy:
+        if self.proxy and self.proxy.lower() not in ['none', 'false', '']:
             self.session.proxies = {"http": self.proxy, "https": self.proxy}
 
     def _rotate_tor_ip(self):
@@ -328,21 +337,24 @@ class Command(BaseCommand):
         self._create_session()
 
         # Verifica conectividade do Tor antes de começar
-        self.stdout.write("🌐 Verificando conexão do Tor...")
-        try:
-            ip_resp = self.session.get("https://api.ipify.org?format=json", timeout=15)
-            if ip_resp.status_code == 200:
-                tor_ip = ip_resp.json().get('ip', '???')
-                self.stdout.write(self.style.SUCCESS(f"✅ Tor conectado! IP: {tor_ip}"))
-            else:
-                self.stdout.write(self.style.ERROR("❌ Tor não respondeu. Tentando reiniciar..."))
-                self._rotate_tor_ip()
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f"❌ Tor indisponível: {e}"))
-            self.stdout.write("Tentando reiniciar o Tor...")
-            if not self._rotate_tor_ip():
-                self.stdout.write(self.style.ERROR("Falha ao conectar ao Tor. Abortando."))
-                return
+        if self.proxy and self.proxy.lower() not in ['none', 'false', '']:
+            self.stdout.write("🌐 Verificando conexão do Tor...")
+            try:
+                ip_resp = self.session.get("https://api.ipify.org?format=json", timeout=15)
+                if ip_resp.status_code == 200:
+                    tor_ip = ip_resp.json().get('ip', '???')
+                    self.stdout.write(self.style.SUCCESS(f"✅ Tor conectado! IP: {tor_ip}"))
+                else:
+                    self.stdout.write(self.style.ERROR("❌ Tor não respondeu. Tentando reiniciar..."))
+                    self._rotate_tor_ip()
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"❌ Tor indisponível: {e}"))
+                self.stdout.write("Tentando reiniciar o Tor...")
+                if not self._rotate_tor_ip():
+                    self.stdout.write(self.style.ERROR("Falha ao conectar ao Tor. Abortando."))
+                    return
+        else:
+            self.stdout.write("🌐 Executando sem proxy do Tor (conexão direta).")
 
         # Processa cada liga secundária
         for league_config in leagues_to_update:
