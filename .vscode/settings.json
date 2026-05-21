@@ -4,5 +4,9 @@
     "python.analysis.extraPaths": [
         "i:\\GitHub\\statsfut\\statsfut",
         "i:\\GitHub\\statsfut\\statsfut\\venv\\Lib\\site-packages"
+    ],
+    "python.analysis.pythonPath": "i:\\GitHub\\statsfut\\statsfut\\venv\\Scripts\\python.exe",
+    "pyright.extraPaths": [
+        "i:\\GitHub\\statsfut\\statsfut"
     ]
 }
