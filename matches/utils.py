@@ -398,6 +398,7 @@ COUNTRY_TRANSLATIONS = {
     "Estados Unidos": "USA",
     "Irlanda": "Ireland",
     "Gales": "Wales",
+    "America do Sul": "South America",
 }
 
 COUNTRY_REVERSE_TRANSLATIONS = {v.lower(): k for k, v in COUNTRY_TRANSLATIONS.items()}
@@ -509,6 +510,8 @@ def get_flag_code(country_name):
         'méxico': 'mx',
         'irlanda': 'ie',
         'gales': 'gb-wls',
+        'america do sul': 'un',
+        'south america': 'un',
     }
     
     return mapping.get(country_lower, 'xx') # 'xx' as generic/unknown

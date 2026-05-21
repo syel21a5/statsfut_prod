@@ -426,7 +426,18 @@ class Command(BaseCommand):
                     ht_away_score = ev.get('awayScore', {}).get('period1')
                     
                     home_team = teams_map.get(int(home_sofa_id))
+                    if not home_team and home_sofa_id:
+                        team_name = home_data.get('name')
+                        if team_name:
+                            home_team, _ = Team.objects.get_or_create(api_id=f"sofa_{home_sofa_id}", defaults={'name': team_name, 'league': league})
+                            teams_map[int(home_sofa_id)] = home_team
+
                     away_team = teams_map.get(int(away_sofa_id))
+                    if not away_team and away_sofa_id:
+                        team_name = away_data.get('name')
+                        if team_name:
+                            away_team, _ = Team.objects.get_or_create(api_id=f"sofa_{away_sofa_id}", defaults={'name': team_name, 'league': league})
+                            teams_map[int(away_sofa_id)] = away_team
                     
                     if not home_team or not away_team:
                         continue

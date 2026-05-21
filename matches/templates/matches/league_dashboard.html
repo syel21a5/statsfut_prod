@@ -955,7 +955,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for row in standings %}
+                                    {% for row in standings_by_form %}
                                     <tr>
                                         <td class="ps-3 fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -1014,7 +1014,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for row in standings %}
+                                    {% for row in standings_by_perf %}
                                     <tr>
                                         <td class="ps-3 fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -1063,7 +1063,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for row in standings %}
+                                    {% for row in standings_by_runin %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -1115,7 +1115,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for row in standings %}
+                                    {% for row in standings_by_proj %}
                                     <tr>
                                         <td class="ps-3 text-start fw-bold">
                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"

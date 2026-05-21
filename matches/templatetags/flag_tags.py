@@ -35,6 +35,8 @@ COUNTRY_CODES = {
     'Greece': 'gr',
     'Russia': 'ru',
     'Turkey': 'tr',
+    'America do Sul': 'un',
+    'South America': 'un',
     # Add more as needed
 }
 

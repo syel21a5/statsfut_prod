@@ -714,6 +714,10 @@ class LeagueDetailView(DetailView):
             standings_by_group = OrderedDict()
             for st in all_standings_qs:
                 g = (st.group_name or 'Regular Season').strip()
+                if 'Group' in g:
+                    g = f"Group {g.split('Group')[-1].strip()}"
+                elif 'Grupo' in g:
+                    g = f"Grupo {g.split('Grupo')[-1].strip()}"
                 if g not in standings_by_group:
                     standings_by_group[g] = []
                 standings_by_group[g].append(st)
@@ -1399,6 +1403,12 @@ class LeagueDetailView(DetailView):
             else:
                 context['league_stats'] = {}
                 context['common_scores'] = []
+
+            # Prepare sorted versions of all_standings_flat for the analytics cards
+            context['standings_by_form'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'ppg_diff', 0), reverse=True)
+            context['standings_by_perf'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'performance_index', 0), reverse=True)
+            context['standings_by_runin'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'opp_remaining_ppg', 0), reverse=True)
+            context['standings_by_proj'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'proj_total', 0), reverse=True)
 
             context['standings'] = standings
             context['home_table'] = home_table
@@ -3060,6 +3070,10 @@ class LeagueGoalsView(TemplateView):
             for st in all_standings:
                 # Remove espaços extras que podem bugar o agrupamento
                 g = (st.group_name or 'Regular Season').strip()
+                if 'Group' in g:
+                    g = f"Group {g.split('Group')[-1].strip()}"
+                elif 'Grupo' in g:
+                    g = f"Grupo {g.split('Grupo')[-1].strip()}"
                 if g not in standings_by_group:
                     standings_by_group[g] = []
                 standings_by_group[g].append(st)
