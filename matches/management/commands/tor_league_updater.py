@@ -40,6 +40,15 @@ SECONDARY_LEAGUES = [
         "division": 2,
         "year": 2026,
     },
+    {
+        "key": "libertadores",
+        "tournament_id": 384,
+        "season_id": 87760,
+        "name": "Copa Libertadores",
+        "country": "America do Sul",
+        "division": 1,
+        "year": 2025,
+    },
     # Para adicionar mais ligas secundárias, basta copiar o bloco acima e preencher:
     # {
     #     "key": "serie_b_brasil",
