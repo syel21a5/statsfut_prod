@@ -398,6 +398,11 @@ COUNTRY_TRANSLATIONS = {
     "Estados Unidos": "USA",
     "Irlanda": "Ireland",
     "Gales": "Wales",
+    "Uruguai": "Uruguay",
+    "Paraguai": "Paraguay",
+    "Islandia": "Iceland",
+    "Equador": "Ecuador",
+    "Peru": "Peru",
     "America do Sul": "South America",
 }
 
@@ -510,6 +515,14 @@ def get_flag_code(country_name):
         'méxico': 'mx',
         'irlanda': 'ie',
         'gales': 'gb-wls',
+        'uruguai': 'uy',
+        'paraguai': 'py',
+        'paraguay': 'py',
+        'islandia': 'is',
+        'iceland': 'is',
+        'equador': 'ec',
+        'ecuador': 'ec',
+        'peru': 'pe',
         'america do sul': 'un',
         'south america': 'un',
     }

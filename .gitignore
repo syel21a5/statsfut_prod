@@ -49,3 +49,6 @@ debug_*.html
 get_ids.py
 md_to_doc.py
 update_workflows.py
+
+# DeepSeek Models Code / Templates
+modelos_deepseek/

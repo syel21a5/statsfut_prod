@@ -1,7 +1,7 @@
 import os
 import json
-from django.core.management.base import BaseCommand
-from django.core.management import call_command
+from django.core.management.base import BaseCommand  # type: ignore
+from django.core.management import call_command  # type: ignore
 from matches.models import League
 
 class Command(BaseCommand):
@@ -36,27 +36,33 @@ class Command(BaseCommand):
             'payload_chile.json': {'name': 'Primera Division', 'country': 'Chile'},
             'payload_mexico.json': {'name': 'Liga MX', 'country': 'Mexico'},
             'payload_usa.json': {'name': 'MLS', 'country': 'Estados Unidos'},
+            'payload_colombia.json': {'name': 'Primera A', 'country': 'Colombia'},
+            'payload_uruguai.json': {'name': 'Primera Division', 'country': 'Uruguai'},
+            'payload_paraguai.json': {'name': 'Primera Division', 'country': 'Paraguai'},
+            'payload_islandia.json': {'name': 'Besta deild karla', 'country': 'Islandia'},
+            'payload_equador.json': {'name': 'Liga Pro', 'country': 'Equador'},
+            'payload_peru.json': {'name': 'Liga 1', 'country': 'Peru'},
         }
 
         self.stdout.write("🔍 Iniciando busca de payloads na raiz...")
 
         for filename, info in mapping.items():
             if os.path.exists(filename):
-                self.stdout.write(self.style.SUCCESS(f"found: {filename}"))
+                self.stdout.write(self.style.SUCCESS(f"found: {filename}"))  # type: ignore
                 try:
-                    league = League.objects.filter(name__iexact=info['name'], country__iexact=info['country']).first()
+                    league = League.objects.filter(name__iexact=info['name'], country__iexact=info['country']).first()  # type: ignore
                     if not league:
                         # Tenta busca mais flexível
-                        league = League.objects.filter(name__icontains=info['name'], country__icontains=info['country']).first()
+                        league = League.objects.filter(name__icontains=info['name'], country__icontains=info['country']).first()  # type: ignore
                     
                     if league:
                         self.stdout.write(f"-> Importando {filename} para a liga {league.name} (ID: {league.id})")
                         call_command('import_sofascore_payload', file=filename, league_id=league.id)
                     else:
-                        self.stdout.write(self.style.WARNING(f"-> Ignorado: Liga {info['name']} ({info['country']}) nao encontrada no banco."))
+                        self.stdout.write(self.style.WARNING(f"-> Ignorado: Liga {info['name']} ({info['country']}) nao encontrada no banco."))  # type: ignore
                 except Exception as e:
-                    self.stdout.write(self.style.ERROR(f"-> Erro ao importar {filename}: {e}"))
+                    self.stdout.write(self.style.ERROR(f"-> Erro ao importar {filename}: {e}"))  # type: ignore
             else:
-                self.stdout.write(self.style.NOTICE(f"skip: {filename} (arquivo nao encontrado)"))
+                self.stdout.write(self.style.NOTICE(f"skip: {filename} (arquivo nao encontrado)"))  # type: ignore
 
-        self.stdout.write(self.style.SUCCESS("✅ Processo de importação em massa concluído!"))
+        self.stdout.write(self.style.SUCCESS("✅ Processo de importação em massa concluído!"))  # type: ignore
