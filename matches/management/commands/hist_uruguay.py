@@ -14,11 +14,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"Diretório {base_dir} não encontrado!"))  # type: ignore
             return
 
-        # Busca a liga no banco de dados.
-        league = League.objects.filter(name__icontains='Primera Division', country__icontains='Uruguai').first()  # type: ignore
-        if not league:
-            self.stdout.write(self.style.ERROR("Liga 'Primera Division' (Uruguai) não encontrada no banco."))  # type: ignore
-            return
+        league, created = League.objects.get_or_create(name='Primera Division', country='Uruguai')  # type: ignore
+        if created:
+            self.stdout.write(self.style.SUCCESS("Liga 'Primera Division' (Uruguai) criada no banco."))  # type: ignore
 
         self.stdout.write(self.style.SUCCESS(f"Iniciando importação histórica para {league.name} (ID: {league.id})"))  # type: ignore
 
