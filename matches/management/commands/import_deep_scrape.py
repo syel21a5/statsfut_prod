@@ -6,6 +6,7 @@ Uso:
   python manage.py import_deep_scrape dados_deep_scrape.json --dry-run
 """
 import json
+import os
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from matches.models import Match, Goal, Team
