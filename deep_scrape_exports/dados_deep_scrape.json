@@ -3625,6 +3625,627 @@
     ]
   },
   {
+    "api_id": "sofa_15270563",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Club Independiente",
+    "away_team": "Guabirá",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 19,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 6,
+      "home_fouls": 10,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15254186",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Montevideo City Torque",
+    "away_team": "Defensor Sporting",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 9,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Franco Romero",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Montevideo City Torque",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254188",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Academia Puerto Cabello",
+    "away_team": "Monagas",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 13,
+      "away_shots": 3,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 0,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15254179",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Cobresal",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Steffan Pino",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      },
+      {
+        "player_name": "Esteban Matus",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254184",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Alianza Atlético de Sullana",
+    "away_team": "Deportivo Garcilaso",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 5,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 0,
+      "home_fouls": 23,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Franco Coronel",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Atlético de Sullana",
+        "is_home": true
+      },
+      {
+        "player_name": "Franchesco Flores",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Atlético de Sullana",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254189",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Caracas F.C.",
+    "away_team": "Metropolitanos",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 7,
+      "away_shots": 6,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 1,
+      "home_fouls": 13,
+      "away_fouls": 9
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15270562",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Blooming",
+    "away_team": "CD San Antonio",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 2,
+      "home_shots": 23,
+      "away_shots": 5,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Roberto Hinojosa",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Blooming",
+        "is_home": true
+      },
+      {
+        "player_name": "Anthony Vásquez",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Blooming",
+        "is_home": true
+      },
+      {
+        "player_name": "Bayron Garcés",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Blooming",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254183",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Sportivo Trinidense",
+    "away_team": "Olimpia",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 16,
+      "away_shots": 19,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 8,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Rubén Lezcano",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Olimpia",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254178",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Universidad de Chile",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 13,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 7,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Ian Garguez",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      },
+      {
+        "player_name": "Maximiliano Guerrero",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254180",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Atlético Nacional",
+    "away_team": "Millonarios",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Rodrigo Contreras",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Millonarios",
+        "is_home": false
+      },
+      {
+        "player_name": "Leonardo Castro",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Millonarios",
+        "is_home": false
+      },
+      {
+        "player_name": "Nicolás Rodríguez",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Nacional",
+        "is_home": true
+      },
+      {
+        "player_name": "Rodrigo Contreras",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Millonarios",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15271216",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Deportivo Cuenca",
+    "away_team": "Libertad",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 16,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Nicolás Leguizamón",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Cuenca",
+        "is_home": true
+      },
+      {
+        "player_name": "Ignacio Mosquera",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Cuenca",
+        "is_home": true
+      },
+      {
+        "player_name": "Melvin Diaz",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Cuenca",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254187",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Boston River",
+    "away_team": "Racing de Montevideo",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 18,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Fredy Martínez",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Boston River",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254182",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Nacional Asunción",
+    "away_team": "Recoleta FC",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 2,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Hugo Valdez",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nacional Asunción",
+        "is_home": true
+      },
+      {
+        "player_name": "Kevin Parzajuk",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Recoleta FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254185",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Cienciano",
+    "away_team": "Melgar",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Alejandro Ramos",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melgar",
+        "is_home": false
+      },
+      {
+        "player_name": "Kevin Becerra",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15254181",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "América de Cali",
+    "away_team": "Atlético Bucaramanga",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 16,
+      "away_shots": 6,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Tilman Palacios",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "América de Cali",
+        "is_home": true
+      },
+      {
+        "player_name": "Yeison Guzmán",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "América de Cali",
+        "is_home": true
+      },
+      {
+        "player_name": "Fabián Sambueza",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Bucaramanga",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15270561",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Orense SC",
+    "away_team": "Macará",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Gaston Blanc",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macará",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": "sofa_15832015",
     "league_id": 53,
     "league_name": "Copa Sul-Americana",
@@ -6874,5 +7495,209 @@
         "is_home": false
       }
     ]
+  },
+  {
+    "api_id": "sofa_15832071",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Academia Puerto Cabello",
+    "away_team": "Juventud de Las Piedras",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 8,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 7,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Robinson Flores",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Academia Puerto Cabello",
+        "is_home": true
+      },
+      {
+        "player_name": "Ramiro Peralta",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832070",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Atlético Mineiro",
+    "away_team": "Cienciano",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Bernard",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Mineiro",
+        "is_home": true
+      },
+      {
+        "player_name": "Renan Lodi",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Mineiro",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832119",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Racing Club",
+    "away_team": "Caracas F.C.",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Irving Gudiño",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caracas F.C.",
+        "is_home": false
+      },
+      {
+        "player_name": "Adrián Martínez",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Racing Club",
+        "is_home": true
+      },
+      {
+        "player_name": "Gastón Martirena",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Racing Club",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Rojas",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caracas F.C.",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832140",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Blooming",
+    "away_team": "Carabobo FC",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Sebastián Mendoza",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Eric Ramírez",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832040",
+    "league_id": 53,
+    "league_name": "Copa Sul-Americana",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Macará",
+    "away_team": "Alianza Atlético de Sullana",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 7,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": []
   }
 ]
