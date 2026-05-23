@@ -6,7 +6,7 @@
     "league_country": "America do Sul",
     "season_year": 2025,
     "home_team": "Carabobo FC",
-    "away_team": "Estudiantes L.P.",
+    "away_team": "Estudiantes de La Plata",
     "stats": {
       "home_corners": 4,
       "away_corners": 7,
@@ -27,7 +27,7 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       },
       {
@@ -35,7 +35,7 @@
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       }
     ]
@@ -855,7 +855,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2025,
-    "home_team": "Estudiantes L.P.",
+    "home_team": "Estudiantes de La Plata",
     "away_team": "Universidad de Chile",
     "stats": {
       "home_corners": 11,
@@ -893,7 +893,7 @@
         "minute": 3,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       }
     ]
@@ -1728,7 +1728,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2025,
-    "home_team": "Estudiantes L.P.",
+    "home_team": "Estudiantes de La Plata",
     "away_team": "Botafogo",
     "stats": {
       "home_corners": 10,
@@ -1750,7 +1750,7 @@
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       }
     ]
@@ -2480,7 +2480,7 @@
     "league_country": "America do Sul",
     "season_year": 2025,
     "home_team": "Universidad de Chile",
-    "away_team": "Estudiantes L.P.",
+    "away_team": "Estudiantes de La Plata",
     "stats": {
       "home_corners": 7,
       "away_corners": 3,
@@ -2501,7 +2501,7 @@
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       },
       {
@@ -2509,7 +2509,7 @@
         "minute": 31,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       },
       {
@@ -2517,7 +2517,7 @@
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       }
     ]
@@ -3198,7 +3198,7 @@
     "league_country": "America do Sul",
     "season_year": 2025,
     "home_team": "Botafogo",
-    "away_team": "Estudiantes L.P.",
+    "away_team": "Estudiantes de La Plata",
     "stats": {
       "home_corners": 9,
       "away_corners": 1,
@@ -3227,7 +3227,7 @@
         "minute": 77,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       },
       {
@@ -3235,7 +3235,7 @@
         "minute": 62,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       },
       {
@@ -3785,7 +3785,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2025,
-    "home_team": "Estudiantes L.P.",
+    "home_team": "Estudiantes de La Plata",
     "away_team": "Carabobo FC",
     "stats": {
       "home_corners": 4,
@@ -3807,7 +3807,7 @@
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       },
       {
@@ -3815,7 +3815,7 @@
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       }
     ]
@@ -4352,6 +4352,1193 @@
     ]
   },
   {
+    "api_id": "sofa_15270213",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "The Strongest",
+    "away_team": "Deportivo Táchira",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 27,
+      "away_shots": 10,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Victor Ábrego",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "The Strongest",
+        "is_home": true
+      },
+      {
+        "player_name": "Carlos Calzadilla",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Táchira",
+        "is_home": false
+      },
+      {
+        "player_name": "Jaime Arrascaita",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "The Strongest",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253530",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "CS 2 de Mayo",
+    "away_team": "Alianza Lima",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Diego Acosta",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CS 2 de Mayo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253529",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Juventud de Las Piedras",
+    "away_team": "Universidad Católica del Ecuador",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 4,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Jhon Chancellor",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica del Ecuador",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15314089",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Deportivo Táchira",
+    "away_team": "The Strongest",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 18,
+      "away_shots": 6,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 1,
+      "home_fouls": 11,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Rodrigo Pollero",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Táchira",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458723",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Alianza Lima",
+    "away_team": "CS 2 de Mayo",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 18,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 17,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Brahian Ayala",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CS 2 de Mayo",
+        "is_home": false
+      },
+      {
+        "player_name": "Luis Advíncula",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Lima",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253538",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Universidad Católica del Ecuador",
+    "away_team": "Juventud de Las Piedras",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 5,
+      "home_fouls": 13,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Patricio Pernicone",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      },
+      {
+        "player_name": "José Fajardo",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica del Ecuador",
+        "is_home": true
+      },
+      {
+        "player_name": "Jhon Chancellor",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica del Ecuador",
+        "is_home": true
+      },
+      {
+        "player_name": "Pablo Lago",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      },
+      {
+        "player_name": "Federico Barrandeguy",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      },
+      {
+        "player_name": "Renzo Sánchez",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      },
+      {
+        "player_name": "José Fajardo",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica del Ecuador",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253535",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Carabobo FC",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 6,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 11,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Edson Tortolero",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253526",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Liverpool UY",
+    "away_team": "Independiente Medellín",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 20,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Hayen Palacios",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Medellín",
+        "is_home": false
+      },
+      {
+        "player_name": "Santiago Strasorier",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool UY",
+        "is_home": true
+      },
+      {
+        "player_name": "Francisco Fydriszewski",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Medellín",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253533",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "CS 2 de Mayo",
+    "away_team": "Club Sporting Cristal",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 11,
+      "away_shots": 7,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Angel Martinez",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
+      },
+      {
+        "player_name": "Cristiano",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CS 2 de Mayo",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Cáceres",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CS 2 de Mayo",
+        "is_home": true
+      },
+      {
+        "player_name": "Yoshimar Yotún",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253527",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "O'Higgins",
+    "away_team": "Bahia",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 18,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Francisco González",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253537",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Barcelona SC Guayaquil",
+    "away_team": "Argentinos Jrs",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 14,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 7,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Diego Porcel",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Argentinos Jrs",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253549",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Nacional Potosí",
+    "away_team": "Botafogo",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 0,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 25,
+      "away_shots": 8,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 5,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Oscar Baldomar",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nacional Potosí",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253532",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Juventud de Las Piedras",
+    "away_team": "Guaraní",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 6,
+      "away_fouls": 16
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15253528",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Deportivo Táchira",
+    "away_team": "Deportes Tolima",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 6,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Kelvin Florez",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Tolima",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458725",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Huachipato",
+    "away_team": "Carabobo FC",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 15,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Cris Martínez",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Edson Tortolero",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Eric Ramírez",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253539",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Independiente Medellín",
+    "away_team": "Liverpool UY",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15458724",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Club Sporting Cristal",
+    "away_team": "CS 2 de Mayo",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 0,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15458726",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Bahia",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 6,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 6,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Arnaldo Castillo",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Willian José",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": true
+      },
+      {
+        "player_name": "Willian José",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15270273",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Argentinos Jrs",
+    "away_team": "Barcelona SC Guayaquil",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 6,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 6,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Jhonny Quiñónez",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15270272",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Botafogo",
+    "away_team": "Nacional Potosí",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 7,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 17,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Danilo Oliveira",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": true
+      },
+      {
+        "player_name": "Alex Telles",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458727",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Guaraní",
+    "away_team": "Juventud de Las Piedras",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 17,
+      "away_shots": 14,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 17,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Ramiro Peralta",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      },
+      {
+        "player_name": "Gaspar Servio",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guaraní",
+        "is_home": true
+      },
+      {
+        "player_name": "Federico Barrandeguy",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253540",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Deportes Tolima",
+    "away_team": "Deportivo Táchira",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 5,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Luis Daniel González",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Táchira",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253536",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Barcelona SC Guayaquil",
+    "away_team": "Botafogo",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 11,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Matheus Martins",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": false
+      },
+      {
+        "player_name": "Héctor Villalba",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458730",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Carabobo FC",
+    "away_team": "Club Sporting Cristal",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 13,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Yoshimar Yotún",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458729",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "O'Higgins",
+    "away_team": "Deportes Tolima",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 15,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Francisco González",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253534",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Juventud de Las Piedras",
+    "away_team": "Independiente Medellín",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 7,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 18,
+      "away_fouls": 20
+    },
+    "goals": [
+      {
+        "player_name": "Bruno Larregui",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": true
+      },
+      {
+        "player_name": "Enzo Larrosa",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Medellín",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458731",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Botafogo",
+    "away_team": "Barcelona SC Guayaquil",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 5,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Milton Celiz",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253550",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Club Sporting Cristal",
+    "away_team": "Carabobo FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 14,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Maxloren Castro",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
+      },
+      {
+        "player_name": "Edson Castillo",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Edson Castillo",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Carabobo FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15253531",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Deportes Tolima",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 15,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Juan Torres",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Tolima",
+        "is_home": true
+      },
+      {
+        "player_name": "Junior Hernández",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Tolima",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15458728",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Independiente Medellín",
+    "away_team": "Juventud de Las Piedras",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 12,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 23,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Francisco Fydriszewski",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Medellín",
+        "is_home": true
+      },
+      {
+        "player_name": "Federico Barrandeguy",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Juventud de Las Piedras",
+        "is_home": false
+      },
+      {
+        "player_name": "Hayen Palacios",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Medellín",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": "sofa_15832735",
     "league_id": 51,
     "league_name": "Copa Libertadores",
@@ -4381,7 +5568,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Ind. Rivadavia",
+    "home_team": "Independiente Rivadavia",
     "away_team": "Bolívar",
     "stats": {
       "home_corners": 5,
@@ -4403,7 +5590,7 @@
         "minute": 1,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": true
       }
     ]
@@ -4595,7 +5782,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Mirassol",
-    "away_team": "Lanus",
+    "away_team": "CA Lanús",
     "stats": {
       "home_corners": 5,
       "away_corners": 8,
@@ -4628,7 +5815,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Independiente Medellín",
-    "away_team": "Estudiantes L.P.",
+    "away_team": "Estudiantes de La Plata",
     "stats": {
       "home_corners": 7,
       "away_corners": 1,
@@ -4657,7 +5844,7 @@
         "minute": 4,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       }
     ]
@@ -4864,7 +6051,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Platense",
+    "home_team": "Club Atlético Platense",
     "away_team": "Corinthians",
     "stats": {
       "home_corners": 5,
@@ -4946,7 +6133,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Estudiantes L.P.",
+    "home_team": "Estudiantes de La Plata",
     "away_team": "Cusco FC",
     "stats": {
       "home_corners": 4,
@@ -4968,7 +6155,7 @@
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       },
       {
@@ -4984,7 +6171,7 @@
         "minute": 28,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       }
     ]
@@ -5340,7 +6527,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Fluminense",
-    "away_team": "Ind. Rivadavia",
+    "away_team": "Independiente Rivadavia",
     "stats": {
       "home_corners": 1,
       "away_corners": 1,
@@ -5361,7 +6548,7 @@
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": false
       },
       {
@@ -5369,7 +6556,7 @@
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": false
       },
       {
@@ -5535,7 +6722,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Lanus",
+    "home_team": "CA Lanús",
     "away_team": "Club Always Ready",
     "stats": {
       "home_corners": 11,
@@ -5557,7 +6744,7 @@
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Lanus",
+        "team_name": "CA Lanús",
         "is_home": true
       }
     ]
@@ -5634,7 +6821,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Peñarol",
-    "away_team": "Platense",
+    "away_team": "Club Atlético Platense",
     "stats": {
       "home_corners": 1,
       "away_corners": 0,
@@ -5655,7 +6842,7 @@
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense",
+        "team_name": "Club Atlético Platense",
         "is_home": false
       },
       {
@@ -5671,7 +6858,7 @@
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense",
+        "team_name": "Club Atlético Platense",
         "is_home": false
       }
     ]
@@ -5682,7 +6869,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Lanus",
+    "home_team": "CA Lanús",
     "away_team": "LDU",
     "stats": {
       "home_corners": 6,
@@ -5704,7 +6891,7 @@
         "minute": 74,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Lanus",
+        "team_name": "CA Lanús",
         "is_home": true
       }
     ]
@@ -5952,7 +7139,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Platense",
+    "home_team": "Club Atlético Platense",
     "away_team": "Independiente Santa Fe",
     "stats": {
       "home_corners": 3,
@@ -5982,7 +7169,7 @@
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense",
+        "team_name": "Club Atlético Platense",
         "is_home": true
       },
       {
@@ -5990,7 +7177,7 @@
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense",
+        "team_name": "Club Atlético Platense",
         "is_home": true
       }
     ]
@@ -6091,7 +7278,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Estudiantes L.P.",
+    "home_team": "Estudiantes de La Plata",
     "away_team": "Flamengo",
     "stats": {
       "home_corners": 8,
@@ -6113,7 +7300,7 @@
         "minute": 55,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": true
       },
       {
@@ -6287,7 +7474,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Ind. Rivadavia",
+    "home_team": "Independiente Rivadavia",
     "away_team": "Deportivo La Guaira",
     "stats": {
       "home_corners": 4,
@@ -6309,7 +7496,7 @@
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": true
       },
       {
@@ -6317,7 +7504,7 @@
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": true
       },
       {
@@ -6325,7 +7512,7 @@
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": true
       },
       {
@@ -6341,7 +7528,7 @@
         "minute": 27,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": true
       }
     ]
@@ -6575,7 +7762,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Club Always Ready",
-    "away_team": "Lanus",
+    "away_team": "CA Lanús",
     "stats": {
       "home_corners": 2,
       "away_corners": 5,
@@ -6632,7 +7819,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Cusco FC",
-    "away_team": "Estudiantes L.P.",
+    "away_team": "Estudiantes de La Plata",
     "stats": {
       "home_corners": 3,
       "away_corners": 3,
@@ -6653,7 +7840,7 @@
         "minute": 58,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P.",
+        "team_name": "Estudiantes de La Plata",
         "is_home": false
       },
       {
@@ -6713,7 +7900,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Ind. Rivadavia",
+    "home_team": "Independiente Rivadavia",
     "away_team": "Fluminense",
     "stats": {
       "home_corners": 6,
@@ -6743,7 +7930,7 @@
         "minute": 66,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia",
+        "team_name": "Independiente Rivadavia",
         "is_home": true
       }
     ]
@@ -6868,7 +8055,7 @@
     "league_name": "Copa Libertadores",
     "league_country": "America do Sul",
     "season_year": 2026,
-    "home_team": "Platense",
+    "home_team": "Club Atlético Platense",
     "away_team": "Peñarol",
     "stats": {
       "home_corners": 4,
@@ -6890,7 +8077,7 @@
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense",
+        "team_name": "Club Atlético Platense",
         "is_home": true
       },
       {
@@ -7188,7 +8375,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Independiente Santa Fe",
-    "away_team": "Platense",
+    "away_team": "Club Atlético Platense",
     "stats": {
       "home_corners": 5,
       "away_corners": 3,
@@ -7209,7 +8396,7 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense",
+        "team_name": "Club Atlético Platense",
         "is_home": false
       },
       {
@@ -7416,7 +8603,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "Flamengo",
-    "away_team": "Estudiantes L.P.",
+    "away_team": "Estudiantes de La Plata",
     "stats": {
       "home_corners": 3,
       "away_corners": 5,
@@ -7482,7 +8669,7 @@
     "league_country": "America do Sul",
     "season_year": 2026,
     "home_team": "LDU",
-    "away_team": "Lanus",
+    "away_team": "CA Lanús",
     "stats": {
       "home_corners": 5,
       "away_corners": 1,
@@ -7642,6 +8829,161 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832812",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Deportivo La Guaira",
+    "away_team": "Independiente Rivadavia",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 15,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 7,
+      "home_fouls": 9,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Juan Castellanos",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo La Guaira",
+        "is_home": true
+      },
+      {
+        "player_name": "Alex Arce",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Rivadavia",
+        "is_home": false
+      },
+      {
+        "player_name": "Alex Arce",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Rivadavia",
+        "is_home": false
+      },
+      {
+        "player_name": "Sebastián Villa",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Rivadavia",
+        "is_home": false
+      },
+      {
+        "player_name": "Diego Osío",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo La Guaira",
+        "is_home": true
+      },
+      {
+        "player_name": "Alex Arce",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Independiente Rivadavia",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832842",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Universidad Católica",
+    "away_team": "Barcelona SC Guayaquil",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 1,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 31,
+      "away_shots": 4,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 0,
+      "home_fouls": 6,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15832825",
+    "league_id": 51,
+    "league_name": "Copa Libertadores",
+    "league_country": "America do Sul",
+    "season_year": 2026,
+    "home_team": "Peñarol",
+    "away_team": "Corinthians",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 21,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 8,
+      "home_fouls": 5,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Zakaria Labyad",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Corinthians",
+        "is_home": false
+      },
+      {
+        "player_name": "Maximiliano Olivera",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Peñarol",
         "is_home": true
       }
     ]
