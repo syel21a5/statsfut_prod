@@ -27,14 +27,16 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       },
       {
         "player_name": "Santiago Núñez",
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       }
     ]
   },
@@ -66,42 +68,48 @@
         "minute": 89,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": false
       },
       {
         "player_name": "Jorge Morel",
         "minute": 72,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Jonatan Torres",
         "minute": 61,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Jonatan Torres",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Jonatan Torres",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Ramiro Vaca",
         "minute": 17,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": false
       }
     ]
   },
@@ -133,42 +141,48 @@
         "minute": 84,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Colo-Colo"
+        "team_name": "Colo-Colo",
+        "is_home": false
       },
       {
         "player_name": "Mauricio Isla",
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Colo-Colo"
+        "team_name": "Colo-Colo",
+        "is_home": false
       },
       {
         "player_name": "Carlos Henao",
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Bucaramanga"
+        "team_name": "Atlético Bucaramanga",
+        "is_home": true
       },
       {
         "player_name": "Javier Correa",
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Colo-Colo"
+        "team_name": "Colo-Colo",
+        "is_home": false
       },
       {
         "player_name": "Luciano Pons",
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Bucaramanga"
+        "team_name": "Atlético Bucaramanga",
+        "is_home": true
       },
       {
         "player_name": "Kevin Londoño",
         "minute": 9,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Bucaramanga"
+        "team_name": "Atlético Bucaramanga",
+        "is_home": true
       }
     ]
   },
@@ -200,21 +214,24 @@
         "minute": 84,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       },
       {
         "player_name": "Agustín Almendra",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       },
       {
         "player_name": "Maximiliano Salas",
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       }
     ]
   },
@@ -246,7 +263,8 @@
         "minute": 5,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Barcelona SC Guayaquil"
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": true
       }
     ]
   },
@@ -278,7 +296,8 @@
         "minute": 52,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": false
       }
     ]
   },
@@ -310,35 +329,40 @@
         "minute": 101,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "CD San Antonio"
+        "team_name": "CD San Antonio",
+        "is_home": true
       },
       {
         "player_name": "Richard Ortiz",
         "minute": 79,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": false
       },
       {
         "player_name": "Luis Barboza",
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "CD San Antonio"
+        "team_name": "CD San Antonio",
+        "is_home": true
       },
       {
         "player_name": "Hugo Adrián Benítez",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": false
       },
       {
         "player_name": "Sebastián Viveros",
         "minute": 30,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "CD San Antonio"
+        "team_name": "CD San Antonio",
+        "is_home": true
       }
     ]
   },
@@ -370,21 +394,24 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": true
       },
       {
         "player_name": "Maher Carrizo",
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": true
       },
       {
         "player_name": "Leonardo Fernández",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": false
       }
     ]
   },
@@ -416,7 +443,8 @@
         "minute": 59,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": true
       }
     ]
   },
@@ -448,7 +476,8 @@
         "minute": 17,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": false
       }
     ]
   },
@@ -480,7 +509,8 @@
         "minute": 76,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": false
       }
     ]
   },
@@ -512,21 +542,24 @@
         "minute": 72,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       },
       {
         "player_name": "Kevin Viveros",
         "minute": 55,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       },
       {
         "player_name": "Marino Hinestroza",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       }
     ]
   },
@@ -582,14 +615,16 @@
         "minute": 84,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": false
       },
       {
         "player_name": "Jean Lucas",
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bahia"
+        "team_name": "Bahia",
+        "is_home": true
       }
     ]
   },
@@ -621,35 +656,40 @@
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "Martín Távara",
         "minute": 83,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       },
       {
         "player_name": "Joaquín Piquerez",
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "Jesús Pretell",
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       },
       {
         "player_name": "Estêvão",
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       }
     ]
   },
@@ -681,7 +721,8 @@
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": false
       }
     ]
   },
@@ -713,14 +754,16 @@
         "minute": 98,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": true
       },
       {
         "player_name": "Patrick de Paula",
         "minute": 88,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": true
       }
     ]
   },
@@ -752,14 +795,16 @@
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": true
       },
       {
         "player_name": "Iván Franco",
         "minute": 9,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": true
       }
     ]
   },
@@ -791,14 +836,16 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": true
       },
       {
         "player_name": "Héctor Villalba",
         "minute": 60,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": true
       }
     ]
   },
@@ -830,21 +877,24 @@
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": false
       },
       {
         "player_name": "Charles Aránguiz",
         "minute": 7,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": false
       },
       {
         "player_name": "Ezequiel Piovi",
         "minute": 3,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       }
     ]
   },
@@ -900,7 +950,8 @@
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       }
     ]
   },
@@ -932,7 +983,8 @@
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bahia"
+        "team_name": "Bahia",
+        "is_home": false
       }
     ]
   },
@@ -964,28 +1016,32 @@
         "minute": 93,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": false
       },
       {
         "player_name": "Maher Carrizo",
         "minute": 56,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": false
       },
       {
         "player_name": "Braian Romero",
         "minute": 49,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": false
       },
       {
         "player_name": "Braian Romero",
         "minute": 25,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": false
       }
     ]
   },
@@ -1017,21 +1073,24 @@
         "minute": 61,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       },
       {
         "player_name": "José Florentín",
         "minute": 44,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": false
       },
       {
         "player_name": "Leonardo Heredia",
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": false
       }
     ]
   },
@@ -1063,21 +1122,24 @@
         "minute": 58,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Ramiro Vaca",
         "minute": 44,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Fábio Gomes",
         "minute": 12,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       }
     ]
   },
@@ -1109,7 +1171,8 @@
         "minute": 41,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       }
     ]
   },
@@ -1141,14 +1204,16 @@
         "minute": 83,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       },
       {
         "player_name": "Alex Arce",
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       }
     ]
   },
@@ -1180,21 +1245,24 @@
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": true
       },
       {
         "player_name": "Fabián Sambueza",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Bucaramanga"
+        "team_name": "Atlético Bucaramanga",
+        "is_home": false
       },
       {
         "player_name": "Luciano Pons",
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Bucaramanga"
+        "team_name": "Atlético Bucaramanga",
+        "is_home": false
       }
     ]
   },
@@ -1226,21 +1294,24 @@
         "minute": 88,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Alan Patrick",
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Alan Patrick",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       }
     ]
   },
@@ -1272,28 +1343,32 @@
         "minute": 76,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": false
       },
       {
         "player_name": "Eryc Castillo",
         "minute": 66,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": false
       },
       {
         "player_name": "Ferreirinha",
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": true
       },
       {
         "player_name": "Ferreirinha",
         "minute": 32,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": true
       }
     ]
   },
@@ -1349,35 +1424,40 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": true
       },
       {
         "player_name": "Federico Girotti",
         "minute": 69,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Talleres Cordoba"
+        "team_name": "Talleres Cordoba",
+        "is_home": false
       },
       {
         "player_name": "Federico Girotti",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Talleres Cordoba"
+        "team_name": "Talleres Cordoba",
+        "is_home": false
       },
       {
         "player_name": "Paolo Guerrero",
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": true
       },
       {
         "player_name": "Paolo Guerrero",
         "minute": 11,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": true
       }
     ]
   },
@@ -1409,14 +1489,16 @@
         "minute": 43,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": false
       },
       {
         "player_name": "Edson Tortolero",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Carabobo FC"
+        "team_name": "Carabobo FC",
+        "is_home": true
       }
     ]
   },
@@ -1448,14 +1530,16 @@
         "minute": 86,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       },
       {
         "player_name": "Lucas Cepeda",
         "minute": 9,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Colo-Colo"
+        "team_name": "Colo-Colo",
+        "is_home": true
       }
     ]
   },
@@ -1487,42 +1571,48 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Alexandro Bernabei",
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Alan Patrick",
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Sebastián Coates",
         "minute": 43,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       },
       {
         "player_name": "Luciano Boggio",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       },
       {
         "player_name": "Julián Millán",
         "minute": 6,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       }
     ]
   },
@@ -1554,7 +1644,8 @@
         "minute": 31,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": false
       }
     ]
   },
@@ -1586,21 +1677,24 @@
         "minute": 90,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": false
       },
       {
         "player_name": "Michael Santos",
         "minute": 86,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "CD San Antonio"
+        "team_name": "CD San Antonio",
+        "is_home": true
       },
       {
         "player_name": "Elías Gómez",
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "CD San Antonio"
+        "team_name": "CD San Antonio",
+        "is_home": true
       }
     ]
   },
@@ -1656,7 +1750,8 @@
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       }
     ]
   },
@@ -1688,28 +1783,32 @@
         "minute": 74,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": false
       },
       {
         "player_name": "Giuliano Galoppo",
         "minute": 68,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": false
       },
       {
         "player_name": "Claudio Spinelli",
         "minute": 30,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Claudio Spinelli",
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       }
     ]
   },
@@ -1741,14 +1840,16 @@
         "minute": 83,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": false
       },
       {
         "player_name": "Lucas Ferreira",
         "minute": 62,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": false
       }
     ]
   },
@@ -1780,14 +1881,16 @@
         "minute": 89,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Bucaramanga"
+        "team_name": "Atlético Bucaramanga",
+        "is_home": true
       },
       {
         "player_name": "Deyverson",
         "minute": 19,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fortaleza"
+        "team_name": "Fortaleza",
+        "is_home": false
       }
     ]
   },
@@ -1819,21 +1922,24 @@
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo Táchira"
+        "team_name": "Deportivo Táchira",
+        "is_home": false
       },
       {
         "player_name": "Nicolás Quagliata",
         "minute": 19,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": true
       },
       {
         "player_name": "Luis Miguel Angulo",
         "minute": 4,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": true
       }
     ]
   },
@@ -1865,35 +1971,40 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "Fábio Gomes",
         "minute": 69,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Fábio Gomes",
         "minute": 56,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Estêvão",
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "José López",
         "minute": 19,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       }
     ]
   },
@@ -1925,7 +2036,8 @@
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bahia"
+        "team_name": "Bahia",
+        "is_home": true
       }
     ]
   },
@@ -1957,28 +2069,32 @@
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
       },
       {
         "player_name": "Federico Carrizo",
         "minute": 44,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Cecilio Domínguez",
         "minute": 42,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Santiago González",
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
       }
     ]
   },
@@ -2010,21 +2126,24 @@
         "minute": 91,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": false
       },
       {
         "player_name": "Leonardo Aponte",
         "minute": 76,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Carabobo FC"
+        "team_name": "Carabobo FC",
+        "is_home": true
       },
       {
         "player_name": "Vitinho",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": false
       }
     ]
   },
@@ -2056,14 +2175,16 @@
         "minute": 89,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": false
       },
       {
         "player_name": "André Silva",
         "minute": 35,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": false
       }
     ]
   },
@@ -2095,28 +2216,32 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       },
       {
         "player_name": "Santiago Sosa",
         "minute": 69,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       },
       {
         "player_name": "Santiago Solari",
         "minute": 56,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       },
       {
         "player_name": "Adrián Martínez",
         "minute": 4,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": false
       }
     ]
   },
@@ -2148,28 +2273,32 @@
         "minute": 85,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fortaleza"
+        "team_name": "Fortaleza",
+        "is_home": true
       },
       {
         "player_name": "Deyverson",
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fortaleza"
+        "team_name": "Fortaleza",
+        "is_home": true
       },
       {
         "player_name": "Marinho",
         "minute": 30,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fortaleza"
+        "team_name": "Fortaleza",
+        "is_home": true
       },
       {
         "player_name": "Breno Lopes",
         "minute": 25,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fortaleza"
+        "team_name": "Fortaleza",
+        "is_home": true
       }
     ]
   },
@@ -2201,21 +2330,24 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": false
       },
       {
         "player_name": "Lucas Hernández",
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": false
       },
       {
         "player_name": "Maximiliano Silvera",
         "minute": 75,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": false
       }
     ]
   },
@@ -2247,35 +2379,40 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo Táchira"
+        "team_name": "Deportivo Táchira",
+        "is_home": true
       },
       {
         "player_name": "Nelson Hernández",
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo Táchira"
+        "team_name": "Deportivo Táchira",
+        "is_home": true
       },
       {
         "player_name": "Alex Arce",
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": false
       },
       {
         "player_name": "Alex Arce",
         "minute": 19,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": false
       },
       {
         "player_name": "Lisandro Alzugaray",
         "minute": 16,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": false
       }
     ]
   },
@@ -2307,28 +2444,32 @@
         "minute": 86,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       },
       {
         "player_name": "Nico López",
         "minute": 69,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       },
       {
         "player_name": "Lucas Morales",
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       },
       {
         "player_name": "Jean Lucas",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bahia"
+        "team_name": "Bahia",
+        "is_home": true
       }
     ]
   },
@@ -2360,21 +2501,24 @@
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       },
       {
         "player_name": "Santiago Ascacíbar",
         "minute": 31,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       },
       {
         "player_name": "Tiago Palacios",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       }
     ]
   },
@@ -2406,14 +2550,16 @@
         "minute": 61,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": true
       },
       {
         "player_name": "Giorgian de Arrascaeta",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": false
       }
     ]
   },
@@ -2445,14 +2591,16 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "Estêvão",
         "minute": 41,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       }
     ]
   },
@@ -2484,21 +2632,24 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": false
       },
       {
         "player_name": "Martín Cauteruccio",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       },
       {
         "player_name": "Martín Cauteruccio",
         "minute": 5,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       }
     ]
   },
@@ -2554,14 +2705,16 @@
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": false
       },
       {
         "player_name": "Maher Carrizo",
         "minute": 33,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": true
       }
     ]
   },
@@ -2593,35 +2746,40 @@
         "minute": 49,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Barcelona SC Guayaquil"
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": true
       },
       {
         "player_name": "Franco Mastantuono",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": false
       },
       {
         "player_name": "Facundo Colidio",
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": false
       },
       {
         "player_name": "Octavio Rivero",
         "minute": 15,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Barcelona SC Guayaquil"
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": true
       },
       {
         "player_name": "Sebastián Driussi",
         "minute": 7,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": false
       }
     ]
   },
@@ -2653,28 +2811,32 @@
         "minute": 93,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       },
       {
         "player_name": "Alan Patrick",
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": false
       },
       {
         "player_name": "Billy Arce",
         "minute": 55,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       },
       {
         "player_name": "Kevin Viveros",
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       }
     ]
   },
@@ -2706,14 +2868,16 @@
         "minute": 34,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": true
       },
       {
         "player_name": "Claudio Spinelli",
         "minute": 28,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": false
       }
     ]
   },
@@ -2745,21 +2909,24 @@
         "minute": 76,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": false
       },
       {
         "player_name": "Bryan Castillo",
         "minute": 75,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo Táchira"
+        "team_name": "Deportivo Táchira",
+        "is_home": true
       },
       {
         "player_name": "Jonathan Galván",
         "minute": 20,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Central Cordoba"
+        "team_name": "Central Cordoba",
+        "is_home": false
       }
     ]
   },
@@ -2791,28 +2958,32 @@
         "minute": 90,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": true
       },
       {
         "player_name": "Matías Zaldivia",
         "minute": 81,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": true
       },
       {
         "player_name": "Charles Aránguiz",
         "minute": 65,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": true
       },
       {
         "player_name": "Matías Sepúlveda",
         "minute": 30,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad de Chile"
+        "team_name": "Universidad de Chile",
+        "is_home": true
       }
     ]
   },
@@ -2868,7 +3039,8 @@
         "minute": 14,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": false
       }
     ]
   },
@@ -2900,7 +3072,8 @@
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Atlético Nacional"
+        "team_name": "Atlético Nacional",
+        "is_home": true
       }
     ]
   },
@@ -2932,35 +3105,40 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": true
       },
       {
         "player_name": "Maximiliano Olivera",
         "minute": 55,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": true
       },
       {
         "player_name": "Leonardo Fernández",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": true
       },
       {
         "player_name": "Ivan Leguizamon",
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": false
       },
       {
         "player_name": "Lisandro López",
         "minute": 13,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": false
       }
     ]
   },
@@ -2992,21 +3170,24 @@
         "minute": 93,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": true
       },
       {
         "player_name": "Michael Santos",
         "minute": 79,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": true
       },
       {
         "player_name": "Maher Carrizo",
         "minute": 68,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Velez Sarsfield"
+        "team_name": "Velez Sarsfield",
+        "is_home": true
       }
     ]
   },
@@ -3038,35 +3219,40 @@
         "minute": 85,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": true
       },
       {
         "player_name": "Tiago Palacios",
         "minute": 77,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       },
       {
         "player_name": "Tiago Palacios",
         "minute": 62,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       },
       {
         "player_name": "Igor Jesus",
         "minute": 52,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": true
       },
       {
         "player_name": "Rwan Cruz",
         "minute": 42,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": true
       }
     ]
   },
@@ -3098,14 +3284,16 @@
         "minute": 90,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": true
       },
       {
         "player_name": "Gustavo Aguilar",
         "minute": 74,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": false
       }
     ]
   },
@@ -3137,28 +3325,32 @@
         "minute": 81,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": true
       },
       {
         "player_name": "Santiago Solari",
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": true
       },
       {
         "player_name": "Adrián Martínez",
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": true
       },
       {
         "player_name": "Adrián Martínez",
         "minute": 36,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": true
       }
     ]
   },
@@ -3190,7 +3382,8 @@
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": true
       }
     ]
   },
@@ -3222,14 +3415,16 @@
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Talleres Cordoba"
+        "team_name": "Talleres Cordoba",
+        "is_home": true
       },
       {
         "player_name": "Rubén Botta",
         "minute": 23,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Talleres Cordoba"
+        "team_name": "Talleres Cordoba",
+        "is_home": true
       }
     ]
   },
@@ -3261,14 +3456,16 @@
         "minute": 97,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": false
       },
       {
         "player_name": "Ricardo Mathias",
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": false
       }
     ]
   },
@@ -3300,14 +3497,16 @@
         "minute": 12,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "Murilo",
         "minute": 6,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       }
     ]
   },
@@ -3339,56 +3538,64 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       },
       {
         "player_name": "Miguel Borja",
         "minute": 87,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       },
       {
         "player_name": "Maxi Meza",
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       },
       {
         "player_name": "Franco Mastantuono",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       },
       {
         "player_name": "Luis Felipe Zárate",
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       },
       {
         "player_name": "Claudio Spinelli",
         "minute": 21,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": false
       },
       {
         "player_name": "Michael Hoyos",
         "minute": 11,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": false
       },
       {
         "player_name": "Sebastián Driussi",
         "minute": 8,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       }
     ]
   },
@@ -3420,14 +3627,16 @@
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       },
       {
         "player_name": "Léo Ortiz",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       }
     ]
   },
@@ -3459,21 +3668,24 @@
         "minute": 84,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": true
       },
       {
         "player_name": "Federico Girotti",
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Talleres Cordoba"
+        "team_name": "Talleres Cordoba",
+        "is_home": false
       },
       {
         "player_name": "Sabino",
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "São Paulo"
+        "team_name": "São Paulo",
+        "is_home": true
       }
     ]
   },
@@ -3505,28 +3717,32 @@
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": true
       },
       {
         "player_name": "Óscar Cardozo",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": true
       },
       {
         "player_name": "Eryc Castillo",
         "minute": 42,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": false
       },
       {
         "player_name": "Paolo Guerrero",
         "minute": 28,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Alianza Lima"
+        "team_name": "Alianza Lima",
+        "is_home": false
       }
     ]
   },
@@ -3558,7 +3774,8 @@
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Botafogo"
+        "team_name": "Botafogo",
+        "is_home": true
       }
     ]
   },
@@ -3590,14 +3807,16 @@
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       },
       {
         "player_name": "Edwuin Cetré",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       }
     ]
   },
@@ -3629,21 +3848,24 @@
         "minute": 69,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Patrik Mercado",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Felipe Caicedo",
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Barcelona SC Guayaquil"
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": false
       }
     ]
   },
@@ -3675,14 +3897,16 @@
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": false
       },
       {
         "player_name": "Facundo Colidio",
         "minute": 36,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "River Plate"
+        "team_name": "River Plate",
+        "is_home": true
       }
     ]
   },
@@ -3714,21 +3938,24 @@
         "minute": 77,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Vitinho",
         "minute": 58,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Internacional"
+        "team_name": "Internacional",
+        "is_home": true
       },
       {
         "player_name": "Jean Lucas",
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bahia"
+        "team_name": "Bahia",
+        "is_home": false
       }
     ]
   },
@@ -3760,7 +3987,8 @@
         "minute": 88,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": true
       }
     ]
   },
@@ -3792,7 +4020,8 @@
         "minute": 66,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       }
     ]
   },
@@ -3824,21 +4053,24 @@
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       },
       {
         "player_name": "Lisandro Alzugaray",
         "minute": 44,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       },
       {
         "player_name": "Alexander Alvarado",
         "minute": 15,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       }
     ]
   },
@@ -3870,28 +4102,32 @@
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Patricio Rodríguez",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Carlos Melgar",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Dorny Romero",
         "minute": 41,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       }
     ]
   },
@@ -3923,42 +4159,48 @@
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "Paulinho",
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "Raphael Veiga",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "José López",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "José López",
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "Estêvão",
         "minute": 32,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       }
     ]
   },
@@ -3990,28 +4232,32 @@
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": true
       },
       {
         "player_name": "Derlis González",
         "minute": 56,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": true
       },
       {
         "player_name": "Ivan Leguizamon",
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": true
       },
       {
         "player_name": "Rodney Redes",
         "minute": 52,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Olimpia"
+        "team_name": "Olimpia",
+        "is_home": true
       }
     ]
   },
@@ -4067,7 +4313,8 @@
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Colo-Colo"
+        "team_name": "Colo-Colo",
+        "is_home": true
       }
     ]
   },
@@ -4099,7 +4346,8 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Racing Club"
+        "team_name": "Racing Club",
+        "is_home": true
       }
     ]
   },
@@ -4155,7 +4403,8 @@
         "minute": 1,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": true
       }
     ]
   },
@@ -4187,7 +4436,8 @@
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cruzeiro"
+        "team_name": "Cruzeiro",
+        "is_home": false
       }
     ]
   },
@@ -4219,7 +4469,8 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": false
       }
     ]
   },
@@ -4251,21 +4502,24 @@
         "minute": 83,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Católica"
+        "team_name": "Universidad Católica",
+        "is_home": true
       },
       {
         "player_name": "Adam Bareiro",
         "minute": 65,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Boca Juniors"
+        "team_name": "Boca Juniors",
+        "is_home": false
       },
       {
         "player_name": "Leandro Paredes",
         "minute": 16,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Boca Juniors"
+        "team_name": "Boca Juniors",
+        "is_home": false
       }
     ]
   },
@@ -4321,14 +4575,16 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": true
       },
       {
         "player_name": "Sebastián Coates",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       }
     ]
   },
@@ -4360,7 +4616,8 @@
         "minute": 60,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": true
       }
     ]
   },
@@ -4392,14 +4649,16 @@
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Medellín"
+        "team_name": "Independiente Medellín",
+        "is_home": true
       },
       {
         "player_name": "Tiago Palacios",
         "minute": 4,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       }
     ]
   },
@@ -4431,14 +4690,16 @@
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": false
       },
       {
         "player_name": "Bruno Henrique",
         "minute": 59,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": false
       }
     ]
   },
@@ -4470,14 +4731,16 @@
         "minute": 56,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "Teófilo Gutiérrez",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Junior Barranquilla"
+        "team_name": "Junior Barranquilla",
+        "is_home": true
       }
     ]
   },
@@ -4509,7 +4772,8 @@
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       }
     ]
   },
@@ -4565,28 +4829,32 @@
         "minute": 96,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Central"
+        "team_name": "Universidad Central",
+        "is_home": true
       },
       {
         "player_name": "Yeiber Murillo",
         "minute": 87,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Central"
+        "team_name": "Universidad Central",
+        "is_home": true
       },
       {
         "player_name": "Lorenzo Melgarejo",
         "minute": 61,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": false
       },
       {
         "player_name": "Juan Manuel Cuesta",
         "minute": 30,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Central"
+        "team_name": "Universidad Central",
+        "is_home": true
       }
     ]
   },
@@ -4618,14 +4886,16 @@
         "minute": 70,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": false
       },
       {
         "player_name": "Kayke Ferrari",
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": false
       }
     ]
   },
@@ -4657,14 +4927,16 @@
         "minute": 59,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": false
       },
       {
         "player_name": "Emanuel Olivera",
         "minute": 20,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Santa Fe"
+        "team_name": "Independiente Santa Fe",
+        "is_home": true
       }
     ]
   },
@@ -4696,21 +4968,24 @@
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       },
       {
         "player_name": "Lucas Colitto",
         "minute": 31,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cusco FC"
+        "team_name": "Cusco FC",
+        "is_home": false
       },
       {
         "player_name": "Facundo Farías",
         "minute": 28,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       }
     ]
   },
@@ -4742,28 +5017,32 @@
         "minute": 87,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": true
       },
       {
         "player_name": "Brayan Rovira",
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": false
       },
       {
         "player_name": "Sebastián Coates",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": true
       },
       {
         "player_name": "Maximiliano Gómez",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": true
       }
     ]
   },
@@ -4795,7 +5074,8 @@
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       }
     ]
   },
@@ -4827,14 +5107,16 @@
         "minute": 79,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Flabian Londoño",
         "minute": 29,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo La Guaira"
+        "team_name": "Deportivo La Guaira",
+        "is_home": false
       }
     ]
   },
@@ -4866,21 +5148,24 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Boca Juniors"
+        "team_name": "Boca Juniors",
+        "is_home": true
       },
       {
         "player_name": "Santiago Ascacíbar",
         "minute": 81,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Boca Juniors"
+        "team_name": "Boca Juniors",
+        "is_home": true
       },
       {
         "player_name": "Lautaro Di Lollo",
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Boca Juniors"
+        "team_name": "Boca Juniors",
+        "is_home": true
       }
     ]
   },
@@ -4912,14 +5197,16 @@
         "minute": 49,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": false
       },
       {
         "player_name": "Cristián Zavala",
         "minute": 13,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": false
       }
     ]
   },
@@ -4951,14 +5238,16 @@
         "minute": 34,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       },
       {
         "player_name": "Yerlin Quinonez",
         "minute": 6,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       }
     ]
   },
@@ -4990,21 +5279,24 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Católica"
+        "team_name": "Universidad Católica",
+        "is_home": false
       },
       {
         "player_name": "Matheus Pereira",
         "minute": 60,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cruzeiro"
+        "team_name": "Cruzeiro",
+        "is_home": true
       },
       {
         "player_name": "Justo Giani",
         "minute": 29,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Católica"
+        "team_name": "Universidad Católica",
+        "is_home": false
       }
     ]
   },
@@ -5036,7 +5328,8 @@
         "minute": 83,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": false
       }
     ]
   },
@@ -5068,21 +5361,24 @@
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": false
       },
       {
         "player_name": "Fabrizio Sartori",
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": false
       },
       {
         "player_name": "Guilherme Arana",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fluminense"
+        "team_name": "Fluminense",
+        "is_home": true
       }
     ]
   },
@@ -5114,14 +5410,16 @@
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": true
       },
       {
         "player_name": "Raniele",
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": true
       }
     ]
   },
@@ -5153,28 +5451,32 @@
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Carlos González",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Jordy Alcivar",
         "minute": 44,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Jovanny Bolívar",
         "minute": 21,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Central"
+        "team_name": "Universidad Central",
+        "is_home": false
       }
     ]
   },
@@ -5206,21 +5508,24 @@
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       },
       {
         "player_name": "Juan Cruz Gonzalez",
         "minute": 41,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
       },
       {
         "player_name": "Murilo",
         "minute": 27,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": true
       }
     ]
   },
@@ -5252,7 +5557,8 @@
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Lanus"
+        "team_name": "Lanus",
+        "is_home": true
       }
     ]
   },
@@ -5284,35 +5590,40 @@
         "minute": 96,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       },
       {
         "player_name": "Giorgian de Arrascaeta",
         "minute": 49,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       },
       {
         "player_name": "Bruno Henrique",
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       },
       {
         "player_name": "Yony González",
         "minute": 40,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Medellín"
+        "team_name": "Independiente Medellín",
+        "is_home": false
       },
       {
         "player_name": "Lucas Paquetá",
         "minute": 15,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       }
     ]
   },
@@ -5344,21 +5655,24 @@
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense"
+        "team_name": "Platense",
+        "is_home": false
       },
       {
         "player_name": "Matías Arezo",
         "minute": 58,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": true
       },
       {
         "player_name": "Guido Mainero",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense"
+        "team_name": "Platense",
+        "is_home": false
       }
     ]
   },
@@ -5390,7 +5704,8 @@
         "minute": 74,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Lanus"
+        "team_name": "Lanus",
+        "is_home": true
       }
     ]
   },
@@ -5422,35 +5737,40 @@
         "minute": 85,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": true
       },
       {
         "player_name": "Carlos González",
         "minute": 65,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": false
       },
       {
         "player_name": "Carlos González",
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": false
       },
       {
         "player_name": "Lorenzo Melgarejo",
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": true
       },
       {
         "player_name": "Carlos González",
         "minute": 33,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": false
       }
     ]
   },
@@ -5482,21 +5802,24 @@
         "minute": 93,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": false
       },
       {
         "player_name": "Ángel Di María",
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": false
       },
       {
         "player_name": "Ignacio Ovando",
         "minute": 35,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": false
       }
     ]
   },
@@ -5528,7 +5851,8 @@
         "minute": 83,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cruzeiro"
+        "team_name": "Cruzeiro",
+        "is_home": true
       }
     ]
   },
@@ -5560,21 +5884,24 @@
         "minute": 78,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": true
       },
       {
         "player_name": "Luis Sandoval",
         "minute": 66,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": true
       },
       {
         "player_name": "Sebastián Guzmán",
         "minute": 59,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": true
       }
     ]
   },
@@ -5606,14 +5933,16 @@
         "minute": 91,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       },
       {
         "player_name": "Santiago González",
         "minute": 52,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
       }
     ]
   },
@@ -5645,21 +5974,24 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Santa Fe"
+        "team_name": "Independiente Santa Fe",
+        "is_home": false
       },
       {
         "player_name": "Mateo Mendia",
         "minute": 63,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense"
+        "team_name": "Platense",
+        "is_home": true
       },
       {
         "player_name": "Tomas Nasif",
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense"
+        "team_name": "Platense",
+        "is_home": true
       }
     ]
   },
@@ -5691,14 +6023,16 @@
         "minute": 80,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": true
       },
       {
         "player_name": "Eduardo",
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": true
       }
     ]
   },
@@ -5730,21 +6064,24 @@
         "minute": 79,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Barcelona SC Guayaquil"
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": true
       },
       {
         "player_name": "Clemente Montes",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Católica"
+        "team_name": "Universidad Católica",
+        "is_home": false
       },
       {
         "player_name": "Fernando Zampedri",
         "minute": 17,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Católica"
+        "team_name": "Universidad Católica",
+        "is_home": false
       }
     ]
   },
@@ -5776,14 +6113,16 @@
         "minute": 55,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": true
       },
       {
         "player_name": "Luiz Araújo",
         "minute": 33,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": false
       }
     ]
   },
@@ -5815,14 +6154,16 @@
         "minute": 72,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": true
       },
       {
         "player_name": "Jhon Arias",
         "minute": 33,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       }
     ]
   },
@@ -5854,42 +6195,48 @@
         "minute": 91,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": true
       },
       {
         "player_name": "Lisandro Alzugaray",
         "minute": 81,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": true
       },
       {
         "player_name": "Maximiliano Silvera",
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       },
       {
         "player_name": "Alex Valera",
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": true
       },
       {
         "player_name": "Caín Fara",
         "minute": 40,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": true
       },
       {
         "player_name": "Maximiliano Gómez",
         "minute": 14,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Nacional"
+        "team_name": "Nacional",
+        "is_home": false
       }
     ]
   },
@@ -5921,14 +6268,16 @@
         "minute": 61,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       },
       {
         "player_name": "Robson Matheus",
         "minute": 6,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": true
       }
     ]
   },
@@ -5960,35 +6309,40 @@
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": true
       },
       {
         "player_name": "Alex Arce",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": true
       },
       {
         "player_name": "Sebastián Villa",
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": true
       },
       {
         "player_name": "Guillermo Ortíz",
         "minute": 32,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo La Guaira"
+        "team_name": "Deportivo La Guaira",
+        "is_home": false
       },
       {
         "player_name": "Alex Arce",
         "minute": 27,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": true
       }
     ]
   },
@@ -6020,14 +6374,16 @@
         "minute": 25,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": true
       },
       {
         "player_name": "Gustavo Henrique",
         "minute": 11,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": true
       }
     ]
   },
@@ -6059,7 +6415,8 @@
         "minute": 87,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Medellín"
+        "team_name": "Independiente Medellín",
+        "is_home": true
       }
     ]
   },
@@ -6091,14 +6448,16 @@
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       },
       {
         "player_name": "José López",
         "minute": 32,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Palmeiras"
+        "team_name": "Palmeiras",
+        "is_home": false
       }
     ]
   },
@@ -6130,7 +6489,8 @@
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": true
       }
     ]
   },
@@ -6162,7 +6522,8 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Barcelona SC Guayaquil"
+        "team_name": "Barcelona SC Guayaquil",
+        "is_home": true
       }
     ]
   },
@@ -6194,14 +6555,16 @@
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Central"
+        "team_name": "Universidad Central",
+        "is_home": true
       },
       {
         "player_name": "Juan Camilo Zapata",
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universidad Central"
+        "team_name": "Universidad Central",
+        "is_home": true
       }
     ]
   },
@@ -6233,28 +6596,32 @@
         "minute": 89,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Always Ready"
+        "team_name": "Club Always Ready",
+        "is_home": true
       },
       {
         "player_name": "Joel Amoroso",
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Always Ready"
+        "team_name": "Club Always Ready",
+        "is_home": true
       },
       {
         "player_name": "Enrique Triverio",
         "minute": 45,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Always Ready"
+        "team_name": "Club Always Ready",
+        "is_home": true
       },
       {
         "player_name": "Richet Gomez",
         "minute": 26,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Always Ready"
+        "team_name": "Club Always Ready",
+        "is_home": true
       }
     ]
   },
@@ -6286,14 +6653,16 @@
         "minute": 58,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Estudiantes L.P."
+        "team_name": "Estudiantes L.P.",
+        "is_home": false
       },
       {
         "player_name": "Lucas Colitto",
         "minute": 37,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cusco FC"
+        "team_name": "Cusco FC",
+        "is_home": true
       }
     ]
   },
@@ -6325,14 +6694,16 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": false
       },
       {
         "player_name": "José Alí Meza",
         "minute": 31,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportivo La Guaira"
+        "team_name": "Deportivo La Guaira",
+        "is_home": true
       }
     ]
   },
@@ -6364,14 +6735,16 @@
         "minute": 91,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fluminense"
+        "team_name": "Fluminense",
+        "is_home": false
       },
       {
         "player_name": "Alex Arce",
         "minute": 66,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Ind. Rivadavia"
+        "team_name": "Ind. Rivadavia",
+        "is_home": true
       }
     ]
   },
@@ -6403,14 +6776,16 @@
         "minute": 93,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Corinthians"
+        "team_name": "Corinthians",
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
         "minute": 59,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Santa Fe"
+        "team_name": "Independiente Santa Fe",
+        "is_home": true
       }
     ]
   },
@@ -6442,21 +6817,24 @@
         "minute": 89,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": true
       },
       {
         "player_name": "Jherson Mosquera",
         "minute": 78,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": true
       },
       {
         "player_name": "Luis Sandoval",
         "minute": 52,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Deportes Tolima"
+        "team_name": "Deportes Tolima",
+        "is_home": true
       }
     ]
   },
@@ -6512,14 +6890,16 @@
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense"
+        "team_name": "Platense",
+        "is_home": true
       },
       {
         "player_name": "Facundo Batista",
         "minute": 29,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Peñarol"
+        "team_name": "Peñarol",
+        "is_home": false
       }
     ]
   },
@@ -6551,14 +6931,16 @@
         "minute": 61,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": true
       },
       {
         "player_name": "Lucas Oliveira",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": true
       }
     ]
   },
@@ -6590,21 +6972,24 @@
         "minute": 72,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": true
       },
       {
         "player_name": "Guido Vadalá",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": true
       },
       {
         "player_name": "Alex Valera",
         "minute": 33,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Universitario de Deportes"
+        "team_name": "Universitario de Deportes",
+        "is_home": false
       }
     ]
   },
@@ -6636,7 +7021,8 @@
         "minute": 13,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": false
       }
     ]
   },
@@ -6668,21 +7054,24 @@
         "minute": 55,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": true
       },
       {
         "player_name": "Cristián Zavala",
         "minute": 49,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": true
       },
       {
         "player_name": "Manuel Fernández",
         "minute": 27,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Coquimbo Unido"
+        "team_name": "Coquimbo Unido",
+        "is_home": true
       }
     ]
   },
@@ -6714,21 +7103,24 @@
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fluminense"
+        "team_name": "Fluminense",
+        "is_home": true
       },
       {
         "player_name": "Carlos Melgar",
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Bolívar"
+        "team_name": "Bolívar",
+        "is_home": false
       },
       {
         "player_name": "Luciano Acosta",
         "minute": 6,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Fluminense"
+        "team_name": "Fluminense",
+        "is_home": true
       }
     ]
   },
@@ -6760,28 +7152,32 @@
         "minute": 88,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": true
       },
       {
         "player_name": "Ángel Di María",
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": true
       },
       {
         "player_name": "Vicente Pizarro",
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": true
       },
       {
         "player_name": "Alejo Véliz",
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Rosario Central"
+        "team_name": "Rosario Central",
+        "is_home": true
       }
     ]
   },
@@ -6813,21 +7209,24 @@
         "minute": 73,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Platense"
+        "team_name": "Platense",
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
         "minute": 71,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Santa Fe"
+        "team_name": "Independiente Santa Fe",
+        "is_home": true
       },
       {
         "player_name": "Ivan Scarpeta",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Santa Fe"
+        "team_name": "Independiente Santa Fe",
+        "is_home": true
       }
     ]
   },
@@ -6859,21 +7258,24 @@
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": false
       },
       {
         "player_name": "Jesús Maraude",
         "minute": 75,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Always Ready"
+        "team_name": "Club Always Ready",
+        "is_home": true
       },
       {
         "player_name": "Shaylon",
         "minute": 11,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Mirassol"
+        "team_name": "Mirassol",
+        "is_home": false
       }
     ]
   },
@@ -6905,14 +7307,16 @@
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cruzeiro"
+        "team_name": "Cruzeiro",
+        "is_home": false
       },
       {
         "player_name": "Miguel Merentiel",
         "minute": 15,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Boca Juniors"
+        "team_name": "Boca Juniors",
+        "is_home": true
       }
     ]
   },
@@ -6944,35 +7348,40 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Justin Lerma",
         "minute": 64,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Lorenzo Melgarejo",
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Libertad"
+        "team_name": "Libertad",
+        "is_home": false
       },
       {
         "player_name": "Carlos González",
         "minute": 43,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       },
       {
         "player_name": "Junior Sornoza",
         "minute": 38,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente del Valle"
+        "team_name": "Independiente del Valle",
+        "is_home": true
       }
     ]
   },
@@ -7028,7 +7437,8 @@
         "minute": 65,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Flamengo"
+        "team_name": "Flamengo",
+        "is_home": true
       }
     ]
   },
@@ -7060,7 +7470,8 @@
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cerro Porteño"
+        "team_name": "Cerro Porteño",
+        "is_home": false
       }
     ]
   },
@@ -7092,14 +7503,16 @@
         "minute": 91,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       },
       {
         "player_name": "Felipe Peña Biafore",
         "minute": 74,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "LDU"
+        "team_name": "LDU",
+        "is_home": true
       }
     ]
   },
@@ -7131,35 +7544,40 @@
         "minute": 97,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Medellín"
+        "team_name": "Independiente Medellín",
+        "is_home": false
       },
       {
         "player_name": "Aldair Fuentes",
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cusco FC"
+        "team_name": "Cusco FC",
+        "is_home": true
       },
       {
         "player_name": "Baldomero Perlaza",
         "minute": 91,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Medellín"
+        "team_name": "Independiente Medellín",
+        "is_home": false
       },
       {
         "player_name": "Gu-rum Choi",
         "minute": 78,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Cusco FC"
+        "team_name": "Cusco FC",
+        "is_home": true
       },
       {
         "player_name": "Francisco Fydriszewski",
         "minute": 13,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Independiente Medellín"
+        "team_name": "Independiente Medellín",
+        "is_home": false
       }
     ]
   },
@@ -7191,35 +7609,40 @@
         "minute": 56,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
       },
       {
         "player_name": "Yoshimar Yotún",
         "minute": 50,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Club Sporting Cristal"
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
       },
       {
         "player_name": "Luis Muriel",
         "minute": 36,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Junior Barranquilla"
+        "team_name": "Junior Barranquilla",
+        "is_home": true
       },
       {
         "player_name": "Kevin Pérez",
         "minute": 28,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Junior Barranquilla"
+        "team_name": "Junior Barranquilla",
+        "is_home": true
       },
       {
         "player_name": "Luis Muriel",
         "minute": 9,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "Junior Barranquilla"
+        "team_name": "Junior Barranquilla",
+        "is_home": true
       }
     ]
   }
