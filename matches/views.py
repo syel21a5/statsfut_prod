@@ -3770,16 +3770,34 @@ class LeagueDetailedStatsView(TemplateView):
         
         # 1. Localizar a Liga (considerando país e nome)
         from django.db.models import Avg, Sum, Q, Count
+        from django.utils.text import slugify
         name_query = league_slug.replace('-', ' ')
         
-        # Busca por nome da liga e também filtra pelo país para evitar duplicatas (ex: Bundesliga Áustria vs Alemanha)
-        league = League.objects.filter(
-            Q(name__iexact=name_query) | Q(name__icontains=name_query)
+        # Busca por nome da liga
+        candidates = League.objects.filter(
+            Q(name__iexact=name_query) | Q(name__iexact=league_slug) | Q(name__icontains=name_query) | Q(name__icontains=league_slug)
         )
+        
+        # Fallback Slugify para Liga
+        if not candidates.exists():
+            for l in League.objects.all():
+                if slugify(l.name) == league_slug:
+                    candidates = League.objects.filter(id=l.id)
+                    break
+        
         if country_slug:
-            league = league.filter(country__icontains=country_slug)
+            db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_slug.lower(), country_slug)
+            filtered_league = candidates.filter(Q(country__iexact=db_country) | Q(country__icontains=db_country) | Q(country__icontains=country_slug))
+            if not filtered_league.exists():
+                # Fallback slugify para país
+                for c in candidates:
+                    if slugify(c.country) == country_slug:
+                        filtered_league = League.objects.filter(id=c.id)
+                        break
+            if filtered_league.exists():
+                candidates = filtered_league
             
-        league = league.first()
+        league = candidates.first()
         context['league'] = league
         
         if not league:
@@ -3841,6 +3859,51 @@ class LeagueDetailedStatsView(TemplateView):
         if team_stats:
             context['league_avg_corners'] = round(sum(s['avg_corners_total'] for s in team_stats) / len(team_stats), 2)
             context['league_avg_yellow'] = round(sum(s['avg_yellow'] for s in team_stats) / len(team_stats), 2)
+        
+        # 5. Artilharia (Top Scorers)
+        from django.db.models import Count, Q
+        from matches.models import Goal
+        top_scorers_qs = Goal.objects.filter(
+            match__league=league,
+            match__season=latest_season
+        ).values('player_name', 'team__name').annotate(
+            goals_count=Count('id'),
+            penalties=Count('id', filter=Q(is_penalty=True))
+        ).order_by('-goals_count')[:8]
+        context['top_scorers'] = top_scorers_qs
+
+        # 6. Distribuição de Minutos dos Gols (Timing)
+        goals = Goal.objects.filter(
+            match__league=league,
+            match__season=latest_season
+        )
+        total_goals = goals.count()
+        timing_stats = {
+            '0_15': 0, '16_30': 0, '31_45': 0,
+            '46_60': 0, '61_75': 0, '76_90': 0
+        }
+        for g in goals:
+            m = g.minute
+            if m <= 15: timing_stats['0_15'] += 1
+            elif m <= 30: timing_stats['16_30'] += 1
+            elif m <= 45: timing_stats['31_45'] += 1
+            elif m <= 60: timing_stats['46_60'] += 1
+            elif m <= 75: timing_stats['61_75'] += 1
+            else: timing_stats['76_90'] += 1
+            
+        timing_list = []
+        for period, count in timing_stats.items():
+            label = period.replace('_', '-') + "'"
+            if period == '76_90':
+                label = '76-90+'
+            timing_list.append({
+                'period': label,
+                'count': count,
+                'pct': round((count / total_goals) * 100, 1) if total_goals > 0 else 0
+            })
+        
+        context['timing_stats'] = timing_list
+        context['total_goals'] = total_goals
         
         return context
 

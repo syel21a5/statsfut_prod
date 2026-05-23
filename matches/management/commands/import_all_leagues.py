@@ -14,7 +14,7 @@ class Command(BaseCommand):
             'payload_brasil.json': {'name': 'Brasileirão', 'country': 'Brasil'},
             'payload_austria.json': {'name': 'Bundesliga', 'country': 'Austria'},
             'payload_suica.json': {'name': 'Super League', 'country': 'Switzerland'},
-            'payload_alemanha.json': {'name': 'Bundesliga', 'country': 'Germany'},
+            'payload_alemanha.json': {'name': 'Bundesliga', 'country': 'Alemanha'},
             'payload_franca.json': {'name': 'Ligue 1', 'country': 'France'},
             'payload_belgica.json': {'name': 'Pro League', 'country': 'Belgium'},
             'payload_australia.json': {'name': 'A-League Men', 'country': 'Australia'},
