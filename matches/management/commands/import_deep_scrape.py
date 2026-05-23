@@ -84,16 +84,39 @@ class Command(BaseCommand):
                         Goal.objects.filter(match=match).delete()
                         
                         for gol_data in item['goals']:
-                            # Tenta encontrar o time pelo nome
-                            team_name = gol_data.get('team_name')
+                            team_name = gol_data.get('team_name', '')
                             team = None
                             
-                            if team_name:
-                                # Tenta pelo nome exato (home ou away)
+                            # Estratégia 1 (MELHOR): Usar is_home se disponível
+                            is_home = gol_data.get('is_home')
+                            if is_home is not None:
+                                team = match.home_team if is_home else match.away_team
+                            
+                            # Estratégia 2: Nome exato
+                            if not team and team_name:
                                 if match.home_team and match.home_team.name == team_name:
                                     team = match.home_team
                                 elif match.away_team and match.away_team.name == team_name:
                                     team = match.away_team
+                            
+                            # Estratégia 3: Parte do nome (ex: "Estudiantes L.P." ~ "Estudiantes de La Plata")
+                            if not team and team_name:
+                                home_name = match.home_team.name.lower() if match.home_team else ''
+                                away_name = match.away_team.name.lower() if match.away_team else ''
+                                team_name_lower = team_name.lower()
+                                
+                                if home_name and (team_name_lower in home_name or home_name in team_name_lower):
+                                    team = match.home_team
+                                elif away_name and (team_name_lower in away_name or away_name in team_name_lower):
+                                    team = match.away_team
+                                
+                                # Estratégia 4: Primeira palavra do nome
+                                if not team:
+                                    first_word = team_name.split()[0].lower() if team_name.split() else ''
+                                    if home_name and first_word and first_word in home_name:
+                                        team = match.home_team
+                                    elif away_name and first_word and first_word in away_name:
+                                        team = match.away_team
                             
                             if not team:
                                 self.stdout.write(self.style.WARNING(

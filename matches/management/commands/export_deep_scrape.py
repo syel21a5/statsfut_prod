@@ -94,12 +94,15 @@ class Command(BaseCommand):
             # Pega os gols
             gols = Goal.objects.filter(match=m).select_related('team')
             for g in gols:
+                # Descobre se é time da casa ou visitante pelo nome do time
+                is_home = (g.team_id == m.home_team_id) if m.home_team_id and g.team_id else None
                 match_data['goals'].append({
                     'player_name': g.player_name,
                     'minute': g.minute,
                     'is_own_goal': g.is_own_goal,
                     'is_penalty': g.is_penalty,
                     'team_name': g.team.name if g.team else None,
+                    'is_home': is_home,
                 })
 
             export_data.append(match_data)
