@@ -45,15 +45,24 @@ class Command(BaseCommand):
                 skipped += 1
                 continue
 
-            league = League.objects.filter(id=item['league_id']).first()
+            # Busca a liga pelo nome + país (não por ID numérico, que difere local vs servidor)
+            league = None
+            # Se o JSON tiver league_name e league_country, usa eles
+            if 'league_name' in item and 'league_country' in item:
+                league = League.objects.filter(
+                    name__iexact=item['league_name'],
+                    country__iexact=item['league_country']
+                ).first()
             if not league:
-                self.stdout.write(self.style.WARNING(f'  ⚠️ Liga ID {item["league_id"]} não encontrada!'))
+                league = League.objects.filter(id=item['league_id']).first()
+            if not league:
+                self.stdout.write(self.style.WARNING(f'  ⚠️ Liga não encontrada! ID={item["league_id"]}'))
                 skipped += 1
                 continue
 
-            season = Season.objects.get_or_create(id=item['season_id'])[0]
+            season = Season.objects.filter(year=2026).first()
             if not season:
-                season = Season.objects.get_or_create(year=2026)[0]
+                season = Season.objects.create(year=2026)
 
             # Busca ou cria times
             home_team = self._get_team(item['home_team_name'], league, item.get('home_team_api_id'))

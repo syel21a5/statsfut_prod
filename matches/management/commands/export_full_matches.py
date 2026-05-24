@@ -60,6 +60,8 @@ class Command(BaseCommand):
             export_data.append({
                 'api_id': m.api_id,
                 'league_id': m.league_id,
+                'league_name': m.league.name if m.league else None,
+                'league_country': m.league.country if m.league else None,
                 'season_id': m.season_id,
                 'home_team_name': m.home_team.name if m.home_team else '?',
                 'away_team_name': m.away_team.name if m.away_team else '?',
