@@ -65,12 +65,10 @@ class Command(BaseCommand):
                 league_name = item.get('league_name')
                 league_country = item.get('league_country')
                 
-                # Tenta pela data e nomes dos times
                 from django.utils.dateparse import parse_datetime
-                from datetime import datetime
+                from datetime import datetime, timedelta
                 
                 if match_date and home_team_name and away_team_name:
-                    # Normaliza a data (pega só a parte da data, sem hora)
                     try:
                         dt = parse_datetime(match_date.replace('Z', '+00:00')) if 'Z' in str(match_date) or '+' in str(match_date) else datetime.fromisoformat(str(match_date))
                         date_only = dt.date()
@@ -79,11 +77,6 @@ class Command(BaseCommand):
                         date_only = None
                     
                     if date_only:
-                        # Busca por data + nomes aproximados dos times
-                        from django.db.models import Q
-                        
-                        # Filtra por dia +/- 1 dia
-                        from datetime import timedelta
                         day_start = datetime.combine(date_only, datetime.min.time())
                         day_end = datetime.combine(date_only, datetime.max.time())
                         
@@ -91,14 +84,25 @@ class Command(BaseCommand):
                             date__range=(day_start, day_end),
                         )
                         
-                        # Filtra por nomes dos times (case insensitive)
+                        # FILTRA PELA MESMA LIGA (evita pegar partidas de outras ligas!)
+                        if league_name and league_country:
+                            from matches.models import League
+                            league = League.objects.filter(
+                                name__iexact=league_name,
+                                country__iexact=league_country
+                            ).first()
+                            if league:
+                                candidates = candidates.filter(league=league)
+                            else:
+                                # Se não achou a liga, tenta pelo nome do campeonato
+                                candidates = candidates.filter(league__name__icontains=league_name)
+                        
                         for candidate in candidates:
                             h_name = candidate.home_team.name.lower() if candidate.home_team else ''
                             a_name = candidate.away_team.name.lower() if candidate.away_team else ''
                             h_search = home_team_name.lower()
                             a_search = away_team_name.lower()
                             
-                            # Verifica se os nomes combinam (pelo menos parte do nome)
                             h_match = h_search in h_name or h_name in h_search or h_search.split()[0] in h_name.split() if h_search.split() else False
                             a_match = a_search in a_name or a_name in a_search or a_search.split()[0] in a_name.split() if a_search.split() else False
                             
@@ -106,7 +110,8 @@ class Command(BaseCommand):
                                 match = candidate
                                 self.stdout.write(self.style.SUCCESS(
                                     f"  ✅ Partida encontrada por fallback: {api_id} -> "
-                                    f"{candidate.home_team.name} x {candidate.away_team.name} (api_id: {candidate.api_id})"
+                                    f"{candidate.home_team.name} x {candidate.away_team.name} "
+                                    f"(Liga: {candidate.league.name if candidate.league else '?'})"
                                 ))
                                 break
             
