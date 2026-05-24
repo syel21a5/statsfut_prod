@@ -72,6 +72,7 @@ class Command(BaseCommand):
                 'league_name': m.league.name if m.league else None,
                 'league_country': m.league.country if m.league else None,
                 'season_year': m.season.year if m.season else None,
+                'date': m.date.isoformat() if m.date else None,
                 'home_team': m.home_team.name if m.home_team else None,
                 'away_team': m.away_team.name if m.away_team else None,
                 'stats': {
