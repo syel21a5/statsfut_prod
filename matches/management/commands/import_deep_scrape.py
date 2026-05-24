@@ -77,8 +77,11 @@ class Command(BaseCommand):
                         date_only = None
                     
                     if date_only:
-                        day_start = datetime.combine(date_only, datetime.min.time())
-                        day_end = datetime.combine(date_only, datetime.max.time())
+                        # FIX: usar buffer de ±14h para cobrir qualquer offset de timezone.
+                        # O servidor armazena datas em UTC (USE_TZ=True), então datetime naive
+                        # causava RuntimeWarning e falhava a busca para partidas perto da meia-noite.
+                        day_start = datetime.combine(date_only, datetime.min.time()) - timedelta(hours=14)
+                        day_end = datetime.combine(date_only, datetime.max.time()) + timedelta(hours=14)
                         
                         candidates = Match.objects.filter(
                             date__range=(day_start, day_end),
@@ -108,6 +111,11 @@ class Command(BaseCommand):
                             
                             if h_match and a_match:
                                 match = candidate
+                                # FIX: atualizar api_id para evitar fallback em importações futuras
+                                if not dry_run:
+                                    if candidate.api_id != api_id:
+                                        candidate.api_id = api_id
+                                        candidate.save(update_fields=['api_id'])
                                 self.stdout.write(self.style.SUCCESS(
                                     f"  ✅ Partida encontrada por fallback: {api_id} -> "
                                     f"{candidate.home_team.name} x {candidate.away_team.name} "
@@ -116,12 +124,75 @@ class Command(BaseCommand):
                                 break
             
             if not match:
-                self.stdout.write(self.style.WARNING(
-                    f"  ⚠️ Partida não encontrada: {api_id} "
-                    f"({item.get('home_team')} x {item.get('away_team')})"
-                ))
-                errors += 1
-                continue
+                # TENTA CRIAR A PARTIDA AUTOMATICAMENTE
+                home_team_name = item.get('home_team', '')
+                away_team_name = item.get('away_team', '')
+                league_name = item.get('league_name')
+                league_country = item.get('league_country')
+                match_date_str = item.get('date')
+                season_year = item.get('season_year')
+                
+                from matches.models import League, Season
+                from django.utils.dateparse import parse_datetime
+                from datetime import datetime
+                
+                league = None
+                if league_name and league_country:
+                    league = League.objects.filter(name__iexact=league_name, country__iexact=league_country).first()
+                
+                season = None
+                if season_year and league:
+                    season = Season.objects.filter(year=season_year).first()
+                
+                home_team = None
+                away_team = None
+                if home_team_name:
+                    home_team = Team.objects.filter(name__iexact=home_team_name).first()
+                if away_team_name:
+                    away_team = Team.objects.filter(name__iexact=away_team_name).first()
+                
+                # Se tem liga, season, times e data, cria a partida!
+                if league and season and home_team and away_team and match_date_str and not dry_run:
+                    try:
+                        dt = parse_datetime(match_date_str.replace('Z', '+00:00')) if 'Z' in str(match_date_str) or '+' in str(match_date_str) else datetime.fromisoformat(str(match_date_str))
+                    except:
+                        dt = None
+                    
+                    if dt:
+                        # Verifica se já existe (pra evitar duplicata)
+                        existing = Match.objects.filter(
+                            league=league,
+                            season=season,
+                            home_team=home_team,
+                            away_team=away_team,
+                            date=dt,
+                            round_name=item.get('round_name', '')
+                        ).first()
+                        if existing:
+                            match = existing
+                        else:
+                            match = Match.objects.create(
+                                api_id=api_id,
+                                league=league,
+                                season=season,
+                                home_team=home_team,
+                                away_team=away_team,
+                                date=dt,
+                                status='Finished',
+                                home_score=item.get('home_score', 0),
+                                away_score=item.get('away_score', 0),
+                                round_name=item.get('round_name', ''),
+                            )
+                            self.stdout.write(self.style.SUCCESS(
+                                f"  🆕 Partida CRIADA: {home_team.name} x {away_team.name} ({league.name})"
+                            ))
+                elif not match:
+                    self.stdout.write(self.style.WARNING(
+                        f"  ⚠️ Partida não encontrada: {api_id} "
+                        f"({item.get('home_team')} x {item.get('away_team')})"
+                    ))
+                    errors += 1
+                    continue
 
             # Atualiza as estatísticas
             stats = item['stats']
