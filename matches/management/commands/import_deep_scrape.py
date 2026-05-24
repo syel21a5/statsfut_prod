@@ -10,6 +10,8 @@ import os
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from matches.models import Match, Goal, Team
+from matches.utils import normalize_team_name
+
 
 
 class Command(BaseCommand):
@@ -101,13 +103,26 @@ class Command(BaseCommand):
                                 candidates = candidates.filter(league__name__icontains=league_name)
                         
                         for candidate in candidates:
-                            h_name = candidate.home_team.name.lower() if candidate.home_team else ''
-                            a_name = candidate.away_team.name.lower() if candidate.away_team else ''
-                            h_search = home_team_name.lower()
-                            a_search = away_team_name.lower()
+                            h_name = candidate.home_team.name if candidate.home_team else ''
+                            a_name = candidate.away_team.name if candidate.away_team else ''
                             
-                            h_match = h_search in h_name or h_name in h_search or h_search.split()[0] in h_name.split() if h_search.split() else False
-                            a_match = a_search in a_name or a_name in a_search or a_search.split()[0] in a_name.split() if a_search.split() else False
+                            h_canonical = normalize_team_name(h_name)
+                            a_canonical = normalize_team_name(a_name)
+                            h_search_canonical = normalize_team_name(home_team_name)
+                            a_search_canonical = normalize_team_name(away_team_name)
+                            
+                            h_match = (h_canonical == h_search_canonical) if h_canonical and h_search_canonical else False
+                            a_match = (a_canonical == a_search_canonical) if a_canonical and a_search_canonical else False
+                            
+                            # Fallback caso a normalização não bata (mantendo comportamento antigo)
+                            if not h_match:
+                                h_name_lower = h_name.lower()
+                                h_search_lower = home_team_name.lower()
+                                h_match = h_search_lower in h_name_lower or h_name_lower in h_search_lower or (h_search_lower.split()[0] in h_name_lower.split() if h_search_lower.split() else False)
+                            if not a_match:
+                                a_name_lower = a_name.lower()
+                                a_search_lower = away_team_name.lower()
+                                a_match = a_search_lower in a_name_lower or a_name_lower in a_search_lower or (a_search_lower.split()[0] in a_name_lower.split() if a_search_lower.split() else False)
                             
                             if h_match and a_match:
                                 match = candidate
@@ -148,8 +163,23 @@ class Command(BaseCommand):
                 away_team = None
                 if home_team_name:
                     home_team = Team.objects.filter(name__iexact=home_team_name).first()
+                    if not home_team and league:
+                        canonical_home = normalize_team_name(home_team_name)
+                        if canonical_home:
+                            # Tenta achar um time na liga cujo nome normalizado bata
+                            for t in Team.objects.filter(league=league):
+                                if normalize_team_name(t.name) == canonical_home:
+                                    home_team = t
+                                    break
                 if away_team_name:
                     away_team = Team.objects.filter(name__iexact=away_team_name).first()
+                    if not away_team and league:
+                        canonical_away = normalize_team_name(away_team_name)
+                        if canonical_away:
+                            for t in Team.objects.filter(league=league):
+                                if normalize_team_name(t.name) == canonical_away:
+                                    away_team = t
+                                    break
                 
                 # Se tem liga, season, times e data, cria a partida!
                 if league and season and home_team and away_team and match_date_str and not dry_run:
@@ -222,11 +252,15 @@ class Command(BaseCommand):
                             if is_home is not None:
                                 team = match.home_team if is_home else match.away_team
                             
-                            # Estratégia 2: Nome exato
+                            # Estratégia 2: Nome exato ou normalizado
                             if not team and team_name:
-                                if match.home_team and match.home_team.name == team_name:
+                                goal_team_canonical = normalize_team_name(team_name)
+                                home_canonical = normalize_team_name(match.home_team.name) if match.home_team else None
+                                away_canonical = normalize_team_name(match.away_team.name) if match.away_team else None
+                                
+                                if match.home_team and (match.home_team.name == team_name or home_canonical == goal_team_canonical):
                                     team = match.home_team
-                                elif match.away_team and match.away_team.name == team_name:
+                                elif match.away_team and (match.away_team.name == team_name or away_canonical == goal_team_canonical):
                                     team = match.away_team
                             
                             # Estratégia 3: Parte do nome (ex: "Estudiantes L.P." ~ "Estudiantes de La Plata")

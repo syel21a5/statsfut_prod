@@ -10,6 +10,8 @@ import os
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from matches.models import Match, Team, Season, League
+from matches.utils import normalize_team_name
+
 
 
 class Command(BaseCommand):
@@ -130,6 +132,22 @@ class Command(BaseCommand):
                 team.api_id = api_id
                 team.save()
             return team
+
+        # Tenta nome normalizado
+        canonical_name = normalize_team_name(team_name)
+        if canonical_name:
+            team = Team.objects.filter(name__iexact=canonical_name, league=league).first()
+            if not team:
+                # Se não achar por busca exata, itera e normaliza para achar correspondência
+                for t in Team.objects.filter(league=league):
+                    if normalize_team_name(t.name) == canonical_name:
+                        team = t
+                        break
+            if team:
+                if api_id and not team.api_id:
+                    team.api_id = api_id
+                    team.save()
+                return team
 
         # Tenta nome contido
         team = Team.objects.filter(name__icontains=team_name.split()[0], league=league).first()
