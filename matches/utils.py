@@ -165,6 +165,7 @@ TEAM_NAME_MAPPINGS = {
     "Atletico Mineiro": "Atletico-MG",
     "CA Paranaense": "Athletico-PR",
     "Club Athletico Paranaense": "Athletico-PR",
+    "Athletico": "Athletico-PR",
     "Coritiba FBC": "Coritiba",
     "Chapecoense AF": "Chapecoense",
     "Chapecoense-SC": "Chapecoense",

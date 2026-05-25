@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from matches.models import League, Match
 from django.db.models import Q
+from django.utils import timezone
+
 
 
 FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
@@ -60,8 +62,8 @@ class Command(BaseCommand):
             for match in matches:
                 if not match.date:
                     continue
-                # Usa apenas a data do calendário, ignora horário
-                day_key = match.date.date()
+                # Usa apenas a data do calendário local, ignora horário
+                day_key = timezone.localtime(match.date).date()
                 key = (day_key, match.home_team_id, match.away_team_id)
 
                 if key not in seen:
