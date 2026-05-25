@@ -1,4 +1,4 @@
-# Python
+que apare# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -52,3 +52,6 @@ update_workflows.py
 
 # DeepSeek Models Code / Templates
 modelos_deepseek/
+
+# Temp dirs
+omniroute_temp/

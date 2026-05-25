@@ -1,8 +1,7 @@
 @echo off
-title StatsFut - Deep Scrape por Liga (Universal)
+title StatsFut - Gerador de Ligas
 echo ==================================================
-echo   DEEP SCRAPE - Escanteios, Cartoes, Gols
-echo   Temporada Atual + Anterior
+echo   BEM VINDO AO GERADOR AUTOMATICO DE LIGAS
 echo ==================================================
 echo.
 cd /d %~dp0
@@ -12,13 +11,7 @@ if exist venv\Scripts\python.exe (
     set PYTHON_EXEC=venv\Scripts\python.exe
 )
 
-echo Deseja usar o Tor? (Recomendado para evitar bloqueios)
-set /p use_tor="Usar Tor (s/n)? "
-set TOR_FLAG=
-if /i "%use_tor%"=="s" set TOR_FLAG=--tor
-
-echo.
-%PYTHON_EXEC% manage.py deep_scrape_menu %TOR_FLAG%
+%PYTHON_EXEC% gerador_de_ligas.py
 
 echo.
 echo ==================================================
