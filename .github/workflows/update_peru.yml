@@ -2,9 +2,6 @@
 name: Update Peru Data via SofaScore
 
 on:
-  schedule:
-    # Executa todos os dias às 13:00 UTC
-    - cron: '0 13 * * *'
   workflow_dispatch:
     inputs:
       full_scan:

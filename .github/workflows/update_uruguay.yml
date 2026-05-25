@@ -2,9 +2,6 @@
 name: Update Uruguay Data via SofaScore
 
 on:
-  schedule:
-    # Executa todos os dias às 10:00 UTC (horário de Brasília: 7:00)
-    - cron: '0 10 * * *'
   workflow_dispatch: # Permite executar manualmente
     inputs:
       full_scan:
