@@ -118,10 +118,10 @@ class Command(BaseCommand):
         self.stdout.write(f'   ⏭️  Puladas: {skipped}')
 
     def _get_team(self, team_name, league, api_id=None):
-        """Busca ou cria time no banco."""
-        # Tenta pelo api_id
+        """Busca ou cria time no banco (restrito à liga para evitar cross-league leakage)."""
+        # Tenta pelo api_id **na mesma liga**
         if api_id:
-            team = Team.objects.filter(api_id=api_id).first()
+            team = Team.objects.filter(api_id=api_id, league=league).first()
             if team:
                 return team
 
@@ -157,11 +157,15 @@ class Command(BaseCommand):
                 team.save()
             return team
 
-        # Cria novo time
+        # Cria novo time (verifica se api_id já existe em outra liga)
+        create_api_id = api_id
+        if api_id and Team.objects.filter(api_id=api_id).exists():
+            create_api_id = None  # api_id já usado por outra liga
+            self.stdout.write(self.style.WARNING(f'    ⚠️ api_id {api_id} já pertence a outro time. Criando {team_name} sem api_id.'))
         team = Team.objects.create(
             name=team_name,
             league=league,
-            api_id=api_id
+            api_id=create_api_id
         )
         self.stdout.write(self.style.WARNING(f'    🆕 Time criado: {team_name}'))
         return team

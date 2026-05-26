@@ -307,8 +307,8 @@ class Command(BaseCommand):
                     if team_id and team_name:
                         sofa_api_id = f"sofa_{team_id}"
                         try:
-                            # 1. Tenta por API ID
-                            team = Team.objects.filter(api_id=sofa_api_id).first()
+                            # 1. Tenta por API ID **na mesma liga** (evita cross-league leakage)
+                            team = Team.objects.filter(api_id=sofa_api_id, league=league).first()
                             if team:
                                 changed = False
                                 if team.name != team_name:
@@ -317,22 +317,43 @@ class Command(BaseCommand):
                                 if changed:
                                     team.save()
                             
-                            # 2. Se não achou por API_ID, tenta por nome na mesma liga
+                            # 2. Se não achou por API_ID na liga, tenta por nome na mesma liga
                             if not team:
                                 team = Team.objects.filter(name=team_name, league=league).first()
-                                if team and not team.api_id:
-                                    team.api_id = sofa_api_id
-                                    if team.name != team_name:
-                                        team.name = team_name
-                                    team.save()
+                                if team:
+                                    # Atualiza o api_id se estiver vazio ou pertence a outra liga
+                                    if not team.api_id:
+                                        team.api_id = sofa_api_id
+                                        team.save()
+                                    elif team.api_id != sofa_api_id:
+                                        # api_id diferente mas é o time certo da liga
+                                        # Tenta atualizar, ignora se der conflito de unique
+                                        try:
+                                            team.api_id = sofa_api_id
+                                            team.save()
+                                        except Exception:
+                                            pass  # Mantém o api_id existente
                             
-                            # 3. Cria se não existir nada
+                            # 3. Cria se não existir nada na liga
                             if not team:
-                                team = Team.objects.create(
-                                    api_id=sofa_api_id,
-                                    name=team_name,
-                                    league=league
-                                )
+                                # Verifica se o api_id já existe em outra liga (evita unique constraint)
+                                existing_other = Team.objects.filter(api_id=sofa_api_id).exclude(league=league).first()
+                                if existing_other:
+                                    # api_id já usado por outra liga, cria sem api_id
+                                    team = Team.objects.create(
+                                        name=team_name,
+                                        league=league
+                                    )
+                                    self.stdout.write(self.style.WARNING(
+                                        f"⚠️ api_id {sofa_api_id} já pertence a {existing_other.name} ({existing_other.league.name}). "
+                                        f"Time {team_name} criado sem api_id na liga {league.name}."
+                                    ))
+                                else:
+                                    team = Team.objects.create(
+                                        api_id=sofa_api_id,
+                                        name=team_name,
+                                        league=league
+                                    )
                                     
                             teams_map[int(team_id)] = team
                         except Exception as te:
@@ -429,14 +450,34 @@ class Command(BaseCommand):
                     if not home_team and home_sofa_id:
                         team_name = home_data.get('name')
                         if team_name:
-                            home_team, _ = Team.objects.get_or_create(api_id=f"sofa_{home_sofa_id}", defaults={'name': team_name, 'league': league})
+                            sofa_id = f"sofa_{home_sofa_id}"
+                            # Busca restrita à liga para evitar cross-league leakage
+                            home_team = Team.objects.filter(api_id=sofa_id, league=league).first()
+                            if not home_team:
+                                home_team = Team.objects.filter(name=team_name, league=league).first()
+                            if not home_team:
+                                # Cria, mas verifica se api_id já existe em outra liga
+                                if Team.objects.filter(api_id=sofa_id).exists():
+                                    home_team = Team.objects.create(name=team_name, league=league)
+                                else:
+                                    home_team = Team.objects.create(api_id=sofa_id, name=team_name, league=league)
                             teams_map[int(home_sofa_id)] = home_team
 
                     away_team = teams_map.get(int(away_sofa_id))
                     if not away_team and away_sofa_id:
                         team_name = away_data.get('name')
                         if team_name:
-                            away_team, _ = Team.objects.get_or_create(api_id=f"sofa_{away_sofa_id}", defaults={'name': team_name, 'league': league})
+                            sofa_id = f"sofa_{away_sofa_id}"
+                            # Busca restrita à liga para evitar cross-league leakage
+                            away_team = Team.objects.filter(api_id=sofa_id, league=league).first()
+                            if not away_team:
+                                away_team = Team.objects.filter(name=team_name, league=league).first()
+                            if not away_team:
+                                # Cria, mas verifica se api_id já existe em outra liga
+                                if Team.objects.filter(api_id=sofa_id).exists():
+                                    away_team = Team.objects.create(name=team_name, league=league)
+                                else:
+                                    away_team = Team.objects.create(api_id=sofa_id, name=team_name, league=league)
                             teams_map[int(away_sofa_id)] = away_team
                     
                     if not home_team or not away_team:

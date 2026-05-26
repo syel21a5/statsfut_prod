@@ -237,38 +237,55 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
     def _get_or_create_team(self, name, league, api_id):
-        # 1. Tenta buscar pelo api_id se existir
+        # 1. Tenta buscar pelo api_id **na mesma liga** (evita cross-league leakage)
         if api_id:
-            try:
-                return Team.objects.get(api_id=str(api_id))
-            except Team.DoesNotExist:
-                pass
+            team = Team.objects.filter(api_id=str(api_id), league=league).first()
+            if team:
+                # Atualiza o nome se necessário
+                if team.name != name:
+                    team.name = name
+                    team.save()
+                return team
 
-        # 2. Se não achou pelo api_id, busca por nome e liga
+        # 2. Se não achou pelo api_id na liga, busca por nome e liga
         try:
             team = Team.objects.get(name=name, league=league)
             if api_id:
-                # Se achou e tem api_id novo, atualiza (sabemos que api_id está livre pois passo 1 falhou)
-                team.api_id = str(api_id)
-                team.save()
+                # Se achou e tem api_id novo, atualiza apenas se o api_id estiver livre
+                if not team.api_id:
+                    team.api_id = str(api_id)
+                    team.save()
+                elif team.api_id != str(api_id):
+                    # api_id diferente - verifica se o novo está livre globalmente
+                    if not Team.objects.filter(api_id=str(api_id)).exists():
+                        team.api_id = str(api_id)
+                        team.save()
             return team
         except Team.DoesNotExist:
             pass
 
         # 3. Se ainda não tem time, cria um novo
         try:
+            # Verifica se o api_id já existe em outra liga para evitar unique constraint
+            create_api_id = None
+            if api_id:
+                if not Team.objects.filter(api_id=str(api_id)).exists():
+                    create_api_id = str(api_id)
+                else:
+                    self.stdout.write(self.style.WARNING(
+                        f"  ⚠️ api_id {api_id} já usado por outro time. Criando {name} sem api_id na liga {league.name}."
+                    ))
             return Team.objects.create(
                 name=name,
                 league=league,
-                api_id=str(api_id) if api_id else None
+                api_id=create_api_id
             )
         except Exception as e:
-            # Se der erro de duplicata, tenta buscar de novo pelo api_id (pode ter sido criado em paralelo ou inconsistência)
-            if 'Duplicate entry' in str(e) and api_id:
-                try:
-                    return Team.objects.get(api_id=str(api_id))
-                except Team.DoesNotExist:
-                    pass
+            # Se der erro de duplicata de nome+liga, busca de novo
+            if 'Duplicate entry' in str(e) or 'unique_team_name_per_league' in str(e):
+                team = Team.objects.filter(name=name, league=league).first()
+                if team:
+                    return team
             raise e
 
 

@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from matches.models import Team, League, Match, Goal, Player, LeagueStanding, TeamGoalTiming
+from django.utils import timezone
+from matches.models import Team, League, Match, Goal, Player, LeagueStanding, TeamGoalTiming, BetTicketSelection
 from matches.utils import TEAM_NAME_MAPPINGS
 import sys
 
@@ -30,9 +31,66 @@ class Command(BaseCommand):
     def _merge_teams(self, wrong_team, correct_team, league):
         """Mescla o wrong_team para o correct_team dentro de uma liga."""
         with transaction.atomic():
-            # 1. Reatribuir as Partidas (Matches)
-            home_count = Match.objects.filter(league=league, home_team=wrong_team).update(home_team=correct_team)
-            away_count = Match.objects.filter(league=league, away_team=wrong_team).update(away_team=correct_team)
+            # 1. Reatribuir as Partidas (Matches) de forma robusta e individual
+            home_count = 0
+            for m in list(Match.objects.filter(league=league, home_team=wrong_team)):
+                existing_query = Match.objects.filter(
+                    league=league,
+                    home_team=correct_team,
+                    away_team=m.away_team
+                )
+                if m.date:
+                    local_date = timezone.localtime(m.date).date()
+                    existing = existing_query.filter(date__date=local_date).first()
+                else:
+                    existing = existing_query.filter(date__isnull=True).first()
+
+                if existing:
+                    # Copia SofaScore ID ou dados adicionais se o existente não tiver
+                    if not existing.api_id and m.api_id:
+                        existing.api_id = m.api_id
+                    if existing.home_score is None and m.home_score is not None:
+                        existing.home_score = m.home_score
+                        existing.away_score = m.away_score
+                        existing.status = m.status
+                    # Transfere gols e seleções de bilhete para evitar perda
+                    Goal.objects.filter(match=m).update(match=existing)
+                    BetTicketSelection.objects.filter(match=m).update(match=existing)
+                    m.delete()
+                    existing.save()
+                else:
+                    m.home_team = correct_team
+                    m.save()
+                    home_count += 1
+
+            away_count = 0
+            for m in list(Match.objects.filter(league=league, away_team=wrong_team)):
+                existing_query = Match.objects.filter(
+                    league=league,
+                    home_team=m.home_team,
+                    away_team=correct_team
+                )
+                if m.date:
+                    local_date = timezone.localtime(m.date).date()
+                    existing = existing_query.filter(date__date=local_date).first()
+                else:
+                    existing = existing_query.filter(date__isnull=True).first()
+
+                if existing:
+                    if not existing.api_id and m.api_id:
+                        existing.api_id = m.api_id
+                    if existing.home_score is None and m.home_score is not None:
+                        existing.home_score = m.home_score
+                        existing.away_score = m.away_score
+                        existing.status = m.status
+                    Goal.objects.filter(match=m).update(match=existing)
+                    BetTicketSelection.objects.filter(match=m).update(match=existing)
+                    m.delete()
+                    existing.save()
+                else:
+                    m.away_team = correct_team
+                    m.save()
+                    away_count += 1
             
             # 2. Reatribuir Gols e Jogadores
             Goal.objects.filter(team=wrong_team).update(team=correct_team)
