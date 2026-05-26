@@ -58,6 +58,7 @@ $LIGAS = @{
     32 = "Turquia - Süper Lig"
     33 = "Ucrania - Premier League"
     34 = "Uruguai - Primera Division"
+    35 = "Inglaterra - Premier League"
 }
 
 # Mapeamento: Número do Menu -> ID do banco de dados
@@ -80,27 +81,28 @@ $MENU_PARA_BANCO = @{
     16 = 8    # Franca - Ligue 1
     17 = 17   # Grecia - Super League
     18 = 9    # Holanda - Eredivisie
-    19 = 46   # Inglaterra - Championship
+    19 = 50   # Inglaterra - Championship
     20 = 59   # Islandia - Besta deild karla
     21 = 6    # Italia - Serie A
     22 = 18   # Japao - J1 League
     23 = 32   # Mexico - Liga MX
     24 = 14   # Noruega - Eliteserien
-    25 = 56   # Paraguai - Primera Division
+    25 = 58   # Paraguai - Primera Division
     26 = 61   # Peru - Liga 1
     27 = 26   # Polonia - Ekstraklasa
     28 = 34   # Portugal - Primeira Liga
-    29 = 48   # Russia - Premier Liga
+    29 = 46   # Russia - Premier Liga
     30 = 13   # Suecia - Allsvenskan
     31 = 40   # Suica - Super League
     32 = 36   # Turquia - Süper Lig
     33 = 49   # Ucrania - Premier League
     34 = 57   # Uruguai - Primera Division
+    35 = 43   # Inglaterra - Premier League
 }
 
 # Validação
 if (-not $LIGAS.ContainsKey($MenuNumero)) {
-    Write-Host "❌ Número inválido! Use um número entre 1 e 34 do menu do Deep Scrape." -ForegroundColor Red
+    Write-Host "❌ Número inválido! Use um número entre 1 e 35 do menu do Deep Scrape." -ForegroundColor Red
     exit 1
 }
 
