@@ -1,0 +1,7835 @@
+[
+  {
+    "api_id": "sofa_14671660",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-17T08:00:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 16,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Joe Lolley",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ethan Alagich",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan Kitto",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671765",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-17T10:05:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 5,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 6,
+      "away_shots": 15,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Jay O'Shea",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671643",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-18T06:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Max Caputo",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Kosta Barbarouses",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671655",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-18T08:35:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 15,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671769",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-18T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 1,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 11,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 18,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Carlo Armiento",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Adam Taggart",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Jaiden Kucharski",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671641",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-19T04:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 15,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Nicholas Duarte",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Miguel Di Pizio",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Alfie McCalmont",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Alexander Badolato",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671648",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-24T08:35:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 17,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 7,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Oscar  Fryer",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Alexander Badolato",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Keegan Jelacic",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexander Badolato",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Denis Genreau",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexander Badolato",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ben Gibson",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671652",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-25T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Jesse Randall",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671636",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-25T06:00:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Kavian Rahmani",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Zane Schreiber",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Max Caputo",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Max Caputo",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671657",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-25T08:35:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 8,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 1,
+      "home_fouls": 5,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Patrick Wood",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Víctor Campuzano",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671638",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-26T02:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 5,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Carlo Armiento",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Kazuki Nagasawa",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Justin Vidic",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671642",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-27T08:00:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 20,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 8,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Ji Dong-Won",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Jonny Yull",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Liam Rose",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671770",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-31T08:35:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 12,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671653",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-10-31T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Juan Mata",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Keegan Jelacic",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671658",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-01T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 9,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 10,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 3,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Louis Verstraete",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671656",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-01T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 9,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 20,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 11,
+      "home_fouls": 4,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Patrick Wood",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Al Hassan Toure",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Al Hassan Toure",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Al Hassan Toure",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ben Gibson",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671650",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-01T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 25,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 5,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Anthony Pantazopoulos",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Harry Sawyer",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671647",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-02T06:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 22,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 8,
+      "home_fouls": 10,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Sabit James Ngor",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671645",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-07T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 14,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 1,
+      "home_fouls": 5,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Craig Goodwin",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671661",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-07T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 13,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Bailey Brandtman",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671635",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-08T06:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 13,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 2,
+      "home_shots": 19,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671646",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-08T08:35:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 10,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 6,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Peter Antoniou",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Max Caputo",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671663",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-09T04:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Joe Lolley",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcel Tisserand",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14954360",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-09T06:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 5,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 3,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 16,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "James Nicholas Delianov",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      },
+      {
+        "player_name": "Jay O'Shea",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      },
+      {
+        "player_name": "Lucas Herrington",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671649",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-21T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 10,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Jay Barnett",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan White",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Takeshi Kanamori",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Ethan Alagich",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671654",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-22T04:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 11,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Harry Sawyer",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671644",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-22T06:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Alfie McCalmont",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Kosta Barbarouses",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      },
+      {
+        "player_name": "Kosta Barbarouses",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      },
+      {
+        "player_name": "Lucas Mauragis",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Bozhidar Kraev",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671639",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-22T08:35:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 16,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Alex Grant",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Joe Lolley",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Joe Lolley",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671651",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-23T02:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 16,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 20,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Justin Vidic",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671640",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-23T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 13,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Nicholas Pennington",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Tom Lawrence",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671659",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-28T08:35:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 11,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 6,
+      "home_fouls": 6,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Samuel Klein",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671662",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-29T04:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 10,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Joey Garuccio",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Ramy Najjarine",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Alex Rufer",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671664",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-29T06:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 8,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 3,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 8
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671665",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-29T08:35:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 5,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 20,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Alou Kuol",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671666",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-30T02:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 26,
+      "away_shots": 17,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Louis Verstraete",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Will Dobson",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671667",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-11-30T07:00:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 15,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 8,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Charbel Shamoon",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Nicholas Pennington",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671668",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-05T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 9,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 19,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 5,
+      "away_fouls": 15
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671669",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-05T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 19,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 13,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Sebastian Despotovski",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671670",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-06T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 22,
+      "away_shots": 9,
+      "home_shots_on_target": 13,
+      "away_shots_on_target": 2,
+      "home_fouls": 18,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Guillermo May",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Francis De Vries",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Alex Rufer",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671671",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-06T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Kavian Rahmani",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671672",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-06T08:35:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 18,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Víctor Campuzano",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Al Hassan Toure",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Brad Tapp",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671673",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-07T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 8,
+      "home_fouls": 8,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Chris Long",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671677",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-12T08:35:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 5,
+      "away_shots": 13,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 6,
+      "home_fouls": 8,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Callan Elliot",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671675",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-13T06:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671676",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-13T08:35:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 24,
+      "away_shots": 8,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Dylan Pierias",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671678",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-13T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 9,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 4,
+      "home_fouls": 5,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Abel Walatee",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671680",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-14T02:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 20,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 9,
+      "home_fouls": 12,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671685",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-19T08:05:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 5,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 13,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Harry Sawyer",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Harry Sawyer",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Matt Dench",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671679",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-19T09:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 14,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671701",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-20T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 27,
+      "away_shots": 17,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 5,
+      "home_fouls": 7,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Will Dobson",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671681",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-20T08:35:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Matthew Grimaldi",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671682",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-20T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 18,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 2,
+      "home_fouls": 12,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Craig Goodwin",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671683",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-21T02:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Carlo Armiento",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Manjrekar James",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Sabit James Ngor",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Corban Piper",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15018837",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-23T08:15:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 14,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Rafael Duran",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Aziz Behich",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671686",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-26T08:35:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 13,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 6,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Luke Vickery",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ben Gibson",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Harry Sawyer",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Dean Bosnjak",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Dean Bosnjak",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Bernardo",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671684",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-27T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 27,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Jonny Yull",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Brandon Borrello",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Austin Ayoubi",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Aydan Hammond",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671687",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-28T08:00:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 8,
+      "home_fouls": 12,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Andrew Nabbout",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Tom Lawrence",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Tom Lawrence",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Tom Lawrence",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671691",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-29T08:00:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Keegan Jelacic",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Clarismario",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Ramy Najjarine",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671689",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2025-12-31T08:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 17,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 7,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Justin Vidic",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Lucas Mauragis",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Michael Ruhs",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671692",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-01T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 23,
+      "away_shots": 6,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 16,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Will Dobson",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671690",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-01T08:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Rafael Duran",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671693",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-02T08:35:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 9,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 3,
+      "home_fouls": 8,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Khoa Ngo",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Clarismario",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nishan Velupillay",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Louis D'Arrigo",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Trent Ostler",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671695",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-03T06:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 21,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Paulo Retre",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Kazuki Nagasawa",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671757",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-03T08:35:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 7,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 4,
+      "home_fouls": 16,
+      "away_fouls": 3
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671696",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-04T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 18,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Miguel Di Pizio",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Bailey Brandtman",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Sabit James Ngor",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Alfie McCalmont",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671731",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-05T08:00:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 6,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Tomislav Uskok",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671749",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-06T08:00:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 17,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Max Caputo",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671709",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-09T08:35:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 11,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671699",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-10T06:00:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Kosta Barbarouses",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671708",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-10T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Patrick Wood",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Víctor Campuzano",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Piero Quispe",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671697",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-10T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 11,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 0,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Tom Lawrence",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Adam Taggart",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicholas Pennington",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671698",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-11T02:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Corban Piper",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Isaac Hughes",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Luke Duzel",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Ryan White",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671700",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-11T06:00:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 7,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671714",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-16T08:35:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 6,
+      "away_shots": 9,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Medin Memeti",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Max Caputo",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671706",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-16T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 8,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 22,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 8,
+      "home_fouls": 12,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Samuel Klein",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Chris Long",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Adam Taggart",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671702",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-17T06:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 16,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 6,
+      "home_fouls": 5,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Awan Lual",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Joe Shaughnessy",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671703",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-17T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 19,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Ryan Kitto",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Matthew Grimaldi",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Craig Goodwin",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671705",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-18T03:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 30,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 8,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Sabit James Ngor",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Luke Vickery",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671704",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-18T06:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Isaac Hughes",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Carlo Armiento",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671707",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-23T08:35:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 24,
+      "away_shots": 17,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 7,
+      "home_fouls": 4,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Sander Erik Kartum",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Bayliss",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671710",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-24T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 6,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Oliver Lavale",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Oliver Lavale",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671711",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-24T06:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 25,
+      "away_shots": 8,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Brody Burkitt",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Brody Burkitt",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Chris Long",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      },
+      {
+        "player_name": "Brody Burkitt",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Samuel Klein",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671712",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-24T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Harry Sawyer",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcus Younis",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Dean Bosnjak",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Luke Vickery",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Anthony Caceres",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Medin Memeti",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Luke Brattan",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Mitchell Duke",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671713",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-25T08:00:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 7,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Ryan Fraser",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671717",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-26T06:40:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Jackson",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Keegan Jelacic",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Clarismario",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Clarismario",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671715",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-30T06:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Medin Memeti",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Marcus Younis",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671716",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-30T09:05:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 15,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Christopher Ikonomidis",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jonny Yull",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671719",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-31T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Bayliss",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Bayliss",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Dimitrios Valkanis",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671720",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-31T08:35:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 5,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Tiago Quintal",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Tiago Quintal",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcel Tisserand",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Víctor Campuzano",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan Fraser",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671721",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-01-31T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 17,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Jaiden Kucharski",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Jaiden Kucharski",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671722",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-01T06:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 15,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 26,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 9,
+      "home_fouls": 7,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Ali Auglah",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671723",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-06T06:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 7,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Roderick Miranda",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Louis D'Arrigo",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Nishan Velupillay",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Carlo Armiento",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastian Esposito",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671724",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-06T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 11,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 8,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Stefan Colakovski",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Callum Talbot",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Mitchell Duke",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicholas Pennington",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671725",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-07T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 25,
+      "away_shots": 16,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671727",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-07T06:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 6,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 18,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Storm Roux",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Miguel Di Pizio",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Nick D'Agostino",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671726",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-07T08:35:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 13,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Bozhidar Kraev",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      },
+      {
+        "player_name": "Aziz Behich",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671728",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-08T06:00:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 17,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 10,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Yaya Dukuly",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Juan Muñiz",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671730",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-13T08:35:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 8,
+      "home_fouls": 16,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Bill Tuiloma",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Phillip Čančar",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan Fraser",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671733",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-13T10:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 13,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Stefan Colakovski",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Lachlan Rose",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Lachlan Bayliss",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671740",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-14T06:00:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Nick D'Agostino",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Charles Nduka",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671732",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-14T08:35:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 19,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 8,
+      "home_fouls": 6,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Ryan Kitto",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Tiago Quintal",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15454897",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-17T08:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 14,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 5,
+      "home_fouls": 5,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Alex Grant",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexandar Popovic",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671738",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-20T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 10,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 0,
+      "home_fouls": 6,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Luke Duzel",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Jonny Yull",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Juan Muñiz",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671734",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-21T04:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 10,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Guillermo May",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Joshua Oluwayemi",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671735",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-21T06:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Tiago Quintal",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671737",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-21T08:35:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 19,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Clarismario",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Juan Mata",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Max Caputo",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Juan Mata",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671736",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-22T06:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 20,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 8,
+      "home_fouls": 7,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "James Donachie",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Nathaniel Blair",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Hiroshi Ibusuki",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Ali Auglah",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Angus Thurgate",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671739",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-22T07:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 25,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 17,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Bayliss",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671746",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-27T08:35:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 12,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 6,
+      "home_fouls": 7,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Yaya Dukuly",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Keegan Jelacic",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671741",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-28T04:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 7,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 11,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 2,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Guillermo May",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Jesse Randall",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Logan Rogerson",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671743",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-28T06:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 8
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671742",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-28T07:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 0,
+      "home_fouls": 9,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Youstin Salas",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Chris Long",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671744",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-02-28T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 6,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 5,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Brandon Borrello",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Ryan Fraser",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Bozhidar Kraev",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Steven Ugarković",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671745",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-01T02:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Alexandar Popovic",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15592862",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-04T08:00:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 2,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Nathaniel Blair",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Anthony Caceres",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Bailey Brandtman",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Alfie McCalmont",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671756",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-06T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Manjrekar James",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671748",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-07T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 8,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 19,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Mark Natta",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Bozhidar Kraev",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671750",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-07T08:35:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 17,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Ahmet Arslan",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Apostolos Stamatelopoulos",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Charles Nduka",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Juan Mata",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671753",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-08T02:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 5,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Matt Sutton",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Stefan Colakovski",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Brian Kaltak",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671755",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-13T08:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 10,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 23,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Niall Thom",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      },
+      {
+        "player_name": "Bozhidar Kraev",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Brandon Borrello",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Georgios Vrakas",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671754",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-14T02:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Nicholas Pennington",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Corban Piper",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671751",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-14T04:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 6,
+      "away_shots": 24,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 9,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Ethan Alagich",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Sabit James Ngor",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671752",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-14T06:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 18,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 5,
+      "home_fouls": 7,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671773",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-15T08:00:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 7,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Charles Nduka",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastian Esposito",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Luke Vickery",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Denis Genreau",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Damien Da Silva",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15018848",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-17T08:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 18,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 8,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Max Caputo",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671760",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-20T08:35:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 26,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 10,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Panagiotis Kikianis",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Angus Thurgate",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      },
+      {
+        "player_name": "Juan Muñiz",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Alex Gersbach",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671759",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-21T02:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 12,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Jake Girdwood-Reich",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Tomislav Uskok",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Rafael Duran",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671758",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-21T04:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 10,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Corban Piper",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      },
+      {
+        "player_name": "Dimitrios Valkanis",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671761",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-21T06:10:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 34,
+      "away_shots": 13,
+      "home_shots_on_target": 12,
+      "away_shots_on_target": 5,
+      "home_fouls": 5,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Jason Davidson",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Juan Mata",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Nishan Velupillay",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Sabit James Ngor",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671762",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-22T04:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 11,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 15,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Ben Gibson",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Tiago Quintal",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Kota Mizunuma",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671763",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-03-22T08:00:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 20,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 6,
+      "home_fouls": 15,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Adam Taggart",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Daniel Arzani",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671764",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-02T08:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 15,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Mitchell Duke",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Rafael Duran",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Xavier Bertoncello",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Mitchell Duke",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671768",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-02T10:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 1,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671766",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-03T08:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 8,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 18,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Felipe Gallegos",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ethan Alagich",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671767",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-04T06:00:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 18,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Bailey Brandtman",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Ali Auglah",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Adam Taggart",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      },
+      {
+        "player_name": "Sebastian Despotovski",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671771",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-04T08:35:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 17,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Elbasan Rashani",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcus Younis",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Andreas Kuen",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671774",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-05T05:00:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Sander Erik Kartum",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15018853",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-07T09:00:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 11,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Ali Auglah",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      },
+      {
+        "player_name": "Andrew Nabbout",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Andreas Kuen",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671772",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-10T09:35:00+00:00",
+    "home_team": "Central Coast Mariners",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 10,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 5,
+      "away_shots": 15,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 10,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Jordan Lauton",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Nathaniel Blair",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Jesse Mantell",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": true
+      },
+      {
+        "player_name": "Samuel Klein",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671776",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-11T05:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 13,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 8,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Nishan Velupillay",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Franco Lino",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671775",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-11T07:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Wilmering",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan White",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671777",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-11T09:35:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 16,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Apostolos Stamatelopoulos",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Al Hassan Toure",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671778",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-12T05:00:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 9,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 6,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 0,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Marcus Younis",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      },
+      {
+        "player_name": "Aziz Behich",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671782",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-12T09:00:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 14,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Arion Sulemani",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Popovic",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Luke Vickery",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Nicholas Pennington",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671780",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-17T09:35:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Eli Adams",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Charles Nduka",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Charles Nduka",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": true
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671779",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-18T05:00:00+00:00",
+    "home_team": "Wellington Phoenix",
+    "away_team": "Western Sydney Wanderers",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 10,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 7,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Kazuki Nagasawa",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      },
+      {
+        "player_name": "Brandon Borrello",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Western Sydney Wanderers",
+        "is_home": false
+      },
+      {
+        "player_name": "Ifeanyi Eze",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wellington Phoenix",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671783",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-18T07:00:00+00:00",
+    "home_team": "Brisbane Roar",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 14,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Youstin Salas",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      },
+      {
+        "player_name": "Medin Memeti",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Marcus Younis",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Marcus Younis",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Justin Vidic",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671781",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-18T09:35:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Perth Glory",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 6
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14671784",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-19T03:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 13,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 5,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Ali Auglah",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Central Coast Mariners",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671786",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-19T05:30:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Macarthur FC",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 11,
+      "home_shots_on_target": 11,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Anselmo",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Panagiotis Kikianis",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Anselmo",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": true
+      },
+      {
+        "player_name": "Mitchell Duke",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671788",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-24T09:35:00+00:00",
+    "home_team": "Macarthur FC",
+    "away_team": "Wellington Phoenix",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 26,
+      "away_shots": 12,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Bernardo",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Luke Brattan",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Dean Bosnjak",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Matthew Jurman",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Macarthur FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671785",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-25T07:00:00+00:00",
+    "home_team": "Newcastle Jets FC",
+    "away_team": "Central Coast Mariners",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 14,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Kota Mizunuma",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Eli Adams",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Clayton Taylor",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Will Dobson",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671787",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-25T09:35:00+00:00",
+    "home_team": "Western Sydney Wanderers",
+    "away_team": "Melbourne Victory",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Nikolaos Vergos",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      },
+      {
+        "player_name": "Clarismario",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne Victory",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671790",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-25T11:45:00+00:00",
+    "home_team": "Perth Glory",
+    "away_team": "Brisbane Roar",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Sebastian Despotovski",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      },
+      {
+        "player_name": "Dimitrios Valkanis",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brisbane Roar",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Popovic",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Perth Glory",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671801",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-26T05:00:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Guillermo May",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexandar Popovic",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Guillermo May",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ben Garuccio",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14671802",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-04-26T07:30:00+00:00",
+    "home_team": "Melbourne City",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 10,
+      "home_yellow": 5,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 9,
+      "away_shots": 17,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Luka Jovanovic",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Marcus Younis",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16074214",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-05-02T05:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Melbourne City",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 17,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Medin Memeti",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melbourne City",
+        "is_home": false
+      },
+      {
+        "player_name": "Guillermo May",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16074215",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-05-02T09:40:00+00:00",
+    "home_team": "Melbourne Victory",
+    "away_team": "Sydney FC",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 6,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 7,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Patrick Wood",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16114066",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-05-09T06:00:00+00:00",
+    "home_team": "Auckland FC",
+    "away_team": "Adelaide United",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Harry Crawford",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Adelaide United",
+        "is_home": false
+      },
+      {
+        "player_name": "Lachlan Brook",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16114068",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-05-09T09:40:00+00:00",
+    "home_team": "Sydney FC",
+    "away_team": "Newcastle Jets FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 11,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 6,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Eli Adams",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Jets FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Apostolos Stamatelopoulos",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sydney FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16114067",
+    "league_id": 21,
+    "league_name": "A-League Men",
+    "league_country": "Australia",
+    "season_year": 2026,
+    "date": "2026-05-15T09:35:00+00:00",
+    "home_team": "Adelaide United",
+    "away_team": "Auckland FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 12,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 5,
+      "home_fouls": 4,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Logan Rogerson",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Sam Cosgrove",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jake Girdwood-Reich",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Auckland FC",
+        "is_home": false
+      }
+    ]
+  }
+]

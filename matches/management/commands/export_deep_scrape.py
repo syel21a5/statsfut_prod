@@ -53,9 +53,7 @@ class Command(BaseCommand):
             return
 
         # Busca as partidas
-        matches = Match.objects.filter(**filters).exclude(
-            api_id__isnull=True
-        ).exclude(api_id__exact='').select_related('league', 'season')
+        matches = Match.objects.filter(**filters).select_related('league', 'season')
 
         total = matches.count()
         if total == 0:
