@@ -59,6 +59,7 @@ $LIGAS = @{
     33 = "Ucrania - Premier League"
     34 = "Uruguai - Primera Division"
     35 = "Inglaterra - Premier League"
+    36 = "Escocia - Premiership"
 }
 
 # Mapeamento: Número do Menu -> ID do banco de dados
@@ -98,11 +99,12 @@ $MENU_PARA_BANCO = @{
     33 = 49   # Ucrania - Premier League
     34 = 57   # Uruguai - Primera Division
     35 = 43   # Inglaterra - Premier League
+    36 = 27   # Escocia - Premiership
 }
 
 # Validação
 if (-not $LIGAS.ContainsKey($MenuNumero)) {
-    Write-Host "❌ Número inválido! Use um número entre 1 e 35 do menu do Deep Scrape." -ForegroundColor Red
+    Write-Host "❌ Número inválido! Use um número entre 1 e 36 do menu do Deep Scrape." -ForegroundColor Red
     exit 1
 }
 

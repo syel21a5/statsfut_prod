@@ -20,9 +20,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--liga',
-            type=int,
+            type=str,
             default=None,
-            help='ID da liga para exportar (ex: 7 para Bundesliga)'
+            help='ID(s) da liga para exportar (ex: 7 ou 7,31,27)'
         )
         parser.add_argument(
             '--todas',
@@ -37,16 +37,22 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        league_id = options.get('liga')
+        league_id_str = options.get('liga')
         todas = options.get('todas', False)
         output_file = options.get('output', 'dados_deep_scrape.json')
 
         # Filtro base: partidas que passaram pelo deep scrape
         filters = {'home_corners__isnull': False}
-        if league_id:
-            filters['league_id'] = league_id
-            league_name = self._get_league_name(league_id)
-            self.stdout.write(f"📤 Exportando dados da liga: {league_name} (ID: {league_id})")
+        if league_id_str:
+            if ',' in str(league_id_str):
+                league_ids = [int(x.strip()) for x in str(league_id_str).split(',') if x.strip()]
+                filters['league_id__in'] = league_ids
+                self.stdout.write(f"📤 Exportando dados das ligas: {league_ids}")
+            else:
+                league_id = int(league_id_str)
+                filters['league_id'] = league_id
+                league_name = self._get_league_name(league_id)
+                self.stdout.write(f"📤 Exportando dados da liga: {league_name} (ID: {league_id})")
         elif not todas:
             # Se não especificou nada, mostra as ligas disponíveis
             self._list_available_leagues()
