@@ -23,7 +23,7 @@ class Command(BaseCommand):
         parser.add_argument('--limit', type=int, default=15, help='Limite máximo de partidas para processar por vez (padrão: 15)')
         parser.add_argument('--days_back', type=int, default=15, help='Dias para trás para buscar jogos finalizados (padrão: 15)')
         # Tor default port on Linux is 9050
-        parser.add_argument('--proxy', type=str, default='socks5://127.0.0.1:9050', help='Proxy do Tor (padrão: socks5://127.0.0.1:9050)')
+        parser.add_argument('--proxy', type=str, default='socks5h://127.0.0.1:9050', help='Proxy do Tor (padrão: socks5h://127.0.0.1:9050)')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,7 +31,6 @@ class Command(BaseCommand):
         self.consecutive_errors = 0
 
     def _create_session(self):
-        ua = random.choice(USER_AGENTS)
         # Removido chrome124 para compatibilidade com versões antigas da curl_cffi no Docker
         impersonate_version = random.choice(["chrome101", "chrome110", "chrome116", "chrome119", "chrome120"])
         self.session = requests.Session(impersonate=impersonate_version)
@@ -45,7 +44,10 @@ class Command(BaseCommand):
             "110": "110.0.5481.77",
             "101": "101.0.4951.64"
         }
-        full_version = version_map.get(chrome_version, "110.0.5481.77")
+        full_version = version_map.get(chrome_version, "120.0.6099.129")
+        
+        # Gera o User-Agent correspondente exato para evitar TLS fingerprint mismatch
+        ua = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{chrome_version}.0.0.0 Safari/537.36"
         
         self.session.headers.update({
             "User-Agent": ua,
@@ -67,9 +69,49 @@ class Command(BaseCommand):
         if self.proxy:
             self.session.proxies = {"http": self.proxy, "https": self.proxy}
 
+    def _rotate_tor_ip(self):
+        """Tenta enviar sinal de NEWNYM para o Tor para rotacionar o IP."""
+        if not self.proxy or "socks5" not in self.proxy:
+            return False
+
+        # Determina a porta de controle com base na porta socks
+        socks_port = 9050
+        if "9150" in self.proxy:
+            socks_port = 9150
+        
+        control_port = 9051 if socks_port == 9050 else 9151
+        
+        import socket
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(3)
+            s.connect(("127.0.0.1", control_port))
+            s.sendall(b'AUTHENTICATE ""\r\n')
+            response = s.recv(1024)
+            if b"250" in response:
+                s.sendall(b'SIGNAL NEWNYM\r\n')
+                response = s.recv(1024)
+                if b"250" in response:
+                    self.stdout.write(self.style.SUCCESS(f"🔄 IP do Tor rotacionado com sucesso via porta de controle {control_port}!"))
+                    time.sleep(8)  # Pausa de 8 segundos para o Tor estabelecer um circuito estável e seguro
+                    s.close()
+                    return True
+            s.close()
+        except Exception:
+            pass
+        return False
+
     def _restart_tor(self):
-        """Reinicia o serviço do Tor para trocar de IP (Compatível com VPS e Docker)"""
+        """Reinicia o serviço do Tor para trocar de IP (Compatível com VPS, Docker e Windows)"""
         self.stdout.write(self.style.WARNING("🔄 Bloqueio detectado! Tentando trocar de IP..."))
+        
+        # 1. Tenta rotacionar via Control Port primeiro (independente de OS)
+        if self._rotate_tor_ip():
+            self._create_session()
+            self.consecutive_errors = 0
+            return
+
+        # 2. Fallback para reinicialização do processo se estiver no Linux
         try:
             # Tenta comando de Docker/Linux simples primeiro (SIGHUP)
             if os.path.exists('/var/run/tor/tor.pid') or os.system("pgrep tor > /dev/null") == 0:
@@ -116,6 +158,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.proxy = kwargs.get('proxy')
+        # Se for no Windows e estiver na porta padrão do Tor Browser, garante socks5h
+        if self.proxy and "9150" in self.proxy and self.proxy.startswith("socks5:"):
+            self.proxy = self.proxy.replace("socks5:", "socks5h:")
+
         limit = kwargs.get('limit')
         days_back = kwargs.get('days_back')
 

@@ -2464,31 +2464,6 @@ msgctxt "abbrev. month"
 msgid "Feb."
 msgstr ""
 
-#: venv/Lib/site-packages/django/utils/dates.py:55
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:56
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:57
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:58
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:59
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
 #: venv/Lib/site-packages/django/utils/dates.py:60
 msgctxt "abbrev. month"
 msgid "Aug."
@@ -2512,66 +2487,6 @@ msgstr ""
 #: venv/Lib/site-packages/django/utils/dates.py:64
 msgctxt "abbrev. month"
 msgid "Dec."
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:67
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:68
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:69
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:70
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:71
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:72
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:73
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:74
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:75
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:76
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:77
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: venv/Lib/site-packages/django/utils/dates.py:78
-msgctxt "alt. month"
-msgid "December"
 msgstr ""
 
 #: venv/Lib/site-packages/django/utils/ipv6.py:8
@@ -2805,19 +2720,6 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#~ msgid "Strong"
-#~ msgstr "Forte"
-
-#~ msgid "Average"
-#~ msgstr "Médio"
-
-#~ msgid "Weak"
-#~ msgstr "Fraco"
-
-# ============================================================
-# PREMIUM GUIDE CARDS & LABELS
-# ============================================================
-
 msgid "Premium Analytics"
 msgstr "Análises Premium"
 
@@ -2988,4 +2890,226 @@ msgstr "Mais Recursos em Breve"
 
 msgid "We are constantly adding new premium analytics tools. Stay tuned for live alerts, value bet detection, and more."
 msgstr "Estamos constantemente adicionando novas ferramentas de análises premium. Fique atento aos alertas ao vivo, detecção de apostas de valor e muito mais."
+
+msgid "Ready Strategies"
+msgstr "Estratégias Prontas"
+
+msgid "Expert Tickets (Today)"
+msgstr "Bilhetes de Especialistas"
+
+msgid "History of Latest Entries"
+msgstr "Histórico de Entradas"
+
+msgid "Winner & Specials"
+msgstr "Vencedor & Especiais"
+
+msgid "Specials & Combos"
+msgstr "Especiais & Combos"
+
+msgid "Shots"
+msgstr "Chutes"
+
+msgid "Over 0.5 Goals"
+msgstr "Mais de 0.5 Gols"
+
+msgid "Over 3.5 Goals"
+msgstr "Mais de 3.5 Gols"
+
+msgid "Both Teams to Score"
+msgstr "Ambas Marcam"
+
+msgid "BTTS 1st Half"
+msgstr "Ambas Marcam 1º Tempo"
+
+msgid "BTTS 2nd Half"
+msgstr "Ambas Marcam 2º Tempo"
+
+msgid "BTTS Both Halves"
+msgstr "Ambas Marcam Ambos os Tempos"
+
+msgid "%(team)s to Win"
+msgstr "Vitória do %(team)s"
+
+msgid "Double Chance 1X (%(team)s or Draw)"
+msgstr "Dupla Chance 1X (%(team)s ou Empate)"
+
+msgid "Double Chance X2 (Draw or %(team)s)"
+msgstr "Dupla Chance X2 (Empate ou %(team)s)"
+
+msgid "Draw No Bet - %(team)s"
+msgstr "Empate Anula Aposta - %(team)s"
+
+msgid "%(team)s to Score First"
+msgstr "%(team)s Marca Primeiro"
+
+msgid "%(team)s Leading at HT"
+msgstr "%(team)s Vence no Intervalo"
+
+msgid "%(team)s Clean Sheet"
+msgstr "%(team)s Sem Sofrer Gols"
+
+msgid "%(team)s Win to Nil"
+msgstr "%(team)s Vence Sem Sofrer Gols"
+
+msgid "%(team)s -0.5 (AH)"
+msgstr "%(team)s -0.5 (AH)"
+
+msgid "%(team)s -1.5 (AH)"
+msgstr "%(team)s -1.5 (AH)"
+
+msgid "%(team)s +1.5 (AH)"
+msgstr "%(team)s +1.5 (AH)"
+
+msgid "%(team)s Wins by 1 Goal"
+msgstr "%(team)s Vence por 1 Gol"
+
+msgid "%(team)s Wins by 2 Goals"
+msgstr "%(team)s Vence por 2 Gols"
+
+msgid "%(team)s Win & BTTS Yes"
+msgstr "%(team)s Vence & Ambas Marcam Sim"
+
+msgid "%(team)s Win & BTTS No"
+msgstr "%(team)s Vence & Ambas Marcam Não"
+
+msgid "1st Half Most Goals"
+msgstr "Mais Gols no 1º Tempo"
+
+msgid "2nd Half Most Goals"
+msgstr "Mais Gols no 2º Tempo"
+
+msgid "Over 7.5 Corners"
+msgstr "Mais de 7.5 Escanteios"
+
+msgid "Over 8.5 Corners"
+msgstr "Mais de 8.5 Escanteios"
+
+msgid "Over 9.5 Corners"
+msgstr "Mais de 9.5 Escanteios"
+
+msgid "Over 10.5 Corners"
+msgstr "Mais de 10.5 Escanteios"
+
+msgid "Over 11.5 Corners"
+msgstr "Mais de 11.5 Escanteios"
+
+msgid "%(team)s Wins Corners"
+msgstr "%(team)s Mais Escanteios"
+
+msgid "Over 3.5 Cards"
+msgstr "Mais de 3.5 Cartões"
+
+msgid "Over 4.5 Cards"
+msgstr "Mais de 4.5 Cartões"
+
+msgid "Over 5.5 Cards"
+msgstr "Mais de 5.5 Cartões"
+
+msgid "Over 6.5 Cards"
+msgstr "Mais de 6.5 Cartões"
+
+msgid "%(team)s Most Cards"
+msgstr "%(team)s Mais Cartões"
+
+msgid "Over 20.5 Total Shots"
+msgstr "Mais de 20.5 Chutes Totais"
+
+msgid "Over 22.5 Total Shots"
+msgstr "Mais de 22.5 Chutes Totais"
+
+msgid "Over 24.5 Total Shots"
+msgstr "Mais de 24.5 Chutes Totais"
+
+msgid "Over 6.5 Shots on Target"
+msgstr "Mais de 6.5 Chutes no Alvo"
+
+msgid "Over 7.5 Shots on Target"
+msgstr "Mais de 7.5 Chutes no Alvo"
+
+msgid "Over 8.5 Shots on Target"
+msgstr "Mais de 8.5 Chutes no Alvo"
+
+msgid "%(team)s More Shots"
+msgstr "%(team)s Mais Chutes"
+
+msgid "Day After Tomorrow"
+msgstr "Depois de Amanhã"
+
+msgid "Future"
+msgstr "Futuro"
+
+msgid "Confidence"
+msgstr "Confiança"
+
+msgid "Pending"
+msgstr "Pendente"
+
+msgid "Accuracy"
+msgstr "Precisão"
+
+msgid "Probability"
+msgstr "Probabilidade"
+
+msgid "Suggested Market"
+msgstr "Mercado Sugerido"
+
+msgid "Result"
+msgstr "Resultado"
+
+msgid "No history available yet"
+msgstr "Nenhum histórico disponível ainda"
+
+msgid "Results will appear here after the tracked matches conclude."
+msgstr "Os resultados aparecerão aqui após a conclusão das partidas rastreadas."
+
+msgid "Recent History (Greens & Reds)"
+msgstr "Histórico Recente (Greens & Reds)"
+
+msgid "Full transparency! Check the performance of the latest opportunities suggested by our Smart Scanner."
+msgstr "Transparência total! Acompanhe o desempenho das últimas oportunidades sugeridas pelo nosso Scanner Inteligente."
+
+msgid "Expert Strategies Unlocked"
+msgstr "Estratégias de Especialistas Desbloqueadas"
+
+msgid "Subscribe to the Premium Plan for instant access to ready-made tickets (doubles and triples) daily, with accuracy rates above 80%!"
+msgstr "Assine o Plano Premium para ter acesso instantâneo a bilhetes prontos (duplas e triplas) diariamente, com taxas de acerto acima de 80%!"
+
+msgid "I Want to Be Premium Now!"
+msgstr "Quero Ser Premium Agora!"
+
+msgid "Waiting for matches to start"
+msgstr "Aguardando as partidas iniciarem"
+
+msgid "No active tickets at the moment"
+msgstr "Nenhum bilhete ativo no momento"
+
+msgid "Strategies are generated in the morning. Come back later to check the best doubles and triples."
+msgstr "As estratégias são geradas pela manhã. Volte mais tarde para conferir as melhores duplas e triplas."
+
+msgid "Full transparency! Track the results of strategies generated in the previous days."
+msgstr "Transparência total! Acompanhe os resultados das estratégias geradas nos dias anteriores."
+
+msgid "Target date"
+msgstr "Data alvo"
+
+msgid "Average Accuracy"
+msgstr "Precisão Média"
+
+msgid "No resolved tickets in history."
+msgstr "Nenhum bilhete resolvido no histórico."
+
+msgid "Goals Markets"
+msgstr "Mercados de Gols"
+
+msgid "Top scanned matches"
+msgstr "Principais partidas analisadas"
+
+msgid "No matches met the criteria today."
+msgstr "Nenhuma partida atendeu aos critérios hoje."
+
+msgid "Goals & BTTS"
+msgstr "Gols & Ambas Marcam"
+
+msgid "Shots Markets"
+msgstr "Mercado de Chutes"
 

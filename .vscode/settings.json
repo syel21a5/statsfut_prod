@@ -8,5 +8,6 @@
     "python.analysis.pythonPath": "i:\\GitHub\\statsfut\\statsfut\\venv\\Scripts\\python.exe",
     "pyright.extraPaths": [
         "i:\\GitHub\\statsfut\\statsfut"
-    ]
+    ],
+    "pyrefly.enable": false
 }

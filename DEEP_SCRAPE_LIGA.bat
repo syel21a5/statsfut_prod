@@ -1,24 +1,29 @@
 @echo off
-title StatsFut - Deep Scrape por Liga (Universal)
+title StatsFut - Deep Scrape por Liga (via Docker + Tor)
 echo ==================================================
 echo   DEEP SCRAPE - Escanteios, Cartoes, Gols
 echo   Temporada Atual + Anterior
+echo   (Executando dentro do Docker com Tor integrado)
 echo ==================================================
 echo.
 cd /d %~dp0
 
-set PYTHON_EXEC=python
-if exist venv\Scripts\python.exe (
-    set PYTHON_EXEC=venv\Scripts\python.exe
+echo Verificando se o Docker esta rodando...
+docker compose ps >nul 2>&1
+if errorlevel 1 (
+    echo [ERRO] O Docker nao esta rodando ou os containers nao estao ativos.
+    echo Por favor, inicie o Docker Desktop e rode: docker compose up -d
+    pause
+    exit /b 1
 )
 
-echo Deseja usar o Tor? (Recomendado para evitar bloqueios)
-set /p use_tor="Usar Tor (s/n)? "
-set TOR_FLAG=
-if /i "%use_tor%"=="s" set TOR_FLAG=--tor
+echo Garantindo que o Tor esta ativo dentro do container...
+docker compose exec web sh -c "service tor start 2>/dev/null || (tor &) 2>/dev/null; sleep 2; echo 'Tor OK'"
 
 echo.
-%PYTHON_EXEC% manage.py deep_scrape_menu %TOR_FLAG%
+echo Iniciando o Deep Scrape com Tor dentro do Docker...
+echo.
+docker compose exec web python manage.py deep_scrape_menu --tor
 
 echo.
 echo ==================================================

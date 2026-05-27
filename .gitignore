@@ -26,6 +26,7 @@ Thumbs.db
 
 # Tutorial (documentação local)
 tutorial/
+docs/
 
 # Temporary maintenance scripts
 fix_*.py
@@ -55,3 +56,25 @@ modelos_deepseek/
 
 # Temp dirs
 omniroute_temp/
+
+# Gemini Proxy Keys
+.claude/chavesapi_Gemini/
+
+# Claude / AI Agent Files
+.claude/
+
+# Conversations & Plans (local AI context)
+conversations/
+plans/
+
+# Scratch / temp scripts
+scratch/
+
+# Utility scripts (local only)
+_check_template.py
+START_GEMINI_PROXY.bat
+gemini_proxy.py
+
+# Backup files
+*.bak
+

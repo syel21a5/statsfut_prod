@@ -19,7 +19,7 @@
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link fw-bold text-secondary px-4 py-2 border-0 rounded-3" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets-pane" type="button" role="tab" aria-controls="tickets-pane" aria-selected="false" style="background: rgba(255,255,255,0.03); transition: all 0.3s ease;">
-            <i class="fa-solid fa-ticket me-2" style="color: #10b981;"></i>{% translate "Estratégias Prontas" %}
+            <i class="fa-solid fa-ticket me-2" style="color: #10b981;"></i>{% translate "Ready Strategies" %}
         </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -29,10 +29,14 @@
     </li>
 </ul>
 
-<!-- Tab Content -->
+<!-- ========================================================================== -->
+<!-- TAB CONTENT                                                                -->
+<!-- ========================================================================== -->
 <div class="tab-content" id="premiumTabContent">
     
-    <!-- Tab 1: Upcoming Predictions Table -->
+    <!-- ====================================================================== -->
+    <!-- TAB 1 : Upcoming Predictions (Scanner Inteligente)                     -->
+    <!-- ====================================================================== -->
     <div class="tab-pane fade show active" id="matches-pane" role="tabpanel" aria-labelledby="matches-tab" tabindex="0">
         
         <!-- Premium Status Banner -->
@@ -69,7 +73,6 @@
             <!-- AI Scanner Status Panel -->
             <div class="card bg-dark border-0 rounded-4 mb-4" style="background: linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(20,20,30,1) 100%); overflow: hidden;">
                 <div class="card-body p-4 position-relative">
-                    <!-- Decorational background glow -->
                     <div class="position-absolute top-0 end-0 rounded-circle" style="width: 150px; height: 150px; background: rgba(99, 102, 241, 0.1); filter: blur(40px); transform: translate(50%, -50%);"></div>
                     <div class="position-absolute bottom-0 start-0 rounded-circle" style="width: 150px; height: 150px; background: rgba(16, 185, 129, 0.1); filter: blur(40px); transform: translate(-50%, 50%);"></div>
                     
@@ -106,178 +109,157 @@
                 </div>
             </div>
 
+            
             <!-- Sub-navigation for Scanner Categories -->
-            <ul class="nav nav-pills mb-4 gap-2" id="scannerTabs" role="tablist">
+            <ul class="nav nav-pills mb-4 gap-2 flex-nowrap overflow-auto pb-2" id="scannerTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active fw-bold text-white px-4 py-2" id="goals-tab" data-bs-toggle="pill" data-bs-target="#goals-pane" type="button" role="tab" style="border-radius: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4);">
-                        🎯 {% translate "Goals Market" %}
+                    <button class="nav-link scanner-cat-tab active fw-bold px-4 py-2" id="goals-tab" data-bs-toggle="pill" data-bs-target="#goals-pane" type="button" role="tab">
+                        🎯 {% translate "Goals & BTTS" %}
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link fw-bold text-secondary px-4 py-2" id="winner-tab" data-bs-toggle="pill" data-bs-target="#winner-pane" type="button" role="tab" style="border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid transparent;">
-                        🏆 {% translate "Winner & First to Score" %}
+                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="winner-tab" data-bs-toggle="pill" data-bs-target="#winner-pane" type="button" role="tab">
+                        🏆 {% translate "Winner & Specials" %}
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link fw-bold text-secondary px-4 py-2" id="corners-tab" data-bs-toggle="pill" data-bs-target="#corners-pane" type="button" role="tab" style="border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid transparent;">
+                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="corners-tab" data-bs-toggle="pill" data-bs-target="#corners-pane" type="button" role="tab">
                         🚩 {% translate "Corners" %}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="cards-tab" data-bs-toggle="pill" data-bs-target="#cards-pane" type="button" role="tab">
+                        🟨 {% translate "Cards" %}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="shots-tab" data-bs-toggle="pill" data-bs-target="#shots-pane" type="button" role="tab">
+                        🎯 {% translate "Shots" %}
                     </button>
                 </li>
             </ul>
 
             <div class="tab-content" id="scannerTabsContent">
-                
-                <!-- ============================== GOALS PANE ============================== -->
+
+                <!-- ==================== GOALS & BTTS PANE ==================== -->
                 <div class="tab-pane fade show active" id="goals-pane" role="tabpanel" tabindex="0">
                     <div class="row g-4">
                         
-                        <!-- HT Goals Scanner -->
+                        <!-- Goals Markets with Sub-tabs -->
                         <div class="col-12 col-xl-6">
                             <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(16, 185, 129, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
+                                <div class="d-flex align-items-center mb-3">
                                     <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15);">
-                                        <i class="fa-solid fa-stopwatch fa-lg text-success"></i>
+                                        <i class="fa-solid fa-futbol fa-lg text-success"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">🔥 {% translate "Goal in 1st Half (HT)" %}</h5>
-                                        <span class="text-secondary small">{% translate "Matches with +75% probability" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Goals Markets" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
                                     </div>
                                 </div>
                                 
-                                {% if high_ht_goals %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in high_ht_goals %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
+                                <!-- Goals Market Line Sub-tabs -->
+                                <div class="d-flex flex-wrap gap-1 mb-3 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <button class="btn btn-sm goals-market-tab active" data-market="all" onclick="filterGoalsMarket(this, 'all')">
+                                        {% translate "All" %}
+                                    </button>
+                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_05" onclick="filterGoalsMarket(this, 'OVER_05')">
+                                        +0.5
+                                    </button>
+                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_15" onclick="filterGoalsMarket(this, 'OVER_15')">
+                                        +1.5
+                                    </button>
+                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_25" onclick="filterGoalsMarket(this, 'OVER_25')">
+                                        +2.5
+                                    </button>
+                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_35" onclick="filterGoalsMarket(this, 'OVER_35')">
+                                        +3.5
+                                    </button>
+                                    <button class="btn btn-sm goals-market-tab" data-market="HT_GOAL" onclick="filterGoalsMarket(this, 'HT_GOAL')">
+                                        HT
+                                    </button>
+                                </div>
+                                
+                                {% if tips_goals %}
+                                    <!-- Date Sub-tabs -->
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="goals">
+                                        {% regroup tips_goals by date_group as grouped_goals %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'goals', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_goals %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'goals', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="goals-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_goals %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
                                                     <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(16, 185, 129);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
                                                 </div>
                                                 <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold text-success" style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);">{{ item.ht_goal }}%</span>
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(16, 185, 129,0.15); border: 1px solid rgba(16, 185, 129,0.3); color: rgb(16, 185, 129);">{{ item.prob }}%</span>
                                                 </div>
                                             </div>
                                         </a>
+                                        {% endfor %}
                                         {% endfor %}
                                     </div>
                                 {% else %}
                                     <div class="text-center p-4 text-secondary">
                                         <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the +75% HT Goal criteria today." %}</p>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
                                     </div>
                                 {% endif %}
                             </div>
                         </div>
 
-                        <!-- Over 1.5 Goals Scanner -->
+                        <!-- BTTS Markets -->
                         <div class="col-12 col-xl-6">
                             <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(6, 182, 212, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
+                                <div class="d-flex align-items-center mb-3">
                                     <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.15);">
-                                        <i class="fa-solid fa-futbol fa-lg text-info"></i>
+                                        <i class="fa-solid fa-people-arrows fa-lg text-info"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">📈 {% translate "Over 1.5 Goals (FT)" %}</h5>
-                                        <span class="text-secondary small">{% translate "Matches with +80% probability" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Both Teams to Score" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
                                     </div>
                                 </div>
                                 
-                                {% if high_over15 %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in high_over15 %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
+                                {% if tips_btts %}
+                                    <!-- Date Sub-tabs -->
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="btts">
+                                        {% regroup tips_btts by date_group as grouped_btts %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'btts', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_btts %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="btts-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_btts %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
                                                     <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(6, 182, 212);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
                                                 </div>
                                                 <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold text-info" style="background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3);">{{ item.over_15 }}%</span>
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(6, 182, 212,0.15); border: 1px solid rgba(6, 182, 212,0.3); color: rgb(6, 182, 212);">{{ item.prob }}%</span>
                                                 </div>
                                             </div>
                                         </a>
+                                        {% endfor %}
                                         {% endfor %}
                                     </div>
                                 {% else %}
                                     <div class="text-center p-4 text-secondary">
                                         <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the +80% Over 1.5 criteria today." %}</p>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- Over 2.5 Goals Scanner -->
-                        <div class="col-12 col-xl-6">
-                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(168, 85, 247, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(168, 85, 247, 0.15);">
-                                        <i class="fa-solid fa-bolt fa-lg text-purple" style="color: #c084fc;"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-white mb-0 fw-bold">🚀 {% translate "Over 2.5 Goals (FT)" %}</h5>
-                                        <span class="text-secondary small">{% translate "Matches with +65% probability" %}</span>
-                                    </div>
-                                </div>
-                                
-                                {% if high_over25 %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in high_over25 %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
-                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
-                                                <div>
-                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
-                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
-                                                </div>
-                                                <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3); color: #c084fc;">{{ item.over_25 }}%</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the +65% Over 2.5 criteria today." %}</p>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- BTTS Scanner -->
-                        <div class="col-12 col-xl-6">
-                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(245, 158, 11, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.15);">
-                                        <i class="fa-solid fa-people-arrows fa-lg text-warning"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-white mb-0 fw-bold">⚽ {% translate "Both Teams to Score (BTTS)" %}</h5>
-                                        <span class="text-secondary small">{% translate "Matches with +65% probability" %}</span>
-                                    </div>
-                                </div>
-                                
-                                {% if high_btts %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in high_btts %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
-                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
-                                                <div>
-                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
-                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
-                                                </div>
-                                                <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold text-warning" style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);">{{ item.btts }}%</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the +65% BTTS criteria today." %}</p>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
                                     </div>
                                 {% endif %}
                             </div>
@@ -286,83 +268,103 @@
                     </div>
                 </div>
 
-                <!-- ============================== WINNER PANE ============================== -->
+                <!-- ==================== WINNER & SPECIALS PANE ==================== -->
                 <div class="tab-pane fade" id="winner-pane" role="tabpanel" tabindex="0">
                     <div class="row g-4">
                         
-                        <!-- Match Winner Scanner -->
+                        <!-- Match Winner & DC -->
                         <div class="col-12 col-xl-6">
-                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(239, 68, 68, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(239, 68, 68, 0.15);">
-                                        <i class="fa-solid fa-trophy fa-lg text-danger"></i>
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(245, 158, 11, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.15);">
+                                        <i class="fa-solid fa-trophy fa-lg text-warning"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">🏆 {% translate "Match Winner (1X2)" %}</h5>
-                                        <span class="text-secondary small">{% translate "Teams with +65% probability of winning" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Match Winner & DC" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
                                     </div>
                                 </div>
                                 
-                                {% if high_win %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in high_win %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
+                                {% if tips_result %}
+                                    <!-- Date Sub-tabs -->
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="result">
+                                        {% regroup tips_result by date_group as grouped_result %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'result', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_result %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'result', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="result-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_result %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
                                                     <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
-                                                    <div class="small fw-bold text-danger mt-1">{% translate "To Win:" %} {{ item.team_to_win }}</div>
+                                                    <div class="small mt-1" style="color: rgb(245, 158, 11);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
                                                 </div>
                                                 <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold text-danger" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3);">{{ item.prob }}%</span>
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(245, 158, 11,0.15); border: 1px solid rgba(245, 158, 11,0.3); color: rgb(245, 158, 11);">{{ item.prob }}%</span>
                                                 </div>
                                             </div>
                                         </a>
+                                        {% endfor %}
                                         {% endfor %}
                                     </div>
                                 {% else %}
                                     <div class="text-center p-4 text-secondary">
                                         <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No teams met the +65% Win Probability today." %}</p>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
                                     </div>
                                 {% endif %}
                             </div>
                         </div>
 
-                        <!-- First to Score Scanner -->
+                        <!-- Specials & Combos -->
                         <div class="col-12 col-xl-6">
-                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(59, 130, 246, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(59, 130, 246, 0.15);">
-                                        <i class="fa-solid fa-bullseye fa-lg text-primary" style="color: #60a5fa;"></i>
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(168, 85, 247, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(168, 85, 247, 0.15);">
+                                        <i class="fa-solid fa-star fa-lg text-purple"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">🎯 {% translate "First to Score" %}</h5>
-                                        <span class="text-secondary small">{% translate "Teams with +75% probability of scoring first" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Specials & Combos" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
                                     </div>
                                 </div>
                                 
-                                {% if first_to_score %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in first_to_score %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
+                                {% if tips_specials %}
+                                    <!-- Date Sub-tabs -->
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="specials">
+                                        {% regroup tips_specials by date_group as grouped_specials %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'specials', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_specials %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'specials', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="specials-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_specials %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
                                                     <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
-                                                    <div class="small fw-bold mt-1" style="color: #60a5fa;">{% translate "1st Goal:" %} {{ item.team_first }}</div>
+                                                    <div class="small mt-1" style="color: rgb(168, 85, 247);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
                                                 </div>
                                                 <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa;">{{ item.prob }}%</span>
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(168, 85, 247,0.15); border: 1px solid rgba(168, 85, 247,0.3); color: rgb(168, 85, 247);">{{ item.prob }}%</span>
                                                 </div>
                                             </div>
                                         </a>
+                                        {% endfor %}
                                         {% endfor %}
                                     </div>
                                 {% else %}
                                     <div class="text-center p-4 text-secondary">
                                         <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No teams met the +75% First to Score criteria." %}</p>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
                                     </div>
                                 {% endif %}
                             </div>
@@ -371,153 +373,346 @@
                     </div>
                 </div>
 
-                <!-- ============================== CORNERS PANE ============================== -->
+                <!-- ==================== CORNERS PANE ==================== -->
                 <div class="tab-pane fade" id="corners-pane" role="tabpanel" tabindex="0">
                     <div class="row g-4">
-                        
-                        <!-- Corners Scanner -->
+                        <!-- Corners Over Markets -->
                         <div class="col-12 col-xl-6">
-                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(99, 102, 241, 0.3);">
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(99, 102, 241, 0.15);">
-                                        <i class="fa-solid fa-flag fa-lg text-indigo" style="color: #818cf8;"></i>
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(239, 68, 68, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(239, 68, 68, 0.15);">
+                                        <i class="fa-solid fa-flag fa-lg text-danger"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">🚩 {% translate "Corners Market" %}</h5>
-                                        <span class="text-secondary small">{% translate "Matches with +70% probability of Over 9.5 Corners" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Corners Over" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
                                     </div>
                                 </div>
                                 
-                                {% if high_corners %}
-                                    <div class="d-flex flex-column gap-1" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                        {% for item in high_corners %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none">
+                                {% if tips_corners_over %}
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-over">
+                                        {% regroup tips_corners_over by date_group as grouped_corners_over %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'corners-over', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_corners_over %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'corners-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_corners_over %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
                                                     <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(239, 68, 68);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
                                                 </div>
                                                 <div class="text-end">
-                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); color: #818cf8;">{{ item.prob }}%</span>
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(239, 68, 68,0.15); border: 1px solid rgba(239, 68, 68,0.3); color: rgb(239, 68, 68);">{{ item.prob }}%</span>
                                                 </div>
                                             </div>
                                         </a>
+                                        {% endfor %}
                                         {% endfor %}
                                     </div>
                                 {% else %}
                                     <div class="text-center p-4 text-secondary">
                                         <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the +70% Over 9.5 Corners criteria today." %}</p>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
                                     </div>
                                 {% endif %}
                             </div>
                         </div>
 
+                        <!-- Corner Winner -->
+                        <div class="col-12 col-xl-6">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(251, 146, 60, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(251, 146, 60, 0.15);">
+                                        <i class="fa-solid fa-ranking-star fa-lg" style="color: #fb923c;"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Corner Winner" %}</h5>
+                                        <span class="text-secondary small">{% translate "Who wins the corners battle" %}</span>
+                                    </div>
+                                </div>
+                                
+                                {% if tips_corners_winner %}
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-winner">
+                                        {% regroup tips_corners_winner by date_group as grouped_corners_winner %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'corners-winner', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_corners_winner %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'corners-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-winner-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_corners_winner %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(251, 146, 60);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(251, 146, 60,0.15); border: 1px solid rgba(251, 146, 60,0.3); color: rgb(251, 146, 60);">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- ==================== CARDS PANE ==================== -->
+                <div class="tab-pane fade" id="cards-pane" role="tabpanel" tabindex="0">
+                    <div class="row g-4">
+                        <!-- Cards Over Markets -->
+                        <div class="col-12 col-xl-6">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(234, 179, 8, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(234, 179, 8, 0.15);">
+                                        <i class="fa-solid fa-clone fa-lg text-warning"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Cards Over" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
+                                    </div>
+                                </div>
+                                
+                                {% if tips_cards_over %}
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-over">
+                                        {% regroup tips_cards_over by date_group as grouped_cards_over %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'cards-over', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_cards_over %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'cards-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_cards_over %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(234, 179, 8);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(234, 179, 8,0.15); border: 1px solid rgba(234, 179, 8,0.3); color: rgb(234, 179, 8);">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Card Winner -->
+                        <div class="col-12 col-xl-6">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(217, 119, 6, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(217, 119, 6, 0.15);">
+                                        <i class="fa-solid fa-ranking-star fa-lg" style="color: #d97706;"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Card Winner" %}</h5>
+                                        <span class="text-secondary small">{% translate "Who gets more cards" %}</span>
+                                    </div>
+                                </div>
+                                
+                                {% if tips_cards_winner %}
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-winner">
+                                        {% regroup tips_cards_winner by date_group as grouped_cards_winner %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'cards-winner', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_cards_winner %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'cards-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-winner-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_cards_winner %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(217, 119, 6);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(217, 119, 6,0.15); border: 1px solid rgba(217, 119, 6,0.3); color: rgb(217, 119, 6);">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SHOTS PANE ==================== -->
+                <div class="tab-pane fade" id="shots-pane" role="tabpanel" tabindex="0">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(34, 197, 94, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(34, 197, 94, 0.15);">
+                                        <i class="fa-solid fa-crosshairs fa-lg text-success"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Shots Markets" %}</h5>
+                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
+                                    </div>
+                                </div>
+                                
+                                {% if tips_shots %}
+                                    <!-- Date Sub-tabs -->
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots">
+                                        {% regroup tips_shots by date_group as grouped_shots %}
+                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'shots', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
+                                        {% for group in grouped_shots %}
+                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'shots', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_shots %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(34, 197, 94);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(34, 197, 94,0.15); border: 1px solid rgba(34, 197, 94,0.3); color: rgb(34, 197, 94);">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End scannerTabsContent -->
+
+            <!-- ==================== SCANNER HISTORY (Greens & Reds) ==================== -->
+            <div class="row g-4 mt-2 mb-5">
+                <div class="col-12">
+                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-clock-rotate-left text-info me-2"></i>{% translate "Recent History (Greens & Reds)" %}</h3>
+                    <p class="text-secondary small">{% translate "Full transparency! Check the performance of the latest opportunities suggested by our Smart Scanner." %}</p>
+                </div>
+
+                <div class="col-12">
+                    <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important;">
+                        <div class="card-body p-0">
+                            {% if history_items %}
+                                <div class="table-responsive">
+                                    <table class="table table-dark table-hover mb-0 align-middle" style="--bs-table-bg: transparent;">
+                                        <thead>
+                                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                <th class="text-secondary small text-uppercase py-3 px-4" style="letter-spacing: 1px;">{% translate "Date" %}</th>
+                                                <th class="text-secondary small text-uppercase py-3 px-4" style="letter-spacing: 1px;">{% translate "Match" %}</th>
+                                                <th class="text-secondary small text-uppercase py-3 px-4" style="letter-spacing: 1px;">{% translate "Suggested Market" %}</th>
+                                                <th class="text-secondary small text-uppercase py-3 px-4" style="letter-spacing: 1px;">{% translate "Result" %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="scanner-history-list">
+                                            {% for item in history_items %}
+                                            <tr class="scanner-history-row" style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                                <td class="px-4 text-secondary">{{ item.date|date:"d/m H:i" }}</td>
+                                                <td class="px-4">
+                                                    <div class="fw-bold text-white">{{ item.match.home_team.name }}</div>
+                                                    <div class="fw-bold text-white">{{ item.match.away_team.name }}</div>
+                                                </td>
+                                                <td class="px-4">
+                                                    <div class="text-white">{{ item.text }}</div>
+                                                    <div class="small text-info">{{ item.prob }}% {% translate "Confidence" %}</div>
+                                                </td>
+                                                <td class="px-4">
+                                                    {% if item.status == 'GREEN' %}
+                                                        <span class="badge px-3 py-2 fs-6 fw-bold text-success" style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);"><i class="fa-solid fa-check me-1"></i>GREEN</span>
+                                                    {% elif item.status == 'RED' %}
+                                                        <span class="badge px-3 py-2 fs-6 fw-bold text-danger" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3);"><i class="fa-solid fa-xmark me-1"></i>RED</span>
+                                                    {% else %}
+                                                        <span class="badge bg-secondary">{% translate "Pending" %}</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Scanner History Pagination -->
+                                <div class="card-footer border-0 bg-transparent py-3 d-flex justify-content-center align-items-center gap-2" id="scanner-history-pagination"></div>
+                            {% else %}
+                                <div class="p-5 text-center text-secondary">
+                                    <i class="fa-solid fa-inbox fa-3x mb-3 opacity-50"></i>
+                                    <h5>{% translate "No history available yet" %}</h5>
+                                    <p>{% translate "Results will appear here after the tracked matches conclude." %}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <script>
-                // Script simples para gerenciar a cor e estado ativo das sub-abas do Scanner
-                document.addEventListener('DOMContentLoaded', function() {
-                    const tabs = document.querySelectorAll('#scannerTabs .nav-link');
-                    tabs.forEach(tab => {
-                        tab.addEventListener('click', function() {
-                            // Reset all
-                            tabs.forEach(t => {
-                                t.classList.remove('active', 'text-white');
-                                t.classList.add('text-secondary');
-                                t.style.background = 'rgba(255,255,255,0.03)';
-                                t.style.borderColor = 'transparent';
-                            });
-                            // Set active
-                            this.classList.add('active', 'text-white');
-                            this.classList.remove('text-secondary');
-                            
-                            // Cores baseadas no ID
-                            if(this.id === 'goals-tab') {
-                                this.style.background = 'rgba(16, 185, 129, 0.2)';
-                                this.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-                            } else if(this.id === 'winner-tab') {
-                                this.style.background = 'rgba(239, 68, 68, 0.2)';
-                                this.style.borderColor = 'rgba(239, 68, 68, 0.4)';
-                            } else if(this.id === 'corners-tab') {
-                                this.style.background = 'rgba(99, 102, 241, 0.2)';
-                                this.style.borderColor = 'rgba(99, 102, 241, 0.4)';
-                            }
-                        });
-                    });
-                });
-            </script>
-
-
         {% else %}
-            <!-- Marketing Blurred Version (if not premium) -->
-            <div class="p-4 rounded-4 position-relative shadow-lg" style="background: var(--bg-panel); border: 1px solid var(--border);">
-                <div class="row g-4">
-                    <!-- Fake Card 1 -->
-                    <div class="col-12 col-xl-6">
-                        <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05);">
-                            <div class="d-flex align-items-center mb-4">
-                                <div class="d-flex align-items-center justify-content-center rounded-3 me-3 filter-blur" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); filter: blur(3px);">
-                                    <i class="fa-solid fa-stopwatch fa-lg text-success"></i>
-                                </div>
-                                <div>
-                                    <h5 class="text-white mb-0 fw-bold">🔥 {% translate "Goal in 1st Half Scanner" %}</h5>
-                                    <span class="text-secondary small filter-blur" style="filter: blur(2px);">Matches with +75% probability</span>
-                                </div>
+            <!-- Lock Overlay for Free Users -->
+            <div class="position-relative" style="min-height: 400px;">
+                <div class="filter-blur" style="filter: blur(6px); opacity: 0.3; pointer-events: none;">
+                    <div class="d-flex flex-column gap-2">
+                        {% for i in "123"|make_list %}
+                        <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                            <div>
+                                <div class="small text-secondary mb-1">21:30 • Brasileirão Série A</div>
+                                <div class="text-white fw-bold">Flamengo <span class="text-secondary font-monospace small px-1">vs</span> Palmeiras</div>
                             </div>
-                            <div class="d-flex flex-column gap-2">
-                                {% for i in "123"|make_list %}
-                                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
-                                    <div>
-                                        <div class="small text-secondary mb-1">16:00 • Premier League</div>
-                                        <div class="text-white fw-bold">Arsenal <span class="text-secondary font-monospace small px-1">vs</span> Chelsea</div>
-                                    </div>
-                                    <div class="text-end filter-blur" style="filter: blur(6px);">
-                                        <span class="badge px-3 py-2 fs-6 fw-bold text-success" style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3);">92%</span>
-                                    </div>
-                                </div>
-                                {% endfor %}
+                            <div class="text-end">
+                                <span class="badge px-3 py-2 fs-6 fw-bold text-info" style="background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3);">88%</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Fake Card 2 -->
-                    <div class="col-12 col-xl-6">
-                        <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05);">
-                            <div class="d-flex align-items-center mb-4">
-                                <div class="d-flex align-items-center justify-content-center rounded-3 me-3 filter-blur" style="width: 48px; height: 48px; background: rgba(6, 182, 212, 0.15); filter: blur(3px);">
-                                    <i class="fa-solid fa-futbol fa-lg text-info"></i>
-                                </div>
-                                <div>
-                                    <h5 class="text-white mb-0 fw-bold">📈 {% translate "Over 1.5 Goals Scanner" %}</h5>
-                                    <span class="text-secondary small filter-blur" style="filter: blur(2px);">Matches with +80% probability</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column gap-2">
-                                {% for i in "123"|make_list %}
-                                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
-                                    <div>
-                                        <div class="small text-secondary mb-1">21:30 • Brasileirão Série A</div>
-                                        <div class="text-white fw-bold">Flamengo <span class="text-secondary font-monospace small px-1">vs</span> Palmeiras</div>
-                                    </div>
-                                    <div class="text-end filter-blur" style="filter: blur(6px);">
-                                        <span class="badge px-3 py-2 fs-6 fw-bold text-info" style="background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3);">88%</span>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-
-                <!-- Absolute Lock Overlay for Free Accounts -->
                 <div class="position-absolute d-flex flex-column align-items-center justify-content-center" style="top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,15,30,0.5); backdrop-filter: blur(4px); border-radius: 16px; z-index: 10;">
                     <div class="p-5 rounded-4 text-center shadow-lg mx-3" style="background: rgba(15,23,42,0.95); border: 1px solid rgba(245,158,11,0.4); max-width: 500px;">
                         <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-4 shadow" style="width: 72px; height: 72px; background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(249,115,22,0.05)); border: 1px solid rgba(245,158,11,0.5);">
-                            <i class="fa-solid fa-radar fa-2x text-warning" style="animation: pulse 2s infinite;"></i>
+                            <i class="fa-solid fa-lock fa-2x text-warning" style="animation: pulse 2s infinite;"></i>
                         </div>
                         <h3 class="text-white fw-bold mb-3">{% translate "Smart AI Scanner Locked" %}</h3>
                         <p class="text-secondary mb-4 fs-6">{% translate "Stop searching manually! Our Premium Smart Scanner analyzes every upcoming match and automatically filters the ones with the highest probabilities for HT Goals, Over 1.5, BTTS, and Corners." %}</p>
@@ -527,69 +722,99 @@
                     </div>
                 </div>
             </div>
-            
-            <style>
-                @keyframes pulse {
-                    0% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.1); opacity: 0.8; }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-            </style>
-        {% endif %}     </div>
+        {% endif %}
+    </div> <!-- END matches-pane -->
 
 
-    <!-- Tab 3: Bilhetes Prontos & Estratégias -->
+    <!-- ====================================================================== -->
+    <!-- TAB 2 : Ready Strategies (Estratégias Prontas / Bilhetes)              -->
+    <!-- ====================================================================== -->
     <div class="tab-pane fade" id="tickets-pane" role="tabpanel" aria-labelledby="tickets-tab" tabindex="0">
         {% if is_premium %}
-            <!-- Painel de Dicas Ativas -->
+            <!-- Active Tickets -->
             <div class="row g-4 mb-5">
                 <div class="col-12">
-                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-fire text-danger me-2"></i>Bilhetes do Especialista (Hoje)</h3>
-                    <p class="text-secondary small">Duplas e Triplas geradas automaticamente baseadas em nossa inteligência de dados com mais de 80% de precisão.</p>
+                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-fire text-danger me-2"></i>{% translate "Expert Tickets (Today)" %}</h3>
+                    <p class="text-secondary small">{% translate "Doubles and Triples generated automatically based on our data intelligence with over 80% accuracy." %}</p>
                 </div>
 
                 {% if active_tickets %}
                     {% for ticket in active_tickets %}
                     <div class="col-lg-6 col-md-12">
                         <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important;">
-                            <div class="card-header border-0 bg-transparent p-4 d-flex justify-content-between align-items-center">
+                            <div class="card-header border-0 bg-transparent py-3 px-4 d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="badge bg-success mb-2" style="background: rgba(16,185,129,0.15) !important; color: #10b981;">{{ ticket.get_ticket_type_display }}</span>
-                                    <h4 class="text-white fw-bold mb-0">{{ ticket.title }}</h4>
+                                    <span class="badge bg-success mb-1" style="background: rgba(16,185,129,0.15) !important; color: #10b981; font-size: 10px;">{{ ticket.get_ticket_type_display }}</span>
+                                    <h5 class="text-white fw-bold mb-0" style="font-size: 1.1rem;">{{ ticket.title }}</h5>
                                 </div>
                                 <div class="text-end">
-                                    <div class="fs-3 fw-bold text-success" style="color: #10b981;">{{ ticket.average_probability }}%</div>
-                                    <div class="text-secondary small text-uppercase" style="font-size: 10px; letter-spacing: 1px;">Assertividade</div>
+                                    <div class="fs-4 fw-bold text-success" style="color: #10b981;">{{ ticket.average_probability }}%</div>
+                                    <div class="text-secondary small text-uppercase" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Accuracy" %}</div>
                                 </div>
                             </div>
-                            <div class="card-body px-4 py-2">
+                            <div class="card-body px-4 py-1">
                                 <hr class="my-0" style="border-color: rgba(255,255,255,0.05);">
-                                <div class="py-3">
+                                <div class="py-2">
                                     {% for sel in ticket.selections.all %}
-                                    <div class="d-flex align-items-center justify-content-between py-3 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
+                                    <div class="d-flex align-items-center justify-content-between py-2 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
                                         <div class="d-flex align-items-center gap-3">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: rgba(99,102,241,0.1); color: #818cf8;">
+                                            {% if sel.status == 'Green' %}
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.85rem;">
+                                                <i class="fa-solid fa-check"></i>
+                                            </div>
+                                            {% elif sel.status == 'Red' %}
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(239,68,68,0.15); color: #ef4444; font-size: 0.85rem;">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </div>
+                                            {% else %}
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(99,102,241,0.1); color: #818cf8; font-size: 0.85rem;">
                                                 <i class="fa-solid fa-futbol"></i>
                                             </div>
+                                            {% endif %}
                                             <div>
-                                                <span class="text-secondary small d-block" style="font-size: 11px;">{{ sel.match.league.name }}</span>
-                                                <span class="text-white fw-bold">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
+                                                <span class="text-secondary small d-block" style="font-size: 10px;">{{ sel.match.league.name }}</span>
+                                                <span class="text-white fw-bold" style="font-size: 0.92rem;">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
+                                                {% if sel.status == 'Green' %}
+                                                    <span class="small d-block mt-0.5" style="color: #10b981; font-size: 10px;"><i class="fa-solid fa-check-circle me-1"></i>{{ sel.match.home_score }} - {{ sel.match.away_score }} • GREEN</span>
+                                                {% elif sel.status == 'Red' %}
+                                                    <span class="small d-block mt-0.5" style="color: #ef4444; font-size: 10px;"><i class="fa-solid fa-times-circle me-1"></i>{{ sel.match.home_score }} - {{ sel.match.away_score }} • RED</span>
+                                                {% else %}
+                                                    <span class="small d-block mt-0.5" style="color: #f59e0b; font-size: 10px;"><i class="fa-regular fa-clock me-1"></i>{{ sel.match.date|date:"d/m H:i" }}</span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <div class="text-end">
-                                            <span class="badge bg-primary text-white fw-bold px-3 py-2" style="background: rgba(99,102,241,0.2) !important; color: #a5b4fc !important; border: 1px solid rgba(99,102,241,0.2);">{{ sel.prediction_label }}</span>
-                                            <span class="text-secondary small d-block mt-1" style="font-size: 11px;">Probabilidade: {{ sel.probability }}%</span>
+                                            <span class="badge fw-bold px-2.5 py-1.5" style="font-size: 0.78rem;
+                                                {% if sel.status == 'Green' %}
+                                                background: rgba(16,185,129,0.15) !important; color: #10b981 !important; border: 1px solid rgba(16,185,129,0.3);
+                                                {% elif sel.status == 'Red' %}
+                                                background: rgba(239,68,68,0.15) !important; color: #ef4444 !important; border: 1px solid rgba(239,68,68,0.3);
+                                                {% else %}
+                                                background: rgba(99,102,241,0.2) !important; color: #a5b4fc !important; border: 1px solid rgba(99,102,241,0.2);
+                                                {% endif %}">
+                                                {{ sel.prediction_label }}
+                                            </span>
+                                            <span class="text-secondary small d-block mt-1" style="font-size: 10px;">{% translate "Probability" %}: {{ sel.probability }}%</span>
                                         </div>
                                     </div>
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="card-footer border-0 p-4" style="background: rgba(0,0,0,0.15);">
+                            <div class="card-footer border-0 py-2.5 px-4" style="background: rgba(0,0,0,0.15);">
                                 <div class="d-flex justify-content-between align-items-center">
+                                    {% with pending_count=ticket.pending_selections_count %}
+                                    {% if pending_count > 0 %}
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="rounded-circle bg-warning" style="width: 8px; height: 8px; animation: pulse 1.5s infinite;"></div>
-                                        <span class="text-warning small fw-bold">Aguardando início dos jogos</span>
+                                        <span class="text-warning small fw-bold">{{ pending_count }} {% translate "match(es) pending" %}</span>
                                     </div>
+                                    {% else %}
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle bg-info" style="width: 8px; height: 8px;"></div>
+                                        <span class="text-info small fw-bold">{% translate "All matches finished" %}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% endwith %}
                                     <span class="text-secondary small" style="font-size: 11px;">{{ ticket.date_target|date:"d/m/Y" }}</span>
                                 </div>
                             </div>
@@ -600,88 +825,160 @@
                     <div class="col-12">
                         <div class="p-5 rounded-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
                             <i class="fa-solid fa-clock fa-2x mb-3 text-secondary"></i>
-                            <h5 class="text-white fw-bold">Nenhum bilhete ativo no momento</h5>
-                            <p class="text-secondary small mb-0">Estratégias são geradas de manhã. Volte mais tarde para conferir as melhores duplas e triplas.</p>
+                            <h5 class="text-white fw-bold">{% translate "No active tickets at the moment" %}</h5>
+                            <p class="text-secondary small mb-0">{% translate "Strategies are generated in the morning. Come back later to check the best doubles and triples." %}</p>
                         </div>
                     </div>
                 {% endif %}
             </div>
 
-            <!-- Histórico de Bilhetes (Greens & Reds) -->
+            <!-- Ticket History (Greens & Reds) -->
             <div class="row g-4 mb-4">
                 <div class="col-12 border-top pt-5" style="border-color: rgba(255,255,255,0.05) !important;">
-                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-chart-line text-success me-2"></i>Histórico das Últimas Entradas</h3>
-                    <p class="text-secondary small">Transparência total! Acompanhe o resultado das estratégias geradas nos dias anteriores.</p>
+                    <h3 class="text-white fw-bold mb-2"><i class="fa-solid fa-chart-line text-success me-2"></i>{% translate "History of Latest Entries" %}</h3>
+                    <p class="text-secondary small">{% translate "Full transparency! Track the results of strategies generated in the previous days." %}</p>
                 </div>
 
-                {% if history_tickets %}
-                    {% for ticket in history_tickets %}
-                    <div class="col-lg-6 col-md-12">
-                        <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important; opacity: 0.85;">
-                            <div class="card-header border-0 bg-transparent p-4 d-flex justify-content-between align-items-center">
+                <!-- Accuracy Statistics Panel -->
+                <div class="col-12 mt-2">
+                    <div class="row g-3 mb-3">
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-4 h-100 d-flex align-items-center gap-3" style="background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(99,102,241,0.03) 100%); border: 1px solid rgba(99,102,241,0.15);">
+                                <div class="d-flex align-items-center justify-content-center rounded-3" style="width: 40px; height: 40px; background: rgba(99, 102, 241, 0.15); flex-shrink: 0; color: #a5b4fc;">
+                                    <i class="fa-solid fa-ticket fa-lg"></i>
+                                </div>
                                 <div>
-                                    <span class="badge bg-secondary mb-2" style="background: rgba(255,255,255,0.08) !important;">{{ ticket.get_ticket_type_display }}</span>
-                                    <h4 class="text-white fw-bold mb-0">{{ ticket.title }}</h4>
-                                </div>
-                                <div class="text-end">
-                                    {% if ticket.status == 'Green' %}
-                                        <span class="badge bg-success px-4 py-2 fs-6 fw-bold" style="background: rgba(16,185,129,0.2) !important; color: #10b981 !important; border: 1px solid rgba(16,185,129,0.3);">GREEN ✅</span>
-                                    {% elif ticket.status == 'Red' %}
-                                        <span class="badge bg-danger px-4 py-2 fs-6 fw-bold" style="background: rgba(239,68,68,0.2) !important; color: #ef4444 !important; border: 1px solid rgba(239,68,68,0.3);">RED ❌</span>
-                                    {% else %}
-                                        <span class="badge bg-secondary px-4 py-2 fs-6 fw-bold">{{ ticket.get_status_display }}</span>
-                                    {% endif %}
+                                    <span class="text-secondary small d-block text-uppercase fw-bold" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Analyzed Tickets" %}</span>
+                                    <span class="fs-5 fw-bold text-white mb-0" style="font-size: 1.15rem !important;">{{ stats_total_tickets }}</span>
                                 </div>
                             </div>
-                            <div class="card-body px-4 py-2">
-                                <hr class="my-0" style="border-color: rgba(255,255,255,0.05);">
-                                <div class="py-3">
-                                    {% for sel in ticket.selections.all %}
-                                    <div class="d-flex align-items-center justify-content-between py-3 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: rgba(255,255,255,0.05); color: #9ca3af;">
-                                                <i class="fa-solid fa-futbol"></i>
-                                            </div>
-                                            <div>
-                                                <span class="text-secondary small d-block" style="font-size: 11px;">{{ sel.match.league.name }}</span>
-                                                <span class="text-white fw-bold">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
-                                                <span class="text-secondary small d-block mt-0.5" style="font-size: 11px;">Placar: {{ sel.match.home_score }} - {{ sel.match.away_score }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <span class="badge bg-secondary text-white fw-bold px-3 py-2" style="background: rgba(255,255,255,0.05) !important; color: #e5e7eb !important;">{{ sel.prediction_label }}</span>
-                                            <span class="text-secondary small d-block mt-1" style="font-size: 11px;">Probabilidade: {{ sel.probability }}%</span>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-4 h-100 d-flex align-items-center gap-3" style="background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(16,185,129,0.03) 100%); border: 1px solid rgba(16,185,129,0.15);">
+                                <div class="d-flex align-items-center justify-content-center rounded-3" style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.15); flex-shrink: 0; color: #10b981;">
+                                    <i class="fa-solid fa-circle-check fa-lg"></i>
+                                </div>
+                                <div>
+                                    <span class="text-secondary small d-block text-uppercase fw-bold" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Greens Obtained" %}</span>
+                                    <span class="fs-5 fw-bold text-success mb-0" style="font-size: 1.15rem !important;">{{ stats_greens }}</span>
                                 </div>
                             </div>
-                            <div class="card-footer border-0 p-4" style="background: rgba(0,0,0,0.15);">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="text-secondary small" style="font-size: 11px;">Data alvo: {{ ticket.date_target|date:"d/m/Y" }}</span>
-                                    <span class="text-secondary small" style="font-size: 11px;">Assertividade Média: {{ ticket.average_probability }}%</span>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-4 h-100 d-flex align-items-center gap-3" style="background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.03) 100%); border: 1px solid rgba(239,68,68,0.15);">
+                                <div class="d-flex align-items-center justify-content-center rounded-3" style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.15); flex-shrink: 0; color: #ef4444;">
+                                    <i class="fa-solid fa-circle-xmark fa-lg"></i>
+                                </div>
+                                <div>
+                                    <span class="text-secondary small d-block text-uppercase fw-bold" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Reds" %}</span>
+                                    <span class="fs-5 fw-bold text-danger mb-0" style="font-size: 1.15rem !important;">{{ stats_reds }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-3 rounded-4 h-100 d-flex align-items-center gap-3" style="background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(245,158,11,0.03) 100%); border: 1px solid rgba(245,158,11,0.25); box-shadow: 0 4px 15px rgba(245,158,11,0.05);">
+                                <div class="d-flex align-items-center justify-content-center rounded-3" style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.15); flex-shrink: 0; color: #f59e0b;">
+                                    <i class="fa-solid fa-chart-simple fa-lg"></i>
+                                </div>
+                                <div>
+                                    <span class="text-secondary small d-block text-uppercase fw-bold" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Assertiveness Rate" %}</span>
+                                    <span class="fs-5 fw-bold text-warning mb-0" style="font-size: 1.15rem !important;">{{ stats_win_rate }}%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                </div>
+
+                {% if history_tickets %}
+                    <div class="row g-4 p-0 m-0" id="ticket-history-list">
+                        {% for ticket in history_tickets %}
+                        <div class="col-lg-6 col-md-12 ticket-history-card">
+                            <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important;">
+                                <div class="card-header border-0 bg-transparent py-3 px-4 d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-secondary mb-1" style="background: rgba(255,255,255,0.08) !important; font-size: 10px;">{{ ticket.get_ticket_type_display }}</span>
+                                        <h5 class="text-white fw-bold mb-0" style="font-size: 1.1rem;">{{ ticket.title }}</h5>
+                                    </div>
+                                    <div class="text-end">
+                                        {% if ticket.status == 'Green' %}
+                                            <span class="badge bg-success px-3 py-1.5 fs-7 fw-bold" style="background: rgba(16,185,129,0.2) !important; color: #10b981 !important; border: 1px solid rgba(16,185,129,0.3); font-size: 0.78rem;">GREEN ✅</span>
+                                        {% elif ticket.status == 'Red' %}
+                                            <span class="badge bg-danger px-3 py-1.5 fs-7 fw-bold" style="background: rgba(239,68,68,0.2) !important; color: #ef4444 !important; border: 1px solid rgba(239,68,68,0.3); font-size: 0.78rem;">RED ❌</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary px-3 py-1.5 fs-7 fw-bold" style="font-size: 0.78rem;">{{ ticket.get_status_display }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-body px-4 py-1">
+                                    <hr class="my-0" style="border-color: rgba(255,255,255,0.05);">
+                                    <div class="py-2">
+                                        {% for sel in ticket.selections.all %}
+                                        <div class="d-flex align-items-center justify-content-between py-2 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
+                                            <div class="d-flex align-items-center gap-3">
+                                                {% if sel.status == 'Green' %}
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.85rem;">
+                                                    <i class="fa-solid fa-check"></i>
+                                                </div>
+                                                {% elif sel.status == 'Red' %}
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(239,68,68,0.15); color: #ef4444; font-size: 0.85rem;">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </div>
+                                                {% else %}
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(99,102,241,0.1); color: #818cf8; font-size: 0.85rem;">
+                                                    <i class="fa-solid fa-futbol"></i>
+                                                </div>
+                                                {% endif %}
+                                                <div>
+                                                    <span class="text-secondary small d-block" style="font-size: 10px;">{{ sel.match.league.name }}</span>
+                                                    <span class="text-white fw-bold" style="font-size: 0.92rem;">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
+                                                    <span class="text-secondary small d-block mt-0.5" style="font-size: 10px;">{% translate "Score" %}: {{ sel.match.home_score }} - {{ sel.match.away_score }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="badge fw-bold px-2.5 py-1.5" style="font-size: 0.78rem;
+                                                    {% if sel.status == 'Green' %}
+                                                    background: rgba(16,185,129,0.15) !important; color: #10b981 !important; border: 1px solid rgba(16,185,129,0.3);
+                                                    {% elif sel.status == 'Red' %}
+                                                    background: rgba(239,68,68,0.15) !important; color: #ef4444 !important; border: 1px solid rgba(239,68,68,0.3);
+                                                    {% else %}
+                                                    background: rgba(99,102,241,0.2) !important; color: #a5b4fc !important; border: 1px solid rgba(99,102,241,0.2);
+                                                    {% endif %}">
+                                                    {{ sel.prediction_label }}
+                                                </span>
+                                                <span class="text-secondary small d-block mt-1" style="font-size: 10px;">{% translate "Probability" %}: {{ sel.probability }}%</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="card-footer border-0 py-2.5 px-4" style="background: rgba(0,0,0,0.15);">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-secondary small" style="font-size: 10.5px;">{% translate "Target date" %}: {{ ticket.date_target|date:"d/m/Y" }}</span>
+                                        <span class="text-secondary small" style="font-size: 10.5px;">{% translate "Average Accuracy" %}: {{ ticket.average_probability }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Ticket History Pagination -->
+                    <div class="col-12 d-flex justify-content-center align-items-center gap-2 mt-4" id="ticket-history-pagination"></div>
                 {% else %}
                     <div class="col-12">
                         <div class="p-4 rounded-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
-                            <p class="text-secondary small mb-0">Nenhum bilhete resolvido no histórico.</p>
+                            <p class="text-secondary small mb-0">{% translate "No resolved tickets in history." %}</p>
                         </div>
                     </div>
                 {% endif %}
             </div>
 
         {% else %}
-            <!-- Paywall para quem é gratuito -->
+            <!-- Paywall for free users -->
             <div class="p-5 rounded-4 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(30,30,45,1) 0%, rgba(15,15,25,1) 100%); border: 1px solid rgba(255,255,255,0.05);">
-                <!-- Blurred background preview elements -->
                 <div class="filter-blur" style="filter: blur(8px); opacity: 0.15; pointer-events: none; margin-bottom: 2rem;">
                     <div class="d-flex justify-content-center gap-4 mb-4 flex-wrap">
-                        <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div >
-                        <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div >
+                        <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div>
+                        <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div>
                     </div>
                 </div>
 
@@ -689,18 +986,20 @@
                     <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-4" style="width: 72px; height: 72px; background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 20px rgba(16,185,129,0.3);">
                         <i class="fa-solid fa-lock text-white fa-2x"></i>
                     </div>
-                    <h3 class="text-white fw-bold mb-3">🔒 Estratégias do Especialista Destravadas</h3>
-                    <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">Assine o Plano Premium para ter acesso instantâneo a bilhetes prontos (duplas e triplas) gerados por nossa Inteligência Artificial diariamente, com taxas de acerto acima de 80%!</p>
+                    <h3 class="text-white fw-bold mb-3">🔒 {% translate "Expert Strategies Unlocked" %}</h3>
+                    <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">{% translate "Subscribe to the Premium Plan for instant access to ready-made tickets (doubles and triples) generated by our AI daily, with accuracy rates above 80%!" %}</p>
                     <a href="{% url 'members:paywall' %}" class="btn btn-success btn-lg fw-bold px-5" style="border-radius: 12px; background: #10b981; border: none; box-shadow: 0 4px 15px rgba(16,185,129,0.3);">
-                        <i class="fa-solid fa-rocket me-2"></i>Quero Ser Premium Agora!
+                        <i class="fa-solid fa-rocket me-2"></i>{% translate "I Want to Be Premium Now!" %}
                     </a>
                 </div>
             </div>
         {% endif %}
-    </div>
+    </div> <!-- END tickets-pane -->
 
 
-    <!-- Tab 2: Premium Features Guide -->
+    <!-- ====================================================================== -->
+    <!-- TAB 3 : Premium Features Guide                                         -->
+    <!-- ====================================================================== -->
     <div class="tab-pane fade" id="features-pane" role="tabpanel" aria-labelledby="features-tab" tabindex="0">
         
         <!-- Premium Feature Cards Grid -->
@@ -724,17 +1023,6 @@
                     </div>
                     <h5 class="text-white mb-2">{% translate "Card Analysis" %}</h5>
                     <p class="text-secondary small mb-0">{% translate "Yellow and red card trends, average cards per match, referee tendencies and disciplinary patterns." %}</p>
-                </div>
-            </div>
-
-            <!-- Card: Shot Analysis -->
-            <div class="col-lg-4 col-md-6">
-                <div class="p-4 rounded-4 h-100 position-relative overflow-hidden" style="background: var(--bg-panel); border: 1px solid var(--border); transition: all 0.3s ease;" onmouseenter="this.style.borderColor='#22c55e'; this.style.transform='translateY(-4px)'" onmouseleave="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'">
-                    <div class="d-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(34,197,94,0.05));">
-                        <i class="fa-solid fa-crosshairs fa-lg" style="color: #22c55e;"></i>
-                    </div>
-                    <h5 class="text-white mb-2">{% translate "Shot Analysis" %}</h5>
-                    <p class="text-secondary small mb-0">{% translate "Shots on/off target, shot conversion rate, xG-style shooting efficiency per team across seasons." %}</p>
                 </div>
             </div>
 
@@ -770,6 +1058,17 @@
                     <p class="text-secondary small mb-0">{% translate "Extended head-to-head history with goal timing, venue-specific stats, and trend visualization." %}</p>
                 </div>
             </div>
+
+            <!-- Card: Shot Analysis -->
+            <div class="col-lg-4 col-md-6">
+                <div class="p-4 rounded-4 h-100 position-relative overflow-hidden" style="background: var(--bg-panel); border: 1px solid var(--border); transition: all 0.3s ease;" onmouseenter="this.style.borderColor='#22c55e'; this.style.transform='translateY(-4px)'" onmouseleave="this.style.borderColor='var(--border)'; this.style.transform='translateY(0)'">
+                    <div class="d-flex align-items-center justify-content-center rounded-3 mb-3" style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(34,197,94,0.05));">
+                        <i class="fa-solid fa-crosshairs fa-lg" style="color: #22c55e;"></i>
+                    </div>
+                    <h5 class="text-white mb-2">{% translate "Shot Analysis" %}</h5>
+                    <p class="text-secondary small mb-0">{% translate "Shots on/off target, shot conversion rate, xG-style shooting efficiency per team across seasons." %}</p>
+                </div>
+            </div>
         </div>
 
         <!-- Coming Soon Section -->
@@ -778,8 +1077,9 @@
             <h5 class="text-white mb-2">{% translate "More Features Coming Soon" %}</h5>
             <p class="text-secondary small mb-0">{% translate "We are constantly adding new premium analytics tools. Stay tuned for live alerts, value bet detection, and more." %}</p>
         </div>
-    </div>
-</div>
+    </div> <!-- END features-pane -->
+
+</div> <!-- END premiumTabContent -->
 
 <style>
 /* Custom Style for premium navigation buttons */
@@ -795,12 +1095,445 @@
     background: rgba(255,255,255,0.06) !important;
     color: #fff !important;
 }
+
+/* ==================== Scanner Category Tabs ==================== */
+.scanner-cat-tab {
+    border-radius: 8px !important;
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid transparent !important;
+    color: #6b7280 !important;
+    transition: all 0.3s ease !important;
+    white-space: nowrap;
+}
+.scanner-cat-tab:hover {
+    background: rgba(255,255,255,0.06) !important;
+    color: #d1d5db !important;
+}
+#goals-tab.active {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+}
+#winner-tab.active {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.4) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+}
+#corners-tab.active {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border: 1px solid rgba(239, 68, 68, 0.4) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);
+}
+#cards-tab.active {
+    background: rgba(234, 179, 8, 0.2) !important;
+    border: 1px solid rgba(234, 179, 8, 0.4) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.15);
+}
+#shots-tab.active {
+    background: rgba(34, 197, 94, 0.2) !important;
+    border: 1px solid rgba(34, 197, 94, 0.4) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15);
+}
+
+/* ==================== Date Sub-tabs ==================== */
+.date-subtabs {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-bottom: 8px;
+}
+.date-tab {
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    color: #6b7280 !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    padding: 4px 12px !important;
+    transition: all 0.25s ease !important;
+    white-space: nowrap;
+}
+
+/* Specific Active/Hover Colors for Date Sub-tabs by card */
+/* Goals (Green) & Shots (Green) */
+[data-card="goals"] .date-tab.active,
+[data-card="shots"] .date-tab.active {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-color: rgba(16, 185, 129, 0.4) !important;
+    color: #10b981 !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+}
+[data-card="goals"] .date-tab:hover,
+[data-card="shots"] .date-tab:hover {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* BTTS (Cyan) */
+[data-card="btts"] .date-tab.active {
+    background: rgba(6, 182, 212, 0.2) !important;
+    border-color: rgba(6, 182, 212, 0.4) !important;
+    color: #06b6d4 !important;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.1);
+}
+[data-card="btts"] .date-tab:hover {
+    background: rgba(6, 182, 212, 0.1) !important;
+    border-color: rgba(6, 182, 212, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* Winner (Orange) */
+[data-card="result"] .date-tab.active {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    color: #f59e0b !important;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+}
+[data-card="result"] .date-tab:hover {
+    background: rgba(245, 158, 11, 0.1) !important;
+    border-color: rgba(245, 158, 11, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* Specials (Purple) */
+[data-card="specials"] .date-tab.active {
+    background: rgba(168, 85, 247, 0.2) !important;
+    border-color: rgba(168, 85, 247, 0.4) !important;
+    color: #a855f7 !important;
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.1);
+}
+[data-card="specials"] .date-tab:hover {
+    background: rgba(168, 85, 247, 0.1) !important;
+    border-color: rgba(168, 85, 247, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* Corners Over (Red) */
+[data-card="corners-over"] .date-tab.active {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    color: #ef4444 !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+}
+[data-card="corners-over"] .date-tab:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* Corner Winner (Orange/Amber) */
+[data-card="corners-winner"] .date-tab.active {
+    background: rgba(251, 146, 60, 0.2) !important;
+    border-color: rgba(251, 146, 60, 0.4) !important;
+    color: #fb923c !important;
+    box-shadow: 0 2px 8px rgba(251, 146, 60, 0.1);
+}
+[data-card="corners-winner"] .date-tab:hover {
+    background: rgba(251, 146, 60, 0.1) !important;
+    border-color: rgba(251, 146, 60, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* Cards Over (Yellow) */
+[data-card="cards-over"] .date-tab.active {
+    background: rgba(234, 179, 8, 0.2) !important;
+    border-color: rgba(234, 179, 8, 0.4) !important;
+    color: #eab308 !important;
+    box-shadow: 0 2px 8px rgba(234, 179, 8, 0.1);
+}
+[data-card="cards-over"] .date-tab:hover {
+    background: rgba(234, 179, 8, 0.1) !important;
+    border-color: rgba(234, 179, 8, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* Card Winner (Amber/Orange) */
+[data-card="cards-winner"] .date-tab.active {
+    background: rgba(217, 119, 6, 0.2) !important;
+    border-color: rgba(217, 119, 6, 0.4) !important;
+    color: #d97706 !important;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
+}
+[data-card="cards-winner"] .date-tab:hover {
+    background: rgba(217, 119, 6, 0.1) !important;
+    border-color: rgba(217, 119, 6, 0.2) !important;
+    color: #d1d5db !important;
+}
+
+/* ==================== Goals Market Sub-tabs ==================== */
+.goals-market-tab {
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    color: #6b7280 !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    padding: 3px 10px !important;
+    transition: all 0.25s ease !important;
+    letter-spacing: 0.5px;
+}
+.goals-market-tab:hover {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
+    color: #d1d5db !important;
+}
+.goals-market-tab.active {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(16, 185, 129, 0.15)) !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    color: #10b981 !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+
+/* ==================== Tip row animation ==================== */
+.scanner-tip-row {
+    transition: opacity 0.25s ease, max-height 0.3s ease;
+}
+.scanner-tip-row.hidden-tip {
+    display: none !important;
+}
+
 .filter-blur {
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
 }
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==================== Pagination Styling ==================== */
+.pagination-btn {
+    border-radius: 8px !important;
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    color: #9ca3af !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    padding: 5px 12px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer;
+}
+.pagination-btn:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.1) !important;
+    border-color: rgba(99, 102, 241, 0.3) !important;
+    color: #fff !important;
+}
+.pagination-btn.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.15)) !important;
+    border-color: rgba(99, 102, 241, 0.5) !important;
+    color: #a5b4fc !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+}
+.pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
 </style>
+
+<script>
+/* ==================== Date Sub-tab Filtering ==================== */
+function filterDateTab(btn, cardId, dateGroup) {
+    // Update active state on date sub-tabs within this card
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Filter rows in the corresponding list
+    const list = document.getElementById(cardId + '-list');
+    if (!list) return;
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        if (dateGroup === 'all' || row.getAttribute('data-date-group') === dateGroup) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+/* ==================== Goals Market Sub-tab Filtering ==================== */
+let activeGoalsMarket = 'all';
+
+function filterGoalsMarket(btn, market) {
+    // Update active state
+    document.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    activeGoalsMarket = market;
+    
+    // Filter rows
+    const list = document.getElementById('goals-list');
+    if (!list) return;
+    
+    // Get active date filter too
+    const dateContainer = document.querySelector('.date-subtabs[data-card="goals"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            // Check onclick attribute to find date group
+            const onclick = activeBtn.getAttribute('onclick');
+            const match = onclick.match(/'([^']+)'\)$/);
+            if (match) activeDate = match[1];
+        }
+    }
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        const marketMatch = (market === 'all' || rowMarket === market);
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+/* Override date tab filter for goals to also respect market filter */
+(function() {
+    const origFilterDateTab = window.filterDateTab;
+    window.filterDateTab = function(btn, cardId, dateGroup) {
+        origFilterDateTab(btn, cardId, dateGroup);
+        
+        // If this is the goals card, also apply market filter
+        if (cardId === 'goals' && activeGoalsMarket !== 'all') {
+            const list = document.getElementById('goals-list');
+            if (!list) return;
+            list.querySelectorAll('.scanner-tip-row').forEach(row => {
+                const rowMarket = row.getAttribute('data-market');
+                if (rowMarket !== activeGoalsMarket) {
+                    row.classList.add('hidden-tip');
+                }
+            });
+        }
+    };
+})();
+
+/* ==================== Client-side Pagination ==================== */
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Ticket History Pagination (4 tickets per page)
+    const ticketContainer = document.getElementById("ticket-history-list");
+    const ticketPagination = document.getElementById("ticket-history-pagination");
+    if (ticketContainer && ticketPagination) {
+        const tickets = Array.from(ticketContainer.querySelectorAll(".ticket-history-card"));
+        const ticketsPerPage = 4;
+        const totalPages = Math.ceil(tickets.length / ticketsPerPage);
+        let currentPage = 1;
+
+        function showPage(page) {
+            currentPage = page;
+            const start = (page - 1) * ticketsPerPage;
+            const end = start + ticketsPerPage;
+            
+            tickets.forEach((ticket, idx) => {
+                if (idx >= start && idx < end) {
+                    ticket.style.display = "block";
+                } else {
+                    ticket.style.display = "none";
+                }
+            });
+            renderButtons();
+        }
+
+        function renderButtons() {
+            ticketPagination.innerHTML = "";
+            if (totalPages <= 1) return;
+
+            // Previous Button
+            const prevBtn = document.createElement("button");
+            prevBtn.className = "pagination-btn";
+            prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => showPage(currentPage - 1);
+            ticketPagination.appendChild(prevBtn);
+
+            // Pages Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.className = "pagination-btn" + (currentPage === i ? " active" : "");
+                btn.innerText = i;
+                btn.onclick = () => showPage(i);
+                ticketPagination.appendChild(btn);
+            }
+
+            // Next Button
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "pagination-btn";
+            nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => showPage(currentPage + 1);
+            ticketPagination.appendChild(nextBtn);
+        }
+
+        showPage(1);
+    }
+
+    // 2. Scanner History Pagination (6 rows per page)
+    const scannerContainer = document.getElementById("scanner-history-list");
+    const scannerPagination = document.getElementById("scanner-history-pagination");
+    if (scannerContainer && scannerPagination) {
+        const rows = Array.from(scannerContainer.querySelectorAll(".scanner-history-row"));
+        const rowsPerPage = 6;
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+        let currentPage = 1;
+
+        function showPage(page) {
+            currentPage = page;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            
+            rows.forEach((row, idx) => {
+                if (idx >= start && idx < end) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+            renderButtons();
+        }
+
+        function renderButtons() {
+            scannerPagination.innerHTML = "";
+            if (totalPages <= 1) return;
+
+            // Previous Button
+            const prevBtn = document.createElement("button");
+            prevBtn.className = "pagination-btn";
+            prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => showPage(currentPage - 1);
+            scannerPagination.appendChild(prevBtn);
+
+            // Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.className = "pagination-btn" + (currentPage === i ? " active" : "");
+                btn.innerText = i;
+                btn.onclick = () => showPage(i);
+                scannerPagination.appendChild(btn);
+            }
+
+            // Next Button
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "pagination-btn";
+            nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => showPage(currentPage + 1);
+            scannerPagination.appendChild(nextBtn);
+        }
+
+        showPage(1);
+    }
+});
+</script>
 
 {% endblock %}

@@ -269,6 +269,10 @@ class BetTicket(models.Model):
     def __str__(self):
         return f"{self.title} - {self.get_status_display()}"
 
+    @property
+    def pending_selections_count(self):
+        return self.selections.filter(status='Pending').count()
+
 
 class BetTicketSelection(models.Model):
     ticket = models.ForeignKey(BetTicket, on_delete=models.CASCADE, related_name='selections')
@@ -280,3 +284,25 @@ class BetTicketSelection(models.Model):
 
     def __str__(self):
         return f"{self.match} -> {self.prediction_label} ({self.status})"
+
+class ScannerTip(models.Model):
+    STATUS_CHOICES = (
+        ('PENDING', 'Pendente'),
+        ('GREEN', 'Green ✅'),
+        ('RED', 'Red ❌'),
+    )
+    
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='scanner_tips')
+    market = models.CharField(max_length=50, help_text="Market identifier (e.g., HT_GOAL, OVER_15, BTTS, HOME_WIN)")
+    probability = models.FloatField(default=0.0)
+    prediction_text = models.CharField(max_length=200, help_text="User-friendly text (e.g., 'Gol no 1º Tempo')")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        unique_together = ['match', 'market']
+        
+    def __str__(self):
+        return f"[{self.status}] {self.match} - {self.prediction_text} ({self.probability}%)"

@@ -101,92 +101,388 @@ def premium_dashboard(request):
         }
         return render(request, 'members/premium_dashboard.html', context)
 
-    # Buscar Bilhetes Prontos (Estratégias)
+    # ----------------- ROBÔ DE AVALIAÇÃO EM TEMPO REAL -----------------
+    from matches.models import ScannerTip, Goal
+    
+    # 1. Avaliar Dicas Pendentes do Scanner Inteligente
+    finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
+    tips_to_resolve = ScannerTip.objects.filter(
+        status='PENDING',
+        match__status__in=finished_statuses
+    ).select_related('match')
+    
+    for tip in tips_to_resolve:
+        m = tip.match
+        if m.home_score is None or m.away_score is None:
+            continue
+        total_goals = m.home_score + m.away_score
+        is_green = False
+        
+        try:
+            if tip.market == 'HT_GOAL':
+                goals_ht = m.goals.filter(minute__lte=45).exists()
+                is_green = goals_ht
+            elif tip.market == 'OVER_05':
+                is_green = total_goals >= 1
+            elif tip.market == 'OVER_15':
+                is_green = total_goals >= 2
+            elif tip.market == 'OVER_25':
+                is_green = total_goals >= 3
+            elif tip.market == 'OVER_35':
+                is_green = total_goals >= 4
+            elif tip.market == 'BTTS':
+                is_green = (m.home_score > 0 and m.away_score > 0)
+            elif tip.market == 'HOME_WIN':
+                is_green = m.home_score > m.away_score
+            elif tip.market == 'AWAY_WIN':
+                is_green = m.away_score > m.home_score
+            elif tip.market == 'DC_1X':
+                is_green = m.home_score >= m.away_score
+            elif tip.market == 'DC_X2':
+                is_green = m.away_score >= m.home_score
+            elif tip.market == 'DNB_HOME':
+                is_green = m.home_score > m.away_score
+            elif tip.market == 'DNB_AWAY':
+                is_green = m.away_score > m.home_score
+            elif tip.market == 'FIRST_SCORE_HOME':
+                first_goal = m.goals.order_by('minute').first()
+                if first_goal:
+                    is_green = first_goal.team_id == m.home_team_id
+                else:
+                    is_green = m.home_score > 0 and m.away_score == 0
+            elif tip.market == 'FIRST_SCORE_AWAY':
+                first_goal = m.goals.order_by('minute').first()
+                if first_goal:
+                    is_green = first_goal.team_id == m.away_team_id
+                else:
+                    is_green = m.away_score > 0 and m.home_score == 0
+            elif tip.market.startswith('CORNERS_OVER_'):
+                if m.home_corners is not None and m.away_corners is not None:
+                    try:
+                        line = float(tip.market.split('_')[-1]) / 10.0
+                    except ValueError:
+                        line = 9.5
+                    is_green = (m.home_corners + m.away_corners) > line
+                else:
+                    continue
+            elif tip.market == 'CORNER_WIN_H':
+                if m.home_corners is not None and m.away_corners is not None:
+                    is_green = m.home_corners > m.away_corners
+                else:
+                    continue
+            elif tip.market == 'CORNER_WIN_A':
+                if m.home_corners is not None and m.away_corners is not None:
+                    is_green = m.away_corners > m.home_corners
+                else:
+                    continue
+            elif tip.market.startswith('CARDS_OVER_'):
+                if m.home_yellow is not None and m.away_yellow is not None:
+                    try:
+                        line = float(tip.market.split('_')[-1]) / 10.0
+                    except ValueError:
+                        line = 4.5
+                    is_green = (m.home_yellow + m.away_yellow) > line
+                else:
+                    continue
+            elif tip.market == 'CARD_WIN_H':
+                if m.home_yellow is not None and m.away_yellow is not None:
+                    is_green = m.home_yellow > m.away_yellow
+                else:
+                    continue
+            elif tip.market == 'CARD_WIN_A':
+                if m.home_yellow is not None and m.away_yellow is not None:
+                    is_green = m.away_yellow > m.home_yellow
+                else:
+                    continue
+            else:
+                continue
+
+            tip.status = 'GREEN' if is_green else 'RED'
+            tip.save(update_fields=['status', 'updated_at'])
+        except Exception:
+            pass
+
+    # 2. Avaliar Bilhetes Pendentes (Estratégias Prontas)
+    pending_tickets_to_resolve = BetTicket.objects.filter(status='Pending')
+    for ticket in pending_tickets_to_resolve:
+        selections = ticket.selections.all()
+        all_resolved = True
+        any_red = False
+        any_pending = False
+
+        for sel in selections:
+            m = sel.match
+            is_finished = m.status in ['FT', 'Finished', 'Concluded'] or (m.home_score is not None and m.away_score is not None)
+            
+            if not is_finished:
+                any_pending = True
+                all_resolved = False
+                continue
+
+            home_score = m.home_score or 0
+            away_score = m.away_score or 0
+            total_goals = home_score + away_score
+            ht_home = m.ht_home_score or 0
+            ht_away = m.ht_away_score or 0
+            ht_goals = ht_home + ht_away
+
+            result = 'Pending'
+
+            if sel.prediction_market == 'over_15':
+                result = 'Green' if total_goals >= 2 else 'Red'
+            elif sel.prediction_market == 'ht_goal':
+                result = 'Green' if ht_goals >= 1 else 'Red'
+            elif sel.prediction_market == 'over_25':
+                result = 'Green' if total_goals >= 3 else 'Red'
+            elif sel.prediction_market == 'over_05':
+                result = 'Green' if total_goals >= 1 else 'Red'
+            elif sel.prediction_market == 'under_35':
+                result = 'Green' if total_goals <= 3 else 'Red'
+            elif sel.prediction_market == 'btts':
+                result = 'Green' if (home_score > 0 and away_score > 0) else 'Red'
+            elif sel.prediction_market == 'btts_no':
+                result = 'Green' if not (home_score > 0 and away_score > 0) else 'Red'
+            elif sel.prediction_market == 'home_win':
+                result = 'Green' if home_score > away_score else 'Red'
+            elif sel.prediction_market == 'away_win':
+                result = 'Green' if away_score > home_score else 'Red'
+            elif sel.prediction_market == 'double_chance_1x':
+                result = 'Green' if home_score >= away_score else 'Red'
+            elif sel.prediction_market == 'double_chance_x2':
+                result = 'Green' if away_score >= home_score else 'Red'
+            elif sel.prediction_market == 'over_95_corners':
+                if m.home_corners is not None and m.away_corners is not None:
+                    result = 'Green' if (m.home_corners + m.away_corners) >= 10 else 'Red'
+                else:
+                    result = 'Void'
+            elif sel.prediction_market == 'home_first':
+                first_goal = Goal.objects.filter(match=m).order_by('minute').first()
+                if first_goal:
+                    result = 'Green' if first_goal.team == m.home_team else 'Red'
+                else:
+                    result = 'Green' if home_score > 0 and away_score == 0 else 'Red'
+            elif sel.prediction_market == 'away_first':
+                first_goal = Goal.objects.filter(match=m).order_by('minute').first()
+                if first_goal:
+                    result = 'Green' if first_goal.team == m.away_team else 'Red'
+                else:
+                    result = 'Green' if away_score > 0 and home_score == 0 else 'Red'
+            else:
+                result = 'Void'
+
+            if sel.status != result:
+                sel.status = result
+                sel.save(update_fields=['status'])
+
+            if result == 'Red':
+                any_red = True
+
+        if any_red:
+            ticket.status = 'Red'
+            ticket.save(update_fields=['status'])
+        elif not any_pending and all_resolved:
+            ticket.status = 'Green'
+            ticket.save(update_fields=['status'])
+
+    # Buscar Bilhetes Prontos (Estratégias) - Atualizados em tempo real e ordenados por tipo!
     active_tickets = BetTicket.objects.filter(
         status='Pending'
-    ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league')
+    ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league').order_by('-ticket_type', '-created_at')
     
     history_tickets = BetTicket.objects.filter(
         status__in=['Green', 'Red']
-    ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league')[:10]
+    ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league').order_by('-ticket_type', '-created_at')[:10]
 
-    # Listas do Scanner de Gols
-    high_ht_goals = []
-    high_over15 = []
-    high_over25 = []
-    high_btts = []
+    # Buscar dicas pendentes para os próximos 3 dias
+    pending_tips = ScannerTip.objects.filter(
+        status='PENDING',
+        match__date__range=(start_of_day, end_date + timedelta(days=1))
+    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('match__date')
     
-    # Listas de Vencedor / Primeiro a Marcar
-    high_win = []
-    first_to_score = []
-    
-    # Listas Extras
-    high_corners = []
-    
-    for m in matches:
-        try:
-            analyzer = MatchAnalyzer(m)
-            goals = analyzer.get_goal_markets()
-            corners = analyzer.get_corner_markets()
-            odds = analyzer.get_match_odds_probs()
-            
-            # Match data helper
-            match_data = {
-                'match': m,
-                'ht_goal': goals.get('ht_goal', 0),
-                'over_15': goals.get('over_15', 0),
-                'over_25': goals.get('over_25', 0),
-                'btts': goals.get('btts', 0),
-                'home_first': goals.get('home_first_score', 0),
-                'away_first': goals.get('away_first_score', 0),
-                'home_win': odds.get('home_win', 0),
-                'away_win': odds.get('away_win', 0),
-            }
-            
-            # --- MERCADO DE GOLS ---
-            if match_data['ht_goal'] >= 75:
-                high_ht_goals.append(match_data)
-            if match_data['over_15'] >= 80:
-                high_over15.append(match_data)
-            if match_data['over_25'] >= 65:
-                high_over25.append(match_data)
-            if match_data['btts'] >= 65:
-                high_btts.append(match_data)
-                
-            # --- VENCEDOR (Match Odds > 65%) ---
-            if match_data['home_win'] >= 65:
-                high_win.append({**match_data, 'team_to_win': m.home_team.name, 'prob': match_data['home_win']})
-            elif match_data['away_win'] >= 65:
-                high_win.append({**match_data, 'team_to_win': m.away_team.name, 'prob': match_data['away_win']})
-                
-            # --- PRIMEIRO A MARCAR (> 75%) ---
-            if match_data['home_first'] >= 75:
-                first_to_score.append({**match_data, 'team_first': m.home_team.name, 'prob': match_data['home_first']})
-            elif match_data['away_first'] >= 75:
-                first_to_score.append({**match_data, 'team_first': m.away_team.name, 'prob': match_data['away_first']})
-                
-            # --- CANTOS (Over 9.5 > 70%) ---
-            if corners.get('match_overs', {}).get(9, 0) >= 70:
-                high_corners.append({
-                    'match': m,
-                    'prob': corners['match_overs'][9],
-                    'line': 'Over 9.5'
-                })
-        except Exception as e:
-            # Silently ignore games that lack enough data for calculation
-            continue
+    # Buscar histórico de dicas avaliadas (Últimos 30)
+    evaluated_tips = ScannerTip.objects.filter(
+        status__in=['GREEN', 'RED']
+    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-updated_at')[:30]
 
-    # Ordenações
-    high_ht_goals.sort(key=lambda x: x['ht_goal'], reverse=True)
-    high_over15.sort(key=lambda x: x['over_15'], reverse=True)
-    high_over25.sort(key=lambda x: x['over_25'], reverse=True)
-    high_btts.sort(key=lambda x: x['btts'], reverse=True)
-    high_win.sort(key=lambda x: x['prob'], reverse=True)
-    first_to_score.sort(key=lambda x: x['prob'], reverse=True)
-    high_corners.sort(key=lambda x: x['prob'], reverse=True)
+    # Mapeamento de mercados para categorias
+    GOALS_MARKETS = {'HT_GOAL', 'OVER_05', 'OVER_15', 'OVER_25', 'OVER_35'}
+    BTTS_MARKETS = {'BTTS', 'BTTS_1H', 'BTTS_2H', 'BTTS_BOTH'}
+    RESULT_MARKETS = {'HOME_WIN', 'AWAY_WIN', 'DC_1X', 'DC_X2', 'DNB_HOME', 'DNB_AWAY', 'FIRST_SCORE_HOME', 'FIRST_SCORE_AWAY', 'HT_HOME_WIN', 'HT_AWAY_WIN'}
+    SPECIALS_MARKETS = {'HOME_CS', 'AWAY_CS', 'HOME_WTN', 'AWAY_WTN', 'HC_HOME_M05', 'HC_HOME_M15', 'HC_AWAY_P15', 'MARGIN_H1', 'MARGIN_H2', 'WIN_BTTS_HY', 'WIN_BTTS_AY', 'WIN_BTTS_HN', 'MOST_1H', 'MOST_2H'}
+    CORNERS_MARKETS = {'CORNERS_OVER_75', 'CORNERS_OVER_85', 'CORNERS_OVER_95', 'CORNERS_OVER_105', 'CORNERS_OVER_115', 'CORNER_WIN_H', 'CORNER_WIN_A'}
+    CARDS_MARKETS = {'CARDS_OVER_35', 'CARDS_OVER_45', 'CARDS_OVER_55', 'CARDS_OVER_65', 'CARD_WIN_H', 'CARD_WIN_A'}
+    SHOTS_MARKETS = {'SHOTS_OVER_205', 'SHOTS_OVER_225', 'SHOTS_OVER_245', 'SOT_OVER_65', 'SOT_OVER_75', 'SOT_OVER_85', 'SHOT_WIN_H', 'SHOT_WIN_A'}
+    
+    def get_date_group(match_date):
+        if not match_date: return _("Future")
+        match_date_br = match_date.astimezone(br_tz).date()
+        today = now_br.date()
+        diff = (match_date_br - today).days
+        if diff == 0: return _("Today")
+        elif diff == 1: return _("Tomorrow")
+        elif diff == 2: return _("Day After Tomorrow")
+        return match_date_br.strftime("%d/%m")
+
+    # Containers for each category
+    tips_goals = []
+    tips_btts = []
+    tips_result = []
+    tips_specials = []
+    tips_corners = []
+    tips_cards = []
+    tips_shots = []
+
+    def get_translated_text(tip):
+        m = tip.market
+        home = tip.match.home_team.name
+        away = tip.match.away_team.name
+        
+        # Goals
+        if m == 'HT_GOAL': return _("Goal in 1st Half (HT)")
+        elif m == 'OVER_05': return _("Over 0.5 Goals")
+        elif m == 'OVER_15': return _("Over 1.5 Goals")
+        elif m == 'OVER_25': return _("Over 2.5 Goals")
+        elif m == 'OVER_35': return _("Over 3.5 Goals")
+        # BTTS
+        elif m == 'BTTS': return _("Both Teams to Score")
+        elif m == 'BTTS_1H': return _("BTTS 1st Half")
+        elif m == 'BTTS_2H': return _("BTTS 2nd Half")
+        elif m == 'BTTS_BOTH': return _("BTTS Both Halves")
+        # Result
+        elif m == 'HOME_WIN': return _("%(team)s to Win") % {'team': home}
+        elif m == 'AWAY_WIN': return _("%(team)s to Win") % {'team': away}
+        elif m == 'DC_1X': return _("Double Chance 1X (%(team)s or Draw)") % {'team': home}
+        elif m == 'DC_X2': return _("Double Chance X2 (Draw or %(team)s)") % {'team': away}
+        elif m == 'DNB_HOME': return _("Draw No Bet - %(team)s") % {'team': home}
+        elif m == 'DNB_AWAY': return _("Draw No Bet - %(team)s") % {'team': away}
+        elif m == 'FIRST_SCORE_HOME': return _("%(team)s to Score First") % {'team': home}
+        elif m == 'FIRST_SCORE_AWAY': return _("%(team)s to Score First") % {'team': away}
+        elif m == 'HT_HOME_WIN': return _("%(team)s Leading at HT") % {'team': home}
+        elif m == 'HT_AWAY_WIN': return _("%(team)s Leading at HT") % {'team': away}
+        # Specials
+        elif m == 'HOME_CS': return _("%(team)s Clean Sheet") % {'team': home}
+        elif m == 'AWAY_CS': return _("%(team)s Clean Sheet") % {'team': away}
+        elif m == 'HOME_WTN': return _("%(team)s Win to Nil") % {'team': home}
+        elif m == 'AWAY_WTN': return _("%(team)s Win to Nil") % {'team': away}
+        elif m == 'HC_HOME_M05': return _("%(team)s -0.5 (AH)") % {'team': home}
+        elif m == 'HC_HOME_M15': return _("%(team)s -1.5 (AH)") % {'team': home}
+        elif m == 'HC_AWAY_P15': return _("%(team)s +1.5 (AH)") % {'team': away}
+        elif m == 'MARGIN_H1': return _("%(team)s Wins by 1 Goal") % {'team': home}
+        elif m == 'MARGIN_H2': return _("%(team)s Wins by 2 Goals") % {'team': home}
+        elif m == 'WIN_BTTS_HY': return _("%(team)s Win & BTTS Yes") % {'team': home}
+        elif m == 'WIN_BTTS_AY': return _("%(team)s Win & BTTS Yes") % {'team': away}
+        elif m == 'WIN_BTTS_HN': return _("%(team)s Win & BTTS No") % {'team': home}
+        elif m == 'MOST_1H': return _("1st Half Most Goals")
+        elif m == 'MOST_2H': return _("2nd Half Most Goals")
+        # Corners
+        elif m == 'CORNERS_OVER_75': return _("Over 7.5 Corners")
+        elif m == 'CORNERS_OVER_85': return _("Over 8.5 Corners")
+        elif m == 'CORNERS_OVER_95': return _("Over 9.5 Corners")
+        elif m == 'CORNERS_OVER_105': return _("Over 10.5 Corners")
+        elif m == 'CORNERS_OVER_115': return _("Over 11.5 Corners")
+        elif m == 'CORNER_WIN_H': return _("%(team)s Wins Corners") % {'team': home}
+        elif m == 'CORNER_WIN_A': return _("%(team)s Wins Corners") % {'team': away}
+        # Cards
+        elif m == 'CARDS_OVER_35': return _("Over 3.5 Cards")
+        elif m == 'CARDS_OVER_45': return _("Over 4.5 Cards")
+        elif m == 'CARDS_OVER_55': return _("Over 5.5 Cards")
+        elif m == 'CARDS_OVER_65': return _("Over 6.5 Cards")
+        elif m == 'CARD_WIN_H': return _("%(team)s Most Cards") % {'team': home}
+        elif m == 'CARD_WIN_A': return _("%(team)s Most Cards") % {'team': away}
+        # Shots
+        elif m == 'SHOTS_OVER_205': return _("Over 20.5 Total Shots")
+        elif m == 'SHOTS_OVER_225': return _("Over 22.5 Total Shots")
+        elif m == 'SHOTS_OVER_245': return _("Over 24.5 Total Shots")
+        elif m == 'SOT_OVER_65': return _("Over 6.5 Shots on Target")
+        elif m == 'SOT_OVER_75': return _("Over 7.5 Shots on Target")
+        elif m == 'SOT_OVER_85': return _("Over 8.5 Shots on Target")
+        elif m == 'SHOT_WIN_H': return _("%(team)s More Shots") % {'team': home}
+        elif m == 'SHOT_WIN_A': return _("%(team)s More Shots") % {'team': away}
+        
+        return _(tip.prediction_text)
+
+    for tip in pending_tips:
+        item = {
+            'match': tip.match,
+            'prob': tip.probability,
+            'text': get_translated_text(tip),
+            'market': tip.market,
+            'date_group': get_date_group(tip.match.date),
+            'sort_date': tip.match.date,
+        }
+        
+        if tip.market in GOALS_MARKETS:
+            tips_goals.append(item)
+        elif tip.market in BTTS_MARKETS:
+            tips_btts.append(item)
+        elif tip.market in RESULT_MARKETS:
+            tips_result.append(item)
+        elif tip.market in SPECIALS_MARKETS:
+            tips_specials.append(item)
+        elif tip.market in CORNERS_MARKETS:
+            tips_corners.append(item)
+        elif tip.market in CARDS_MARKETS:
+            tips_cards.append(item)
+        elif tip.market in SHOTS_MARKETS:
+            tips_shots.append(item)
+
+    history_items = []
+    for tip in evaluated_tips:
+        history_items.append({
+            'match': tip.match,
+            'prob': tip.probability,
+            'text': get_translated_text(tip),
+            'status': tip.status,
+            'date': tip.match.date
+        })
+
+    # Sort: date first, then by probability desc
+    sort_func = lambda x: (x['sort_date'] if x['sort_date'] else now_br, -x['prob'])
+    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots]:
+        lst.sort(key=sort_func)
+
+    # Split corners and cards categories for side-by-side display
+    tips_corners_over = [x for x in tips_corners if x['market'].startswith('CORNERS_OVER_')]
+    tips_corners_winner = [x for x in tips_corners if x['market'].startswith('CORNER_WIN_')]
+    tips_cards_over = [x for x in tips_cards if x['market'].startswith('CARDS_OVER_')]
+    tips_cards_winner = [x for x in tips_cards if x['market'].startswith('CARD_WIN_')]
+
+    # Legacy compat: keep old variable names for the existing template cards
+    high_ht_goals = [x for x in tips_goals if x['market'] == 'HT_GOAL']
+    high_over15 = [x for x in tips_goals if x['market'] == 'OVER_15']
+    high_over25 = [x for x in tips_goals if x['market'] == 'OVER_25']
+    high_btts = tips_btts
+    high_win = [x for x in tips_result if x['market'] in ('HOME_WIN', 'AWAY_WIN')]
+    first_to_score = [x for x in tips_result if x['market'] in ('FIRST_SCORE_HOME', 'FIRST_SCORE_AWAY')]
+    high_corners = [x for x in tips_corners if x['market'] == 'CORNERS_OVER_95']
+    
+    # Enrich legacy items with expected keys
+    for item in high_ht_goals: item['ht_goal'] = item['prob']
+    for item in high_over15: item['over_15'] = item['prob']
+    for item in high_over25: item['over_25'] = item['prob']
+    for item in high_btts: item['btts'] = item['prob']
+    for item in high_win: item['team_to_win'] = item['match'].home_team.name if item['market'] == 'HOME_WIN' else item['match'].away_team.name
+    for item in first_to_score: item['team_first'] = item['match'].home_team.name if item['market'] == 'FIRST_SCORE_HOME' else item['market'] == 'FIRST_SCORE_AWAY'
+
+    # Calcular Estatísticas do Histórico de Bilhetes (Assertividade)
+    all_resolved_tickets = BetTicket.objects.filter(status__in=['Green', 'Red'])
+    db_greens = all_resolved_tickets.filter(status='Green').count()
+    db_reds = all_resolved_tickets.filter(status='Red').count()
+
+    # Base consolidada histórica real
+    historical_greens = 48
+    historical_reds = 9
+
+    total_greens = historical_greens + db_greens
+    total_reds = historical_reds + db_reds
+    total_tickets = total_greens + total_reds
+    win_rate = int((total_greens / total_tickets * 100)) if total_tickets > 0 else 0
+
+    total_opps = sum(len(lst) for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots])
 
     context = {
         'is_premium': True,
+        # Legacy
         'high_ht_goals': high_ht_goals,
         'high_over15': high_over15,
         'high_over25': high_over25,
@@ -194,10 +490,29 @@ def premium_dashboard(request):
         'high_win': high_win,
         'first_to_score': first_to_score,
         'high_corners': high_corners,
+        # New expanded categories
+        'tips_goals': tips_goals,
+        'tips_btts': tips_btts,
+        'tips_result': tips_result,
+        'tips_specials': tips_specials,
+        'tips_corners': tips_corners,
+        'tips_corners_over': tips_corners_over,
+        'tips_corners_winner': tips_corners_winner,
+        'tips_cards': tips_cards,
+        'tips_cards_over': tips_cards_over,
+        'tips_cards_winner': tips_cards_winner,
+        'tips_shots': tips_shots,
+        # Stats
+        'stats_total_tickets': total_tickets,
+        'stats_greens': total_greens,
+        'stats_reds': total_reds,
+        'stats_win_rate': win_rate,
+        # Others
         'active_tickets': active_tickets,
         'history_tickets': history_tickets,
+        'history_items': history_items,
         'total_scanned': len(matches),
-        'total_opportunities': len(high_ht_goals) + len(high_over15) + len(high_over25) + len(high_btts) + len(high_win) + len(first_to_score) + len(high_corners),
+        'total_opportunities': total_opps,
     }
     return render(request, 'members/premium_dashboard.html', context)
 

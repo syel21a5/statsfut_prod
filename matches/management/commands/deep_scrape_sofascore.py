@@ -35,20 +35,23 @@ class Command(BaseCommand):
         self.proxy = None
 
     def _create_session(self):
-        """Cria uma nova sessão com User-Agent aleatório e headers ultra-realistas."""
-        ua = random.choice(USER_AGENTS)
-        # Escolhe uma versão do Chrome para simular
-        impersonate_version = random.choice(["chrome110", "chrome116", "chrome119", "chrome120", "chrome124"])
+        """Cria uma nova sessão com User-Agent correspondente e headers realistas."""
+        # Escolhe uma versão do Chrome para simular (removido chrome124 para compatibilidade com docker venv antiga)
+        impersonate_version = random.choice(["chrome110", "chrome116", "chrome119", "chrome120"])
         self.session = requests.Session(impersonate=impersonate_version)
         
         # Extrai a versão do Chrome do UA para o header sec-ch-ua
         chrome_version = impersonate_version.replace("chrome", "")
-        if chrome_version == "124":
-            full_version = "124.0.6367.201"
-        elif chrome_version == "120":
-            full_version = "120.0.6099.129"
-        else:
-            full_version = "119.0.6045.160"
+        version_map = {
+            "120": "120.0.6099.129",
+            "119": "119.0.6045.160",
+            "116": "116.0.5845.96",
+            "110": "110.0.5481.77",
+        }
+        full_version = version_map.get(chrome_version, "120.0.6099.129")
+        
+        # Gera o User-Agent correspondente exato para evitar TLS fingerprint mismatch
+        ua = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{chrome_version}.0.0.0 Safari/537.36"
         
         self.session.headers.update({
             "User-Agent": ua,
@@ -68,9 +71,41 @@ class Command(BaseCommand):
         })
         
         if self.proxy:
-            # curl_cffi suporta socks5://, http://, etc.
+            # curl_cffi suporta socks5h://, http://, etc.
             self.session.proxies = {"http": self.proxy, "https": self.proxy}
             self.stdout.write(self.style.NOTICE(f"🌐 Usando proxy: {self.proxy}"))
+
+    def _rotate_tor_ip(self):
+        """Tenta enviar sinal de NEWNYM para o Tor para rotacionar o IP."""
+        if not self.proxy or "socks5" not in self.proxy:
+            return False
+
+        # Determina a porta de controle com base na porta socks
+        socks_port = 9050
+        if "9150" in self.proxy:
+            socks_port = 9150
+        
+        control_port = 9051 if socks_port == 9050 else 9151
+        
+        import socket
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(3)
+            s.connect(("127.0.0.1", control_port))
+            s.sendall(b'AUTHENTICATE ""\r\n')
+            response = s.recv(1024)
+            if b"250" in response:
+                s.sendall(b'SIGNAL NEWNYM\r\n')
+                response = s.recv(1024)
+                if b"250" in response:
+                    self.stdout.write(self.style.SUCCESS(f"🔄 IP do Tor rotacionado com sucesso via porta de controle {control_port}!"))
+                    time.sleep(8)  # Pausa de 8 segundos para o Tor estabelecer um circuito estável e seguro
+                    s.close()
+                    return True
+            s.close()
+        except Exception:
+            pass
+        return False
 
     def fetch_api(self, url):
         try:
@@ -95,6 +130,7 @@ class Command(BaseCommand):
                 
                 # Se for bloqueado, espera um pouco mais e limpa a sessão para tentar novo impersonate
                 time.sleep(random.uniform(10, 20))
+                self._rotate_tor_ip()
                 self._create_session()
                 
                 if self.consecutive_errors >= 3:
@@ -104,6 +140,7 @@ class Command(BaseCommand):
                         f"🛑 Muitos bloqueios! Pausando {wait_time//60} minutos e renovando sessão..."
                     ))
                     time.sleep(wait_time)
+                    self._rotate_tor_ip()
                     self._create_session()  # Nova sessão com novo User-Agent
                     self.consecutive_errors = 0
                     
@@ -129,7 +166,7 @@ class Command(BaseCommand):
         
         if kwargs.get('tor'):
             # Porta 9150 é a padrão do Tor Browser
-            self.proxy = "socks5://127.0.0.1:9150"
+            self.proxy = "socks5h://127.0.0.1:9150"
 
         self._create_session()
 
@@ -169,13 +206,14 @@ class Command(BaseCommand):
             sofa_id = match.api_id.replace('sofa_', '')
             self.stdout.write(f"[{idx}/{total}] Processando {match.home_team} x {match.away_team} (SofaID: {sofa_id})")
 
-            # === PAUSA ESTRATÉGICA a cada 40 jogos ===
-            if idx > 1 and idx % 40 == 0:
-                pause = random.randint(90, 150)  # 1.5 a 2.5 minutos
+            # === PAUSA ESTRATÉGICA a cada 20 jogos ===
+            if idx > 1 and idx % 20 == 0:
+                pause = random.randint(45, 90)  # 45 a 90 segundos
                 self.stdout.write(self.style.WARNING(
-                    f"☕ Pausa estratégica de {pause}s após {idx} jogos... ({stats_updated} atualizados até agora)"
+                    f"☕ Pausa estratégica e rotação de IP de {pause}s após {idx} jogos... ({stats_updated} atualizados até agora)"
                 ))
                 time.sleep(pause)
+                self._rotate_tor_ip()
                 self._create_session()  # Renova sessão
 
             # 1. Estatísticas (Escanteios, Cartões, Chutes)

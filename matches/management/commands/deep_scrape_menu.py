@@ -44,8 +44,7 @@ class Command(BaseCommand):
         self.session = None
 
     def _create_session(self):
-        """Cria uma nova sessão com User-Agent aleatório."""
-        ua = random.choice(USER_AGENTS)
+        """Cria uma nova sessão com User-Agent correspondente e headers realistas."""
         impersonate_version = random.choice(["chrome110", "chrome116", "chrome119", "chrome120"])
         self.session = requests.Session(impersonate=impersonate_version)
 
@@ -56,7 +55,10 @@ class Command(BaseCommand):
             "116": "116.0.5845.96",
             "110": "110.0.5481.77",
         }
-        full_version = version_map.get(chrome_version, "110.0.5481.77")
+        full_version = version_map.get(chrome_version, "120.0.6099.129")
+        
+        # Gera o User-Agent correspondente exato para evitar TLS fingerprint mismatch
+        ua = f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{chrome_version}.0.0.0 Safari/537.36"
 
         self.session.headers.update({
             "User-Agent": ua,
@@ -88,50 +90,57 @@ class Command(BaseCommand):
             test_session = requests.Session(impersonate="chrome120")
             for port in [9050, 9150]:
                 try:
-                    test_proxy = f"socks5://127.0.0.1:{port}"
+                    import uuid
+                    session_id = uuid.uuid4().hex[:8]
+                    test_proxy = f"socks5h://user_{session_id}:pass_{session_id}@127.0.0.1:{port}"
+                    # Testa conectividade usando um serviço de IP neutro para verificar se Tor está ativo
                     test_session.get(
-                        "https://api.sofascore.com/api/v1/unique-tournament/35/season/52331/standings/total",
+                        "https://api.ipify.org?format=json",
                         proxies={"http": test_proxy, "https": test_proxy},
                         timeout=8
                     )
                     self.proxy = test_proxy
-                    self.stdout.write(self.style.SUCCESS(f"🌐 Tor conectado na porta {port}"))
+                    self.socks_port = port
+                    self.stdout.write(self.style.SUCCESS(f"🌐 Tor conectado na porta {port} com Stream Isolation!"))
                     return
                 except Exception:
                     continue
             self.stdout.write(self.style.WARNING("⚠️ Tor não disponível. Usando conexão direta."))
 
     def _rotate_tor_ip(self):
-        """Tenta enviar sinal de NEWNYM para o Tor para rotacionar o IP."""
-        if not self.proxy or "socks5://127.0.0.1" not in self.proxy:
+        """Rotaciona o IP gerando novas credenciais do proxy Tor (SOCKS5 stream isolation) ou NEWNYM."""
+        if not self.proxy or "127.0.0.1" not in self.proxy:
             return False
 
-        # Determina a porta de controle com base na porta socks
-        socks_port = 9050
+        # Determina a porta socks atual
+        socks_port = getattr(self, 'socks_port', 9050)
         if "9150" in self.proxy:
             socks_port = 9150
-        
+
+        # Gera novas credenciais SOCKS para obter um novo IP instantaneamente por isolamento de stream!
+        import uuid
+        session_id = uuid.uuid4().hex[:8]
+        self.proxy = f"socks5h://user_{session_id}:pass_{session_id}@127.0.0.1:{socks_port}"
+        self.stdout.write(self.style.SUCCESS("🔄 IP do Tor rotacionado via SOCKS5 Stream Isolation (Novo circuito)!"))
+
+        # Como fallback, tenta enviar o sinal NEWNYM clássico para a porta de controle do Tor
         control_port = 9051 if socks_port == 9050 else 9151
-        
         import socket
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(3)
+            s.settimeout(2)
             s.connect(("127.0.0.1", control_port))
             s.sendall(b'AUTHENTICATE ""\r\n')
             response = s.recv(1024)
             if b"250" in response:
                 s.sendall(b'SIGNAL NEWNYM\r\n')
-                response = s.recv(1024)
-                if b"250" in response:
-                    self.stdout.write(self.style.SUCCESS(f"🔄 IP do Tor rotacionado com sucesso via porta de controle {control_port}!"))
-                    time.sleep(8)  # Pausa de 8 segundos para o Tor estabelecer um circuito estável e seguro
-                    s.close()
-                    return True
+                s.recv(1024)
             s.close()
         except Exception:
             pass
-        return False
+
+        time.sleep(3)  # Aguarda brevemente para estabelecer o novo circuito
+        return True
 
     def fetch_api(self, url):
         """Faz requisição à API com rate limiting e retry."""
@@ -323,13 +332,14 @@ class Command(BaseCommand):
                 f"({match.date.strftime('%d/%m/%Y') if match.date else '?'})"
             )
 
-            # Pausa estratégica a cada 40 jogos
-            if idx > 1 and idx % 40 == 0:
-                pause = random.randint(90, 150)
+            # Pausa estratégica a cada 20 jogos
+            if idx > 1 and idx % 20 == 0:
+                pause = random.randint(45, 90)
                 self.stdout.write(self.style.WARNING(
-                    f"  ☕ Pausa de {pause}s após {idx} jogos... ({stats_updated} atualizados)"
+                    f"  ☕ Pausa de {pause}s e rotação de IP após {idx} jogos... ({stats_updated} atualizados)"
                 ))
                 time.sleep(pause)
+                self._rotate_tor_ip()
                 self._create_session()
 
             # 1. ESTATÍSTICAS (Escanteios, Cartões, Chutes, Faltas)
@@ -371,8 +381,24 @@ class Command(BaseCommand):
                                 match.home_fouls = h_val
                                 match.away_fouls = a_val
 
+                    # Se a API retornou stats mas não tinha "Corner kicks",
+                    # marca como 0 para não ficar pendente eternamente
+                    if match.home_corners is None:
+                        match.home_corners = 0
+                        match.away_corners = 0
+
                     match.save()
                     stats_updated += 1
+            else:
+                # API não retornou estatísticas para este jogo
+                # Marca escanteios como 0 para não ficar pendente
+                if match.home_corners is None:
+                    match.home_corners = 0
+                    match.away_corners = 0
+                    match.save()
+                    self.stdout.write(self.style.WARNING(
+                        f"    ⚠️ Sem stats na API — marcado como processado"
+                    ))
 
             # 2. INCIDENTES (Gols detalhados)
             incidents_url = f"https://api.sofascore.com/api/v1/event/{sofa_id}/incidents"
