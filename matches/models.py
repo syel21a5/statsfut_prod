@@ -248,6 +248,9 @@ class BetTicket(models.Model):
     TICKET_TYPES = (
         ('Double', 'Dupla'),
         ('Treble', 'Tripla'),
+        ('Multiple_4_5', 'Múltipla (4-5 Jogos)'),
+        ('Super_6_8', 'Super Múltipla (6-8 Jogos)'),
+        ('Hedge_Favorito', 'Hedge ao Favorito'),
     )
     STATUS_CHOICES = (
         ('Pending', 'Pendente'),
@@ -273,6 +276,19 @@ class BetTicket(models.Model):
     def pending_selections_count(self):
         return self.selections.filter(status='Pending').count()
 
+    @property
+    def total_odd(self):
+        """
+        Retorna a odd total combinada (multiplicada) do bilhete.
+        """
+        total = 1.0
+        selections = self.selections.all()
+        if not selections:
+            return 0.0
+        for sel in selections:
+            total *= float(sel.odd)
+        return round(total, 2)
+
 
 class BetTicketSelection(models.Model):
     ticket = models.ForeignKey(BetTicket, on_delete=models.CASCADE, related_name='selections')
@@ -284,6 +300,42 @@ class BetTicketSelection(models.Model):
 
     def __str__(self):
         return f"{self.match} -> {self.prediction_label} ({self.status})"
+
+    @property
+    def odd(self):
+        """
+        Retorna a odd estimada/real para esta seleção.
+        Tenta buscar a odd real do 1X2 se for um mercado de vencedor/dupla chance.
+        Caso contrário, calcula a odd estatística implícita baseada na probabilidade.
+        """
+        m = self.match
+        market = self.prediction_market.lower()
+        
+        # 1. Se for mercado 1X2 e tivermos odds reais no banco
+        if market == 'home_win' and m.home_team_win_odds:
+            return round(m.home_team_win_odds, 2)
+        elif market == 'away_win' and m.away_team_win_odds:
+            return round(m.away_team_win_odds, 2)
+        elif market == 'draw' and m.draw_odds:
+            return round(m.draw_odds, 2)
+            
+        # 2. Se for dupla chance e tivermos as odds de 1X2
+        if market == 'double_chance_1x' and m.home_team_win_odds and m.draw_odds:
+            inv_odd = (1.0 / m.home_team_win_odds) + (1.0 / m.draw_odds)
+            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+        elif market == 'double_chance_x2' and m.away_team_win_odds and m.draw_odds:
+            inv_odd = (1.0 / m.away_team_win_odds) + (1.0 / m.draw_odds)
+            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+        elif market == 'double_chance_12' and m.home_team_win_odds and m.away_team_win_odds:
+            inv_odd = (1.0 / m.home_team_win_odds) + (1.0 / m.away_team_win_odds)
+            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+            
+        # 3. Fallback: calcula a odd implícita estatística com base na probabilidade com 7% de margem
+        prob = self.probability or 50
+        implied = 100.0 / prob
+        adjusted = implied * 0.93  # 7% bookmaker margin
+        return round(max(adjusted, 1.05), 2)
+
 
 class ScannerTip(models.Model):
     STATUS_CHOICES = (
@@ -306,3 +358,34 @@ class ScannerTip(models.Model):
         
     def __str__(self):
         return f"[{self.status}] {self.match} - {self.prediction_text} ({self.probability}%)"
+
+    @property
+    def odd(self):
+        """
+        Retorna a odd estimada/real para esta dica do scanner.
+        """
+        m = self.match
+        market = self.market.upper()
+        
+        # 1. Odds reais do 1X2 se disponíveis
+        if market == 'HOME_WIN' and m.home_team_win_odds:
+            return round(m.home_team_win_odds, 2)
+        elif market == 'AWAY_WIN' and m.away_team_win_odds:
+            return round(m.away_team_win_odds, 2)
+        elif market == 'DRAW' and m.draw_odds:
+            return round(m.draw_odds, 2)
+            
+        # 2. Dupla chance baseada nas odds reais
+        elif market == 'DC_1X' and m.home_team_win_odds and m.draw_odds:
+            inv_odd = (1.0 / m.home_team_win_odds) + (1.0 / m.draw_odds)
+            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+        elif market == 'DC_X2' and m.away_team_win_odds and m.draw_odds:
+            inv_odd = (1.0 / m.away_team_win_odds) + (1.0 / m.draw_odds)
+            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+            
+        # 3. Fallback implícito estatístico com 7% de margem
+        prob = self.probability or 50
+        implied = 100.0 / prob
+        adjusted = implied * 0.93  # 7% bookmaker margin
+        return round(max(adjusted, 1.05), 2)
+

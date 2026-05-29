@@ -443,36 +443,281 @@ class MatchAnalyzer:
 
         return base_stats
 
+    def _get_h2h_matches(self, limit=10):
+        """Busca confrontos diretos entre os dois times."""
+        qs = Match.objects.filter(
+            home_score__isnull=False,
+            away_score__isnull=False
+        )
+        if self.match.date:
+            qs = qs.filter(date__lt=self.match.date)
+        
+        h2h = qs.filter(
+            Q(home_team=self.home_team, away_team=self.away_team) |
+            Q(home_team=self.away_team, away_team=self.home_team)
+        ).order_by('-date')[:limit]
+        return list(h2h)
+
+    def _odds_to_probs(self):
+        """Converte odds decimais reais em probabilidades implícitas normalizadas."""
+        m = self.match
+        if not m.home_team_win_odds or not m.draw_odds or not m.away_team_win_odds:
+            return None
+        
+        # Probabilidades implícitas brutas (incluem margem da casa)
+        raw_home = 1 / m.home_team_win_odds
+        raw_draw = 1 / m.draw_odds
+        raw_away = 1 / m.away_team_win_odds
+        total = raw_home + raw_draw + raw_away
+        
+        # Normaliza para somar 100%
+        return {
+            'home': int((raw_home / total) * 100),
+            'draw': int((raw_draw / total) * 100),
+            'away': int((raw_away / total) * 100),
+        }
+
     def get_match_odds_probs(self):
-        # Calcula probabilidades de vitória baseadas no aproveitamento
+        """
+        Modelo de previsão multi-fator com pesos dinâmicos.
+        
+        Fatores utilizados:
+        1. Forma geral (últimos 10 jogos de cada time) — peso 15%
+        2. Forma específica (casa/fora) — peso 25%
+        3. Força de ataque/defesa (modelo xG simplificado) — peso 20%
+        4. Confronto direto (H2H) — peso 15% (se disponível)
+        5. Odds reais das casas de apostas — peso 25% (se disponível)
+        
+        Quando um fator não está disponível, seu peso é redistribuído
+        proporcionalmente entre os demais.
+        """
         home_stats = self._calc_win_draw_loss(self.home_last_10_home, self.home_team)
         away_stats = self._calc_win_draw_loss(self.away_last_10_away, self.away_team)
+        home_general = self._calc_win_draw_loss(self.home_last_10, self.home_team)
+        away_general = self._calc_win_draw_loss(self.away_last_10, self.away_team)
         
-        # Probabilidade simples baseada no histórico (Home Win / Draw / Away Win)
-        # Usamos uma média entre geral e específico
-        h_gen = self._calc_win_draw_loss(self.home_last_10, self.home_team)['win_pct']
-        a_gen = self._calc_win_draw_loss(self.away_last_10, self.away_team)['win_pct']
+        # ═══════════════════════════════════════════════════════
+        # FATOR 1: Forma Geral (últimos 10 jogos)
+        # ═══════════════════════════════════════════════════════
+        f1_home = home_general['win_pct']
+        f1_away = away_general['win_pct']
+        f1_draw = 100 - f1_home - f1_away
+        if f1_draw < 0:
+            f1_draw = 10
+        total_f1 = f1_home + f1_away + f1_draw
+        f1_home = (f1_home / total_f1) * 100
+        f1_away = (f1_away / total_f1) * 100
+        f1_draw = (f1_draw / total_f1) * 100
         
-        prob_home = (h_gen + home_stats['win_pct']) // 2
-        prob_away = (a_gen + away_stats['win_pct']) // 2
-        prob_draw = 100 - prob_home - prob_away
-        if prob_draw < 0: prob_draw = 10
+        # ═══════════════════════════════════════════════════════
+        # FATOR 2: Forma Específica (mandante em casa / visitante fora)
+        # ═══════════════════════════════════════════════════════
+        f2_home = home_stats['win_pct']
+        f2_away = away_stats['win_pct']
+        f2_draw = 100 - f2_home - f2_away
+        if f2_draw < 0:
+            f2_draw = 10
+        total_f2 = f2_home + f2_away + f2_draw
+        f2_home = (f2_home / total_f2) * 100
+        f2_away = (f2_away / total_f2) * 100
+        f2_draw = (f2_draw / total_f2) * 100
         
-        # Re-ajusta para somar 100
-        total = prob_home + prob_away + prob_draw
-        prob_home = int((prob_home / total) * 100)
-        prob_away = int((prob_away / total) * 100)
-        prob_draw = int((prob_draw / total) * 100)
+        # ═══════════════════════════════════════════════════════
+        # FATOR 3: Força Ataque/Defesa (modelo xG simplificado)
+        # Compara o ataque do mandante com a defesa do visitante e vice-versa
+        # ═══════════════════════════════════════════════════════
+        home_attack = home_general['avg_gf']   # Gols marcados por jogo
+        home_defense = home_general['avg_ga']   # Gols sofridos por jogo
+        away_attack = away_general['avg_gf']
+        away_defense = away_general['avg_ga']
         
+        # Expected goals: ataque do time vs defesa do oponente
+        # Ajuste com fator casa (+10% para mandante)
+        xg_home = ((home_attack + away_defense) / 2) * 1.10
+        xg_away = ((away_attack + home_defense) / 2) * 0.90
+        
+        # Converte xG em probabilidades via Poisson simplificado
+        import math
+        def poisson_prob(xg, k):
+            """P(X=k) para distribuição de Poisson."""
+            return (math.exp(-xg) * (xg ** k)) / math.factorial(k)
+        
+        # Calcula probabilidades de resultado via soma de Poisson
+        p_home_win = 0
+        p_draw = 0
+        p_away_win = 0
+        max_goals = 7  # Calcula até 7 gols por time
+        
+        for h in range(max_goals + 1):
+            for a in range(max_goals + 1):
+                prob = poisson_prob(max(xg_home, 0.1), h) * poisson_prob(max(xg_away, 0.1), a)
+                if h > a:
+                    p_home_win += prob
+                elif h == a:
+                    p_draw += prob
+                else:
+                    p_away_win += prob
+        
+        total_poisson = p_home_win + p_draw + p_away_win
+        f3_home = (p_home_win / total_poisson) * 100
+        f3_draw = (p_draw / total_poisson) * 100
+        f3_away = (p_away_win / total_poisson) * 100
+        
+        # ═══════════════════════════════════════════════════════
+        # FATOR 4: Confronto Direto (H2H)
+        # ═══════════════════════════════════════════════════════
+        h2h_matches = self._get_h2h_matches(limit=10)
+        has_h2h = len(h2h_matches) >= 3  # Mínimo 3 confrontos para relevância
+        
+        if has_h2h:
+            h2h_home_wins = 0
+            h2h_draws = 0
+            h2h_away_wins = 0
+            for m in h2h_matches:
+                if m.home_team_id == self.home_team.id:
+                    if m.home_score > m.away_score:
+                        h2h_home_wins += 1
+                    elif m.home_score == m.away_score:
+                        h2h_draws += 1
+                    else:
+                        h2h_away_wins += 1
+                else:
+                    # Jogo invertido (nosso mandante jogou como visitante)
+                    if m.away_score > m.home_score:
+                        h2h_home_wins += 1
+                    elif m.home_score == m.away_score:
+                        h2h_draws += 1
+                    else:
+                        h2h_away_wins += 1
+            
+            h2h_total = len(h2h_matches)
+            f4_home = (h2h_home_wins / h2h_total) * 100
+            f4_draw = (h2h_draws / h2h_total) * 100
+            f4_away = (h2h_away_wins / h2h_total) * 100
+        else:
+            f4_home = f4_draw = f4_away = 0
+        
+        # ═══════════════════════════════════════════════════════
+        # FATOR 5: Odds Reais das Casas de Apostas
+        # ═══════════════════════════════════════════════════════
+        odds_probs = self._odds_to_probs()
+        has_odds = odds_probs is not None
+        
+        if has_odds:
+            f5_home = odds_probs['home']
+            f5_draw = odds_probs['draw']
+            f5_away = odds_probs['away']
+        else:
+            f5_home = f5_draw = f5_away = 0
+        
+        # ═══════════════════════════════════════════════════════
+        # COMBINAÇÃO COM PESOS DINÂMICOS
+        # ═══════════════════════════════════════════════════════
+        # Pesos base
+        weights = {
+            'general_form': 15,
+            'specific_form': 25,
+            'strength_xg': 20,
+            'h2h': 15 if has_h2h else 0,
+            'odds': 25 if has_odds else 0,
+        }
+        
+        # Redistribui pesos ausentes proporcionalmente
+        active_weight = sum(weights.values())
+        if active_weight < 100:
+            scale = 100 / active_weight
+            weights = {k: v * scale for k, v in weights.items()}
+        
+        # Calcula probabilidade final ponderada
+        prob_home = (
+            f1_home * weights['general_form'] +
+            f2_home * weights['specific_form'] +
+            f3_home * weights['strength_xg'] +
+            f4_home * weights['h2h'] +
+            f5_home * weights['odds']
+        ) / 100
+        
+        prob_draw = (
+            f1_draw * weights['general_form'] +
+            f2_draw * weights['specific_form'] +
+            f3_draw * weights['strength_xg'] +
+            f4_draw * weights['h2h'] +
+            f5_draw * weights['odds']
+        ) / 100
+        
+        prob_away = (
+            f1_away * weights['general_form'] +
+            f2_away * weights['specific_form'] +
+            f3_away * weights['strength_xg'] +
+            f4_away * weights['h2h'] +
+            f5_away * weights['odds']
+        ) / 100
+        
+        # Normaliza para somar exatamente 100
+        total = prob_home + prob_draw + prob_away
+        prob_home = int(round((prob_home / total) * 100))
+        prob_away = int(round((prob_away / total) * 100))
+        prob_draw = 100 - prob_home - prob_away  # Garante soma = 100
+        
+        # Garante que nenhuma prob fique negativa
+        if prob_draw < 0:
+            prob_draw = 0
+            total2 = prob_home + prob_away
+            prob_home = int(round((prob_home / total2) * 100))
+            prob_away = 100 - prob_home
+        
+        # ═══════════════════════════════════════════════════════
+        # DETERMINAÇÃO DO PALPITE (BEST BET) E DUPLA CHANCE
+        # ═══════════════════════════════════════════════════════
+        max_prob = max(prob_home, prob_draw, prob_away)
+        if max_prob == prob_home:
+            best_bet = "1"
+            best_bet_prob = prob_home
+        elif max_prob == prob_away:
+            best_bet = "2"
+            best_bet_prob = prob_away
+        else:
+            best_bet = "X"
+            best_bet_prob = prob_draw
+
+        # Dupla Chance consistente com o palpite principal
+        if best_bet == "1":
+            if prob_draw >= prob_away:
+                double_bet = "1X"
+                double_bet_prob = prob_home + prob_draw
+            else:
+                double_bet = "12"
+                double_bet_prob = prob_home + prob_away
+        elif best_bet == "2":
+            if prob_draw >= prob_home:
+                double_bet = "X2"
+                double_bet_prob = prob_away + prob_draw
+            else:
+                double_bet = "12"
+                double_bet_prob = prob_home + prob_away
+        else:
+            if prob_home >= prob_away:
+                double_bet = "1X"
+                double_bet_prob = prob_home + prob_draw
+            else:
+                double_bet = "X2"
+                double_bet_prob = prob_away + prob_draw
+
         return {
             'home_win': prob_home,
             'draw': prob_draw,
             'away_win': prob_away,
             'double_home': prob_home + prob_draw,
             'double_away': prob_away + prob_draw,
-            'best_bet': "1" if prob_home > 50 else ("2" if prob_away > 50 else "X"),
-            'double_bet': "1X" if prob_home + prob_draw > 70 else ("X2" if prob_away + prob_draw > 70 else "12")
+            'best_bet': best_bet,
+            'best_bet_prob': best_bet_prob,
+            'double_bet': double_bet,
+            'double_bet_prob': double_bet_prob,
+            'has_odds': has_odds,
+            'has_h2h': has_h2h,
+            'factors_used': sum(1 for v in weights.values() if v > 0),
         }
+
 
     def get_corner_markets(self):
         # Corner calculations

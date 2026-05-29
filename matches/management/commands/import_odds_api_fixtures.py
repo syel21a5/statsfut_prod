@@ -20,12 +20,11 @@ class Command(BaseCommand):
             'db_name': 'Liga Profesional',
             'country': 'Argentina'
         },
-        # REMOVIDO PARA SOFASCORE:
-        # 'soccer_brazil_campeonato': {
-        #     'env_key': 'ODDS_API_KEY_BRAZIL_UPCOMING',
-        #     'db_name': 'Brasileirão',
-        #     'country': 'Brasil'
-        # },
+        'soccer_brazil_campeonato': {
+            'env_key': 'ODDS_API_KEY_BRAZIL_UPCOMING',
+            'db_name': 'Brasileirão',
+            'country': 'Brasil'
+        },
         'soccer_epl': {
             'env_key': 'ODDS_API_KEY_ENGLAND_UPCOMING',
             'db_name': 'Premier League',
@@ -109,6 +108,52 @@ class Command(BaseCommand):
             else:
                 self.process_league(league_key, options['check_credits'])
 
+    def _get_api_keys_pool(self, primary_env_key):
+        """
+        Retorna uma lista de chaves da API ordenadas, começando pela chave primária da liga,
+        seguida por todas as outras chaves disponíveis no pool do .env.
+        """
+        keys_pool = []
+        primary = os.getenv(primary_env_key)
+        if primary:
+            keys_pool.append((primary_env_key, primary))
+        else:
+            primary_fallback = getattr(settings, primary_env_key, None)
+            if primary_fallback:
+                keys_pool.append((primary_env_key, primary_fallback))
+            
+        env_vars = [
+            'ODDS_API_KEY_ARGENTINA_UPCOMING',
+            'ODDS_API_KEY_AUSTRIA_UPCOMING',
+            'ODDS_API_KEY_AUSTRALIA_UPCOMING',
+            'ODDS_API_KEY_BELGIUM_UPCOMING',
+            'ODDS_API_KEY_BRAZIL_UPCOMING',
+            'ODDS_API_KEY_SWITZERLAND_UPCOMING',
+            'ODDS_API_KEY_GERMANY_UPCOMING',
+            'ODDS_API_KEY_FRANCE_UPCOMING',
+            'ODDS_API_KEY_ENGLAND_UPCOMING',
+            'ODDS_API_KEY_DENMARK_UPCOMING',
+            'ODDS_API_KEY_BRAZIL_LIVE_2',
+            'ODDS_API_KEY_BRAZIL_LIVE_3',
+            'ODDS_API_KEY_ENGLAND_LIVE_1',
+            'ODDS_API_KEY_ENGLAND_LIVE_2',
+            'ODDS_API_KEY_ENGLAND_LIVE_3',
+            'ODDS_API_KEY_AUSTRIA_LIVE_1',
+            'ODDS_API_KEY_AUSTRIA_LIVE_2',
+            'ODDS_API_KEY_AUSTRIA_LIVE_3',
+            'ODDS_API_KEY_AUSTRALIA_LIVE_1',
+            'ODDS_API_KEY_AUSTRALIA_LIVE_2',
+            'ODDS_API_KEY_AUSTRALIA_LIVE_3',
+        ]
+        
+        for var in env_vars:
+            if var != primary_env_key:
+                val = os.getenv(var)
+                if val and val not in [k[1] for k in keys_pool]:
+                    keys_pool.append((var, val))
+                    
+        return keys_pool
+
     def process_scores(self, league_key, days=3):
         """Fetch recent scores for a league"""
         config = self.LEAGUE_CONFIG.get(league_key)
@@ -117,40 +162,48 @@ class Command(BaseCommand):
             return
 
         api_key_env = config['env_key']
-        # For local testing, we might need to load from .env if not loaded
-        api_key = os.getenv(api_key_env)
-        
-        if not api_key:
-            # Fallback for local dev if needed, or just warn
-            # Try to get from settings if available
-            api_key = getattr(settings, api_key_env, None)
-
-        if not api_key:
+        keys_pool = self._get_api_keys_pool(api_key_env)
+        if not keys_pool:
             self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada."))
             return
 
         base_url = "https://api.the-odds-api.com/v4"
-        # Fetch scores from last N days
-        url = f"{base_url}/sports/{league_key}/scores/?apiKey={api_key}&daysFrom={days}"
+        response = None
+        data = None
 
         self.stdout.write(f"Fetching SCORES for {league_key} ({config['country']}) - Last {days} days...")
 
+        for key_name, key_val in keys_pool:
+            url = f"{base_url}/sports/{league_key}/scores/?apiKey={key_val}&daysFrom={days}"
+            self.stdout.write(f"Trying key {key_name} for scores...")
+            try:
+                resp = requests.get(url)
+                remaining = int(resp.headers.get('x-requests-remaining', 0))
+                used = int(resp.headers.get('x-requests-used', 0))
+                
+                try:
+                    APIUsage.objects.update_or_create(
+                        api_name=f"The Odds API ({key_name})",
+                        defaults={'credits_remaining': remaining, 'credits_used': used}
+                    )
+                except Exception:
+                    pass
+
+                if resp.status_code == 200:
+                    response = resp
+                    data = resp.json()
+                    self.stdout.write(self.style.SUCCESS(f"Success using key {key_name}! Credits remaining: {remaining}"))
+                    break
+                else:
+                    self.stdout.write(self.style.WARNING(f"Key {key_name} returned status {resp.status_code}, checking next..."))
+            except Exception as e:
+                self.stdout.write(self.style.WARNING(f"Failed with key {key_name}: {e}"))
+
+        if not response:
+            self.stdout.write(self.style.ERROR("All keys in the pool failed to fetch scores."))
+            return
+
         try:
-            response = requests.get(url)
-            remaining = int(response.headers.get('x-requests-remaining', 0))
-            used = int(response.headers.get('x-requests-used', 0))
-            self.stdout.write(f"Credits used: {used}, Remaining: {remaining}")
-
-            if response.status_code != 200:
-                self.stdout.write(self.style.ERROR(f"Error fetching scores: {response.text}"))
-                return
-
-            data = response.json()
-            # self.stdout.write(f"DEBUG: Received {len(data)} items from API")
-            # if len(data) > 0:
-            #      self.stdout.write(f"DEBUG: First item keys: {data[0].keys()}")
-            #      self.stdout.write(f"DEBUG: First item sample: {str(data[0])[:200]}...")
-
             try:
                 league_obj = League.objects.get(name=config['db_name'], country=config['country'])
             except League.DoesNotExist:
@@ -159,8 +212,6 @@ class Command(BaseCommand):
 
             count_updated = 0
             count_created = 0
-            
-            # Ensure season
             current_year = timezone.now().year
             season, _ = Season.objects.get_or_create(year=current_year)
 
@@ -172,44 +223,28 @@ class Command(BaseCommand):
                 away_team = item['away_team']
                 commence_time = item['commence_time']
                 scores = item.get('scores', [])
-                
-                # Debug
-                self.stdout.write(f"DEBUG: Processing {home_team} vs {away_team} | Completed: {item.get('completed')} | Scores: {scores}")
 
                 if not scores:
-                    self.stdout.write(f"DEBUG: Skipping {home_team} vs {away_team} - No scores found")
                     continue
 
-                # Parse date
                 match_date = datetime.fromisoformat(commence_time.replace('Z', '+00:00'))
-
-                # Resolve Teams
                 ht_obj = resolve_team(home_team, league_obj)
                 at_obj = resolve_team(away_team, league_obj)
-                
-                self.stdout.write(f"DEBUG: Resolved Home: {ht_obj}, Away: {at_obj}")
 
                 if not ht_obj or not at_obj:
-                    self.stdout.write(self.style.WARNING(f"Skipping {home_team} vs {away_team} (Team not resolved)"))
                     continue
 
-                # Parse scores
                 home_score = None
                 away_score = None
                 for s in scores:
-                    # self.stdout.write(f"DEBUG: Comparing '{s['name']}' with Home '{home_team}' and Away '{away_team}'")
                     if s['name'] == home_team:
                         home_score = int(s['score'])
                     elif s['name'] == away_team:
                         away_score = int(s['score'])
-                
-                # self.stdout.write(f"DEBUG: Scores parsed - Home: {home_score}, Away: {away_score}")
 
                 if home_score is None or away_score is None:
-                    # self.stdout.write(f"DEBUG: Failed to parse scores for {home_team} vs {away_team}. Scores: {scores}")
                     continue
 
-                # Find Match
                 match = Match.objects.filter(
                     league=league_obj,
                     home_team=ht_obj,
@@ -218,7 +253,6 @@ class Command(BaseCommand):
                 ).first()
                 
                 if match:
-                    # self.stdout.write(f"DEBUG: Match found: {match} Status: {match.status}")
                     if match.status != 'Finished':
                         match.status = 'Finished'
                         match.home_score = home_score
@@ -226,11 +260,7 @@ class Command(BaseCommand):
                         match.save()
                         self.stdout.write(self.style.SUCCESS(f"Updated Match Result: {ht_obj.name} {home_score}-{away_score} {at_obj.name}"))
                         count_updated += 1
-                    # else:
-                        # self.stdout.write(f"DEBUG: Match already finished, skipping update.")
                 else:
-                    # self.stdout.write(f"DEBUG: Match NOT found. Creating new match...")
-                    # Create new match if missing
                     Match.objects.create(
                         league=league_obj,
                         home_team=ht_obj,
@@ -246,74 +276,78 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS(f"[{league_key}] Scores Processed. Created: {count_created}, Updated: {count_updated}"))
 
-            # Automatically recalculate standings if any match was updated/created
             if count_created > 0 or count_updated > 0:
                 self.stdout.write(f"Automatically recalculating standings for {config['db_name']}...")
                 try:
                     call_command('recalculate_standings', league_name=config['db_name'], country=config['country'])
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f"Failed to recalculate standings: {e}"))
-            else:
-                self.stdout.write(f"No changes in scores, skipping standings recalculation.")
-
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error in process_scores for {league_key}: {e}"))
 
     def process_league(self, league_key, check_credits):
-        # 1. Carregar configuração da liga
         config = self.LEAGUE_CONFIG.get(league_key)
         if not config:
             self.stdout.write(self.style.ERROR(f"Liga '{league_key}' não configurada no script."))
-            self.stdout.write(f"Ligas disponíveis: {', '.join(self.LEAGUE_CONFIG.keys())}")
             return
 
         api_key_env = config['env_key']
-        api_key = os.getenv(api_key_env)
-        
-        if not api_key:
-            self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada no .env para {league_key}"))
+        keys_pool = self._get_api_keys_pool(api_key_env)
+        if not keys_pool:
+            self.stdout.write(self.style.ERROR(f"Chave {api_key_env} não encontrada."))
             return
 
         base_url = "https://api.the-odds-api.com/v4"
         
-        # 2. Construir URL
-        url = f"{base_url}/sports/{league_key}/odds/?apiKey={api_key}&regions=eu&markets=h2h"
-        
         if check_credits:
-            try:
-                resp = requests.get(f"{base_url}/sports/?apiKey={api_key}")
-                resp.raise_for_status()
-                remaining = int(resp.headers.get('x-requests-remaining', 0))
-                used = int(resp.headers.get('x-requests-used', 0))
-                self.stdout.write(f"API Credits ({config['country']}): Used {used}, Remaining {remaining}")
-                return
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f"Failed to check credits for {league_key}: {e}"))
-                return
+            for key_name, key_val in keys_pool:
+                try:
+                    resp = requests.get(f"{base_url}/sports/?apiKey={key_val}")
+                    resp.raise_for_status()
+                    remaining = int(resp.headers.get('x-requests-remaining', 0))
+                    used = int(resp.headers.get('x-requests-used', 0))
+                    self.stdout.write(f"API Credits using {key_name} ({config['country']}): Used {used}, Remaining {remaining}")
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"Failed to check credits for key {key_name}: {e}"))
+            return
 
         self.stdout.write(f"Fetching fixtures for {league_key} ({config['country']})...")
-        
-        try:
-            response = requests.get(url)
-            
-            # Check credits
-            remaining = int(response.headers.get('x-requests-remaining', 0))
-            used = int(response.headers.get('x-requests-used', 0))
-            
-            # Log usage
-            self.stdout.write(f"Credits used: {used}, Remaining: {remaining}")
-            
-            if response.status_code != 200:
-                self.stdout.write(self.style.ERROR(f"Error fetching data: {response.text}"))
-                return
+        response = None
+        data = None
 
-            data = response.json()
-            
-            # Process fixtures
+        for key_name, key_val in keys_pool:
+            url = f"{base_url}/sports/{league_key}/odds/?apiKey={key_val}&regions=eu&markets=h2h"
+            self.stdout.write(f"Trying key {key_name}...")
+            try:
+                resp = requests.get(url)
+                remaining = int(resp.headers.get('x-requests-remaining', 0))
+                used = int(resp.headers.get('x-requests-used', 0))
+                
+                try:
+                    APIUsage.objects.update_or_create(
+                        api_name=f"The Odds API ({key_name})",
+                        defaults={'credits_remaining': remaining, 'credits_used': used}
+                    )
+                except Exception:
+                    pass
+
+                if resp.status_code == 200:
+                    response = resp
+                    data = resp.json()
+                    self.stdout.write(self.style.SUCCESS(f"Success using key {key_name}! Credits remaining: {remaining}"))
+                    break
+                else:
+                    self.stdout.write(self.style.WARNING(f"Key {key_name} returned status {resp.status_code}, checking next..."))
+            except Exception as e:
+                self.stdout.write(self.style.WARNING(f"Failed with key {key_name}: {e}"))
+
+        if not response:
+            self.stdout.write(self.style.ERROR(f"All keys in the pool failed to fetch odds for {league_key}."))
+            return
+
+        try:
             count_created = 0
             count_updated = 0
-            
-            # Get League object
             try:
                 league_obj = League.objects.get(name=config['db_name'], country=config['country'])
             except League.DoesNotExist:
@@ -321,40 +355,29 @@ class Command(BaseCommand):
                 return
 
             current_year = timezone.now().year
-            # Tentar pegar season atual ou proxima
             season, _ = Season.objects.get_or_create(year=current_year)
 
             for item in data:
                 home_team = item['home_team']
                 away_team = item['away_team']
-                commence_time = item['commence_time'] # ISO format
+                commence_time = item['commence_time']
                 
-                # Parse date
                 match_date = datetime.fromisoformat(commence_time.replace('Z', '+00:00'))
-                
-                # Resolve Teams
                 ht_obj = resolve_team(home_team, league_obj)
                 at_obj = resolve_team(away_team, league_obj)
                 
                 if not ht_obj or not at_obj:
-                    self.stdout.write(self.style.WARNING(f"Skipping {home_team} vs {away_team} (Team not resolved)"))
                     continue
                 
-                # Get Odds
                 avg_home_odd = None
                 avg_draw_odd = None
                 avg_away_odd = None
                 
-                # Extract average odds from bookmakers
                 bookmakers = item.get('bookmakers', [])
                 if bookmakers:
-                    # Simple strategy: take first available or average
-                    # Let's take the first one for simplicity or specific bookmaker if needed
-                    # Or average them
                     h_odds = []
                     d_odds = []
                     a_odds = []
-                    
                     for book in bookmakers:
                         for market in book.get('markets', []):
                             if market['key'] == 'h2h':
@@ -365,13 +388,10 @@ class Command(BaseCommand):
                                         a_odds.append(outcome['price'])
                                     elif outcome['name'] == 'Draw':
                                         d_odds.append(outcome['price'])
-                    
                     if h_odds: avg_home_odd = sum(h_odds) / len(h_odds)
                     if d_odds: avg_draw_odd = sum(d_odds) / len(d_odds)
                     if a_odds: avg_away_odd = sum(a_odds) / len(a_odds)
 
-                # Update or Create Match
-                # We identify match by teams and date (approx)
                 start_window = match_date - timezone.timedelta(hours=24)
                 end_window = match_date + timezone.timedelta(hours=24)
                 
@@ -383,18 +403,15 @@ class Command(BaseCommand):
                 ).first()
 
                 if match:
-                    # Update odds
                     match.home_team_win_odds = avg_home_odd
                     match.draw_odds = avg_draw_odd
                     match.away_team_win_odds = avg_away_odd
-                    # Ensure status is Scheduled if it was not Finished
                     if match.status not in ['Finished', 'Live', 'Postponed']:
                          match.status = 'Scheduled'
-                         match.date = match_date # Update exact time
+                         match.date = match_date
                     match.save()
                     count_updated += 1
                 else:
-                    # Create new match
                     Match.objects.create(
                         league=league_obj,
                         home_team=ht_obj,
@@ -409,15 +426,5 @@ class Command(BaseCommand):
                     count_created += 1
             
             self.stdout.write(self.style.SUCCESS(f"[{league_key}] Processed. Created: {count_created}, Updated: {count_updated}"))
-
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error in {league_key}: {e}"))
-            try:
-                # Log usage even on error if possible
-                if 'remaining' in locals():
-                    APIUsage.objects.update_or_create(
-                        api_name=f"The Odds API (Upcoming - {config['country']})",
-                        defaults={'credits_remaining': remaining, 'credits_used': used}
-                    )
-            except Exception:
-                pass

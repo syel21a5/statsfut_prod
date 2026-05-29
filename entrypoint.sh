@@ -17,7 +17,10 @@ python manage.py migrate
 echo "Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
 
-# Iniciar o Tor
+# Iniciar o Tor com ControlPort habilitado (para rotação de IP)
+echo "Configurando Tor com ControlPort..."
+echo "ControlPort 9051" >> /etc/tor/torrc
+echo "CookieAuthentication 0" >> /etc/tor/torrc
 echo "Iniciando serviço do Tor..."
 service tor start || tor &
 sleep 5

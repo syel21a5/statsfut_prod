@@ -1,0 +1,90 @@
+{% load i18n %}
+<div class="col-lg-6 col-md-12">
+    <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important;">
+        <div class="card-header border-0 bg-transparent py-3 px-4 d-flex justify-content-between align-items-center">
+            <div>
+                <span class="badge bg-success mb-1" style="background: rgba(16,185,129,0.15) !important; color: #10b981; font-size: 10px;">{{ ticket.get_ticket_type_display }}</span>
+                <h5 class="text-white fw-bold mb-0" style="font-size: 1.1rem;">{{ ticket.title }}</h5>
+            </div>
+            <div class="text-end d-flex align-items-center gap-3">
+                <div class="pe-3 border-end" style="border-color: rgba(255,255,255,0.08) !important;">
+                    <div class="fs-4 fw-bold text-warning" style="color: #f59e0b;">@ {{ ticket.total_odd }}</div>
+                    <div class="text-secondary small text-uppercase" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Total Odd" %}</div>
+                </div>
+                <div>
+                    <div class="fs-4 fw-bold text-success" style="color: #10b981;">{{ ticket.average_probability }}%</div>
+                    <div class="text-secondary small text-uppercase" style="font-size: 9px; letter-spacing: 0.5px;">{% translate "Accuracy" %}</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body px-4 py-1">
+            <hr class="my-0" style="border-color: rgba(255,255,255,0.05);">
+            <div class="py-2">
+                {% for sel in ticket.selections.all %}
+                <div class="d-flex align-items-center justify-content-between py-2 {% if not forloop.last %}border-bottom{% endif %}" style="border-color: rgba(255,255,255,0.03) !important;">
+                    <div class="d-flex align-items-center gap-3">
+                        {% if sel.status == 'Green' %}
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.85rem;">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        {% elif sel.status == 'Red' %}
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(239,68,68,0.15); color: #ef4444; font-size: 0.85rem;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        {% else %}
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(99,102,241,0.1); color: #818cf8; font-size: 0.85rem;">
+                            <i class="fa-solid fa-futbol"></i>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <span class="text-secondary small d-block" style="font-size: 10px;">{{ sel.match.league.name }}</span>
+                            <span class="text-white fw-bold" style="font-size: 0.92rem;">{{ sel.match.home_team.name }} <span class="text-secondary small">vs</span> {{ sel.match.away_team.name }}</span>
+                            {% if sel.status == 'Green' %}
+                                <span class="small d-block mt-0.5" style="color: #10b981; font-size: 10px;"><i class="fa-solid fa-check-circle me-1"></i>{{ sel.match.home_score }} - {{ sel.match.away_score }} • GREEN</span>
+                            {% elif sel.status == 'Red' %}
+                                <span class="small d-block mt-0.5" style="color: #ef4444; font-size: 10px;"><i class="fa-solid fa-times-circle me-1"></i>{{ sel.match.home_score }} - {{ sel.match.away_score }} • RED</span>
+                            {% else %}
+                                <span class="small d-block mt-0.5" style="color: #f59e0b; font-size: 10px;"><i class="fa-regular fa-clock me-1"></i>{{ sel.match.date|date:"d/m H:i" }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge fw-bold px-2.5 py-1.5" style="font-size: 0.78rem;
+                            {% if sel.status == 'Green' %}
+                            background: rgba(16,185,129,0.15) !important; color: #10b981 !important; border: 1px solid rgba(16,185,129,0.3);
+                            {% elif sel.status == 'Red' %}
+                            background: rgba(239,68,68,0.15) !important; color: #ef4444 !important; border: 1px solid rgba(239,68,68,0.3);
+                            {% else %}
+                            background: rgba(99,102,241,0.2) !important; color: #a5b4fc !important; border: 1px solid rgba(99,102,241,0.2);
+                            {% endif %}">
+                            {{ sel.prediction_label }}
+                        </span>
+                        <span class="text-secondary small d-block mt-1" style="font-size: 10px;">
+                            <span class="badge px-2 py-0.5 text-warning bg-warning-subtle border border-warning-subtle rounded-2 small me-2" style="background: rgba(245, 158, 11, 0.12) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; color: #f59e0b !important;">@ {{ sel.odd }}</span>
+                            {% translate "Probability" %}: {{ sel.probability }}%
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer border-0 py-2.5 px-4" style="background: rgba(0,0,0,0.15);">
+            <div class="d-flex justify-content-between align-items-center">
+                {% with pending_count=ticket.pending_selections_count %}
+                {% if pending_count > 0 %}
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-warning" style="width: 8px; height: 8px; animation: pulse 1.5s infinite;"></div>
+                    <span class="text-warning small fw-bold">{{ pending_count }} {% translate "match(es) pending" %}</span>
+                </div>
+                {% else %}
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle bg-info" style="width: 8px; height: 8px;"></div>
+                    <span class="text-info small fw-bold">{% translate "All matches finished" %}</span>
+                </div>
+                {% endif %}
+                {% endwith %}
+                <span class="text-secondary small" style="font-size: 11px;">{{ ticket.date_target|date:"d/m/Y" }}</span>
+            </div>
+        </div>
+    </div>
+</div>

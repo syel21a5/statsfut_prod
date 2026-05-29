@@ -3,7 +3,7 @@ import traceback
 from datetime import datetime, timezone
 from django.core.management.base import BaseCommand  # type: ignore
 from matches.models import League, Team, Match, Season, LeagueStanding  # type: ignore
-from django.db import transaction  # type: ignore
+from django.db import transaction, IntegrityError  # type: ignore
 
 class Command(BaseCommand):
     help = "Lê um payload.json do SofaScore e processa nativamente no banco de dados de produção (Proxy Architecture)."
@@ -306,6 +306,10 @@ class Command(BaseCommand):
                     team_name = (team_name or '').strip()
                     if team_id and team_name:
                         sofa_api_id = f"sofa_{team_id}"
+                        
+                        if int(team_id) in teams_map:
+                            continue
+                            
                         try:
                             # 1. Tenta por API ID **na mesma liga** (evita cross-league leakage)
                             team = Team.objects.filter(api_id=sofa_api_id, league=league).first()
@@ -321,26 +325,23 @@ class Command(BaseCommand):
                             if not team:
                                 team = Team.objects.filter(name=team_name, league=league).first()
                                 if team:
-                                    # Atualiza o api_id se estiver vazio ou pertence a outra liga
-                                    if not team.api_id:
-                                        team.api_id = sofa_api_id
-                                        team.save()
-                                    elif team.api_id != sofa_api_id:
-                                        # api_id diferente mas é o time certo da liga
-                                        # Tenta atualizar, ignora se der conflito de unique
-                                        try:
-                                            team.api_id = sofa_api_id
-                                            team.save()
-                                        except Exception:
-                                            pass  # Mantém o api_id existente
+                                    # Atualiza o api_id se não pertencer a outra liga
+                                    if team.api_id != sofa_api_id:
+                                        if not Team.objects.filter(api_id=sofa_api_id).exists():
+                                            try:
+                                                team.api_id = sofa_api_id
+                                                team.save()
+                                            except Exception:
+                                                pass
                             
                             # 3. Cria se não existir nada na liga
                             if not team:
                                 # Verifica se o api_id já existe em outra liga (evita unique constraint)
-                                existing_other = Team.objects.filter(api_id=sofa_api_id).exclude(league=league).first()
+                                existing_other = Team.objects.filter(api_id=sofa_api_id).first()
                                 if existing_other:
-                                    # api_id já usado por outra liga, cria sem api_id
+                                    # api_id já usado por outra liga, cria sem api_id (nulo para evitar duplicata de string vazia)
                                     team = Team.objects.create(
+                                        api_id=None,
                                         name=team_name,
                                         league=league
                                     )
@@ -458,7 +459,7 @@ class Command(BaseCommand):
                             if not home_team:
                                 # Cria, mas verifica se api_id já existe em outra liga
                                 if Team.objects.filter(api_id=sofa_id).exists():
-                                    home_team = Team.objects.create(name=team_name, league=league)
+                                    home_team = Team.objects.create(api_id=None, name=team_name, league=league)
                                 else:
                                     home_team = Team.objects.create(api_id=sofa_id, name=team_name, league=league)
                             teams_map[int(home_sofa_id)] = home_team
@@ -475,7 +476,7 @@ class Command(BaseCommand):
                             if not away_team:
                                 # Cria, mas verifica se api_id já existe em outra liga
                                 if Team.objects.filter(api_id=sofa_id).exists():
-                                    away_team = Team.objects.create(name=team_name, league=league)
+                                    away_team = Team.objects.create(api_id=None, name=team_name, league=league)
                                 else:
                                     away_team = Team.objects.create(api_id=sofa_id, name=team_name, league=league)
                             teams_map[int(away_sofa_id)] = away_team
@@ -487,7 +488,15 @@ class Command(BaseCommand):
                     # 1. Tenta por API_ID
                     match = Match.objects.filter(api_id=match_api_id).first()
                     
-                    # 2. Tenta por Times e Data (mesmo dia, mas com folga de 3 dias para evitar problemas de fuso horário do MySQL)
+                    # 2. Tenta por Times e Data Exata
+                    if not match and match_date:
+                        match = Match.objects.filter(
+                            home_team=home_team,
+                            away_team=away_team,
+                            date=match_date
+                        ).first()
+                    
+                    # 3. Tenta por Times e Data (mesmo dia, mas com folga de 3 dias para evitar problemas de fuso horário do MySQL)
                     if not match and match_date:
                         from datetime import timedelta
                         match = Match.objects.filter(
@@ -507,7 +516,14 @@ class Command(BaseCommand):
                             match.home_team = home_team
                             match.away_team = away_team
                             match.date = match_date
-                            match.round_name = f"{round_label} - Round {round_number}"
+                            
+                            # Evita que rodadas legítimas sejam sobrescritas por nomes de fallback (ex: 998/999)
+                            new_round_name = f"{round_label} - Round {round_number}"
+                            is_new_fallback = "fallback" in round_label.lower() or round_number in [998, 999]
+                            is_curr_fallback = not match.round_name or "fallback" in match.round_name.lower() or "998" in match.round_name or "999" in match.round_name
+                            if not is_new_fallback or is_curr_fallback:
+                                match.round_name = new_round_name
+                                
                             match.status = match_status
                             match.home_score = home_score
                             match.away_score = away_score
@@ -536,6 +552,48 @@ class Command(BaseCommand):
                         
                         if created: matches_created += 1
                         else: matches_updated += 1
+                    except IntegrityError as ie:
+                        # Resolve duplicatas automaticamente: busca a partida que já ocupa aquela data
+                        conflicting = Match.objects.filter(
+                            home_team=home_team,
+                            away_team=away_team,
+                            date=match_date
+                        ).exclude(id=match.id if match else 0).first()
+                        
+                        if conflicting and conflicting.home_score is None and conflicting.away_score is None:
+                            # Placeholder sem placar — seguro deletar
+                            self.stdout.write(self.style.WARNING(
+                                f"  ⚠ Removendo placeholder duplicado ID={conflicting.id} ({home_team} vs {away_team} em {match_date})"
+                            ))
+                            conflicting.delete()
+                            try:
+                                if match:
+                                    match.save()
+                                    matches_updated += 1
+                                else:
+                                    Match.objects.create(
+                                        api_id=match_api_id, league=league, season=season,
+                                        home_team=home_team, away_team=away_team, date=match_date,
+                                        round_name=f"{round_label} - Round {round_number}",
+                                        status=match_status, home_score=home_score, away_score=away_score,
+                                        ht_home_score=ht_home_score, ht_away_score=ht_away_score,
+                                    )
+                                    matches_created += 1
+                            except Exception as e2:
+                                self.stdout.write(self.style.ERROR(f"  ✗ Erro após remover placeholder: {e2}"))
+                        elif conflicting and conflicting.home_score is not None:
+                            # A partida conflitante já tem placar — é a versão real. Deleta o placeholder atual.
+                            if match and match.home_score is None:
+                                self.stdout.write(self.style.WARNING(
+                                    f"  ⚠ Removendo placeholder atual ID={match.id} (conflito com ID={conflicting.id})"
+                                ))
+                                match.delete()
+                            else:
+                                self.stdout.write(self.style.WARNING(
+                                    f"  ⚠ Duplicata ignorada: {home_team} vs {away_team} em {match_date} (ambas com placar)"
+                                ))
+                        else:
+                            self.stdout.write(self.style.ERROR(f"Erro ao salvar partida {home_team} vs {away_team}: {ie}"))
                     except Exception as e:
                         self.stdout.write(self.style.ERROR(f"Erro ao salvar partida {home_team} vs {away_team}: {e}"))
 

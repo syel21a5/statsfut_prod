@@ -37,6 +37,7 @@ class Command(BaseCommand):
         under35_opts = []      # Menos de 3.5 Gols FT (Conservador)
         btts_no_opts = []      # Ambas Marcam Não (Defesa Fechada)
         double_chance_opts = [] # Dupla Chance (Segurança de Ferro)
+        hedge_favorito_opts = [] # Hedge ao Favorito
 
         for m in matches:
             try:
@@ -97,6 +98,15 @@ class Command(BaseCommand):
                 elif double_away >= 80:
                     double_chance_opts.append({'match': m, 'market': 'double_chance_x2', 'label': f'X2 - {m.away_team.name} ou Empate', 'prob': double_away})
 
+                # 10. Hedge ao Favorito
+                if m.home_team_win_odds and m.away_team_win_odds:
+                    if m.home_team_win_odds < m.away_team_win_odds and m.home_team_win_odds >= 2.00:
+                        if goals.get('over_15', 0) >= 70:
+                            hedge_favorito_opts.append({'match': m, 'market': 'home_win', 'label': f'Hedge - Vitória do {m.home_team.name}', 'prob': int(100/m.home_team_win_odds)})
+                    elif m.away_team_win_odds < m.home_team_win_odds and m.away_team_win_odds >= 2.00:
+                        if goals.get('over_15', 0) >= 70:
+                            hedge_favorito_opts.append({'match': m, 'market': 'away_win', 'label': f'Hedge - Vitória do {m.away_team.name}', 'prob': int(100/m.away_team_win_odds)})
+
             except Exception as e:
                 continue
 
@@ -110,63 +120,154 @@ class Command(BaseCommand):
         under35_opts.sort(key=lambda x: x['prob'], reverse=True)
         btts_no_opts.sort(key=lambda x: x['prob'], reverse=True)
         double_chance_opts.sort(key=lambda x: x['prob'], reverse=True)
+        hedge_favorito_opts.sort(key=lambda x: x['prob'], reverse=True)
 
         # Limpar bilhetes pendentes anteriores para evitar duplicar no mesmo dia
         BetTicket.objects.filter(status='Pending', date_target=start_of_day.date()).delete()
 
         created_count = 0
 
-        # ESTRATÉGIA 1: Dupla de Gols HT (Altamente Lucrativo)
-        if len(ht_goal_opts) >= 2:
-            top_2 = ht_goal_opts[:2]
-            avg_prob = sum(x['prob'] for x in top_2) // 2
-            ticket = BetTicket.objects.create(
-                title="Dupla Ouro HT (Gols no 1º Tempo)",
-                ticket_type="Double",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
-            )
-            for sel in top_2:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
+        # ==========================================
+        # 1. GERAR ATÉ 6-8 DUPLAS (Doubles)
+        # ==========================================
+        doubles_created = 0
+        
+        # Mapeamos as opções de duplas disponíveis e definimos a ordem de prioridade
+        doubles_pool_sources = [
+            {'opts': ht_goal_opts, 'title': 'Dupla Ouro HT (Gols no 1º Tempo)'},
+            {'opts': over15_opts, 'title': 'Dupla de Gols FT (Mais de 1.5 Gols)'},
+            {'opts': corners_opts, 'title': 'Dupla de Cantos (Over 9.5 Escanteios)'},
+            {'opts': btts_opts, 'title': 'Dupla Ambas Marcam (Gols dos Dois Lados)'},
+            {'opts': favorites_opts, 'title': 'Dupla de Favoritos (Vitórias Claras)'},
+            {'opts': under35_opts, 'title': 'Dupla Sob Controle (Menos de 3.5 Gols)'},
+            {'opts': btts_no_opts, 'title': 'Dupla Defesa de Ferro (Ambas Marcam Não)'},
+            {'opts': double_chance_opts, 'title': 'Dupla Dupla Chance (Segurança Extra)'},
+        ]
+        
+        # Para cada categoria, tentamos extrair o máximo de duplas (chunks de 2) até bater o limite de 8
+        for source in doubles_pool_sources:
+            if doubles_created >= 8:
+                break
+                
+            opts = source['opts']
+            title = source['title']
+            
+            # Divide os itens ordenados daquela categoria em grupos de 2
+            i = 0
+            group_idx = 65 # Char 'A'
+            while i + 1 < len(opts) and doubles_created < 8:
+                chunk = opts[i:i+2]
+                avg_prob = sum(x['prob'] for x in chunk) // 2
+                
+                # Gera o bilhete
+                ticket_title = f"{title} - Grupo {chr(group_idx)}" if len(opts) > 2 else title
+                ticket = BetTicket.objects.create(
+                    title=ticket_title,
+                    ticket_type="Double",
+                    average_probability=avg_prob,
+                    date_target=start_of_day.date()
                 )
-            created_count += 1
+                
+                for sel in chunk:
+                    BetTicketSelection.objects.create(
+                        ticket=ticket,
+                        match=sel['match'],
+                        prediction_market=sel['market'],
+                        prediction_label=sel['label'],
+                        probability=sel['prob']
+                    )
+                
+                doubles_created += 1
+                created_count += 1
+                group_idx += 1
+                i += 2
 
-        # ESTRATÉGIA 2: Tripla Over 1.5 FT (Consistência Pura)
-        if len(over15_opts) >= 3:
-            top_3 = over15_opts[:3]
-            avg_prob = sum(x['prob'] for x in top_3) // 3
-            ticket = BetTicket.objects.create(
-                title="Tripla de Gols FT (Mais de 1.5 Gols)",
-                ticket_type="Treble",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
-            )
-            for sel in top_3:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
+        # ==========================================
+        # 2. GERAR ATÉ 4 TRIPLAS (Trebles)
+        # ==========================================
+        triples_created = 0
+        
+        triples_pool_sources = [
+            {'opts': over15_opts, 'title': 'Tripla de Gols FT (Mais de 1.5 Gols)'},
+            {'opts': double_chance_opts, 'title': 'Tripla Dupla Chance (Segurança Máxima)'},
+            {'opts': over05_opts, 'title': 'Tripla Alavancagem (Mais de 0.5 Gols FT)'},
+            {'opts': ht_goal_opts, 'title': 'Tripla Ouro HT (Gols no 1º Tempo)'},
+        ]
+        
+        for source in triples_pool_sources:
+            if triples_created >= 4:
+                break
+                
+            opts = source['opts']
+            title = source['title']
+            
+            i = 0
+            group_idx = 65 # 'A'
+            while i + 2 < len(opts) and triples_created < 4:
+                chunk = opts[i:i+3]
+                avg_prob = sum(x['prob'] for x in chunk) // 3
+                
+                ticket_title = f"{title} - Grupo {chr(group_idx)}" if len(opts) > 3 else title
+                ticket = BetTicket.objects.create(
+                    title=ticket_title,
+                    ticket_type="Treble",
+                    average_probability=avg_prob,
+                    date_target=start_of_day.date()
                 )
-            created_count += 1
+                
+                for sel in chunk:
+                    BetTicketSelection.objects.create(
+                        ticket=ticket,
+                        match=sel['match'],
+                        prediction_market=sel['market'],
+                        prediction_label=sel['label'],
+                        probability=sel['prob']
+                    )
+                    
+                triples_created += 1
+                created_count += 1
+                group_idx += 1
+                i += 3
 
-        # ESTRATÉGIA 3: Bilhete de Escanteios (Corners Master)
-        if len(corners_opts) >= 2:
-            top_2 = corners_opts[:2]
-            avg_prob = sum(x['prob'] for x in top_2) // 2
+        # ==========================================
+        # 3. GERAR ATÉ 2 MÚLTIPLAS DE OURO (Multiple_4_5)
+        # ==========================================
+        multiples_created = 0
+        
+        multi_pool = []
+        for x in (favorites_opts + over15_opts + double_chance_opts):
+            if x['prob'] >= 85:
+                multi_pool.append(x)
+                
+        # Deduplica partidas para não repetir o mesmo jogo em múltiplas
+        seen_matches = set()
+        unique_multi_pool = []
+        for x in sorted(multi_pool, key=lambda val: val['prob'], reverse=True):
+            if x['match'].id not in seen_matches:
+                seen_matches.add(x['match'].id)
+                unique_multi_pool.append(x)
+                
+        # Pega grupos de 4 a 5 jogos para montar até 2 múltiplas
+        i = 0
+        group_idx = 65 # 'A'
+        while i + 3 < len(unique_multi_pool) and multiples_created < 2:
+            # Pega de 4 a 5 no máximo (tenta pegar 5 se tiver, se não, pega 4)
+            size = min(5, len(unique_multi_pool) - i)
+            if size < 4:
+                break
+                
+            chunk = unique_multi_pool[i:i+size]
+            avg_prob = sum(x['prob'] for x in chunk) // len(chunk)
+            
+            ticket_title = f"Múltipla de Ouro (Segurança & Valor) - Grupo {chr(group_idx)}" if group_idx > 65 or len(unique_multi_pool) > 5 else "Múltipla de Ouro (Segurança & Valor)"
             ticket = BetTicket.objects.create(
-                title="Dupla de Cantos (Over 9.5 Escanteios)",
-                ticket_type="Double",
+                title=ticket_title,
+                ticket_type="Multiple_4_5",
                 average_probability=avg_prob,
                 date_target=start_of_day.date()
             )
-            for sel in top_2:
+            
+            for sel in chunk:
                 BetTicketSelection.objects.create(
                     ticket=ticket,
                     match=sel['match'],
@@ -174,19 +275,49 @@ class Command(BaseCommand):
                     prediction_label=sel['label'],
                     probability=sel['prob']
                 )
+                
+            multiples_created += 1
             created_count += 1
+            group_idx += 1
+            i += size
 
-        # ESTRATÉGIA 4: Dupla Ambas Marcam (BTTS Especialista)
-        if len(btts_opts) >= 2:
-            top_2 = btts_opts[:2]
-            avg_prob = sum(x['prob'] for x in top_2) // 2
+        # ==========================================
+        # 4. GERAR ATÉ 2 SUPER MÚLTIPLAS (Super_6_8)
+        # ==========================================
+        supers_created = 0
+        
+        super_pool = []
+        for x in (over05_opts + under35_opts + double_chance_opts):
+            if x['prob'] >= 90:
+                super_pool.append(x)
+                
+        seen_matches_super = set()
+        unique_super_pool = []
+        for x in sorted(super_pool, key=lambda val: val['prob'], reverse=True):
+            if x['match'].id not in seen_matches_super:
+                seen_matches_super.add(x['match'].id)
+                unique_super_pool.append(x)
+                
+        # Pega grupos de 6 a 8 jogos para montar até 2 super múltiplas
+        i = 0
+        group_idx = 65 # 'A'
+        while i + 5 < len(unique_super_pool) and supers_created < 2:
+            size = min(8, len(unique_super_pool) - i)
+            if size < 6:
+                break
+                
+            chunk = unique_super_pool[i:i+size]
+            avg_prob = sum(x['prob'] for x in chunk) // len(chunk)
+            
+            ticket_title = f"Super Múltipla Alavancagem (Odds Gigantes) - Grupo {chr(group_idx)}" if group_idx > 65 or len(unique_super_pool) > 8 else "Super Múltipla Alavancagem (Odds Gigantes)"
             ticket = BetTicket.objects.create(
-                title="Dupla Ambas Marcam (Gols dos Dois Lados)",
-                ticket_type="Double",
+                title=ticket_title,
+                ticket_type="Super_6_8",
                 average_probability=avg_prob,
                 date_target=start_of_day.date()
             )
-            for sel in top_2:
+            
+            for sel in chunk:
                 BetTicketSelection.objects.create(
                     ticket=ticket,
                     match=sel['match'],
@@ -194,106 +325,37 @@ class Command(BaseCommand):
                     prediction_label=sel['label'],
                     probability=sel['prob']
                 )
+                
+            supers_created += 1
             created_count += 1
+            group_idx += 1
+            i += size
 
-        # ESTRATÉGIA 5: Favorito de Ouro (Back Favorito Seguro)
-        if len(favorites_opts) >= 2:
-            top_2 = favorites_opts[:2]
-            avg_prob = sum(x['prob'] for x in top_2) // 2
+        # ==========================================
+        # 5. GERAR ATÉ 4 HEDGE AO FAVORITO (Hedge_Favorito)
+        # ==========================================
+        hedge_created = 0
+        for sel in hedge_favorito_opts:
+            if hedge_created >= 4:
+                break
+            
+            ticket_title = f"Hedge ao Favorito - {sel['match'].home_team.name} x {sel['match'].away_team.name}"
             ticket = BetTicket.objects.create(
-                title="Favoritos Imperdíveis (Vitórias do Dia)",
-                ticket_type="Double",
-                average_probability=avg_prob,
+                title=ticket_title,
+                ticket_type="Hedge_Favorito",
+                average_probability=sel['prob'],
                 date_target=start_of_day.date()
             )
-            for sel in top_2:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
-                )
-            created_count += 1
-
-        # ESTRATÉGIA 6: Múltipla Alavancagem (Mais de 0.5 Gols FT)
-        if len(over05_opts) >= 3:
-            top_3 = over05_opts[:3]
-            avg_prob = sum(x['prob'] for x in top_3) // 3
-            ticket = BetTicket.objects.create(
-                title="Tripla Alavancagem (Mais de 0.5 Gols FT)",
-                ticket_type="Treble",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
+            
+            BetTicketSelection.objects.create(
+                ticket=ticket,
+                match=sel['match'],
+                prediction_market=sel['market'],
+                prediction_label=sel['label'],
+                probability=sel['prob']
             )
-            for sel in top_3:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
-                )
-            created_count += 1
-
-        # ESTRATÉGIA 7: Dupla Under Conservadora (Menos de 3.5 Gols FT)
-        if len(under35_opts) >= 2:
-            top_2 = under35_opts[:2]
-            avg_prob = sum(x['prob'] for x in top_2) // 2
-            ticket = BetTicket.objects.create(
-                title="Dupla Menos de 3.5 Gols (Sob Controle)",
-                ticket_type="Double",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
-            )
-            for sel in top_2:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
-                )
-            created_count += 1
-
-        # ESTRATÉGIA 8: Dupla Defesa de Ferro (Ambas Marcam - Não)
-        if len(btts_no_opts) >= 2:
-            top_2 = btts_no_opts[:2]
-            avg_prob = sum(x['prob'] for x in top_2) // 2
-            ticket = BetTicket.objects.create(
-                title="Dupla Ambas Marcam Não (Defesa Blindada)",
-                ticket_type="Double",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
-            )
-            for sel in top_2:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
-                )
-            created_count += 1
-
-        # ESTRATÉGIA 9: Tripla Dupla Chance Segura (1X / X2)
-        if len(double_chance_opts) >= 3:
-            top_3 = double_chance_opts[:3]
-            avg_prob = sum(x['prob'] for x in top_3) // 3
-            ticket = BetTicket.objects.create(
-                title="Tripla Dupla Chance (Segurança Máxima)",
-                ticket_type="Treble",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
-            )
-            for sel in top_3:
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob']
-                )
+            
+            hedge_created += 1
             created_count += 1
 
         self.stdout.write(self.style.SUCCESS(f"Sucesso! Foram gerados {created_count} bilhetes com super estratégias diversas hoje."))

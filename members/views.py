@@ -104,11 +104,14 @@ def premium_dashboard(request):
     # ----------------- ROBÔ DE AVALIAÇÃO EM TEMPO REAL -----------------
     from matches.models import ScannerTip, Goal
     
-    # 1. Avaliar Dicas Pendentes do Scanner Inteligente
+    # 1. Avaliar Dicas do Scanner Inteligente
+    #    Inclui PENDING (normal) + GREEN/RED recentes (re-avaliação caso placar mude)
     finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
+    three_days_ago = timezone.now() - timedelta(days=3)
+    
     tips_to_resolve = ScannerTip.objects.filter(
-        status='PENDING',
-        match__status__in=finished_statuses
+        match__status__in=finished_statuses,
+        match__date__gte=three_days_ago
     ).select_related('match')
     
     for tip in tips_to_resolve:
@@ -197,8 +200,10 @@ def premium_dashboard(request):
             else:
                 continue
 
-            tip.status = 'GREEN' if is_green else 'RED'
-            tip.save(update_fields=['status', 'updated_at'])
+            new_status = 'GREEN' if is_green else 'RED'
+            if tip.status != new_status:
+                tip.status = new_status
+                tip.save(update_fields=['status', 'updated_at'])
         except Exception:
             pass
 
@@ -299,10 +304,23 @@ def premium_dashboard(request):
         match__date__range=(start_of_day, end_date + timedelta(days=1))
     ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('match__date')
     
-    # Buscar histórico de dicas avaliadas (Últimos 30)
+    # Buscar histórico de dicas dos últimos 7 dias (GREEN, RED, e PENDING de jogos finalizados)
+    seven_days_ago = timezone.now() - timedelta(days=7)
     evaluated_tips = ScannerTip.objects.filter(
-        status__in=['GREEN', 'RED']
-    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-updated_at')[:30]
+        status__in=['GREEN', 'RED'],
+        match__date__gte=seven_days_ago
+    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-match__date')
+    
+    # Incluir PENDING de jogos já finalizados (para que não desapareçam do histórico)
+    pending_finished_tips = ScannerTip.objects.filter(
+        status='PENDING',
+        match__status__in=finished_statuses,
+        match__date__gte=seven_days_ago
+    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-match__date')
+    
+    # Combinar as duas querysets
+    from itertools import chain
+    all_history_tips = list(chain(evaluated_tips, pending_finished_tips))
 
     # Mapeamento de mercados para categorias
     GOALS_MARKETS = {'HT_GOAL', 'OVER_05', 'OVER_15', 'OVER_25', 'OVER_35'}
@@ -405,6 +423,7 @@ def premium_dashboard(request):
         item = {
             'match': tip.match,
             'prob': tip.probability,
+            'odd': tip.odd,
             'text': get_translated_text(tip),
             'market': tip.market,
             'date_group': get_date_group(tip.match.date),
@@ -426,15 +445,123 @@ def premium_dashboard(request):
         elif tip.market in SHOTS_MARKETS:
             tips_shots.append(item)
 
-    history_items = []
-    for tip in evaluated_tips:
-        history_items.append({
+    history_groups = {
+        'goals': [],
+        'btts': [],
+        'corners': [],
+        'cards': [],
+        'shots': [],
+        'outcomes': [],
+        'specials': []
+    }
+    history_stats_by_market = {}
+
+    for tip in all_history_tips:
+        m_type = tip.market
+        
+        group_key = 'outros'
+        if m_type in GOALS_MARKETS: group_key = 'goals'
+        elif m_type in BTTS_MARKETS: group_key = 'btts'
+        elif m_type in CORNERS_MARKETS: group_key = 'corners'
+        elif m_type in CARDS_MARKETS: group_key = 'cards'
+        elif m_type in SHOTS_MARKETS: group_key = 'shots'
+        elif m_type in RESULT_MARKETS: group_key = 'outcomes'
+        elif m_type in SPECIALS_MARKETS: group_key = 'specials'
+
+        item = {
             'match': tip.match,
             'prob': tip.probability,
             'text': get_translated_text(tip),
             'status': tip.status,
-            'date': tip.match.date
-        })
+            'date': tip.match.date,
+            'market': tip.market,
+            'category': group_key,
+        }
+        
+        if group_key in history_groups:
+            history_groups[group_key].append(item)
+
+        # Só contabilizar GREEN/RED nas estatísticas (PENDING não entra)
+        if tip.status in ('GREEN', 'RED'):
+            if m_type not in history_stats_by_market:
+                history_stats_by_market[m_type] = {'green': 0, 'red': 0, 'total': 0, 'win_rate': 0}
+            history_stats_by_market[m_type]['total'] += 1
+            if tip.status == 'GREEN':
+                history_stats_by_market[m_type]['green'] += 1
+            elif tip.status == 'RED':
+                history_stats_by_market[m_type]['red'] += 1
+
+    for m_type, stats in history_stats_by_market.items():
+        stats['win_rate'] = int((stats['green'] / stats['total']) * 100) if stats['total'] > 0 else 0
+
+    for key in history_groups:
+        history_groups[key].sort(key=lambda x: x['prob'], reverse=True)
+
+
+    # Calcular assertividade por data (Geral + Por Dia)
+    stats_by_date = {'Geral': {}}
+    market_labels = {
+        'HT_GOAL': 'HT Goal',
+        'OVER_05': 'Over 0.5 Goals',
+        'OVER_15': 'Over 1.5 Goals',
+        'OVER_25': 'Over 2.5 Goals',
+        'OVER_35': 'Over 3.5 Goals',
+        'BTTS': 'Both Teams to Score',
+    }
+
+    def get_market_group(m_type):
+        if m_type in market_labels:
+            return market_labels[m_type]
+        elif m_type.startswith('CORNERS_') or m_type.startswith('CORNER_'):
+            return 'Corners'
+        elif m_type.startswith('CARDS_') or m_type.startswith('CARD_'):
+            return 'Cards'
+        elif m_type.startswith('SHOTS_') or m_type.startswith('SOT_') or m_type.startswith('SHOT_'):
+            return 'Shots'
+        elif m_type in ['HOME_WIN', 'AWAY_WIN', 'DC_1X', 'DC_X2', 'DNB_HOME', 'DNB_AWAY', 'FIRST_SCORE_HOME', 'FIRST_SCORE_AWAY']:
+            return 'Outcomes'
+        return 'Outros'
+
+    for tip in evaluated_tips:
+        m_type = tip.market
+        status = tip.status
+        group_key = get_market_group(m_type)
+        
+        # Data local da partida formatada (DD/MM)
+        date_str = tip.match.date.astimezone(br_tz).strftime('%d/%m')
+        
+        if date_str not in stats_by_date:
+            stats_by_date[date_str] = {}
+            
+        for target in ['Geral', date_str]:
+            if group_key not in stats_by_date[target]:
+                stats_by_date[target][group_key] = {'green': 0, 'total': 0}
+            stats_by_date[target][group_key]['total'] += 1
+            if status == 'GREEN':
+                stats_by_date[target][group_key]['green'] += 1
+
+    # Formatar para o context
+    scanner_assertividade = []
+    ordered_keys = ['Geral'] + sorted([k for k in stats_by_date.keys() if k != 'Geral'], reverse=True)
+
+    for day in ordered_keys:
+        day_stats = []
+        for cat, data in stats_by_date[day].items():
+            rate = int((data['green'] / data['total']) * 100) if data['total'] > 0 else 0
+            day_stats.append({
+                'name': cat,
+                'green': data['green'],
+                'total': data['total'],
+                'rate': rate
+            })
+        # Ordenar por volume de tips
+        day_stats.sort(key=lambda x: -x['total'])
+        
+        if day_stats:
+            scanner_assertividade.append({
+                'date_group': day,
+                'stats': day_stats
+            })
 
     # Sort: date first, then by probability desc
     sort_func = lambda x: (x['sort_date'] if x['sort_date'] else now_br, -x['prob'])
@@ -509,8 +636,15 @@ def premium_dashboard(request):
         'stats_win_rate': win_rate,
         # Others
         'active_tickets': active_tickets,
+        'doubles_tickets': [t for t in active_tickets if t.ticket_type == 'Double'],
+        'triples_tickets': [t for t in active_tickets if t.ticket_type == 'Treble'],
+        'multiples_tickets': [t for t in active_tickets if t.ticket_type == 'Multiple_4_5'],
+        'supers_tickets': [t for t in active_tickets if t.ticket_type == 'Super_6_8'],
+        'hedge_tickets': [t for t in active_tickets if t.ticket_type == 'Hedge_Favorito'],
         'history_tickets': history_tickets,
-        'history_items': history_items,
+        'history_groups': history_groups,
+        'history_stats_by_market': history_stats_by_market,
+        'scanner_assertividade': scanner_assertividade,
         'total_scanned': len(matches),
         'total_opportunities': total_opps,
     }

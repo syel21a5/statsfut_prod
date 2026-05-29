@@ -22,6 +22,8 @@ LEAGUES = [
     {"id": 11653, "season": 88493, "name": "Primera Division", "country": "Chile", "year": 2026},
     {"id": 11620, "season": 87699, "name": "Liga MX", "country": "Mexico", "year": 2026},
     {"id": 242, "season": 86668, "name": "MLS", "country": "Estados Unidos", "year": 2026},
+    {"id": 384, "season": 87760, "name": "Copa Libertadores", "country": "South America", "year": 2026},
+    {"id": 480, "season": 87770, "name": "Copa Sul-Americana", "country": "South America", "year": 2026},
     # Ligas adicionadas recentemente ao automático
     {"id": 23, "season": 76457, "name": "Serie A", "country": "Italia", "year": 2026},
     {"id": 238, "season": 77806, "name": "Primeira Liga", "country": "Portugal", "year": 2026},
@@ -34,18 +36,81 @@ LEAGUES = [
     {"id": 202, "season": 76477, "name": "Ekstraklasa", "country": "Polonia", "year": 2026},
     {"id": 196, "season": 87931, "name": "J1 League", "country": "Japao", "year": 2026},
     {"id": 185, "season": 78175, "name": "Super League", "country": "Grecia", "year": 2026},
+    {"id": 11539, "season": 88503, "name": "Primera A", "country": "Colombia", "year": 2026},
+    {"id": 240, "season": 89674, "name": "Liga Pro", "country": "Equador", "year": 2026},
+    {"id": 188, "season": 89094, "name": "Besta deild karla", "country": "Islandia", "year": 2026},
+    {"id": 11540, "season": 87238, "name": "Primera Division", "country": "Paraguai", "year": 2026},
+    {"id": 406, "season": 88529, "name": "Liga 1", "country": "Peru", "year": 2026},
+    {"id": 36, "season": 77128, "name": "Premiership", "country": "Escocia", "year": 2026},
+    {"id": 278, "season": 89288, "name": "Primera Division", "country": "Uruguai", "year": 2026},
 ]
 
-def fetch_api(session, url, sleep_time=0.5):
+def renew_tor_ip(session):
+    """Solicita um novo circuito Tor (novo IP) via ControlPort 9051."""
+    import socket
     try:
-        time.sleep(sleep_time)
-        response = session.get(url, timeout=15)
-        if response.status_code == 200:
-            return response.json()
-        return None
+        # Pegar IP atual antes da troca
+        try:
+            r = session.get("https://api.ipify.org?format=json", timeout=10)
+            old_ip = r.json().get("ip", "?")
+        except:
+            old_ip = "?"
+
+        # Enviar NEWNYM para o Tor ControlPort
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(("127.0.0.1", 9051))
+        s.send(b"AUTHENTICATE\r\n")
+        resp = s.recv(256)
+        if b"250" in resp:
+            s.send(b"SIGNAL NEWNYM\r\n")
+            resp = s.recv(256)
+            if b"250" in resp:
+                s.close()
+                print(f"    ⏳ Aguardando 10s para o Tor construir novo circuito...")
+                time.sleep(10)  # Tor precisa de 10s entre rotações
+
+                # Pegar novo IP
+                try:
+                    r = session.get("https://api.ipify.org?format=json", timeout=10)
+                    new_ip = r.json().get("ip", "?")
+                except:
+                    new_ip = "?"
+
+                print(f"    🔄 IP Tor rotacionado: {old_ip} → {new_ip}")
+                return True
+        s.close()
     except Exception as e:
-        print(f"Erro ao acessar {url}: {e}")
-        return None
+        print(f"    ⚠️ Falha ao rotacionar IP Tor: {e}")
+    
+    # Se falhou a rotação, pelo menos espera
+    time.sleep(10)
+    return False
+
+def fetch_api(session, url, sleep_time=0.5, retries=3):
+    for attempt in range(retries):
+        try:
+            time.sleep(sleep_time)
+            response = session.get(url, timeout=15)
+            if response.status_code == 200:
+                return response.json()
+            
+            print(f"    ⚠️ Erro API {response.status_code} em {url} (Tentativa {attempt+1}/{retries})")
+            if response.status_code in [403, 429, 503]:
+                # Bloqueio ou congestionamento: tentar rotacionar IP do Tor
+                if response.status_code == 403 and hasattr(session, 'proxies') and session.proxies:
+                    print(f"    🛑 IP bloqueado pelo SofaScore! Solicitando novo IP...")
+                    renew_tor_ip(session)
+                else:
+                    # Rate limit ou server error: espera progressiva
+                    time.sleep(4 * (attempt + 1))
+                continue
+            
+            # Se for 404, não adianta tentar de novo
+            break
+        except Exception as e:
+            print(f"    ❌ Exceção ao acessar {url}: {e} (Tentativa {attempt+1}/{retries})")
+            time.sleep(3)
+    return None
 
 def should_update(session, t_id, s_id):
     """Verifica se existem jogos hoje, ontem ou nos próximos dias, incluindo sub-torneios (Playoffs)."""
@@ -87,10 +152,11 @@ def should_update(session, t_id, s_id):
         
         current_round = r_data.get('currentRound', {}).get('round', 1)
         
-        # Tenta a rodada atual e a próxima (para capturar jogos futuros se a atual estiver vazia)
-        rounds_to_check = [current_round, current_round + 1]
+        # Tenta a rodada anterior, atual e a próxima (para capturar jogos de ontem se a rodada virou)
+        rounds_to_check = [current_round - 1, current_round, current_round + 1]
         
         for r_num in rounds_to_check:
+            if r_num < 1: continue
             e_url = f"https://api.sofascore.com/api/v1/{prefix}/{tid}/season/{s_id}/events/round/{r_num}"
             data_events = fetch_api(session, e_url)
             if not data_events or not data_events.get('events'): 
@@ -245,6 +311,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--full-scan', action='store_true')
     parser.add_argument('--tor', action='store_true', help='Usar proxy Tor (127.0.0.1:9050 ou 9150)')
+    parser.add_argument('--interactive', action='store_true', help='Menu interativo para escolher ligas específicas')
     args = parser.parse_args()
     
     session = requests.Session(impersonate="chrome120")
@@ -267,9 +334,40 @@ def main():
         "Referer": "https://www.sofascore.com/"
     })
     
+    # ---------------- LÓGICA DE MENU INTERATIVO ----------------
+    leagues_to_process = LEAGUES
+    if args.interactive:
+        print("\n" + "="*50)
+        print(" 📌 MENU DE SELEÇÃO DE LIGAS")
+        print("="*50)
+        print("[0] TODAS AS LIGAS (Padrão)")
+        for i, lg in enumerate(LEAGUES, start=1):
+            print(f"[{i}] {lg['country']} - {lg['name']}")
+        print("="*50)
+        
+        try:
+            escolha = input("\n👉 Digite os números das ligas que deseja atualizar separados por vírgula (ex: 1, 4, 10)\nOu pressione ENTER para todas: ").strip()
+            if escolha and escolha != '0':
+                indices = [int(x.strip()) for x in escolha.split(',') if x.strip().isdigit()]
+                if indices:
+                    leagues_to_process = [LEAGUES[i-1] for i in indices if 1 <= i <= len(LEAGUES)]
+                    print(f"\n✅ Ligas selecionadas: {len(leagues_to_process)}")
+                    for lg in leagues_to_process:
+                        print(f"  - {lg['country']} - {lg['name']}")
+                else:
+                    print("\n⚠️ Seleção inválida. Atualizando TODAS as ligas.")
+            else:
+                print("\n✅ Atualizando TODAS as ligas.")
+        except Exception as e:
+            print(f"\n⚠️ Erro na seleção: {e}. Atualizando TODAS as ligas.")
+            
+        # Pequena pausa para o usuário ler as ligas selecionadas
+        time.sleep(2)
+    # -----------------------------------------------------------
+
     updated_leagues = []
     
-    for league in LEAGUES:
+    for league in leagues_to_process:
         name = f"{league['country']} - {league['name']}"
         print(f"\nAnalizando {name}...")
         
@@ -282,6 +380,11 @@ def main():
             payload = scrape_league(session, league['id'], league['season'], last_rounds=limit)
             
             filename = f"payload_{league['country'].lower()}.json"
+            if league['id'] == 384:
+                filename = "payload_libertadores.json"
+            elif league['id'] == 480:
+                filename = "payload_sulamericana.json"
+                
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(payload, f, ensure_ascii=False)
             
