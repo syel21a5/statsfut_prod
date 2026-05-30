@@ -358,5 +358,77 @@ class Command(BaseCommand):
             hedge_created += 1
             created_count += 1
 
+        # ==========================================
+        # 6. GERAR SISTEMAS TRIXIE (Trixie)
+        # ==========================================
+        def get_estimated_odd(match, market, probability):
+            market = market.lower()
+            if market == 'home_win' and match.home_team_win_odds:
+                return round(match.home_team_win_odds, 2)
+            elif market == 'away_win' and match.away_team_win_odds:
+                return round(match.away_team_win_odds, 2)
+            elif market == 'draw' and match.draw_odds:
+                return round(match.draw_odds, 2)
+            elif market == 'double_chance_1x' and match.home_team_win_odds and match.draw_odds:
+                inv_odd = (1.0 / match.home_team_win_odds) + (1.0 / match.draw_odds)
+                return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+            elif market == 'double_chance_x2' and match.away_team_win_odds and match.draw_odds:
+                inv_odd = (1.0 / match.away_team_win_odds) + (1.0 / match.draw_odds)
+                return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+            
+            prob = probability or 50
+            implied = 100.0 / prob
+            adjusted = implied * 0.93  # 7% margin
+            return round(max(adjusted, 1.05), 2)
+
+        trixie_pool = []
+        for x in (favorites_opts + over15_opts + btts_opts + double_chance_opts + corners_opts + under35_opts + ht_goal_opts):
+            estimated_odd = get_estimated_odd(x['match'], x['market'], x['prob'])
+            has_odds = x['match'].home_team_win_odds is not None
+            if x['prob'] >= 70 and (not has_odds or (1.50 <= estimated_odd <= 2.20)):
+                trixie_pool.append({
+                    'match': x['match'],
+                    'market': x['market'],
+                    'label': x['label'],
+                    'prob': x['prob'],
+                    'odd': estimated_odd
+                })
+
+        seen_trixie_matches = set()
+        unique_trixie_pool = []
+        for x in sorted(trixie_pool, key=lambda val: val['prob'], reverse=True):
+            if x['match'].id not in seen_trixie_matches:
+                seen_trixie_matches.add(x['match'].id)
+                unique_trixie_pool.append(x)
+
+        trixie_created = 0
+        i = 0
+        group_idx = 65  # 'A'
+        while i + 2 < len(unique_trixie_pool) and trixie_created < 4:
+            chunk = unique_trixie_pool[i:i+3]
+            avg_prob = sum(x['prob'] for x in chunk) // 3
+            
+            ticket_title = f"Sistema Trixie (Segurança & Valor) - Grupo {chr(group_idx)}"
+            ticket = BetTicket.objects.create(
+                title=ticket_title,
+                ticket_type="Trixie",
+                average_probability=avg_prob,
+                date_target=start_of_day.date()
+            )
+            
+            for sel in chunk:
+                BetTicketSelection.objects.create(
+                    ticket=ticket,
+                    match=sel['match'],
+                    prediction_market=sel['market'],
+                    prediction_label=sel['label'],
+                    probability=sel['prob']
+                )
+                
+            trixie_created += 1
+            created_count += 1
+            group_idx += 1
+            i += 3
+
         self.stdout.write(self.style.SUCCESS(f"Sucesso! Foram gerados {created_count} bilhetes com super estratégias diversas hoje."))
 

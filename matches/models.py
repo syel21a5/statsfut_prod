@@ -251,6 +251,7 @@ class BetTicket(models.Model):
         ('Multiple_4_5', 'Múltipla (4-5 Jogos)'),
         ('Super_6_8', 'Super Múltipla (6-8 Jogos)'),
         ('Hedge_Favorito', 'Hedge ao Favorito'),
+        ('Trixie', 'Trixie'),
     )
     STATUS_CHOICES = (
         ('Pending', 'Pendente'),

@@ -641,6 +641,7 @@ def premium_dashboard(request):
         'multiples_tickets': [t for t in active_tickets if t.ticket_type == 'Multiple_4_5'],
         'supers_tickets': [t for t in active_tickets if t.ticket_type == 'Super_6_8'],
         'hedge_tickets': [t for t in active_tickets if t.ticket_type == 'Hedge_Favorito'],
+        'trixie_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie'],
         'history_tickets': history_tickets,
         'history_groups': history_groups,
         'history_stats_by_market': history_stats_by_market,
