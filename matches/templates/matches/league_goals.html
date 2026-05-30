@@ -681,16 +681,16 @@
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mt-5 mb-4">
                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                     <h5 class="mb-0 fw-bold text-info">
-                        <i class="fa-solid fa-chart-line me-2"></i>{% translate "Estatísticas de Gols e Tendências de Over/Under" %}: {{ league.name }}
+                        <i class="fa-solid fa-chart-line me-2"></i>{% translate "Goal Statistics and Over/Under Trends" %}: {{ league.name }}
                     </h5>
                 </div>
                 <div class="card-body p-4" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
                     <p class="mb-3">
-                        {% blocktranslate with league_name=league.name country=league.country %}Estatísticas completas e análise de gols para a liga {{ league_name }} ({{ country }}). Esta página reúne métricas detalhadas sobre médias de gols, mercados de Over/Under (mais ou menos gols), Ambas Marcam (BTTS), Clean Sheets (jogos sem sofrer gols) e os placares mais frequentes para ajudar na sua análise esportiva.{% endblocktranslate %}
+                        {% blocktranslate with league_name=league.name country=league.country %}Complete statistics and goal analysis for the {{ league_name }} ({{ country }}) league. This page gathers detailed metrics on goal averages, Over/Under markets, Both Teams to Score (BTTS), Clean Sheets, and the most frequent scores to assist in your sports analysis.{% endblocktranslate %}
                     </p>
                     {% if league_avg_row %}
                     <p class="mb-0">
-                        {% blocktranslate with avg_goals=league_avg_row.avg_total|floatformat:2 over15=league_avg_row.over15_pct|floatformat:0 over25=league_avg_row.over25_pct|floatformat:0 btts=league_avg_row.bts_pct|floatformat:0 cs=league_avg_row.cs_pct|floatformat:0 %}A temporada atual da competição registra uma média geral de {{ avg_goals }} gols por jogo. Em termos de padrões de mercado, {{ over15 }}% das partidas superaram a marca de 1.5 gols e {{ over25 }}% registraram mais de 2.5 gols. A taxa de Ambas Marcam (BTTS) está em {{ btts }}%, enquanto a porcentagem de jogos em que pelo menos uma equipe não sofreu gols (Clean Sheet) é de {{ cs }}%.{% endblocktranslate %}
+                        {% blocktranslate with avg_goals=league_avg_row.avg_total|floatformat:2 over15=league_avg_row.over15_pct|floatformat:0 over25=league_avg_row.over25_pct|floatformat:0 btts=league_avg_row.bts_pct|floatformat:0 cs=league_avg_row.cs_pct|floatformat:0 %}The current season of the competition records a general average of {{ avg_goals }} goals per game. In terms of market patterns, {{ over15 }}% of matches exceeded the 1.5 goal mark and {{ over25 }}% recorded more than 2.5 goals. The Both Teams to Score (BTTS) rate is at {{ btts }}%, while the percentage of games where at least one team did not concede any goals (Clean Sheet) is {{ cs }}%.{% endblocktranslate %}
                     </p>
                     {% endif %}
                 </div>

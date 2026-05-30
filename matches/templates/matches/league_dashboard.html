@@ -41,40 +41,40 @@
     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
         <div class="card-body p-4">
             <h5 class="fw-bold mb-3 text-info">
-                <i class="fa-solid fa-circle-info me-2"></i>{% translate "Sobre a" %} {{ league.name }}
+                <i class="fa-solid fa-circle-info me-2"></i>{% translate "About" %} {{ league.name }}
             </h5>
             <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
                 <div class="col-md-6">
                     <p class="mb-2">
-                        {% blocktranslate with league_name=league.name country=league.country|country_en %}A <strong>{{ league_name }}</strong> é a principal liga profissional de futebol em <strong>{{ country }}</strong>.{% endblocktranslate %}
+                        {% blocktranslate with league_name=league.name country=league.country|country_en %}The <strong>{{ league_name }}</strong> is the main professional football league in <strong>{{ country }}</strong>.{% endblocktranslate %}
                         {% if standings %}
                             {% with leader=standings.0.team.name %}
-                                {% blocktranslate with leader=leader %}Atualmente, o líder da competição é o <strong>{{ leader }}</strong>, liderando a tabela de classificação desta temporada.{% endblocktranslate %}
+                                {% blocktranslate with leader=leader %}Currently, the competition leader is <strong>{{ leader }}</strong>, leading the league table this season.{% endblocktranslate %}
                             {% endwith %}
                         {% endif %}
                     </p>
                     <p class="mb-0">
-                        {% blocktranslate %}O StatsFut acompanha placares de futebol ao vivo, estatísticas detalhadas, tabela de classificação e análises de desempenho para todas as rodadas da competição.{% endblocktranslate %}
+                        {% blocktranslate %}StatsFut tracks live football scores, detailed statistics, standings, and performance analysis for all rounds of the competition.{% endblocktranslate %}
                     </p>
                 </div>
                 <div class="col-md-6 border-start border-secondary border-opacity-25 ps-md-4">
-                    <h6 class="fw-bold text-white mb-2 small text-uppercase">{% translate "Análise Estatística da Temporada" %}</h6>
+                    <h6 class="fw-bold text-white mb-2 small text-uppercase">{% translate "Season Statistical Analysis" %}</h6>
                     <ul class="list-unstyled mb-0 small">
                         {% if league_stats %}
                             <li class="mb-2">
                                 <i class="fa-solid fa-chart-line text-success me-2"></i>
-                                {% blocktranslate with avg_goals=league_stats.avg_goals_match %}A média de gols por partida na liga é de <strong>{{ avg_goals }}</strong> gols.{% endblocktranslate %}
+                                {% blocktranslate with avg_goals=league_stats.avg_goals_match %}The average goals per match in the league is <strong>{{ avg_goals }}</strong> goals.{% endblocktranslate %}
                             </li>
                             <li class="mb-2">
                                 <i class="fa-solid fa-percent text-warning me-2"></i>
-                                {% blocktranslate with over25=league_stats.over25_pct btts=league_stats.btts_pct %}Cerca de <strong>{{ over25 }}%</strong> dos confrontos terminaram com mais de 2.5 gols, e em <strong>{{ btts }}%</strong> das partidas ambas as equipes marcaram (BTTS).{% endblocktranslate %}
+                                {% blocktranslate with over25=league_stats.over25_pct btts=league_stats.btts_pct %}About <strong>{{ over25 }}%</strong> of matches ended with over 2.5 goals, and in <strong>{{ btts }}%</strong> of the games both teams scored (BTTS).{% endblocktranslate %}
                             </li>
                         {% endif %}
                         {% if common_scores %}
                             <li class="mb-0">
                                 <i class="fa-regular fa-futbol text-info me-2"></i>
                                 {% with most_common=common_scores.0 %}
-                                    {% blocktranslate with score=most_common.score pct=most_common.pct %}O resultado mais comum registrado nesta temporada é o placar de <strong>{{ score }}</strong>, ocorrendo em <strong>{{ pct }}%</strong> de todas as partidas disputadas.{% endblocktranslate %}
+                                    {% blocktranslate with score=most_common.score pct=most_common.pct %}The most common result recorded this season is the score of <strong>{{ score }}</strong>, occurring in <strong>{{ pct }}%</strong> of all matches played.{% endblocktranslate %}
                                 {% endwith %}
                             </li>
                         {% endif %}

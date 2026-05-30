@@ -265,16 +265,16 @@
             <div class="card border-0 text-white shadow-sm mb-4" style="background: #0b0f19; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px;">
                 <div class="card-header bg-transparent border-bottom border-white border-opacity-5 py-3">
                     <h5 class="mb-0 fw-bold text-info">
-                        <i class="fa-solid fa-chart-line me-2"></i>{% translate "Estatísticas Detalhadas e Análise de Elite" %}: {{ league.name }}
+                        <i class="fa-solid fa-chart-line me-2"></i>{% translate "Detailed Statistics and Elite Analysis" %}: {{ league.name }}
                     </h5>
                 </div>
                 <div class="card-body p-4" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
                     <p class="mb-3">
-                        {% blocktranslate with league_name=league.name country=league.country year=season.year %}Estatísticas avançadas e análise detalhada para a liga {{ league_name }} ({{ country }}), temporada {{ year }}. Explore informações aprofundadas sobre médias de escanteios, distribuição de cartões amarelos e vermelhos por jogo, disciplina das equipes, volume de finalizações (chutes) e o momento exato em que os gols acontecem ao longo dos 90 minutos.{% endblocktranslate %}
+                        {% blocktranslate with league_name=league.name country=league.country year=season.year %}Advanced statistics and detailed analysis for the {{ league_name }} ({{ country }}) league, {{ year }} season. Explore in-depth information about corner averages, distribution of yellow and red cards per game, team discipline, volume of shots, and the exact moment goals happen throughout the 90 minutes.{% endblocktranslate %}
                     </p>
                     {% if league_avg_corners or league_avg_yellow %}
                     <p class="mb-0">
-                        {% blocktranslate with avg_corners=league_avg_corners|floatformat:2 avg_yellow=league_avg_yellow|floatformat:2 %}Até o momento, a média geral do campeonato registra {{ avg_corners }} escanteios cobrados por partida e uma média disciplinar de {{ avg_yellow }} cartões amarelos recebidos por jogo. Esses dados fornecem um panorama completo das tendências de comportamento tático e intensidade de jogo de cada time na competição.{% endblocktranslate %}
+                        {% blocktranslate with avg_corners=league_avg_corners|floatformat:2 avg_yellow=league_avg_yellow|floatformat:2 %}So far, the overall championship average records {{ avg_corners }} corners taken per match and a disciplinary average of {{ avg_yellow }} yellow cards received per game. This data provides a complete overview of the tactical behavior trends and game intensity of each team in the competition.{% endblocktranslate %}
                     </p>
                     {% endif %}
                 </div>
