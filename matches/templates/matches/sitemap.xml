@@ -38,5 +38,12 @@
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
+    <!-- Matches -->
+    {% for url in match_urls %}
+    <url>
+        <loc>{{ base_url }}{{ url }}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
     {% endfor %}
 </urlset>

@@ -3,6 +3,8 @@
 
 {% block title %}{{ match.home_team.name }} vs {{ match.away_team.name }} - Match Stats | StatsFut{% endblock %}
 {% block meta_description %}{{ match.home_team.name }} vs {{ match.away_team.name }} match statistics, pre-match analysis, head-to-head data and predictions. {{ match.league.name }}.{% endblock %}
+{% block og_title %}{{ match.home_team.name }} vs {{ match.away_team.name }} - Match Stats | StatsFut{% endblock %}
+{% block og_description %}{{ match.home_team.name }} vs {{ match.away_team.name }} match statistics, pre-match analysis, head-to-head data and predictions. {{ match.league.name }}.{% endblock %}
 
 {% block header %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
@@ -183,6 +185,14 @@
             <div class="t-logo away">{{ match.away_team.name|slice:":1" }}</div>
             <span class="t-name">{{ match.away_team.name }}</span>
         </div>
+    </div>
+    
+    <!-- SEO TEXT DYNAMIC GENERATION -->
+    <div class="seo-match-text mb-4 p-3 rounded" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: #94a3b8; line-height: 1.6;">
+        <p class="mb-0">
+            {% translate "Estatísticas completas e previsões detalhadas para a partida entre" %} <strong>{{ match.home_team.name }}</strong> {% translate "e" %} <strong>{{ match.away_team.name }}</strong>, {% translate "válida pela" %} <strong>{{ match.league.name }}</strong>. 
+            {% translate "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e palpites esportivos baseados em dados." %}
+        </p>
     </div>
     
     <!-- MATCH REPORT (REAL DATA) -->

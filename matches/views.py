@@ -78,10 +78,18 @@ class SitemapView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from matches.utils import COUNTRY_TRANSLATIONS
+        from django.utils import timezone
+        from datetime import timedelta
         
         # Limit quantities for performance in large DBs, or use pagination
         leagues = League.objects.all()
         teams = Team.objects.all()[:1000] # Limit teams to avoid massive XML in dev
+        
+        # Matches: last 7 days and next 7 days
+        now = timezone.now()
+        start_date = now - timedelta(days=7)
+        end_date = now + timedelta(days=7)
+        matches = Match.objects.filter(date__range=(start_date, end_date)).select_related('home_team', 'away_team')[:1000]
         
         league_urls = []
         for l in leagues:
@@ -95,9 +103,14 @@ class SitemapView(TemplateView):
                 team_urls.append(f"/stats/{slugify(country_en)}/{slugify(t.league.name)}/{slugify(t.name)}/")
             except:
                 continue
+                
+        match_urls = []
+        for m in matches:
+            match_urls.append(f"/match/{m.id}/{m.slug}/")
             
         context['league_urls'] = league_urls
         context['team_urls'] = team_urls
+        context['match_urls'] = match_urls
         context['base_url'] = self.request.build_absolute_uri('/')[:-1]
         return context
 
@@ -2295,7 +2308,7 @@ class TeamDetailView(DetailView):
             })
             
             # --- Chart Data ---
-            chart_change = 2 if result == 'W' else (0 if result == 'D' else -1)
+            chart_change = 3 if result == 'W' else (1 if result == 'D' else 0)
             chart_val += chart_change
             chart_data['labels'].append(m.date.strftime('%d %b') if m.date else f"R{m.round_name or '?'}")
             chart_data['values'].append(chart_val)
@@ -2670,6 +2683,7 @@ class TeamDetailView(DetailView):
             })
             
         context['top_scorers'] = players_data
+        context['squad'] = team.players.all().order_by('name')
         
         # --- League Standings (Results Table) ---
         standings_qs = LeagueStanding.objects.filter(

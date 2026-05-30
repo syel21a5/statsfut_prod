@@ -8,6 +8,7 @@ app_name = 'matches'
 urlpatterns = [
     path('robots.txt', views.RobotsView.as_view(), name='robots_txt'),
     path('sitemap.xml', views.SitemapView.as_view(), name='sitemap_xml'),
+    path('ads.txt', TemplateView.as_view(template_name='matches/ads.txt', content_type='text/plain'), name='ads_txt'),
     
     path('privacy-policy/', TemplateView.as_view(template_name='matches/privacy_policy.html'), name='privacy_policy'),
     path('terms-of-use/', TemplateView.as_view(template_name='matches/terms_of_use.html'), name='terms_of_use'),
