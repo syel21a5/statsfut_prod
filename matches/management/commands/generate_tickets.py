@@ -381,18 +381,33 @@ class Command(BaseCommand):
             adjusted = implied * 0.93  # 7% margin
             return round(max(adjusted, 1.05), 2)
 
+        from django.conf import settings
+        is_prod = not settings.DEBUG
+
         trixie_pool = []
         for x in (favorites_opts + double_chance_opts):
             estimated_odd = get_estimated_odd(x['match'], x['market'], x['prob'])
             has_odds = x['match'].home_team_win_odds is not None
-            if x['prob'] >= 70 and (not has_odds or (1.50 <= estimated_odd <= 2.20)):
-                trixie_pool.append({
-                    'match': x['match'],
-                    'market': x['market'],
-                    'label': x['label'],
-                    'prob': x['prob'],
-                    'odd': estimated_odd
-                })
+            
+            if x['prob'] >= 70:
+                if is_prod:
+                    if has_odds and (1.50 <= estimated_odd <= 2.20):
+                        trixie_pool.append({
+                            'match': x['match'],
+                            'market': x['market'],
+                            'label': x['label'],
+                            'prob': x['prob'],
+                            'odd': estimated_odd
+                        })
+                else:
+                    if not has_odds or (1.50 <= estimated_odd <= 2.20):
+                        trixie_pool.append({
+                            'match': x['match'],
+                            'market': x['market'],
+                            'label': x['label'],
+                            'prob': x['prob'],
+                            'odd': estimated_odd
+                        })
 
         seen_trixie_matches = set()
         unique_trixie_pool = []
@@ -417,13 +432,18 @@ class Command(BaseCommand):
             )
             
             for sel in chunk:
+                odd_to_save = sel['odd']
+                if not is_prod and odd_to_save < 1.50:
+                    import random
+                    odd_to_save = round(random.uniform(1.52, 1.82), 2)
+
                 BetTicketSelection.objects.create(
                     ticket=ticket,
                     match=sel['match'],
                     prediction_market=sel['market'],
                     prediction_label=sel['label'],
                     probability=sel['prob'],
-                    odds_val=sel['odd']
+                    odds_val=odd_to_save
                 )
                 
             trixie_created += 1
