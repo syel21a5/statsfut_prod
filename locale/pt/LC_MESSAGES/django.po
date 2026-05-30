@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 22:40-0300\n"
+"POT-Creation-Date: 2026-05-30 11:20-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: .\core\settings.py:198
 msgid "English"
 msgstr ""
@@ -49,7 +49,7 @@ msgstr ""
 msgid ""
 "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, "
 "BTTS and direct confrontations of the world's main leagues."
-msgstr ""
+msgstr "StatsFut - Estatísticas avançadas de futebol, análises pré-jogo, Over/Under, BTTS e confrontos diretos das principais ligas do mundo."
 
 #: .\core\templates\base.html:23
 msgid "StatsFut | Football Analytics"
@@ -94,16 +94,16 @@ msgstr ""
 #: .\core\templates\base.html:167 .\members\templates\members\profile.html:4
 #: .\members\templates\members\profile.html:7
 msgid "My Profile"
-msgstr ""
+msgstr "Meu Perfil"
 
 #: .\core\templates\base.html:173 .\members\templates\members\profile.html:85
 msgid "Sign Out"
-msgstr ""
+msgstr "Sair"
 
 #: .\core\templates\base.html:181 .\members\templates\members\login.html:4
 #: .\members\templates\members\login.html:8
 msgid "Login"
-msgstr ""
+msgstr "Entrar"
 
 #: .\core\templates\base.html:229
 msgid "Overview"
@@ -111,21 +111,25 @@ msgstr ""
 
 #: .\core\templates\base.html:261
 msgid "All rights reserved. Professional statistics for analysts."
-msgstr ""
+msgstr "Todos os direitos reservados. Estatísticas profissionais para analistas."
 
-#: .\core\templates\base.html:266
+#: .\core\templates\base.html:266 .\matches\templates\matches\about_us.html:4
 msgid "About Us"
-msgstr ""
+msgstr "Sobre Nós"
 
 #: .\core\templates\base.html:269
+#: .\matches\templates\matches\privacy_policy.html:4
+#: .\matches\templates\matches\privacy_policy.html:11
 msgid "Privacy Policy"
 msgstr ""
 
 #: .\core\templates\base.html:272
+#: .\matches\templates\matches\terms_of_use.html:4
+#: .\matches\templates\matches\terms_of_use.html:11
 msgid "Terms of Use"
 msgstr ""
 
-#: .\core\templates\base.html:275
+#: .\core\templates\base.html:275 .\matches\templates\matches\contact.html:4
 msgid "Contact Us"
 msgstr ""
 
@@ -134,95 +138,107 @@ msgid ""
 "We use cookies to personalize content and ads, provide social media "
 "features, and analyze our traffic. By continuing to use our site, you accept "
 "our use of cookies."
-msgstr ""
+msgstr "Utilizamos cookies para personalizar conteúdo e anúncios, fornecer recursos de mídia social e analisar nosso tráfego. Ao continuar a usar nosso site, você aceita o uso de cookies."
 
 #: .\core\templates\base.html:289
 msgid "Learn more"
-msgstr ""
+msgstr "Saiba mais"
 
 #: .\core\templates\base.html:291
 msgid "Accept"
-msgstr ""
+msgstr "Aceitar"
 
-#: .\matches\services\advanced_stats.py:767
+#: .\matches\services\advanced_stats.py:97
+msgid "Strong"
+msgstr "Forte"
+
+#: .\matches\services\advanced_stats.py:98
+msgid "Average"
+msgstr "Regular"
+
+#: .\matches\services\advanced_stats.py:99
+msgid "Weak"
+msgstr "Frágil"
+
+#: .\matches\services\advanced_stats.py:771
 msgid "No clear suggestion"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:770
+#: .\matches\services\advanced_stats.py:774
 #, python-format
 msgid "Over %(val)s.5"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1037
-#: .\matches\services\advanced_stats.py:1039
+#: .\matches\services\advanced_stats.py:1041
+#: .\matches\services\advanced_stats.py:1043
 #, python-format
 msgid "Lay %(team)s"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1037
+#: .\matches\services\advanced_stats.py:1041
 #, python-format
 msgid "Home win probability is only %(prob)s%%"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1039
+#: .\matches\services\advanced_stats.py:1043
 #, python-format
 msgid "Away win probability is only %(prob)s%%"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1041
+#: .\matches\services\advanced_stats.py:1045
 msgid "Lay Draw"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1041
+#: .\matches\services\advanced_stats.py:1045
 #, python-format
 msgid "Draw probability is only %(prob)s%%"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1045
+#: .\matches\services\advanced_stats.py:1049
 msgid "Lay Over 2.5 Goals"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1045
+#: .\matches\services\advanced_stats.py:1049
 #, python-format
 msgid "Over 2.5 probability is only %(prob)s%%"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1047
+#: .\matches\services\advanced_stats.py:1051
 msgid "Lay Under 2.5 Goals"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1047
+#: .\matches\services\advanced_stats.py:1051
 #, python-format
 msgid "Over 2.5 probability is %(prob)s%% (high)"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1051
+#: .\matches\services\advanced_stats.py:1055
 msgid "Lay BTTS (Yes)"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1051
+#: .\matches\services\advanced_stats.py:1055
 #, python-format
 msgid "BTTS probability is only %(prob)s%%"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1055
+#: .\matches\services\advanced_stats.py:1059
 msgid "Lay Score 0-0"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1055
+#: .\matches\services\advanced_stats.py:1059
 #, python-format
 msgid "Over 0.5 goals probability is %(prob)s%%"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1058
+#: .\matches\services\advanced_stats.py:1062
 msgid "Lay Any Other Score (4+ goals)"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1058
+#: .\matches\services\advanced_stats.py:1062
 msgid "Low probability of a high scoring match"
 msgstr ""
 
-#: .\matches\services\advanced_stats.py:1076
+#: .\matches\services\advanced_stats.py:1080
 #, python-format
 msgid ""
 "%(home_team)s has a %(win_pct)s%% win rate playing at home (scoring an "
@@ -232,6 +248,94 @@ msgid ""
 "Statistically, this matchup has a %(over_15)s%% chance of hitting Over 1.5 "
 "and a %(btts)s%% chance of Both Teams to Score (BTTS)."
 msgstr ""
+
+#: .\matches\templates\matches\about_us.html:12
+msgid "About StatsFut"
+msgstr "Sobre o StatsFut"
+
+#: .\matches\templates\matches\about_us.html:16
+msgid "Our Mission"
+msgstr "Nossa Missão"
+
+#: .\matches\templates\matches\about_us.html:17
+msgid ""
+"StatsFut was born with the goal of transforming complex football data into "
+"clear, actionable insights for fans, bettors, and analysts. We believe that "
+"high-quality statistical information should be accessible, fast, and "
+"visually intuitive."
+msgstr "O StatsFut nasceu com o objetivo de transformar dados complexos de futebol em insights claros e acionáveis para torcedores, apostadores e analistas. Acreditamos que informações estatísticas de alta qualidade devem ser acessíveis, rápidas e visualmente intuitivas."
+
+#: .\matches\templates\matches\about_us.html:21
+msgid "Technology and Precision"
+msgstr "Tecnologia e Precisão"
+
+#: .\matches\templates\matches\about_us.html:22
+msgid ""
+"We use cutting-edge technologies to process thousands of events in real-"
+"time. Our platform integrates data from various global sources to provide a "
+"360º view of every league, team, and matchup. We focus on advanced metrics "
+"that go beyond the scoreline, such as goal probabilities, corner trends, and "
+"head-to-head (H2H) analysis."
+msgstr "Utilizamos tecnologias de ponta para processar milhares de eventos em tempo real. Nossa plataforma integra dados de várias fontes globais para fornecer uma visão de 360º de cada liga, time e confronto. Focamos em métricas avançadas que vão além do placar, como probabilidades de gols, tendências de escanteios e análises de confronto direto (H2H)."
+
+#: .\matches\templates\matches\about_us.html:26
+msgid "Why StatsFut?"
+msgstr "Por que o StatsFut?"
+
+#: .\matches\templates\matches\about_us.html:27
+msgid ""
+"In a sea of information, StatsFut stands out for its premium interface and "
+"data curation. We don't just show numbers; we organize them so you can make "
+"smarter decisions, whether to follow your favorite team or conduct "
+"professional analysis."
+msgstr "Em um mar de informações, o StatsFut se destaca por sua interface premium e curadoria de dados. Não mostramos apenas números; nós os organizamos para que você possa tomar decisões mais inteligentes, seja para acompanhar seu time favorito ou realizar análises profissionais."
+
+#: .\matches\templates\matches\about_us.html:31
+msgid "Constantly Evolving"
+msgstr "Em Constante Evolução"
+
+#: .\matches\templates\matches\about_us.html:32
+msgid ""
+"We are in an expansion phase, adding new leagues and predictive analysis "
+"tools regularly. StatsFut is made by data enthusiasts for football "
+"enthusiasts."
+msgstr "Estamos em fase de expansão, adicionando novas ligas e ferramentas de análise preditiva regularmente. O StatsFut é feito por entusiastas de dados para entusiastas de futebol."
+
+#: .\matches\templates\matches\contact.html:16
+msgid "Get in Touch"
+msgstr "Entre em Contato"
+
+#: .\matches\templates\matches\contact.html:17
+msgid ""
+"Have questions about our data or suggestions for new features? We'd love to "
+"hear from you."
+msgstr "Tem dúvidas sobre nossos dados ou sugestões de novos recursos? Adoraríamos ouvir você."
+
+#: .\matches\templates\matches\contact.html:24
+msgid "Email Support"
+msgstr ""
+
+#: .\matches\templates\matches\contact.html:25
+msgid "For general inquiries and support:"
+msgstr "Para dúvidas gerais e suporte:"
+
+#: .\matches\templates\matches\contact.html:32
+msgid "Business"
+msgstr ""
+
+#: .\matches\templates\matches\contact.html:33
+msgid "For advertising and partnerships:"
+msgstr "Para publicidade e parcerias:"
+
+#: .\matches\templates\matches\contact.html:42
+msgid "Our Response Time"
+msgstr "Nosso Tempo de Resposta"
+
+#: .\matches\templates\matches\contact.html:43
+msgid ""
+"We typically respond to all inquiries within 24-48 business hours. Thank you "
+"for your patience."
+msgstr "Normalmente respondemos a todas as dúvidas em até 24-48 horas úteis. Agradecemos a sua paciência."
 
 #: .\matches\templates\matches\h2h_detail.html:15
 msgid "Head-to-Head"
@@ -268,6 +372,7 @@ msgstr ""
 #: .\matches\templates\matches\h2h_detail.html:1024
 #: .\matches\templates\matches\h2h_detail.html:1606
 #: .\matches\templates\matches\h2h_detail.html:1752
+#: .\matches\templates\matches\league_goals.html:106
 #: .\matches\templates\matches\team_detail.html:530
 msgid "Draws"
 msgstr ""
@@ -292,8 +397,22 @@ msgstr ""
 #: .\matches\templates\matches\h2h_detail.html:1584
 #: .\matches\templates\matches\h2h_detail.html:1730
 #: .\matches\templates\matches\h2h_detail.html:1875
+#: .\matches\templates\matches\league_goals.html:276
+#: .\matches\templates\matches\league_goals.html:380
+#: .\matches\templates\matches\league_goals.html:453
+#: .\matches\templates\matches\league_goals.html:512
+#: .\matches\templates\matches\league_goals.html:571
+#: .\matches\templates\matches\league_goals.html:630
 #: .\matches\templates\matches\match_detail.html:374
+#: .\matches\templates\matches\streaks_snippet.html:13
+#: .\matches\templates\matches\team_detail.html:91
+#: .\matches\templates\matches\team_detail.html:143
+#: .\matches\templates\matches\team_detail.html:350
 #: .\matches\templates\matches\team_detail.html:425
+#: .\matches\templates\matches\team_detail.html:508
+#: .\matches\templates\matches\team_detail.html:632
+#: .\matches\templates\matches\team_detail.html:732
+#: .\matches\templates\matches\team_detail.html:761
 #: .\matches\templates\matches\team_detail.html:851
 #: .\matches\templates\matches\team_detail.html:902
 #: .\matches\templates\matches\team_detail.html:940
@@ -301,7 +420,7 @@ msgstr ""
 #: .\matches\templates\matches\team_detail.html:1030
 #: .\matches\templates\matches\team_detail.html:1065
 msgid "Home"
-msgstr ""
+msgstr "Casa"
 
 #: .\matches\templates\matches\h2h_detail.html:140
 #: .\matches\templates\matches\h2h_detail.html:405
@@ -313,8 +432,22 @@ msgstr ""
 #: .\matches\templates\matches\h2h_detail.html:1585
 #: .\matches\templates\matches\h2h_detail.html:1731
 #: .\matches\templates\matches\h2h_detail.html:1877
+#: .\matches\templates\matches\league_goals.html:279
+#: .\matches\templates\matches\league_goals.html:383
+#: .\matches\templates\matches\league_goals.html:456
+#: .\matches\templates\matches\league_goals.html:515
+#: .\matches\templates\matches\league_goals.html:574
+#: .\matches\templates\matches\league_goals.html:633
 #: .\matches\templates\matches\match_detail.html:378
+#: .\matches\templates\matches\streaks_snippet.html:14
+#: .\matches\templates\matches\team_detail.html:93
+#: .\matches\templates\matches\team_detail.html:145
+#: .\matches\templates\matches\team_detail.html:351
 #: .\matches\templates\matches\team_detail.html:430
+#: .\matches\templates\matches\team_detail.html:509
+#: .\matches\templates\matches\team_detail.html:633
+#: .\matches\templates\matches\team_detail.html:733
+#: .\matches\templates\matches\team_detail.html:762
 #: .\matches\templates\matches\team_detail.html:852
 #: .\matches\templates\matches\team_detail.html:903
 #: .\matches\templates\matches\team_detail.html:947
@@ -322,14 +455,25 @@ msgstr ""
 #: .\matches\templates\matches\team_detail.html:1037
 #: .\matches\templates\matches\team_detail.html:1066
 msgid "Away"
-msgstr ""
+msgstr "Fora"
 
 #: .\matches\templates\matches\h2h_detail.html:147
 #: .\matches\templates\matches\h2h_detail.html:412
 #: .\matches\templates\matches\h2h_detail.html:1586
 #: .\matches\templates\matches\h2h_detail.html:1732
 #: .\matches\templates\matches\h2h_detail.html:1873
+#: .\matches\templates\matches\league_goals.html:270
+#: .\matches\templates\matches\league_goals.html:377
+#: .\matches\templates\matches\league_goals.html:450
+#: .\matches\templates\matches\league_goals.html:509
+#: .\matches\templates\matches\league_goals.html:568
+#: .\matches\templates\matches\league_goals.html:627
+#: .\matches\templates\matches\streaks_snippet.html:15
 #: .\matches\templates\matches\team_detail.html:420
+#: .\matches\templates\matches\team_detail.html:510
+#: .\matches\templates\matches\team_detail.html:634
+#: .\matches\templates\matches\team_detail.html:734
+#: .\matches\templates\matches\team_detail.html:763
 #: .\matches\templates\matches\team_detail.html:853
 #: .\matches\templates\matches\team_detail.html:904
 #: .\matches\templates\matches\team_detail.html:954
@@ -337,7 +481,7 @@ msgstr ""
 #: .\matches\templates\matches\team_detail.html:1044
 #: .\matches\templates\matches\team_detail.html:1067
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: .\matches\templates\matches\h2h_detail.html:159
 #: .\matches\templates\matches\h2h_detail.html:424
@@ -371,6 +515,8 @@ msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:200
 #: .\matches\templates\matches\h2h_detail.html:465
+#: .\matches\templates\matches\team_detail.html:302
+#: .\matches\templates\matches\team_detail.html:352
 #: .\members\templates\members\premium_dashboard.html:159
 #: .\members\templates\members\premium_dashboard.html:182
 #: .\members\templates\members\premium_dashboard.html:231
@@ -389,9 +535,10 @@ msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:201
 #: .\matches\templates\matches\h2h_detail.html:466
+#: .\matches\templates\matches\league_goals.html:273
 #: .\matches\templates\matches\team_detail.html:303
 msgid "Last 8"
-msgstr ""
+msgstr "Últimos 8"
 
 #: .\matches\templates\matches\h2h_detail.html:202
 #: .\matches\templates\matches\h2h_detail.html:467
@@ -451,14 +598,19 @@ msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:644
 #: .\matches\templates\matches\h2h_detail.html:1193
+#: .\matches\templates\matches\league_goals.html:153
 msgid "Over 2.5"
 msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:649
+#: .\matches\templates\matches\league_goals.html:298
+#: .\matches\templates\matches\league_goals.html:358
+#: .\matches\templates\matches\league_goals.html:402
 msgid "BTS"
-msgstr ""
+msgstr "AM"
 
 #: .\matches\templates\matches\h2h_detail.html:654
+#: .\matches\templates\matches\league_goals.html:135
 msgid "Avg Goals"
 msgstr ""
 
@@ -512,16 +664,19 @@ msgstr ""
 #: .\matches\templates\matches\h2h_detail.html:889
 #: .\matches\templates\matches\h2h_detail.html:944
 #: .\matches\templates\matches\h2h_detail.html:1066
+#: .\matches\templates\matches\team_detail.html:90
+#: .\matches\templates\matches\team_detail.html:142
 #: .\scratch\dashboard_current.html:503
 msgid "Date"
 msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:794
 #: .\matches\templates\matches\h2h_detail.html:1068
+#: .\matches\templates\matches\league_goals.html:184
 #: .\matches\templates\matches\team_detail.html:92
 #: .\members\templates\members\premium_dashboard.html:1262
 msgid "Score"
-msgstr ""
+msgstr "Placar"
 
 #: .\matches\templates\matches\h2h_detail.html:795
 msgid "Winner"
@@ -542,6 +697,7 @@ msgid "Detailed Goal Stats"
 msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:845
+#: .\matches\templates\matches\league_detailed_stats.html:210
 #: .\members\templates\members\premium_dashboard.html:664
 #: .\members\templates\members\premium_dashboard.html:734
 msgid "Goals"
@@ -673,8 +829,9 @@ msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:1248
 #: .\matches\templates\matches\h2h_detail.html:1405
+#: .\matches\templates\matches\streaks_snippet.html:109
 msgid "Historical statistics"
-msgstr ""
+msgstr "Estatísticas históricas"
 
 #: .\matches\templates\matches\h2h_detail.html:1258
 #: .\matches\templates\matches\h2h_detail.html:1415
@@ -685,31 +842,39 @@ msgstr ""
 #: .\matches\templates\matches\h2h_detail.html:1360
 #: .\matches\templates\matches\h2h_detail.html:1421
 #: .\matches\templates\matches\h2h_detail.html:1517
+#: .\matches\templates\matches\league_detailed_stats.html:24
+#: .\matches\templates\matches\streaks_snippet.html:119
 msgid "Season"
 msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:1265
 #: .\matches\templates\matches\h2h_detail.html:1422
+#: .\matches\templates\matches\streaks_snippet.html:120
 msgid "Pld"
-msgstr ""
+msgstr "PJ"
 
 #: .\matches\templates\matches\h2h_detail.html:1266
 #: .\matches\templates\matches\h2h_detail.html:1423
+#: .\matches\templates\matches\streaks_snippet.html:121
 msgid "Avg Pts"
-msgstr ""
+msgstr "Média Pts"
 
 #: .\matches\templates\matches\h2h_detail.html:1267
 #: .\matches\templates\matches\h2h_detail.html:1424
+#: .\matches\templates\matches\streaks_snippet.html:122
 msgid "Avg GF"
-msgstr ""
+msgstr "Média GP"
 
 #: .\matches\templates\matches\h2h_detail.html:1268
 #: .\matches\templates\matches\h2h_detail.html:1425
+#: .\matches\templates\matches\streaks_snippet.html:123
 msgid "Avg GA"
-msgstr ""
+msgstr "Média GC"
 
 #: .\matches\templates\matches\h2h_detail.html:1269
 #: .\matches\templates\matches\h2h_detail.html:1426
+#: .\matches\templates\matches\streaks_snippet.html:124
+#: .\matches\templates\matches\team_detail.html:211
 msgid "W"
 msgstr ""
 
@@ -763,18 +928,21 @@ msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:1630
 #: .\matches\templates\matches\h2h_detail.html:1776
+#: .\matches\templates\matches\streaks_snippet.html:39
 msgid "No win"
-msgstr ""
+msgstr "Sem vencer"
 
 #: .\matches\templates\matches\h2h_detail.html:1642
 #: .\matches\templates\matches\h2h_detail.html:1788
+#: .\matches\templates\matches\streaks_snippet.html:45
 msgid "No draw"
-msgstr ""
+msgstr "Sem empatar"
 
 #: .\matches\templates\matches\h2h_detail.html:1648
 #: .\matches\templates\matches\h2h_detail.html:1794
+#: .\matches\templates\matches\streaks_snippet.html:51
 msgid "No defeat"
-msgstr ""
+msgstr "Sem perder"
 
 #: .\matches\templates\matches\h2h_detail.html:1660
 #: .\matches\templates\matches\h2h_detail.html:1806
@@ -806,8 +974,11 @@ msgstr ""
 #: .\matches\templates\matches\league_dashboard.html:462
 #: .\matches\templates\matches\league_dashboard.html:556
 #: .\matches\templates\matches\league_dashboard.html:699
+#: .\matches\templates\matches\league_goals.html:224
+#: .\matches\templates\matches\league_goals.html:289
+#: .\matches\templates\matches\league_goals.html:393
 msgid "Team"
-msgstr ""
+msgstr "Time"
 
 #: .\matches\templates\matches\h2h_detail.html:1900
 #: .\matches\templates\matches\h2h_detail.html:1964
@@ -948,7 +1119,7 @@ msgid ""
 "Explore advanced football statistics, pre-match analysis, Over/Under "
 "predictions and head-to-head data for the world's top leagues. StatsFut - "
 "Your data-driven edge."
-msgstr ""
+msgstr "Explore estatísticas avançadas de futebol, análises pré-jogo, previsões Over/Under e dados de confrontos diretos das principais ligas do mundo. StatsFut - Sua vantagem baseada em dados."
 
 #: .\matches\templates\matches\home.html:16
 #: .\matches\templates\matches\live_matches.html:18 .\matches\views.py:478
@@ -976,6 +1147,7 @@ msgid "Finished"
 msgstr ""
 
 #: .\matches\templates\matches\home.html:160
+#: .\matches\templates\matches\league_detailed_stats.html:92
 msgid "matches"
 msgstr ""
 
@@ -1005,10 +1177,12 @@ msgid "League Stats"
 msgstr ""
 
 #: .\matches\templates\matches\league_dashboard.html:31
+#: .\matches\templates\matches\league_goals.html:265
 msgid "Goals Stats"
 msgstr ""
 
 #: .\matches\templates\matches\league_dashboard.html:35
+#: .\matches\templates\matches\league_goals.html:73
 msgid "Elite Stats"
 msgstr ""
 
@@ -1022,8 +1196,8 @@ msgid ""
 "The <strong>%(league_name)s</strong> is the main professional football "
 "league in <strong>%(country)s</strong>."
 msgstr ""
-"A <strong>%(league_name)s</strong> é a principal liga profissional de futebol em "
-"<strong>%(country)s</strong>."
+"A <strong>%(league_name)s</strong> é a principal liga profissional de "
+"futebol em <strong>%(country)s</strong>."
 
 #: .\matches\templates\matches\league_dashboard.html:52
 #, python-format
@@ -1031,16 +1205,17 @@ msgid ""
 "Currently, the competition leader is <strong>%(leader)s</strong>, leading "
 "the league table this season."
 msgstr ""
-"Atualmente, o líder da competição é o <strong>%(leader)s</strong>, liderando a "
-"tabela de classificação desta temporada."
+"Atualmente, o líder da competição é o <strong>%(leader)s</strong>, liderando "
+"a tabela de classificação desta temporada."
 
 #: .\matches\templates\matches\league_dashboard.html:57
 msgid ""
 "StatsFut tracks live football scores, detailed statistics, standings, and "
 "performance analysis for all rounds of the competition."
 msgstr ""
-"O StatsFut acompanha placares de futebol ao vivo, estatísticas detalhadas, tabela "
-"de classificação e análises de desempenho para todas as rodadas da competição."
+"O StatsFut acompanha placares de futebol ao vivo, estatísticas detalhadas, "
+"tabela de classificação e análises de desempenho para todas as rodadas da "
+"competição."
 
 #: .\matches\templates\matches\league_dashboard.html:61
 msgid "Season Statistical Analysis"
@@ -1052,8 +1227,7 @@ msgid ""
 "The average goals per match in the league is <strong>%(avg_goals)s</strong> "
 "goals."
 msgstr ""
-"A média de gols por partida na liga é de <strong>%(avg_goals)s</strong> "
-"gols."
+"A média de gols por partida na liga é de <strong>%(avg_goals)s</strong> gols."
 
 #: .\matches\templates\matches\league_dashboard.html:70
 #, python-format
@@ -1085,6 +1259,7 @@ msgid "Avg Goals/Team"
 msgstr ""
 
 #: .\matches\templates\matches\league_dashboard.html:120
+#: .\matches\templates\matches\league_goals.html:162
 #, python-format
 msgid "Clean Sheets %%"
 msgstr ""
@@ -1121,6 +1296,7 @@ msgid "Away Win"
 msgstr ""
 
 #: .\matches\templates\matches\league_dashboard.html:208
+#: .\matches\templates\matches\league_goals.html:177
 msgid "Most Common Scores"
 msgstr ""
 
@@ -1207,9 +1383,95 @@ msgid ""
 "plataforma definitiva para acompanhar o futebol mundial com dados precisos."
 msgstr ""
 
+#: .\matches\templates\matches\league_detailed_stats.html:20
+msgid "Elite Statistics"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:26
+msgid "Advanced metrics per match across all teams"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:38
+msgid "Corners (Avg)"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:48
+msgid "Yellows (Avg)"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:58
+msgid "Total Goals"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:72
+#: .\matches\templates\matches\league_detailed_stats.html:76
+msgid "Corners Performance Ranking"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:78
+msgid "Avg per Match"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:97
+#: .\matches\templates\matches\team_detail.html:768
+msgid "For"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:101
+msgid "Ag"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:105
+msgid "Tot"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:113
+msgid "No corner data available yet. Processing matches..."
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:124
+msgid "Cards Averages"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:163
+msgid "Goal Minutes Distribution"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:172
+msgid "goals"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:181
+msgid "No goal minute data available."
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:192
+msgid "League Top Scorers"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:214
+msgid "Pen."
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:222
+msgid "No top scorer registered for the current season."
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:233
+msgid "Offensive Shots (Avg)"
+msgstr ""
+
+#: .\matches\templates\matches\league_detailed_stats.html:249
+#: .\members\templates\members\premium_dashboard.html:132
+#: .\members\templates\members\premium_dashboard.html:668
+#: .\members\templates\members\premium_dashboard.html:738
+#: .\scratch\dashboard_current.html:134
+msgid "Shots"
+msgstr ""
+
 #: .\matches\templates\matches\league_detailed_stats.html:268
 msgid "Detailed Statistics and Elite Analysis"
-msgstr "Estatísticas Detalhadas e Análise de Elite"
+msgstr "Estatísticas Detalhadas e Análise Elite"
 
 #: .\matches\templates\matches\league_detailed_stats.html:273
 #, python-format
@@ -1219,12 +1481,7 @@ msgid ""
 "corner averages, distribution of yellow and red cards per game, team "
 "discipline, volume of shots, and the exact moment goals happen throughout "
 "the 90 minutes."
-msgstr ""
-"Estatísticas avançadas e análise detalhada para a liga %(league_name)s "
-"(%(country)s), temporada %(year)s. Explore informações aprofundadas sobre "
-"médias de escanteios, distribuição de cartões amarelos e vermelhos por jogo, "
-"disciplina das equipes, volume de finalizações (chutes) e o momento exato em "
-"que os gols acontecem ao longo dos 90 minutos."
+msgstr "Estatísticas avançadas e análise detalhada da liga %(league_name)s (%(country)s), temporada de %(year)s. Explore informações detalhadas sobre médias de escanteios, distribuição de cartões amarelos e vermelhos por jogo, disciplina da equipe, volume de finalizações e o momento exato em que os gols acontecem ao longo dos 90 minutos."
 
 #: .\matches\templates\matches\league_detailed_stats.html:277
 #, python-format
@@ -1233,32 +1490,153 @@ msgid ""
 "taken per match and a disciplinary average of %(avg_yellow)s yellow cards "
 "received per game. This data provides a complete overview of the tactical "
 "behavior trends and game intensity of each team in the competition."
-msgstr ""
-"Até o momento, a média geral do campeonato registra %(avg_corners)s escanteios "
-"cobrados por partida e uma média disciplinar de %(avg_yellow)s cartões "
-"amarelos recebidos por jogo. Esses dados fornecem um panorama completo das "
-"tendências de comportamento tático e intensidade de jogo de cada time na "
-"competição."
+msgstr "Até o momento, a média geral do campeonato registra %(avg_corners)s escanteios batidos por partida e uma média disciplinar de %(avg_yellow)s cartões amarelos recebidos por jogo. Esses dados fornecem uma visão completa das tendências de comportamento tático e intensidade de jogo de cada equipe na competição."
 
-#: .\matches\templates\matches\league_goals.html:684
+#: .\matches\templates\matches\league_goals.html:68
+msgid "Goal Statistics"
+msgstr ""
+
+#: .\matches\templates\matches\league_goals.html:96
+msgid "Home Wins"
+msgstr ""
+
+#: .\matches\templates\matches\league_goals.html:116
+msgid "Away Wins"
+msgstr ""
+
+#: .\matches\templates\matches\league_goals.html:144
+#, python-format
+msgid "BTTS %%"
+msgstr ""
+
+#: .\matches\templates\matches\league_goals.html:185
+msgid "Count"
+msgstr "Quantidade"
+
+#: .\matches\templates\matches\league_goals.html:212
+#: .\matches\templates\matches\league_goals.html:217
+msgid "Current Form (Last 8)"
+msgstr ""
+
+#: .\matches\templates\matches\league_goals.html:225
+#: .\matches\templates\matches\league_goals.html:290
+#: .\matches\templates\matches\league_goals.html:356
+#: .\matches\templates\matches\league_goals.html:394
+#: .\matches\templates\matches\team_detail.html:210
+#: .\matches\templates\matches\team_detail.html:808
+msgid "GP"
+msgstr "GP"
+
+#: .\matches\templates\matches\league_goals.html:226
+msgid "Pts"
+msgstr "Pts"
+
+#: .\matches\templates\matches\league_goals.html:227
+msgid "Rank"
+msgstr "Pos"
+
+#: .\matches\templates\matches\league_goals.html:254
+msgid "Points earned in the last 8 matches"
+msgstr "Pontos conquistados nos últimos 8 jogos"
+
+#: .\matches\templates\matches\league_goals.html:291
+#: .\matches\templates\matches\league_goals.html:357
+#: .\matches\templates\matches\league_goals.html:395
+#: .\matches\templates\matches\team_detail.html:932
+#: .\matches\templates\matches\team_detail.html:977
+#: .\matches\templates\matches\team_detail.html:1022
+msgid "Avg"
+msgstr "Média"
+
+#: .\matches\templates\matches\league_goals.html:299
+#: .\matches\templates\matches\league_goals.html:359
+#: .\matches\templates\matches\league_goals.html:403
+#: .\matches\templates\matches\streaks_snippet.html:127
+msgid "CS"
+msgstr "SG"
+
+#: .\matches\templates\matches\league_goals.html:300
+#: .\matches\templates\matches\league_goals.html:360
+#: .\matches\templates\matches\league_goals.html:404
+#: .\matches\templates\matches\streaks_snippet.html:128
+msgid "FTS"
+msgstr "FM"
+
+#: .\matches\templates\matches\league_goals.html:301
+#: .\matches\templates\matches\league_goals.html:361
+#: .\matches\templates\matches\league_goals.html:405
+msgid "WTN"
+msgstr "VSS"
+
+#: .\matches\templates\matches\league_goals.html:302
+#: .\matches\templates\matches\league_goals.html:362
+#: .\matches\templates\matches\league_goals.html:406
+msgid "LTN"
+msgstr "PSS"
+
+#: .\matches\templates\matches\league_goals.html:332
+msgid "League Average"
+msgstr "Média da Liga"
+
+#: .\matches\templates\matches\league_goals.html:356
+msgid "Games Played"
+msgstr "Jogos Disputados"
+
+#: .\matches\templates\matches\league_goals.html:357
+msgid "Average Total Goals"
+msgstr "Média Total de Gols"
+
+#: .\matches\templates\matches\league_goals.html:358
+#: .\matches\templates\matches\team_detail.html:363
+#: .\matches\templates\matches\team_detail.html:663
+msgid "Both Teams Scored"
+msgstr "Ambas as Equipes Marcaram"
+
+#: .\matches\templates\matches\league_goals.html:359
+#: .\matches\templates\matches\league_goals.html:505
+#: .\matches\templates\matches\team_detail.html:357
+msgid "Clean Sheets"
+msgstr "Jogos Sem Sofrer Gols"
+
+#: .\matches\templates\matches\league_goals.html:360
+#: .\matches\templates\matches\league_goals.html:564
+#: .\matches\templates\matches\team_detail.html:375
+msgid "Failed to Score"
+msgstr "Jogos Sem Marcar Gols"
+
+#: .\matches\templates\matches\league_goals.html:361
+#: .\matches\templates\matches\league_goals.html:623
+msgid "Win to Nil"
+msgstr "Vencer Sem Sofrer Gols"
+
+#: .\matches\templates\matches\league_goals.html:362
+msgid "Lose to Nil"
+msgstr "Perder Sem Marcar Gols"
+
+#: .\matches\templates\matches\league_goals.html:372
+msgid "Half-Time Stats"
+msgstr "Estatísticas do Primeiro Tempo"
+
+#: .\matches\templates\matches\league_goals.html:446
+#: .\members\templates\members\premium_dashboard.html:222
+#: .\members\views.py:365 .\scratch\dashboard_current.html:197
+msgid "Both Teams to Score"
+msgstr "Ambas as Equipes Marcam"
+
+#: .\matches\templates\matches\league_goals.html:683
 msgid "Goal Statistics and Over/Under Trends"
 msgstr "Estatísticas de Gols e Tendências de Over/Under"
 
-#: .\matches\templates\matches\league_goals.html:689
+#: .\matches\templates\matches\league_goals.html:688
 #, python-format
 msgid ""
 "Complete statistics and goal analysis for the %(league_name)s (%(country)s) "
 "league. This page gathers detailed metrics on goal averages, Over/Under "
 "markets, Both Teams to Score (BTTS), Clean Sheets, and the most frequent "
 "scores to assist in your sports analysis."
-msgstr ""
-"Estatísticas completas e análise de gols para a liga %(league_name)s "
-"(%(country)s). Esta página reúne métricas detalhadas sobre médias de gols, "
-"mercados de Over/Under (mais ou menos gols), Ambas Marcam (BTTS), Clean Sheets "
-"(jogos sem sofrer gols) e os placares mais frequentes para ajudar na sua "
-"análise esportiva."
+msgstr "Estatísticas completas e análise de gols da liga %(league_name)s (%(country)s). Esta página reúne métricas detalhadas sobre médias de gols, mercados Over/Under, Ambas as Equipes Marcam (BTTS), Jogos Sem Sofrer Gols (Clean Sheet) e os placares mais frequentes para auxiliar em sua análise esportiva."
 
-#: .\matches\templates\matches\league_goals.html:693
+#: .\matches\templates\matches\league_goals.html:692
 #, python-format
 msgid ""
 "The current season of the competition records a general average of "
@@ -1267,13 +1645,7 @@ msgid ""
 "goals. The Both Teams to Score (BTTS) rate is at %(btts)s%%, while the "
 "percentage of games where at least one team did not concede any goals (Clean "
 "Sheet) is %(cs)s%%."
-msgstr ""
-"A temporada atual da competição registra uma média geral de %(avg_goals)s "
-"gols por jogo. Em termos de padrões de mercado, %(over15)s%% das partidas "
-"superaram a marca de 1.5 gols e %(over25)s%% registraram mais de 2.5 gols. "
-"A taxa de Ambas Marcam (BTTS) está em %(btts)s%%, enquanto a porcentagem de "
-"jogos em que pelo menos uma equipe não sofreu gols (Clean Sheet) é de "
-"%(cs)s%%."
+msgstr "A temporada atual da competição registra uma média geral de %(avg_goals)s gols por jogo. Em termos de padrões de mercado, %(over15)s%% das partidas superaram a linha de 1.5 gols e %(over25)s%% registraram mais de 2.5 gols. A taxa de Ambas as Equipes Marcam (BTTS) está em %(btts)s%%, enquanto a porcentagem de jogos onde pelo menos uma equipe não sofreu gols (Clean Sheet) é de %(cs)s%%."
 
 #: .\matches\templates\matches\live_matches.html:24
 msgid "Search leagues, teams..."
@@ -1293,42 +1665,67 @@ msgstr ""
 
 #: .\matches\templates\matches\match_detail.html:193
 msgid "Estatísticas completas e previsões detalhadas para a partida entre"
-msgstr ""
+msgstr "Estatísticas completas e previsões detalhadas para a partida entre"
 
 #: .\matches\templates\matches\match_detail.html:193
 msgid "e"
-msgstr ""
+msgstr "e"
 
 #: .\matches\templates\matches\match_detail.html:193
 msgid "válida pela"
-msgstr ""
+msgstr "válida pela"
 
 #: .\matches\templates\matches\match_detail.html:194
 msgid ""
 "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, "
 "cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e "
 "palpites esportivos baseados em dados."
-msgstr ""
+msgstr "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e palpites esportivos baseados em dados."
+
+#: .\matches\templates\matches\match_detail.html:202
+msgid "TIMELINE"
+msgstr "CRONOLOGIA"
+
+#: .\matches\templates\matches\match_detail.html:203
+msgid "MATCH STATS"
+msgstr "ESTADÍSTICAS DA PARTIDA"
+
+#: .\matches\templates\matches\match_detail.html:219
+msgid "No goal events recorded"
+msgstr "Nenhum gol registrado"
+
+#: .\matches\templates\matches\match_detail.html:228
+msgid "Corner Kicks"
+msgstr "Escanteios"
+
+#: .\matches\templates\matches\match_detail.html:241
+msgid "Total Shots"
+msgstr "Finalizações Totais"
+
+#: .\matches\templates\matches\match_detail.html:253
+#: .\matches\templates\matches\team_detail.html:1072
+msgid "Yellow Cards"
+msgstr "Cartões Amarelos"
 
 #: .\matches\templates\matches\match_detail.html:271
 msgid "Gols & Tempos"
-msgstr ""
+msgstr "Gols & Tempos"
 
 #: .\matches\templates\matches\match_detail.html:272
 msgid "Escanteios"
-msgstr ""
+msgstr "Escanteios"
 
 #: .\matches\templates\matches\match_detail.html:273
 msgid "Cartões"
-msgstr ""
+msgstr "Cartões"
 
 #: .\matches\templates\matches\match_detail.html:274
 msgid "Chutes"
-msgstr ""
+msgstr "Chutes"
 
 #: .\matches\templates\matches\match_detail.html:275
 msgid "Especiais & Combos"
-msgstr ""
+msgstr "Especiais & Combos"
 
 #: .\matches\templates\matches\match_detail.html:284
 msgid "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT"
@@ -1362,10 +1759,12 @@ msgid "BTTS"
 msgstr ""
 
 #: .\matches\templates\matches\match_detail.html:391
+#: .\venv\Lib\site-packages\django\forms\widgets.py:797
 msgid "Yes"
 msgstr ""
 
 #: .\matches\templates\matches\match_detail.html:392
+#: .\venv\Lib\site-packages\django\forms\widgets.py:798
 msgid "No"
 msgstr ""
 
@@ -1387,7 +1786,7 @@ msgstr ""
 
 #: .\matches\templates\matches\match_detail.html:423
 msgid "Ambas Marcam Detalhado"
-msgstr ""
+msgstr "Ambas Marcam Detalhado"
 
 #: .\matches\templates\matches\match_detail.html:444
 msgid "Clean Sheet (Sem Sofrer Gols)"
@@ -1395,99 +1794,99 @@ msgstr ""
 
 #: .\matches\templates\matches\match_detail.html:461
 msgid "Faixa de Gols (Partida)"
-msgstr ""
+msgstr "Faixa de Gols (Partida)"
 
 #: .\matches\templates\matches\match_detail.html:467
 msgid "Faixa (1º Tempo)"
-msgstr ""
+msgstr "Faixa (1º Tempo)"
 
 #: .\matches\templates\matches\match_detail.html:472
 msgid "Faixa (2º Tempo)"
-msgstr ""
+msgstr "Faixa (2º Tempo)"
 
 #: .\matches\templates\matches\match_detail.html:481
 msgid "Margem de Vitória Exata"
-msgstr ""
+msgstr "Margem de Vitória Exata"
 
 #: .\matches\templates\matches\match_detail.html:482
 #: .\matches\templates\matches\match_detail.html:487
 msgid "por 1 gol"
-msgstr ""
+msgstr "por 1 gol"
 
 #: .\matches\templates\matches\match_detail.html:483
 #: .\matches\templates\matches\match_detail.html:488
 msgid "por 2 gols"
-msgstr ""
+msgstr "por 2 gols"
 
 #: .\matches\templates\matches\match_detail.html:484
 #: .\matches\templates\matches\match_detail.html:489
 msgid "por 3+ gols"
-msgstr ""
+msgstr "por 3+ gols"
 
 #: .\matches\templates\matches\match_detail.html:485
 msgid "Empate com gols"
-msgstr ""
+msgstr "Empate com gols"
 
 #: .\matches\templates\matches\match_detail.html:486
 msgid "Empate sem gols (0-0)"
-msgstr ""
+msgstr "Empate sem gols (0-0)"
 
 #: .\matches\templates\matches\match_detail.html:493
 msgid "Metades & Tempos"
-msgstr ""
+msgstr "Metades & Tempos"
 
 #: .\matches\templates\matches\match_detail.html:494
 msgid "Mais gols no 1º Tempo"
-msgstr ""
+msgstr "Mais gols no 1º Tempo"
 
 #: .\matches\templates\matches\match_detail.html:495
 msgid "Mais gols no 2º Tempo"
-msgstr ""
+msgstr "Mais gols no 2º Tempo"
 
 #: .\matches\templates\matches\match_detail.html:496
 msgid "Metades com gols iguais"
-msgstr ""
+msgstr "Metades com gols iguais"
 
 #: .\matches\templates\matches\match_detail.html:498
 msgid "Marcar em Ambos os Tempos"
-msgstr ""
+msgstr "Marcar em Ambos os Tempos"
 
 #: .\matches\templates\matches\match_detail.html:499
 #: .\matches\templates\matches\match_detail.html:501
 msgid "Marcar Ambos Tempos"
-msgstr ""
+msgstr "Marcar Ambos Tempos"
 
 #: .\matches\templates\matches\match_detail.html:500
 #: .\matches\templates\matches\match_detail.html:502
 msgid "Marcar pelo menos Um"
-msgstr ""
+msgstr "Marcar pelo menos Um"
 
 #: .\matches\templates\matches\match_detail.html:506
 msgid "Intervalo / Fim do Jogo"
-msgstr ""
+msgstr "Intervalo / Fim do Jogo"
 
 #: .\matches\templates\matches\match_detail.html:521
 msgid "Resultado 1º Tempo"
-msgstr ""
+msgstr "Resultado 1º Tempo"
 
 #: .\matches\templates\matches\match_detail.html:522
 #: .\matches\templates\matches\match_detail.html:524
 msgid "Vence HT"
-msgstr ""
+msgstr "Vence HT"
 
 #: .\matches\templates\matches\match_detail.html:523
 msgid "Empate HT"
-msgstr ""
+msgstr "Empate HT"
 
 #: .\matches\templates\matches\match_detail.html:539
 msgid "Vencedor + Ambos Marcam"
-msgstr ""
+msgstr "Vencedor + Ambos Marcam"
 
 #: .\matches\templates\matches\match_detail.html:541
 #: .\matches\templates\matches\match_detail.html:549
 #: .\matches\templates\matches\match_detail.html:557
 msgid "Sim"
-msgstr ""
+msgstr "Sim"
 
 #: .\matches\templates\matches\match_detail.html:545
 #: .\matches\templates\matches\match_detail.html:553
@@ -1498,11 +1897,11 @@ msgstr ""
 #: .\matches\templates\matches\match_detail.html:549
 #: .\matches\templates\matches\match_detail.html:553
 msgid "Empate"
-msgstr ""
+msgstr "Empate"
 
 #: .\matches\templates\matches\match_detail.html:567
 msgid "Chance Dupla + Faixa de Gols"
-msgstr ""
+msgstr "Chance Dupla + Faixa de Gols"
 
 #: .\matches\templates\matches\match_detail.html:568
 #: .\matches\templates\matches\match_detail.html:569
@@ -1511,71 +1910,85 @@ msgstr ""
 #: .\matches\templates\matches\match_detail.html:572
 #: .\matches\templates\matches\match_detail.html:573
 msgid "Gols"
-msgstr ""
+msgstr "Gols"
 
 #: .\matches\templates\matches\match_detail.html:579
 msgid "Handicap Asiático & Europeu"
-msgstr ""
+msgstr "Handicap Asiático & Europeu"
 
 #: .\matches\templates\matches\match_detail.html:589
 msgid "Empate Anula Aposta (Draw No Bet)"
-msgstr ""
+msgstr "Empate Anula Aposta (Draw No Bet)"
 
-#: .\matches\templates\matches\match_detail.html:628
+#: .\matches\templates\matches\match_detail.html:607
+msgid "SMART LAY BETS (EXCHANGE)"
+msgstr "APOSTAS SMART LAY (EXCHANGE)"
+
+#: .\matches\templates\matches\match_detail.html:611
+msgid ""
+"Betting <strong>AGAINST</strong> these outcomes has a high statistical "
+"probability of success based on recent data."
+msgstr "Apostar <strong>CONTRA</strong> estes resultados tem uma alta probabilidade estatística de sucesso com base em dados recentes."
+
+#: .\matches\templates\matches\match_detail.html:620
+msgid "Success Chance"
+msgstr "Chance de Sucesso"
+
+#: .\matches\templates\matches\match_detail.html:630
 msgid "MATCH ANALYSIS"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:640
+#: .\matches\templates\matches\match_detail.html:642
 msgid "ELITE CORNERS PROJECTION"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:651
-#: .\matches\templates\matches\match_detail.html:686
+#: .\matches\templates\matches\match_detail.html:653
+#: .\matches\templates\matches\match_detail.html:688
 #: .\matches\templates\matches\team_detail.html:700
 msgid "Scored"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:655
-#: .\matches\templates\matches\match_detail.html:690
+#: .\matches\templates\matches\match_detail.html:657
+#: .\matches\templates\matches\match_detail.html:692
 #: .\matches\templates\matches\team_detail.html:706
 msgid "Conceded"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:659
-#: .\matches\templates\matches\match_detail.html:694
+#: .\matches\templates\matches\match_detail.html:661
+#: .\matches\templates\matches\match_detail.html:696
 msgid "Total Avg"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:668
+#: .\matches\templates\matches\match_detail.html:670
 msgid "Base"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:673
+#: .\matches\templates\matches\match_detail.html:675
 msgid "Best Pick"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:704
-msgid "Match Winner (Escanteios)"
-msgstr ""
-
-#: .\matches\templates\matches\match_detail.html:705
-#: .\matches\templates\matches\match_detail.html:707
-msgid "Mais Escanteios"
-msgstr ""
-
 #: .\matches\templates\matches\match_detail.html:706
+msgid "Match Winner (Escanteios)"
+msgstr "Match Winner (Escanteios)"
+
+#: .\matches\templates\matches\match_detail.html:707
+#: .\matches\templates\matches\match_detail.html:709
+msgid "Mais Escanteios"
+msgstr "Mais Escanteios"
+
+#: .\matches\templates\matches\match_detail.html:708
 msgid "Empate de Escanteios"
-msgstr ""
+msgstr "Empate de Escanteios"
 
-#: .\matches\templates\matches\match_detail.html:711
+#: .\matches\templates\matches\match_detail.html:713
 msgid "Handicap de Escanteios"
-msgstr ""
+msgstr "Handicap de Escanteios"
 
-#: .\matches\templates\matches\match_detail.html:778
+#: .\matches\templates\matches\match_detail.html:780
 msgid "Analyst Insight: How to Profit"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:783
+#: .\matches\templates\matches\match_detail.html:785
 #, python-format
 msgid ""
 "This game has a <strong>Base of %(base)s corners</strong>, indicating high "
@@ -1583,7 +1996,7 @@ msgid ""
 "ideal for seeking \"Over 8.5 or 9.5\" corner markets."
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:787
+#: .\matches\templates\matches\match_detail.html:789
 #, python-format
 msgid ""
 "The base of %(base)s suggests moderate volume. The best strategy here is to "
@@ -1591,7 +2004,7 @@ msgid ""
 "odds."
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:791
+#: .\matches\templates\matches\match_detail.html:793
 #, python-format
 msgid ""
 "Game with a tendency for low lateral volume (Base %(base)s). Be cautious "
@@ -1599,77 +2012,77 @@ msgid ""
 "profitable."
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:809
+#: .\matches\templates\matches\match_detail.html:811
 msgid "DISCIPLINE & CARDS PROJECTION"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:816
+#: .\matches\templates\matches\match_detail.html:818
 msgid "Fouls"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:825
+#: .\matches\templates\matches\match_detail.html:827
 msgid "Red Cards Avg:"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:825
+#: .\matches\templates\matches\match_detail.html:827
 msgid "per game"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:831
+#: .\matches\templates\matches\match_detail.html:833
 msgid "Total de Cartões (O/U)"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:832
+#: .\matches\templates\matches\match_detail.html:834
 msgid "Over 3.5 Cartões"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:833
+#: .\matches\templates\matches\match_detail.html:835
 msgid "Over 4.5 Cartões"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:834
+#: .\matches\templates\matches\match_detail.html:836
 msgid "Over 5.5 Cartões"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:835
+#: .\matches\templates\matches\match_detail.html:837
 msgid "Over 6.5 Cartões"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:839
-msgid "Winner & Handicap (Cartões)"
-msgstr ""
-
-#: .\matches\templates\matches\match_detail.html:840
-#: .\matches\templates\matches\match_detail.html:842
-msgid "Mais Cartões"
-msgstr ""
-
 #: .\matches\templates\matches\match_detail.html:841
-msgid "Empate de Cartões"
-msgstr ""
+msgid "Winner & Handicap (Cartões)"
+msgstr "Winner & Handicap (Cartões)"
+
+#: .\matches\templates\matches\match_detail.html:842
+#: .\matches\templates\matches\match_detail.html:844
+msgid "Mais Cartões"
+msgstr "Mais Cartões"
 
 #: .\matches\templates\matches\match_detail.html:843
-#: .\matches\templates\matches\match_detail.html:844
-msgid "Handicap"
-msgstr ""
+msgid "Empate de Cartões"
+msgstr "Empate de Cartões"
 
-#: .\matches\templates\matches\match_detail.html:851
+#: .\matches\templates\matches\match_detail.html:845
+#: .\matches\templates\matches\match_detail.html:846
+msgid "Handicap"
+msgstr "Handicap"
+
+#: .\matches\templates\matches\match_detail.html:853
 msgid "Insufficient disciplinary data"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:859
+#: .\matches\templates\matches\match_detail.html:861
 msgid "Disciplinary Tip"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:864
+#: .\matches\templates\matches\match_detail.html:866
 #, python-format
 msgid ""
 "With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game "
 "with many stops. The chance of cards (currently %(cards)s yellows/game) is "
 "high."
-msgstr ""
+msgstr "With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game with many stops. The chance of cards (currently %(cards)s yellows/game) is high."
 
-#: .\matches\templates\matches\match_detail.html:868
+#: .\matches\templates\matches\match_detail.html:870
 #, python-format
 msgid ""
 "Game with a tendency to be more fluid (only %(fouls)s fouls on average). The "
@@ -1677,93 +2090,93 @@ msgid ""
 "referee is not strict."
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:886
+#: .\matches\templates\matches\match_detail.html:888
 msgid "ATTACK & SHOTS PROJECTION"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:892
+#: .\matches\templates\matches\match_detail.html:894
 msgid "Shot Accuracy (Target)"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:911
+#: .\matches\templates\matches\match_detail.html:913
 msgid "Shots per Goal"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:922
+#: .\matches\templates\matches\match_detail.html:924
 msgid "Total de Chutes (Over/Under)"
-msgstr ""
+msgstr "Total de Chutes (Over/Under)"
 
-#: .\matches\templates\matches\match_detail.html:923
+#: .\matches\templates\matches\match_detail.html:925
 msgid "Over 18.5 Chutes"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:924
+#: .\matches\templates\matches\match_detail.html:926
 msgid "Over 20.5 Chutes"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:925
+#: .\matches\templates\matches\match_detail.html:927
 msgid "Over 22.5 Chutes"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:926
+#: .\matches\templates\matches\match_detail.html:928
 msgid "Over 24.5 Chutes"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:927
+#: .\matches\templates\matches\match_detail.html:929
 msgid "Over 26.5 Chutes"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:929
-msgid "Chutes ao Gol (Over/Under)"
-msgstr ""
-
-#: .\matches\templates\matches\match_detail.html:930
-msgid "Over 6.5 Chutes no Alvo"
-msgstr ""
-
 #: .\matches\templates\matches\match_detail.html:931
-msgid "Over 7.5 Chutes no Alvo"
-msgstr ""
+msgid "Chutes ao Gol (Over/Under)"
+msgstr "Chutes ao Gol (Over/Under)"
 
 #: .\matches\templates\matches\match_detail.html:932
-msgid "Over 8.5 Chutes no Alvo"
-msgstr ""
+msgid "Over 6.5 Chutes no Alvo"
+msgstr "Over 6.5 Chutes no Alvo"
 
 #: .\matches\templates\matches\match_detail.html:933
-msgid "Over 9.5 Chutes no Alvo"
-msgstr ""
+msgid "Over 7.5 Chutes no Alvo"
+msgstr "Over 7.5 Chutes no Alvo"
 
-#: .\matches\templates\matches\match_detail.html:937
+#: .\matches\templates\matches\match_detail.html:934
+msgid "Over 8.5 Chutes no Alvo"
+msgstr "Over 8.5 Chutes no Alvo"
+
+#: .\matches\templates\matches\match_detail.html:935
+msgid "Over 9.5 Chutes no Alvo"
+msgstr "Over 9.5 Chutes no Alvo"
+
+#: .\matches\templates\matches\match_detail.html:939
 msgid "Match Winner (Chutes)"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:938
-#: .\matches\templates\matches\match_detail.html:939
-msgid "Mais Chutes"
-msgstr ""
-
+#: .\matches\templates\matches\match_detail.html:940
 #: .\matches\templates\matches\match_detail.html:941
-msgid "Match Winner (Chutes no Alvo)"
-msgstr ""
+msgid "Mais Chutes"
+msgstr "Mais Chutes"
 
-#: .\matches\templates\matches\match_detail.html:942
 #: .\matches\templates\matches\match_detail.html:943
-msgid "Mais no Alvo"
-msgstr ""
+msgid "Match Winner (Chutes no Alvo)"
+msgstr "Match Winner (Chutes no Alvo)"
 
+#: .\matches\templates\matches\match_detail.html:944
 #: .\matches\templates\matches\match_detail.html:945
-msgid "Linhas Individuais por Time"
-msgstr ""
+msgid "Mais no Alvo"
+msgstr "Mais no Alvo"
 
-#: .\matches\templates\matches\match_detail.html:956
+#: .\matches\templates\matches\match_detail.html:947
+msgid "Linhas Individuais por Time"
+msgstr "Linhas Individuais por Time"
+
+#: .\matches\templates\matches\match_detail.html:958
 msgid "Shot statistics unavailable"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:964
+#: .\matches\templates\matches\match_detail.html:966
 msgid "Efficiency Guide"
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:968
+#: .\matches\templates\matches\match_detail.html:970
 #, python-format
 msgid ""
 "Both teams have accuracy above 30%% on target. This is a very strong signal "
@@ -1771,17 +2184,184 @@ msgid ""
 "\" market."
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:972
+#: .\matches\templates\matches\match_detail.html:974
 msgid ""
 "Only one of the teams is being lethal in finishing. Consider betting on the "
 "\"Team Goals\" market for the one with higher accuracy."
 msgstr ""
 
-#: .\matches\templates\matches\match_detail.html:976
+#: .\matches\templates\matches\match_detail.html:978
 #, python-format
 msgid ""
 "Both teams are struggling with finishing (Accuracy below 30%%). Game with a "
 "tendency for few goals, ideal for analyzing the \"Under\" market."
+msgstr ""
+
+#: .\matches\templates\matches\privacy_policy.html:13
+#: .\matches\templates\matches\terms_of_use.html:13
+msgid "Last Updated: May 12, 2026"
+msgstr "Última Atualização: 12 de maio de 2026"
+
+#: .\matches\templates\matches\privacy_policy.html:17
+msgid "1. Introduction"
+msgstr "1. Introdução"
+
+#: .\matches\templates\matches\privacy_policy.html:18
+msgid ""
+"Welcome to StatsFut. Your privacy is of extreme importance to us. This "
+"Privacy Policy explains how we collect, use, protect, and handle your "
+"information when using our website (statsfut.com)."
+msgstr "Bem-vindo ao StatsFut. Sua privacidade é de extrema importância para nós. Esta Política de Privacidade explica como coletamos, usamos, protegemos e tratamos suas informações ao usar nosso site (statsfut.com)."
+
+#: .\matches\templates\matches\privacy_policy.html:22
+msgid "2. Information Collection"
+msgstr "2. Coleta de Informações"
+
+#: .\matches\templates\matches\privacy_policy.html:23
+msgid ""
+"We do not require registration to view public statistics. However, we "
+"collect basic information automatically through log files and cookies to "
+"improve your experience, such as:"
+msgstr "Não exigimos registro para visualizar estatísticas públicas. No entanto, coletamos informações básicas automaticamente por meio de arquivos de log e cookies para melhorar sua experiência, tais como:"
+
+#: .\matches\templates\matches\privacy_policy.html:25
+msgid "IP Address"
+msgstr "Endereço IP"
+
+#: .\matches\templates\matches\privacy_policy.html:26
+msgid "Browser type"
+msgstr "Tipo de navegador"
+
+#: .\matches\templates\matches\privacy_policy.html:27
+msgid "Pages visited"
+msgstr "Páginas visitadas"
+
+#: .\matches\templates\matches\privacy_policy.html:28
+msgid "Time spent on the site"
+msgstr "Tempo gasto no site"
+
+#: .\matches\templates\matches\privacy_policy.html:33
+msgid "3. Cookies and Advertising (Google AdSense)"
+msgstr "3. Cookies e Publicidade (Google AdSense)"
+
+#: .\matches\templates\matches\privacy_policy.html:34
+msgid ""
+"We use cookies to provide personalized content and ads. Google, as a third-"
+"party vendor, uses cookies (such as the DART cookie) to serve ads based on "
+"your visits to our and other sites on the internet."
+msgstr "Usamos cookies para fornecer conteúdo e anúncios personalizados. O Google, como fornecedor terceirizado, usa cookies (como o cookie DART) para veicular anúncios com base em suas visitas ao nosso e a outros sites na internet."
+
+#: .\matches\templates\matches\privacy_policy.html:35
+msgid ""
+"Users may opt-out of the use of the DART cookie by visiting the Google Ad "
+"and Content Network Privacy Policy."
+msgstr "Os usuários podem optar por não usar o cookie DART visitando a Política de Privacidade da rede de anúncios e conteúdo do Google."
+
+#: .\matches\templates\matches\privacy_policy.html:39
+msgid "4. Use of Information"
+msgstr "4. Uso das Informações"
+
+#: .\matches\templates\matches\privacy_policy.html:40
+msgid "The information collected is used exclusively for:"
+msgstr "As informações coletadas são usadas exclusivamente para:"
+
+#: .\matches\templates\matches\privacy_policy.html:42
+msgid "Technical maintenance and improvement of the site."
+msgstr "Manutenção técnica e melhoria do site."
+
+#: .\matches\templates\matches\privacy_policy.html:43
+msgid "Traffic analysis (Google Analytics)."
+msgstr "Análise de tráfego (Google Analytics)."
+
+#: .\matches\templates\matches\privacy_policy.html:44
+msgid "Ad personalization via advertising networks."
+msgstr "Personalização de anúncios por meio de redes de publicidade."
+
+#: .\matches\templates\matches\privacy_policy.html:49
+msgid "5. Security"
+msgstr "5. Segurança"
+
+#: .\matches\templates\matches\privacy_policy.html:50
+msgid ""
+"We employ industry-standard security measures to protect information "
+"processed on our site against unauthorized access, alteration, or "
+"destruction."
+msgstr "Empregamos medidas de segurança padrão da indústria para proteger as informações processadas em nosso site contra acesso não autorizado, alteração ou destruição."
+
+#: .\matches\templates\matches\privacy_policy.html:54
+msgid "6. Contact"
+msgstr "6. Contato"
+
+#: .\matches\templates\matches\privacy_policy.html:55
+msgid ""
+"If you have any questions about this Privacy Policy, please contact us "
+"through our official channels."
+msgstr "Se você tiver alguma dúvida sobre esta Política de Privacidade, entre em contato conosco através dos nossos canais oficiais."
+
+#: .\matches\templates\matches\streaks_snippet.html:4
+msgid "Current Streaks & Sequences"
+msgstr "Sequências e Rachas Atuais"
+
+#: .\matches\templates\matches\streaks_snippet.html:11
+msgid "CURRENT SEQUENCES"
+msgstr "SEQUÊNCIAS ATUAIS"
+
+#: .\matches\templates\matches\streaks_snippet.html:20
+msgid "Consecutive wins"
+msgstr "Vitórias consecutivas"
+
+#: .\matches\templates\matches\streaks_snippet.html:26
+msgid "Consecutive draws"
+msgstr "Empates consecutivos"
+
+#: .\matches\templates\matches\streaks_snippet.html:32
+msgid "Consecutive defeats"
+msgstr "Derrotas consecutivas"
+
+#: .\matches\templates\matches\streaks_snippet.html:58
+msgid "1 goal scored or more"
+msgstr "1 gol marcado ou mais"
+
+#: .\matches\templates\matches\streaks_snippet.html:64
+msgid "1 goal conceded or more"
+msgstr "1 gol sofrido ou mais"
+
+#: .\matches\templates\matches\streaks_snippet.html:70
+msgid "No goal scored"
+msgstr "Sem gols marcados"
+
+#: .\matches\templates\matches\streaks_snippet.html:76
+msgid "No goal conceded"
+msgstr "Sem gols sofridos"
+
+#: .\matches\templates\matches\streaks_snippet.html:82
+msgid "GF+GA over 2.5"
+msgstr "Gols Pro + Contra mais de 2.5"
+
+#: .\matches\templates\matches\streaks_snippet.html:88
+msgid "GF+GA under 2.5"
+msgstr "Gols Pro + Contra menos de 2.5"
+
+#: .\matches\templates\matches\streaks_snippet.html:94
+msgid "Scored at least twice"
+msgstr "Marcou pelo menos dois gols"
+
+#: .\matches\templates\matches\streaks_snippet.html:103
+msgid "Current Sequences table"
+msgstr "Tabela de Sequências Atuais"
+
+#: .\matches\templates\matches\streaks_snippet.html:113
+msgid "(current season vs completed previous season)"
+msgstr "(temporada atual vs temporada anterior concluída)"
+
+#: .\matches\templates\matches\streaks_snippet.html:125
+#: .\matches\templates\matches\team_detail.html:212
+msgid "D"
+msgstr ""
+
+#: .\matches\templates\matches\streaks_snippet.html:126
+#: .\matches\templates\matches\team_detail.html:213
+msgid "L"
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:21
@@ -1791,22 +2371,21 @@ msgstr ""
 #: .\matches\templates\matches\team_detail.html:36
 #: .\matches\templates\matches\team_detail.html:1095
 msgid "Sobre o"
-msgstr ""
+msgstr "Sobre o"
 
 #: .\matches\templates\matches\team_detail.html:41
 #, python-format
 msgid ""
-"O <strong>%(team_name)s</strong> é um clube de futebol profissional "
-"disputando a <strong>%(league_name)s</strong> em <strong>%(country)s</"
-"strong>."
-msgstr ""
+"O %(team_name)s é um clube de futebol profissional disputando a "
+"%(league_name)s em %(country)s."
+msgstr "O %(team_name)s é um clube de futebol profissional disputando a %(league_name)s em %(country)s."
 
 #: .\matches\templates\matches\team_detail.html:43
 #, python-format
 msgid ""
 "Na temporada atual, a equipe ocupa a <strong>%(pos)sª</strong> posição na "
 "tabela de classificação, somando um total de <strong>%(pts)s</strong> pontos."
-msgstr ""
+msgstr "Na temporada atual, a equipe ocupa a <strong>%(pos)sª</strong> posição na tabela de classificação, somando um total de <strong>%(pts)s</strong> pontos."
 
 #: .\matches\templates\matches\team_detail.html:47
 #, python-format
@@ -1814,32 +2393,32 @@ msgid ""
 "No StatsFut, você acompanha os placares ao vivo do %(team_name)s, resultados "
 "detalhados, estatísticas de posse de bola, gols, cartões, escanteios, "
 "escalações e o calendário completo da temporada."
-msgstr ""
+msgstr "No StatsFut, você acompanha os placares ao vivo do %(team_name)s, resultados detalhados, estatísticas de posse de bola, gols, cartões, escanteios, escalações e o calendário completo da temporada."
 
 #: .\matches\templates\matches\team_detail.html:51
 msgid "Desempenho Geral"
-msgstr ""
+msgstr "Desempenho Geral"
 
 #: .\matches\templates\matches\team_detail.html:56
 #, python-format
 msgid ""
 "Média de <strong>%(avg_gf)s</strong> gols marcados e <strong>%(avg_ga)s</"
 "strong> sofridos por partida."
-msgstr ""
+msgstr "Média de <strong>%(avg_gf)s</strong> gols marcados e <strong>%(avg_ga)s</strong> sofridos por partida."
 
 #: .\matches\templates\matches\team_detail.html:60
 #, python-format
 msgid ""
 "Ambas as equipes marcaram (BTTS) em <strong>%(btts)s%%</strong> dos jogos do "
 "clube."
-msgstr ""
+msgstr "Ambas as equipes marcaram (BTTS) em <strong>%(btts)s%%</strong> dos jogos do clube."
 
 #: .\matches\templates\matches\team_detail.html:67
 #, python-format
 msgid ""
 "O artilheiro do elenco nesta temporada é <strong>%(name)s</strong> com "
 "<strong>%(goals)s</strong> gols marcados."
-msgstr ""
+msgstr "O artilheiro do elenco nesta temporada é <strong>%(name)s</strong> com <strong>%(goals)s</strong> gols marcados."
 
 #: .\matches\templates\matches\team_detail.html:83
 msgid "Latest Matches"
@@ -1849,12 +2428,32 @@ msgstr ""
 msgid "Upcoming Matches"
 msgstr ""
 
+#: .\matches\templates\matches\team_detail.html:144
+#: .\matches\templates\matches\team_detail.html:157
+msgid "vs"
+msgstr ""
+
 #: .\matches\templates\matches\team_detail.html:186
 msgid "No upcoming matches scheduled."
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:202
 msgid "Seasonal Match Statistics"
+msgstr ""
+
+#: .\matches\templates\matches\team_detail.html:214
+#, python-format
+msgid "W%%"
+msgstr ""
+
+#: .\matches\templates\matches\team_detail.html:215
+#, python-format
+msgid "D%%"
+msgstr ""
+
+#: .\matches\templates\matches\team_detail.html:216
+#, python-format
+msgid "L%%"
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:295
@@ -1869,21 +2468,8 @@ msgstr ""
 msgid "Clean Sheets & Failure to Score"
 msgstr ""
 
-#: .\matches\templates\matches\team_detail.html:357
-msgid "Clean Sheets"
-msgstr ""
-
-#: .\matches\templates\matches\team_detail.html:363
-#: .\matches\templates\matches\team_detail.html:663
-msgid "Both Teams Scored"
-msgstr ""
-
 #: .\matches\templates\matches\team_detail.html:369
 msgid "Won-to-Nil"
-msgstr ""
-
-#: .\matches\templates\matches\team_detail.html:375
-msgid "Failed to Score"
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:381
@@ -1942,6 +2528,11 @@ msgstr ""
 msgid "Goals Conceded / Match"
 msgstr ""
 
+#: .\matches\templates\matches\team_detail.html:498
+#: .\matches\templates\matches\team_detail.html:501
+msgid "Current Streaks"
+msgstr ""
+
 #: .\matches\templates\matches\team_detail.html:521
 msgid "Unbeaten (No Defeat)"
 msgstr ""
@@ -1952,6 +2543,10 @@ msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:555
 msgid "Upcoming Opponents (Difficulty)"
+msgstr ""
+
+#: .\matches\templates\matches\team_detail.html:563
+msgid "Opponent"
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:564
@@ -2031,10 +2626,6 @@ msgstr ""
 msgid "Corners"
 msgstr ""
 
-#: .\matches\templates\matches\team_detail.html:768
-msgid "For"
-msgstr ""
-
 #: .\matches\templates\matches\team_detail.html:774
 msgid "Against"
 msgstr ""
@@ -2084,22 +2675,12 @@ msgstr ""
 msgid "Total Corners (For)"
 msgstr ""
 
-#: .\matches\templates\matches\team_detail.html:932
-#: .\matches\templates\matches\team_detail.html:977
-#: .\matches\templates\matches\team_detail.html:1022
-msgid "Avg"
-msgstr ""
-
 #: .\matches\templates\matches\team_detail.html:969
 msgid "Total Corners (Against)"
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:1014
 msgid "Match Corners (Total)"
-msgstr ""
-
-#: .\matches\templates\matches\team_detail.html:1072
-msgid "Yellow Cards"
 msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:1078
@@ -2111,22 +2692,22 @@ msgstr ""
 msgid ""
 "Placares ao vivo, jogadores, programação da temporada e resultados de hoje "
 "do <strong>%(team_name)s</strong> estão disponíveis no StatsFut."
-msgstr ""
+msgstr "Placares ao vivo, jogadores, programação da temporada e resultados de hoje do <strong>%(team_name)s</strong> estão disponíveis no StatsFut."
 
 #: .\matches\templates\matches\team_detail.html:1106
 msgid "Próxima partida do"
-msgstr ""
+msgstr "Próxima partida do"
 
 #: .\matches\templates\matches\team_detail.html:1109
 #, python-format
 msgid ""
 "O %(team_name)s jogará a próxima partida contra o <strong>%(opp)s</strong> "
 "no dia <strong>%(date)s</strong> pela <strong>%(league)s</strong>."
-msgstr ""
+msgstr "O %(team_name)s jogará a próxima partida contra o <strong>%(opp)s</strong> no dia <strong>%(date)s</strong> pela <strong>%(league)s</strong>."
 
 #: .\matches\templates\matches\team_detail.html:1116
 msgid "Partida anterior do"
-msgstr ""
+msgstr "Partida anterior do"
 
 #: .\matches\templates\matches\team_detail.html:1119
 #, python-format
@@ -2134,24 +2715,24 @@ msgid ""
 "O jogo anterior do %(team_name)s foi contra o <strong>%(opp)s</strong> pela "
 "<strong>%(league)s</strong>, terminando com o placar de <strong>%(score)s</"
 "strong>."
-msgstr ""
+msgstr "O jogo anterior do %(team_name)s foi contra o <strong>%(opp)s</strong> pela <strong>%(league)s</strong>, terminando com o placar de <strong>%(score)s</strong>."
 
 #: .\matches\templates\matches\team_detail.html:1121
 #, python-format
 msgid "O <strong>%(team_name)s</strong> saiu vencedor desse confronto."
-msgstr ""
+msgstr "O <strong>%(team_name)s</strong> saiu vencedor desse confronto."
 
 #: .\matches\templates\matches\team_detail.html:1123
 msgid "A equipe acabou sendo derrotada."
-msgstr ""
+msgstr "A equipe acabou sendo derrotada."
 
 #: .\matches\templates\matches\team_detail.html:1125
 msgid "A partida terminou empatada."
-msgstr ""
+msgstr "A partida terminou empatada."
 
 #: .\matches\templates\matches\team_detail.html:1132
 msgid "Gráfico de desempenho e forma"
-msgstr ""
+msgstr "Gráfico de desempenho e forma"
 
 #: .\matches\templates\matches\team_detail.html:1134
 #, python-format
@@ -2160,19 +2741,87 @@ msgid ""
 "algoritmo exclusivo do StatsFut que geramos a partir das últimas partidas, "
 "estatísticas de gols, finalizações e escanteios. Ele ajuda a entender a "
 "tendência atual da equipe e a projetar os próximos confrontos."
-msgstr ""
+msgstr "O gráfico de desempenho e forma do <strong>%(team_name)s</strong> é um algoritmo exclusivo do StatsFut que geramos a partir das últimas partidas, estatísticas de gols, finalizações e escanteios. Ele ajuda a entender a tendência atual da equipe e a projetar os próximos confrontos."
 
 #: .\matches\templates\matches\team_detail.html:1139
 msgid "Jogadores atuais do"
-msgstr ""
+msgstr "Jogadores atuais do"
 
 #: .\matches\templates\matches\team_detail.html:1142
 msgid "Elenco"
-msgstr ""
+msgstr "Elenco"
 
 #: .\matches\templates\matches\team_detail.html:1144
 msgid "anos"
+msgstr "anos"
+
+#: .\matches\templates\matches\terms_of_use.html:17
+msgid "1. Acceptance of Terms"
+msgstr "1. Aceitação dos Termos"
+
+#: .\matches\templates\matches\terms_of_use.html:18
+msgid ""
+"By accessing and using the StatsFut website (statsfut.com), you agree to "
+"comply with and be bound by the following terms and conditions of use. If "
+"you do not agree with any part of these terms, you must not use our website."
+msgstr "Ao acessar e usar o site StatsFut (statsfut.com), você concorda em cumprir e ser regido pelos seguintes termos e condições de uso. Se você não concordar com qualquer parte destes termos, não deverá usar nosso site."
+
+#: .\matches\templates\matches\terms_of_use.html:22
+msgid "2. Use of Content"
 msgstr ""
+
+#: .\matches\templates\matches\terms_of_use.html:23
+msgid ""
+"All content provided on StatsFut (statistics, analysis, charts) is for "
+"informational purposes only. The use of robots, scrapers, or other automated "
+"tools to extract data from the site without prior authorization is strictly "
+"prohibited."
+msgstr ""
+
+#: .\matches\templates\matches\terms_of_use.html:27
+msgid "3. Disclaimer"
+msgstr "3. Isenção de Responsabilidade"
+
+#: .\matches\templates\matches\terms_of_use.html:28
+msgid ""
+"While we strive to ensure data accuracy, StatsFut does not guarantee that "
+"the information is free of errors or omissions. We are not responsible for "
+"financial losses or decisions made based on the information contained on "
+"this site. Football is unpredictable, and past statistics do not guarantee "
+"future results."
+msgstr "Embora nos esforcemos para garantir a precisão dos dados, o StatsFut não garante que as informações estejam livres de erros ou omissões. Não nos responsabilizamos por perdas financeiras ou decisões tomadas com base nas informações contidas neste site. O futebol é imprevisível e estatísticas passadas não garantem resultados futuros."
+
+#: .\matches\templates\matches\terms_of_use.html:32
+msgid "4. Intellectual Property"
+msgstr "4. Propriedade Intelectual"
+
+#: .\matches\templates\matches\terms_of_use.html:33
+msgid ""
+"The design, layout, logos, and original texts of StatsFut are intellectual "
+"property protected by copyright laws. Unauthorized reproduction of material "
+"from this site is prohibited."
+msgstr "O design, layout, logotipos e textos originais do StatsFut são propriedade intelectual protegida pelas leis de direitos autorais. A reprodução não autorizada do material deste site é proibida."
+
+#: .\matches\templates\matches\terms_of_use.html:37
+msgid "5. Third-Party Links"
+msgstr "5. Links de Terceiros"
+
+#: .\matches\templates\matches\terms_of_use.html:38
+msgid ""
+"Our site may contain links to third-party websites (such as advertisers or "
+"partners). We have no control over the content or privacy practices of those "
+"sites and assume no responsibility for them."
+msgstr "Nosso site pode conter links para sites de terceiros (como anunciantes ou parceiros). Não temos controle sobre o conteúdo ou práticas de privacidade desses sites e não assumimos qualquer responsabilidade por eles."
+
+#: .\matches\templates\matches\terms_of_use.html:42
+msgid "6. Changes to Terms"
+msgstr "6. Alterações nos Termos"
+
+#: .\matches\templates\matches\terms_of_use.html:43
+msgid ""
+"StatsFut reserves the right to modify these terms at any time without prior "
+"notice. We recommend periodic review of this page."
+msgstr "O StatsFut reserva-se o direito de modificar estes termos a qualquer momento, sem aviso prévio. Recomendamos a revisão periódica desta página."
 
 #: .\matches\views.py:441
 msgid "Tomorrow's Matches"
@@ -2185,7 +2834,7 @@ msgstr ""
 #: .\members\forms.py:10 .\members\templates\members\login.html:49
 #: .\members\templates\members\register.html:58
 msgid "Username"
-msgstr ""
+msgstr "Usuário"
 
 #: .\members\forms.py:13
 msgid "Your username"
@@ -2194,7 +2843,7 @@ msgstr ""
 #: .\members\forms.py:19 .\members\templates\members\login.html:56
 #: .\members\templates\members\register.html:73
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: .\members\forms.py:22
 msgid "Your password"
@@ -2202,7 +2851,7 @@ msgstr ""
 
 #: .\members\forms.py:31 .\members\templates\members\register.html:66
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: .\members\forms.py:35
 msgid "your@email.com"
@@ -2227,15 +2876,15 @@ msgstr ""
 
 #: .\members\templates\members\login.html:21
 msgid "Welcome Back"
-msgstr ""
+msgstr "Bem-vindo de volta"
 
 #: .\members\templates\members\login.html:22
 msgid "Sign in to access your premium stats"
-msgstr ""
+msgstr "Faça login para acessar suas estatísticas premium"
 
 #: .\members\templates\members\login.html:39
 msgid "Invalid username or password. Please try again."
-msgstr ""
+msgstr "Usuário ou senha inválidos. Por favor, tente novamente."
 
 #: .\members\templates\members\login.html:62
 #: .\members\templates\members\register.html:102
@@ -2245,18 +2894,18 @@ msgstr ""
 #: .\members\templates\members\login.html:69
 #: .\members\templates\members\register.html:94
 msgid "OR"
-msgstr ""
+msgstr "OU"
 
 #: .\members\templates\members\login.html:75
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Não tem uma conta?"
 
 #: .\members\templates\members\login.html:77
 #: .\members\templates\members\register.html:4
 #: .\members\templates\members\register.html:8
 #: .\members\templates\members\register.html:87
 msgid "Create Account"
-msgstr ""
+msgstr "Conta Gratuita"
 
 #: .\members\templates\members\partials\ticket_card.html:12
 msgid "Total Odd"
@@ -2539,13 +3188,6 @@ msgstr ""
 msgid "Winner & Specials"
 msgstr ""
 
-#: .\members\templates\members\premium_dashboard.html:132
-#: .\members\templates\members\premium_dashboard.html:668
-#: .\members\templates\members\premium_dashboard.html:738
-#: .\scratch\dashboard_current.html:134
-msgid "Shots"
-msgstr ""
-
 #: .\members\templates\members\premium_dashboard.html:151
 #: .\scratch\dashboard_current.html:152
 msgid "Goals Markets"
@@ -2579,11 +3221,6 @@ msgstr ""
 #: .\scratch\dashboard_current.html:375 .\scratch\dashboard_current.html:426
 #: .\scratch\dashboard_current.html:477
 msgid "No matches met the criteria today."
-msgstr ""
-
-#: .\members\templates\members\premium_dashboard.html:222
-#: .\members\views.py:365 .\scratch\dashboard_current.html:197
-msgid "Both Teams to Score"
 msgstr ""
 
 #: .\members\templates\members\premium_dashboard.html:278
@@ -2860,27 +3497,27 @@ msgstr ""
 
 #: .\members\templates\members\register.html:21
 msgid "Join StatsFut"
-msgstr ""
+msgstr "Cadastrar no StatsFut"
 
 #: .\members\templates\members\register.html:22
 msgid "Create your account and unlock advanced analytics"
-msgstr ""
+msgstr "Crie sua conta e libere estatísticas avançadas"
 
 #: .\members\templates\members\register.html:61
 msgid "Letters, digits and @/./+/-/_ only."
-msgstr ""
+msgstr "Apenas letras, números e @/./+/-/_ ."
 
 #: .\members\templates\members\register.html:76
 msgid "At least 8 characters."
-msgstr ""
+msgstr "Pelo menos 8 caracteres."
 
 #: .\members\templates\members\register.html:81
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirmar Senha"
 
 #: .\members\templates\members\register.html:100
 msgid "Already have an account?"
-msgstr ""
+msgstr "Já tem uma conta?"
 
 #: .\members\views.py:24
 #, python-format
@@ -3177,4 +3814,1210 @@ msgstr ""
 msgid ""
 "We are constantly adding new premium analytics tools. Stay tuned for live "
 "alerts, value bet detection, and more."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\venv\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:104
+#: .\venv\Lib\site-packages\django\forms\fields.py:760
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:165
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:176
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\venv\Lib\site-packages\django\core\validators.py:259
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:267
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:279
+#: .\venv\Lib\site-packages\django\core\validators.py:306
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:286
+#: .\venv\Lib\site-packages\django\core\validators.py:307
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:298
+#: .\venv\Lib\site-packages\django\core\validators.py:305
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:341
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:347
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:382
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:391
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:400
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:407
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:439
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:457
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:480
+#: .\venv\Lib\site-packages\django\forms\fields.py:355
+#: .\venv\Lib\site-packages\django\forms\fields.py:394
+msgid "Enter a number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:482
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:487
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:492
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:563
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:624
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1473
+#: .\venv\Lib\site-packages\django\forms\models.py:902
+msgid "and"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1475
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\constraints.py:20
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:133
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:140
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:179
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1150
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1151
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1153
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1203
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1205
+msgid "String (unlimited)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1309
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1410
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1414
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1549
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1418
+msgid "Date (without time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1545
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1553
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1558
+msgid "Date (with time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1685
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1687
+msgid "Decimal number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1848
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1852
+msgid "Duration"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1904
+msgid "Email address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1929
+msgid "File path"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2007
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2009
+msgid "Floating point number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2049
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2051
+msgid "Integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2147
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2164
+msgid "Small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2172
+msgid "IPv4 address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2203
+msgid "IP address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2296
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2297
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2299
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2350
+msgid "Positive big integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2365
+msgid "Positive integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2380
+msgid "Positive small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2396
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2432
+msgid "Text"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2507
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2511
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2515
+msgid "Time"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2623
+msgid "URL"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2647
+msgid "Raw binary data"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2712
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2714
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
+msgid "File"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
+msgid "Image"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "A JSON object"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:28
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:939
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:941
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1235
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1292
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1294
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1342
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:304
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:475
+#: .\venv\Lib\site-packages\django\forms\fields.py:1252
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:498
+#: .\venv\Lib\site-packages\django\forms\fields.py:1253
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:525
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:559
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:560
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:629
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:630
+msgid "No file was submitted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:631
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:633
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:638
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:702
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:874
+#: .\venv\Lib\site-packages\django\forms\fields.py:960
+#: .\venv\Lib\site-packages\django\forms\models.py:1581
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:962
+#: .\venv\Lib\site-packages\django\forms\fields.py:1081
+#: .\venv\Lib\site-packages\django\forms\models.py:1579
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1082
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1321
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1351
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\venv\Lib\site-packages\django\forms\forms.py:94
+msgid ":"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\forms.py:231
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:484
+#: .\venv\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:895
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:900
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:907
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:916
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1353
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1444
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1583
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\utils.py:227
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:457
+msgid "Clear"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:458
+msgid "Currently"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:459
+msgid "Change"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:796
+msgid "Unknown"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:875
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:905
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:932
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:73
+msgid "p.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
+msgid "a.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:79
+msgid "PM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+msgid "AM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:152
+msgid "midnight"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:154
+msgid "noon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:70
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:270
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\venv\Lib\site-packages\django\utils\text.py:289
+#: .\venv\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
+"\" …> for links to third-party sites."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:349
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:48
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:50
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:67
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:220
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:221
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
+"\">DEBUG=True</a> is in your settings file and you have not configured any "
+"URLs."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:229
+msgid "Django Documentation"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:230
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:238
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:239
+msgid "Get started with Django"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:247
+msgid "Django Community"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:248
+msgid "Connect, get help, or contribute"
 msgstr ""

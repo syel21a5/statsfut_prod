@@ -38,7 +38,7 @@
                     <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
                         <div class="col-md-7">
                             <p class="mb-2">
-                                {% blocktranslate with team_name=team.name league_name=league.name country=league.country|country_en %}O <strong>{{ team_name }}</strong> é um clube de futebol profissional disputando a <strong>{{ league_name }}</strong> em <strong>{{ country }}</strong>.{% endblocktranslate %}
+                                {% blocktranslate with team_name=team.name league_name=league.name country=league.country|country_en %}O {{ team_name }} é um clube de futebol profissional disputando a {{ league_name }} em {{ country }}.{% endblocktranslate %}
                                 {% if standing %}
                                     {% blocktranslate with pos=standing.position pts=standing.points %}Na temporada atual, a equipe ocupa a <strong>{{ pos }}ª</strong> posição na tabela de classificação, somando um total de <strong>{{ pts }}</strong> pontos.{% endblocktranslate %}
                                 {% endif %}
@@ -87,10 +87,10 @@
                                 <table class="table table-dark table-sm mb-0 text-center small align-middle">
                                     <thead class="sticky-top bg-dark">
                                         <tr class="text-secondary">
-                                            <th>Date</th>
-                                            <th class="text-end">Home</th>
+                                            <th>{% translate "Date" %}</th>
+                                            <th class="text-end">{% translate "Home" %}</th>
                                             <th>{% translate "Score" %}</th>
-                                            <th class="text-start">Away</th>
+                                            <th class="text-start">{% translate "Away" %}</th>
                                             <th>H2H</th>
                                         </tr>
                                     </thead>
@@ -139,10 +139,10 @@
                                 <table class="table table-dark table-sm mb-0 text-center small align-middle">
                                     <thead class="sticky-top bg-dark">
                                         <tr class="text-secondary">
-                                            <th>Date</th>
-                                            <th class="text-end">Home</th>
-                                            <th>vs</th>
-                                            <th class="text-start">Away</th>
+                                            <th>{% translate "Date" %}</th>
+                                            <th class="text-end">{% translate "Home" %}</th>
+                                            <th>{% translate "vs" %}</th>
+                                            <th class="text-start">{% translate "Away" %}</th>
                                             <th>H2H</th>
                                         </tr>
                                     </thead>
@@ -154,7 +154,7 @@
                                                 class="text-end {% if m.home_team == team %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                                 {{ m.home_team.name }}
                                             </td>
-                                            <td class="text-muted">vs</td>
+                                            <td class="text-muted">{% translate "vs" %}</td>
                                             <td
                                                 class="text-start {% if m.away_team == team %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                                 {{ m.away_team.name }}
@@ -207,13 +207,13 @@
                                     <thead>
                                         <tr class="text-secondary">
                                             <th></th>
-                                            <th>GP</th>
-                                            <th>W</th>
-                                            <th>D</th>
-                                            <th>L</th>
-                                            <th>W%</th>
-                                            <th>D%</th>
-                                            <th>L%</th>
+                                            <th>{% translate "GP" %}</th>
+                                            <th>{% translate "W" %}</th>
+                                            <th>{% translate "D" %}</th>
+                                            <th>{% translate "L" %}</th>
+                                            <th>{% translate "W%" %}</th>
+                                            <th>{% translate "D%" %}</th>
+                                            <th>{% translate "L%" %}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -299,7 +299,7 @@
                                 <thead>
                                     <tr class="text-secondary">
                                         <th></th>
-                                        <th>All</th>
+                                        <th>{% translate "All" %}</th>
                                         <th>{% translate "Last 8" %}</th>
                                         <th>{% translate "Diff" %}</th>
                                     </tr>
@@ -347,9 +347,9 @@
                                 <thead>
                                     <tr class="text-secondary">
                                         <th></th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                        <th>All</th>
+                                        <th>{% translate "Home" %}</th>
+                                        <th>{% translate "Away" %}</th>
+                                        <th>{% translate "All" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -495,19 +495,19 @@
                         </div>
                     </div>
 
-                    <!-- 6. Current Streaks -->
+                    <!-- 6. {% translate "Current Streaks" %} -->
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
-                            <h6 class="mb-0 fw-bold small text-uppercase">Current Streaks</h6>
+                            <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Current Streaks" %}</h6>
                         </div>
                         <div class="card-body p-0">
                             <table class="table table-dark table-sm mb-0 text-center small">
                                 <thead>
                                     <tr class="text-secondary">
                                         <th class="text-start ps-3">Sequence</th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                        <th>Total</th>
+                                        <th>{% translate "Home" %}</th>
+                                        <th>{% translate "Away" %}</th>
+                                        <th>{% translate "Total" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -560,7 +560,7 @@
                                     <thead>
                                         <tr class="text-secondary">
                                             <th class="text-start ps-3">Date</th>
-                                            <th class="text-start">Opponent</th>
+                                            <th class="text-start">{% translate "Opponent" %}</th>
                                             <th>{% translate "Venue" %}</th>
                                             <th>{% translate "Strength (PPG)" %}</th>
                                             <th>{% translate "Difficulty" %}</th>
@@ -629,9 +629,9 @@
                                 <thead>
                                     <tr class="text-secondary">
                                         <th></th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                        <th>Total</th>
+                                        <th>{% translate "Home" %}</th>
+                                        <th>{% translate "Away" %}</th>
+                                        <th>{% translate "Total" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -729,9 +729,9 @@
                                         <thead>
                                             <tr class="text-secondary">
                                                 <th class="text-start ps-3">Type</th>
-                                                <th>Home</th>
-                                                <th>Away</th>
-                                                <th>Total</th>
+                                                <th>{% translate "Home" %}</th>
+                                                <th>{% translate "Away" %}</th>
+                                                <th>{% translate "Total" %}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -758,9 +758,9 @@
                                         <thead>
                                             <tr class="text-secondary">
                                                 <th class="text-start ps-3">Type</th>
-                                                <th>Home</th>
-                                                <th>Away</th>
-                                                <th>Total</th>
+                                                <th>{% translate "Home" %}</th>
+                                                <th>{% translate "Away" %}</th>
+                                                <th>{% translate "Total" %}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -805,7 +805,7 @@
                                     <tr class="text-secondary">
                                         <th>#</th>
                                         <th class="text-start">Team</th>
-                                        <th>GP</th>
+                                        <th>{% translate "GP" %}</th>
                                         <th>Pts</th>
                                         <th>H</th>
                                         <th>A</th>

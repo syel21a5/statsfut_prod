@@ -199,8 +199,8 @@
     {% if match.goals.all or match.home_corners is not None %}
     <div class="match-report-section mb-4">
         <div class="report-tabs">
-            <div class="tab-item active" onclick="switchTab('timeline')">TIMELINE</div>
-            <div class="tab-item" onclick="switchTab('stats')">MATCH STATS</div>
+            <div class="tab-item active" onclick="switchTab('timeline')">{% translate "TIMELINE" %}</div>
+            <div class="tab-item" onclick="switchTab('stats')">{% translate "MATCH STATS" %}</div>
         </div>
 
         <div class="report-content" id="timeline-content">
@@ -216,7 +216,7 @@
                     </div>
                 </div>
                 {% empty %}
-                <div class="text-center py-4 text-muted small">No goal events recorded</div>
+                <div class="text-center py-4 text-muted small">{% translate "No goal events recorded" %}</div>
                 {% endfor %}
             </div>
         </div>
@@ -225,7 +225,7 @@
             <div class="real-stats-grid">
                 {% with h=match.home_corners|default:0 a=match.away_corners|default:0 %}
                 <div class="stat-compare-row">
-                    <div class="s-label">Corner Kicks</div>
+                    <div class="s-label">{% translate "Corner Kicks" %}</div>
                     <div class="s-bar-wrap">
                         <span class="v h">{{ h }}</span>
                         <div class="s-bar">
@@ -238,7 +238,7 @@
 
                 {% with h=match.home_shots|default:0 a=match.away_shots|default:0 %}
                 <div class="stat-compare-row">
-                    <div class="s-label">Total Shots</div>
+                    <div class="s-label">{% translate "Total Shots" %}</div>
                     <div class="s-bar-wrap">
                         <span class="v h">{{ h }}</span>
                         <div class="s-bar">
@@ -250,7 +250,7 @@
                 {% endwith %}
 
                 <div class="stat-compare-row">
-                    <div class="s-label">Yellow Cards</div>
+                    <div class="s-label">{% translate "Yellow Cards" %}</div>
                     <div class="s-bar-wrap">
                         <span class="v h">{{ match.home_yellow|default:0 }}</span>
                         <div class="s-bar card-bar">
@@ -604,18 +604,20 @@
         <!-- SMART LAY BETS -->
         <div class="analytic-board mb-4" style="border-color: rgba(239, 68, 68, 0.4);">
             <div class="board-header" style="background: linear-gradient(90deg, #7f1d1d, #991b1b);">
-                <i class="fa-solid fa-bolt"></i> SMART LAY BETS (EXCHANGE)
+                <i class="fa-solid fa-bolt"></i> {% translate "SMART LAY BETS (EXCHANGE)" %}
             </div>
             <div class="board-body" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
                 <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">
+                    {% blocktranslate trimmed %}
                     Betting <strong>AGAINST</strong> these outcomes has a high statistical probability of success based on recent data.
+                    {% endblocktranslate %}
                 </p>
                 <div class="sugg-list">
                     {% for lay in advanced_stats.lay_bets %}
                     <div class="sugg-item" style="border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.75rem; border-radius: 8px; background: rgba(239, 68, 68, 0.05); margin-bottom: 0.5rem;">
                         <span class="market" style="color: #fca5a5; font-size: 1rem; min-width: 150px; font-weight: 800;"><i class="fa-solid fa-xmark me-1"></i> {{ lay.market }}</span>
                         <span style="font-size: 0.75rem; color: var(--text-muted); flex: 1; text-align: center;">{{ lay.reason }}</span>
-                        <span class="perc" style="font-size: 1.1rem; color: #fff; text-align: right; min-width: 100px;">{{ lay.prob }}% <br><small style="font-size:0.5rem; color:#fca5a5; text-transform:uppercase; letter-spacing:1px;">Success Chance</small></span>
+                        <span class="perc" style="font-size: 1.1rem; color: #fff; text-align: right; min-width: 100px;">{{ lay.prob }}% <br><small style="font-size:0.5rem; color:#fca5a5; text-transform:uppercase; letter-spacing:1px;">{% translate "Success Chance" %}</small></span>
                     </div>
                     {% endfor %}
                 </div>

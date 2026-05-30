@@ -93,6 +93,10 @@ class MatchAnalyzer:
         return {'home': home_form, 'away': away_form}
 
     def _eval_strength(self, avg_goals):
+        # Force makemessages to extract these keys
+        _('Strong')
+        _('Average')
+        _('Weak')
         if avg_goals >= 1.6:
             return "Strong"
         elif avg_goals >= 1.0:

@@ -17,13 +17,13 @@
                     </div>
                     <div>
                         <h2 class="text-white fw-black mb-0 tracking-tight" style="font-size: 1.7rem;">
-                            Elite Statistics <span class="text-indigo-400">—</span> {{ league.name }}
+                            {% translate "Elite Statistics" %} <span class="text-indigo-400">—</span> {{ league.name }}
                         </h2>
                         <div class="d-flex align-items-center gap-2 mt-1.5">
                             <span class="badge bg-indigo-950 text-indigo-300 border border-indigo-800 px-3 py-1.5" style="border-radius: 8px; font-weight: 700; font-size: 0.8rem;">
-                                <i class="fa-solid fa-calendar-days me-1.5"></i>{{ season.year }} Season
+                                <i class="fa-solid fa-calendar-days me-1.5"></i>{{ season.year }} {% translate "Season" %}
                             </span>
-                            <span class="text-slate-400 small fw-medium">| Advanced metrics per match across all teams</span>
+                            <span class="text-slate-400 small fw-medium">| {% translate "Advanced metrics per match across all teams" %}</span>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                             <i class="fa-solid fa-flag fs-6"></i>
                         </div>
                         <div>
-                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">Corners (Avg)</span>
+                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Corners (Avg)" %}</span>
                             <span class="metric-value text-white fw-black fs-5" style="line-height: 1.1;">{{ league_avg_corners|default:"0" }}</span>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                             <i class="fa-solid fa-copy fs-6"></i>
                         </div>
                         <div>
-                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">Yellows (Avg)</span>
+                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Yellows (Avg)" %}</span>
                             <span class="metric-value text-white fw-black fs-5" style="line-height: 1.1;">{{ league_avg_yellow|default:"0" }}</span>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                             <i class="fa-solid fa-circle-play fs-6"></i>
                         </div>
                         <div>
-                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">Total Goals</span>
+                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Total Goals" %}</span>
                             <span class="metric-value text-white fw-black fs-5" style="line-height: 1.1;">{{ total_goals|default:"0" }}</span>
                         </div>
                     </div>
@@ -69,13 +69,13 @@
         <!-- LEFT COLUMN: Corners & Discipline -->
         <div class="col-xl-6 col-lg-6 d-flex flex-column gap-4">
             
-            <!-- Corners Performance Ranking -->
+            <!-- {% translate "Corners Performance Ranking" %} -->
             <div class="custom-card d-flex flex-column">
                 <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3 d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-flag text-info"></i> Corners Performance Ranking
+                        <i class="fa-solid fa-flag text-info"></i> {% translate "Corners Performance Ranking" %}
                     </h5>
-                    <span class="badge bg-slate-800 text-slate-400 small px-2.5 py-1" style="font-weight: 700;">Avg per Match</span>
+                    <span class="badge bg-slate-800 text-slate-400 small px-2.5 py-1" style="font-weight: 700;">{% translate "Avg per Match" %}</span>
                 </div>
                 <div class="card-body p-1 overflow-auto custom-scrollbar" style="max-height: 375px;">
                     <div class="d-flex flex-column gap-1">
@@ -89,20 +89,20 @@
                                     <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white fw-bold hover-primary" style="font-size: 0.88rem;">
                                         {{ s.team.name }}
                                     </a>
-                                    <span class="text-slate-500 d-block" style="font-size: 0.68rem;">{{ s.gp }} matches</span>
+                                    <span class="text-slate-500 d-block" style="font-size: 0.68rem;">{{ s.gp }} {% translate "matches" %}</span>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 flex-wrap mt-2 mt-sm-0">
                                 <div class="stat-pill-badge-sm for-badge">
-                                    <span class="label"><i class="fa-solid fa-arrow-up-long text-success me-1"></i>For</span>
+                                    <span class="label"><i class="fa-solid fa-arrow-up-long text-success me-1"></i>{% translate "For" %}</span>
                                     <span class="value">{{ s.avg_corners_for }}</span>
                                 </div>
                                 <div class="stat-pill-badge-sm against-badge">
-                                    <span class="label"><i class="fa-solid fa-arrow-down-long text-danger me-1"></i>Ag</span>
+                                    <span class="label"><i class="fa-solid fa-arrow-down-long text-danger me-1"></i>{% translate "Ag" %}</span>
                                     <span class="value">{{ s.avg_corners_against }}</span>
                                 </div>
                                 <div class="stat-pill-badge-sm total-badge">
-                                    <span class="label"><i class="fa-solid fa-flag text-info me-1"></i>Tot</span>
+                                    <span class="label"><i class="fa-solid fa-flag text-info me-1"></i>{% translate "Tot" %}</span>
                                     <span class="value">{{ s.avg_corners_total }}</span>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                         {% empty %}
                         <div class="text-center py-5 text-slate-400">
                             <i class="fa-solid fa-circle-exclamation fs-3 mb-2 d-block text-warning"></i>
-                            No corner data available yet. Processing matches...
+                            {% translate "No corner data available yet. Processing matches..." %}
                         </div>
                         {% endfor %}
                     </div>
@@ -121,7 +121,7 @@
             <div class="custom-card">
                 <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
                     <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-copy text-warning"></i> Cards Averages
+                        <i class="fa-solid fa-copy text-warning"></i> {% translate "Cards Averages" %}
                     </h5>
                 </div>
                 <div class="card-body p-1 overflow-auto custom-scrollbar" style="max-height: 375px;">
@@ -160,7 +160,7 @@
             <div class="custom-card">
                 <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
                     <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-clock text-info"></i> Goal Minutes Distribution
+                        <i class="fa-solid fa-clock text-info"></i> {% translate "Goal Minutes Distribution" %}
                     </h5>
                 </div>
                 <div class="card-body p-4">
@@ -169,7 +169,7 @@
                         <div>
                             <div class="d-flex justify-content-between text-white small mb-1.5">
                                 <span class="fw-bold">{{ t.period }}</span>
-                                <span class="text-slate-300">{{ t.count }} gols <span class="text-slate-500">•</span> <strong class="text-info">{{ t.pct }}%</strong></span>
+                                <span class="text-slate-300">{{ t.count }} {% translate "goals" %} <span class="text-slate-500">•</span> <strong class="text-info">{{ t.pct }}%</strong></span>
                             </div>
                             <div class="progress custom-progress">
                                 <div class="progress-bar bg-info-gradient progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ t.pct }}%" aria-valuenow="{{ t.pct }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -178,7 +178,7 @@
                         {% empty %}
                         <div class="text-center py-5 text-slate-400">
                             <i class="fa-solid fa-clock-rotate-left fs-3 mb-2 d-block text-slate-500"></i>
-                            Nenhum dado de minuto de gol disponível.
+                            {% translate "No goal minute data available." %}
                         </div>
                         {% endfor %}
                     </div>
@@ -189,7 +189,7 @@
             <div class="custom-card d-flex flex-column">
                 <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
                     <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-fire text-warning"></i> League Top Scorers
+                        <i class="fa-solid fa-fire text-warning"></i> {% translate "League Top Scorers" %}
                     </h5>
                 </div>
                 <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 375px;">
@@ -207,11 +207,11 @@
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <span class="badge bg-primary-gradient text-white fw-black px-2 py-1 rounded-3" style="font-size: 0.78rem; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.35);">
-                                    {{ p.goals_count }} Gols
+                                    {{ p.goals_count }} {% translate "Goals" %}
                                 </span>
                                 {% if p.penalties > 0 %}
                                 <span class="badge bg-slate-800 text-slate-300 border border-slate-700 px-2 py-1.5 rounded-3" style="font-size: 0.7rem;">
-                                    {{ p.penalties }} Pen.
+                                    {{ p.penalties }} {% translate "Pen." %}
                                 </span>
                                 {% endif %}
                             </div>
@@ -219,7 +219,7 @@
                         {% empty %}
                         <div class="text-center py-5 text-slate-400">
                             <i class="fa-solid fa-ranking-star fs-3 mb-2 d-block text-slate-500"></i>
-                            Nenhum artilheiro registrado para a temporada atual.
+                            {% translate "No top scorer registered for the current season." %}
                         </div>
                         {% endfor %}
                     </div>
@@ -230,7 +230,7 @@
             <div class="custom-card">
                 <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
                     <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-bullseye text-danger"></i> Offensive Shots (Avg)
+                        <i class="fa-solid fa-bullseye text-danger"></i> {% translate "Offensive Shots (Avg)" %}
                     </h5>
                 </div>
                 <div class="card-body p-1 overflow-auto custom-scrollbar" style="max-height: 375px;">
@@ -246,7 +246,7 @@
                             
                             <div class="d-flex align-items-center gap-3">
                                 <div class="stat-pill-badge for-badge" style="border-color: rgba(239, 68, 68, 0.25);">
-                                    <span class="label" style="font-size: 0.75rem;"><i class="fa-solid fa-crosshairs text-danger me-1"></i> Shots</span>
+                                    <span class="label" style="font-size: 0.75rem;"><i class="fa-solid fa-crosshairs text-danger me-1"></i> {% translate "Shots" %}</span>
                                     <span class="value" style="background: rgba(239, 68, 68, 0.15); color: #f87171 !important;">{{ s.avg_shots }}</span>
                                 </div>
                             </div>
