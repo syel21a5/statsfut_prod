@@ -58,8 +58,8 @@ def logout_view(request):
     return redirect('matches:home')
 
 
-@login_required(login_url='members:login')
 @never_cache
+@login_required(login_url='members:login')
 def profile_view(request):
     """Página de perfil do usuário."""
     return render(request, 'members/profile.html')
@@ -73,8 +73,8 @@ from zoneinfo import ZoneInfo
 
 from matches.services.advanced_stats import MatchAnalyzer
 
-@login_required(login_url='members:login')
 @never_cache
+@login_required(login_url='members:login')
 def premium_dashboard(request):
     """Dashboard premium: Scanner Inteligente das Melhores Oportunidades do Dia."""
     is_premium = False
