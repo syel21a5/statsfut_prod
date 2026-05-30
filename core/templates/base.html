@@ -122,37 +122,20 @@
             <!-- User / Date / Language -->
             <div class="d-flex align-items-center gap-3">
                 <!-- Language Switcher -->
-                <div class="language-switcher d-flex gap-2 me-2">
-                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                        <button name="language" value="pt-br" class="btn btn-link p-0 border-0 shadow-none" title="Português">
-                            <span class="fi fi-br" style="font-size: 1.1rem; border-radius: 2px;"></span>
-                        </button>
-                    </form>
-                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                        <button name="language" value="en" class="btn btn-link p-0 border-0 shadow-none" title="English">
-                            <span class="fi fi-us" style="font-size: 1.1rem; border-radius: 2px;"></span>
-                        </button>
-                    </form>
-
-                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                        <button name="language" value="es" class="btn btn-link p-0 border-0 shadow-none" title="Español">
-                            <span class="fi fi-es" style="font-size: 1.1rem; border-radius: 2px;"></span>
-                        </button>
-                    </form>
-                    <form action="{% url 'set_language' %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                        <button name="language" value="de" class="btn btn-link p-0 border-0 shadow-none" title="Deutsch">
-                            <span class="fi fi-de" style="font-size: 1.1rem; border-radius: 2px;"></span>
-                        </button>
-                    </form>
-                </div>
+                <div class="language-switcher d-flex gap-3 me-2">
+                    <a href="{% url 'set_language' %}?language=pt-br&next={{ request.get_full_path }}" class="d-inline-block" title="Português">
+                        <span class="fi fi-br" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                    <a href="{% url 'set_language' %}?language=en&next={{ request.get_full_path }}" class="d-inline-block" title="English">
+                        <span class="fi fi-us" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                    <a href="{% url 'set_language' %}?language=es&next={{ request.get_full_path }}" class="d-inline-block" title="Español">
+                        <span class="fi fi-es" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                    <a href="{% url 'set_language' %}?language=de&next={{ request.get_full_path }}" class="d-inline-block" title="Deutsch">
+                        <span class="fi fi-de" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                </div>v>
 
                 <div class="date-badge d-none d-md-inline-block">
                     <i class="fa-regular fa-clock me-1"></i> {% now "M d, Y, H:i" %}
