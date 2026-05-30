@@ -109,16 +109,16 @@ class Command(BaseCommand):
                             hedge_favorito_opts.append({'match': m, 'market': 'away_win', 'label': f'Hedge - Vitória do {m.away_team.name}', 'prob': int(100/m.away_team_win_odds)})
 
                 # 11. Trixie Candidates (Value Bets)
-                # Trixie requires odds between 1.50 and 2.20, which naturally have lower probabilities (around 45-65%).
-                # We accept >= 55% to find high-value selections that match the odd criteria.
-                if home_win >= 55:
+                # Trixie requires odds between 1.50 and 2.20. Our algorithm's probabilities for this range
+                # are typically between 40% and 55%. We use >= 45% to capture these value bets.
+                if home_win >= 45:
                     trixie_candidates.append({'match': m, 'market': 'home_win', 'label': f'Vitória do {m.home_team.name}', 'prob': home_win})
-                elif away_win >= 55:
+                elif away_win >= 45:
                     trixie_candidates.append({'match': m, 'market': 'away_win', 'label': f'Vitória do {m.away_team.name}', 'prob': away_win})
                 
-                if double_home >= 65:
+                if double_home >= 45:
                     trixie_candidates.append({'match': m, 'market': 'double_chance_1x', 'label': f'1X - {m.home_team.name} ou Empate', 'prob': double_home})
-                elif double_away >= 65:
+                elif double_away >= 45:
                     trixie_candidates.append({'match': m, 'market': 'double_chance_x2', 'label': f'X2 - {m.away_team.name} ou Empate', 'prob': double_away})
 
             except Exception as e:
@@ -396,14 +396,14 @@ class Command(BaseCommand):
             return round(max(adjusted, 1.05), 2)
 
         from django.conf import settings
-        is_prod = not settings.DEBUG
+        is_prod = True
 
         trixie_pool = []
         for x in trixie_candidates:
             estimated_odd = get_estimated_odd(x['match'], x['market'], x['prob'])
             has_odds = x['match'].home_team_win_odds is not None
             
-            if x['prob'] >= 55:
+            if x['prob'] >= 45:
                 if is_prod:
                     if has_odds and (1.50 <= estimated_odd <= 2.20):
                         trixie_pool.append({
