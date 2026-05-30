@@ -298,6 +298,7 @@ class BetTicketSelection(models.Model):
     prediction_label = models.CharField(max_length=100, help_text="Rótulo amigável (ex: Mais de 1.5 Gols FT)")
     probability = models.IntegerField(default=0, help_text="Probabilidade específica deste jogo")
     status = models.CharField(max_length=20, choices=BetTicket.STATUS_CHOICES, default='Pending')
+    odds_val = models.FloatField(null=True, blank=True, help_text="Odd gravada no momento da geracao")
 
     def __str__(self):
         return f"{self.match} -> {self.prediction_label} ({self.status})"
@@ -309,6 +310,8 @@ class BetTicketSelection(models.Model):
         Tenta buscar a odd real do 1X2 se for um mercado de vencedor/dupla chance.
         Caso contrário, calcula a odd estatística implícita baseada na probabilidade.
         """
+        if self.odds_val is not None:
+            return round(self.odds_val, 2)
         m = self.match
         market = self.prediction_market.lower()
         

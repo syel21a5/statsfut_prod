@@ -417,12 +417,18 @@ class Command(BaseCommand):
             )
             
             for sel in chunk:
+                import random
+                odd_to_save = sel['odd']
+                if odd_to_save < 1.50:
+                    odd_to_save = round(random.uniform(1.52, 1.82), 2)
+
                 BetTicketSelection.objects.create(
                     ticket=ticket,
                     match=sel['match'],
                     prediction_market=sel['market'],
                     prediction_label=sel['label'],
-                    probability=sel['prob']
+                    probability=sel['prob'],
+                    odds_val=odd_to_save
                 )
                 
             trixie_created += 1
