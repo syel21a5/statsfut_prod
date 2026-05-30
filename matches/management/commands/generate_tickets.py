@@ -404,7 +404,7 @@ class Command(BaseCommand):
         trixie_created = 0
         i = 0
         group_idx = 65  # 'A'
-        while i + 2 < len(unique_trixie_pool) and trixie_created < 4:
+        while i + 2 < len(unique_trixie_pool) and trixie_created < 6:
             chunk = unique_trixie_pool[i:i+3]
             avg_prob = sum(x['prob'] for x in chunk) // 3
             
