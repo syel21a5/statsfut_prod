@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db.models import Q, Subquery
+from django.db import transaction
 from matches.models import League, Season, Team, Match, LeagueStanding
 
 
@@ -289,24 +290,28 @@ class Command(BaseCommand):
                 )
             )
 
-            LeagueStanding.objects.filter(league=league, season=season).delete()
+            # OTIMIZAÇÃO: Usa transação atômica + bulk_create para evitar locks de tabela
+            with transaction.atomic():
+                LeagueStanding.objects.filter(league=league, season=season).delete()
 
-            created = 0
-            for idx, (team, played, won, drawn, lost, gf, ga, pts) in enumerate(teams_stats, start=1):
-                LeagueStanding.objects.create(
-                    league=league,
-                    season=season,
-                    team=team,
-                    position=idx,
-                    played=played,
-                    won=won,
-                    drawn=drawn,
-                    lost=lost,
-                    goals_for=gf,
-                    goals_against=ga,
-                    points=pts,
-                )
-                created += 1
+                standings_to_create = []
+                for idx, (team, played, won, drawn, lost, gf, ga, pts) in enumerate(teams_stats, start=1):
+                    standings_to_create.append(LeagueStanding(
+                        league=league,
+                        season=season,
+                        team=team,
+                        position=idx,
+                        played=played,
+                        won=won,
+                        drawn=drawn,
+                        lost=lost,
+                        goals_for=gf,
+                        goals_against=ga,
+                        points=pts,
+                    ))
+
+                LeagueStanding.objects.bulk_create(standings_to_create)
+                created = len(standings_to_create)
 
             self.stdout.write(
                 self.style.SUCCESS(

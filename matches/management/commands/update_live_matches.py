@@ -289,11 +289,21 @@ class Command(BaseCommand):
             raise e
 
 
+    def _has_changes(self, match_obj, defaults):
+        """Compara os dados da API com o objeto existente no banco.
+        Retorna True se houver qualquer diferença que justifique um .save()."""
+        for key, value in defaults.items():
+            existing = getattr(match_obj, key, None)
+            if existing != value:
+                return True
+        return False
+
     def process_fixtures(self, fixtures, is_live=False, readonly_structure=False):
         """Processa fixtures e salva/atualiza no banco. readonly_structure=True impede criação de novos jogos."""
         
         count_new = 0
         count_updated = 0
+        count_skipped = 0
         touched_leagues = set()
         
         for fixture in fixtures:
@@ -461,15 +471,21 @@ class Command(BaseCommand):
                 if match_api_id:
                     try:
                         match_obj = Match.objects.get(api_id=match_api_id)
-                        # Atualiza campos
-                        for key, value in defaults.items():
-                            setattr(match_obj, key, value)
-                        # Atualiza relacionamentos
-                        match_obj.league = league_obj
-                        match_obj.season = season_obj
-                        match_obj.home_team = home_team
-                        match_obj.away_team = away_team
-                        match_obj.save()
+                        # OTIMIZAÇÃO: Só salva se houver mudança real
+                        if self._has_changes(match_obj, defaults) or match_obj.league_id != league_obj.id or match_obj.season_id != season_obj.id or match_obj.home_team_id != home_team.id or match_obj.away_team_id != away_team.id:
+                            # Atualiza campos
+                            for key, value in defaults.items():
+                                setattr(match_obj, key, value)
+                            # Atualiza relacionamentos
+                            match_obj.league = league_obj
+                            match_obj.season = season_obj
+                            match_obj.home_team = home_team
+                            match_obj.away_team = away_team
+                            match_obj.save()
+                        else:
+                            # Nenhuma mudança detectada, pula o save
+                            count_skipped += 1
+                            continue
                     except Match.DoesNotExist:
                         pass
                 
@@ -499,13 +515,15 @@ class Command(BaseCommand):
                     count_updated += 1
                     if is_live:
                         self.stdout.write(f'  🔄 Atualizado: {home_team.name} {fixture["home_score"]}-{fixture["away_score"]} {away_team.name} ({fixture.get("elapsed", "?")}\')')
-                    touched_leagues.add((league_obj.name, league_obj.country))
+                    # OTIMIZAÇÃO: Só recalcula standings se o jogo mudou para status finalizado
+                    if status in ['FT', 'Finished', 'AET', 'PEN']:
+                        touched_leagues.add((league_obj.name, league_obj.country))
                 
             except Exception as e:
                 self.stdout.write(self.style.WARNING(f'  ⚠️ Erro ao processar fixture: {e}'))
                 continue
         
-        self.stdout.write(f'📊 Resumo: {count_new} novos, {count_updated} atualizados')
+        self.stdout.write(f'📊 Resumo: {count_new} novos, {count_updated} atualizados, {count_skipped} sem alteração (poupados)')
         
         # Recalcular standings automaticamente para ligas afetadas
         if touched_leagues:
