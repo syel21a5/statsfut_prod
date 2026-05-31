@@ -38,7 +38,10 @@ class Command(BaseCommand):
         btts_no_opts = []      # Ambas Marcam Não (Defesa Fechada)
         double_chance_opts = [] # Dupla Chance (Segurança de Ferro)
         hedge_favorito_opts = [] # Hedge ao Favorito
-        trixie_candidates = [] # Candidatos para Trixie com odds reais 1.50 - 2.20
+        trixie_dc_goals = []      # Trixie 1: DC + 2-4 Gols
+        trixie_goals_btts = []    # Trixie 2: Gols + BTTS
+        trixie_half_goals = []    # Trixie 3: 2º Tempo Mais Gols
+        trixie_team_half = []     # Trixie 4: Equipe Marca 2º Tempo
 
         for m in matches:
             try:
@@ -108,18 +111,33 @@ class Command(BaseCommand):
                         if goals.get('over_15', 0) >= 70:
                             hedge_favorito_opts.append({'match': m, 'market': 'away_win', 'label': f'Hedge - Vitória do {m.away_team.name}', 'prob': int(100/m.away_team_win_odds)})
 
-                # 11. Trixie Candidates (Value Bets)
-                # Trixie requires odds between 1.50 and 2.20. Our algorithm's probabilities for this range
-                # are typically between 40% and 55%. We use >= 45% to capture these value bets.
-                if home_win >= 45:
-                    trixie_candidates.append({'match': m, 'market': 'home_win', 'label': f'Vitória do {m.home_team.name}', 'prob': home_win})
-                elif away_win >= 45:
-                    trixie_candidates.append({'match': m, 'market': 'away_win', 'label': f'Vitória do {m.away_team.name}', 'prob': away_win})
-                
-                if double_home >= 45:
-                    trixie_candidates.append({'match': m, 'market': 'double_chance_1x', 'label': f'1X - {m.home_team.name} ou Empate', 'prob': double_home})
-                elif double_away >= 45:
-                    trixie_candidates.append({'match': m, 'market': 'double_chance_x2', 'label': f'X2 - {m.away_team.name} ou Empate', 'prob': double_away})
+                # 11. Trixie Combo Bets (New Strategies)
+                dc_brackets = goals.get('dc_brackets', {})
+                goals_btts = goals.get('goals_btts', {})
+                half_most = goals.get('half_most_goals', {})
+                team_scoring = goals.get('team_scoring_halves', {})
+
+                # Grupo 1: DC + 2-4 Gols
+                if dc_brackets.get('1X_2_4', 0) >= 40:
+                    trixie_dc_goals.append({'match': m, 'market': 'dc_1x_2_4', 'label': f'{m.home_team.name} ou Empate & 2-4 Gols no Jogo', 'prob': dc_brackets['1X_2_4'], 'odd': 1.85})
+                elif dc_brackets.get('X2_2_4', 0) >= 40:
+                    trixie_dc_goals.append({'match': m, 'market': 'dc_x2_2_4', 'label': f'Empate ou {m.away_team.name} & 2-4 Gols no Jogo', 'prob': dc_brackets['X2_2_4'], 'odd': 1.85})
+
+                # Grupo 2: Gols + BTTS
+                if goals_btts.get('over_25_yes', 0) >= 55:
+                    trixie_goals_btts.append({'match': m, 'market': 'over_25_yes', 'label': '+2.5 Gols & Ambas Sim', 'prob': goals_btts['over_25_yes'], 'odd': 2.30})
+                elif goals_btts.get('under_25_no', 0) >= 55:
+                    trixie_goals_btts.append({'match': m, 'market': 'under_25_no', 'label': '-2.5 Gols & Ambas Não', 'prob': goals_btts['under_25_no'], 'odd': 2.20})
+
+                # Grupo 3: 2º Tempo com Mais Gols
+                if half_most.get('2t', 0) >= 65:
+                    trixie_half_goals.append({'match': m, 'market': 'most_goals_2t', 'label': '2º Tempo Com Mais Gols', 'prob': half_most['2t'], 'odd': 2.05})
+
+                # Grupo 4: Equipe Marca no 2º Tempo
+                if team_scoring.get('home_2t', 0) >= 70:
+                    trixie_team_half.append({'match': m, 'market': 'home_score_2t', 'label': f'{m.home_team.name} Marca no 2º Tempo', 'prob': team_scoring['home_2t'], 'odd': 1.70})
+                elif team_scoring.get('away_2t', 0) >= 70:
+                    trixie_team_half.append({'match': m, 'market': 'away_score_2t', 'label': f'{m.away_team.name} Marca no 2º Tempo', 'prob': team_scoring['away_2t'], 'odd': 1.70})
 
             except Exception as e:
                 continue
@@ -373,97 +391,59 @@ class Command(BaseCommand):
             created_count += 1
 
         # ==========================================
-        # 6. GERAR SISTEMAS TRIXIE (Trixie)
+        # 6. GERAR SISTEMAS TRIXIE (Trixie) - 4 Estratégias
         # ==========================================
-        def get_estimated_odd(match, market, probability):
-            market = market.lower()
-            if market == 'home_win' and match.home_team_win_odds:
-                return round(match.home_team_win_odds, 2)
-            elif market == 'away_win' and match.away_team_win_odds:
-                return round(match.away_team_win_odds, 2)
-            elif market == 'draw' and match.draw_odds:
-                return round(match.draw_odds, 2)
-            elif market == 'double_chance_1x' and match.home_team_win_odds and match.draw_odds:
-                inv_odd = (1.0 / match.home_team_win_odds) + (1.0 / match.draw_odds)
-                return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
-            elif market == 'double_chance_x2' and match.away_team_win_odds and match.draw_odds:
-                inv_odd = (1.0 / match.away_team_win_odds) + (1.0 / match.draw_odds)
-                return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
-            
-            prob = probability or 50
-            implied = 100.0 / prob
-            adjusted = implied * 0.93  # 7% margin
-            return round(max(adjusted, 1.05), 2)
-
-        from django.conf import settings
-        is_prod = True
-
-        trixie_pool = []
-        for x in trixie_candidates:
-            estimated_odd = get_estimated_odd(x['match'], x['market'], x['prob'])
-            has_odds = x['match'].home_team_win_odds is not None
-            
-            if x['prob'] >= 45:
-                if is_prod:
-                    if has_odds and (1.50 <= estimated_odd <= 2.20):
-                        trixie_pool.append({
-                            'match': x['match'],
-                            'market': x['market'],
-                            'label': x['label'],
-                            'prob': x['prob'],
-                            'odd': estimated_odd
-                        })
-                else:
-                    if not has_odds or (1.50 <= estimated_odd <= 2.20):
-                        trixie_pool.append({
-                            'match': x['match'],
-                            'market': x['market'],
-                            'label': x['label'],
-                            'prob': x['prob'],
-                            'odd': estimated_odd
-                        })
-
-        seen_trixie_matches = set()
-        unique_trixie_pool = []
-        for x in sorted(trixie_pool, key=lambda val: val['prob'], reverse=True):
-            if x['match'].id not in seen_trixie_matches:
-                seen_trixie_matches.add(x['match'].id)
-                unique_trixie_pool.append(x)
+        strategies = [
+            {'list': trixie_dc_goals, 'name': 'DC_GOALS', 'title': 'Trixie Combo: DC + Faixa de Gols'},
+            {'list': trixie_goals_btts, 'name': 'GOALS_BTTS', 'title': 'Trixie Combo: Gols + Ambas Marcam'},
+            {'list': trixie_half_goals, 'name': 'HALF_GOALS', 'title': 'Trixie Especial: 2º Tempo com Mais Gols'},
+            {'list': trixie_team_half, 'name': 'TEAM_HALF', 'title': 'Trixie Pressão: Equipe Marca no 2º Tempo'},
+        ]
 
         trixie_created = 0
-        i = 0
-        group_idx = 65  # 'A'
-        while i + 2 < len(unique_trixie_pool) and trixie_created < 6:
-            chunk = unique_trixie_pool[i:i+3]
-            avg_prob = sum(x['prob'] for x in chunk) // 3
+        for strat in strategies:
+            strat_list = strat['list']
+            strat_name = strat['name']
+            base_title = strat['title']
             
-            ticket_title = f"Sistema Trixie (Segurança & Valor) - Grupo {chr(group_idx)}"
-            ticket = BetTicket.objects.create(
-                title=ticket_title,
-                ticket_type="Trixie",
-                average_probability=avg_prob,
-                date_target=start_of_day.date()
-            )
+            seen_trixie_matches = set()
+            unique_trixie_pool = []
+            for x in sorted(strat_list, key=lambda val: val['prob'], reverse=True):
+                if x['match'].id not in seen_trixie_matches:
+                    seen_trixie_matches.add(x['match'].id)
+                    unique_trixie_pool.append(x)
             
-            for sel in chunk:
-                odd_to_save = sel['odd']
-                if not is_prod and odd_to_save < 1.50:
-                    import random
-                    odd_to_save = round(random.uniform(1.52, 1.82), 2)
-
-                BetTicketSelection.objects.create(
-                    ticket=ticket,
-                    match=sel['match'],
-                    prediction_market=sel['market'],
-                    prediction_label=sel['label'],
-                    probability=sel['prob'],
-                    odds_val=odd_to_save
+            i = 0
+            group_idx = 65  # 'A'
+            strat_created = 0
+            while i + 2 < len(unique_trixie_pool) and strat_created < 4:  # Max 4 trixies per strategy
+                chunk = unique_trixie_pool[i:i+3]
+                avg_prob = sum(x['prob'] for x in chunk) // 3
+                
+                ticket_title = f"{base_title} - Grupo {chr(group_idx)}"
+                ticket = BetTicket.objects.create(
+                    title=ticket_title,
+                    ticket_type="Trixie",
+                    strategy=strat_name,
+                    average_probability=avg_prob,
+                    date_target=start_of_day.date()
                 )
                 
-            trixie_created += 1
-            created_count += 1
-            group_idx += 1
-            i += 3
+                for sel in chunk:
+                    BetTicketSelection.objects.create(
+                        ticket=ticket,
+                        match=sel['match'],
+                        prediction_market=sel['market'],
+                        prediction_label=sel['label'],
+                        probability=sel['prob'],
+                        odds_val=sel['odd']
+                    )
+                    
+                strat_created += 1
+                trixie_created += 1
+                created_count += 1
+                group_idx += 1
+                i += 3
 
         self.stdout.write(self.style.SUCCESS(f"Sucesso! Foram gerados {created_count} bilhetes com super estratégias diversas hoje."))
 

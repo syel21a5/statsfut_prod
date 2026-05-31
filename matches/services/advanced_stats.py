@@ -342,6 +342,14 @@ class MatchAnalyzer:
             'away_under_35': int((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] < 3.5) / total_mapped) * 100),
         }
 
+        # Goals + BTTS
+        base_stats['goals_btts'] = {
+            'over_25_yes': int((sum(1 for item in mapped_matches if item['total_goals'] > 2.5 and item['btts']) / total_mapped) * 100),
+            'over_25_no': int((sum(1 for item in mapped_matches if item['total_goals'] > 2.5 and not item['btts']) / total_mapped) * 100),
+            'under_25_yes': int((sum(1 for item in mapped_matches if item['total_goals'] < 2.5 and item['btts']) / total_mapped) * 100),
+            'under_25_no': int((sum(1 for item in mapped_matches if item['total_goals'] < 2.5 and not item['btts']) / total_mapped) * 100),
+        }
+
         # HT/FT
         ht_ft_counts = {f"{ht}_{ft}": 0 for ht in ['1', 'X', '2'] for ft in ['1', 'X', '2']}
         valid_ht_ft = 0

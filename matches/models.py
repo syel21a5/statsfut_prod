@@ -262,6 +262,7 @@ class BetTicket(models.Model):
 
     title = models.CharField(max_length=200, help_text="Título do bilhete (ex: Dupla de Ouro HT)")
     ticket_type = models.CharField(max_length=20, choices=TICKET_TYPES)
+    strategy = models.CharField(max_length=50, blank=True, null=True, help_text="Nome da estratégia (ex: TRIXIE_DC_GOALS)")
     average_probability = models.IntegerField(default=0, help_text="Probabilidade média de acerto (%)")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
