@@ -25,11 +25,20 @@ urlpatterns = [
     path('i18n/setlang/', custom_set_language, name='set_language'),
 ]
 
+from django.conf import settings
+
 # Rotas com prefixo de idioma (/pt-br/, /es/, /de/) - inglês sem prefixo (/)
-urlpatterns += i18n_patterns(
+i18n_routes = [
     path('admin/', admin.site.urls),
     path('members/', include('members.urls')),
-    path('video-maker/', include('video_maker.urls')),
-    path('', include('matches.urls')),
+]
+
+if 'video_maker' in settings.INSTALLED_APPS:
+    i18n_routes.append(path('video-maker/', include('video_maker.urls')))
+
+i18n_routes.append(path('', include('matches.urls')))
+
+urlpatterns += i18n_patterns(
+    *i18n_routes,
     prefix_default_language=False
 )
