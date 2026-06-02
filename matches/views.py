@@ -355,13 +355,13 @@ class MatchDetailView(DetailView):
             context['advanced_stats'] = None
             
         from django.conf import settings
-        context['debug_mode'] = settings.DEBUG
+        context['show_script_btn'] = settings.DEBUG or (self.request.user.is_authenticated and self.request.user.is_staff)
         return context
 
 class MatchVideoScriptView(View):
     def get(self, request, pk):
         from django.conf import settings
-        if not settings.DEBUG:
+        if not settings.DEBUG and not (request.user.is_authenticated and request.user.is_staff):
             from django.http import Http404
             raise Http404("Página não encontrada")
             

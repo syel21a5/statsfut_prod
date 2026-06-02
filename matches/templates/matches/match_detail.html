@@ -416,7 +416,7 @@
         <button class="market-tab-btn" onclick="switchMarketTab('cartoes', this)"><i class="fa-solid fa-clone"></i> {% translate "Cartões" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('chutes', this)"><i class="fa-solid fa-bullseye"></i> {% translate "Chutes" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('especiais', this)"><i class="fa-solid fa-bolt"></i> {% translate "Especiais & Combos" %}</button>
-        {% if debug_mode %}
+        {% if show_script_btn %}
         <button class="market-tab-btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border-color: rgba(139, 92, 246, 0.5); margin-left: auto;" onclick="openVideoScriptModal()">
             <i class="fa-solid fa-wand-magic-sparkles"></i> {% translate "Gerar Roteiro (IA)" %}
         </button>
@@ -1208,7 +1208,7 @@
         }
     });
 
-    {% if debug_mode %}
+    {% if show_script_btn %}
     const loadingTexts = [
         "{% translate 'Analisando estatísticas do Statsfut...' %}",
         "{% translate 'Consultando o Gemini 2.5 Flash...' %}",
@@ -1295,12 +1295,12 @@
     {% endif %}
 </script>
 
-{% if debug_mode %}
+{% if show_script_btn %}
 <!-- MODAL DE ROTEIRO DE VÍDEO IA -->
 <div id="videoScriptModal" class="video-script-modal" onclick="closeVideoScriptModalOnOutsideClick(event)">
     <div class="video-script-content">
         <div class="video-script-header">
-            <h3><i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> {% translate "Roteiro de Vídeo IA (Localhost)" %}</h3>
+            <h3><i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> {% translate "Roteiro de Vídeo IA" %}</h3>
             <button class="video-script-close" onclick="closeVideoScriptModal()">&times;</button>
         </div>
         <div class="video-script-body" id="videoScriptBody">
