@@ -113,7 +113,7 @@ def premium_dashboard(request):
     br_tz = ZoneInfo('America/Sao_Paulo')
     now_br = timezone.now().astimezone(br_tz)
     start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
-    end_date = start_of_day + timedelta(days=2) # Hoje e Amanhã
+    end_date = start_of_day + timedelta(days=45) # Próximos 45 dias para pegar todas as Próximas Rodadas
     
     matches = Match.objects.filter(
         date__range=(start_of_day, end_date),
@@ -276,6 +276,25 @@ def premium_dashboard(request):
 
         for sel in selections:
             m = sel.match
+            
+            if sel.status == 'Void':
+                continue
+            if sel.status in ['Green', 'Red']:
+                if sel.status == 'Red':
+                    any_red = True
+                continue
+
+            is_postponed = m.status in ['POSTPONED', 'Postponed', 'CANCELLED', 'Cancelled', 'SUSPENDED', 'Suspended', 'TBD']
+            is_stale = False
+            if m.date and m.status not in ['FT', 'Finished', 'Concluded']:
+                is_stale = (timezone.now() - m.date).total_seconds() > (36 * 3600)
+
+            if is_postponed or is_stale:
+                if sel.status != 'Void':
+                    sel.status = 'Void'
+                    sel.save(update_fields=['status'])
+                continue
+
             is_finished = m.status in ['FT', 'Finished', 'Concluded'] or (m.home_score is not None and m.away_score is not None)
             
             if not is_finished:
@@ -331,6 +350,24 @@ def premium_dashboard(request):
                     result = 'Green' if first_goal.team == m.away_team else 'Red'
                 else:
                     result = 'Green' if away_score > 0 and home_score == 0 else 'Red'
+            elif sel.prediction_market == 'dc_1x_2_4':
+                result = 'Green' if (home_score >= away_score) and (2 <= total_goals <= 4) else 'Red'
+            elif sel.prediction_market == 'dc_x2_2_4':
+                result = 'Green' if (away_score >= home_score) and (2 <= total_goals <= 4) else 'Red'
+            elif sel.prediction_market == 'over_25_yes':
+                result = 'Green' if (total_goals >= 3) and (home_score > 0 and away_score > 0) else 'Red'
+            elif sel.prediction_market == 'under_25_no':
+                result = 'Green' if (total_goals <= 2) and (not (home_score > 0 and away_score > 0)) else 'Red'
+            elif sel.prediction_market == 'most_goals_2t':
+                goals_1t = ht_goals
+                goals_2t = total_goals - ht_goals
+                result = 'Green' if goals_2t > goals_1t else 'Red'
+            elif sel.prediction_market == 'home_score_2t':
+                home_2t = home_score - ht_home
+                result = 'Green' if home_2t > 0 else 'Red'
+            elif sel.prediction_market == 'away_score_2t':
+                away_2t = away_score - ht_away
+                result = 'Green' if away_2t > 0 else 'Red'
             else:
                 result = 'Void'
 
@@ -350,7 +387,8 @@ def premium_dashboard(request):
 
     # Buscar Bilhetes Prontos (Estratégias) - Atualizados em tempo real e ordenados por tipo!
     active_tickets = BetTicket.objects.filter(
-        status='Pending'
+        status='Pending',
+        date_target__gte=start_of_day.date()
     ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league').order_by('-ticket_type', '-created_at')
     
     history_tickets = BetTicket.objects.filter(
@@ -363,18 +401,18 @@ def premium_dashboard(request):
         match__date__range=(start_of_day, end_date + timedelta(days=1))
     ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('match__date')
     
-    # Buscar histórico de dicas dos últimos 7 dias (GREEN, RED, e PENDING de jogos finalizados)
-    seven_days_ago = timezone.now() - timedelta(days=7)
+    # Buscar histórico de dicas dos últimos 15 dias (GREEN, RED, e PENDING de jogos finalizados)
+    fifteen_days_ago = timezone.now() - timedelta(days=15)
     evaluated_tips = ScannerTip.objects.filter(
         status__in=['GREEN', 'RED'],
-        match__date__gte=seven_days_ago
+        match__date__gte=fifteen_days_ago
     ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-match__date')
     
     # Incluir PENDING de jogos já finalizados (para que não desapareçam do histórico)
     pending_finished_tips = ScannerTip.objects.filter(
         status='PENDING',
         match__status__in=finished_statuses,
-        match__date__gte=seven_days_ago
+        match__date__gte=fifteen_days_ago
     ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-match__date')
     
     # Combinar as duas querysets
@@ -386,7 +424,7 @@ def premium_dashboard(request):
     BTTS_MARKETS = {'BTTS', 'BTTS_1H', 'BTTS_2H', 'BTTS_BOTH'}
     RESULT_MARKETS = {'HOME_WIN', 'AWAY_WIN', 'DC_1X', 'DC_X2', 'DNB_HOME', 'DNB_AWAY', 'FIRST_SCORE_HOME', 'FIRST_SCORE_AWAY', 'HT_HOME_WIN', 'HT_AWAY_WIN'}
     SPECIALS_MARKETS = {'HOME_CS', 'AWAY_CS', 'HOME_WTN', 'AWAY_WTN', 'HC_HOME_M05', 'HC_HOME_M15', 'HC_AWAY_P15', 'MARGIN_H1', 'MARGIN_H2', 'WIN_BTTS_HY', 'WIN_BTTS_AY', 'WIN_BTTS_HN', 'MOST_1H', 'MOST_2H'}
-    CORNERS_MARKETS = {'CORNERS_OVER_75', 'CORNERS_OVER_85', 'CORNERS_OVER_95', 'CORNERS_OVER_105', 'CORNERS_OVER_115', 'CORNER_WIN_H', 'CORNER_WIN_A'}
+    CORNERS_MARKETS = {'CORNERS_OVER_65', 'CORNERS_OVER_75', 'CORNERS_OVER_85', 'CORNERS_OVER_95', 'CORNERS_OVER_105', 'CORNERS_OVER_115', 'CORNER_WIN_H', 'CORNER_WIN_A'}
     CARDS_MARKETS = {'CARDS_OVER_35', 'CARDS_OVER_45', 'CARDS_OVER_55', 'CARDS_OVER_65', 'CARD_WIN_H', 'CARD_WIN_A'}
     SHOTS_MARKETS = {'SHOTS_OVER_205', 'SHOTS_OVER_225', 'SHOTS_OVER_245', 'SOT_OVER_65', 'SOT_OVER_75', 'SOT_OVER_85', 'SHOT_WIN_H', 'SHOT_WIN_A'}
     
@@ -397,8 +435,25 @@ def premium_dashboard(request):
         diff = (match_date_br - today).days
         if diff == 0: return _("Today")
         elif diff == 1: return _("Tomorrow")
-        elif diff == 2: return _("Day After Tomorrow")
-        return match_date_br.strftime("%d/%m")
+        return _("Next Round")
+
+    def get_ticket_date_group(target_date):
+        if not target_date: return _("Future")
+        today = now_br.date()
+        diff = (target_date - today).days
+        if diff == 0: return _("Today")
+        elif diff == 1: return _("Tomorrow")
+        return _("Next Round")
+
+    for t in active_tickets:
+        if t.date_target:
+            t.date_group = get_ticket_date_group(t.date_target)
+        else:
+            first_sel = t.selections.first()
+            if first_sel and first_sel.match.date:
+                t.date_group = get_date_group(first_sel.match.date)
+            else:
+                t.date_group = _("Future")
 
     # Containers for each category
     tips_goals = []
@@ -480,6 +535,7 @@ def premium_dashboard(request):
         elif m == 'MOST_1H': return _("1st Half Most Goals")
         elif m == 'MOST_2H': return _("2nd Half Most Goals")
         # Corners
+        elif m == 'CORNERS_OVER_65': return _("Over 6.5 Corners")
         elif m == 'CORNERS_OVER_75': return _("Over 7.5 Corners")
         elif m == 'CORNERS_OVER_85': return _("Over 8.5 Corners")
         elif m == 'CORNERS_OVER_95': return _("Over 9.5 Corners")
@@ -668,6 +724,8 @@ def premium_dashboard(request):
     tips_corners_winner = [x for x in tips_corners if x['market'].startswith('CORNER_WIN_')]
     tips_cards_over = [x for x in tips_cards if x['market'].startswith('CARDS_OVER_')]
     tips_cards_winner = [x for x in tips_cards if x['market'].startswith('CARD_WIN_')]
+    tips_shots_total = [x for x in tips_shots if x['market'].startswith('SHOTS_OVER_') or x['market'].startswith('SHOT_WIN_')]
+    tips_shots_target = [x for x in tips_shots if x['market'].startswith('SOT_OVER_')]
 
     # Legacy compat: keep old variable names for the existing template cards
     high_ht_goals = [x for x in tips_goals if x['market'] == 'HT_GOAL']
@@ -724,6 +782,8 @@ def premium_dashboard(request):
         'tips_cards_over': tips_cards_over,
         'tips_cards_winner': tips_cards_winner,
         'tips_shots': tips_shots,
+        'tips_shots_total': tips_shots_total,
+        'tips_shots_target': tips_shots_target,
         'tips_dc_over': tips_dc_over,
         'tips_dc_btts': tips_dc_btts,
         # Stats

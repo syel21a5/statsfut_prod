@@ -23,6 +23,24 @@ class Command(BaseCommand):
             for sel in selections:
                 match = sel.match
                 
+                if sel.status == 'Void':
+                    continue
+                if sel.status in ['Green', 'Red']:
+                    if sel.status == 'Red':
+                        any_red = True
+                    continue
+
+                is_postponed = match.status in ['POSTPONED', 'Postponed', 'CANCELLED', 'Cancelled', 'SUSPENDED', 'Suspended', 'TBD']
+                is_stale = False
+                if match.date and match.status not in ['FT', 'Finished', 'Concluded']:
+                    is_stale = (timezone.now() - match.date).total_seconds() > (36 * 3600)
+
+                if is_postponed or is_stale:
+                    sel.status = 'Void'
+                    sel.save()
+                    self.stdout.write(f"  -> {match.home_team.name} x {match.away_team.name} ({sel.prediction_label}): Void (Adiado/Sem Dados)")
+                    continue
+
                 # Consideramos resolvido se o jogo estiver como "Finished", "FT", ou se o placar final estiver preenchido
                 is_finished = match.status in ['FT', 'Finished', 'Concluded'] or (match.home_score is not None and match.away_score is not None)
                 

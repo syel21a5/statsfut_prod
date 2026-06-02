@@ -13,7 +13,7 @@ class Command(BaseCommand):
         br_tz = ZoneInfo('America/Sao_Paulo')
         now_br = timezone.now().astimezone(br_tz)
         start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_date = start_of_day + timedelta(days=3) # Hoje, Amanhã, Depois de Amanhã
+        end_date = start_of_day + timedelta(days=45) # Próximos 45 dias para englobar a Próxima Rodada
         
         matches = Match.objects.filter(
             date__range=(start_of_day, end_date),
@@ -25,6 +25,8 @@ class Command(BaseCommand):
         created_count = 0
         updated_count = 0
 
+        skipped_count = 0
+
         def save_tip(match, market, probability, text):
             nonlocal created_count, updated_count
             _, created = ScannerTip.objects.update_or_create(
@@ -35,6 +37,13 @@ class Command(BaseCommand):
             else: updated_count += 1
 
         for match in matches:
+            # Otimização: Pular jogos futuros (>= 2 dias) que já possuem dicas salvas
+            diff_days = (match.date.astimezone(br_tz).date() - now_br.date()).days
+            if diff_days >= 2:
+                if ScannerTip.objects.filter(match=match).exists():
+                    skipped_count += 1
+                    continue
+
             try:
                 analyzer = MatchAnalyzer(match)
                 goals: dict = analyzer.get_goal_markets() or {}
@@ -241,10 +250,10 @@ class Command(BaseCommand):
                 if hmg.get('1t', 0) >= 55:
                     save_tip(match, 'MOST_1H', hmg['1t'], '1st Half Most Goals')
                 
-                # ========== ESCANTEIOS (>= 65%) ==========
-                
                 if corners and corners.get('match_has_data'):
                     m_overs: dict = corners.get('match_overs') or {}
+                    if m_overs.get(6, 0) >= 70:
+                        save_tip(match, 'CORNERS_OVER_65', m_overs[6], 'Over 6.5 Corners')
                     if m_overs.get(7, 0) >= 70:
                         save_tip(match, 'CORNERS_OVER_75', m_overs[7], 'Over 7.5 Corners')
                     if m_overs.get(8, 0) >= 70:
@@ -312,4 +321,4 @@ class Command(BaseCommand):
             except Exception as e:
                 continue
 
-        self.stdout.write(self.style.SUCCESS(f"Scanner finalizado! Criados: {created_count}, Atualizados: {updated_count}"))
+        self.stdout.write(self.style.SUCCESS(f"Scanner finalizado! Criados: {created_count}, Atualizados: {updated_count}, Pulados (Futuros): {skipped_count}"))

@@ -132,14 +132,80 @@ class Command(BaseCommand):
                     else:
                         is_green = False
                         
-                elif tip.market == 'CORNERS_OVER_95':
-                    # Se tiver dados de cantos salvos no Match
+                elif tip.market == 'CORNERS_OVER_65':
                     if m.home_corners is not None and m.away_corners is not None:
-                        total_corners = m.home_corners + m.away_corners
-                        is_green = total_corners >= 10
+                        is_green = (m.home_corners + m.away_corners) >= 7
+                    else: continue
+                elif tip.market == 'CORNERS_OVER_75':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = (m.home_corners + m.away_corners) >= 8
+                    else: continue
+                elif tip.market == 'CORNERS_OVER_85':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = (m.home_corners + m.away_corners) >= 9
+                    else: continue
+                elif tip.market == 'CORNERS_OVER_95':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = (m.home_corners + m.away_corners) >= 10
+                    else: continue
+                elif tip.market == 'CORNERS_OVER_105':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = (m.home_corners + m.away_corners) >= 11
+                    else: continue
+                elif tip.market == 'CORNERS_OVER_115':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = (m.home_corners + m.away_corners) >= 12
+                    else: continue
+                elif tip.market == 'CORNER_WIN_H':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = m.home_corners > m.away_corners
+                    else: continue
+                elif tip.market == 'CORNER_WIN_A':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = m.away_corners > m.home_corners
+                    else: continue
+                        
+                elif tip.market.startswith('CARDS_OVER_'):
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        line = float(tip.market.replace('CARDS_OVER_', '').replace('_', '.'))
+                        # Total de cartões = Amarelos + Vermelhos
+                        total_cards = m.home_yellow + m.away_yellow + (m.home_red or 0) + (m.away_red or 0)
+                        is_green = total_cards > line
                     else:
-                        # Se não tem dados de cantos, não dá pra avaliar agora
                         continue
+                elif tip.market == 'CARD_WIN_H':
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        h_cards = m.home_yellow + (m.home_red or 0)
+                        a_cards = m.away_yellow + (m.away_red or 0)
+                        is_green = h_cards > a_cards
+                    else: continue
+                elif tip.market == 'CARD_WIN_A':
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        h_cards = m.home_yellow + (m.home_red or 0)
+                        a_cards = m.away_yellow + (m.away_red or 0)
+                        is_green = a_cards > h_cards
+                    else: continue
+                        
+                elif tip.market.startswith('SHOTS_OVER_'):
+                    if m.home_shots is not None and m.away_shots is not None:
+                        line = float(tip.market.replace('SHOTS_OVER_', '').replace('_', '.'))
+                        is_green = (m.home_shots + m.away_shots) > line
+                    else:
+                        continue
+                elif tip.market.startswith('SOT_OVER_'):
+                    if m.home_shots_on_target is not None and m.away_shots_on_target is not None:
+                        line = float(tip.market.replace('SOT_OVER_', '').replace('_', '.'))
+                        is_green = (m.home_shots_on_target + m.away_shots_on_target) > line
+                    else:
+                        continue
+                elif tip.market == 'SHOT_WIN_H':
+                    if m.home_shots is not None and m.away_shots is not None:
+                        is_green = m.home_shots > m.away_shots
+                    else: continue
+                elif tip.market == 'SHOT_WIN_A':
+                    if m.home_shots is not None and m.away_shots is not None:
+                        is_green = m.away_shots > m.home_shots
+                    else: continue
 
                 tip.status = 'GREEN' if is_green else 'RED'
                 tip.save(update_fields=['status', 'updated_at'])

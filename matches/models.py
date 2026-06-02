@@ -311,6 +311,8 @@ class BetTicketSelection(models.Model):
         Tenta buscar a odd real do 1X2 se for um mercado de vencedor/dupla chance.
         Caso contrário, calcula a odd estatística implícita baseada na probabilidade.
         """
+        if self.status == 'Void':
+            return 1.0
         if self.odds_val is not None:
             return round(self.odds_val, 2)
         m = self.match

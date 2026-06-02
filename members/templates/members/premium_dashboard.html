@@ -62,6 +62,10 @@
     color: #ec4899 !important;
     box-shadow: 0 2px 8px rgba(236, 72, 153, 0.15);
 }
+/* ==================== Hidden Tips ==================== */
+.hidden-tip {
+    display: none !important;
+}
 </style>
 
 <!-- Premium Navigation Tabs -->
@@ -248,13 +252,13 @@
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="goals">
                                         {% regroup tips_goals by date_group as grouped_goals %}
                                         {% for group in grouped_goals %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'goals', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterGoalsDateTab(this)">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="goals-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_goals %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}" data-signal="{% if 'UNDER' in item.market or 'NOT' in item.market %}under{% else %}over{% endif %}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first or 'UNDER' in item.market or 'NOT' in item.market %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}" data-signal="{% if 'UNDER' in item.market or 'NOT' in item.market %}under{% else %}over{% endif %}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -299,7 +303,7 @@
                                         <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
-                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="btts-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="btts-list" style="max-height: 590px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_btts %}
                                         {% for item in group.list %}
                                         <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
@@ -375,13 +379,13 @@
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-over">
                                         {% regroup tips_dc_over by date_group as grouped_dc_over %}
                                         {% for group in grouped_dc_over %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'dc-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDCOverDateTab(this)">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="dc-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_dc_over %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first or 'X2' in item.market %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -450,13 +454,13 @@
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-btts">
                                         {% regroup tips_dc_btts by date_group as grouped_dc_btts %}
                                         {% for group in grouped_dc_btts %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'dc-btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDCBTTSDateTab(this)">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="dc-btts-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_dc_btts %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first or 'X2' in item.market %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -602,17 +606,33 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Corners Over Market Sub-tabs -->
+                                <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & Linhas</span>
+                                    <div class="d-flex flex-wrap gap-1" id="corners-over-tabs">
+                                        <button class="btn btn-sm goals-market-tab active" data-market="all_corners" onclick="filterCornersMarket(this, 'all_corners')">
+                                            {% translate "All" %}
+                                        </button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CORNERS_OVER_65" onclick="filterCornersMarket(this, 'CORNERS_OVER_65')">+6.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CORNERS_OVER_75" onclick="filterCornersMarket(this, 'CORNERS_OVER_75')">+7.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CORNERS_OVER_85" onclick="filterCornersMarket(this, 'CORNERS_OVER_85')">+8.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CORNERS_OVER_95" onclick="filterCornersMarket(this, 'CORNERS_OVER_95')">+9.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CORNERS_OVER_105" onclick="filterCornersMarket(this, 'CORNERS_OVER_105')">+10.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CORNERS_OVER_115" onclick="filterCornersMarket(this, 'CORNERS_OVER_115')">+11.5</button>
+                                    </div>
+                                </div>
+                                
                                 {% if tips_corners_over %}
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-over">
                                         {% regroup tips_corners_over by date_group as grouped_corners_over %}
                                         {% for group in grouped_corners_over %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'corners-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterCornersDateTab(this)">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_corners_over %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -701,17 +721,31 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Cards Over Market Sub-tabs -->
+                                <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & Linhas</span>
+                                    <div class="d-flex flex-wrap gap-1" id="cards-over-tabs">
+                                        <button class="btn btn-sm goals-market-tab active" data-market="all_cards" onclick="filterCardsMarket(this, 'all_cards')">
+                                            {% translate "All" %}
+                                        </button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CARDS_OVER_35" onclick="filterCardsMarket(this, 'CARDS_OVER_35')">+3.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CARDS_OVER_45" onclick="filterCardsMarket(this, 'CARDS_OVER_45')">+4.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CARDS_OVER_55" onclick="filterCardsMarket(this, 'CARDS_OVER_55')">+5.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="CARDS_OVER_65" onclick="filterCardsMarket(this, 'CARDS_OVER_65')">+6.5</button>
+                                    </div>
+                                </div>
+                                
                                 {% if tips_cards_over %}
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-over">
                                         {% regroup tips_cards_over by date_group as grouped_cards_over %}
                                         {% for group in grouped_cards_over %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'cards-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterCardsDateTab(this)">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_cards_over %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -743,8 +777,8 @@
                                         <i class="fa-solid fa-ranking-star fa-lg" style="color: #d97706;"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">{% translate "Card Winner" %}</h5>
-                                        <span class="text-secondary small">{% translate "Who gets more cards" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Winner" %}</h5>
+                                        <span class="text-secondary small">{% translate "Quem recebe mais cartões" %}</span>
                                     </div>
                                 </div>
                                 
@@ -787,30 +821,45 @@
                 <!-- ==================== SHOTS PANE ==================== -->
                 <div class="tab-pane fade" id="shots-pane" role="tabpanel" tabindex="0">
                     <div class="row g-4">
-                        <div class="col-12">
+                        <!-- Total Shots Markets -->
+                        <div class="col-12 col-xl-6">
                             <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(34, 197, 94, 0.3);">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(34, 197, 94, 0.15);">
                                         <i class="fa-solid fa-crosshairs fa-lg text-success"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">{% translate "Shots Markets" %}</h5>
-                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Finalizações Totais" %}</h5>
+                                        <span class="text-secondary small">{% translate "Previsões de finalizações totais" %}</span>
                                     </div>
                                 </div>
                                 
-                                {% if tips_shots %}
+                                <!-- Total Shots Market Sub-tabs -->
+                                <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & Linhas</span>
+                                    <div class="d-flex flex-wrap gap-1" id="shots-total-tabs">
+                                        <button class="btn btn-sm goals-market-tab active" data-market="all_shots_total" onclick="filterShotsTotalMarket(this, 'all_shots_total')">
+                                            {% translate "Todos" %}
+                                        </button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SHOTS_OVER_205" onclick="filterShotsTotalMarket(this, 'SHOTS_OVER_205')">+20.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SHOTS_OVER_225" onclick="filterShotsTotalMarket(this, 'SHOTS_OVER_225')">+22.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SHOTS_OVER_245" onclick="filterShotsTotalMarket(this, 'SHOTS_OVER_245')">+24.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SHOTS_WIN" onclick="filterShotsTotalMarket(this, 'SHOTS_WIN')">{% translate "Vencedor" %}</button>
+                                    </div>
+                                </div>
+                                
+                                {% if tips_shots_total %}
                                     <!-- Date Sub-tabs -->
-                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots">
-                                        {% regroup tips_shots by date_group as grouped_shots %}
-                                        {% for group in grouped_shots %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'shots', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots-total">
+                                        {% regroup tips_shots_total by date_group as grouped_shots_total %}
+                                        {% for group in grouped_shots_total %}
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterShotsTotalDateTab(this)">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
-                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
-                                        {% for group in grouped_shots %}
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-total-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_shots_total %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -833,6 +882,67 @@
                                 {% endif %}
                             </div>
                         </div>
+
+                        <!-- Shots on Target Markets -->
+                        <div class="col-12 col-xl-6">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(16, 185, 129, 0.3);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15);">
+                                        <i class="fa-solid fa-bullseye fa-lg text-success"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Chutes no Alvo" %}</h5>
+                                        <span class="text-secondary small">{% translate "Previsões de chutes no alvo" %}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Shots on Target Market Sub-tabs -->
+                                <div class="mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & Linhas</span>
+                                    <div class="d-flex flex-wrap gap-1" id="shots-target-tabs">
+                                        <button class="btn btn-sm goals-market-tab active" data-market="all_shots_target" onclick="filterShotsTargetMarket(this, 'all_shots_target')">
+                                            {% translate "Todos" %}
+                                        </button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SOT_OVER_65" onclick="filterShotsTargetMarket(this, 'SOT_OVER_65')">+6.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SOT_OVER_75" onclick="filterShotsTargetMarket(this, 'SOT_OVER_75')">+7.5</button>
+                                        <button class="btn btn-sm goals-market-tab" data-market="SOT_OVER_85" onclick="filterShotsTargetMarket(this, 'SOT_OVER_85')">+8.5</button>
+                                    </div>
+                                </div>
+                                
+                                {% if tips_shots_target %}
+                                    <!-- Date Sub-tabs -->
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots-target">
+                                        {% regroup tips_shots_target by date_group as grouped_shots_target %}
+                                        {% for group in grouped_shots_target %}
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterShotsTargetDateTab(this)">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-target-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_shots_target %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: rgb(16, 185, 129);"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-2 py-1 text-warning bg-warning-subtle border border-warning-subtle rounded-2 small me-2" style="background: rgba(245, 158, 11, 0.12) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; color: #f59e0b !important;">@ {{ item.odd }}</span><span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(16, 185, 129,0.15); border: 1px solid rgba(16, 185, 129,0.3); color: rgb(16, 185, 129);">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -841,11 +951,8 @@
             <!-- ==================== SCANNER HISTORY (Greens & Reds) ==================== -->
             <div class="row g-4 mt-2 mb-5">
                 <div class="col-12">
-                    <h3 class="text-white fw-bold mb-2 d-flex align-items-center flex-wrap gap-2">
+                    <h3 class="text-white fw-bold mb-2">
                         <span><i class="fa-solid fa-clock-rotate-left text-info me-2"></i>{% translate "Recent History (Greens & Reds)" %}</span>
-                        <span class="badge px-3 py-2 fs-6 fw-bold shadow-sm ms-auto" id="hist-global-rate" style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #10b981; transition: all 0.3s ease;">
-                            🎯 {% translate "Hit Rate" %}: <span id="hist-global-rate-val">--%</span>
-                        </span>
                     </h3>
                     <p class="text-secondary small mb-0">{% translate "Full transparency! Check the performance of the latest opportunities suggested by our Smart Scanner." %}</p>
                 </div>
@@ -893,6 +1000,37 @@
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'HT_GOAL')">HT</button>
                         </div>
 
+                        <!-- GREEN Corners Sub-markets -->
+                        <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-green-corners-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "All Corners" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CORNERS_OVER_65')">+6.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CORNERS_OVER_75')">+7.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CORNERS_OVER_85')">+8.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CORNERS_OVER_95')">+9.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CORNERS_OVER_105')">+10.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CORNERS_OVER_115')">+11.5</button>
+                        </div>
+
+                        <!-- GREEN Cards Sub-markets -->
+                        <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-green-cards-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "Todos os Cartões" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_35')">+3.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_45')">+4.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_55')">+5.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_65')">+6.5</button>
+                        </div>
+
+                        <!-- GREEN Shots Sub-markets -->
+                        <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-green-shots-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "Todos os Chutes" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SHOTS_OVER_205')">+20.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SHOTS_OVER_225')">+22.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SHOTS_OVER_245')">+24.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SOT_OVER_65')">+6.5 no Alvo</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SOT_OVER_75')">+7.5 no Alvo</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SOT_OVER_85')">+8.5 no Alvo</button>
+                        </div>
+
                         <!-- GREEN List -->
                         <div class="d-flex flex-column gap-1" id="hist-green-list" style="max-height: 520px; overflow-y: auto; padding-right: 5px;">
                             {% for key, items in history_groups.items %}
@@ -911,7 +1049,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-end ms-2">
-                                                <span class="badge px-3 py-2 fw-bold" style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #10b981; font-size: 0.85rem;">{{ item.prob }}%</span>
+                                                <span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #10b981;">{{ item.prob }}%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -963,6 +1101,37 @@
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'HT_GOAL')">HT</button>
                         </div>
 
+                        <!-- RED Corners Sub-markets -->
+                        <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-red-corners-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "All Corners" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CORNERS_OVER_65')">+6.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CORNERS_OVER_75')">+7.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CORNERS_OVER_85')">+8.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CORNERS_OVER_95')">+9.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CORNERS_OVER_105')">+10.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CORNERS_OVER_115')">+11.5</button>
+                        </div>
+
+                        <!-- RED Cards Sub-markets -->
+                        <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-red-cards-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "Todos os Cartões" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_35')">+3.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_45')">+4.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_55')">+5.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_65')">+6.5</button>
+                        </div>
+
+                        <!-- RED Shots Sub-markets -->
+                        <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-red-shots-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "Todos os Chutes" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SHOTS_OVER_205')">+20.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SHOTS_OVER_225')">+22.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SHOTS_OVER_245')">+24.5</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SOT_OVER_65')">+6.5 no Alvo</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SOT_OVER_75')">+7.5 no Alvo</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SOT_OVER_85')">+8.5 no Alvo</button>
+                        </div>
+
                         <!-- RED List -->
                         <div class="d-flex flex-column gap-1" id="hist-red-list" style="max-height: 520px; overflow-y: auto; padding-right: 5px;">
                             {% for key, items in history_groups.items %}
@@ -999,15 +1168,37 @@
                         red: { category: 'all', market: 'all' }
                     };
 
+                    function getAllowedCategories() {
+                        const activeTab = document.querySelector('#scannerTabs .scanner-cat-tab.active');
+                        const activeTabId = activeTab ? activeTab.id : 'goals-tab';
+                        
+                        if (activeTabId === 'goals-tab') {
+                            return ['goals', 'btts'];
+                        } else if (activeTabId === 'winner-tab') {
+                            return ['outcomes', 'specials'];
+                        } else if (activeTabId === 'corners-tab') {
+                            return ['corners'];
+                        } else if (activeTabId === 'cards-tab') {
+                            return ['cards'];
+                        } else if (activeTabId === 'shots-tab') {
+                            return ['shots'];
+                        }
+                        return [];
+                    }
+
                     function calculateHitRate(category, market) {
                         let greenC = 0;
                         let redC = 0;
+                        const allowed = getAllowedCategories();
+
                         document.querySelectorAll('#hist-green-list .hist-card-item').forEach(item => {
-                            if ((category === 'all' || item.dataset.category === category) &&
+                            if (allowed.includes(item.dataset.category) &&
+                                (category === 'all' || item.dataset.category === category) &&
                                 (market === 'all' || item.dataset.market === market)) greenC++;
                         });
                         document.querySelectorAll('#hist-red-list .hist-card-item').forEach(item => {
-                            if ((category === 'all' || item.dataset.category === category) &&
+                            if (allowed.includes(item.dataset.category) &&
+                                (category === 'all' || item.dataset.category === category) &&
                                 (market === 'all' || item.dataset.market === market)) redC++;
                         });
                         const total = greenC + redC;
@@ -1034,54 +1225,104 @@
                         }
                     }
 
-                    function updateGlobalStats() {
-                        const stats = calculateHitRate('all', 'all');
-                        const val = document.getElementById('hist-global-rate-val');
-                        const badge = document.getElementById('hist-global-rate');
-                        if (val && badge) {
-                            val.textContent = stats.greenPct + '%';
-                            if (stats.greenPct >= 65) {
-                                badge.style.background = 'rgba(16,185,129,0.15)';
-                                badge.style.borderColor = 'rgba(16,185,129,0.3)';
-                                badge.style.color = '#10b981';
-                            } else if (stats.greenPct >= 50) {
-                                badge.style.background = 'rgba(245,158,11,0.15)';
-                                badge.style.borderColor = 'rgba(245,158,11,0.3)';
-                                badge.style.color = '#f59e0b';
-                            } else {
-                                badge.style.background = 'rgba(239,68,68,0.15)';
-                                badge.style.borderColor = 'rgba(239,68,68,0.3)';
-                                badge.style.color = '#ef4444';
-                            }
-                        }
-                    }
 
-                    document.addEventListener("DOMContentLoaded", function() {
+
+                    function updateHistCategoryTabs() {
+                        const allowed = getAllowedCategories();
                         const greenItems = document.querySelectorAll('#hist-green-list .hist-card-item');
                         const redItems = document.querySelectorAll('#hist-red-list .hist-card-item');
 
-                        updateGlobalStats();
-                        updateBoxStats('green');
-                        updateBoxStats('red');
-
-                        // Check which categories have items to show their sub-tabs
                         const categoriesWithGreen = new Set();
                         greenItems.forEach(item => {
                             if (item.dataset.category) categoriesWithGreen.add(item.dataset.category);
                         });
-                        categoriesWithGreen.forEach(cat => {
-                            const btn = document.querySelector(`#hist-green-tabs [data-cat-btn="${cat}"]`);
-                            if (btn) btn.classList.remove('d-none');
-                        });
-
                         const categoriesWithRed = new Set();
                         redItems.forEach(item => {
                             if (item.dataset.category) categoriesWithRed.add(item.dataset.category);
                         });
-                        categoriesWithRed.forEach(cat => {
-                            const btn = document.querySelector(`#hist-red-tabs [data-cat-btn="${cat}"]`);
-                            if (btn) btn.classList.remove('d-none');
+
+                        // Show/hide sub-tabs based on active scanner tab and item availability
+                        document.querySelectorAll('#hist-green-tabs [data-cat-btn]').forEach(btn => {
+                            const cat = btn.getAttribute('data-cat-btn');
+                            if (allowed.includes(cat) && categoriesWithGreen.has(cat)) {
+                                btn.classList.remove('d-none');
+                            } else {
+                                btn.classList.add('d-none');
+                            }
                         });
+
+                        document.querySelectorAll('#hist-red-tabs [data-cat-btn]').forEach(btn => {
+                            const cat = btn.getAttribute('data-cat-btn');
+                            if (allowed.includes(cat) && categoriesWithRed.has(cat)) {
+                                btn.classList.remove('d-none');
+                            } else {
+                                btn.classList.add('d-none');
+                            }
+                        });
+                    }
+
+                    function onScannerTabChange() {
+                        // Reset sub-tab filters to 'all'
+                        histState.green.category = 'all';
+                        histState.green.market = 'all';
+                        histState.red.category = 'all';
+                        histState.red.market = 'all';
+
+                        // Set active class back to first button ('Todos')
+                        document.querySelectorAll('#hist-green-tabs .hist-cat-tab, #hist-red-tabs .hist-cat-tab').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        const greenAllBtn = document.querySelector('#hist-green-tabs button:first-child');
+                        if (greenAllBtn) greenAllBtn.classList.add('active');
+                        const redAllBtn = document.querySelector('#hist-red-tabs button:first-child');
+                        if (redAllBtn) redAllBtn.classList.add('active');
+
+                        // Hide submarkets rows (Goals, Corners, Cards)
+                        const greenMarketsRow = document.getElementById('hist-green-goals-markets');
+                        if (greenMarketsRow) greenMarketsRow.classList.add('d-none');
+                        const redMarketsRow = document.getElementById('hist-red-goals-markets');
+                        if (redMarketsRow) redMarketsRow.classList.add('d-none');
+
+                        const greenCornersRow = document.getElementById('hist-green-corners-markets');
+                        if (greenCornersRow) greenCornersRow.classList.add('d-none');
+                        const redCornersRow = document.getElementById('hist-red-corners-markets');
+                        if (redCornersRow) redCornersRow.classList.add('d-none');
+
+                        const greenCardsRow = document.getElementById('hist-green-cards-markets');
+                        if (greenCardsRow) greenCardsRow.classList.add('d-none');
+                        const redCardsRow = document.getElementById('hist-red-cards-markets');
+                        if (redCardsRow) redCardsRow.classList.add('d-none');
+
+                        const greenShotsRow = document.getElementById('hist-green-shots-markets');
+                        if (greenShotsRow) greenShotsRow.classList.add('d-none');
+                        const redShotsRow = document.getElementById('hist-red-shots-markets');
+                        if (redShotsRow) redShotsRow.classList.add('d-none');
+
+                        // Update tabs visibility
+                        updateHistCategoryTabs();
+
+                        // Re-apply filters and update stats
+                        applyHistFilters('green');
+                        applyHistFilters('red');
+                        updateBoxStats('green');
+                        updateBoxStats('red');
+                    }
+
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Initial update of tabs & stats
+                        updateHistCategoryTabs();
+                        updateBoxStats('green');
+                        updateBoxStats('red');
+                        applyHistFilters('green');
+                        applyHistFilters('red');
+
+                        // Hook Bootstrap pill changes on scannerTabs
+                        const scannerTabsContainer = document.getElementById('scannerTabs');
+                        if (scannerTabsContainer) {
+                            scannerTabsContainer.addEventListener('shown.bs.tab', function(event) {
+                                onScannerTabChange();
+                            });
+                        }
                     });
 
                     function filterHistCard(btn, side, category) {
@@ -1092,15 +1333,48 @@
                         histState[side].category = category;
                         histState[side].market = 'all';
 
-                        // Toggle Goals submarkets row
-                        const marketsRow = document.getElementById(`hist-${side}-goals-markets`);
-                        if (marketsRow) {
+                        // Toggle submarkets rows (Goals, Corners, Cards)
+                        const goalsMarketsRow = document.getElementById(`hist-${side}-goals-markets`);
+                        if (goalsMarketsRow) {
                             if (category === 'goals') {
-                                marketsRow.classList.remove('d-none');
-                                marketsRow.querySelectorAll('.hist-cat-tab').forEach(b => b.classList.remove('active'));
-                                marketsRow.querySelector('.hist-cat-tab').classList.add('active');
+                                goalsMarketsRow.classList.remove('d-none');
+                                goalsMarketsRow.querySelectorAll('.hist-cat-tab').forEach(b => b.classList.remove('active'));
+                                goalsMarketsRow.querySelector('.hist-cat-tab').classList.add('active');
                             } else {
-                                marketsRow.classList.add('d-none');
+                                goalsMarketsRow.classList.add('d-none');
+                            }
+                        }
+
+                        const cornersMarketsRow = document.getElementById(`hist-${side}-corners-markets`);
+                        if (cornersMarketsRow) {
+                            if (category === 'corners') {
+                                cornersMarketsRow.classList.remove('d-none');
+                                cornersMarketsRow.querySelectorAll('.hist-cat-tab').forEach(b => b.classList.remove('active'));
+                                cornersMarketsRow.querySelector('.hist-cat-tab').classList.add('active');
+                            } else {
+                                cornersMarketsRow.classList.add('d-none');
+                            }
+                        }
+
+                        const cardsMarketsRow = document.getElementById(`hist-${side}-cards-markets`);
+                        if (cardsMarketsRow) {
+                            if (category === 'cards') {
+                                cardsMarketsRow.classList.remove('d-none');
+                                cardsMarketsRow.querySelectorAll('.hist-cat-tab').forEach(b => b.classList.remove('active'));
+                                cardsMarketsRow.querySelector('.hist-cat-tab').classList.add('active');
+                            } else {
+                                cardsMarketsRow.classList.add('d-none');
+                            }
+                        }
+
+                        const shotsMarketsRow = document.getElementById(`hist-${side}-shots-markets`);
+                        if (shotsMarketsRow) {
+                            if (category === 'shots') {
+                                shotsMarketsRow.classList.remove('d-none');
+                                shotsMarketsRow.querySelectorAll('.hist-cat-tab').forEach(b => b.classList.remove('active'));
+                                shotsMarketsRow.querySelector('.hist-cat-tab').classList.add('active');
+                            } else {
+                                shotsMarketsRow.classList.add('d-none');
                             }
                         }
 
@@ -1125,12 +1399,14 @@
                         
                         const cat = histState[side].category;
                         const mkt = histState[side].market;
+                        const allowed = getAllowedCategories();
 
                         list.querySelectorAll('.hist-card-item').forEach(item => {
+                            const scannerTabMatch = allowed.includes(item.dataset.category);
                             const catMatch = (cat === 'all' || item.dataset.category === cat);
                             const mktMatch = (mkt === 'all' || item.dataset.market === mkt);
                             
-                            if (catMatch && mktMatch) {
+                            if (scannerTabMatch && catMatch && mktMatch) {
                                 item.style.display = '';
                             } else {
                                 item.style.display = 'none';
@@ -1148,7 +1424,6 @@
                         </div>
                     </div>
                 {% endif %}
-            </div>
             </div>
 
         {% else %}
@@ -1257,6 +1532,22 @@
                             </button>
                         </li>
                     </ul>
+                </div>
+
+                <!-- Filtro de datas para Bilhetes Prontos -->
+                <div class="col-12 d-flex flex-wrap align-items-center gap-2 mb-4 mt-2">
+                    <button class="btn btn-sm ticket-date-btn active" onclick="filterTicketDateTab(this, 'all')">
+                        ✨ {% translate "Todos" %}
+                    </button>
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'Hoje')">
+                        📅 {% translate "Hoje" %}
+                    </button>
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'Amanhã')">
+                        📅 {% translate "Amanhã" %}
+                    </button>
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'Próxima Rodada')">
+                        📅 {% translate "Próxima Rodada" %}
+                    </button>
                 </div>
 
                 <div class="tab-content p-0" id="ticketSubTabsContent">
@@ -1736,17 +2027,42 @@
     white-space: nowrap;
 }
 
+.ticket-date-btn {
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    color: #6b7280 !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    padding: 4px 12px !important;
+    transition: all 0.25s ease !important;
+    white-space: nowrap;
+}
+.ticket-date-btn:hover {
+    background: rgba(255,255,255,0.08) !important;
+    border-color: rgba(255,255,255,0.12) !important;
+    color: #d1d5db !important;
+}
+.ticket-date-btn.active {
+    background: rgba(99, 102, 241, 0.2) !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    color: #818cf8 !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
 /* Specific Active/Hover Colors for Date Sub-tabs by card */
 /* Goals (Green) & Shots (Green) */
 [data-card="goals"] .date-tab.active,
-[data-card="shots"] .date-tab.active {
+[data-card="shots-total"] .date-tab.active,
+[data-card="shots-target"] .date-tab.active {
     background: rgba(16, 185, 129, 0.2) !important;
     border-color: rgba(16, 185, 129, 0.4) !important;
     color: #10b981 !important;
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
 }
 [data-card="goals"] .date-tab:hover,
-[data-card="shots"] .date-tab:hover {
+[data-card="shots-total"] .date-tab:hover,
+[data-card="shots-target"] .date-tab:hover {
     background: rgba(16, 185, 129, 0.1) !important;
     border-color: rgba(16, 185, 129, 0.2) !important;
     color: #d1d5db !important;
@@ -1952,6 +2268,27 @@
 </style>
 
 <script>
+/* ==================== Ticket Date Sub-tab Filtering ==================== */
+let activeTicketDateGroup = 'all';
+
+window.filterTicketDateTab = function(btn, dateGroup) {
+    document.querySelectorAll('.ticket-date-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTicketDateGroup = dateGroup;
+    applyTicketDateFilter();
+};
+
+window.applyTicketDateFilter = function() {
+    document.querySelectorAll('.ticket-card-item').forEach(card => {
+        const rowDateGroup = card.getAttribute('data-date-group');
+        if (activeTicketDateGroup === 'all' || rowDateGroup === activeTicketDateGroup) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+};
+
 /* ==================== Date Sub-tab Filtering ==================== */
 function filterDateTab(btn, cardId, dateGroup) {
     // Update active state on date sub-tabs within this card
@@ -1995,12 +2332,13 @@ function applyGoalsAllFilters() {
     list.querySelectorAll('.scanner-tip-row').forEach(row => {
         const rowMarket = row.getAttribute('data-market');
         const rowDate = row.getAttribute('data-date-group');
+        const rowSignal = row.getAttribute('data-signal');
         
         let marketMatch = false;
         if (activeGoalsMarket === 'all_over') {
-            marketMatch = overMarkets.includes(rowMarket);
+            marketMatch = (rowSignal === 'over') || overMarkets.includes(rowMarket);
         } else if (activeGoalsMarket === 'all_under') {
-            marketMatch = underMarkets.includes(rowMarket);
+            marketMatch = (rowSignal === 'under') || underMarkets.includes(rowMarket);
         } else {
             marketMatch = (rowMarket === activeGoalsMarket);
         }
@@ -2120,20 +2458,246 @@ window.filterDCBTTSMarket = function(btn, market) {
     applyDCBTTSAllFilters();
 }
 
-/* Override date tab filter for goals/combos to also respect other filters */
-(function() {
-    const origFilterDateTab = window.filterDateTab;
-    window.filterDateTab = function(btn, cardId, dateGroup) {
-        origFilterDateTab(btn, cardId, dateGroup);
-        if (cardId === 'goals') {
-            applyGoalsAllFilters();
-        } else if (cardId === 'dc-over') {
-            applyDCOverAllFilters();
-        } else if (cardId === 'dc-btts') {
-            applyDCBTTSAllFilters();
+/* ==================== Corners Over Filtering ==================== */
+let activeCornersMarket = 'all_corners';
+
+function applyCornersAllFilters() {
+    const list = document.getElementById('corners-over-list');
+    if (!list) return;
+    
+    const dateContainer = document.querySelector('.date-subtabs[data-card="corners-over"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
         }
-    };
-})();
+    }
+    
+    const allCornerOverMarkets = ['CORNERS_OVER_65', 'CORNERS_OVER_75', 'CORNERS_OVER_85', 'CORNERS_OVER_95', 'CORNERS_OVER_105', 'CORNERS_OVER_115'];
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        
+        let marketMatch = false;
+        if (activeCornersMarket === 'all_corners') {
+            marketMatch = true; // Show all corners over lines
+        } else {
+            marketMatch = (rowMarket === activeCornersMarket);
+        }
+        
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+window.filterCornersMarket = function(btn, market) {
+    const container = btn.closest('#corners-over-tabs');
+    if (container) {
+        container.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    activeCornersMarket = market;
+    applyCornersAllFilters();
+}
+
+window.filterCornersDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyCornersAllFilters();
+};
+
+/* ==================== Cards Over Filtering ==================== */
+let activeCardsMarket = 'all_cards';
+
+function applyCardsAllFilters() {
+    const list = document.getElementById('cards-over-list');
+    if (!list) return;
+    
+    const dateContainer = document.querySelector('.date-subtabs[data-card="cards-over"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
+        }
+    }
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        
+        let marketMatch = false;
+        if (activeCardsMarket === 'all_cards') {
+            marketMatch = true;
+        } else {
+            marketMatch = (rowMarket === activeCardsMarket);
+        }
+        
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+window.filterCardsMarket = function(btn, market) {
+    const container = btn.closest('#cards-over-tabs');
+    if (container) {
+        container.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    activeCardsMarket = market;
+    applyCardsAllFilters();
+}
+
+window.filterCardsDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyCardsAllFilters();
+};
+
+window.filterGoalsDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyGoalsAllFilters();
+};
+
+window.filterDCOverDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyDCOverAllFilters();
+};
+
+window.filterDCBTTSDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyDCBTTSAllFilters();
+};
+
+/* ==================== Shots Total Filtering ==================== */
+let activeShotsTotalMarket = 'all_shots_total';
+
+function applyShotsTotalAllFilters() {
+    const list = document.getElementById('shots-total-list');
+    if (!list) return;
+    
+    const dateContainer = document.querySelector('.date-subtabs[data-card="shots-total"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
+        }
+    }
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        
+        let marketMatch = false;
+        if (activeShotsTotalMarket === 'all_shots_total') {
+            marketMatch = true;
+        } else if (activeShotsTotalMarket === 'SHOTS_WIN') {
+            marketMatch = (rowMarket === 'SHOT_WIN_H' || rowMarket === 'SHOT_WIN_A');
+        } else {
+            marketMatch = (rowMarket === activeShotsTotalMarket);
+        }
+        
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+window.filterShotsTotalMarket = function(btn, market) {
+    const container = btn.closest('#shots-total-tabs');
+    if (container) {
+        container.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    activeShotsTotalMarket = market;
+    applyShotsTotalAllFilters();
+}
+
+window.filterShotsTotalDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyShotsTotalAllFilters();
+};
+
+/* ==================== Shots Target Filtering ==================== */
+let activeShotsTargetMarket = 'all_shots_target';
+
+function applyShotsTargetAllFilters() {
+    const list = document.getElementById('shots-target-list');
+    if (!list) return;
+    
+    const dateContainer = document.querySelector('.date-subtabs[data-card="shots-target"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
+        }
+    }
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        
+        let marketMatch = false;
+        if (activeShotsTargetMarket === 'all_shots_target') {
+            marketMatch = true;
+        } else {
+            marketMatch = (rowMarket === activeShotsTargetMarket);
+        }
+        
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+window.filterShotsTargetMarket = function(btn, market) {
+    const container = btn.closest('#shots-target-tabs');
+    if (container) {
+        container.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    activeShotsTargetMarket = market;
+    applyShotsTargetAllFilters();
+}
+
+window.filterShotsTargetDateTab = function(btn) {
+    const container = btn.closest('.date-subtabs');
+    container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyShotsTargetAllFilters();
+};
 
 document.addEventListener("DOMContentLoaded", function() {
     // Trigger active filters on page load
@@ -2148,11 +2712,29 @@ document.addEventListener("DOMContentLoaded", function() {
                 applyDCOverAllFilters();
             } else if (cardId === 'dc-btts') {
                 applyDCBTTSAllFilters();
+            } else if (cardId === 'corners-over') {
+                applyCornersAllFilters();
+            } else if (cardId === 'cards-over') {
+                applyCardsAllFilters();
+            } else if (cardId === 'shots-total') {
+                applyShotsTotalAllFilters();
+            } else if (cardId === 'shots-target') {
+                applyShotsTargetAllFilters();
             } else {
                 filterDateTab(activeBtn, cardId, dateGroup);
             }
         }
     });
+
+    // Enforce initial filters on load
+    applyGoalsAllFilters();
+    applyDCOverAllFilters();
+    applyDCBTTSAllFilters();
+    applyCornersAllFilters();
+    applyCardsAllFilters();
+    applyShotsTotalAllFilters();
+    applyShotsTargetAllFilters();
+    applyTicketDateFilter();
 
     // 1. Ticket History Pagination (4 tickets per page)
     const ticketContainer = document.getElementById("ticket-history-list");
@@ -2227,100 +2809,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     };
-
-    // 2. Scanner History Pagination & Filtering (6 rows per page)
-    const scannerContainer = document.getElementById("scanner-history-list");
-    const scannerPagination = document.getElementById("scanner-history-pagination");
-    if (scannerContainer && scannerPagination) {
-        const rows = Array.from(scannerContainer.querySelectorAll(".scanner-history-row"));
-        const rowsPerPage = 6;
-        let filteredRows = [...rows];
-        let currentPage = 1;
-
-        window.currentMarketFilter = 'all';
-        window.currentResultFilter = 'all';
-
-        window.filterHistoryMarket = function(btn, market) {
-            const container = document.getElementById("history-market-tabs");
-            container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-
-            window.currentMarketFilter = market;
-            applyFilters();
-        };
-
-        window.filterHistoryResult = function(btn, result) {
-            const container = document.getElementById("history-result-tabs");
-            container.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-
-            window.currentResultFilter = result;
-            applyFilters();
-        };
-
-        function applyFilters() {
-            filteredRows = rows.filter(row => {
-                const category = row.getAttribute("data-category");
-                const status = row.getAttribute("data-status");
-
-                const matchesMarket = window.currentMarketFilter === 'all' || category === window.currentMarketFilter;
-                const matchesResult = window.currentResultFilter === 'all' || status === window.currentResultFilter;
-
-                return matchesMarket && matchesResult;
-            });
-
-            currentPage = 1;
-            showPage(1);
-        }
-
-        function showPage(page) {
-            currentPage = page;
-            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            
-            rows.forEach(row => row.style.display = "none");
-
-            filteredRows.forEach((row, idx) => {
-                if (idx >= start && idx < end) {
-                    row.style.display = "table-row";
-                }
-            });
-            renderButtons(totalPages);
-        }
-
-        function renderButtons(totalPages) {
-            scannerPagination.innerHTML = "";
-            if (totalPages <= 1) return;
-
-            // Previous Button
-            const prevBtn = document.createElement("button");
-            prevBtn.className = "pagination-btn";
-            prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-            prevBtn.disabled = currentPage === 1;
-            prevBtn.onclick = () => showPage(currentPage - 1);
-            scannerPagination.appendChild(prevBtn);
-
-            // Page Numbers
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement("button");
-                btn.className = "pagination-btn" + (currentPage === i ? " active" : "");
-                btn.innerText = i;
-                btn.onclick = () => showPage(i);
-                scannerPagination.appendChild(btn);
-            }
-
-            // Next Button
-            const nextBtn = document.createElement("button");
-            nextBtn.className = "pagination-btn";
-            nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-            nextBtn.disabled = currentPage === totalPages;
-            nextBtn.onclick = () => showPage(currentPage + 1);
-            scannerPagination.appendChild(nextBtn);
-        }
-
-        showPage(1);
-    }
 });
 </script>
 
