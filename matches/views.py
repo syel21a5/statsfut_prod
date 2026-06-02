@@ -1,3 +1,4 @@
+# pyright: reportGeneralTypeIssues=false
 from django.views.generic import ListView, DetailView, TemplateView, View
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -353,7 +354,184 @@ class MatchDetailView(DetailView):
             print(f"Error generating advanced stats: {e}")
             context['advanced_stats'] = None
             
+        from django.conf import settings
+        context['debug_mode'] = settings.DEBUG
         return context
+
+class MatchVideoScriptView(View):
+    def get(self, request, pk):
+        from django.conf import settings
+        if not settings.DEBUG:
+            from django.http import Http404
+            raise Http404("Página não encontrada")
+            
+        match = get_object_or_404(Match, pk=pk)
+        
+        # Obter estatísticas do MatchAnalyzer
+        try:
+            analyzer = MatchAnalyzer(match)
+            report = analyzer.generate_full_report()
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f'Erro ao analisar partida: {str(e)}'}, status=500)
+            
+        # Formatar estatísticas para o prompt
+        home_team = match.home_team.name
+        away_team = match.away_team.name
+        league = match.league.name
+        country = match.league.country
+        goals = report.get('goals', {})
+        corners = report.get('corners', {})
+        odds_probs = report.get('odds_probs', {})
+        strength = report.get('strength', {})
+        summary = report.get('summary', '')
+        
+        prompt = f"""
+Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas de muito sucesso no YouTube e TikTok.
+Escreva um roteiro de vídeo dinâmico, envolvente e focado em estatísticas para analisar a partida abaixo:
+
+PARTIDA: {home_team} vs {away_team}
+COMPETIÇÃO: {league} ({country})
+
+ESTATÍSTICAS DO STATSFUT:
+- Probabilidade de gol no 1º Tempo (HT Goal): {goals.get('ht_goal', 0)}%
+- Probabilidade de Ambas Marcam (BTTS): {goals.get('btts', 0)}%
+- Probabilidades de Over/Under:
+  * Over 0.5 Gols: {goals.get('over_05', 0)}%
+  * Over 1.5 Gols: {goals.get('over_15', 0)}%
+  * Over 2.5 Gols: {goals.get('over_25', 0)}%
+  * Over 3.5 Gols: {goals.get('over_35', 0)}%
+- Força das Equipes:
+  * Ataque do {home_team} (Casa): {strength.get('home_attack', '')}
+  * Defesa do {home_team} (Casa): {strength.get('home_defense', '')}
+  * Ataque do {away_team} (Fora): {strength.get('away_attack', '')}
+  * Defesa do {away_team} (Fora): {strength.get('away_defense', '')}
+- Projeção de Escanteios (Cantos):
+  * Média de Cantos do {home_team}: {corners.get('home', {}).get('avg_total', 0)}
+  * Média de Cantos do {away_team}: {corners.get('away', {}).get('avg_total', 0)}
+  * Melhor aposta de cantos recomendada: {corners.get('recommendation', '')}
+- Probabilidade de Resultado Final:
+  * Vitória {home_team}: {odds_probs.get('home_win', 0)}%
+  * Empate: {odds_probs.get('draw', 0)}%
+  * Vitória {away_team}: {odds_probs.get('away_win', 0)}%
+  * Palpite principal de vencedor/dupla chance: {odds_probs.get('double_bet', '')} ({odds_probs.get('double_bet_prob', 0)}% de confiança)
+- Resumo técnico dos times: {summary}
+
+Instruções para o roteiro:
+1. **TONALIDADE CASUAL, PÉ NO CHÃO E HUMANA**: Evite gritaria, tom de urgência exagerado, alarmismos ou palavras sensacionalistas como "ANOMALIA BIZARRA", "ERRO DAS CASAS" ou "MINA DE OURO". Escreva em um tom de conversa de apostador profissional para apostador comum, muito tranquilo, amigável e focado em credibilidade ("Fala galera, beleza?", "Olha esse detalhe interessante...", "Temos uma linha bem segura...").
+2. **ARGUMENTAÇÃO DE FUTEBOL REAL (NÃO ROBÓTICA)**: 
+   - **NÃO fale de algoritmos**, "nosso robô", fórmulas ou matemática complexa no texto da fala do apresentador. A análise deve parecer 100% vinda de um especialista humano de carne e osso interpretando os dados.
+   - Apresente um **Contexto de Jogo Real**: Comente brevemente sobre a situação das equipes, fase atual ou a importância do confronto.
+   - Justifique as estatísticas com **Leitura de Campo e Tática Real**: Se a probabilidade de gols ou escanteios é alta, explique isso usando dinâmicas práticas do esporte (ex: "A média de escanteios é alta porque o time ataca muito pelas pontas buscando linha de fundo").
+   - **NÃO faça perguntas bobas, artificiais ou superficiais** ao público (como "quem tem o melhor elenco?"). Se for pedir engajamento, que seja apenas focado no palpite do jogo ("Quem você acha que leva a melhor? Deixa nos comentários").
+3. Divida o roteiro em seções claras usando marcações como:
+   - [0:00 - INTRODUÇÃO / HOOK]
+   - [0:30 - ANÁLISE DE GOLS E MOMENTOS]
+   - [2:00 - ANÁLISE DE ESCANTEIOS E TÁTICA]
+   - [3:30 - CONCLUSÃO E PALPITE DE VALOR]
+4. INSTRUÇÕES VISUAIS: Em cada seção, forneça instruções exatas para o editor de vídeo. Use a tag [EDICAO: <instrução>] (ex: [EDICAO: Mostrar print do Statsfut com a barra de Over 1.5 gols em verde]).
+5. Faça menção constante de forma natural às informações presentes na tela ou no "painel do Statsfut".
+6. CHAMADA PARA AÇÃO (CTA): Antes do palpite final e no encerramento, faça uma chamada natural e madura para o público conhecer a plataforma.
+7. GESTÃO DE BANCA: Termine o vídeo lembrando de forma muito profissional que gestão de banca é indispensável.
+8. O roteiro deve ter cerca de 3 a 5 minutos se lido em voz alta (cerca de 500 a 700 palavras), sendo rico em leitura de jogo para prender o público.
+
+9. **SEÇÃO EXTRA (LOCUÇÃO - CRÍTICO)**:
+Ao final da resposta, após o roteiro completo, crie OBRIGATORIAMENTE uma divisória e uma seção chamada exatamente:
+`=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===`
+Nesta seção, você deve colocar APENAS o texto corrido que o apresentador vai falar do início ao fim, seguindo rigidamente estas regras para o ElevenLabs ler perfeitamente sem parecer robô:
+- REMOVA COMPLETAMENTE todas as indicações de tempo (como [0:00...]), instruções de edição (como [EDICAO: ...]), nomes de personagens (como 'Apresentador:') e títulos de seções. Deixe apenas os parágrafos de fala contínuos.
+- Escreva por extenso todos os símbolos e números para garantir a pronúncia correta da voz de Inteligência Artificial:
+  * Substitua o símbolo '%' por 'por cento' (ex: escreva 'oitenta por cento' ao invés de '80%').
+  * Substitua pontos em números decimais por 'ponto' (ex: escreva 'um ponto cinco' ao vir de '1.5', 'oito ponto setenta e cinco' ao invés de '8.75').
+  * Substitua termos de aposta como 'X2' por 'empate ou vitória do visitante' (ou o equivalente correspondente a dupla chance de visitante/empate de forma natural para a partida).
+  * Substitua 'HT Goal' por 'gol no primeiro tempo'.
+  * Substitua 'Over' por 'mais de' ou pronuncie 'over' de forma natural no fluxo da frase.
+- O texto dessa seção deve ser idêntico ao que o apresentador vai falar na primeira parte, porém 100% limpo, sem nenhuma formatação especial, pronto para ser copiado e colado direto na ferramenta de voz.
+"""
+        import requests
+        import os
+        from dotenv import load_dotenv
+        
+        # Recarrega o arquivo .env dinamicamente para não precisar reiniciar o servidor Django
+        load_dotenv(override=True)
+        
+        api_key = os.getenv('GEMINI_API_KEY')
+        
+        # 1. Se o usuário definiu uma chave direta no .env, usá-la imediatamente e ignorar o proxy.
+        # Isso garante que se ele tiver uma chave de API própria funcionando, ela seja usada diretamente.
+        if api_key:
+            model = os.getenv('GEMINI_MODEL', 'gemini-3.5-flash')
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+            headers = {'Content-Type': 'application/json'}
+            payload = {
+                "contents": [{
+                    "parts": [{
+                        "text": prompt
+                    }]
+                }]
+            }
+            try:
+                r = requests.post(url, headers=headers, json=payload, timeout=120)
+                if r.status_code == 200:
+                    data = r.json()
+                    script_text = data['candidates'][0]['content']['parts'][0]['text']
+                    return JsonResponse({'status': 'success', 'script': script_text})
+                else:
+                    return JsonResponse({
+                        'status': 'error', 
+                        'message': f'Erro na API direta do Gemini ({r.status_code}): {r.text}'
+                    }, status=500)
+            except Exception as e:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': f'Erro ao conectar à API direta do Gemini: {str(e)}'
+                }, status=500)
+                
+        # 2. Tentar detectar se o proxy local de rotação está ativo
+        proxy_host = None
+        for host in ["127.0.0.1", "host.docker.internal"]:
+            try:
+                # Faz um ping leve para ver se o proxy responde
+                r = requests.get(f"http://{host}:8089/v1/models", headers={"Authorization": "Bearer dummy"}, timeout=1.5)
+                if r.status_code == 200:
+                    proxy_host = host
+                    break
+            except:
+                continue
+
+        if proxy_host:
+            # Usar o proxy local de rotação (formato OpenAI)
+            url = f"http://{proxy_host}:8089/v1/chat/completions"
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer dummy_key'
+            }
+            payload = {
+                "model": "gemini-2.0-flash-lite",
+                "messages": [
+                    {"role": "user", "content": prompt}
+                ]
+            }
+            try:
+                r = requests.post(url, headers=headers, json=payload, timeout=120)
+                if r.status_code != 200:
+                    return JsonResponse({
+                        'status': 'error', 
+                        'message': f'Erro no Proxy de Rotação ({r.status_code}): {r.text}'
+                    }, status=500)
+                data = r.json()
+                script_text = data['choices'][0]['message']['content']
+                return JsonResponse({'status': 'success', 'script': script_text})
+            except Exception as e:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': f'Erro ao comunicar com o Proxy de Rotação: {str(e)}'
+                }, status=500)
+        else:
+            return JsonResponse({
+                'status': 'error', 
+                'message': 'Nenhum Proxy de Rotação ativo na porta 8089 (certifique-se de executar START_GEMINI_PROXY.bat) E nenhuma chave GEMINI_API_KEY encontrada no arquivo .env local.'
+            }, status=400)
+
 
 from django.utils.translation import gettext_lazy as _
 

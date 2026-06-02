@@ -19,9 +19,9 @@ python manage.py collectstatic --noinput
 
 # Iniciar o Tor com ControlPort habilitado (para rotação de IP)
 echo "Configurando Tor com ControlPort..."
-grep -q "ControlPort 9051" /etc/tor/torrc || echo "ControlPort 9051" >> /etc/tor/torrc
-grep -q "CookieAuthentication 0" /etc/tor/torrc || echo "CookieAuthentication 0" >> /etc/tor/torrc
-grep -q "MaxCircuitDirtiness 10" /etc/tor/torrc || echo "MaxCircuitDirtiness 10" >> /etc/tor/torrc
+grep -q "^ControlPort 9051" /etc/tor/torrc || echo "ControlPort 9051" >> /etc/tor/torrc
+grep -q "^CookieAuthentication 0" /etc/tor/torrc || echo "CookieAuthentication 0" >> /etc/tor/torrc
+grep -q "^MaxCircuitDirtiness 10" /etc/tor/torrc || echo "MaxCircuitDirtiness 10" >> /etc/tor/torrc
 echo "Iniciando serviço do Tor..."
 service tor start || tor &
 sleep 5

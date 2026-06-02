@@ -152,7 +152,7 @@ class MatchAnalyzer:
         def calc_advanced_match_stats(matches):
             if not matches: return {}
             valid = btts_1h = btts_2h = btts_both = 0
-            b1_1_2 = b1_2_3 = b2_1_2 = b2_2_3 = b_1_2 = b_2_3 = b_2_4 = 0
+            b1_1_2 = b1_2_3 = b1_2_4 = b2_1_2 = b2_2_3 = b2_2_4 = b_1_2 = b_2_3 = b_2_4 = 0
             for m in matches:
                 if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None:
                     valid += 1
@@ -166,8 +166,10 @@ class MatchAnalyzer:
                     t1, t2, t = h1 + a1, h2 + a2, m.home_score + m.away_score
                     if 1 <= t1 <= 2: b1_1_2 += 1
                     if 2 <= t1 <= 3: b1_2_3 += 1
+                    if 2 <= t1 <= 4: b1_2_4 += 1
                     if 1 <= t2 <= 2: b2_1_2 += 1
                     if 2 <= t2 <= 3: b2_2_3 += 1
+                    if 2 <= t2 <= 4: b2_2_4 += 1
                     if 1 <= t <= 2: b_1_2 += 1
                     if 2 <= t <= 3: b_2_3 += 1
                     if 2 <= t <= 4: b_2_4 += 1
@@ -179,8 +181,10 @@ class MatchAnalyzer:
                 'btts_both': int((btts_both / valid) * 100),
                 'bracket_1t_1_2': int((b1_1_2 / valid) * 100),
                 'bracket_1t_2_3': int((b1_2_3 / valid) * 100),
+                'bracket_1t_2_4': int((b1_2_4 / valid) * 100),
                 'bracket_2t_1_2': int((b2_1_2 / valid) * 100),
                 'bracket_2t_2_3': int((b2_2_3 / valid) * 100),
+                'bracket_2t_2_4': int((b2_2_4 / valid) * 100),
                 'bracket_ft_1_2': int((b_1_2 / valid) * 100),
                 'bracket_ft_2_3': int((b_2_3 / valid) * 100),
                 'bracket_ft_2_4': int((b_2_4 / valid) * 100),
@@ -215,6 +219,10 @@ class MatchAnalyzer:
             'over_15': calc_over(combined_matches, 1.5),
             'over_25': calc_over(combined_matches, 2.5),
             'over_35': calc_over(combined_matches, 3.5),
+            'under_35': 100 - calc_over(combined_matches, 3.5),
+            'under_45': 100 - calc_over(combined_matches, 4.5),
+            'under_55': 100 - calc_over(combined_matches, 5.5),
+            'under_65': 100 - calc_over(combined_matches, 6.5),
             'btts': calc_btts(combined_matches),
             'ht_goal': calc_ht_goal(combined_matches),
             'home_first_score': calc_first_to_score(self.home_last_10, self.home_team),
@@ -314,14 +322,80 @@ class MatchAnalyzer:
                 dc_brackets[f"{combo}_{bracket.replace('-', '_')}"] = int((count / total_mapped) * 100)
         base_stats['dc_brackets'] = dc_brackets
 
+        # Double Chance + Under Goals
+        # Separate mapping to get correct individual team stats (avoiding artificially halved percentages)
+        home_mapped_ind = []
+        for m in self.home_last_10:
+            if m.home_score is None or m.away_score is None:
+                continue
+            is_win_or_draw = (m.home_team_id == self.home_team.id and m.home_score >= m.away_score) or \
+                             (m.away_team_id == self.home_team.id and m.away_score >= m.home_score)
+            home_mapped_ind.append({
+                'win_or_draw': is_win_or_draw,
+                'win': (m.home_team_id == self.home_team.id and m.home_score > m.away_score) or \
+                       (m.away_team_id == self.home_team.id and m.away_score > m.home_score),
+                'total_goals': m.home_score + m.away_score,
+                'btts': m.home_score > 0 and m.away_score > 0
+            })
+        total_home_ind = len(home_mapped_ind) or 1
+
+        away_mapped_ind = []
+        for m in self.away_last_10:
+            if m.home_score is None or m.away_score is None:
+                continue
+            is_win_or_draw = (m.home_team_id == self.away_team.id and m.home_score >= m.away_score) or \
+                             (m.away_team_id == self.away_team.id and m.away_score >= m.home_score)
+            away_mapped_ind.append({
+                'win_or_draw': is_win_or_draw,
+                'win': (m.home_team_id == self.away_team.id and m.home_score > m.away_score) or \
+                       (m.away_team_id == self.away_team.id and m.away_score > m.home_score),
+                'total_goals': m.home_score + m.away_score,
+                'btts': m.home_score > 0 and m.away_score > 0
+            })
+        total_away_ind = len(away_mapped_ind) or 1
+
+        dc_unders = {}
+        for line in [2.5, 3.5, 4.5, 5.5]:
+            line_str = str(line).replace('.', '_')
+            # 1X under line
+            c_1x = sum(1 for x in home_mapped_ind if x['win_or_draw'] and x['total_goals'] < line)
+            dc_unders[f"1X_under_{line_str}"] = int((c_1x / total_home_ind) * 100)
+            # X2 under line
+            c_x2 = sum(1 for x in away_mapped_ind if x['win_or_draw'] and x['total_goals'] < line)
+            dc_unders[f"X2_under_{line_str}"] = int((c_x2 / total_away_ind) * 100)
+        base_stats['dc_unders'] = dc_unders
+
+        # Double Chance + Over Goals
+        dc_overs = {}
+        for line in [0.5, 1.5, 2.5, 3.5]:
+            line_str = str(line).replace('.', '_')
+            # 1X over line
+            c_1x = sum(1 for x in home_mapped_ind if x['win_or_draw'] and x['total_goals'] > line)
+            dc_overs[f"1X_over_{line_str}"] = int((c_1x / total_home_ind) * 100)
+            # X2 over line
+            c_x2 = sum(1 for x in away_mapped_ind if x['win_or_draw'] and x['total_goals'] > line)
+            dc_overs[f"X2_over_{line_str}"] = int((c_x2 / total_away_ind) * 100)
+        base_stats['dc_overs'] = dc_overs
+
+        # Double Chance + BTTS
+        dc_btts = {}
+        for suffix, btts_val in [('yes', True), ('no', False)]:
+            # 1X btts
+            c_1x = sum(1 for x in home_mapped_ind if x['win_or_draw'] and x['btts'] == btts_val)
+            dc_btts[f"1X_btts_{suffix}"] = int((c_1x / total_home_ind) * 100)
+            # X2 btts
+            c_x2 = sum(1 for x in away_mapped_ind if x['win_or_draw'] and x['btts'] == btts_val)
+            dc_btts[f"X2_btts_{suffix}"] = int((c_x2 / total_away_ind) * 100)
+        base_stats['dc_btts'] = dc_btts
+
         # Winner + BTTS
         base_stats['winner_btts'] = {
-            'home_yes': int((sum(1 for item in mapped_matches if item['home_win'] and item['btts']) / total_mapped) * 100),
-            'home_no': int((sum(1 for item in mapped_matches if item['home_win'] and not item['btts']) / total_mapped) * 100),
+            'home_yes': int((sum(1 for item in home_mapped_ind if item['win'] and item['btts']) / total_home_ind) * 100),
+            'home_no': int((sum(1 for item in home_mapped_ind if item['win'] and not item['btts']) / total_home_ind) * 100),
             'draw_yes': int((sum(1 for item in mapped_matches if item['draw'] and item['btts']) / total_mapped) * 100),
             'draw_no': int((sum(1 for item in mapped_matches if item['draw'] and not item['btts']) / total_mapped) * 100),
-            'away_yes': int((sum(1 for item in mapped_matches if item['away_win'] and item['btts']) / total_mapped) * 100),
-            'away_no': int((sum(1 for item in mapped_matches if item['away_win'] and not item['btts']) / total_mapped) * 100),
+            'away_yes': int((sum(1 for item in away_mapped_ind if item['win'] and item['btts']) / total_away_ind) * 100),
+            'away_no': int((sum(1 for item in away_mapped_ind if item['win'] and not item['btts']) / total_away_ind) * 100),
         }
 
         # Winner + Gols

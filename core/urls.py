@@ -29,6 +29,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('members/', include('members.urls')),
+    path('video-maker/', include('video_maker.urls')),
     path('', include('matches.urls')),
     prefix_default_language=False
 )

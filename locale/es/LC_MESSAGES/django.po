@@ -4008,6 +4008,18 @@ msgid ""
 "alerts, value bet detection, and more."
 msgstr ""
 
+msgid "Not 2-4 HT"
+msgstr "No 2-4 HT"
+
+msgid "Not 2-4 2H"
+msgstr "No 2-4 2T"
+
+msgid "Not 2-4 Goals in 1st Half (HT)"
+msgstr "No 2-4 Goles en 1ª Mitad (HT)"
+
+msgid "Not 2-4 Goals in 2nd Half (2T)"
+msgstr "No 2-4 Goles en 2ª Mitad (2T)"
+
 #~ msgid "DISCIPLINE (AVERAGE)"
 #~ msgstr "DISCIPLINA (PROMEDIO)"
 

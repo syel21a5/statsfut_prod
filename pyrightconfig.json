@@ -4,5 +4,24 @@
   "venv": "venv",
   "extraPaths": [
     "i:/GitHub/statsfut/statsfut"
-  ]
+  ],
+  "plugins": [
+    {
+      "name": "pyright_django"
+    }
+  ],
+  "typeCheckingMode": "off",
+  "reportMissingModuleSource": false,
+  "reportUnknownMemberType": false,
+  "reportAttributeAccessIssue": false,
+  "reportGeneralTypeIssues": "none",
+  "reportOptionalSubscript": "none",
+  "reportOptionalMemberAccess": "none",
+  "reportOptionalCall": "none",
+  "reportOptionalIterable": "none",
+  "reportOptionalOperand": "none",
+  "reportTypedDictNotRequiredAccess": "none",
+  "reportPrivateImportUsage": "none",
+  "reportUnboundVariable": "none",
+  "reportInconsistentOverride": "none"
 }

@@ -52,6 +52,55 @@ class Command(BaseCommand):
                 if goals.get('ht_goal', 0) >= 75:
                     save_tip(match, 'HT_GOAL', goals['ht_goal'], 'Goal in 1st Half (HT)')
                 
+                # HT Goals Range Not 2-4 (Sim <= 30% -> Não >= 70%)
+                if goals.get('bracket_1t_2_4') is not None and goals.get('bracket_1t_2_4') <= 30:
+                    prob_not = 100 - goals['bracket_1t_2_4']
+                    save_tip(match, 'HT_GOALS_NOT_2_4', prob_not, 'Not 2-4 Goals in 1st Half (HT)')
+                
+                # 2T Goals Range Not 2-4 (Sim <= 30% -> Não >= 70%)
+                if goals.get('bracket_2t_2_4') is not None and goals.get('bracket_2t_2_4') <= 30:
+                    prob_not = 100 - goals['bracket_2t_2_4']
+                    save_tip(match, 'SH_GOALS_NOT_2_4', prob_not, 'Not 2-4 Goals in 2nd Half (2T)')
+                
+                # Double Chance + Under Goals Combo
+                dc_unders = goals.get('dc_unders') or {}
+                for combo in ['1X', 'X2']:
+                    label_combo = f"{home} or Draw" if combo == '1X' else f"Draw or {away}"
+                    for line in [2.5, 3.5, 4.5, 5.5]:
+                        line_str = str(line).replace('.', '_')
+                        key = f"{combo}_under_{line_str}"
+                        prob = dc_unders.get(key, 0)
+                        threshold = 70 if line == 2.5 else (75 if line == 3.5 else (80 if line == 4.5 else 85))
+                        if prob >= threshold:
+                            market_code = f"DC_{combo}_UNDER_{line_str}"
+                            save_tip(match, market_code, prob, f"{label_combo} & Under {line} Goals")
+
+                # Double Chance + Over Goals Combo
+                dc_overs = goals.get('dc_overs') or {}
+                for combo in ['1X', 'X2']:
+                    label_combo = f"{home} or Draw" if combo == '1X' else f"Draw or {away}"
+                    for line in [0.5, 1.5, 2.5, 3.5]:
+                        line_str = str(line).replace('.', '_')
+                        key = f"{combo}_over_{line_str}"
+                        prob = dc_overs.get(key, 0)
+                        threshold = 85 if line == 0.5 else (70 if line == 1.5 else (55 if line == 2.5 else 45))
+                        if prob >= threshold:
+                            market_code = f"DC_{combo}_OVER_{line_str}"
+                            save_tip(match, market_code, prob, f"{label_combo} & Over {line} Goals")
+
+                # Double Chance + BTTS Combo
+                dc_btts = goals.get('dc_btts') or {}
+                for combo in ['1X', 'X2']:
+                    label_combo = f"{home} or Draw" if combo == '1X' else f"Draw or {away}"
+                    for suffix in ['yes', 'no']:
+                        key = f"{combo}_btts_{suffix}"
+                        prob = dc_btts.get(key, 0)
+                        threshold = 55 if suffix == 'yes' else 45
+                        if prob >= threshold:
+                            btts_label = "Both Teams to Score (Yes)" if suffix == 'yes' else "Both Teams to Score (No)"
+                            market_code = f"DC_{combo}_BTTS_{suffix.upper()}"
+                            save_tip(match, market_code, prob, f"{label_combo} & {btts_label}")
+                
                 # Over 0.5 (>= 90%)
                 if goals.get('over_05', 0) >= 90:
                     save_tip(match, 'OVER_05', goals['over_05'], 'Over 0.5 Goals')
@@ -67,6 +116,22 @@ class Command(BaseCommand):
                 # Over 3.5 (>= 50%)
                 if goals.get('over_35', 0) >= 50:
                     save_tip(match, 'OVER_35', goals['over_35'], 'Over 3.5 Goals')
+                    
+                # Under 3.5 (>= 70%)
+                if goals.get('under_35', 0) >= 70:
+                    save_tip(match, 'UNDER_35', goals['under_35'], 'Under 3.5 Goals')
+                    
+                # Under 4.5 (>= 75%)
+                if goals.get('under_45', 0) >= 75:
+                    save_tip(match, 'UNDER_45', goals['under_45'], 'Under 4.5 Goals')
+                    
+                # Under 5.5 (>= 80%)
+                if goals.get('under_55', 0) >= 80:
+                    save_tip(match, 'UNDER_55', goals['under_55'], 'Under 5.5 Goals')
+                    
+                # Under 6.5 (>= 85%)
+                if goals.get('under_65', 0) >= 85:
+                    save_tip(match, 'UNDER_65', goals['under_65'], 'Under 6.5 Goals')
                     
                 # BTTS (>= 65%)
                 if goals.get('btts', 0) >= 65:

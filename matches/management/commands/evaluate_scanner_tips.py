@@ -35,11 +35,78 @@ class Command(BaseCommand):
                     goals_ht = m.goals.filter(minute__lte=45).exists()
                     is_green = goals_ht
                     
+                elif tip.market == 'HT_GOALS_NOT_2_4':
+                    if m.ht_home_score is not None and m.ht_away_score is not None:
+                        ht_g = m.ht_home_score + m.ht_away_score
+                        is_green = not (2 <= ht_g <= 4)
+                    else:
+                        goals_ht_count = m.goals.filter(minute__lte=45).count()
+                        is_green = not (2 <= goals_ht_count <= 4)
+                        
+                elif tip.market == 'SH_GOALS_NOT_2_4':
+                    if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
+                        sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
+                        is_green = not (2 <= sh_g <= 4)
+                    else:
+                        goals_sh_count = m.goals.filter(minute__gt=45).count()
+                        is_green = not (2 <= goals_sh_count <= 4)
+                        
+                elif tip.market.startswith('DC_1X_UNDER_'):
+                    line = float(tip.market.replace('DC_1X_UNDER_', '').replace('_', '.'))
+                    has_dc = m.home_score >= m.away_score
+                    has_under = total_goals < line
+                    is_green = has_dc and has_under
+                    
+                elif tip.market.startswith('DC_X2_UNDER_'):
+                    line = float(tip.market.replace('DC_X2_UNDER_', '').replace('_', '.'))
+                    has_dc = m.away_score >= m.home_score
+                    has_under = total_goals < line
+                    is_green = has_dc and has_under
+ 
+                elif tip.market.startswith('DC_1X_OVER_'):
+                    line = float(tip.market.replace('DC_1X_OVER_', '').replace('_', '.'))
+                    has_dc = m.home_score >= m.away_score
+                    has_over = total_goals > line
+                    is_green = has_dc and has_over
+                    
+                elif tip.market.startswith('DC_X2_OVER_'):
+                    line = float(tip.market.replace('DC_X2_OVER_', '').replace('_', '.'))
+                    has_dc = m.away_score >= m.home_score
+                    has_over = total_goals > line
+                    is_green = has_dc and has_over
+
+                elif tip.market.startswith('DC_1X_BTTS_'):
+                    suffix = tip.market.split('_')[-1]
+                    has_dc = m.home_score >= m.away_score
+                    btts_match = (m.home_score > 0 and m.away_score > 0)
+                    is_green = has_dc and (btts_match if suffix == 'YES' else not btts_match)
+
+                elif tip.market.startswith('DC_X2_BTTS_'):
+                    suffix = tip.market.split('_')[-1]
+                    has_dc = m.away_score >= m.home_score
+                    btts_match = (m.home_score > 0 and m.away_score > 0)
+                    is_green = has_dc and (btts_match if suffix == 'YES' else not btts_match)
+                    
                 elif tip.market == 'OVER_15':
                     is_green = total_goals >= 2
                     
                 elif tip.market == 'OVER_25':
                     is_green = total_goals >= 3
+                    
+                elif tip.market == 'OVER_35':
+                    is_green = total_goals >= 4
+                    
+                elif tip.market == 'UNDER_35':
+                    is_green = total_goals <= 3
+                    
+                elif tip.market == 'UNDER_45':
+                    is_green = total_goals <= 4
+                    
+                elif tip.market == 'UNDER_55':
+                    is_green = total_goals <= 5
+                    
+                elif tip.market == 'UNDER_65':
+                    is_green = total_goals <= 6
                     
                 elif tip.market == 'BTTS':
                     is_green = (m.home_score > 0 and m.away_score > 0)

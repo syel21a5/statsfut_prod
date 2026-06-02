@@ -9,6 +9,60 @@
 {% endblock %}
 
 {% block content %}
+<style>
+@media (min-width: 768px) {
+    .border-start-desktop {
+        border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+}
+/* ==================== DC Over Market Sub-tabs ==================== */
+.dc-over-market-tab {
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    color: #6b7280 !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    padding: 3px 10px !important;
+    transition: all 0.25s ease !important;
+    letter-spacing: 0.5px;
+}
+.dc-over-market-tab:hover {
+    background: rgba(99, 102, 241, 0.1) !important;
+    border-color: rgba(99, 102, 241, 0.2) !important;
+    color: #d1d5db !important;
+}
+.dc-over-market-tab.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.15)) !important;
+    border-color: rgba(99, 102, 241, 0.5) !important;
+    color: #6366f1 !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+}
+
+/* ==================== DC BTTS Market Sub-tabs ==================== */
+.dc-btts-market-tab {
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    color: #6b7280 !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    padding: 3px 10px !important;
+    transition: all 0.25s ease !important;
+    letter-spacing: 0.5px;
+}
+.dc-btts-market-tab:hover {
+    background: rgba(236, 72, 153, 0.1) !important;
+    border-color: rgba(236, 72, 153, 0.2) !important;
+    color: #d1d5db !important;
+}
+.dc-btts-market-tab.active {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(236, 72, 153, 0.15)) !important;
+    border-color: rgba(236, 72, 153, 0.5) !important;
+    color: #ec4899 !important;
+    box-shadow: 0 2px 8px rgba(236, 72, 153, 0.15);
+}
+</style>
 
 <!-- Premium Navigation Tabs -->
 <ul class="nav nav-tabs border-0 mb-4 gap-2" id="premiumTab" role="tablist">
@@ -143,51 +197,64 @@
                         <!-- Goals Markets with Sub-tabs -->
                         <div class="col-12 col-xl-6">
                             <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(16, 185, 129, 0.3);">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15);">
-                                        <i class="fa-solid fa-futbol fa-lg text-success"></i>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15);">
+                                            <i class="fa-solid fa-futbol fa-lg text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-white mb-0 fw-bold">{% translate "Goals Markets" %}</h5>
+                                            <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h5 class="text-white mb-0 fw-bold">{% translate "Goals Markets" %}</h5>
-                                        <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
-                                    </div>
-                                </div>
+                                </div> <!-- Close header d-flex -->
                                 
-                                <!-- Goals Market Line Sub-tabs -->
-                                <div class="d-flex flex-wrap gap-1 mb-3 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                                    <button class="btn btn-sm goals-market-tab active" data-market="all" onclick="filterGoalsMarket(this, 'all')">
-                                        {% translate "All" %}
-                                    </button>
-                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_05" onclick="filterGoalsMarket(this, 'OVER_05')">
-                                        +0.5
-                                    </button>
-                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_15" onclick="filterGoalsMarket(this, 'OVER_15')">
-                                        +1.5
-                                    </button>
-                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_25" onclick="filterGoalsMarket(this, 'OVER_25')">
-                                        +2.5
-                                    </button>
-                                    <button class="btn btn-sm goals-market-tab" data-market="OVER_35" onclick="filterGoalsMarket(this, 'OVER_35')">
-                                        +3.5
-                                    </button>
-                                    <button class="btn btn-sm goals-market-tab" data-market="HT_GOAL" onclick="filterGoalsMarket(this, 'HT_GOAL')">
-                                        HT
-                                    </button>
+                                <!-- Goals Market Sub-tabs (Side-by-side) -->
+                                <div class="row g-3 mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <!-- Goals Market Sub-tabs (OVER) -->
+                                    <div class="col-12 col-md-6">
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & HT</span>
+                                        <div class="d-flex flex-wrap gap-1" id="goals-over-tabs">
+                                            <button class="btn btn-sm goals-market-tab active" data-market="all_over" onclick="filterGoalsMarket(this, 'all_over')">
+                                                {% translate "All" %}
+                                            </button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="OVER_05" onclick="filterGoalsMarket(this, 'OVER_05')">+0.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="OVER_15" onclick="filterGoalsMarket(this, 'OVER_15')">+1.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="OVER_25" onclick="filterGoalsMarket(this, 'OVER_25')">+2.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="OVER_35" onclick="filterGoalsMarket(this, 'OVER_35')">+3.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="HT_GOAL" onclick="filterGoalsMarket(this, 'HT_GOAL')">HT</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Goals Market Sub-tabs (UNDER) -->
+                                    <div class="col-12 col-md-6 border-start-desktop ps-md-4">
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Under (-) & Combos</span>
+                                        <div class="d-flex flex-wrap gap-1" id="goals-under-tabs">
+                                            <button class="btn btn-sm goals-market-tab" data-market="all_under" onclick="filterGoalsMarket(this, 'all_under')">
+                                                {% translate "All" %}
+                                            </button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="UNDER_35" onclick="filterGoalsMarket(this, 'UNDER_35')">-3.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="UNDER_45" onclick="filterGoalsMarket(this, 'UNDER_45')">-4.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="UNDER_55" onclick="filterGoalsMarket(this, 'UNDER_55')">-5.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="UNDER_65" onclick="filterGoalsMarket(this, 'UNDER_65')">-6.5</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="HT_GOALS_NOT_2_4" onclick="filterGoalsMarket(this, 'HT_GOALS_NOT_2_4')">{% translate "Not 2-4 HT" %}</button>
+                                            <button class="btn btn-sm goals-market-tab" data-market="SH_GOALS_NOT_2_4" onclick="filterGoalsMarket(this, 'SH_GOALS_NOT_2_4')">{% translate "Not 2-4 2H" %}</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                                 {% if tips_goals %}
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="goals">
                                         {% regroup tips_goals by date_group as grouped_goals %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'goals', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_goals %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'goals', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'goals', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="goals-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_goals %}
                                         {% for item in group.list %}
-                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}" data-signal="{% if 'UNDER' in item.market or 'NOT' in item.market %}under{% else %}over{% endif %}">
                                             <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
                                                 <div>
                                                     <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
@@ -228,9 +295,8 @@
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="btts">
                                         {% regroup tips_btts by date_group as grouped_btts %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'btts', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_btts %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="btts-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -245,6 +311,160 @@
                                                 </div>
                                                 <div class="text-end">
                                                     <span class="badge px-2 py-1 text-warning bg-warning-subtle border border-warning-subtle rounded-2 small me-2" style="background: rgba(245, 158, 11, 0.12) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; color: #f59e0b !important;">@ {{ item.odd }}</span><span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(6, 182, 212,0.15); border: 1px solid rgba(6, 182, 212,0.3); color: rgb(6, 182, 212);">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Dupla Chance & Over Combo -->
+                        <div class="col-12 col-xl-6">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(99, 102, 241, 0.3);">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(99, 102, 241, 0.15);">
+                                            <i class="fa-solid fa-code-fork fa-lg text-primary" style="color: #6366f1;"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-white mb-0 fw-bold">{% translate "Dupla Chance & Over" %}</h5>
+                                            <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sub-tabs -->
+                                <div class="row g-3 mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <!-- 1X -->
+                                    <div class="col-12 col-md-6">
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Casa ou Empate (1X)</span>
+                                        <div class="d-flex flex-wrap gap-1" id="dc-over-1x-tabs">
+                                            <button class="btn btn-sm dc-over-market-tab active" data-market="all_1x" onclick="filterDCOverMarket(this, 'all_1x')">
+                                                {% translate "All" %}
+                                            </button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_0_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_0_5')">+0.5</button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_1_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_1_5')">+1.5</button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_2_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_2_5')">+2.5</button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_3_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_3_5')">+3.5</button>
+                                        </div>
+                                    </div>
+                                    <!-- X2 -->
+                                    <div class="col-12 col-md-6 border-start-desktop ps-md-4">
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Empate ou Fora (X2)</span>
+                                        <div class="d-flex flex-wrap gap-1" id="dc-over-x2-tabs">
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="all_x2" onclick="filterDCOverMarket(this, 'all_x2')">
+                                                {% translate "All" %}
+                                            </button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_0_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_0_5')">+0.5</button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_1_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_1_5')">+1.5</button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_2_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_2_5')">+2.5</button>
+                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_3_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_3_5')">+3.5</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if tips_dc_over %}
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-over">
+                                        {% regroup tips_dc_over by date_group as grouped_dc_over %}
+                                        {% for group in grouped_dc_over %}
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'dc-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="dc-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_dc_over %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: #6366f1;"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-2 py-1 text-warning bg-warning-subtle border border-warning-subtle rounded-2 small me-2" style="background: rgba(245, 158, 11, 0.12) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; color: #f59e0b !important;">@ {{ item.odd }}</span><span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #6366f1;">{{ item.prob }}%</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center p-4 text-secondary">
+                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Dupla Chance & Ambas Marcam Combo -->
+                        <div class="col-12 col-xl-6">
+                            <div class="p-4 rounded-4 h-100 shadow-sm" style="background: var(--bg-panel); border: 1px solid rgba(236, 72, 153, 0.3);">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(236, 72, 153, 0.15);">
+                                            <i class="fa-solid fa-arrows-split-up-and-left fa-lg text-pink" style="color: #ec4899;"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-white mb-0 fw-bold">{% translate "Dupla Chance & Ambas Marcam" %}</h5>
+                                            <span class="text-secondary small">{% translate "Top scanned matches" %}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sub-tabs -->
+                                <div class="row g-3 mb-3 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <!-- 1X -->
+                                    <div class="col-12 col-md-6">
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Casa ou Empate (1X)</span>
+                                        <div class="d-flex flex-wrap gap-1" id="dc-btts-1x-tabs">
+                                            <button class="btn btn-sm dc-btts-market-tab active" data-market="all_1x" onclick="filterDCBTTSMarket(this, 'all_1x')">
+                                                {% translate "All" %}
+                                            </button>
+                                            <button class="btn btn-sm dc-btts-market-tab" data-market="DC_1X_BTTS_YES" onclick="filterDCBTTSMarket(this, 'DC_1X_BTTS_YES')">Sim</button>
+                                            <button class="btn btn-sm dc-btts-market-tab" data-market="DC_1X_BTTS_NO" onclick="filterDCBTTSMarket(this, 'DC_1X_BTTS_NO')">Não</button>
+                                        </div>
+                                    </div>
+                                    <!-- X2 -->
+                                    <div class="col-12 col-md-6 border-start-desktop ps-md-4">
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Empate ou Fora (X2)</span>
+                                        <div class="d-flex flex-wrap gap-1" id="dc-btts-x2-tabs">
+                                            <button class="btn btn-sm dc-btts-market-tab" data-market="all_x2" onclick="filterDCBTTSMarket(this, 'all_x2')">
+                                                {% translate "All" %}
+                                            </button>
+                                            <button class="btn btn-sm dc-btts-market-tab" data-market="DC_X2_BTTS_YES" onclick="filterDCBTTSMarket(this, 'DC_X2_BTTS_YES')">Sim</button>
+                                            <button class="btn btn-sm dc-btts-market-tab" data-market="DC_X2_BTTS_NO" onclick="filterDCBTTSMarket(this, 'DC_X2_BTTS_NO')">Não</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if tips_dc_btts %}
+                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-btts">
+                                        {% regroup tips_dc_btts by date_group as grouped_dc_btts %}
+                                        {% for group in grouped_dc_btts %}
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'dc-btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex flex-column gap-1 scanner-card-list" id="dc-btts-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                                        {% for group in grouped_dc_btts %}
+                                        {% for item in group.list %}
+                                        <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row" data-date-group="{{ group.grouper }}" data-market="{{ item.market }}">
+                                            <div class="py-2 px-3 mb-1 rounded-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.2s ease;" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.05)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.02)'">
+                                                <div>
+                                                    <div class="small text-secondary mb-1">{{ item.match.date|date:"d/m H:i" }} • {{ item.match.league.name }}</div>
+                                                    <div class="text-white fw-bold">{{ item.match.home_team.name }} <span class="text-secondary font-monospace small px-1">vs</span> {{ item.match.away_team.name }}</div>
+                                                    <div class="small mt-1" style="color: #ec4899;"><i class="fa-solid fa-arrow-turn-up me-1"></i>{{ item.text }}</div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="badge px-2 py-1 text-warning bg-warning-subtle border border-warning-subtle rounded-2 small me-2" style="background: rgba(245, 158, 11, 0.12) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; color: #f59e0b !important;">@ {{ item.odd }}</span><span class="badge px-3 py-2 fs-6 fw-bold" style="background: rgba(236, 72, 153, 0.15); border: 1px solid rgba(236, 72, 153, 0.3); color: #ec4899;">{{ item.prob }}%</span>
                                                 </div>
                                             </div>
                                         </a>
@@ -284,9 +504,8 @@
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="result">
                                         {% regroup tips_result by date_group as grouped_result %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'result', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_result %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'result', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'result', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="result-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -333,9 +552,8 @@
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="specials">
                                         {% regroup tips_specials by date_group as grouped_specials %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'specials', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_specials %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'specials', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'specials', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="specials-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -387,9 +605,8 @@
                                 {% if tips_corners_over %}
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-over">
                                         {% regroup tips_corners_over by date_group as grouped_corners_over %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'corners-over', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_corners_over %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'corners-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'corners-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -435,9 +652,8 @@
                                 {% if tips_corners_winner %}
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-winner">
                                         {% regroup tips_corners_winner by date_group as grouped_corners_winner %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'corners-winner', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_corners_winner %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'corners-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'corners-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-winner-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -488,9 +704,8 @@
                                 {% if tips_cards_over %}
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-over">
                                         {% regroup tips_cards_over by date_group as grouped_cards_over %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'cards-over', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_cards_over %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'cards-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'cards-over', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -536,9 +751,8 @@
                                 {% if tips_cards_winner %}
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-winner">
                                         {% regroup tips_cards_winner by date_group as grouped_cards_winner %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'cards-winner', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_cards_winner %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'cards-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'cards-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-winner-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -589,9 +803,8 @@
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots">
                                         {% regroup tips_shots by date_group as grouped_shots %}
-                                        <button class="btn btn-sm date-tab active" onclick="filterDateTab(this, 'shots', 'all')"><i class="fa-regular fa-calendar-days me-1"></i>{% translate "All" %}</button>
                                         {% for group in grouped_shots %}
-                                        <button class="btn btn-sm date-tab" onclick="filterDateTab(this, 'shots', '{{ group.grouper }}')">{{ group.grouper }}</button>
+                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'shots', '{{ group.grouper }}')">{{ group.grouper }}</button>
                                         {% endfor %}
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
@@ -1760,35 +1973,38 @@ function filterDateTab(btn, cardId, dateGroup) {
 }
 
 /* ==================== Goals Market Sub-tab Filtering ==================== */
-let activeGoalsMarket = 'all';
+let activeGoalsMarket = 'all_over';
 
-function filterGoalsMarket(btn, market) {
-    // Update active state
-    document.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    activeGoalsMarket = market;
-    
-    // Filter rows
+function applyGoalsAllFilters() {
     const list = document.getElementById('goals-list');
     if (!list) return;
     
-    // Get active date filter too
+    // Get active date filter safely
     const dateContainer = document.querySelector('.date-subtabs[data-card="goals"]');
     let activeDate = 'all';
     if (dateContainer) {
         const activeBtn = dateContainer.querySelector('.date-tab.active');
         if (activeBtn) {
-            // Check onclick attribute to find date group
-            const onclick = activeBtn.getAttribute('onclick');
-            const match = onclick.match(/'([^']+)'\)$/);
-            if (match) activeDate = match[1];
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
         }
     }
+    
+    const overMarkets = ['OVER_05', 'OVER_15', 'OVER_25', 'OVER_35', 'HT_GOAL'];
+    const underMarkets = ['UNDER_35', 'UNDER_45', 'UNDER_55', 'UNDER_65', 'HT_GOALS_NOT_2_4', 'SH_GOALS_NOT_2_4'];
     
     list.querySelectorAll('.scanner-tip-row').forEach(row => {
         const rowMarket = row.getAttribute('data-market');
         const rowDate = row.getAttribute('data-date-group');
-        const marketMatch = (market === 'all' || rowMarket === market);
+        
+        let marketMatch = false;
+        if (activeGoalsMarket === 'all_over') {
+            marketMatch = overMarkets.includes(rowMarket);
+        } else if (activeGoalsMarket === 'all_under') {
+            marketMatch = underMarkets.includes(rowMarket);
+        } else {
+            marketMatch = (rowMarket === activeGoalsMarket);
+        }
+        
         const dateMatch = (activeDate === 'all' || rowDate === activeDate);
         
         if (marketMatch && dateMatch) {
@@ -1799,28 +2015,145 @@ function filterGoalsMarket(btn, market) {
     });
 }
 
-/* Override date tab filter for goals to also respect market filter */
+function filterGoalsMarket(btn, market) {
+    document.querySelectorAll('.goals-market-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    activeGoalsMarket = market;
+    applyGoalsAllFilters();
+}
+
+/* ==================== DC & Over Combo Filtering ==================== */
+let activeDCOverMarket = 'all_1x';
+
+function applyDCOverAllFilters() {
+    const list = document.getElementById('dc-over-list');
+    if (!list) return;
+    
+    const dateContainer = document.querySelector('.date-subtabs[data-card="dc-over"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
+        }
+    }
+    
+    const over1xMarkets = ['DC_1X_OVER_0_5', 'DC_1X_OVER_1_5', 'DC_1X_OVER_2_5', 'DC_1X_OVER_3_5'];
+    const overX2Markets = ['DC_X2_OVER_0_5', 'DC_X2_OVER_1_5', 'DC_X2_OVER_2_5', 'DC_X2_OVER_3_5'];
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        
+        let marketMatch = false;
+        if (activeDCOverMarket === 'all_1x') {
+            marketMatch = over1xMarkets.includes(rowMarket);
+        } else if (activeDCOverMarket === 'all_x2') {
+            marketMatch = overX2Markets.includes(rowMarket);
+        } else {
+            marketMatch = (rowMarket === activeDCOverMarket);
+        }
+        
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+window.filterDCOverMarket = function(btn, market) {
+    document.querySelectorAll('.dc-over-market-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    activeDCOverMarket = market;
+    applyDCOverAllFilters();
+}
+
+/* ==================== DC & BTTS Combo Filtering ==================== */
+let activeDCBTTSMarket = 'all_1x';
+
+function applyDCBTTSAllFilters() {
+    const list = document.getElementById('dc-btts-list');
+    if (!list) return;
+    
+    const dateContainer = document.querySelector('.date-subtabs[data-card="dc-btts"]');
+    let activeDate = 'all';
+    if (dateContainer) {
+        const activeBtn = dateContainer.querySelector('.date-tab.active');
+        if (activeBtn) {
+            activeDate = activeBtn.getAttribute('data-date-group') || 'all';
+        }
+    }
+    
+    const btts1xMarkets = ['DC_1X_BTTS_YES', 'DC_1X_BTTS_NO'];
+    const bttsX2Markets = ['DC_X2_BTTS_YES', 'DC_X2_BTTS_NO'];
+    
+    list.querySelectorAll('.scanner-tip-row').forEach(row => {
+        const rowMarket = row.getAttribute('data-market');
+        const rowDate = row.getAttribute('data-date-group');
+        
+        let marketMatch = false;
+        if (activeDCBTTSMarket === 'all_1x') {
+            marketMatch = btts1xMarkets.includes(rowMarket);
+        } else if (activeDCBTTSMarket === 'all_x2') {
+            marketMatch = bttsX2Markets.includes(rowMarket);
+        } else {
+            marketMatch = (rowMarket === activeDCBTTSMarket);
+        }
+        
+        const dateMatch = (activeDate === 'all' || rowDate === activeDate);
+        
+        if (marketMatch && dateMatch) {
+            row.classList.remove('hidden-tip');
+        } else {
+            row.classList.add('hidden-tip');
+        }
+    });
+}
+
+window.filterDCBTTSMarket = function(btn, market) {
+    document.querySelectorAll('.dc-btts-market-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    activeDCBTTSMarket = market;
+    applyDCBTTSAllFilters();
+}
+
+/* Override date tab filter for goals/combos to also respect other filters */
 (function() {
     const origFilterDateTab = window.filterDateTab;
     window.filterDateTab = function(btn, cardId, dateGroup) {
         origFilterDateTab(btn, cardId, dateGroup);
-        
-        // If this is the goals card, also apply market filter
-        if (cardId === 'goals' && activeGoalsMarket !== 'all') {
-            const list = document.getElementById('goals-list');
-            if (!list) return;
-            list.querySelectorAll('.scanner-tip-row').forEach(row => {
-                const rowMarket = row.getAttribute('data-market');
-                if (rowMarket !== activeGoalsMarket) {
-                    row.classList.add('hidden-tip');
-                }
-            });
+        if (cardId === 'goals') {
+            applyGoalsAllFilters();
+        } else if (cardId === 'dc-over') {
+            applyDCOverAllFilters();
+        } else if (cardId === 'dc-btts') {
+            applyDCBTTSAllFilters();
         }
     };
 })();
 
-/* ==================== Client-side Pagination ==================== */
 document.addEventListener("DOMContentLoaded", function() {
+    // Trigger active filters on page load
+    document.querySelectorAll('.date-subtabs').forEach(container => {
+        const activeBtn = container.querySelector('.date-tab.active');
+        if (activeBtn) {
+            const cardId = container.getAttribute('data-card');
+            const dateGroup = activeBtn.getAttribute('data-date-group');
+            if (cardId === 'goals') {
+                applyGoalsAllFilters();
+            } else if (cardId === 'dc-over') {
+                applyDCOverAllFilters();
+            } else if (cardId === 'dc-btts') {
+                applyDCBTTSAllFilters();
+            } else {
+                filterDateTab(activeBtn, cardId, dateGroup);
+            }
+        }
+    });
+
     // 1. Ticket History Pagination (4 tickets per page)
     const ticketContainer = document.getElementById("ticket-history-list");
     const ticketPagination = document.getElementById("ticket-history-pagination");

@@ -153,6 +153,149 @@
         background: linear-gradient(90deg, #10b981, #059669);
         border-radius: 4px;
     }
+
+    /* MODAL DO ROTEIRO DE VÍDEO IA */
+    .video-script-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .video-script-modal.show {
+        display: flex;
+        opacity: 1;
+    }
+    .video-script-content {
+        background: #0f172a;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        box-shadow: 0 10px 40px rgba(139, 92, 246, 0.15);
+        border-radius: 16px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes modalSlideUp {
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    .video-script-header {
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(30, 41, 59, 0.3);
+    }
+    .video-script-header h3 {
+        margin: 0;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    .video-script-close {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .video-script-close:hover {
+        color: #fff;
+    }
+    .video-script-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+    .script-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 3rem 0;
+    }
+    .spinner-premium {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(139, 92, 246, 0.1);
+        border-top-color: #8b5cf6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    .script-textarea {
+        background: rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: #e2e8f0;
+        resize: none;
+        height: 400px;
+        width: 100%;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+    .video-script-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.8rem;
+        background: rgba(30, 41, 59, 0.2);
+    }
+    .btn-script-action {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+    }
+    .btn-script-primary {
+        background: #8b5cf6;
+        color: #fff;
+    }
+    .btn-script-primary:hover {
+        background: #7c3aed;
+    }
+    .btn-script-secondary {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: #94a3b8;
+    }
+    .btn-script-secondary:hover {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+    }
 </style>
 <div class="header-minimal">
     <a href="javascript:history.back()" class="btn-back-minimal"><i class="fa-solid fa-arrow-left"></i></a>
@@ -229,7 +372,7 @@
                     <div class="s-bar-wrap">
                         <span class="v h">{{ h }}</span>
                         <div class="s-bar">
-                            <div class="fill h" style="width: {% if h|add:a > 0 %}{{ h|add:0|divisibleby:h|add:a }}{% else %}50{% endif %}%"></div>
+                            <div class="fill h" style="width: 50%;"></div>
                         </div>
                         <span class="v a">{{ a }}</span>
                     </div>
@@ -268,13 +411,17 @@
     
     <!-- MENU DE ABAS DE MERCADO -->
     <div class="market-tabs mb-4">
-        <button class="market-tab-btn active" onclick="switchMarketTab('gols')"><i class="fa-solid fa-futbol"></i> {% translate "Gols & Tempos" %}</button>
-        <button class="market-tab-btn" onclick="switchMarketTab('escanteios')"><i class="fa-solid fa-flag"></i> {% translate "Escanteios" %}</button>
-        <button class="market-tab-btn" onclick="switchMarketTab('cartoes')"><i class="fa-solid fa-clone"></i> {% translate "Cartões" %}</button>
-        <button class="market-tab-btn" onclick="switchMarketTab('chutes')"><i class="fa-solid fa-bullseye"></i> {% translate "Chutes" %}</button>
-        <button class="market-tab-btn" onclick="switchMarketTab('especiais')"><i class="fa-solid fa-bolt"></i> {% translate "Especiais & Combos" %}</button>
+        <button class="market-tab-btn active" onclick="switchMarketTab('gols', this)"><i class="fa-solid fa-futbol"></i> {% translate "Gols & Tempos" %}</button>
+        <button class="market-tab-btn" onclick="switchMarketTab('escanteios', this)"><i class="fa-solid fa-flag"></i> {% translate "Escanteios" %}</button>
+        <button class="market-tab-btn" onclick="switchMarketTab('cartoes', this)"><i class="fa-solid fa-clone"></i> {% translate "Cartões" %}</button>
+        <button class="market-tab-btn" onclick="switchMarketTab('chutes', this)"><i class="fa-solid fa-bullseye"></i> {% translate "Chutes" %}</button>
+        <button class="market-tab-btn" onclick="switchMarketTab('especiais', this)"><i class="fa-solid fa-bolt"></i> {% translate "Especiais & Combos" %}</button>
+        {% if debug_mode %}
+        <button class="market-tab-btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border-color: rgba(139, 92, 246, 0.5); margin-left: auto;" onclick="openVideoScriptModal()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> {% translate "Gerar Roteiro (IA)" %}
+        </button>
+        {% endif %}
     </div>
-
     <!-- ==================== ABA: GOLS & TEMPOS ==================== -->
     <div id="tab-gols" class="market-tab-content active">
 
@@ -897,14 +1044,14 @@
                             <div class="eff-team-row mb-2">
                                 <span class="small text-uppercase fw-bold" style="font-size: 0.7rem; color: #e2e8f0; letter-spacing: 0.5px;">{{ match.home_team.name }}</span>
                                 <div class="eff-bar-single">
-                                    <div class="bar-fill home" style="width: {{ advanced_stats.efficiency.home.accuracy }}%">{{ advanced_stats.efficiency.home.accuracy }}%</div>
+                                    <div class="bar-fill home" data-accuracy="{{ advanced_stats.efficiency.home.accuracy }}%" style="width: 0%">{{ advanced_stats.efficiency.home.accuracy }}%</div>
                                 </div>
                             </div>
                             <!-- Visitante -->
                             <div class="eff-team-row">
                                 <span class="small text-uppercase fw-bold" style="font-size: 0.7rem; color: #e2e8f0; letter-spacing: 0.5px;">{{ match.away_team.name }}</span>
                                 <div class="eff-bar-single">
-                                    <div class="bar-fill away" style="width: {{ advanced_stats.efficiency.away.accuracy }}%">{{ advanced_stats.efficiency.away.accuracy }}%</div>
+                                    <div class="bar-fill away" data-accuracy="{{ advanced_stats.efficiency.away.accuracy }}%" style="width: 0%">{{ advanced_stats.efficiency.away.accuracy }}%</div>
                                 </div>
                             </div>
                         </div>
@@ -995,17 +1142,25 @@
 
 {% block extra_js %}
 <script>
-    function switchMarketTab(tabId) {
+    function switchMarketTab(tabId, btnElement) {
         // Remove active de todos os botões e oculta todos os conteúdos
         document.querySelectorAll('.market-tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.market-tab-content').forEach(content => content.classList.add('d-none'));
         
         // Ativa o botão clicado
-        event.currentTarget.classList.add('active');
+        if (btnElement) {
+            btnElement.classList.add('active');
+        } else {
+            const targetBtn = document.querySelector(`.market-tab-btn[onclick*="'${tabId}'"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+        }
         
         // Mostra o conteúdo correspondente
-        document.getElementById('tab-' + tabId).classList.remove('d-none');
-        document.getElementById('tab-' + tabId).classList.add('active');
+        const targetTab = document.getElementById('tab-' + tabId);
+        if (targetTab) {
+            targetTab.classList.remove('d-none');
+            targetTab.classList.add('active');
+        }
     }
 
     function switchTab(tab) {
@@ -1027,22 +1182,141 @@
         });
         
         // Dynamic bar widths for real stats
-        {% if match.home_corners is not None %}
-        function updateBars() {
-            const stats = [
-                { h: {{ match.home_corners|default:0 }}, a: {{ match.away_corners|default:0 }} },
-                { h: {{ match.home_shots|default:0 }}, a: {{ match.away_shots|default:0 }} },
-                { h: {{ match.home_yellow|default:0 }}, a: {{ match.away_yellow|default:0 }} }
-            ];
-            const bars = document.querySelectorAll('.stat-compare-row .fill');
-            stats.forEach((s, i) => {
-                const total = s.h + s.a;
-                const perc = total > 0 ? (s.h / total) * 100 : 50;
-                if(bars[i]) bars[i].style.width = perc + '%';
-            });
+        const hCorners = parseInt("{{ match.home_corners|default:'0' }}", 10);
+        
+        if (!isNaN(hCorners)) {
+            const aCorners = parseInt("{{ match.away_corners|default:'0' }}", 10) || 0;
+            const hShots = parseInt("{{ match.home_shots|default:'0' }}", 10) || 0;
+            const aShots = parseInt("{{ match.away_shots|default:'0' }}", 10) || 0;
+            const hYellow = parseInt("{{ match.home_yellow|default:'0' }}", 10) || 0;
+            const aYellow = parseInt("{{ match.away_yellow|default:'0' }}", 10) || 0;
+            
+            function updateBars() {
+                const stats = [
+                    { h: hCorners, a: aCorners },
+                    { h: hShots, a: aShots },
+                    { h: hYellow, a: aYellow }
+                ];
+                const bars = document.querySelectorAll('.stat-compare-row .fill');
+                stats.forEach((s, i) => {
+                    const total = s.h + s.a;
+                    const perc = total > 0 ? (s.h / total) * 100 : 50;
+                    if(bars[i]) bars[i].style.width = perc + '%';
+                });
+            }
+            updateBars();
         }
-        updateBars();
-        {% endif %}
     });
+
+    {% if debug_mode %}
+    const loadingTexts = [
+        "{% translate 'Analisando estatísticas do Statsfut...' %}",
+        "{% translate 'Consultando o Gemini 2.5 Flash...' %}",
+        "{% translate 'Estruturando o roteiro de alta conversão...' %}",
+        "{% translate 'Finalizando ganchos e palpites de valor...' %}"
+    ];
+    let loadingTextInterval = null;
+
+    function openVideoScriptModal() {
+        const modal = document.getElementById('videoScriptModal');
+        const loader = document.getElementById('scriptLoader');
+        const textarea = document.getElementById('scriptTextarea');
+        const btnCopy = document.getElementById('btnCopyScript');
+        const loadingTextEl = document.getElementById('scriptLoadingText');
+        
+        modal.classList.add('show');
+        loader.classList.remove('d-none');
+        textarea.classList.add('d-none');
+        btnCopy.classList.add('d-none');
+        
+        // Reset loading text
+        let textIdx = 0;
+        loadingTextEl.innerText = loadingTexts[0];
+        if (loadingTextInterval) clearInterval(loadingTextInterval);
+        loadingTextInterval = setInterval(() => {
+            textIdx = (textIdx + 1) % loadingTexts.length;
+            loadingTextEl.innerText = loadingTexts[textIdx];
+        }, 3000);
+        
+        // Fetch script from API
+        fetch("{% url 'matches:match_video_script' match.id %}")
+            .then(res => res.json())
+            .then(data => {
+                clearInterval(loadingTextInterval);
+                loader.classList.add('d-none');
+                if (data.status === 'success') {
+                    textarea.value = data.script;
+                    textarea.classList.remove('d-none');
+                    btnCopy.classList.remove('d-none');
+                } else {
+                    textarea.value = "{% translate 'Erro' %}: " + (data.message || "{% translate 'Erro desconhecido' %}");
+                    textarea.classList.remove('d-none');
+                }
+            })
+            .catch(err => {
+                clearInterval(loadingTextInterval);
+                loader.classList.add('d-none');
+                textarea.value = "{% translate 'Erro na requisição' %}: " + err;
+                textarea.classList.remove('d-none');
+            });
+    }
+
+    function closeVideoScriptModal() {
+        const modal = document.getElementById('videoScriptModal');
+        modal.classList.remove('show');
+        if (loadingTextInterval) clearInterval(loadingTextInterval);
+    }
+
+    function closeVideoScriptModalOnOutsideClick(event) {
+        if (event.target.id === 'videoScriptModal') {
+            closeVideoScriptModal();
+        }
+    }
+
+    function copyVideoScript() {
+        const textarea = document.getElementById('scriptTextarea');
+        textarea.select();
+        textarea.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(textarea.value)
+            .then(() => {
+                const btn = document.getElementById('btnCopyScript');
+                const origHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check me-1"></i> {% translate "Copiado!" %}';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.innerHTML = origHtml;
+                    btn.style.background = '#8b5cf6';
+                }, 2000);
+            })
+            .catch(err => {
+                alert('Erro ao copiar: ' + err);
+            });
+    }
+    {% endif %}
 </script>
+
+{% if debug_mode %}
+<!-- MODAL DE ROTEIRO DE VÍDEO IA -->
+<div id="videoScriptModal" class="video-script-modal" onclick="closeVideoScriptModalOnOutsideClick(event)">
+    <div class="video-script-content">
+        <div class="video-script-header">
+            <h3><i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> {% translate "Roteiro de Vídeo IA (Localhost)" %}</h3>
+            <button class="video-script-close" onclick="closeVideoScriptModal()">&times;</button>
+        </div>
+        <div class="video-script-body" id="videoScriptBody">
+            <div class="script-loader" id="scriptLoader">
+                <div class="spinner-premium"></div>
+                <p id="scriptLoadingText" style="text-align: center; color: #94a3b8; font-weight: 600;">{% translate "Analisando histórico de confrontos..." %}</p>
+            </div>
+            <textarea class="script-textarea d-none" id="scriptTextarea" readonly></textarea>
+        </div>
+        <div class="video-script-footer">
+            <button class="btn-script-action btn-script-secondary" onclick="closeVideoScriptModal()">{% translate "Fechar" %}</button>
+            <button class="btn-script-action btn-script-primary d-none" id="btnCopyScript" onclick="copyVideoScript()">
+                <i class="fa-solid fa-copy me-1"></i> {% translate "Copiar Roteiro" %}
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

@@ -21,6 +21,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('league/<int:pk>/', views.LeagueDetailView.as_view(), name='league_detail'),
     
+    path('match/<int:pk>/video-script/', views.MatchVideoScriptView.as_view(), name='match_video_script'),
     path('match/<int:pk>/<slug:slug>/', views.MatchDetailView.as_view(), name='match_detail'),
     path('match/<int:pk>/', views.MatchDetailView.as_view(), name='match_detail_short'),
     path('team/<int:pk>/', views.TeamDetailView.as_view(), name='team_detail'),

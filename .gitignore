@@ -78,3 +78,8 @@ gemini_proxy.py
 # Backup files
 *.bak
 
+# Video Maker (Local Only)
+video_maker/
+core/templates/video_maker/
+media/videos/
+*.mp4

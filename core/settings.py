@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'matches',
     'members',
+    'video_maker',
 ]
 
 # Authentication

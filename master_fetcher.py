@@ -317,16 +317,37 @@ def main():
     session = requests.Session(impersonate="chrome120")
     
     if args.tor:
-        # Tenta 9050 (Docker/Linux) ou 9150 (Windows Tor Browser)
-        proxies = {"http": "socks5://127.0.0.1:9050", "https": "socks5://127.0.0.1:9050"}
-        try:
-            session.get("https://api.sofascore.com/api/v1/unique-tournament/35/season/52331/standings/total", proxies=proxies, timeout=5)
-            session.proxies = proxies
-            print("🌐 Usando Tor (Porta 9050)")
-        except:
-            proxies = {"http": "socks5://127.0.0.1:9150", "https": "socks5://127.0.0.1:9150"}
-            session.proxies = proxies
-            print("🌐 Usando Tor (Porta 9150)")
+        # No Docker o Tor roda na 9050. No Windows local seria 9150.
+        # Vamos testar a 9050 com retentativas, pois o daemon do Tor pode demorar a criar o circuito.
+        proxies_9050 = {"http": "socks5h://127.0.0.1:9050", "https": "socks5h://127.0.0.1:9050"}
+        proxies_9150 = {"http": "socks5h://127.0.0.1:9150", "https": "socks5h://127.0.0.1:9150"}
+        
+        tor_ready = False
+        print("🌐 Iniciando conexão com a rede Tor...")
+        
+        for attempt in range(1, 4):
+            try:
+                # Testa a porta 9050 primeiro (padrão Docker/Linux)
+                session.get("https://api.ipify.org?format=json", proxies=proxies_9050, timeout=10)
+                session.proxies = proxies_9050
+                print("✅ Tor conectado com sucesso na porta 9050!")
+                tor_ready = True
+                break
+            except Exception as e:
+                print(f"    ⏳ Aguardando Tor ficar pronto na porta 9050... (Tentativa {attempt}/3)")
+                time.sleep(3)
+                
+        if not tor_ready:
+            try:
+                # Fallback para 9150 (Tor Browser local Windows) se 9050 falhar 3 vezes
+                session.get("https://api.ipify.org?format=json", proxies=proxies_9150, timeout=10)
+                session.proxies = proxies_9150
+                print("✅ Tor conectado com sucesso na porta 9150!")
+            except Exception as e:
+                print("❌ Falha crítica: Não foi possível conectar ao proxy Tor (nem 9050 nem 9150).")
+                print("O IP real pode ser exposto ou a conexão falhará!")
+                # Vamos forçar 9050 para evitar o erro falso de 9150 no log, já que estamos quase certeza no Docker
+                session.proxies = proxies_9050
 
     session.headers.update({
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",

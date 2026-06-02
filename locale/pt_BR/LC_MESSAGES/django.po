@@ -4020,6 +4020,18 @@ msgstr ""
 "Estamos constantemente adicionando novas ferramentas de análises premium. "
 "Fique atento aos alertas ao vivo, detecção de apostas de valor e muito mais."
 
+msgid "Not 2-4 HT"
+msgstr "Não 2-4 HT"
+
+msgid "Not 2-4 2H"
+msgstr "Não 2-4 2T"
+
+msgid "Not 2-4 Goals in 1st Half (HT)"
+msgstr "Não 2-4 Gols no 1º Tempo (HT)"
+
+msgid "Not 2-4 Goals in 2nd Half (2T)"
+msgstr "Não 2-4 Gols no 2º Tempo (2T)"
+
 #~ msgid "DISCIPLINE (AVERAGE)"
 #~ msgstr "DISCIPLINA (MÉDIA)"
 

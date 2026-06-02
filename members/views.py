@@ -125,6 +125,30 @@ def premium_dashboard(request):
             if tip.market == 'HT_GOAL':
                 goals_ht = m.goals.filter(minute__lte=45).exists()
                 is_green = goals_ht
+            elif tip.market == 'HT_GOALS_NOT_2_4':
+                if m.ht_home_score is not None and m.ht_away_score is not None:
+                    ht_g = m.ht_home_score + m.ht_away_score
+                    is_green = not (2 <= ht_g <= 4)
+                else:
+                    goals_ht_count = m.goals.filter(minute__lte=45).count()
+                    is_green = not (2 <= goals_ht_count <= 4)
+            elif tip.market == 'SH_GOALS_NOT_2_4':
+                if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
+                    sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
+                    is_green = not (2 <= sh_g <= 4)
+                else:
+                    goals_sh_count = m.goals.filter(minute__gt=45).count()
+                    is_green = not (2 <= goals_sh_count <= 4)
+            elif tip.market.startswith('DC_1X_UNDER_'):
+                line = float(tip.market.split('_')[-1]) / 10.0
+                has_dc = m.home_score >= m.away_score
+                has_under = total_goals < line
+                is_green = has_dc and has_under
+            elif tip.market.startswith('DC_X2_UNDER_'):
+                line = float(tip.market.split('_')[-1]) / 10.0
+                has_dc = m.away_score >= m.home_score
+                has_under = total_goals < line
+                is_green = has_dc and has_under
             elif tip.market == 'OVER_05':
                 is_green = total_goals >= 1
             elif tip.market == 'OVER_15':
@@ -133,6 +157,14 @@ def premium_dashboard(request):
                 is_green = total_goals >= 3
             elif tip.market == 'OVER_35':
                 is_green = total_goals >= 4
+            elif tip.market == 'UNDER_35':
+                is_green = total_goals <= 3
+            elif tip.market == 'UNDER_45':
+                is_green = total_goals <= 4
+            elif tip.market == 'UNDER_55':
+                is_green = total_goals <= 5
+            elif tip.market == 'UNDER_65':
+                is_green = total_goals <= 6
             elif tip.market == 'BTTS':
                 is_green = (m.home_score > 0 and m.away_score > 0)
             elif tip.market == 'HOME_WIN':
@@ -323,7 +355,7 @@ def premium_dashboard(request):
     all_history_tips = list(chain(evaluated_tips, pending_finished_tips))
 
     # Mapeamento de mercados para categorias
-    GOALS_MARKETS = {'HT_GOAL', 'OVER_05', 'OVER_15', 'OVER_25', 'OVER_35'}
+    GOALS_MARKETS = {'HT_GOAL', 'OVER_05', 'OVER_15', 'OVER_25', 'OVER_35', 'UNDER_35', 'UNDER_45', 'UNDER_55', 'UNDER_65', 'HT_GOALS_NOT_2_4', 'SH_GOALS_NOT_2_4'}
     BTTS_MARKETS = {'BTTS', 'BTTS_1H', 'BTTS_2H', 'BTTS_BOTH'}
     RESULT_MARKETS = {'HOME_WIN', 'AWAY_WIN', 'DC_1X', 'DC_X2', 'DNB_HOME', 'DNB_AWAY', 'FIRST_SCORE_HOME', 'FIRST_SCORE_AWAY', 'HT_HOME_WIN', 'HT_AWAY_WIN'}
     SPECIALS_MARKETS = {'HOME_CS', 'AWAY_CS', 'HOME_WTN', 'AWAY_WTN', 'HC_HOME_M05', 'HC_HOME_M15', 'HC_AWAY_P15', 'MARGIN_H1', 'MARGIN_H2', 'WIN_BTTS_HY', 'WIN_BTTS_AY', 'WIN_BTTS_HN', 'MOST_1H', 'MOST_2H'}
@@ -349,6 +381,8 @@ def premium_dashboard(request):
     tips_corners = []
     tips_cards = []
     tips_shots = []
+    tips_dc_over = []
+    tips_dc_btts = []
 
     def get_translated_text(tip):
         m = tip.market
@@ -357,10 +391,36 @@ def premium_dashboard(request):
         
         # Goals
         if m == 'HT_GOAL': return _("Goal in 1st Half (HT)")
+        elif m == 'HT_GOALS_NOT_2_4': return _("Not 2-4 Goals in 1st Half (HT)")
+        elif m == 'SH_GOALS_NOT_2_4': return _("Not 2-4 Goals in 2nd Half (2T)")
+        elif m.startswith('DC_1X_UNDER_'):
+            line = m.replace('DC_1X_UNDER_', '').replace('_', '.')
+            return _("Casa ou Empate & Menos de %(line)s Gols") % {'line': line}
+        elif m.startswith('DC_X2_UNDER_'):
+            line = m.replace('DC_X2_UNDER_', '').replace('_', '.')
+            return _("Empate ou Fora & Menos de %(line)s Gols") % {'line': line}
+        elif m.startswith('DC_1X_OVER_'):
+            line = m.replace('DC_1X_OVER_', '').replace('_', '.')
+            return _("Casa ou Empate & Mais de %(line)s Gols") % {'line': line}
+        elif m.startswith('DC_X2_OVER_'):
+            line = m.replace('DC_X2_OVER_', '').replace('_', '.')
+            return _("Empate ou Fora & Mais de %(line)s Gols") % {'line': line}
+        elif m == 'DC_1X_BTTS_YES':
+            return _("Casa ou Empate & Ambas Marcam Sim")
+        elif m == 'DC_1X_BTTS_NO':
+            return _("Casa ou Empate & Ambas Marcam Não")
+        elif m == 'DC_X2_BTTS_YES':
+            return _("Empate ou Fora & Ambas Marcam Sim")
+        elif m == 'DC_X2_BTTS_NO':
+            return _("Empate ou Fora & Ambas Marcam Não")
         elif m == 'OVER_05': return _("Over 0.5 Goals")
         elif m == 'OVER_15': return _("Over 1.5 Goals")
         elif m == 'OVER_25': return _("Over 2.5 Goals")
         elif m == 'OVER_35': return _("Over 3.5 Goals")
+        elif m == 'UNDER_35': return _("Under 3.5 Goals")
+        elif m == 'UNDER_45': return _("Under 4.5 Goals")
+        elif m == 'UNDER_55': return _("Under 5.5 Goals")
+        elif m == 'UNDER_65': return _("Under 6.5 Goals")
         # BTTS
         elif m == 'BTTS': return _("Both Teams to Score")
         elif m == 'BTTS_1H': return _("BTTS 1st Half")
@@ -430,7 +490,7 @@ def premium_dashboard(request):
             'sort_date': tip.match.date,
         }
         
-        if tip.market in GOALS_MARKETS:
+        if tip.market in GOALS_MARKETS or tip.market.startswith('DC_1X_UNDER_') or tip.market.startswith('DC_X2_UNDER_'):
             tips_goals.append(item)
         elif tip.market in BTTS_MARKETS:
             tips_btts.append(item)
@@ -444,6 +504,10 @@ def premium_dashboard(request):
             tips_cards.append(item)
         elif tip.market in SHOTS_MARKETS:
             tips_shots.append(item)
+        elif tip.market.startswith('DC_1X_OVER_') or tip.market.startswith('DC_X2_OVER_'):
+            tips_dc_over.append(item)
+        elif tip.market.startswith('DC_1X_BTTS_') or tip.market.startswith('DC_X2_BTTS_'):
+            tips_dc_btts.append(item)
 
     history_groups = {
         'goals': [],
@@ -460,7 +524,7 @@ def premium_dashboard(request):
         m_type = tip.market
         
         group_key = 'outros'
-        if m_type in GOALS_MARKETS: group_key = 'goals'
+        if m_type in GOALS_MARKETS or m_type.startswith('DC_1X_UNDER_') or m_type.startswith('DC_X2_UNDER_'): group_key = 'goals'
         elif m_type in BTTS_MARKETS: group_key = 'btts'
         elif m_type in CORNERS_MARKETS: group_key = 'corners'
         elif m_type in CARDS_MARKETS: group_key = 'cards'
@@ -506,6 +570,10 @@ def premium_dashboard(request):
         'OVER_15': 'Over 1.5 Goals',
         'OVER_25': 'Over 2.5 Goals',
         'OVER_35': 'Over 3.5 Goals',
+        'UNDER_35': 'Under 3.5 Goals',
+        'UNDER_45': 'Under 4.5 Goals',
+        'UNDER_55': 'Under 5.5 Goals',
+        'UNDER_65': 'Under 6.5 Goals',
         'BTTS': 'Both Teams to Score',
     }
 
@@ -605,7 +673,7 @@ def premium_dashboard(request):
     total_tickets = total_greens + total_reds
     win_rate = int((total_greens / total_tickets * 100)) if total_tickets > 0 else 0
 
-    total_opps = sum(len(lst) for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots])
+    total_opps = sum(len(lst) for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts])
 
     context = {
         'is_premium': True,
@@ -629,6 +697,8 @@ def premium_dashboard(request):
         'tips_cards_over': tips_cards_over,
         'tips_cards_winner': tips_cards_winner,
         'tips_shots': tips_shots,
+        'tips_dc_over': tips_dc_over,
+        'tips_dc_btts': tips_dc_btts,
         # Stats
         'stats_total_tickets': total_tickets,
         'stats_greens': total_greens,

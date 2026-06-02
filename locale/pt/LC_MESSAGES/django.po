@@ -3933,3 +3933,15 @@ msgid ""
 "We are constantly adding new premium analytics tools. Stay tuned for live "
 "alerts, value bet detection, and more."
 msgstr ""
+
+msgid "Not 2-4 HT"
+msgstr "Não 2-4 HT"
+
+msgid "Not 2-4 2H"
+msgstr "Não 2-4 2T"
+
+msgid "Not 2-4 Goals in 1st Half (HT)"
+msgstr "Não 2-4 Gols no 1º Tempo (HT)"
+
+msgid "Not 2-4 Goals in 2nd Half (2T)"
+msgstr "Não 2-4 Gols no 2º Tempo (2T)"
