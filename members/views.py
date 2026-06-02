@@ -54,10 +54,35 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 @never_cache
 def logout_view(request):
-    """Logout seguro compatível com GET e POST, imune a erros de CSRF."""
+    """Logout seguro compatível com GET e POST, imune a erros de CSRF e cache do Cloudflare."""
+    # Salvar a engine de sessão antes de destruir
+    session_key = request.session.session_key
+    
+    # Destruir sessão e deslogar
     logout(request)
+    
+    # Forçar flush da sessão para garantir que não sobreviva no banco
+    if session_key:
+        from django.contrib.sessions.backends.db import SessionStore
+        try:
+            s = SessionStore(session_key=session_key)
+            s.delete()
+        except Exception:
+            pass
+    
     messages.info(request, _('You have been logged out.'))
-    return redirect('matches:home')
+    response = redirect('matches:home')
+    
+    # Headers anti-cache: forçar o Cloudflare/browser a buscar a versão fresca
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate, private'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    
+    # Deletar cookies de sessão explicitamente
+    response.delete_cookie('sessionid')
+    response.delete_cookie('csrftoken')
+    
+    return response
 
 
 @never_cache
