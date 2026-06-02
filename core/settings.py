@@ -51,8 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'matches',
     'members',
-    'video_maker',
 ]
+
+# Adiciona o video_maker apenas se o diretório existir (já que ele é ignorado no git)
+if os.path.exists(os.path.join(BASE_DIR, 'video_maker')):
+    INSTALLED_APPS.append('video_maker')
 
 # Authentication
 LOGIN_URL = 'members:login'
