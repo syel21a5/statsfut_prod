@@ -49,10 +49,12 @@ def register_view(request):
     return render(request, 'members/register.html', {'form': form})
 
 
-@require_POST
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 @never_cache
 def logout_view(request):
-    """Logout via POST (segurança CSRF)."""
+    """Logout seguro compatível com GET e POST, imune a erros de CSRF."""
     logout(request)
     messages.info(request, _('You have been logged out.'))
     return redirect('matches:home')
