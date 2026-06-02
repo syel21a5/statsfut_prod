@@ -82,6 +82,24 @@ class Command(BaseCommand):
                         result = 'Green' if first_goal.team == match.away_team else 'Red'
                     else:
                         result = 'Green' if away_score > 0 and home_score == 0 else 'Red'
+                elif sel.prediction_market == 'dc_1x_2_4':
+                    result = 'Green' if (home_score >= away_score) and (2 <= total_goals <= 4) else 'Red'
+                elif sel.prediction_market == 'dc_x2_2_4':
+                    result = 'Green' if (away_score >= home_score) and (2 <= total_goals <= 4) else 'Red'
+                elif sel.prediction_market == 'over_25_yes':
+                    result = 'Green' if (total_goals >= 3) and (home_score > 0 and away_score > 0) else 'Red'
+                elif sel.prediction_market == 'under_25_no':
+                    result = 'Green' if (total_goals <= 2) and (not (home_score > 0 and away_score > 0)) else 'Red'
+                elif sel.prediction_market == 'most_goals_2t':
+                    goals_1t = ht_goals
+                    goals_2t = total_goals - ht_goals
+                    result = 'Green' if goals_2t > goals_1t else 'Red'
+                elif sel.prediction_market == 'home_score_2t':
+                    home_2t = home_score - ht_home
+                    result = 'Green' if home_2t > 0 else 'Red'
+                elif sel.prediction_market == 'away_score_2t':
+                    away_2t = away_score - ht_away
+                    result = 'Green' if away_2t > 0 else 'Red'
                 else:
                     # Fallback padrão
                     result = 'Void'
