@@ -36,6 +36,7 @@ def main():
     parser.add_argument('--season', type=int, required=False, help="ID da Temporada")
     parser.add_argument('--list-seasons', action='store_true', help="Lista Season IDs")
     parser.add_argument('--last-rounds', type=int, default=None, help="Limitar busca às últimas X rodadas (economiza muitos minutos)")
+    parser.add_argument('--force-fallback', action='store_true', help="Forçar uso do fallback paginado de eventos")
     args = parser.parse_args()
 
     session = requests.Session(impersonate="chrome120")
@@ -173,12 +174,12 @@ def main():
 
     # 4. FALLBACK: Se /rounds não funcionou para nenhum torneio,
     # usa endpoints paginados /events/last/ e /events/next/ (comum em ligas de ano civil)
-    if not rounds_found or len(payload['rounds']) == 0:
-        print(f"\n⚠️ Endpoint /rounds não disponível. Usando fallback via /events/last + /events/next...")
+    if not rounds_found or len(payload['rounds']) == 0 or args.force_fallback:
+        print(f"\n⚠️ Endpoint /rounds não disponível ou ignorado. Usando fallback via /events/last + /events/next...")
         all_events = []
         
         # Busca jogos passados (paginado)
-        for page in range(10):  # Máximo 10 páginas
+        for page in range(25):  # Máximo 25 páginas para cobrir toda a temporada
             url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/last/{page}"
             data = fetch_api(session, url)
             if not data or not data.get('events'):
@@ -190,7 +191,7 @@ def main():
                 break
         
         # Busca jogos futuros (paginado)
-        for page in range(5):  # Máximo 5 páginas
+        for page in range(15):  # Máximo 15 páginas
             url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/next/{page}"
             data = fetch_api(session, url)
             if not data or not data.get('events'):
@@ -200,7 +201,6 @@ def main():
             print(f"  Página {page} (futuros): {len(events)} eventos coletados")
             if data.get('hasNextPage') == False:
                 break
-        
         if all_events:
             # Agrupa eventos por rodada (roundInfo.round) se disponível, senão coloca tudo em uma "rodada"
             rounds_map = {}

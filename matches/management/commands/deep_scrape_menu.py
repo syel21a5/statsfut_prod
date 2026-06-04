@@ -267,12 +267,56 @@ class Command(BaseCommand):
         self.stdout.write(f"  {'0':<4} {'TODAS as ligas pendentes':<35}")
         self.stdout.write("")
 
+    def _check_league_has_stats(self, league):
+        """Testa se a liga possui estatísticas detalhadas no SofaScore.
+        Faz uma requisição de teste no primeiro jogo finalizado da liga.
+        Retorna True se a API retorna statistics, False caso contrário.
+        """
+        test_match = Match.objects.filter(
+            league=league,
+            api_id__startswith='sofa_',
+            status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
+        ).first()
+
+        if not test_match:
+            return True  # Assume que tem, vai falhar naturalmente
+
+        sofa_id = test_match.api_id.replace('sofa_', '')
+        stats_url = f"https://api.sofascore.com/api/v1/event/{sofa_id}/statistics"
+
+        try:
+            response = self.session.get(stats_url, timeout=15)
+            if response.status_code == 200:
+                data = response.json()
+                has_stats = 'statistics' in data and len(data.get('statistics', [])) > 0
+                return has_stats
+            elif response.status_code == 404:
+                return False
+            else:
+                return True  # Assume que tem (pode ser bloqueio temporário)
+        except Exception:
+            return True  # Assume que tem em caso de erro de rede
+
     def _process_league(self, league, num_seasons=2, limit=None, force=False):
         """Processa o deep scrape para uma liga específica."""
         self.stdout.write("")
         self.stdout.write(self.style.SUCCESS(f"{'=' * 60}"))
         self.stdout.write(self.style.SUCCESS(f"  🏆 Processando: {league.country} - {league.name} (ID: {league.id})"))
         self.stdout.write(self.style.SUCCESS(f"{'=' * 60}"))
+
+        # Detecta se a liga tem stats no SofaScore
+        self.stdout.write("  🔍 Verificando disponibilidade de estatísticas...")
+        league_has_stats = self._check_league_has_stats(league)
+
+        if league_has_stats:
+            self.stdout.write(self.style.SUCCESS(
+                "  ✅ Liga possui estatísticas detalhadas (escanteios, cartões, chutes)"
+            ))
+        else:
+            self.stdout.write(self.style.WARNING(
+                "  ⚠️ Liga SEM estatísticas detalhadas no SofaScore\n"
+                "     → Modo somente GOLS ativado (incidents/gols serão raspados)"
+            ))
 
         # Pega as N temporadas mais recentes
         seasons = Season.objects.filter(
@@ -287,16 +331,25 @@ class Command(BaseCommand):
         total_goals = 0
 
         for season in seasons:
-            stats, goals = self._deep_scrape_season(league, season, limit, force)
+            stats, goals = self._deep_scrape_season(
+                league, season, limit, force,
+                fetch_stats=league_has_stats
+            )
             total_stats += stats
             total_goals += goals
 
-        self.stdout.write(self.style.SUCCESS(
-            f"\n✅ {league.country} - {league.name} finalizado! "
-            f"{total_stats} jogos com stats, {total_goals} com gols detalhados."
-        ))
+        if league_has_stats:
+            self.stdout.write(self.style.SUCCESS(
+                f"\n✅ {league.country} - {league.name} finalizado! "
+                f"{total_stats} jogos com stats, {total_goals} com gols detalhados."
+            ))
+        else:
+            self.stdout.write(self.style.SUCCESS(
+                f"\n✅ {league.country} - {league.name} finalizado! "
+                f"{total_goals} jogos com gols detalhados (liga sem stats)."
+            ))
 
-    def _deep_scrape_season(self, league, season, limit=None, force=False):
+    def _deep_scrape_season(self, league, season, limit=None, force=False, fetch_stats=True):
         """Executa o deep scrape para uma liga/temporada específica."""
         self.stdout.write(self.style.WARNING(
             f"\n  📅 Temporada {season.year} ───────────────────────"
@@ -320,10 +373,12 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS("  ✅ Todas as partidas já possuem dados detalhados!"))
             return 0, 0
 
-        self.stdout.write(f"  📊 {total} partidas para processar...")
+        mode_label = "stats + gols" if fetch_stats else "somente gols"
+        self.stdout.write(f"  📊 {total} partidas para processar ({mode_label})...")
 
         stats_updated = 0
         goals_updated = 0
+        cards_from_incidents = 0
 
         for idx, match in enumerate(matches, 1):
             sofa_id = match.api_id.replace('sofa_', '')
@@ -336,76 +391,113 @@ class Command(BaseCommand):
             if idx > 1 and idx % 20 == 0:
                 pause = random.randint(45, 90)
                 self.stdout.write(self.style.WARNING(
-                    f"  ☕ Pausa de {pause}s e rotação de IP após {idx} jogos... ({stats_updated} atualizados)"
+                    f"  ☕ Pausa de {pause}s e rotação de IP após {idx} jogos... "
+                    f"({stats_updated} stats, {goals_updated} gols)"
                 ))
                 time.sleep(pause)
                 self._rotate_tor_ip()
                 self._create_session()
 
             # 1. ESTATÍSTICAS (Escanteios, Cartões, Chutes, Faltas)
-            stats_url = f"https://api.sofascore.com/api/v1/event/{sofa_id}/statistics"
-            stats_data = self.fetch_api(stats_url)
+            #    Só busca se a liga tem stats disponíveis no SofaScore
+            if fetch_stats:
+                stats_url = f"https://api.sofascore.com/api/v1/event/{sofa_id}/statistics"
+                stats_data = self.fetch_api(stats_url)
 
-            if stats_data and 'statistics' in stats_data:
-                stats_list = stats_data['statistics']
-                if stats_list:
-                    all_group = stats_list[0].get('groups', [])
-                    for group in all_group:
-                        for stat in group.get('statisticsItems', []):
-                            name = stat.get('name')
-                            h_val = stat.get('home')
-                            a_val = stat.get('away')
+                if stats_data and 'statistics' in stats_data:
+                    stats_list = stats_data['statistics']
+                    if stats_list:
+                        all_group = stats_list[0].get('groups', [])
+                        for group in all_group:
+                            for stat in group.get('statisticsItems', []):
+                                name = stat.get('name')
+                                h_val = stat.get('home')
+                                a_val = stat.get('away')
 
-                            try:
-                                h_val = int(str(h_val).replace('%', '').strip()) if h_val is not None else None
-                                a_val = int(str(a_val).replace('%', '').strip()) if a_val is not None else None
-                            except ValueError:
-                                pass
+                                try:
+                                    h_val = int(str(h_val).replace('%', '').strip()) if h_val is not None else None
+                                    a_val = int(str(a_val).replace('%', '').strip()) if a_val is not None else None
+                                except ValueError:
+                                    pass
 
-                            if name == 'Corner kicks':
-                                match.home_corners = h_val
-                                match.away_corners = a_val
-                            elif name == 'Yellow cards':
-                                match.home_yellow = h_val
-                                match.away_yellow = a_val
-                            elif name == 'Red cards':
-                                match.home_red = h_val
-                                match.away_red = a_val
-                            elif name == 'Shots on target':
-                                match.home_shots_on_target = h_val
-                                match.away_shots_on_target = a_val
-                            elif name == 'Total shots':
-                                match.home_shots = h_val
-                                match.away_shots = a_val
-                            elif name == 'Fouls':
-                                match.home_fouls = h_val
-                                match.away_fouls = a_val
+                                if name == 'Corner kicks':
+                                    match.home_corners = h_val
+                                    match.away_corners = a_val
+                                elif name == 'Yellow cards':
+                                    match.home_yellow = h_val
+                                    match.away_yellow = a_val
+                                elif name == 'Red cards':
+                                    match.home_red = h_val
+                                    match.away_red = a_val
+                                elif name == 'Shots on target':
+                                    match.home_shots_on_target = h_val
+                                    match.away_shots_on_target = a_val
+                                elif name == 'Total shots':
+                                    match.home_shots = h_val
+                                    match.away_shots = a_val
+                                elif name == 'Fouls':
+                                    match.home_fouls = h_val
+                                    match.away_fouls = a_val
 
-                    # Se a API retornou stats mas não tinha "Corner kicks",
-                    # marca como 0 para não ficar pendente eternamente
+                        # Se a API retornou stats mas não tinha "Corner kicks",
+                        # marca como 0 para não ficar pendente eternamente
+                        if match.home_corners is None:
+                            match.home_corners = 0
+                            match.away_corners = 0
+
+                        match.save()
+                        stats_updated += 1
+                else:
+                    # API não retornou estatísticas para este jogo
+                    # Marca escanteios como 0 para não ficar pendente
                     if match.home_corners is None:
                         match.home_corners = 0
                         match.away_corners = 0
+                        match.save()
+                        self.stdout.write(self.style.WARNING(
+                            f"    ⚠️ Sem stats na API — marcado como processado"
+                        ))
 
-                    match.save()
-                    stats_updated += 1
-            else:
-                # API não retornou estatísticas para este jogo
-                # Marca escanteios como 0 para não ficar pendente
-                if match.home_corners is None:
-                    match.home_corners = 0
-                    match.away_corners = 0
-                    match.save()
-                    self.stdout.write(self.style.WARNING(
-                        f"    ⚠️ Sem stats na API — marcado como processado"
-                    ))
-
-            # 2. INCIDENTES (Gols detalhados)
+            # 2. INCIDENTES (Gols detalhados + cartões se liga sem stats)
             incidents_url = f"https://api.sofascore.com/api/v1/event/{sofa_id}/incidents"
             inc_data = self.fetch_api(incidents_url)
 
             if inc_data and 'incidents' in inc_data:
-                goals_list = [i for i in inc_data['incidents'] if i.get('incidentType') == 'goal']
+                incidents = inc_data['incidents']
+                goals_list = [i for i in incidents if i.get('incidentType') == 'goal']
+
+                # Se a liga não tem stats, extrai cartões dos incidents
+                if not fetch_stats:
+                    home_yellow = 0
+                    away_yellow = 0
+                    home_red = 0
+                    away_red = 0
+                    for inc in incidents:
+                        if inc.get('incidentType') == 'card':
+                            is_home = inc.get('isHome', False)
+                            card_type = inc.get('incidentClass', '')
+                            if card_type in ('yellow', 'yellowRed'):
+                                if is_home:
+                                    home_yellow += 1
+                                else:
+                                    away_yellow += 1
+                            if card_type in ('red', 'yellowRed'):
+                                if is_home:
+                                    home_red += 1
+                                else:
+                                    away_red += 1
+
+                    match.home_yellow = home_yellow
+                    match.away_yellow = away_yellow
+                    match.home_red = home_red
+                    match.away_red = away_red
+                    # Marca corners como 0 para não ficar pendente
+                    if match.home_corners is None:
+                        match.home_corners = 0
+                        match.away_corners = 0
+                    match.save()
+                    cards_from_incidents += 1
+
                 if goals_list:
                     Goal.objects.filter(match=match).delete()
                     with transaction.atomic():
@@ -425,10 +517,25 @@ class Command(BaseCommand):
                                 is_penalty=(gol.get('incidentType') == 'penalty')
                             )
                     goals_updated += 1
+                    self.stdout.write(self.style.SUCCESS(
+                        f"    ⚽ {len(goals_list)} gol(s) salvo(s)"
+                    ))
+            elif not fetch_stats:
+                # Liga sem stats e sem incidents — marca como processado
+                if match.home_corners is None:
+                    match.home_corners = 0
+                    match.away_corners = 0
+                    match.save()
 
-        self.stdout.write(self.style.SUCCESS(
-            f"  ✅ Temporada {season.year}: {stats_updated} stats + {goals_updated} gols"
-        ))
+        # Resumo da temporada
+        if fetch_stats:
+            self.stdout.write(self.style.SUCCESS(
+                f"  ✅ Temporada {season.year}: {stats_updated} stats + {goals_updated} gols"
+            ))
+        else:
+            self.stdout.write(self.style.SUCCESS(
+                f"  ✅ Temporada {season.year}: {goals_updated} gols + {cards_from_incidents} cartões (via incidents)"
+            ))
         return stats_updated, goals_updated
 
     def handle(self, *args, **kwargs):

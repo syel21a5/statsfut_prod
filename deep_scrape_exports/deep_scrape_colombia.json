@@ -9753,7 +9753,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeison Guzmán",
@@ -9761,7 +9761,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeison Guzmán",
@@ -9769,7 +9769,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -9803,7 +9803,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "William Tesillo",
@@ -9811,7 +9811,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Edwin Cardona",
@@ -9819,7 +9819,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrés Sarmiento",
@@ -9827,7 +9827,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -9861,7 +9861,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Leonardo Flores",
@@ -9869,7 +9869,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Leonardo Flores",
@@ -10021,7 +10021,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fabián Suárez",
@@ -10163,7 +10163,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Torres",
@@ -10171,7 +10171,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -10272,7 +10272,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Geronimo Mancilla",
@@ -10288,7 +10288,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Avilés Hurtado",
@@ -10296,7 +10296,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -10422,7 +10422,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Teófilo Gutiérrez",
@@ -10464,7 +10464,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Franco Fagúndez",
@@ -10606,7 +10606,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Adrián Parra",
@@ -10630,7 +10630,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -10672,7 +10672,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -10706,7 +10706,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Christian Mafla",
@@ -10714,7 +10714,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yuber Quiñones",
@@ -10930,7 +10930,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Sánchez",
@@ -11048,7 +11048,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Emerson Batalla",
@@ -11056,7 +11056,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luciano Pons",
@@ -11064,7 +11064,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Mosquera",
@@ -11072,7 +11072,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fabián Sambueza",
@@ -11080,7 +11080,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -11114,7 +11114,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Steven Rodríguez",
@@ -11122,7 +11122,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Dinenno",
@@ -11130,7 +11130,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -11172,7 +11172,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -11306,7 +11306,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Muriel",
@@ -11322,7 +11322,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Barrios",
@@ -11364,7 +11364,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Dylan Borrero",
@@ -11380,7 +11380,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -11439,7 +11439,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Dereck Moncada",
@@ -11631,7 +11631,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Barrios",
@@ -11639,7 +11639,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Muriel",
@@ -11647,7 +11647,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -11689,7 +11689,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -11899,7 +11899,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12065,7 +12065,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Joel Canchimbo",
@@ -12081,7 +12081,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12115,7 +12115,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alfredo Morelos",
@@ -12123,7 +12123,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrés Amaya",
@@ -12139,7 +12139,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alfredo Morelos",
@@ -12147,7 +12147,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12181,7 +12181,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12223,7 +12223,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Rodrigo Contreras",
@@ -12231,7 +12231,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12265,7 +12265,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Marco Pérez",
@@ -12349,7 +12349,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Pipe Gómez",
@@ -12365,7 +12365,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12399,7 +12399,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12491,7 +12491,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12583,7 +12583,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeison Guzmán",
@@ -12599,7 +12599,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12699,7 +12699,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Santiago Córdoba",
@@ -12715,7 +12715,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12749,7 +12749,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Dayro Moreno",
@@ -12757,7 +12757,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrés Arroyo",
@@ -12773,7 +12773,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrés Amaya",
@@ -12789,7 +12789,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12848,7 +12848,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alfredo Morelos",
@@ -12856,7 +12856,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Arango",
@@ -12864,7 +12864,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -12964,7 +12964,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Muriel",
@@ -12980,7 +12980,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13048,7 +13048,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeison Guzmán",
@@ -13056,7 +13056,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Daniel Valencia",
@@ -13064,7 +13064,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13180,7 +13180,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13222,7 +13222,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Sarabia",
@@ -13230,7 +13230,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Leonardo Castro",
@@ -13238,7 +13238,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Mateo García",
@@ -13246,7 +13246,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Sebastián Valencia",
@@ -13254,7 +13254,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13288,7 +13288,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jefry Zapata",
@@ -13296,7 +13296,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jefry Zapata",
@@ -13304,7 +13304,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13430,7 +13430,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Emerson Batalla",
@@ -13579,7 +13579,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13613,7 +13613,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13747,7 +13747,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13915,7 +13915,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Rodrigo Contreras",
@@ -13923,7 +13923,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13999,7 +13999,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luciano Pons",
@@ -14007,7 +14007,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luciano Pons",
@@ -14015,7 +14015,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14123,7 +14123,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jefry Zapata",
@@ -14131,7 +14131,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jorge Cardona",
@@ -14139,7 +14139,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Pipe Gómez",
@@ -14147,7 +14147,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14181,7 +14181,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Matheus Uribe",
@@ -14189,7 +14189,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14348,7 +14348,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14416,7 +14416,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Adrián Parra",
@@ -14508,7 +14508,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrés Arroyo",
@@ -14524,7 +14524,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14616,7 +14616,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Mateo García",
@@ -14624,7 +14624,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Rodrigo Contreras",
@@ -14632,7 +14632,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14774,7 +14774,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14808,7 +14808,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
@@ -14850,7 +14850,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14884,7 +14884,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Torres",
@@ -14892,7 +14892,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14926,7 +14926,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alexis Serna",
@@ -14934,7 +14934,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15018,7 +15018,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "David Macalister Silva",
@@ -15068,7 +15068,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alfredo Morelos",
@@ -15076,7 +15076,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Manuel Rengifo",
@@ -15084,7 +15084,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15118,7 +15118,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15202,7 +15202,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Angel Palacios",
@@ -15210,7 +15210,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15294,7 +15294,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Omar Albornoz",
@@ -15310,7 +15310,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15344,7 +15344,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jannenson Sarmiento",
@@ -15352,7 +15352,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15503,7 +15503,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Angel Palacios",
@@ -15579,7 +15579,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Darwin Lopez",
@@ -15595,7 +15595,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Sandoval",
@@ -15603,7 +15603,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15637,7 +15637,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15797,7 +15797,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "José Ortiz",
@@ -15805,7 +15805,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeison Guzmán",
@@ -15855,7 +15855,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Leonardo Castro",
@@ -15863,7 +15863,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Sebastian Herrera",
@@ -15905,7 +15905,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Torres",
@@ -15913,7 +15913,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Sandoval",
@@ -15921,7 +15921,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Sandoval",
@@ -15929,7 +15929,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jorge Rivaldo",
@@ -16089,7 +16089,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeison Guzmán",
@@ -16097,7 +16097,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16173,7 +16173,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16249,7 +16249,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Steven Rodríguez",
@@ -16299,7 +16299,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Omar Fernández",
@@ -16323,7 +16323,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16407,7 +16407,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Richard Rentería",
@@ -16415,7 +16415,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Misael Martínez",
@@ -16465,7 +16465,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Alvarez",
@@ -16481,7 +16481,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16682,7 +16682,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Manuel Rengifo",
@@ -16706,7 +16706,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16748,7 +16748,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16790,7 +16790,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16824,7 +16824,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Brandon Caicedo",
@@ -16832,7 +16832,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Brandon Caicedo",
@@ -16840,7 +16840,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fabián Sambueza",
@@ -16848,7 +16848,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fabián Sambueza",
@@ -16856,7 +16856,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17040,7 +17040,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Adrián Parra",
@@ -17048,7 +17048,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17124,7 +17124,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alexis Zapata",
@@ -17132,7 +17132,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
@@ -17140,7 +17140,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Franco Fagúndez",
@@ -17148,7 +17148,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Omar Fernández",
@@ -17156,7 +17156,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17224,7 +17224,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Bacca",
@@ -17232,7 +17232,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17274,7 +17274,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Adrián Ramos",
@@ -17282,7 +17282,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Dany Rosero",
@@ -17290,7 +17290,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17324,7 +17324,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fabricio Sanguinetti",
@@ -17340,7 +17340,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17374,7 +17374,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrés Román",
@@ -17382,7 +17382,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17416,7 +17416,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andres Aedo",
@@ -17424,7 +17424,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17558,7 +17558,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "David Macalister Silva",
@@ -17566,7 +17566,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Millonarios",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17650,7 +17650,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Brandon Caicedo",
@@ -17658,7 +17658,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Bucaramanga",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Wilfrido De la Rosa",
@@ -17700,7 +17700,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Pereira",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17734,7 +17734,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17768,7 +17768,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17943,7 +17943,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Once Caldas",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18085,7 +18085,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yeiner Londoño",
@@ -18093,7 +18093,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Valledupar FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18135,7 +18135,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18219,7 +18219,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Medellín",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Nicolás Lara",
@@ -18269,7 +18269,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Emanuel Olivera",
@@ -18277,7 +18277,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
@@ -18285,7 +18285,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fabricio Sanguinetti",
@@ -18327,7 +18327,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18369,7 +18369,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Joel Canchimbo",
@@ -18377,7 +18377,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Muriel",
@@ -18385,7 +18385,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Andrey Estupiñán",
@@ -18401,7 +18401,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Mayer Gil",
@@ -18493,7 +18493,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportes Tolima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18527,7 +18527,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "América de Cali",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
@@ -18603,7 +18603,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Edwin Cardona",
@@ -18611,7 +18611,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Arango",
@@ -18619,7 +18619,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Simon Garcia",
@@ -18627,7 +18627,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alfredo Morelos",
@@ -18635,7 +18635,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Matheus Uribe",
@@ -18643,7 +18643,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Simon Garcia",
@@ -18651,7 +18651,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atlético Nacional",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Juan Valencia",
@@ -18693,7 +18693,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Nahuel Bustos",
@@ -18701,7 +18701,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
@@ -18709,7 +18709,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Hugo Rodallega",
@@ -18717,7 +18717,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18801,7 +18801,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Lucas Monzón",
@@ -18809,7 +18809,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Pipe Gómez",
@@ -18885,7 +18885,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Independiente Santa Fe",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Ivan Scarpeta",
@@ -18894,6 +18894,139 @@
         "is_penalty": false,
         "team_name": "Junior Barranquilla",
         "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16183791",
+    "league_id": 30,
+    "league_name": "Primera A",
+    "league_country": "Colombia",
+    "season_year": 2026,
+    "date": "2026-05-23T23:00:00+00:00",
+    "home_team": "Atlético Nacional",
+    "away_team": "Deportes Tolima",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 14,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Adrián Parra",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Tolima",
+        "is_home": false
+      },
+      {
+        "player_name": "Edwin Cardona",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Nacional",
+        "is_home": true
+      },
+      {
+        "player_name": "Andrés Román",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Nacional",
+        "is_home": true
+      },
+      {
+        "player_name": "Jorman Campuzano",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atlético Nacional",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16183792",
+    "league_id": 30,
+    "league_name": "Primera A",
+    "league_country": "Colombia",
+    "season_year": 2026,
+    "date": "2026-05-24T01:30:00+00:00",
+    "home_team": "Junior Barranquilla",
+    "away_team": "Independiente Santa Fe",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 24,
+      "away_shots": 4,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_16231268",
+    "league_id": 30,
+    "league_name": "Primera A",
+    "league_country": "Colombia",
+    "season_year": 2026,
+    "date": "2026-06-03T00:30:00+00:00",
+    "home_team": "Junior Barranquilla",
+    "away_team": "Atlético Nacional",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 9,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Luis Muriel",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Junior Barranquilla",
+        "is_home": true
+      },
+      {
+        "player_name": "Luis Muriel",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Junior Barranquilla",
+        "is_home": true
+      },
+      {
+        "player_name": "Bryan Castrillón",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Junior Barranquilla",
+        "is_home": true
       }
     ]
   }

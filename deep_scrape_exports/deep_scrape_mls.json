@@ -8098,6 +8098,106 @@
     ]
   },
   {
+    "api_id": "sofa_13299319",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2025,
+    "date": "2025-08-24T02:30:00+00:00",
+    "home_team": "San Diego FC",
+    "away_team": "Portland Timbers",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 6
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_13265556",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2025,
+    "date": "2025-08-24T02:30:00+00:00",
+    "home_team": "LA Galaxy",
+    "away_team": "Colorado Rapids",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Gabriel Pec",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "LA Galaxy",
+        "is_home": true
+      },
+      {
+        "player_name": "Elijah Wynder",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "LA Galaxy",
+        "is_home": true
+      },
+      {
+        "player_name": "Harbor Miller",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "LA Galaxy",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_13265558",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2025,
+    "date": "2025-08-24T20:00:00+00:00",
+    "home_team": "Atlanta United",
+    "away_team": "Toronto FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 6,
+      "away_shots": 12,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 2,
+      "home_fouls": 17,
+      "away_fouls": 9
+    },
+    "goals": []
+  },
+  {
     "api_id": "sofa_13265557",
     "league_id": 35,
     "league_name": "MLS",
@@ -25626,6 +25726,868 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Nashville SC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171571",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-23T18:45:00+00:00",
+    "home_team": "St.Louis City",
+    "away_team": "Austin FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 19,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Edelman",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "St.Louis City",
+        "is_home": true
+      },
+      {
+        "player_name": "Fallou Fall",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "St.Louis City",
+        "is_home": true
+      },
+      {
+        "player_name": "Guilherme Biro",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "St.Louis City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171576",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-23T20:30:00+00:00",
+    "home_team": "Minnesota United",
+    "away_team": "Real Salt Lake",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 8,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 1,
+      "home_fouls": 6,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Mauricio González",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Minnesota United",
+        "is_home": true
+      },
+      {
+        "player_name": "Zach Booth",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Real Salt Lake",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171573",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-23T23:30:00+00:00",
+    "home_team": "FC Cincinnati",
+    "away_team": "Orlando City SC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 9,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 19,
+      "home_shots_on_target": 11,
+      "away_shots_on_target": 9,
+      "home_fouls": 17,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Tom Barlow",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cincinnati",
+        "is_home": true
+      },
+      {
+        "player_name": "Kévin Denkey",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cincinnati",
+        "is_home": true
+      },
+      {
+        "player_name": "Evander",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cincinnati",
+        "is_home": true
+      },
+      {
+        "player_name": "Kenji Mboma Dem",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cincinnati",
+        "is_home": true
+      },
+      {
+        "player_name": "Martín Ojeda",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Orlando City SC",
+        "is_home": false
+      },
+      {
+        "player_name": "Evander",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cincinnati",
+        "is_home": true
+      },
+      {
+        "player_name": "Kenji Mboma Dem",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cincinnati",
+        "is_home": true
+      },
+      {
+        "player_name": "Martín Ojeda",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Orlando City SC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171569",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-23T23:30:00+00:00",
+    "home_team": "Charlotte FC",
+    "away_team": "New England Revolution",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Idan Toklomati",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Charlotte FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171572",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-23T23:30:00+00:00",
+    "home_team": "DC United",
+    "away_team": "CF Montréal",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 22,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 8,
+      "home_fouls": 19,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Hennadii Synchuk",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CF Montréal",
+        "is_home": false
+      },
+      {
+        "player_name": "Prince Owusu",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CF Montréal",
+        "is_home": false
+      },
+      {
+        "player_name": "Lucas Bartlett",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "DC United",
+        "is_home": true
+      },
+      {
+        "player_name": "Prince Owusu",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CF Montréal",
+        "is_home": false
+      },
+      {
+        "player_name": "Tai Baribo",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "DC United",
+        "is_home": true
+      },
+      {
+        "player_name": "Prince Owusu",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CF Montréal",
+        "is_home": false
+      },
+      {
+        "player_name": "Jared Stroud",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "DC United",
+        "is_home": true
+      },
+      {
+        "player_name": "Louis Munteanu",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "DC United",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171578",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T00:30:00+00:00",
+    "home_team": "Nashville SC",
+    "away_team": "New York City FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Maxwell Woledzi",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nashville SC",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Fernández",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "New York City FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jeisson Palacios",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nashville SC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171574",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T00:30:00+00:00",
+    "home_team": "Chicago Fire",
+    "away_team": "Toronto FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 11,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Andrew Gutman",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chicago Fire",
+        "is_home": true
+      },
+      {
+        "player_name": "Josh Sargent",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Toronto FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Robin Lod",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chicago Fire",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171575",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T00:30:00+00:00",
+    "home_team": "Sporting Kansas City",
+    "away_team": "New York Red Bulls",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 10,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 5,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Calvin Harris",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sporting Kansas City",
+        "is_home": true
+      },
+      {
+        "player_name": "Jorge Ruvalcaba",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "New York Red Bulls",
+        "is_home": false
+      },
+      {
+        "player_name": "Jorge Ruvalcaba",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "New York Red Bulls",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171580",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T01:30:00+00:00",
+    "home_team": "San Diego FC",
+    "away_team": "Vancouver Whitecaps",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 21,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 12,
+      "home_fouls": 14,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Bryan Zamblé",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "San Diego FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ralph Priso",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vancouver Whitecaps",
+        "is_home": false
+      },
+      {
+        "player_name": "Bruno Quiñonez",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vancouver Whitecaps",
+        "is_home": false
+      },
+      {
+        "player_name": "David Vazquez",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "San Diego FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Brian White",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vancouver Whitecaps",
+        "is_home": false
+      },
+      {
+        "player_name": "Brian White",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vancouver Whitecaps",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171581",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T01:30:00+00:00",
+    "home_team": "Portland Timbers",
+    "away_team": "San Jose Earthquakes",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 7,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 6,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Munie",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "San Jose Earthquakes",
+        "is_home": false
+      },
+      {
+        "player_name": "Antony Alves",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Portland Timbers",
+        "is_home": true
+      },
+      {
+        "player_name": "Preston Judd",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "San Jose Earthquakes",
+        "is_home": false
+      },
+      {
+        "player_name": "Preston Judd",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "San Jose Earthquakes",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171577",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T01:30:00+00:00",
+    "home_team": "Colorado Rapids",
+    "away_team": "FC Dallas",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 17,
+      "away_shots": 5,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Santiago Moreno",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Dallas",
+        "is_home": false
+      },
+      {
+        "player_name": "Paxten Aaronson",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colorado Rapids",
+        "is_home": true
+      },
+      {
+        "player_name": "Logan Farrington",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Dallas",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171579",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T02:30:00+00:00",
+    "home_team": "LA Galaxy",
+    "away_team": "Houston Dynamo",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 10,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 6,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Guilherme",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Houston Dynamo",
+        "is_home": false
+      },
+      {
+        "player_name": "Joseph Paintsil",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "LA Galaxy",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171588",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T21:00:00+00:00",
+    "home_team": "Columbus Crew",
+    "away_team": "Atlanta United",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 16,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Diego Rossi",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Columbus Crew",
+        "is_home": true
+      },
+      {
+        "player_name": "Sekou Tidiany Bangoura",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Columbus Crew",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171584",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-24T23:00:00+00:00",
+    "home_team": "Inter Miami CF",
+    "away_team": "Philadelphia Union",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 6,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 21,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 10,
+      "home_fouls": 18,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Rodrigo De Paul",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Miami CF",
+        "is_home": true
+      },
+      {
+        "player_name": "Luis Suárez",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Miami CF",
+        "is_home": true
+      },
+      {
+        "player_name": "Milan Iloski",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Philadelphia Union",
+        "is_home": false
+      },
+      {
+        "player_name": "Luis Suárez",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Miami CF",
+        "is_home": true
+      },
+      {
+        "player_name": "Germán Berterame",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Miami CF",
+        "is_home": true
+      },
+      {
+        "player_name": "Luis Suárez",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Miami CF",
+        "is_home": true
+      },
+      {
+        "player_name": "Bruno Damiani",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Philadelphia Union",
+        "is_home": false
+      },
+      {
+        "player_name": "Germán Berterame",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Miami CF",
+        "is_home": true
+      },
+      {
+        "player_name": "Milan Iloski",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Philadelphia Union",
+        "is_home": false
+      },
+      {
+        "player_name": "Milan Iloski",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Philadelphia Union",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15171582",
+    "league_id": 35,
+    "league_name": "MLS",
+    "league_country": "Estados Unidos",
+    "season_year": 2026,
+    "date": "2026-05-25T01:25:00+00:00",
+    "home_team": "Los Angeles FC",
+    "away_team": "Seattle Sounders FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Timothy Tillman",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Los Angeles FC",
         "is_home": true
       }
     ]

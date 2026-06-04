@@ -1,0 +1,5313 @@
+[
+  {
+    "api_id": "sofa_15352966",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-01-30T23:00:00+00:00",
+    "home_team": "Universidad de Chile",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 2,
+      "away_red": 0,
+      "home_shots": 5,
+      "away_shots": 5,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 7
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15352965",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-01-31T15:00:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 18,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 2,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Maximiliano Romero",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Daniel Castro",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Jean Meneses",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Jean Meneses",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352952",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-01-31T18:30:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 1,
+      "home_yellow": 4,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 13,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 8,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Luis Rojas",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352958",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-01-31T21:00:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 0,
+      "home_fouls": 17,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Steffan Pino",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352951",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-01T21:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 3,
+      "home_yellow": 5,
+      "away_yellow": 5,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 19,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Justo Giani",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Felipe Chamorro",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Felipe Chamorro",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352972",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-01T23:30:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 9,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Ignacio Jeraldino",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      },
+      {
+        "player_name": "Ronnie Fernández",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352954",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-02T21:00:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 8,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 18,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Rodrigo Caseres",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353074",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-02T23:30:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 11,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Fausto Grillo",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": false
+      },
+      {
+        "player_name": "Miguel Brizuela",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      },
+      {
+        "player_name": "Arnaldo Castillo",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352948",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-06T23:00:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 7,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 17,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Franco Troyansky",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Federico Mateos",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Diego Coelho",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352969",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-07T15:00:00+00:00",
+    "home_team": "Coquimbo Unido",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 7,
+      "home_fouls": 15,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Manuel Fernández",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      },
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      },
+      {
+        "player_name": "Luis Riveros",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      },
+      {
+        "player_name": "Guido Vadalá",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352984",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-07T21:00:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Deportes La Serena",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 7,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Francisco González",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352976",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-07T23:30:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 24,
+      "away_shots": 10,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 1,
+      "home_fouls": 15,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Javier Correa",
+        "minute": 100,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Yastin Cuevas",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352974",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-08T15:00:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 9,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Renzo Malanca",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Maximiliano Gutiérrez",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Eduardo Vargas",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352971",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-08T21:00:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 23,
+      "away_shots": 2,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Ignacio Jeraldino",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      },
+      {
+        "player_name": "Gonzalo Sosa",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352955",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-08T23:30:00+00:00",
+    "home_team": "Universidad Católica",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 16,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 18,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Justo Giani",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352964",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-09T23:00:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 17,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Agustin Nadruz",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      },
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Francisco Jose Pozzo",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Kevin Méndez",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352959",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-13T21:00:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 9,
+      "home_fouls": 12,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Mario Briceño",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": false
+      },
+      {
+        "player_name": "Maximiliano Gutiérrez",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": false
+      },
+      {
+        "player_name": "Maximiliano Gutiérrez",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352953",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-13T23:30:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15352960",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-14T15:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 4,
+      "away_shots": 13,
+      "home_shots_on_target": 0,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Alejandro Camargo",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352950",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-14T21:00:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 16,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Castro",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Bryan Rabello",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Jean Meneses",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352949",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-14T23:30:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 11,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 22,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Steffan Pino",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Bryan Carvallo",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      },
+      {
+        "player_name": "Agustin Nadruz",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352961",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-15T15:00:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 5,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 12,
+      "away_shots": 8,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 1,
+      "home_fouls": 16,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Cecilio Waterman",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Cristhofer Mesías",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Joaquín Larrivey",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352963",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-15T21:00:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 10,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 6,
+      "home_fouls": 23,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Ignacio Tapia",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352957",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-15T23:30:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 6,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 6,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 0,
+      "home_fouls": 10,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Maximiliano Romero",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352975",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-20T21:00:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 5,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Lucas Molina",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352962",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-20T23:30:00+00:00",
+    "home_team": "Deportes Concepción",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 15,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Jorge Henríquez",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Steffan Pino",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352973",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-21T15:00:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 12,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Lionel Altamirano",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Cris Martínez",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352970",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-21T21:00:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 12,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Claudio Aquino",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352967",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-21T23:30:00+00:00",
+    "home_team": "Universidad Católica",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 5,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 14,
+      "away_shots": 9,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Justo Giani",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Alejandro Camargo",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352977",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-22T15:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 8,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 14,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Felipe Chamorro",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": false
+      },
+      {
+        "player_name": "Sebastián Díaz",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352968",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-22T21:00:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 8,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Rodrigo Cabral",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353015",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-22T23:30:00+00:00",
+    "home_team": "Universidad de Chile",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Yerko González",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Nicolás Ramírez",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Javier Altamirano",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Daniel Castro",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352980",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-27T21:00:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "Deportes La Serena",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 14,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Jeisson Vargas",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352983",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-27T23:30:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 11,
+      "away_shots": 14,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Kevin Méndez",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352982",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-28T15:00:00+00:00",
+    "home_team": "Coquimbo Unido",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Leonardo Valencia",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352985",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-28T21:00:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 1,
+      "home_fouls": 9,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Vicente Álvarez",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Yerko González",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Jean Meneses",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352986",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-02-28T23:30:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 5,
+      "home_fouls": 16,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Arnaldo Castillo",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Francisco Montes",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastián Gallegos",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Thiago Vecino",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Ian Garguez",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352981",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-01T15:00:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 21,
+      "away_shots": 18,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 10,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Lucas Soto",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      },
+      {
+        "player_name": "Alan Medina",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      },
+      {
+        "player_name": "Alan Medina",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352979",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-01T21:00:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 6,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Matías Zaldivia",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352978",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-01T23:30:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 7,
+      "home_red": 2,
+      "away_red": 1,
+      "home_shots": 7,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 18,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Ignacio Jeraldino",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352992",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-06T21:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 10,
+      "home_yellow": 3,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Matías Marín",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Diego Rubio",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Gonzalo Escalante",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352993",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-06T23:30:00+00:00",
+    "home_team": "Deportes Concepción",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 6,
+      "home_fouls": 13,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Diego Sanhueza",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Graciani",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352990",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-07T15:00:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Cristian Palacios",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352991",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-07T15:00:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 10,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 5,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Cristián Zavala",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Lionel Altamirano",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Alejandro Azócar",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Martín Mundaca",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352988",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-07T21:00:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 7,
+      "away_shots": 12,
+      "home_shots_on_target": 0,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Maximiliano Romero",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352989",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-07T23:30:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 7,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Bastián Yáñez",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352987",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-08T23:30:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 27,
+      "away_shots": 8,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Franco Frías",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      },
+      {
+        "player_name": "Julián Fernández",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Vicente Espinoza",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Guillermo Pacheco",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      },
+      {
+        "player_name": "Martín Araya",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352995",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-09T23:00:00+00:00",
+    "home_team": "Universidad de Chile",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 20,
+      "away_shots": 12,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 3
+    },
+    "goals": [
+      {
+        "player_name": "Eduardo Vargas",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Daniel Barrea",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353000",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-13T23:00:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 7,
+      "away_shots": 17,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Franco Troyansky",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Giovani Chiaverano",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Enzo Ferrario",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352996",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-14T21:00:00+00:00",
+    "home_team": "Coquimbo Unido",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Maximiliano Guerrero",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352994",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-14T23:30:00+00:00",
+    "home_team": "Universidad Católica",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 5,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 15,
+      "away_shots": 5,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 19
+    },
+    "goals": [
+      {
+        "player_name": "Jimmy Martínez",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Lucas Soto",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      },
+      {
+        "player_name": "Cristian Palacios",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353001",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-15T15:00:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 11,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Antonio Díaz",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353005",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-15T21:00:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 15,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 9,
+      "home_fouls": 7,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Franco Frías",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      },
+      {
+        "player_name": "Steffan Pino",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      },
+      {
+        "player_name": "César Pinares",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Gonzalo Sosa",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Daniel Castro",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Daniel Castro",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Vicente Álvarez",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352998",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-15T23:30:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "Deportes La Serena",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Franco Rami",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      },
+      {
+        "player_name": "Jeisson Vargas",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      },
+      {
+        "player_name": "Lucas Alarcón",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      },
+      {
+        "player_name": "Giovanny Avalos",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353009",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-16T21:00:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 13,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Matías Campos López",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Felipe Ogaz",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Martín Sarrafiore",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Martín Sarrafiore",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352997",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-03-16T23:30:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 9,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Claudio Aquino",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Álvaro Madrid",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353010",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-02T21:00:00+00:00",
+    "home_team": "Universidad Católica",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 15,
+      "away_shots": 12,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Clemente Montes",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Justo Giani",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "Matías Palavecino",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      },
+      {
+        "player_name": "César Munder",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      },
+      {
+        "player_name": "Justo Giani",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353007",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-03T20:30:00+00:00",
+    "home_team": "Coquimbo Unido",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 12,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Benjamín Valenzuela",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      },
+      {
+        "player_name": "Cristián Zavala",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Johansen",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      },
+      {
+        "player_name": "Julián Brea",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      },
+      {
+        "player_name": "Alejandro Azócar",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353016",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-03T23:00:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 13,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 5,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Francisco González",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      },
+      {
+        "player_name": "Giovani Chiaverano",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": false
+      },
+      {
+        "player_name": "Martín Maturana",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15352999",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-04T20:30:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 12,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 7,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 1,
+      "home_fouls": 7,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Flavio Moya",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcos Arturia",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Joaquín Montecinos",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Daniel Castro",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353004",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-04T23:00:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15353006",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-05T19:30:00+00:00",
+    "home_team": "Deportes Concepción",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 8,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Álvaro Madrid",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353002",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-05T22:00:00+00:00",
+    "home_team": "Universidad de Chile",
+    "away_team": "Deportes La Serena",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 9,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Agustín Arce",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Javier Altamirano",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Maximiliano Guerrero",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Fabián Hormazábal",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353013",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-07T00:00:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 18,
+      "home_shots_on_target": 11,
+      "away_shots_on_target": 6,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Claudio Sepúlveda",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Maximiliano Rodríguez",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Cris Martínez",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Vargas",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Santiago Silva",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Agustín Urzi",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353017",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-11T00:00:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Mario Briceño",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": false
+      },
+      {
+        "player_name": "Cris Martínez",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353008",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-11T19:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Jeisson Vargas",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353003",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-11T21:30:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 6,
+      "away_yellow": 4,
+      "home_red": 2,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 7,
+      "home_fouls": 7,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Juan Ignacio Díaz",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Marco Collao",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Matías Palavecino",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Justo Giani",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Franco Troyansky",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Clemente Montes",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Giovani Chiaverano",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353011",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-12T00:00:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 7,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353012",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-12T21:30:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 8,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 15,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Diego Céspedes",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353014",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-13T00:00:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 1,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Jeison Fuentealba",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353019",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-14T00:00:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 5,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Kevin Méndez",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353027",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-18T00:00:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 9,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 25,
+      "away_shots": 15,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 5,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Castro",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "César Fuentes",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Gonzalo Sosa",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353020",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-18T21:30:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 15,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 6,
+      "home_fouls": 8,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15353021",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-19T00:00:00+00:00",
+    "home_team": "Deportes Concepción",
+    "away_team": "Deportes La Serena",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Joaquín Larrivey",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Ignacio Mesías",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Stefanelli",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      },
+      {
+        "player_name": "Jeisson Vargas",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      },
+      {
+        "player_name": "Jeisson Vargas",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      },
+      {
+        "player_name": "Ignacio Mesías",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353026",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-19T16:30:00+00:00",
+    "home_team": "Coquimbo Unido",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 15,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Franco Rami",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      },
+      {
+        "player_name": "Nicolás Johansen",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353025",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-19T19:30:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 15,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Thiago Vecino",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Thiago Vecino",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "José Tiznado",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      },
+      {
+        "player_name": "Arnaldo Castillo",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Julián Brea",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353024",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-19T22:30:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Dilan Zúñiga",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353023",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-20T00:45:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 15,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Oliver Rojas",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Lionel Altamirano",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Lionel Altamirano",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Michael Vadulli",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": false
+      },
+      {
+        "player_name": "Esteban Matus",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353022",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-21T00:30:00+00:00",
+    "home_team": "Universidad Católica",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 5,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": false
+      },
+      {
+        "player_name": "Rodrigo Caseres",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": false
+      },
+      {
+        "player_name": "Branco Ampuero",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353035",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-24T00:00:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Joaquín Larrivey",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353030",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-24T22:00:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 5,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 5,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Lucas Pratto",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Sebastián Sáez",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Pablo Rodríguez",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353031",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-25T00:30:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 13,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Ramón Martínez",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Augusto Aguirre",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Daniel Castro",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Vicente Zenteno",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353033",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-25T19:00:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "O'Higgins",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 17,
+      "away_shots": 7,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Francisco González",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      },
+      {
+        "player_name": "Thiago Vecino",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353029",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-25T22:00:00+00:00",
+    "home_team": "Universidad de Chile",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 7,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Juan Martín Lucero",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353034",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-26T16:30:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15353028",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-26T19:00:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 17,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Javier Correa",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Osvaldo González",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Maximiliano Romero",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353032",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-04-26T21:30:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 15,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Alan Medina",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": true
+      },
+      {
+        "player_name": "Cristian Palacios",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Baeza",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": true
+      },
+      {
+        "player_name": "Steffan Pino",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353018",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-03T21:30:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 7,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Javier Correa",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Javier Correa",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Guido Vadalá",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Maximiliano Romero",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353039",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-16T00:00:00+00:00",
+    "home_team": "Coquimbo Unido",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 5,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 0,
+      "home_fouls": 12,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Sebastián Galani",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Johansen",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      },
+      {
+        "player_name": "Guido Vadalá",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353037",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-16T00:00:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Deportes La Serena",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 26,
+      "away_shots": 11,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Ángelo Henríquez",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": false
+      },
+      {
+        "player_name": "Jason León",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "César Munder",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Nelson Da Silva",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Francisco Montes",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      },
+      {
+        "player_name": "Bryan Carrasco",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353043",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-16T21:30:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 16,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 35,
+      "away_shots": 7,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 2,
+      "home_fouls": 17,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Cecilio Waterman",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353042",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-17T00:00:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 7,
+      "home_yellow": 5,
+      "away_yellow": 2,
+      "home_red": 2,
+      "away_red": 0,
+      "home_shots": 9,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Juan Francisco Rossel",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Fernando Zampedri",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353038",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-17T16:30:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Nelson Guillermo Guaiquil",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Lionel Altamirano",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Maicol León",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Huachipato",
+        "is_home": true
+      },
+      {
+        "player_name": "Bayron Oyarzo",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353036",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-17T19:00:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "Universidad de Chile",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Steffan Pino",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353041",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-17T21:30:00+00:00",
+    "home_team": "Colo-Colo",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 7,
+      "home_shots_on_target": 11,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Lautaro Pastrán",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Javier Correa",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Arturo Vidal",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Arturo Vidal",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      },
+      {
+        "player_name": "Javier Correa",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Diego Sanhueza",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      },
+      {
+        "player_name": "Joaquín Sosa",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      },
+      {
+        "player_name": "Leandro Hernández",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353040",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-18T00:00:00+00:00",
+    "home_team": "Deportes Concepción",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 9,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 8,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Braian Martínez",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      },
+      {
+        "player_name": "Santiago Londoño",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353046",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-22T19:00:00+00:00",
+    "home_team": "Everton de Viña del Mar",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 7,
+      "home_yellow": 5,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 9,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Nicolás Montiel",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Johansen",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353047",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-23T16:30:00+00:00",
+    "home_team": "Audax Italiano",
+    "away_team": "Cobresal",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 6,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Diego Coelho",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Michael Vadulli",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Audax Italiano",
+        "is_home": true
+      },
+      {
+        "player_name": "Julián Brea",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cobresal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353052",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-23T19:00:00+00:00",
+    "home_team": "Ñublense",
+    "away_team": "Universidad de Concepción",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 18,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Luis Rojas",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": false
+      },
+      {
+        "player_name": "Cecilio Waterman",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Concepción",
+        "is_home": false
+      },
+      {
+        "player_name": "Matías Plaza",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      },
+      {
+        "player_name": "Lorenzo Reyes",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353049",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-24T00:00:00+00:00",
+    "home_team": "Unión La Calera",
+    "away_team": "Palestino",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Kevin Méndez",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Unión La Calera",
+        "is_home": true
+      },
+      {
+        "player_name": "Gonzalo Tapia",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      },
+      {
+        "player_name": "Gonzalo Tapia",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palestino",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353055",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-24T16:30:00+00:00",
+    "home_team": "Deportes Concepción",
+    "away_team": "Huachipato",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 11,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Joaquín Larrivey",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": true
+      },
+      {
+        "player_name": "Ethan Espinoza",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353167",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-24T19:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Deportes Limache",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 8,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Felipe Chamorro",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Rafael Delgado",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": false
+      },
+      {
+        "player_name": "Diego Rubio",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Felipe Chamorro",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Stefanelli",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353044",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-24T22:00:00+00:00",
+    "home_team": "Universidad Católica",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 17,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Javier Correa",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Javier Correa",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Arturo Vidal",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353058",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-29T22:00:00+00:00",
+    "home_team": "Cobresal",
+    "away_team": "Ñublense",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Ignacio Jeraldino",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ñublense",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353053",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-30T00:30:00+00:00",
+    "home_team": "Universidad de Concepción",
+    "away_team": "Unión La Calera",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 5,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 8,
+      "away_fouls": 7
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15353051",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-30T19:00:00+00:00",
+    "home_team": "Deportes La Serena",
+    "away_team": "Colo-Colo",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Federico Lanzillotta",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Lautaro Pastrán",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Diego Rubio",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Leandro Hernández",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      },
+      {
+        "player_name": "Bruno Gutiérrez",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes La Serena",
+        "is_home": true
+      },
+      {
+        "player_name": "Víctor Felipe Méndez",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Colo-Colo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353060",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-30T21:30:00+00:00",
+    "home_team": "Universidad de Chile",
+    "away_team": "Deportes Concepción",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 6,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 9,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Eduardo Vargas",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      },
+      {
+        "player_name": "Mario Sandoval",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Concepción",
+        "is_home": false
+      },
+      {
+        "player_name": "Eduardo Vargas",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad de Chile",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353059",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-31T16:30:00+00:00",
+    "home_team": "Deportes Limache",
+    "away_team": "Coquimbo Unido",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 13,
+      "away_shots": 17,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Nicolás Johansen",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Gonzalo Sosa",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      },
+      {
+        "player_name": "Alejandro Camargo",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Alfonso Parot",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coquimbo Unido",
+        "is_home": false
+      },
+      {
+        "player_name": "Vicente Álvarez",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportes Limache",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353061",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-31T19:00:00+00:00",
+    "home_team": "Huachipato",
+    "away_team": "Universidad Católica",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 17,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Diego Corral",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Justo Giani",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      },
+      {
+        "player_name": "Clemente Montes",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Católica",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353048",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-05-31T21:30:00+00:00",
+    "home_team": "O'Higgins",
+    "away_team": "Everton de Viña del Mar",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 14,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Francisco González",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      },
+      {
+        "player_name": "Julián Alfaro",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      },
+      {
+        "player_name": "Thiago Vecino",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      },
+      {
+        "player_name": "Francisco González",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "O'Higgins",
+        "is_home": true
+      },
+      {
+        "player_name": "Lucas Soto",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton de Viña del Mar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15353057",
+    "league_id": 31,
+    "league_name": "Primera Division",
+    "league_country": "Chile",
+    "season_year": 2026,
+    "date": "2026-06-01T00:00:00+00:00",
+    "home_team": "Palestino",
+    "away_team": "Audax Italiano",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 18,
+      "away_shots": 19,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 10
+    },
+    "goals": []
+  }
+]

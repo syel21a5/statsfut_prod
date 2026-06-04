@@ -1,0 +1,3279 @@
+[
+  {
+    "api_id": "sofa_14600198",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-13T12:00:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "FC Haka",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 5,
+      "away_shots": 12,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 7,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Abraham Okyere",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Haka",
+        "is_home": false
+      },
+      {
+        "player_name": "Korede Adedoyin",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600165",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-13T14:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "KTP",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Aleksi Tarvonen",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": false
+      },
+      {
+        "player_name": "Olli Jakonen",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      },
+      {
+        "player_name": "Prosper Ahiabu",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600164",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-14T13:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 9,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 15,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Julius Paananen",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Filip Valenčič",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Joel Lehtonen",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600162",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-19T15:00:00+00:00",
+    "home_team": "FC Haka",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 6,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Niklas Jokelainen",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600167",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-19T16:00:00+00:00",
+    "home_team": "KTP",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 19,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Assane Seck",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": true
+      },
+      {
+        "player_name": "Kerfala Cissoko",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      },
+      {
+        "player_name": "Severi Kähkönen",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600169",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-21T15:30:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 15,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Jiri Nissinen",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      },
+      {
+        "player_name": "Korede Adedoyin",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      },
+      {
+        "player_name": "Antti-Ville Räisänen",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600178",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-26T15:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "FC Haka",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 16,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Maissa Fall",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600200",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-27T14:00:00+00:00",
+    "home_team": "AC Oulu",
+    "away_team": "KTP",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 9,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Joni Mäkelä",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": false
+      },
+      {
+        "player_name": "Rangel",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600174",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-09-28T13:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 20,
+      "away_shots": 5,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Michael Ogungbaro",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Leo Andersson",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": false
+      },
+      {
+        "player_name": "Korede Adedoyin",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": false
+      },
+      {
+        "player_name": "Sergei Eremenko",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Korede Adedoyin",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600173",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-10-03T15:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "FC Haka",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 19,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Albin Björkskog",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Rudi Vikstrom",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "James Akintunde",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Haka",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600166",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-10-04T12:00:00+00:00",
+    "home_team": "AC Oulu",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 3,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 7,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Julius Körkkö",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      },
+      {
+        "player_name": "Musa Jatta",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600168",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-10-04T14:00:00+00:00",
+    "home_team": "KTP",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 14,
+      "away_shots": 6,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 6,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Rangel",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": true
+      },
+      {
+        "player_name": "Jelle van der Heyden",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600163",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-10-18T14:00:00+00:00",
+    "home_team": "FC Haka",
+    "away_team": "KTP",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 13,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 9,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 10,
+      "home_fouls": 6,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Luca Weckström",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": false
+      },
+      {
+        "player_name": "Petteri Forsell",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "KTP",
+        "is_home": false
+      },
+      {
+        "player_name": "Jordan Houston",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Haka",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600183",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-10-18T14:00:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 6,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Enqvist",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      },
+      {
+        "player_name": "Leo Andersson",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14600175",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2025,
+    "date": "2025-10-18T14:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 16,
+      "away_shots": 8,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Severi Kähkönen",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      },
+      {
+        "player_name": "Jesper Engström",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      },
+      {
+        "player_name": "Kerfala Cissoko",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      },
+      {
+        "player_name": "Albin Björkskog",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272697",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-04T10:00:00+00:00",
+    "home_team": "Inter Turku",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 13,
+      "away_shots": 1,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 0,
+      "home_fouls": 13,
+      "away_fouls": 15
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15272698",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-04T12:00:00+00:00",
+    "home_team": "HJK",
+    "away_team": "SJK",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 18,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Toivo Mero",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Teemu Pukki",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      },
+      {
+        "player_name": "David Ezeh",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272701",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-04T14:00:00+00:00",
+    "home_team": "Ilves",
+    "away_team": "Kuopion Palloseura",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 14,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 7,
+      "home_fouls": 6,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Teemu Hytönen",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": true
+      },
+      {
+        "player_name": "Bob Nii Armah",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": false
+      },
+      {
+        "player_name": "Jaime Moreno",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": false
+      },
+      {
+        "player_name": "Petteri Pennanen",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272699",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-04T14:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "FC Lahti",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 6,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Momodou Sarr",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272700",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-04T14:00:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "Turun Palloseura",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 10,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 17,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Pau Juvanteny",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": false
+      },
+      {
+        "player_name": "Adam Larsson",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272702",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-04T16:00:00+00:00",
+    "home_team": "IF Gnistan",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 15,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 8,
+      "home_fouls": 14,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Julius Körkkö",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Julius Körkkö",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Tuomas Kaukua",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Sergei Eremenko",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272703",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-10T15:00:00+00:00",
+    "home_team": "Turun Palloseura",
+    "away_team": "FC Lahti",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 7,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 16,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 16,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Momodou Sarr",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": false
+      },
+      {
+        "player_name": "Marius Könkkölä",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Theodoros Tsirigotis",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272704",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-10T16:00:00+00:00",
+    "home_team": "SJK",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 18,
+      "away_shots": 5,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 13,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Jeremiah Streng",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Kasper Paananen",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Kelvin Pires",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272705",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-10T17:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 19,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 6,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15272706",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-11T11:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "IF Gnistan",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 26,
+      "away_shots": 8,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Jaime Moreno",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272707",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-11T14:00:00+00:00",
+    "home_team": "HJK",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 13,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 2,
+      "home_fouls": 7,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Elias Kallio",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272708",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-11T16:00:00+00:00",
+    "home_team": "Inter Turku",
+    "away_team": "Ilves",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 5,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Ilari Kangasniemi",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": true
+      },
+      {
+        "player_name": "Alie Conteh",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": true
+      },
+      {
+        "player_name": "Roope Riski",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272709",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-18T11:00:00+00:00",
+    "home_team": "IF Gnistan",
+    "away_team": "HJK",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 7,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 9,
+      "home_shots_on_target": 0,
+      "away_shots_on_target": 5,
+      "home_fouls": 8,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Mihailo Bogićević",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": false
+      },
+      {
+        "player_name": "Teemu Pukki",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": false
+      },
+      {
+        "player_name": "Teemu Pukki",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272710",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-18T13:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "Kuopion Palloseura",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Jaime Moreno",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": false
+      },
+      {
+        "player_name": "Rudi Vikstrom",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272712",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-18T14:00:00+00:00",
+    "home_team": "FC Lahti",
+    "away_team": "Inter Turku",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Jussi Niska",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      },
+      {
+        "player_name": "Johannes Yli-Kokko",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272713",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-18T14:00:00+00:00",
+    "home_team": "Turun Palloseura",
+    "away_team": "SJK",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 11,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Albijon Muzaci",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Albijon Muzaci",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272711",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-18T14:00:00+00:00",
+    "home_team": "AC Oulu",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 2,
+      "home_shots": 11,
+      "away_shots": 9,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Iiro Mendolin",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272714",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-18T16:00:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "Ilves",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 16,
+      "away_shots": 14,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Teemu Hytönen",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      },
+      {
+        "player_name": "Sebastian Dahlström",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      },
+      {
+        "player_name": "Emmanuel Patut",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      },
+      {
+        "player_name": "Otto Tiitinen",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272715",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-22T15:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 12,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Otto Ruoppi",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Jaime Moreno",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Bob Nii Armah",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272716",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-24T15:00:00+00:00",
+    "home_team": "Turun Palloseura",
+    "away_team": "IF Gnistan",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 18,
+      "away_fouls": 27
+    },
+    "goals": [
+      {
+        "player_name": "Samuel Anini Jr.",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Adeleke Akinyemi",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272717",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-24T15:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "Ilves",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 23,
+      "away_shots": 10,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 15,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Oskari Multala",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      },
+      {
+        "player_name": "Jardell Kanga",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      },
+      {
+        "player_name": "Simon Lindholm",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      },
+      {
+        "player_name": "Jonathan Muzinga",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      },
+      {
+        "player_name": "Vilmer Ronnberg",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272718",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-24T16:00:00+00:00",
+    "home_team": "SJK",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 6,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Jeremiah Streng",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Luca Weckström",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272719",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-25T12:00:00+00:00",
+    "home_team": "FC Lahti",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Julius Körkkö",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      },
+      {
+        "player_name": "Neemias Barbosa",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      },
+      {
+        "player_name": "Martim Ferreira",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272720",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-25T14:00:00+00:00",
+    "home_team": "Inter Turku",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 22,
+      "away_shots": 2,
+      "home_shots_on_target": 12,
+      "away_shots_on_target": 1,
+      "home_fouls": 5,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Alie Conteh",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272721",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-26T13:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "HJK",
+    "stats": {
+      "home_corners": 14,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 17,
+      "away_shots": 6,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Mads Borchers",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": false
+      },
+      {
+        "player_name": "Otto Ruoppi",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272722",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-04-29T16:00:00+00:00",
+    "home_team": "Inter Turku",
+    "away_team": "HJK",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 7,
+      "away_fouls": 3
+    },
+    "goals": [
+      {
+        "player_name": "Liam Möller",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": false
+      },
+      {
+        "player_name": "Vincent Ulundu",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272723",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-02T12:00:00+00:00",
+    "home_team": "SJK",
+    "away_team": "Ilves",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 19,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 14,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Rangel",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Maksim Stjopin",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272724",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-02T14:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "Turun Palloseura",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 18,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Theodoros Tsirigotis",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": false
+      },
+      {
+        "player_name": "Herman Sjögrell",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Albijon Muzaci",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": false
+      },
+      {
+        "player_name": "Herman Sjögrell",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272725",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-02T14:00:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 0,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 5,
+      "away_shots": 20,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 9,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Paulo Lima",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272726",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-02T16:00:00+00:00",
+    "home_team": "AC Oulu",
+    "away_team": "Kuopion Palloseura",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 9,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 9,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 0,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Lamine Ghezali",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      },
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272727",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-04T16:00:00+00:00",
+    "home_team": "HJK",
+    "away_team": "FC Lahti",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 9,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 7,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Alfie Cicale",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272728",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-05T16:00:00+00:00",
+    "home_team": "IF Gnistan",
+    "away_team": "Inter Turku",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 10,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 3,
+      "away_shots": 9,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Joakim Latonen",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Adeleke Akinyemi",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272730",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-08T15:00:00+00:00",
+    "home_team": "Turun Palloseura",
+    "away_team": "HJK",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 11,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 4,
+      "away_shots": 22,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Theodoros Tsirigotis",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272729",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-08T15:00:00+00:00",
+    "home_team": "Ilves",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 5,
+      "away_shots": 12,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 1,
+      "home_fouls": 17,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Teemu Hytönen",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272731",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-08T17:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "SJK",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15272732",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-09T12:00:00+00:00",
+    "home_team": "Inter Turku",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Antoin Loic Essomba",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": true
+      },
+      {
+        "player_name": "Clinton Jephta",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272733",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-09T14:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "IF Gnistan",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Adeleke Akinyemi",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": false
+      },
+      {
+        "player_name": "Luka Smyth",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272734",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-10T12:00:00+00:00",
+    "home_team": "FC Lahti",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 14,
+      "away_shots": 2,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Sebastian Dahlström",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": false
+      },
+      {
+        "player_name": "Martim Ferreira",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272735",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-16T11:00:00+00:00",
+    "home_team": "HJK",
+    "away_team": "Ilves",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 11,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Mads Borchers",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Maksim Stjopin",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      },
+      {
+        "player_name": "Brooklyn Lyons-Foster",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Maksim Stjopin",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272737",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-16T14:00:00+00:00",
+    "home_team": "SJK",
+    "away_team": "Inter Turku",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 22,
+      "away_shots": 8,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 5,
+      "home_fouls": 16,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Elias Mastokangas",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": true
+      },
+      {
+        "player_name": "Clinton Jephta",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      },
+      {
+        "player_name": "Johannes Yli-Kokko",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      },
+      {
+        "player_name": "Alie Conteh",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272736",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-16T14:00:00+00:00",
+    "home_team": "IFK Mariehamn",
+    "away_team": "Kuopion Palloseura",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 9,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 3,
+      "away_shots": 23,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 10,
+      "home_fouls": 14,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Anttoni Huttunen",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IFK Mariehamn",
+        "is_home": true
+      },
+      {
+        "player_name": "Joslyn Luyeye-Lutumba",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272738",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-16T16:00:00+00:00",
+    "home_team": "AC Oulu",
+    "away_team": "Turun Palloseura",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 8,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 16,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272739",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-16T16:00:00+00:00",
+    "home_team": "IF Gnistan",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 8,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Joakim Latonen",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Rachide Gnanou",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Adeleke Akinyemi",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Edmund Arko-Mensah",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Adeleke Akinyemi",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272740",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-18T15:00:00+00:00",
+    "home_team": "FC Lahti",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 8,
+      "away_shots": 6,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Tòfol Montiel",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      },
+      {
+        "player_name": "Luka Smyth",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272741",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-20T15:00:00+00:00",
+    "home_team": "Ilves",
+    "away_team": "Inter Turku",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 4,
+      "away_shots": 8,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Jasse Tuominen",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      },
+      {
+        "player_name": "Julius Tauriainen",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      },
+      {
+        "player_name": "Abdoul Goudouss Bamba",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": true
+      },
+      {
+        "player_name": "Julius Tauriainen",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272742",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-20T16:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 6,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Valentín Gasc",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Bob Nii Armah",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Bob Nii Armah",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272743",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-22T16:00:00+00:00",
+    "home_team": "VPS",
+    "away_team": "HJK",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 5,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 13,
+      "away_shots": 13,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 23,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Simon Lindholm",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      },
+      {
+        "player_name": "Luka Smyth",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "VPS",
+        "is_home": true
+      },
+      {
+        "player_name": "Lassi Lappalainen",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272744",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-23T11:00:00+00:00",
+    "home_team": "Inter Turku",
+    "away_team": "Turun Palloseura",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15272747",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-23T14:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "FC Lahti",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15272746",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-23T14:00:00+00:00",
+    "home_team": "Ilves",
+    "away_team": "IF Gnistan",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 9,
+      "away_shots": 6,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 19
+    },
+    "goals": [
+      {
+        "player_name": "Teemu Hytönen",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": true
+      },
+      {
+        "player_name": "Jardell Kanga",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ilves",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272748",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-23T14:00:00+00:00",
+    "home_team": "SJK",
+    "away_team": "AC Oulu",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 7,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Julius Körkkö",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272745",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-23T14:00:00+00:00",
+    "home_team": "FF Jaro",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 6,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 1,
+      "home_fouls": 19,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Rudi Vikstrom",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Herman Sjögrell",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      },
+      {
+        "player_name": "Ville Vuorinen",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272749",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-30T12:00:00+00:00",
+    "home_team": "HJK",
+    "away_team": "IFK Mariehamn",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 18,
+      "away_shots": 15,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Alexander Ring",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "HJK",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272751",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-30T14:00:00+00:00",
+    "home_team": "Kuopion Palloseura",
+    "away_team": "Inter Turku",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 9,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 16,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Jaime Moreno",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Kuopion Palloseura",
+        "is_home": true
+      },
+      {
+        "player_name": "Alie Conteh",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter Turku",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272750",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-30T14:00:00+00:00",
+    "home_team": "IF Gnistan",
+    "away_team": "SJK",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 9,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 13,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 14,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Gospel Chibueze Junior Onuoha",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Europaeus",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcelo Costa",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      },
+      {
+        "player_name": "Olatoundji Tessilimi",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "SJK",
+        "is_home": false
+      },
+      {
+        "player_name": "Ayo Obileye",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "IF Gnistan",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272752",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-30T14:00:00+00:00",
+    "home_team": "Turun Palloseura",
+    "away_team": "VPS",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 9,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 1,
+      "away_shots": 23,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 9,
+      "home_fouls": 15,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Miika Kauppila",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Turun Palloseura",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272753",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-30T14:00:00+00:00",
+    "home_team": "FC Lahti",
+    "away_team": "Ilves",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Daniel Heikkinen",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      },
+      {
+        "player_name": "Erik Andersson",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      },
+      {
+        "player_name": "Aaron Lindholm",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      },
+      {
+        "player_name": "Amir Belabid",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      },
+      {
+        "player_name": "Amir Belabid",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Lahti",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15272754",
+    "league_id": 16,
+    "league_name": "Veikkausliiga",
+    "league_country": "Finlandia",
+    "season_year": 2026,
+    "date": "2026-05-31T13:00:00+00:00",
+    "home_team": "AC Oulu",
+    "away_team": "FF Jaro",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Rasmus Karjalainen",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      },
+      {
+        "player_name": "Aron Bjonbäck",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FF Jaro",
+        "is_home": false
+      },
+      {
+        "player_name": "Juha Pirinen",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AC Oulu",
+        "is_home": true
+      }
+    ]
+  }
+]

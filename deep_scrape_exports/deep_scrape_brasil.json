@@ -5521,7 +5521,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Bahia",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luciano Juba",
@@ -5529,7 +5529,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Bahia",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Benjamín Rollheiser",
@@ -5587,7 +5587,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Botafogo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Johan Carbonero",
@@ -5603,7 +5603,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Botafogo",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -5671,7 +5671,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "São Paulo",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -5705,7 +5705,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Corinthians",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -5739,7 +5739,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Grêmio",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -5923,7 +5923,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Fluminense",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Ênio",
@@ -5939,7 +5939,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Fluminense",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -5989,7 +5989,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Botafogo",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -6023,7 +6023,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Palmeiras",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Benjamín Rollheiser",
@@ -6065,7 +6065,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Vitória",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Diego Tarzia",
@@ -6073,7 +6073,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Vitória",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Pedro Rocha",
@@ -6089,7 +6089,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Vitória",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Renê Sousa",
@@ -6097,7 +6097,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Vitória",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -6156,7 +6156,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cruzeiro",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Mateo Cassierra",
@@ -6230,7 +6230,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Flamengo",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Pedro",
@@ -6238,7 +6238,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Flamengo",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6280,7 +6280,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "São Paulo",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Luciano Juba",
@@ -6296,7 +6296,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "São Paulo",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6380,7 +6380,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Internacional",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Alexandro Bernabei",
@@ -6388,7 +6388,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Internacional",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6430,7 +6430,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Mirassol",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Carlos Eduardo",
@@ -6438,7 +6438,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Mirassol",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6530,7 +6530,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Fluminense",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Renê Sousa",
@@ -6554,7 +6554,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Fluminense",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6604,7 +6604,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Bahia",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6646,7 +6646,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Atletico-MG",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6730,7 +6730,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Corinthians",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Matheuzinho",
@@ -6738,7 +6738,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Corinthians",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Luciano",
@@ -6754,7 +6754,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Corinthians",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6796,7 +6796,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Mirassol",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6830,7 +6830,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Santos",
-        "is_home": false
+        "is_home": true
       },
       {
         "player_name": "Neymar",
@@ -6838,7 +6838,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Santos",
-        "is_home": false
+        "is_home": true
       }
     ]
   },
@@ -6906,7 +6906,1459 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Vasco",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235566",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T21:30:00+00:00",
+    "home_team": "Atletico-MG",
+    "away_team": "Mirassol",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 7,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Mamady Cissé",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atletico-MG",
+        "is_home": true
+      },
+      {
+        "player_name": "Maycon",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atletico-MG",
+        "is_home": true
+      },
+      {
+        "player_name": "Willian Machado",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Mirassol",
         "is_home": false
+      },
+      {
+        "player_name": "Alan Minda",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atletico-MG",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235567",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T21:30:00+00:00",
+    "home_team": "Internacional",
+    "away_team": "Vasco",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 17,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Andrés Gómez",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vasco",
+        "is_home": false
+      },
+      {
+        "player_name": "Johan Carbonero",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Internacional",
+        "is_home": true
+      },
+      {
+        "player_name": "Alexandro Bernabei",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Internacional",
+        "is_home": true
+      },
+      {
+        "player_name": "Alerrandro",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Internacional",
+        "is_home": true
+      },
+      {
+        "player_name": "Johan Carbonero",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Internacional",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235560",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T22:00:00+00:00",
+    "home_team": "Fluminense",
+    "away_team": "São Paulo",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Dória",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "São Paulo",
+        "is_home": false
+      },
+      {
+        "player_name": "Agustín Canobbio",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fluminense",
+        "is_home": true
+      },
+      {
+        "player_name": "John Kennedy",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fluminense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235564",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T00:00:00+00:00",
+    "home_team": "Palmeiras",
+    "away_team": "Cruzeiro",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 19,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Felipe Anderson",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palmeiras",
+        "is_home": true
+      },
+      {
+        "player_name": "Keny Arroyo",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cruzeiro",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235562",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T14:00:00+00:00",
+    "home_team": "Santos",
+    "away_team": "Coritiba",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 13,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 13,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Josué",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coritiba",
+        "is_home": false
+      },
+      {
+        "player_name": "Breno Lopes",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coritiba",
+        "is_home": false
+      },
+      {
+        "player_name": "Breno Lopes",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coritiba",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235573",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T19:00:00+00:00",
+    "home_team": "Bahia",
+    "away_team": "Grêmio",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 3,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 18,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Mateo Sanabria",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": true
+      },
+      {
+        "player_name": "Viery",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Grêmio",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235561",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T19:00:00+00:00",
+    "home_team": "Botafogo",
+    "away_team": "Corinthians",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 6,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 19,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 22,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Arthur Cabral",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": true
+      },
+      {
+        "player_name": "Arthur Cabral",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": true
+      },
+      {
+        "player_name": "Rodrigo Garro",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Corinthians",
+        "is_home": false
+      },
+      {
+        "player_name": "Arthur Cabral",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235568",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T21:30:00+00:00",
+    "home_team": "Chapecoense",
+    "away_team": "Remo",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 9,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Bruno Leonardo",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Remo",
+        "is_home": false
+      },
+      {
+        "player_name": "Jajá",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Remo",
+        "is_home": false
+      },
+      {
+        "player_name": "Rafael Carvalheira",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chapecoense",
+        "is_home": true
+      },
+      {
+        "player_name": "Neto Pessoa",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chapecoense",
+        "is_home": true
+      },
+      {
+        "player_name": "Yago Pikachu",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Remo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235587",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T21:30:00+00:00",
+    "home_team": "Bragantino",
+    "away_team": "Vitória",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 6,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 21,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Lucas Barbosa",
+        "minute": 100,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": true
+      },
+      {
+        "player_name": "Tiago Volpi",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235588",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T22:30:00+00:00",
+    "home_team": "Athletico",
+    "away_team": "Flamengo",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 18,
+      "away_shots": 12,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Pedro",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Flamengo",
+        "is_home": false
+      },
+      {
+        "player_name": "Stiven Mendoza",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Athletico",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235570",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-23T20:00:00+00:00",
+    "home_team": "São Paulo",
+    "away_team": "Botafogo",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 20,
+      "away_fouls": 19
+    },
+    "goals": [
+      {
+        "player_name": "Jordan Barrera",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": false
+      },
+      {
+        "player_name": "Luciano",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "São Paulo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235576",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-23T20:00:00+00:00",
+    "home_team": "Vitória",
+    "away_team": "Internacional",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 7,
+      "away_shots": 20,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 2,
+      "home_fouls": 15,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Diego Tarzia",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vitória",
+        "is_home": true
+      },
+      {
+        "player_name": "Renê Sousa",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vitória",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235575",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-23T22:00:00+00:00",
+    "home_team": "Grêmio",
+    "away_team": "Santos",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 14,
+      "away_shots": 13,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Tetê",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Grêmio",
+        "is_home": true
+      },
+      {
+        "player_name": "Carlos Vinícius",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Grêmio",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Barbosa",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santos",
+        "is_home": false
+      },
+      {
+        "player_name": "Carlos Vinícius",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Grêmio",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Barbosa",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santos",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235577",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-23T22:00:00+00:00",
+    "home_team": "Mirassol",
+    "away_team": "Fluminense",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Denilson",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Mirassol",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235572",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-24T00:00:00+00:00",
+    "home_team": "Flamengo",
+    "away_team": "Palmeiras",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 4,
+      "home_yellow": 6,
+      "away_yellow": 6,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 22,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 6,
+      "home_fouls": 9,
+      "away_fouls": 19
+    },
+    "goals": [
+      {
+        "player_name": "Paulinho",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palmeiras",
+        "is_home": false
+      },
+      {
+        "player_name": "Allan",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palmeiras",
+        "is_home": false
+      },
+      {
+        "player_name": "José Manuel López",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palmeiras",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235574",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-24T19:00:00+00:00",
+    "home_team": "Cruzeiro",
+    "away_team": "Chapecoense",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "João Paulo",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chapecoense",
+        "is_home": false
+      },
+      {
+        "player_name": "Luis Sinisterra",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cruzeiro",
+        "is_home": true
+      },
+      {
+        "player_name": "Kaio Jorge",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cruzeiro",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235582",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-24T19:00:00+00:00",
+    "home_team": "Remo",
+    "away_team": "Athletico",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 10,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 3,
+      "away_shots": 16,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 9,
+      "home_fouls": 9,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Kevin Viveros",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Athletico",
+        "is_home": false
+      },
+      {
+        "player_name": "Kevin Viveros",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Athletico",
+        "is_home": false
+      },
+      {
+        "player_name": "Jajá",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Remo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235571",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-24T21:30:00+00:00",
+    "home_team": "Corinthians",
+    "away_team": "Atletico-MG",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 11,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 15,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Zakaria Labyad",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Corinthians",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235569",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-24T23:30:00+00:00",
+    "home_team": "Vasco",
+    "away_team": "Bragantino",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 21,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 9,
+      "home_fouls": 13,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Fernando",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": false
+      },
+      {
+        "player_name": "Isidro Pitta",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": false
+      },
+      {
+        "player_name": "Rodriguinho",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235578",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-25T23:00:00+00:00",
+    "home_team": "Coritiba",
+    "away_team": "Bahia",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 14,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 1,
+      "home_fouls": 11,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Everaldo",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": false
+      },
+      {
+        "player_name": "Breno Lopes",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coritiba",
+        "is_home": true
+      },
+      {
+        "player_name": "Joaquín Lavega",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coritiba",
+        "is_home": true
+      },
+      {
+        "player_name": "Bruno Melo",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Coritiba",
+        "is_home": true
+      },
+      {
+        "player_name": "Tiago Cóser",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235589",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-30T19:00:00+00:00",
+    "home_team": "Athletico",
+    "away_team": "Mirassol",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Kevin Viveros",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Athletico",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235579",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-30T19:00:00+00:00",
+    "home_team": "Flamengo",
+    "away_team": "Coritiba",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 21,
+      "away_shots": 10,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 2
+    },
+    "goals": [
+      {
+        "player_name": "Samuel Lino",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Flamengo",
+        "is_home": true
+      },
+      {
+        "player_name": "Pedro",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Flamengo",
+        "is_home": true
+      },
+      {
+        "player_name": "Samuel Lino",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Flamengo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235585",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-30T20:30:00+00:00",
+    "home_team": "Bahia",
+    "away_team": "Botafogo",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 24,
+      "away_shots": 13,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 6,
+      "home_fouls": 14,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "David Duarte",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": true
+      },
+      {
+        "player_name": "Nahuel Ferraresi",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bahia",
+        "is_home": true
+      },
+      {
+        "player_name": "Huguinho",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235583",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-30T20:30:00+00:00",
+    "home_team": "Grêmio",
+    "away_team": "Corinthians",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 24,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 9,
+      "home_fouls": 23,
+      "away_fouls": 20
+    },
+    "goals": [
+      {
+        "player_name": "Kaio César",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Corinthians",
+        "is_home": false
+      },
+      {
+        "player_name": "André Luiz",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Corinthians",
+        "is_home": false
+      },
+      {
+        "player_name": "André Luiz",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Corinthians",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Mec",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Grêmio",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235580",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-30T23:00:00+00:00",
+    "home_team": "Santos",
+    "away_team": "Vitória",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 5,
+      "away_shots": 22,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 9,
+      "home_fouls": 17,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Renê Sousa",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Vitória",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Barbosa",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santos",
+        "is_home": true
+      },
+      {
+        "player_name": "Álvaro Barreal",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santos",
+        "is_home": true
+      },
+      {
+        "player_name": "Miguelito",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santos",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235584",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-31T14:00:00+00:00",
+    "home_team": "Bragantino",
+    "away_team": "Internacional",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 8,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 19,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Braian Aguirre",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Internacional",
+        "is_home": false
+      },
+      {
+        "player_name": "Tiago Volpi",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": true
+      },
+      {
+        "player_name": "Juninho Capixaba",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bragantino",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235581",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-31T19:00:00+00:00",
+    "home_team": "Palmeiras",
+    "away_team": "Chapecoense",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 13,
+      "away_shots": 15,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Paulinho",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Palmeiras",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235590",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-31T19:00:00+00:00",
+    "home_team": "Vasco",
+    "away_team": "Atletico-MG",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 26,
+      "away_shots": 10,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 20,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Vitor Hugo",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Atletico-MG",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15235586",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-31T23:30:00+00:00",
+    "home_team": "Cruzeiro",
+    "away_team": "Fluminense",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 10,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Matheus Pereira",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cruzeiro",
+        "is_home": true
+      },
+      {
+        "player_name": "John Kennedy",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fluminense",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15237974",
+    "league_id": 2,
+    "league_name": "Brasileirão",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-31T23:30:00+00:00",
+    "home_team": "Remo",
+    "away_team": "São Paulo",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 9,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Marcelinho",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Remo",
+        "is_home": true
       }
     ]
   }

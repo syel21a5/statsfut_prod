@@ -799,7 +799,7 @@
     "season_year": 2025,
     "date": "2025-03-10T23:00:00+00:00",
     "home_team": "Deportivo Binacional",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 8,
       "away_corners": 6,
@@ -1353,7 +1353,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-03-30T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Universidad Técnica de Cajamarca",
     "stats": {
       "home_corners": 5,
@@ -1383,7 +1383,7 @@
         "minute": 79,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -1399,7 +1399,7 @@
         "minute": 51,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -1407,7 +1407,7 @@
         "minute": 46,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -1415,7 +1415,7 @@
         "minute": 20,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -1662,7 +1662,7 @@
     "season_year": 2025,
     "date": "2025-04-06T18:15:00+00:00",
     "home_team": "Cusco FC",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 2,
       "away_corners": 4,
@@ -1683,7 +1683,7 @@
         "minute": 92,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -1691,7 +1691,7 @@
         "minute": 76,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -1977,7 +1977,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-04-12T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Alianza Atlético de Sullana",
     "stats": {
       "home_corners": 1,
@@ -1999,7 +1999,7 @@
         "minute": 18,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -2963,7 +2963,7 @@
     "season_year": 2025,
     "date": "2025-04-28T18:00:00+00:00",
     "home_team": "Club Sporting Cristal",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 6,
       "away_corners": 7,
@@ -2984,7 +2984,7 @@
         "minute": 67,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -3016,7 +3016,7 @@
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       }
     ]
@@ -3304,7 +3304,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-05-03T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Ayacucho",
     "stats": {
       "home_corners": 7,
@@ -3788,7 +3788,7 @@
     "season_year": 2025,
     "date": "2025-05-11T20:15:00+00:00",
     "home_team": "Asociación Deportiva Tarma",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 10,
       "away_corners": 0,
@@ -3809,7 +3809,7 @@
         "minute": 89,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -3817,7 +3817,7 @@
         "minute": 84,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -4205,7 +4205,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-05-18T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Universitario de Deportes",
     "stats": {
       "home_corners": 1,
@@ -4227,7 +4227,7 @@
         "minute": 74,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -4235,7 +4235,7 @@
         "minute": 34,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -4708,7 +4708,7 @@
     "season_year": 2025,
     "date": "2025-05-25T23:00:00+00:00",
     "home_team": "Deportivo Garcilaso",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 3,
       "away_corners": 3,
@@ -4982,7 +4982,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-06-14T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Los Chankas CYC",
     "stats": {
       "home_corners": 5,
@@ -5004,7 +5004,7 @@
         "minute": 79,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -5012,7 +5012,7 @@
         "minute": 24,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -5020,7 +5020,7 @@
         "minute": 21,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -5599,7 +5599,7 @@
     "season_year": 2025,
     "date": "2025-06-22T20:15:00+00:00",
     "home_team": "Comerciantes Unidos",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 4,
       "away_corners": 2,
@@ -5806,7 +5806,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-06-27T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Cienciano",
     "stats": {
       "home_corners": 5,
@@ -5828,7 +5828,7 @@
         "minute": 95,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -5836,7 +5836,7 @@
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -6157,7 +6157,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-07-02T20:00:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Melgar",
     "stats": {
       "home_corners": 4,
@@ -6179,7 +6179,7 @@
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -6518,7 +6518,7 @@
     "season_year": 2025,
     "date": "2025-07-06T20:15:00+00:00",
     "home_team": "Club Atlético Grau",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 2,
       "away_corners": 4,
@@ -6837,7 +6837,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-07-13T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Alianza Universidad",
     "stats": {
       "home_corners": 1,
@@ -6859,7 +6859,7 @@
         "minute": 65,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -7297,7 +7297,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-08-01T00:00:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Alianza Lima",
     "stats": {
       "home_corners": 2,
@@ -7335,7 +7335,7 @@
         "minute": 21,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -7490,6 +7490,164 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14107753",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2025,
+    "date": "2025-08-02T00:00:00+00:00",
+    "home_team": "Deportivo Garcilaso",
+    "away_team": "Cienciano",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 5,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Ezequiel Naya",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Garcilaso",
+        "is_home": true
+      },
+      {
+        "player_name": "Pablo Erustes",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Garcilaso",
+        "is_home": true
+      },
+      {
+        "player_name": "Carlos Garcés",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14186416",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2025,
+    "date": "2025-08-03T20:00:00+00:00",
+    "home_team": "Sport Huancayo",
+    "away_team": "Ayacucho",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 1,
+      "home_fouls": 8,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Diego Carabaño",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Huancayo",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcelo Gaona",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Huancayo",
+        "is_home": true
+      },
+      {
+        "player_name": "Dylan Caro",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ayacucho",
+        "is_home": false
+      },
+      {
+        "player_name": "Javier Sanguinetti",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Huancayo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14186417",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2025,
+    "date": "2025-08-04T18:00:00+00:00",
+    "home_team": "Universidad Técnica de Cajamarca",
+    "away_team": "Cusco FC",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 16,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 15,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Aldair Fuentes",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cusco FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Facundo Callejo",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cusco FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Jarlin Quintero",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Técnica de Cajamarca",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14186606",
     "league_id": 61,
     "league_name": "Liga 1",
@@ -7623,7 +7781,7 @@
     "season_year": 2025,
     "date": "2025-08-05T20:00:00+00:00",
     "home_team": "Melgar",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 11,
       "away_corners": 0,
@@ -7644,7 +7802,7 @@
         "minute": 57,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -8017,7 +8175,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-08-10T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Deportivo Binacional",
     "stats": {
       "home_corners": 0,
@@ -8211,7 +8369,7 @@
     "season_year": 2025,
     "date": "2025-08-16T20:15:00+00:00",
     "home_team": "Universidad Técnica de Cajamarca",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 7,
       "away_corners": 4,
@@ -8477,7 +8635,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-08-22T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Cusco FC",
     "stats": {
       "home_corners": 8,
@@ -9030,7 +9188,7 @@
     "season_year": 2025,
     "date": "2025-09-13T20:15:00+00:00",
     "home_team": "Alianza Atlético de Sullana",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 6,
       "away_corners": 6,
@@ -9051,7 +9209,7 @@
         "minute": 22,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       }
     ]
@@ -9744,7 +9902,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-09-21T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Club Sporting Cristal",
     "stats": {
       "home_corners": 5,
@@ -10044,7 +10202,7 @@
     "season_year": 2025,
     "date": "2025-09-25T20:00:00+00:00",
     "home_team": "Ayacucho",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 8,
       "away_corners": 4,
@@ -10081,7 +10239,7 @@
         "minute": 43,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       }
     ]
@@ -10600,7 +10758,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-09-30T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Asociación Deportiva Tarma",
     "stats": {
       "home_corners": 4,
@@ -10630,7 +10788,7 @@
         "minute": 54,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -11200,7 +11358,7 @@
     "season_year": 2025,
     "date": "2025-10-05T23:00:00+00:00",
     "home_team": "Universitario de Deportes",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 3,
       "away_corners": 3,
@@ -11425,7 +11583,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-10-13T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Deportivo Garcilaso",
     "stats": {
       "home_corners": 8,
@@ -11568,7 +11726,7 @@
     "season_year": 2025,
     "date": "2025-10-18T18:00:00+00:00",
     "home_team": "Los Chankas CYC",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 6,
       "away_corners": 11,
@@ -11929,7 +12087,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-10-24T20:00:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Comerciantes Unidos",
     "stats": {
       "home_corners": 8,
@@ -12648,7 +12806,7 @@
     "season_year": 2025,
     "date": "2025-11-02T23:00:00+00:00",
     "home_team": "Cienciano",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 5,
       "away_corners": 1,
@@ -12685,7 +12843,7 @@
         "minute": 13,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       }
     ]
@@ -12872,7 +13030,7 @@
     "league_country": "Peru",
     "season_year": 2025,
     "date": "2025-11-08T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Club Atlético Grau",
     "stats": {
       "home_corners": 3,
@@ -12894,7 +13052,7 @@
         "minute": 68,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -12910,7 +13068,7 @@
         "minute": 43,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -12918,7 +13076,7 @@
         "minute": 39,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -13207,7 +13365,7 @@
     "season_year": 2025,
     "date": "2025-11-23T20:00:00+00:00",
     "home_team": "Alianza Universidad",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 5,
       "away_corners": 2,
@@ -13654,7 +13812,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Paolo Guerrero",
@@ -13757,7 +13915,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-01-31T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "FC Cajamarca",
     "stats": {
       "home_corners": 4,
@@ -13787,7 +13945,7 @@
         "minute": 102,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -13795,7 +13953,7 @@
         "minute": 96,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -13811,7 +13969,7 @@
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -13854,7 +14012,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Bordacahar",
@@ -13862,7 +14020,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13904,7 +14062,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13938,7 +14096,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -13972,7 +14130,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alex Valera",
@@ -13980,7 +14138,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14173,7 +14331,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alex Valera",
@@ -14223,7 +14381,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Bernardo Cuesta",
@@ -14277,7 +14435,7 @@
     "season_year": 2026,
     "date": "2026-02-08T20:30:00+00:00",
     "home_team": "Cienciano",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 4,
       "away_corners": 6,
@@ -14299,7 +14457,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Matías Succar",
@@ -14307,7 +14465,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Garcés",
@@ -14315,7 +14473,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Garcés",
@@ -14323,7 +14481,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Garcés",
@@ -14331,7 +14489,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Neri Bandiera",
@@ -14339,14 +14497,14 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Iago Iriarte",
         "minute": 13,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       }
     ]
@@ -14381,7 +14539,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Wilter Ayoví",
@@ -14397,7 +14555,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14515,7 +14673,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jairo Concha",
@@ -14523,7 +14681,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14557,7 +14715,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14568,7 +14726,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-02-14T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Club Sporting Cristal",
     "stats": {
       "home_corners": 1,
@@ -14692,7 +14850,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Mosquera",
@@ -14700,7 +14858,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14776,7 +14934,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Bernardo Cuesta",
@@ -14784,7 +14942,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jhonny Vidales",
@@ -14792,7 +14950,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Pablo Erustes",
@@ -14800,7 +14958,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14834,7 +14992,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -14926,7 +15084,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Leandro Sosa",
@@ -14934,7 +15092,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alex Valera",
@@ -14992,7 +15150,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15128,7 +15286,7 @@
     "season_year": 2026,
     "date": "2026-02-22T20:30:00+00:00",
     "home_team": "Club Atlético Grau",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 7,
       "away_corners": 5,
@@ -15149,7 +15307,7 @@
         "minute": 94,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -15157,7 +15315,7 @@
         "minute": 53,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -15166,7 +15324,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15200,7 +15358,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Iván Colman",
@@ -15208,7 +15366,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Facundo Callejo",
@@ -15216,7 +15374,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jean Carlo Olivares",
@@ -15333,7 +15491,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15375,7 +15533,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Neri Bandiera",
@@ -15391,7 +15549,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alejandro Hohberg",
@@ -15441,7 +15599,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Ricardo Salcedo",
@@ -15449,7 +15607,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15577,7 +15735,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-03-01T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Cusco FC",
     "stats": {
       "home_corners": 0,
@@ -15599,7 +15757,7 @@
         "minute": 62,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -15607,7 +15765,7 @@
         "minute": 27,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -15650,7 +15808,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15684,7 +15842,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15818,7 +15976,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Franco Coronel",
@@ -15834,7 +15992,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luis Iberico",
@@ -15842,7 +16000,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15876,7 +16034,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -15888,7 +16046,7 @@
     "season_year": 2026,
     "date": "2026-03-08T18:15:00+00:00",
     "home_team": "Asociación Deportiva Tarma",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 12,
       "away_corners": 2,
@@ -15909,7 +16067,7 @@
         "minute": 85,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -15933,7 +16091,7 @@
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -15941,7 +16099,7 @@
         "minute": 12,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       }
     ]
@@ -16034,7 +16192,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alejandro Hohberg",
@@ -16042,7 +16200,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luciano Nequecaur",
@@ -16058,7 +16216,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16092,7 +16250,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jairo Vélez",
@@ -16100,7 +16258,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jhonny Vidales",
@@ -16116,7 +16274,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16243,7 +16401,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-03-14T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Los Chankas CYC",
     "stats": {
       "home_corners": 8,
@@ -16265,7 +16423,7 @@
         "minute": 96,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -16281,7 +16439,7 @@
         "minute": 60,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -16340,7 +16498,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16374,7 +16532,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Lisandro Alzugaray",
@@ -16382,7 +16540,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16416,7 +16574,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Miguel Araujo",
@@ -16424,7 +16582,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Maxloren Castro",
@@ -16432,7 +16590,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16491,7 +16649,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Franchesco Flores",
@@ -16499,7 +16657,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Franco Coronel",
@@ -16507,7 +16665,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16557,7 +16715,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16633,7 +16791,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Garcés",
@@ -16641,7 +16799,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Garcés",
@@ -16649,7 +16807,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16802,7 +16960,7 @@
     "season_year": 2026,
     "date": "2026-03-21T23:30:00+00:00",
     "home_team": "Alianza Lima",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 5,
       "away_corners": 1,
@@ -16824,7 +16982,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Eryc Castillo",
@@ -16832,7 +16990,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -16983,7 +17141,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Mejia",
@@ -17033,7 +17191,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Isaac Camargo",
@@ -17049,7 +17207,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Rodrigo Tapia",
@@ -17091,7 +17249,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Carlos Garcés",
@@ -17099,7 +17257,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jordan Guivin",
@@ -17123,7 +17281,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17157,7 +17315,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Beto Da Silva",
@@ -17165,7 +17323,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Luciano Nequecaur",
@@ -17189,7 +17347,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17231,7 +17389,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Facundo Callejo",
@@ -17281,7 +17439,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17315,7 +17473,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Matías Sen",
@@ -17334,7 +17492,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-04-05T20:30:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Universidad Técnica de Cajamarca",
     "stats": {
       "home_corners": 3,
@@ -17364,7 +17522,7 @@
         "minute": 48,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -17372,7 +17530,7 @@
         "minute": 10,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -17419,7 +17577,7 @@
     "season_year": 2026,
     "date": "2026-04-14T18:00:00+00:00",
     "home_team": "CD Moquegua",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 3,
       "away_corners": 5,
@@ -17718,7 +17876,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-04-18T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Comerciantes Unidos",
     "stats": {
       "home_corners": 6,
@@ -17748,7 +17906,7 @@
         "minute": 31,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -17764,7 +17922,7 @@
         "minute": 19,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       }
     ]
@@ -17799,7 +17957,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Nahuel Luján",
@@ -17807,7 +17965,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Christopher Olivares",
@@ -17849,7 +18007,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alan Cantero",
@@ -17857,7 +18015,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Eryc Castillo",
@@ -17865,7 +18023,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Paolo Guerrero",
@@ -17873,7 +18031,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Eryc Castillo",
@@ -17881,7 +18039,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fernando Gaibor",
@@ -17889,7 +18047,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Eryc Castillo",
@@ -17897,7 +18055,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Fernando Gaibor",
@@ -17905,7 +18063,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -17947,7 +18105,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Abdiel Arroyo",
@@ -17963,7 +18121,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Felipe Vizeu",
@@ -17971,7 +18129,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18047,7 +18205,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Matías Zegarra",
@@ -18055,7 +18213,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18089,7 +18247,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Neri Bandiera",
@@ -18097,7 +18255,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yorman Zapata",
@@ -18173,7 +18331,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Nicolás Delgadillo",
@@ -18181,7 +18339,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Felipe Vizeu",
@@ -18197,7 +18355,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "José Ataupillco",
@@ -18205,7 +18363,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18239,7 +18397,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18273,7 +18431,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Christopher Olivares",
@@ -18289,7 +18447,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Caín Fara",
@@ -18297,7 +18455,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Alex Valera",
@@ -18305,7 +18463,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18435,7 +18593,7 @@
     "season_year": 2026,
     "date": "2026-04-26T00:00:00+00:00",
     "home_team": "Sport Boys",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 10,
       "away_corners": 3,
@@ -18456,7 +18614,7 @@
         "minute": 72,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -18557,7 +18715,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Yorleys Mena",
@@ -18573,7 +18731,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18649,7 +18807,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Universitario de Deportes",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Valentín Robaldo",
@@ -18749,7 +18907,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18883,7 +19041,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cienciano",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18925,7 +19083,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Eryc Castillo",
@@ -18933,7 +19091,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -18967,7 +19125,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Lucas Colitto",
@@ -18991,7 +19149,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Sporting Cristal",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19002,7 +19160,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-05-03T18:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Universitario de Deportes",
     "stats": {
       "home_corners": 0,
@@ -19032,7 +19190,7 @@
         "minute": 82,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": true
       },
       {
@@ -19091,7 +19249,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Christian Valladolid",
@@ -19099,7 +19257,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Cristian Penilla",
@@ -19107,7 +19265,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Guillermo Larios",
@@ -19115,7 +19273,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Atlético de Sullana",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Jimmy Valoyes",
@@ -19157,7 +19315,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Bernardo Cuesta",
@@ -19165,7 +19323,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19357,7 +19515,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Club Atlético Grau",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19391,7 +19549,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Alianza Lima",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Gustavo Cazonatti",
@@ -19411,7 +19569,7 @@
     "season_year": 2026,
     "date": "2026-05-10T18:00:00+00:00",
     "home_team": "Sport Huancayo",
-    "away_team": "ADC Juan Pablo II",
+    "away_team": "CD Juan Pablo II",
     "stats": {
       "home_corners": 8,
       "away_corners": 5,
@@ -19433,14 +19591,14 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Martín Alaníz",
         "minute": 47,
         "is_own_goal": false,
         "is_penalty": false,
-        "team_name": "ADC Juan Pablo II",
+        "team_name": "CD Juan Pablo II",
         "is_home": false
       },
       {
@@ -19449,7 +19607,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Sport Huancayo",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19533,7 +19691,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Cusco FC",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19567,7 +19725,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Ariel Muñoz",
@@ -19583,7 +19741,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19742,7 +19900,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Bernardo Cuesta",
@@ -19750,7 +19908,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Bernardo Cuesta",
@@ -19758,7 +19916,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Nicolás Quagliata",
@@ -19766,7 +19924,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Melgar",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19777,7 +19935,7 @@
     "league_country": "Peru",
     "season_year": 2026,
     "date": "2026-05-16T20:15:00+00:00",
-    "home_team": "ADC Juan Pablo II",
+    "home_team": "CD Juan Pablo II",
     "away_team": "Alianza Atlético de Sullana",
     "stats": {
       "home_corners": 5,
@@ -19952,7 +20110,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       },
       {
         "player_name": "Christopher Olivares",
@@ -19960,7 +20118,7 @@
         "is_own_goal": false,
         "is_penalty": false,
         "team_name": "Deportivo Garcilaso",
-        "is_home": true
+        "is_home": false
       }
     ]
   },
@@ -19995,6 +20153,815 @@
         "is_penalty": false,
         "team_name": "Los Chankas CYC",
         "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147467",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-22T20:00:00+00:00",
+    "home_team": "CD Juan Pablo II",
+    "away_team": "Melgar",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 14,
+      "away_shots": 20,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 9,
+      "home_fouls": 12,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Martin Peralta",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CD Juan Pablo II",
+        "is_home": true
+      },
+      {
+        "player_name": "Bernardo Cuesta",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melgar",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147469",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-23T17:45:00+00:00",
+    "home_team": "CD Moquegua",
+    "away_team": "Universitario de Deportes",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 7
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_16147471",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-23T20:00:00+00:00",
+    "home_team": "Universidad Técnica de Cajamarca",
+    "away_team": "Sport Boys",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 2,
+      "away_red": 1,
+      "home_shots": 12,
+      "away_shots": 17,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_16147474",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-23T22:15:00+00:00",
+    "home_team": "Cusco FC",
+    "away_team": "Club Atlético Grau",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 7,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "José Miguel Manzaneda",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cusco FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147468",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-24T01:30:00+00:00",
+    "home_team": "Alianza Lima",
+    "away_team": "Los Chankas CYC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 1,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 17,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Renzo Garcés",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Lima",
+        "is_home": true
+      },
+      {
+        "player_name": "Eryc Castillo",
+        "minute": 28,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Lima",
+        "is_home": true
+      },
+      {
+        "player_name": "Jairo Vélez",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Lima",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147473",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-24T16:00:00+00:00",
+    "home_team": "Club Sporting Cristal",
+    "away_team": "Asociación Deportiva Tarma",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 7,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 26,
+      "away_shots": 3,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 6,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Gustavo Cazonatti",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
+      },
+      {
+        "player_name": "Yoshimar Yotún",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": true
+      },
+      {
+        "player_name": "Jordan Guivin",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Asociación Deportiva Tarma",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147470",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-24T18:15:00+00:00",
+    "home_team": "Sport Huancayo",
+    "away_team": "Cienciano",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Carlos Garcés",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": false
+      },
+      {
+        "player_name": "Yonatan Murillo",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": false
+      },
+      {
+        "player_name": "Ronal Huaccha",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Huancayo",
+        "is_home": true
+      },
+      {
+        "player_name": "Piero Magallanes",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Huancayo",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147490",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-24T20:30:00+00:00",
+    "home_team": "Alianza Atlético de Sullana",
+    "away_team": "FC Cajamarca",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 24,
+      "away_shots": 9,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Brandon Palacios",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cajamarca",
+        "is_home": false
+      },
+      {
+        "player_name": "Hernan Lupú",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Atlético de Sullana",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16147472",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-25T20:30:00+00:00",
+    "home_team": "Comerciantes Unidos",
+    "away_team": "Deportivo Garcilaso",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 27,
+      "away_shots": 7,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_16153069",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-29T20:00:00+00:00",
+    "home_team": "Club Atlético Grau",
+    "away_team": "CD Moquegua",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 16,
+      "away_shots": 8,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 1,
+      "home_fouls": 14,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Christian Neira",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Atlético Grau",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153068",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-30T16:00:00+00:00",
+    "home_team": "Asociación Deportiva Tarma",
+    "away_team": "Cusco FC",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 7,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Juan Tévez",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cusco FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ángel Ojeda",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Asociación Deportiva Tarma",
+        "is_home": true
+      },
+      {
+        "player_name": "Iván Colman",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cusco FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153074",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-30T20:00:00+00:00",
+    "home_team": "Deportivo Garcilaso",
+    "away_team": "CD Juan Pablo II",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 19,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Sharif Ramírez",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Garcilaso",
+        "is_home": true
+      },
+      {
+        "player_name": "Erinson Ramirez",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "CD Juan Pablo II",
+        "is_home": false
+      },
+      {
+        "player_name": "Beto Da Silva",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Garcilaso",
+        "is_home": true
+      },
+      {
+        "player_name": "Christopher Olivares",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Garcilaso",
+        "is_home": true
+      },
+      {
+        "player_name": "Carlos Ramos",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Deportivo Garcilaso",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153073",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-30T22:30:00+00:00",
+    "home_team": "Sport Boys",
+    "away_team": "Comerciantes Unidos",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 16,
+      "away_fouls": 23
+    },
+    "goals": [
+      {
+        "player_name": "Carlos López",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Boys",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153075",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-31T01:00:00+00:00",
+    "home_team": "Universitario de Deportes",
+    "away_team": "Sport Huancayo",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Piero Magallanes",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sport Huancayo",
+        "is_home": false
+      },
+      {
+        "player_name": "Anderson Santamaría",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universitario de Deportes",
+        "is_home": true
+      },
+      {
+        "player_name": "Alex Valera",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universitario de Deportes",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153078",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-31T16:00:00+00:00",
+    "home_team": "Melgar",
+    "away_team": "Alianza Atlético de Sullana",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Jhonny Vidales",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melgar",
+        "is_home": true
+      },
+      {
+        "player_name": "Jhonny Vidales",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melgar",
+        "is_home": true
+      },
+      {
+        "player_name": "Bernardo Cuesta",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Melgar",
+        "is_home": true
+      },
+      {
+        "player_name": "Juan Escobar",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Atlético de Sullana",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153415",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-31T18:15:00+00:00",
+    "home_team": "FC Cajamarca",
+    "away_team": "Alianza Lima",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 1,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 12,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Federico Girotti",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Alianza Lima",
+        "is_home": false
+      },
+      {
+        "player_name": "Jonathan Betancourt",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "FC Cajamarca",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153076",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-31T20:15:00+00:00",
+    "home_team": "Los Chankas CYC",
+    "away_team": "Universidad Técnica de Cajamarca",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 15,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 14,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Carlos Junior Huerto",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Técnica de Cajamarca",
+        "is_home": false
+      },
+      {
+        "player_name": "Jhosep Nuñez",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Universidad Técnica de Cajamarca",
+        "is_home": false
+      },
+      {
+        "player_name": "Jarlin Quintero",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Los Chankas CYC",
+        "is_home": true
+      },
+      {
+        "player_name": "Jarlin Quintero",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Los Chankas CYC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16153077",
+    "league_id": 61,
+    "league_name": "Liga 1",
+    "league_country": "Peru",
+    "season_year": 2026,
+    "date": "2026-05-31T22:00:00+00:00",
+    "home_team": "Cienciano",
+    "away_team": "Club Sporting Cristal",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 25,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 8,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Alejandro Hohberg",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": true
+      },
+      {
+        "player_name": "Matías Succar",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": true
+      },
+      {
+        "player_name": "Maxloren Castro",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
+      },
+      {
+        "player_name": "Rafael Lutiger",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Cienciano",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Santana",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Club Sporting Cristal",
+        "is_home": false
       }
     ]
   }

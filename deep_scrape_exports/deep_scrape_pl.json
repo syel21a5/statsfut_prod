@@ -19000,6 +19000,80 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025013",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-08-15T19:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Bournemouth",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 10,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 3,
+      "home_fouls": 7,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Federico Chiesa",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Antoine Semenyo",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      },
+      {
+        "player_name": "Antoine Semenyo",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      },
+      {
+        "player_name": "Cody Gakpo",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": null,
     "league_id": 43,
     "league_name": "Premier League",
@@ -19475,6 +19549,72 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14147154",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-08-25T19:00:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 10,
+      "away_shots": 5,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 17,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Rio Ngumoha",
+        "minute": 100,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "William Osula",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Bruno Guimarães",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ryan Gravenberch",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": null,
     "league_id": 43,
     "league_name": "Premier League",
@@ -19698,6 +19838,40 @@
       "away_fouls": 6
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025103",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-08-31T15:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Arsenal",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 11,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": 7,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Dominik Szoboszlai",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": null,
@@ -19950,6 +20124,40 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025130",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-09-14T13:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 13,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 3,
+      "away_shots": 27,
+      "home_shots_on_target": 0,
+      "away_shots_on_target": 4,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": null,
     "league_id": 43,
     "league_name": "Premier League",
@@ -19998,6 +20206,56 @@
       "away_fouls": 8
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025166",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-09-20T11:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 9,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Idrissa Gana Gueye",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan Gravenberch",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": null,
@@ -20350,6 +20608,56 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025190",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-09-27T14:00:00+00:00",
+    "home_team": "Crystal Palace",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 20,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Eddie Nketiah",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      },
+      {
+        "player_name": "Federico Chiesa",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Ismaïla Sarr",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": null,
     "league_id": 43,
     "league_name": "Premier League",
@@ -20598,6 +20906,56 @@
       "away_fouls": 12
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025221",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-10-04T16:30:00+00:00",
+    "home_team": "Chelsea",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 12,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Estêvão",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": true
+      },
+      {
+        "player_name": "Cody Gakpo",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Moisés Caicedo",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": null,
@@ -20950,6 +21308,56 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025241",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-10-19T15:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Manchester Utd",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 19,
+      "away_shots": 12,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Harry Maguire",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Cody Gakpo",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Bryan Mbeumo",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": null,
     "league_id": 43,
     "league_name": "Premier League",
@@ -21098,6 +21506,72 @@
       "away_fouls": 13
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025259",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-10-25T19:00:00+00:00",
+    "home_team": "Brentford",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 18,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 5,
+      "home_fouls": 7,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Thiago",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Miloš Kerkez",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Kevin Schade",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Dango Ouattara",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": null,
@@ -21425,6 +21899,48 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025281",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-11-01T20:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Ryan Gravenberch",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025291",
     "league_id": 43,
     "league_name": "Premier League",
@@ -21750,6 +22266,56 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025048",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-11-09T16:30:00+00:00",
+    "home_team": "Manchester City",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 14,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Jérémy Doku",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Nico González",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Erling Haaland",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025072",
     "league_id": 43,
     "league_name": "Premier League",
@@ -21898,6 +22464,56 @@
       "away_fouls": 9
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025081",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-11-22T15:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 15,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Nicolò Savona",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Murillo",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      }
+    ]
   },
   {
     "api_id": "sofa_14025087",
@@ -22225,6 +22841,48 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025120",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-11-30T14:05:00+00:00",
+    "home_team": "West Ham Utd",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 7,
+      "away_shots": 9,
+      "home_shots_on_target": 0,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Cody Gakpo",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexander Isak",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025099",
     "league_id": 43,
     "league_name": "Premier League",
@@ -22475,6 +23133,48 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025147",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-12-03T20:15:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 9,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 10,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Nordi Mukiele",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Chemsdine Talbi",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025150",
     "league_id": 43,
     "league_name": "Premier League",
@@ -22675,6 +23375,80 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025168",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-12-06T17:30:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 16,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 7,
+      "home_fouls": 14,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Ao Tanaka",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Dominik Szoboszlai",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Anton Stach",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Dominic Calvert-Lewin",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025159",
     "league_id": 43,
     "league_name": "Premier League",
@@ -22798,6 +23572,48 @@
       "away_fouls": 15
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025198",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-12-13T15:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Brighton",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 2,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 8,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": "sofa_14025189",
@@ -23150,6 +23966,56 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025230",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-12-20T17:30:00+00:00",
+    "home_team": "Tottenham",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 5,
+      "away_yellow": 3,
+      "home_red": 2,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 2
+    },
+    "goals": [
+      {
+        "player_name": "Richarlison",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexander Isak",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025220",
     "league_id": 43,
     "league_name": "Premier League",
@@ -23425,6 +24291,56 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025244",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2025-12-27T15:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Wolverhampton",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 9,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 5,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Santiago Bueno",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": false
+      },
+      {
+        "player_name": "Florian Wirtz",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ryan Gravenberch",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025240",
     "league_id": 43,
     "league_name": "Premier League",
@@ -23690,6 +24606,31 @@
       "away_yellow": 2,
       "home_red": 0,
       "away_red": 0,
+      "home_shots": 19,
+      "away_shots": 4,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14025264",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-01-01T17:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Leeds Utd",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
       "home_shots": 19,
       "away_shots": 4,
       "home_shots_on_target": 4,
@@ -23975,6 +24916,31 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025282",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-01-04T15:15:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
     "api_id": "sofa_14025286",
     "league_id": 43,
     "league_name": "Premier League",
@@ -24250,6 +25216,31 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025019",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-01-08T20:00:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 8,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 0,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": []
+  },
+  {
     "api_id": "sofa_14025079",
     "league_id": 43,
     "league_name": "Premier League",
@@ -24398,6 +25389,48 @@
       "away_fouls": 17
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025076",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-01-17T15:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Burnley",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 32,
+      "away_shots": 7,
+      "home_shots_on_target": 11,
+      "away_shots_on_target": 1,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Marcus Edwards",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": false
+      },
+      {
+        "player_name": "Florian Wirtz",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": "sofa_14025082",
@@ -24623,6 +25656,72 @@
       "away_fouls": 7
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025095",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-01-24T17:30:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 11,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Amine Adli",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "Dominik Szoboszlai",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Virgil van Dijk",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Álex Jiménez",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "Evanilson",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      }
+    ]
   },
   {
     "api_id": "sofa_14025101",
@@ -24873,6 +25972,72 @@
       "away_fouls": 7
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025137",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-01-31T20:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Newcastle Utd",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 11,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 8,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Ibrahima Konaté",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Florian Wirtz",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 41,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Anthony Gordon",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": false
+      }
+    ]
   },
   {
     "api_id": "sofa_14025125",
@@ -25250,6 +26415,56 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14025173",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-08T16:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 15,
+      "away_shots": 17,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 13,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Erling Haaland",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Bernardo Silva",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Dominik Szoboszlai",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14025188",
     "league_id": 43,
     "league_name": "Premier League",
@@ -25473,6 +26688,40 @@
       "away_fouls": 10
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14025197",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-11T20:15:00+00:00",
+    "home_team": "Sunderland",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 11,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 23,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 8,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Virgil van Dijk",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
   },
   {
     "api_id": "sofa_14025185",
@@ -25725,6 +26974,40 @@
     "goals": []
   },
   {
+    "api_id": "sofa_14024013",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-22T14:00:00+00:00",
+    "home_team": "Nottm Forest",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 10,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Alexis Mac Allister",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
     "api_id": "sofa_14024012",
     "league_id": 43,
     "league_name": "Premier League",
@@ -25773,5 +27056,5181 @@
       "away_fouls": 7
     },
     "goals": []
+  },
+  {
+    "api_id": "sofa_14023979",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-27T20:00:00+00:00",
+    "home_team": "Wolverhampton",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 13,
+      "away_fouls": 19
+    },
+    "goals": [
+      {
+        "player_name": "Rodrigo Gomes",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": true
+      },
+      {
+        "player_name": "João Gomes",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023970",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-28T12:30:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 8,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 15,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Evanilson",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "Eliezer Mayenda",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023975",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-28T15:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Brentford",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Mikkel Damsgaard",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": false
+      },
+      {
+        "player_name": "Zian Flemming",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": true
+      },
+      {
+        "player_name": "Jaidon Anthony",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": true
+      },
+      {
+        "player_name": "Michael Kayode",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": true
+      },
+      {
+        "player_name": "Kevin Schade",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Thiago",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": false
+      },
+      {
+        "player_name": "Mikkel Damsgaard",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023977",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-28T15:00:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 9,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 5,
+      "home_fouls": 15,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Thierno Barry",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Jacob Murphy",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Beto",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Jacob Ramsey",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Jarrad Branthwaite",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023976",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-28T15:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "West Ham Utd",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 11,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Axel Disasi",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Valentín Castellanos",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Cody Gakpo",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Tomáš Souček",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Alexis Mac Allister",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Virgil van Dijk",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Hugo Ekitiké",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023974",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-02-28T17:30:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Antoine Semenyo",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023972",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-01T14:00:00+00:00",
+    "home_team": "Brighton",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 13,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Danny Welbeck",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Diego Gómez",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023973",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-01T14:00:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "Tottenham",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 13,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 11,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Richarlison",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": false
+      },
+      {
+        "player_name": "Alex Iwobi",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      },
+      {
+        "player_name": "Harry Wilson",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023978",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-01T14:00:00+00:00",
+    "home_team": "Manchester Utd",
+    "away_team": "Crystal Palace",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 20,
+      "away_shots": 8,
+      "home_shots_on_target": 11,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Benjamin Šeško",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Bruno Fernandes",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Maxence Lacroix",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023971",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-01T16:30:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Chelsea",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 10,
+      "home_yellow": 1,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 12,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Jurriën Timber",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      },
+      {
+        "player_name": "Piero Hincapié",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "William Saliba",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023980",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-03T19:30:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Brentford",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 5,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 10
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14023941",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-03T19:30:00+00:00",
+    "home_team": "Everton",
+    "away_team": "Burnley",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 5,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Kiernan Dewsbury-Hall",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "James Tarkowski",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023982",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-03T19:30:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 3,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14023985",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-03T20:15:00+00:00",
+    "home_team": "Wolverhampton",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 11,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 4,
+      "away_shots": 20,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 10,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "André",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": true
+      },
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Rodrigo Gomes",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023986",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-04T19:30:00+00:00",
+    "home_team": "Aston Villa",
+    "away_team": "Chelsea",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 8,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 15,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 8,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "João Pedro",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "Cole Palmer",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "João Pedro",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "João Pedro",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "Douglas Luiz",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023933",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-04T19:30:00+00:00",
+    "home_team": "Brighton",
+    "away_team": "Arsenal",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 2,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Bukayo Saka",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023947",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-04T19:30:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "West Ham Utd",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Crysencio Summerville",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023984",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-04T19:30:00+00:00",
+    "home_team": "Manchester City",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 1,
+      "home_yellow": 0,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 9,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Elliot Anderson",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Rodri",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Antoine Semenyo",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023983",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-04T20:15:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "Manchester Utd",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 15,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "William Osula",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Casemiro",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Anthony Gordon",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023981",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-05T20:00:00+00:00",
+    "home_team": "Tottenham",
+    "away_team": "Crystal Palace",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 12,
+      "away_shots": 9,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 14,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Ismaïla Sarr",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      },
+      {
+        "player_name": "Jørgen Strand Larsen",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      },
+      {
+        "player_name": "Ismaïla Sarr",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      },
+      {
+        "player_name": "Dominic Solanke",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023988",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-14T15:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Bournemouth",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 22,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 5
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14023996",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-14T15:00:00+00:00",
+    "home_team": "Sunderland",
+    "away_team": "Brighton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 4,
+      "home_fouls": 7,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Yankuba Minteh",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023987",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-14T17:30:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 25,
+      "away_shots": 9,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Max Dowman",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      },
+      {
+        "player_name": "Viktor Gyökeres",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023990",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-14T17:30:00+00:00",
+    "home_team": "Chelsea",
+    "away_team": "Newcastle Utd",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 22,
+      "away_shots": 7,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 9,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Anthony Gordon",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023993",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-14T20:00:00+00:00",
+    "home_team": "West Ham Utd",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 15,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 1,
+      "away_shots": 24,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 6,
+      "home_fouls": 14,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Konstantinos Mavropanos",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Bernardo Silva",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023994",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-15T14:00:00+00:00",
+    "home_team": "Manchester Utd",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Benjamin Šeško",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Matheus Cunha",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Ross Barkley",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": false
+      },
+      {
+        "player_name": "Casemiro",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023991",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-15T14:00:00+00:00",
+    "home_team": "Crystal Palace",
+    "away_team": "Leeds Utd",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 12,
+      "away_shots": 10,
+      "home_shots_on_target": 0,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14023995",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-15T14:00:00+00:00",
+    "home_team": "Nottm Forest",
+    "away_team": "Fulham",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 4,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 6,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 1,
+      "home_fouls": 8,
+      "away_fouls": 11
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14023992",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-15T16:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Tottenham",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 13,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 8,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Richarlison",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": false
+      },
+      {
+        "player_name": "Dominik Szoboszlai",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15408501",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-16T20:00:00+00:00",
+    "home_team": "Brentford",
+    "away_team": "Wolverhampton",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Tolu Arokodare",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": false
+      },
+      {
+        "player_name": "Adam Armstrong",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Thiago",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Michael Kayode",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023997",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-20T20:00:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Manchester Utd",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 16,
+      "away_shots": 14,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 5,
+      "home_fouls": 10,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Eli Junior Kroupi",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "James Hill",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Ryan Christie",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "Bruno Fernandes",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024015",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-21T12:45:00+00:00",
+    "home_team": "Brighton",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 8,
+      "home_yellow": 5,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 12,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 5,
+      "home_fouls": 11,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Danny Welbeck",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      },
+      {
+        "player_name": "Miloš Kerkez",
+        "minute": 30,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Danny Welbeck",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024016",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-21T15:00:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "Burnley",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 22,
+      "away_shots": 9,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 6,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Raúl Jiménez",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      },
+      {
+        "player_name": "Harry Wilson",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      },
+      {
+        "player_name": "Joshua King",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      },
+      {
+        "player_name": "Zian Flemming",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024017",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-21T17:30:00+00:00",
+    "home_team": "Everton",
+    "away_team": "Chelsea",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 9,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 12,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 4,
+      "home_fouls": 6,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Iliman Ndiaye",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "Beto",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "Beto",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024018",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-21T20:00:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Brentford",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 6,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 6,
+      "away_fouls": 9
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14024021",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-22T12:00:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 6,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 17,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 8,
+      "away_fouls": 19
+    },
+    "goals": [
+      {
+        "player_name": "Brian Brobbey",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Chemsdine Talbi",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Anthony Gordon",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024014",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-22T14:15:00+00:00",
+    "home_team": "Aston Villa",
+    "away_team": "West Ham Utd",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 23,
+      "away_shots": 9,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 1,
+      "home_fouls": 3,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "John McGinn",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024020",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-03-22T14:15:00+00:00",
+    "home_team": "Tottenham",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 13,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 13,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Taiwo Awoniyi",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Jesus",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025029",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-10T19:00:00+00:00",
+    "home_team": "West Ham Utd",
+    "away_team": "Wolverhampton",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 14,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Konstantinos Mavropanos",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Valentín Castellanos",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Valentín Castellanos",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Konstantinos Mavropanos",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025021",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-11T11:30:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Bournemouth",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 8,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Alex Scott",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      },
+      {
+        "player_name": "Viktor Gyökeres",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      },
+      {
+        "player_name": "Eli Junior Kroupi",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025022",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-11T14:00:00+00:00",
+    "home_team": "Brentford",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 7,
+      "home_fouls": 6,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Kiernan Dewsbury-Hall",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Thiago",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Beto",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Thiago",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024002",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-11T14:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Brighton",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 13,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 6,
+      "home_fouls": 7,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Mats Wieffer",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": false
+      },
+      {
+        "player_name": "Mats Wieffer",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024000",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-11T16:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Fulham",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 9,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 19,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Rio Ngumoha",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025025",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-12T13:00:00+00:00",
+    "home_team": "Nottm Forest",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 12,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 5,
+      "home_fouls": 15,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Neco Williams",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      },
+      {
+        "player_name": "Murillo",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023999",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-12T13:00:00+00:00",
+    "home_team": "Crystal Palace",
+    "away_team": "Newcastle Utd",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 7,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 17,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Jean Philippe Mateta",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      },
+      {
+        "player_name": "Jean Philippe Mateta",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      },
+      {
+        "player_name": "William Osula",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025026",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-12T13:00:00+00:00",
+    "home_team": "Sunderland",
+    "away_team": "Tottenham",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 7,
+      "home_fouls": 14,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Nordi Mukiele",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023998",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-12T15:30:00+00:00",
+    "home_team": "Chelsea",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 12,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 18,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 8,
+      "home_fouls": 10,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Jérémy Doku",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Marc Guéhi",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Nico O'Reilly",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025024",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-13T19:00:00+00:00",
+    "home_team": "Manchester Utd",
+    "away_team": "Leeds Utd",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": 20,
+      "away_shots": 15,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 6,
+      "home_fouls": 12,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Casemiro",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Noah Okafor",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Noah Okafor",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025031",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-18T11:30:00+00:00",
+    "home_team": "Brentford",
+    "away_team": "Fulham",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 11,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 0,
+      "home_fouls": 8,
+      "away_fouls": 13
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14025040",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-18T14:00:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "Bournemouth",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 3,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 12,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Adrien Truffert",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      },
+      {
+        "player_name": "William Osula",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Marcus Tavernier",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025036",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-18T14:00:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Wolverhampton",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Dominic Calvert-Lewin",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Noah Okafor",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "James Justin",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025042",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-18T16:30:00+00:00",
+    "home_team": "Tottenham",
+    "away_team": "Brighton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Georginio Rutter",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": false
+      },
+      {
+        "player_name": "Xavi Simons",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": true
+      },
+      {
+        "player_name": "Kaoru Mitoma",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": false
+      },
+      {
+        "player_name": "Pedro Porro",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025032",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-18T19:00:00+00:00",
+    "home_team": "Chelsea",
+    "away_team": "Manchester Utd",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 4,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 1,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Matheus Cunha",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025030",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-19T13:00:00+00:00",
+    "home_team": "Aston Villa",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 7,
+      "home_fouls": 11,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Tammy Abraham",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Wilson Isidor",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Trai Hume",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Morgan Rogers",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Chris Rigg",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025041",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-19T13:00:00+00:00",
+    "home_team": "Nottm Forest",
+    "away_team": "Burnley",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 4,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 8,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Igor Jesus",
+        "minute": 98,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      },
+      {
+        "player_name": "Zian Flemming",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025035",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-19T13:00:00+00:00",
+    "home_team": "Everton",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 1,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 14,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 8,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Virgil van Dijk",
+        "minute": 100,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Beto",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "Mohamed Salah",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025039",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-19T15:30:00+00:00",
+    "home_team": "Manchester City",
+    "away_team": "Arsenal",
+    "stats": {
+      "home_corners": 8,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 9,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 3,
+      "home_fouls": 5,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Erling Haaland",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Kai Havertz",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": false
+      },
+      {
+        "player_name": "Rayan Cherki",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025034",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-20T19:00:00+00:00",
+    "home_team": "Crystal Palace",
+    "away_team": "West Ham Utd",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 9,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 4,
+      "home_fouls": 13,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14024001",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-21T19:00:00+00:00",
+    "home_team": "Brighton",
+    "away_team": "Chelsea",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 5,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 6,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 0,
+      "home_fouls": 15,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Danny Welbeck",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      },
+      {
+        "player_name": "Jack Hinshelwood",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      },
+      {
+        "player_name": "Ferdi Kadıoğlu",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025044",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-22T19:00:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Leeds Utd",
+    "stats": {
+      "home_corners": 12,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 3,
+      "home_fouls": 6,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Sean Longstaff",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Rayan",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "James Hill",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Eli Junior Kroupi",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024003",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-22T19:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 11,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 28,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 9,
+      "home_fouls": 10,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Erling Haaland",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023932",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-24T19:00:00+00:00",
+    "home_team": "Sunderland",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 10,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 6,
+      "home_fouls": 13,
+      "away_fouls": 15
+    },
+    "goals": [
+      {
+        "player_name": "Elliot Anderson",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Jesus",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Chris Wood",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Trai Hume",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024004",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-25T11:30:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 10,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Ryan Sessegnon",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023934",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-25T14:00:00+00:00",
+    "home_team": "West Ham Utd",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 11,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Callum Wilson",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Kiernan Dewsbury-Hall",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Tomáš Souček",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024022",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-25T14:00:00+00:00",
+    "home_team": "Wolverhampton",
+    "away_team": "Tottenham",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 2,
+      "home_fouls": 8,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "João Palhinha",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024005",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-25T14:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Crystal Palace",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 14,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 10,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Florian Wirtz",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Daniel Muñoz",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      },
+      {
+        "player_name": "Andy Robertson",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Alexander Isak",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14025045",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-25T16:30:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Newcastle Utd",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 13,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 13,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "Eberechi Eze",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023926",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-04-27T19:00:00+00:00",
+    "home_team": "Manchester Utd",
+    "away_team": "Brentford",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 12,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 6,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Mathias Jensen",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": false
+      },
+      {
+        "player_name": "Benjamin Šeško",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Casemiro",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023940",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-01T19:00:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Burnley",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 0,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 9,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 3,
+      "home_fouls": 12,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Loum Tchaouna",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": false
+      },
+      {
+        "player_name": "Dominic Calvert-Lewin",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Noah Okafor",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Anton Stach",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023945",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-02T14:00:00+00:00",
+    "home_team": "Brentford",
+    "away_team": "West Ham Utd",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 8,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Mikkel Damsgaard",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Igor Thiago",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Konstantinos Mavropanos",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023949",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-02T14:00:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "Brighton",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 10,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Harvey Barnes",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Jack Hinshelwood",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": false
+      },
+      {
+        "player_name": "Dan Burn",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "William Osula",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023951",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-02T14:00:00+00:00",
+    "home_team": "Wolverhampton",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 20,
+      "away_shots": 10,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 2,
+      "home_fouls": 11,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Santiago Bueno",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": true
+      },
+      {
+        "player_name": "Nordi Mukiele",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023931",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-02T16:30:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Fulham",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14024023",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-03T13:00:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Crystal Palace",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 7,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 1,
+      "home_fouls": 10,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Rayan",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "Eli Junior Kroupi",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      },
+      {
+        "player_name": "Jefferson Lerma",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023939",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-03T14:30:00+00:00",
+    "home_team": "Manchester Utd",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 18,
+      "away_shots": 13,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Kobbie Mainoo",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Cody Gakpo",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Dominik Szoboszlai",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Benjamin Šeško",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Matheus Cunha",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023927",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-03T18:00:00+00:00",
+    "home_team": "Aston Villa",
+    "away_team": "Tottenham",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 5,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 5,
+      "away_shots": 10,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Emiliano Buendía",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Richarlison",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": false
+      },
+      {
+        "player_name": "Conor Gallagher",
+        "minute": 12,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023925",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-04T14:00:00+00:00",
+    "home_team": "Chelsea",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 1,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 6,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 10
+    },
+    "goals": [
+      {
+        "player_name": "João Pedro",
+        "minute": 93,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": true
+      },
+      {
+        "player_name": "Taiwo Awoniyi",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Jesus",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Taiwo Awoniyi",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023930",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-04T19:00:00+00:00",
+    "home_team": "Everton",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 9,
+      "home_yellow": 4,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 21,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 4,
+      "home_fouls": 15,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Jérémy Doku",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Erling Haaland",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Thierno Barry",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "Jake O'Brien",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "Thierno Barry",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      },
+      {
+        "player_name": "Jérémy Doku",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14024024",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-09T11:30:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Chelsea",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 6,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 3,
+      "home_fouls": 17,
+      "away_fouls": 17
+    },
+    "goals": [
+      {
+        "player_name": "Enzo Fernández",
+        "minute": 35,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "Ryan Gravenberch",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023948",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-09T14:00:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "Bournemouth",
+    "stats": {
+      "home_corners": 11,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": 14,
+      "away_shots": 10,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 21
+    },
+    "goals": [
+      {
+        "player_name": "Rayan",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023935",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-09T14:00:00+00:00",
+    "home_team": "Brighton",
+    "away_team": "Wolverhampton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 5,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 1,
+      "home_fouls": 9,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Yankuba Minteh",
+        "minute": 86,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      },
+      {
+        "player_name": "Lewis Dunk",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      },
+      {
+        "player_name": "Jack Hinshelwood",
+        "minute": 1,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brighton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023938",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-09T14:00:00+00:00",
+    "home_team": "Sunderland",
+    "away_team": "Manchester Utd",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 7,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 11,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 1,
+      "home_fouls": 12,
+      "away_fouls": 12
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_14023946",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-09T16:30:00+00:00",
+    "home_team": "Manchester City",
+    "away_team": "Brentford",
+    "stats": {
+      "home_corners": 10,
+      "away_corners": 2,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 25,
+      "away_shots": 4,
+      "home_shots_on_target": 10,
+      "away_shots_on_target": 2,
+      "home_fouls": 8,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Omar Marmoush",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Erling Haaland",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Jérémy Doku",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023929",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-10T13:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 18,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 7,
+      "home_fouls": 18,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Zian Flemming",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": true
+      },
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": false
+      },
+      {
+        "player_name": "Ross Barkley",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": false
+      },
+      {
+        "player_name": "Jaidon Anthony",
+        "minute": 8,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023937",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-10T13:00:00+00:00",
+    "home_team": "Crystal Palace",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 5,
+      "away_corners": 10,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 13,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 6,
+      "home_fouls": 5,
+      "away_fouls": 13
+    },
+    "goals": [
+      {
+        "player_name": "Jean Philippe Mateta",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      },
+      {
+        "player_name": "Beto",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      },
+      {
+        "player_name": "Ismaïla Sarr",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      },
+      {
+        "player_name": "James Tarkowski",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023943",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-10T13:00:00+00:00",
+    "home_team": "Nottm Forest",
+    "away_team": "Newcastle Utd",
+    "stats": {
+      "home_corners": 2,
+      "away_corners": 1,
+      "home_yellow": 2,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 17,
+      "away_shots": 16,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 6,
+      "home_fouls": 16,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Elliot Anderson",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      },
+      {
+        "player_name": "Harvey Barnes",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023942",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-10T15:30:00+00:00",
+    "home_team": "West Ham Utd",
+    "away_team": "Arsenal",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 3,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 15,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 14,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Leandro Trossard",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023944",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-11T19:00:00+00:00",
+    "home_team": "Tottenham",
+    "away_team": "Leeds Utd",
+    "stats": {
+      "home_corners": 14,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 11,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 4,
+      "home_fouls": 12,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Dominic Calvert-Lewin",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Mathys Tel",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15999228",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-13T19:00:00+00:00",
+    "home_team": "Manchester City",
+    "away_team": "Crystal Palace",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 6,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 2,
+      "home_fouls": 10,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Savinho",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Omar Marmoush",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      },
+      {
+        "player_name": "Antoine Semenyo",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023928",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-15T19:00:00+00:00",
+    "home_team": "Aston Villa",
+    "away_team": "Liverpool FC",
+    "stats": {
+      "home_corners": 4,
+      "away_corners": 9,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 16,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 5,
+      "home_fouls": 12,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Virgil van Dijk",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "John McGinn",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 57,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      },
+      {
+        "player_name": "Virgil van Dijk",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Morgan Rogers",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023956",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-17T11:30:00+00:00",
+    "home_team": "Manchester Utd",
+    "away_team": "Nottm Forest",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 29,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Bryan Mbeumo",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Matheus Cunha",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Morato",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": false
+      },
+      {
+        "player_name": "Luke Shaw",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023953",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-17T14:00:00+00:00",
+    "home_team": "Brentford",
+    "away_team": "Crystal Palace",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 14,
+      "away_shots": 16,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 7,
+      "away_fouls": 5
+    },
+    "goals": [
+      {
+        "player_name": "Dango Ouattara",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Adam Wharton",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      },
+      {
+        "player_name": "Dango Ouattara",
+        "minute": 40,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": true
+      },
+      {
+        "player_name": "Ismaïla Sarr",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023955",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-17T14:00:00+00:00",
+    "home_team": "Everton",
+    "away_team": "Sunderland",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 2,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 7,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 14,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Wilson Isidor",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Enzo Le Fée",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Brian Brobbey",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": false
+      },
+      {
+        "player_name": "Merlin Röhl",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Everton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023954",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-17T14:00:00+00:00",
+    "home_team": "Leeds Utd",
+    "away_team": "Brighton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 8,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 7,
+      "away_shots": 19,
+      "home_shots_on_target": 1,
+      "away_shots_on_target": 8,
+      "home_fouls": 9,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Dominic Calvert-Lewin",
+        "minute": 96,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Leeds Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023958",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-17T14:00:00+00:00",
+    "home_team": "Wolverhampton",
+    "away_team": "Fulham",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 6,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 11,
+      "away_shots": 13,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 20,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Antonee Robinson",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": false
+      },
+      {
+        "player_name": "Mateus Mané",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023957",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-17T16:30:00+00:00",
+    "home_team": "Newcastle Utd",
+    "away_team": "West Ham Utd",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 1,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 15,
+      "home_shots_on_target": 7,
+      "away_shots_on_target": 8,
+      "home_fouls": 8,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Valentín Castellanos",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "William Osula",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "William Osula",
+        "minute": 19,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Nick Woltemade",
+        "minute": 15,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Newcastle Utd",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023950",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-18T19:00:00+00:00",
+    "home_team": "Arsenal",
+    "away_team": "Burnley",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 5,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 0,
+      "home_fouls": 7,
+      "away_fouls": 16
+    },
+    "goals": [
+      {
+        "player_name": "Kai Havertz",
+        "minute": 37,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023936",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-19T18:30:00+00:00",
+    "home_team": "Bournemouth",
+    "away_team": "Manchester City",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 6,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 10,
+      "away_shots": 14,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 5,
+      "home_fouls": 16,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Erling Haaland",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": false
+      },
+      {
+        "player_name": "Eli Junior Kroupi",
+        "minute": 39,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_16087727",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-19T19:15:00+00:00",
+    "home_team": "Chelsea",
+    "away_team": "Tottenham",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 9,
+      "away_shots": 9,
+      "home_shots_on_target": 4,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "Richarlison",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": false
+      },
+      {
+        "player_name": "Andrey Santos",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": true
+      },
+      {
+        "player_name": "Enzo Fernández",
+        "minute": 18,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023959",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Brighton",
+    "away_team": "Manchester Utd",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 3,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 13,
+      "away_shots": 11,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 7,
+      "home_fouls": 11,
+      "away_fouls": 8
+    },
+    "goals": [
+      {
+        "player_name": "Bruno Fernandes",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Bryan Mbeumo",
+        "minute": 44,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      },
+      {
+        "player_name": "Patrick Dorgu",
+        "minute": 33,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester Utd",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023960",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Burnley",
+    "away_team": "Wolverhampton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 7,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 16,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 4,
+      "home_fouls": 10,
+      "away_fouls": 11
+    },
+    "goals": [
+      {
+        "player_name": "Zian Flemming",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Burnley",
+        "is_home": true
+      },
+      {
+        "player_name": "Adam Armstrong",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Wolverhampton",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023963",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Crystal Palace",
+    "away_team": "Arsenal",
+    "stats": {
+      "home_corners": 3,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 8,
+      "away_shots": 17,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 7,
+      "home_fouls": 9,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Jean Philippe Mateta",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Crystal Palace",
+        "is_home": true
+      },
+      {
+        "player_name": "Noni Madueke",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Jesus",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Arsenal",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023965",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Fulham",
+    "away_team": "Newcastle Utd",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 6,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 21,
+      "away_shots": 7,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 2,
+      "home_fouls": 13,
+      "away_fouls": 6
+    },
+    "goals": [
+      {
+        "player_name": "Tom Cairney",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      },
+      {
+        "player_name": "Issa Diop",
+        "minute": 20,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Fulham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023962",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Liverpool FC",
+    "away_team": "Brentford",
+    "stats": {
+      "home_corners": 14,
+      "away_corners": 2,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 24,
+      "away_shots": 11,
+      "home_shots_on_target": 8,
+      "away_shots_on_target": 2,
+      "home_fouls": 9,
+      "away_fouls": 9
+    },
+    "goals": [
+      {
+        "player_name": "Kevin Schade",
+        "minute": 64,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brentford",
+        "is_home": false
+      },
+      {
+        "player_name": "Curtis Jones",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Liverpool FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023961",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Manchester City",
+    "away_team": "Aston Villa",
+    "stats": {
+      "home_corners": 9,
+      "away_corners": 4,
+      "home_yellow": 1,
+      "away_yellow": 0,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 12,
+      "home_shots_on_target": 3,
+      "away_shots_on_target": 5,
+      "home_fouls": 8,
+      "away_fouls": 4
+    },
+    "goals": [
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": false
+      },
+      {
+        "player_name": "Ollie Watkins",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Aston Villa",
+        "is_home": false
+      },
+      {
+        "player_name": "Antoine Semenyo",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Manchester City",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023964",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Nottm Forest",
+    "away_team": "Bournemouth",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 3,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 15,
+      "away_shots": 17,
+      "home_shots_on_target": 5,
+      "away_shots_on_target": 4,
+      "home_fouls": 11,
+      "away_fouls": 7
+    },
+    "goals": [
+      {
+        "player_name": "Marcus Tavernier",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Bournemouth",
+        "is_home": false
+      },
+      {
+        "player_name": "Morgan Gibbs-White",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Nottm Forest",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023966",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Sunderland",
+    "away_team": "Chelsea",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 2,
+      "home_yellow": 5,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": 21,
+      "away_shots": 8,
+      "home_shots_on_target": 6,
+      "away_shots_on_target": 3,
+      "home_fouls": 15,
+      "away_fouls": 12
+    },
+    "goals": [
+      {
+        "player_name": "Cole Palmer",
+        "minute": 56,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Chelsea",
+        "is_home": false
+      },
+      {
+        "player_name": "Malo Gusto",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": true
+      },
+      {
+        "player_name": "Trai Hume",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Sunderland",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023967",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "Tottenham",
+    "away_team": "Everton",
+    "stats": {
+      "home_corners": 7,
+      "away_corners": 7,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 20,
+      "away_shots": 10,
+      "home_shots_on_target": 2,
+      "away_shots_on_target": 1,
+      "home_fouls": 15,
+      "away_fouls": 18
+    },
+    "goals": [
+      {
+        "player_name": "João Palhinha",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Tottenham",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_14023968",
+    "league_id": 43,
+    "league_name": "Premier League",
+    "league_country": "Inglaterra",
+    "season_year": 2026,
+    "date": "2026-05-24T15:00:00+00:00",
+    "home_team": "West Ham Utd",
+    "away_team": "Leeds Utd",
+    "stats": {
+      "home_corners": 6,
+      "away_corners": 4,
+      "home_yellow": 0,
+      "away_yellow": 3,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": 16,
+      "away_shots": 13,
+      "home_shots_on_target": 9,
+      "away_shots_on_target": 3,
+      "home_fouls": 11,
+      "away_fouls": 14
+    },
+    "goals": [
+      {
+        "player_name": "Callum Wilson",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Jarrod Bowen",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      },
+      {
+        "player_name": "Valentín Castellanos",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "West Ham Utd",
+        "is_home": true
+      }
+    ]
   }
 ]
