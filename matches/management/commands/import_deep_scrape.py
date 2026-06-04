@@ -189,17 +189,18 @@ class Command(BaseCommand):
                         dt = None
                     
                     if dt:
-                        # Verifica se já existe (pra evitar duplicata)
+                        # Verifica se já existe (pra evitar duplicata baseada na constraint unique_match_fixture)
                         existing = Match.objects.filter(
-                            league=league,
-                            season=season,
                             home_team=home_team,
                             away_team=away_team,
-                            date=dt,
-                            round_name=item.get('round_name', '')
+                            date=dt
                         ).first()
+                        
                         if existing:
                             match = existing
+                            if match.api_id != api_id and not dry_run:
+                                match.api_id = api_id
+                                match.save(update_fields=['api_id'])
                         else:
                             match = Match.objects.create(
                                 api_id=api_id,
