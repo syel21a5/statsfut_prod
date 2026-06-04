@@ -228,76 +228,86 @@ class Command(BaseCommand):
             stats = item['stats']
             has_stats = any(v is not None for v in stats.values())
 
+            stats_changed = False
             if has_stats:
                 if not dry_run:
                     for field, value in stats.items():
-                        if value is not None:
+                        if value is not None and getattr(match, field) != value:
                             setattr(match, field, value)
-                    match.save()
-                stats_updated += 1
+                            stats_changed = True
+                    if stats_changed:
+                        match.save()
+                        stats_updated += 1
+                else:
+                    stats_updated += 1
 
             # Importa os gols
             if item['goals']:
                 if not dry_run:
-                    with transaction.atomic():
-                        # Remove gols antigos
-                        Goal.objects.filter(match=match).delete()
-                        
-                        for gol_data in item['goals']:
-                            team_name = gol_data.get('team_name', '')
-                            team = None
+                    # Otimização: Só recria os gols se a quantidade for diferente
+                    current_goals_count = Goal.objects.filter(match=match).count()
+                    if current_goals_count != len(item['goals']):
+                        with transaction.atomic():
+                            # Remove gols antigos
+                            Goal.objects.filter(match=match).delete()
                             
-                            # Estratégia 1 (MELHOR): Usar is_home se disponível
-                            is_home = gol_data.get('is_home')
-                            if is_home is not None:
-                                team = match.home_team if is_home else match.away_team
-                            
-                            # Estratégia 2: Nome exato ou normalizado
-                            if not team and team_name:
-                                goal_team_canonical = normalize_team_name(team_name)
-                                home_canonical = normalize_team_name(match.home_team.name) if match.home_team else None
-                                away_canonical = normalize_team_name(match.away_team.name) if match.away_team else None
+                            for gol_data in item['goals']:
+                                team_name = gol_data.get('team_name', '')
+                                team = None
                                 
-                                if match.home_team and (match.home_team.name == team_name or home_canonical == goal_team_canonical):
-                                    team = match.home_team
-                                elif match.away_team and (match.away_team.name == team_name or away_canonical == goal_team_canonical):
-                                    team = match.away_team
-                            
-                            # Estratégia 3: Parte do nome (ex: "Estudiantes L.P." ~ "Estudiantes de La Plata")
-                            if not team and team_name:
-                                home_name = match.home_team.name.lower() if match.home_team else ''
-                                away_name = match.away_team.name.lower() if match.away_team else ''
-                                team_name_lower = team_name.lower()
+                                # Estratégia 1 (MELHOR): Usar is_home se disponível
+                                is_home = gol_data.get('is_home')
+                                if is_home is not None:
+                                    team = match.home_team if is_home else match.away_team
                                 
-                                if home_name and (team_name_lower in home_name or home_name in team_name_lower):
-                                    team = match.home_team
-                                elif away_name and (team_name_lower in away_name or away_name in team_name_lower):
-                                    team = match.away_team
-                                
-                                # Estratégia 4: Primeira palavra do nome
-                                if not team:
-                                    first_word = team_name.split()[0].lower() if team_name.split() else ''
-                                    if home_name and first_word and first_word in home_name:
+                                # Estratégia 2: Nome exato ou normalizado
+                                if not team and team_name:
+                                    goal_team_canonical = normalize_team_name(team_name)
+                                    home_canonical = normalize_team_name(match.home_team.name) if match.home_team else None
+                                    away_canonical = normalize_team_name(match.away_team.name) if match.away_team else None
+                                    
+                                    if match.home_team and (match.home_team.name == team_name or home_canonical == goal_team_canonical):
                                         team = match.home_team
-                                    elif away_name and first_word and first_word in away_name:
+                                    elif match.away_team and (match.away_team.name == team_name or away_canonical == goal_team_canonical):
                                         team = match.away_team
-                            
-                            if not team:
-                                self.stdout.write(self.style.WARNING(
-                                    f"    ⚠️ Time não encontrado para gol: {gol_data.get('player_name')} "
-                                    f"em {match.home_team} x {match.away_team} (time: {team_name})"
-                                ))
-                                continue
-                            
-                            Goal.objects.create(
-                                match=match,
-                                team=team,
-                                player_name=gol_data['player_name'],
-                                minute=gol_data['minute'],
-                                is_own_goal=gol_data.get('is_own_goal', False),
-                                is_penalty=gol_data.get('is_penalty', False),
-                            )
-                goals_updated += len(item['goals'])
+                                
+                                # Estratégia 3: Parte do nome (ex: "Estudiantes L.P." ~ "Estudiantes de La Plata")
+                                if not team and team_name:
+                                    home_name = match.home_team.name.lower() if match.home_team else ''
+                                    away_name = match.away_team.name.lower() if match.away_team else ''
+                                    team_name_lower = team_name.lower()
+                                    
+                                    if home_name and (team_name_lower in home_name or home_name in team_name_lower):
+                                        team = match.home_team
+                                    elif away_name and (team_name_lower in away_name or away_name in team_name_lower):
+                                        team = match.away_team
+                                    
+                                    # Estratégia 4: Primeira palavra do nome
+                                    if not team:
+                                        first_word = team_name.split()[0].lower() if team_name.split() else ''
+                                        if home_name and first_word and first_word in home_name:
+                                            team = match.home_team
+                                        elif away_name and first_word and first_word in away_name:
+                                            team = match.away_team
+                                
+                                if not team:
+                                    self.stdout.write(self.style.WARNING(
+                                        f"    ⚠️ Time não encontrado para gol: {gol_data.get('player_name')} "
+                                        f"em {match.home_team} x {match.away_team} (time: {team_name})"
+                                    ))
+                                    continue
+                                
+                                Goal.objects.create(
+                                    match=match,
+                                    team=team,
+                                    player_name=gol_data['player_name'],
+                                    minute=gol_data['minute'],
+                                    is_own_goal=gol_data.get('is_own_goal', False),
+                                    is_penalty=gol_data.get('is_penalty', False),
+                                )
+                        goals_updated += len(item['goals'])
+                else:
+                    goals_updated += len(item['goals'])
 
         # Resumo
         self.stdout.write(f"\n{'=' * 50}")
