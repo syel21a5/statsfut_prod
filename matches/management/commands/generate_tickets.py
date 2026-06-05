@@ -455,3 +455,11 @@ class Command(BaseCommand):
                     i += 3
 
         self.stdout.write(self.style.SUCCESS(f"Sucesso! Foram gerados {created_count} bilhetes com super estratégias diversas agrupados por datas isoladas."))
+
+        # Limpa o cache automaticamente para a página Premium atualizar
+        try:
+            from django.core.management import call_command
+            call_command('clear_cache')
+            self.stdout.write(self.style.SUCCESS("Cache limpo automaticamente para atualizar a página Premium com os novos bilhetes!"))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f"Aviso ao limpar cache: {e}"))

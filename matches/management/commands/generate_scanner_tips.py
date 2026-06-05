@@ -322,3 +322,11 @@ class Command(BaseCommand):
                 continue
 
         self.stdout.write(self.style.SUCCESS(f"Scanner finalizado! Criados: {created_count}, Atualizados: {updated_count}, Pulados (Futuros): {skipped_count}"))
+
+        # Limpa o cache automaticamente para a página Premium atualizar
+        try:
+            from django.core.management import call_command
+            call_command('clear_cache')
+            self.stdout.write(self.style.SUCCESS("Cache limpo automaticamente para atualizar a página Premium com as novas dicas!"))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f"Aviso ao limpar cache: {e}"))
