@@ -1539,13 +1539,13 @@
                     <button class="btn btn-sm ticket-date-btn active" onclick="filterTicketDateTab(this, 'all')">
                         ✨ {% translate "Todos" %}
                     </button>
-                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'Hoje')">
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Today" %}')">
                         📅 {% translate "Hoje" %}
                     </button>
-                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'Amanhã')">
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Tomorrow" %}')">
                         📅 {% translate "Amanhã" %}
                     </button>
-                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'Próxima Rodada')">
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Next Round" %}')">
                         📅 {% translate "Próxima Rodada" %}
                     </button>
                 </div>
