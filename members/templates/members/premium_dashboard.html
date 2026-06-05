@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n %}
+{% load static i18n cache %}
 
 {% block title %}{% translate "Premium Analytics" %} | StatsFut{% endblock %}
 {% block meta_description %}{% translate "Access exclusive premium football analytics, advanced predictions and detailed match statistics." %}{% endblock %}
@@ -123,6 +123,7 @@
         <!-- Scanner Results Grid -->
         {% if is_premium %}
             
+            {% cache 7200 premium_dashboard_html request.LANGUAGE_CODE %}
             <!-- AI Scanner Status Panel -->
             <div class="card bg-dark border-0 rounded-4 mb-4" style="background: linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(20,20,30,1) 100%); overflow: hidden;">
                 <div class="card-body p-4 position-relative">
@@ -1923,6 +1924,7 @@
                     </div>
                 {% endif %}
             </div>
+            {% endcache %}
 
         {% else %}
             <!-- Paywall for free users -->
