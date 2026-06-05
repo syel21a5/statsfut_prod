@@ -601,18 +601,7 @@ def premium_dashboard(request):
         elif diff == 1: return 1
         return 2
 
-    def sort_tips(tips_list):
-        tips_list.sort(key=lambda x: (get_date_group_order(x['sort_date']), -x['prob']))
 
-    sort_tips(tips_goals)
-    sort_tips(tips_btts)
-    sort_tips(tips_result)
-    sort_tips(tips_specials)
-    sort_tips(tips_corners)
-    sort_tips(tips_cards)
-    sort_tips(tips_shots)
-    sort_tips(tips_dc_over)
-    sort_tips(tips_dc_btts)
 
     history_groups = {
         'goals': [],
@@ -736,8 +725,8 @@ def premium_dashboard(request):
                 'stats': day_stats
             })
 
-    # Sort: probability desc first (best opportunities on top), then by date
-    sort_func = lambda x: (-x['prob'], x['sort_date'] if x['sort_date'] else now_br)
+    # Sort: group by date_group first, then probability desc (best opportunities on top)
+    sort_func = lambda x: (get_date_group_order(x['sort_date']), -x['prob'])
     MAX_TIPS_PER_CATEGORY = 30  # Mostrar apenas as top 30 melhores por categoria
     for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
         lst.sort(key=sort_func)
