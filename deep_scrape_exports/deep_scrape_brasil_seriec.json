@@ -1,0 +1,2909 @@
+[
+  {
+    "api_id": "sofa_15617565",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-04T20:00:00+00:00",
+    "home_team": "Maranhão AC",
+    "away_team": "Guarani",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Hebert",
+        "minute": 97,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": false
+      },
+      {
+        "player_name": "Luis Gustavo",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617651",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-04T21:00:00+00:00",
+    "home_team": "Brusque",
+    "away_team": "Caxias",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Alvaro",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      },
+      {
+        "player_name": "Héber",
+        "minute": 45,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      },
+      {
+        "player_name": "João Lucas",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caxias",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617566",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-04T22:30:00+00:00",
+    "home_team": "Maringá FC",
+    "away_team": "Ferroviária",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 8,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Edison Negueba",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Edison Negueba",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Denilson",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ferroviária",
+        "is_home": false
+      },
+      {
+        "player_name": "Ronald Camarão",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Vinni Faria",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ferroviária",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617569",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-04T22:30:00+00:00",
+    "home_team": "Botafogo-PB",
+    "away_team": "Barra FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Nenê",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617755",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-05T20:00:00+00:00",
+    "home_team": "Inter de Limeira",
+    "away_team": "Floresta",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Jhony Douglas",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Floresta",
+        "is_home": false
+      },
+      {
+        "player_name": "Daniel Troiano",
+        "minute": 38,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Floresta",
+        "is_home": false
+      },
+      {
+        "player_name": "Miguel Bianconi",
+        "minute": 4,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617754",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-05T20:00:00+00:00",
+    "home_team": "Ituano",
+    "away_team": "Anápolis",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 0,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Nelsinho",
+        "minute": 53,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      },
+      {
+        "player_name": "Fernando Canesin",
+        "minute": 42,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617756",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-05T22:00:00+00:00",
+    "home_team": "Confiança",
+    "away_team": "Amazonas FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 0,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Nicolás Schiappacasse",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617568",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-05T22:00:00+00:00",
+    "home_team": "Volta Redonda",
+    "away_team": "Paysandu SC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Juninho",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617563",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-06T23:00:00+00:00",
+    "home_team": "Santa Cruz",
+    "away_team": "AO Itabaiana",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Marcos Andre",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santa Cruz",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617564",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-06T23:00:00+00:00",
+    "home_team": "Ypiranga FC",
+    "away_team": "Figueirense",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Leonardo Santos Maia",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Figueirense",
+        "is_home": false
+      },
+      {
+        "player_name": "Danielzinho",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617572",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-11T20:00:00+00:00",
+    "home_team": "Floresta",
+    "away_team": "Santa Cruz",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Tiago Marques",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santa Cruz",
+        "is_home": false
+      },
+      {
+        "player_name": "Daniel Troiano",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Floresta",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617581",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-11T23:00:00+00:00",
+    "home_team": "Barra FC",
+    "away_team": "Maranhão AC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Gabriel Santos Silva",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Tetê",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Warley",
+        "minute": 22,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617567",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-11T23:00:00+00:00",
+    "home_team": "Ferroviária",
+    "away_team": "Botafogo-PB",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Felipe Azevedo",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Maduro",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617574",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-12T20:00:00+00:00",
+    "home_team": "Anápolis",
+    "away_team": "Inter de Limeira",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Miguel Bianconi",
+        "minute": 54,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": false
+      },
+      {
+        "player_name": "Matheus Lagoa",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Anápolis",
+        "is_home": true
+      },
+      {
+        "player_name": "Romarinho",
+        "minute": 16,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617575",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-12T20:00:00+00:00",
+    "home_team": "Caxias",
+    "away_team": "Confiança",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Salatiel",
+        "minute": 65,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caxias",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617576",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-12T20:00:00+00:00",
+    "home_team": "Paysandu SC",
+    "away_team": "Brusque",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Ítalo",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": true
+      },
+      {
+        "player_name": "Cipriano",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617573",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-12T21:30:00+00:00",
+    "home_team": "Guarani",
+    "away_team": "Volta Redonda",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Emerson",
+        "minute": 62,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": true
+      },
+      {
+        "player_name": "Hebert",
+        "minute": 55,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617578",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-12T22:00:00+00:00",
+    "home_team": "Amazonas FC",
+    "away_team": "Ituano",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Rafael Tavares",
+        "minute": 87,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ronaldo Henrique Silva",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Domingos",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617570",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-12T22:00:00+00:00",
+    "home_team": "AO Itabaiana",
+    "away_team": "Ypiranga FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Everton Kanela",
+        "minute": 99,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AO Itabaiana",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolas Schulz",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Léo Rafael",
+        "minute": 5,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617571",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-13T23:00:00+00:00",
+    "home_team": "Figueirense",
+    "away_team": "Maringá FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Lucas Alves",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Figueirense",
+        "is_home": true
+      },
+      {
+        "player_name": "Rai Natalino da Silva Ramos",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Caique Calito",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Felipe",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617580",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-18T19:00:00+00:00",
+    "home_team": "Confiança",
+    "away_team": "Santa Cruz",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "João Pedro Jotta",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Confiança",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617577",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-18T20:00:00+00:00",
+    "home_team": "Inter de Limeira",
+    "away_team": "Ituano",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Matheus Mancini",
+        "minute": 78,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": false
+      },
+      {
+        "player_name": "Romarinho",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617589",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-18T21:15:00+00:00",
+    "home_team": "Volta Redonda",
+    "away_team": "Caxias",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Oswaldo Blanco",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Volta Redonda",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617582",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-18T21:30:00+00:00",
+    "home_team": "Paysandu SC",
+    "away_team": "Barra FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Warley",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Kleiton",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617586",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-18T22:30:00+00:00",
+    "home_team": "Ypiranga FC",
+    "away_team": "Anápolis",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Bryam",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Cleiton Garcia",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Renan Gorne",
+        "minute": 50,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617594",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-18T23:30:00+00:00",
+    "home_team": "Amazonas FC",
+    "away_team": "Maranhão AC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 5,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Gabriel Cipriano",
+        "minute": 79,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Nicolás Schiappacasse",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617584",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-19T19:30:00+00:00",
+    "home_team": "Guarani",
+    "away_team": "AO Itabaiana",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Karl Junior",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AO Itabaiana",
+        "is_home": false
+      },
+      {
+        "player_name": "Hebert",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617590",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-19T21:30:00+00:00",
+    "home_team": "Figueirense",
+    "away_team": "Botafogo-PB",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Breno",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Figueirense",
+        "is_home": true
+      },
+      {
+        "player_name": "Nenê",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": false
+      },
+      {
+        "player_name": "Igor Bolt",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Figueirense",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617579",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-20T23:00:00+00:00",
+    "home_team": "Floresta",
+    "away_team": "Ferroviária",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 0,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617588",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-20T23:00:00+00:00",
+    "home_team": "Maringá FC",
+    "away_team": "Brusque",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Ryan Santos de Paulo",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Adrianinho",
+        "minute": 51,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Travassos",
+        "minute": 34,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Macário",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": false
+      },
+      {
+        "player_name": "Gazão",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617593",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-25T20:00:00+00:00",
+    "home_team": "AO Itabaiana",
+    "away_team": "Paysandu SC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Juninho",
+        "minute": 82,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": false
+      },
+      {
+        "player_name": "Kleiton",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": false
+      },
+      {
+        "player_name": "Caio Mello",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": false
+      },
+      {
+        "player_name": "Isaque",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AO Itabaiana",
+        "is_home": true
+      },
+      {
+        "player_name": "Ítalo",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617591",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-25T20:00:00+00:00",
+    "home_team": "Brusque",
+    "away_team": "Confiança",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "João Pedro",
+        "minute": 95,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      },
+      {
+        "player_name": "Patrick",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Confiança",
+        "is_home": false
+      },
+      {
+        "player_name": "Adrianinho",
+        "minute": 74,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617598",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-25T22:30:00+00:00",
+    "home_team": "Botafogo-PB",
+    "away_team": "Floresta",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Eliandro Carvalho",
+        "minute": 88,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Floresta",
+        "is_home": false
+      },
+      {
+        "player_name": "Nenê",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": true
+      },
+      {
+        "player_name": "Garraty",
+        "minute": 7,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Floresta",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617587",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-25T22:30:00+00:00",
+    "home_team": "Maranhão AC",
+    "away_team": "Volta Redonda",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Felipe Cruz",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": true
+      },
+      {
+        "player_name": "Vander",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Volta Redonda",
+        "is_home": false
+      },
+      {
+        "player_name": "Vander",
+        "minute": 14,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617597",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-26T19:00:00+00:00",
+    "home_team": "Santa Cruz",
+    "away_team": "Amazonas FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Nicolás Schiappacasse",
+        "minute": 59,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617596",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-26T20:00:00+00:00",
+    "home_team": "Barra FC",
+    "away_team": "Inter de Limeira",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Yan Silva",
+        "minute": 77,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": false
+      },
+      {
+        "player_name": "Tetê",
+        "minute": 63,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Miguel Bianconi",
+        "minute": 31,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": false
+      },
+      {
+        "player_name": "Éverton Alemão",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617595",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-26T20:00:00+00:00",
+    "home_team": "Anápolis",
+    "away_team": "Figueirense",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 5,
+      "away_yellow": 3,
+      "home_red": 1,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Fernando Viana",
+        "minute": 92,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Anápolis",
+        "is_home": true
+      },
+      {
+        "player_name": "Leonan",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Anápolis",
+        "is_home": true
+      },
+      {
+        "player_name": "João Borim",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Anápolis",
+        "is_home": true
+      },
+      {
+        "player_name": "Arthur Martins",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Figueirense",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617585",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-26T22:00:00+00:00",
+    "home_team": "Ituano",
+    "away_team": "Maringá FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Rafinha",
+        "minute": 84,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Lucas Stefanello",
+        "minute": 80,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Razera",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      },
+      {
+        "player_name": "Gabriel Razera",
+        "minute": 43,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      },
+      {
+        "player_name": "Léo Passos",
+        "minute": 26,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617592",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-27T23:00:00+00:00",
+    "home_team": "Caxias",
+    "away_team": "Ypiranga FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 4,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Salatiel",
+        "minute": 83,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caxias",
+        "is_home": true
+      },
+      {
+        "player_name": "Calyson Rosa",
+        "minute": 46,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caxias",
+        "is_home": true
+      },
+      {
+        "player_name": "Danielzinho",
+        "minute": 21,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617583",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-04-27T23:00:00+00:00",
+    "home_team": "Ferroviária",
+    "away_team": "Guarani",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Guilherme Parede",
+        "minute": 85,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": false
+      },
+      {
+        "player_name": "Allison",
+        "minute": 72,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ferroviária",
+        "is_home": true
+      },
+      {
+        "player_name": "Guilherme Cachoeira",
+        "minute": 25,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": false
+      },
+      {
+        "player_name": "Allison",
+        "minute": 13,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ferroviária",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617602",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-02T20:00:00+00:00",
+    "home_team": "Guarani",
+    "away_team": "Santa Cruz",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Willian Farias",
+        "minute": 108,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Guarani",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617605",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-02T22:00:00+00:00",
+    "home_team": "Confiança",
+    "away_team": "Inter de Limeira",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Romarinho",
+        "minute": 24,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617618",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-03T20:00:00+00:00",
+    "home_team": "Amazonas FC",
+    "away_team": "Caxias",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 5,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Gabriel de Jesus Moraes",
+        "minute": 94,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Caxias",
+        "is_home": false
+      },
+      {
+        "player_name": "Gabriel Cipriano",
+        "minute": 66,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Amazonas FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617599",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-03T20:00:00+00:00",
+    "home_team": "Ferroviária",
+    "away_team": "Anápolis",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Vitor Barreto",
+        "minute": 73,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ferroviária",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617606",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-03T20:00:00+00:00",
+    "home_team": "Volta Redonda",
+    "away_team": "Brusque",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Pedro",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Volta Redonda",
+        "is_home": true
+      },
+      {
+        "player_name": "Adrianinho",
+        "minute": 11,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617608",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-03T22:00:00+00:00",
+    "home_team": "Maringá FC",
+    "away_team": "AO Itabaiana",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 1,
+      "away_red": 1,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Rafinha",
+        "minute": 91,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Bruno Cheron",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Rodrigo Alves",
+        "minute": 69,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AO Itabaiana",
+        "is_home": false
+      },
+      {
+        "player_name": "Danielzinho",
+        "minute": 52,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Everton Kanela",
+        "minute": 36,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "AO Itabaiana",
+        "is_home": false
+      },
+      {
+        "player_name": "Edison Negueba",
+        "minute": 6,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maringá FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617612",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-03T22:00:00+00:00",
+    "home_team": "Paysandu SC",
+    "away_team": "Botafogo-PB",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Thayllon",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": true
+      },
+      {
+        "player_name": "Ítalo",
+        "minute": 49,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": true
+      },
+      {
+        "player_name": "Thallyson",
+        "minute": 27,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": true
+      },
+      {
+        "player_name": "Kleiton",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Paysandu SC",
+        "is_home": true
+      },
+      {
+        "player_name": "Giovanni",
+        "minute": 17,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": false
+      },
+      {
+        "player_name": "Rodolfo",
+        "minute": 3,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617600",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-04T23:00:00+00:00",
+    "home_team": "Figueirense",
+    "away_team": "Barra FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 1,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Cléo Silva",
+        "minute": 90,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Tetê",
+        "minute": 81,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": false
+      },
+      {
+        "player_name": "Marcelinho",
+        "minute": 67,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Barra FC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617607",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-04T23:00:00+00:00",
+    "home_team": "Floresta",
+    "away_team": "Maranhão AC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Jeam",
+        "minute": 68,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Floresta",
+        "is_home": true
+      },
+      {
+        "player_name": "Felipe Cruz",
+        "minute": 23,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": false
+      },
+      {
+        "player_name": "Vagalume",
+        "minute": 9,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617611",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-05T18:00:00+00:00",
+    "home_team": "Ypiranga FC",
+    "away_team": "Ituano",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Estêvão",
+        "minute": 89,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": true
+      },
+      {
+        "player_name": "Léo Rafael",
+        "minute": 48,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ypiranga FC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617615",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-09T20:00:00+00:00",
+    "home_team": "AO Itabaiana",
+    "away_team": "Floresta",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 5,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617632",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-09T20:00:00+00:00",
+    "home_team": "Paysandu SC",
+    "away_team": "Anápolis",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617616",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-09T21:00:00+00:00",
+    "home_team": "Maranhão AC",
+    "away_team": "Botafogo-PB",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Rosivan",
+        "minute": 61,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": true
+      },
+      {
+        "player_name": "Vagalume",
+        "minute": 47,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": true
+      },
+      {
+        "player_name": "Rodolfo",
+        "minute": 32,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Botafogo-PB",
+        "is_home": false
+      },
+      {
+        "player_name": "André Radija",
+        "minute": 10,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Maranhão AC",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617622",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-10T20:00:00+00:00",
+    "home_team": "Amazonas FC",
+    "away_team": "Figueirense",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 2,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Igor Bolt",
+        "minute": 71,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Figueirense",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617619",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-10T20:00:00+00:00",
+    "home_team": "Barra FC",
+    "away_team": "Caxias",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 4,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617614",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-10T20:00:00+00:00",
+    "home_team": "Volta Redonda",
+    "away_team": "Ferroviária",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 4,
+      "home_red": 0,
+      "away_red": 1,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617613",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-10T22:30:00+00:00",
+    "home_team": "Brusque",
+    "away_team": "Ypiranga FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 1,
+      "away_yellow": 2,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Alvaro",
+        "minute": 70,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      },
+      {
+        "player_name": "Adrianinho",
+        "minute": 58,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      },
+      {
+        "player_name": "João Pedro",
+        "minute": 2,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Brusque",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617609",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-10T22:30:00+00:00",
+    "home_team": "Ituano",
+    "away_team": "Confiança",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 3,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Thassio",
+        "minute": 29,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Ituano",
+        "is_home": true
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617610",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-11T23:00:00+00:00",
+    "home_team": "Inter de Limeira",
+    "away_team": "Santa Cruz",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": 3,
+      "away_yellow": 6,
+      "home_red": 0,
+      "away_red": 0,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": [
+      {
+        "player_name": "Matheus Vinicius da Silva",
+        "minute": 76,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Inter de Limeira",
+        "is_home": true
+      },
+      {
+        "player_name": "Saulo",
+        "minute": 75,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santa Cruz",
+        "is_home": false
+      },
+      {
+        "player_name": "Ronald",
+        "minute": 60,
+        "is_own_goal": false,
+        "is_penalty": false,
+        "team_name": "Santa Cruz",
+        "is_home": false
+      }
+    ]
+  },
+  {
+    "api_id": "sofa_15617617",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-11T23:00:00+00:00",
+    "home_team": "Maringá FC",
+    "away_team": "Guarani",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617630",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T20:00:00+00:00",
+    "home_team": "Santa Cruz",
+    "away_team": "Volta Redonda",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617628",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T20:00:00+00:00",
+    "home_team": "Ypiranga FC",
+    "away_team": "Maringá FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617623",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T22:30:00+00:00",
+    "home_team": "Figueirense",
+    "away_team": "AO Itabaiana",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617624",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-16T22:30:00+00:00",
+    "home_team": "Floresta",
+    "away_team": "Amazonas FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617620",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T19:00:00+00:00",
+    "home_team": "Caxias",
+    "away_team": "Paysandu SC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617621",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T19:00:00+00:00",
+    "home_team": "Ferroviária",
+    "away_team": "Brusque",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617625",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T21:00:00+00:00",
+    "home_team": "Anápolis",
+    "away_team": "Barra FC",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617627",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-17T21:30:00+00:00",
+    "home_team": "Guarani",
+    "away_team": "Ituano",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  },
+  {
+    "api_id": "sofa_15617629",
+    "league_id": 71,
+    "league_name": "Série C",
+    "league_country": "Brasil",
+    "season_year": 2026,
+    "date": "2026-05-18T23:00:00+00:00",
+    "home_team": "Botafogo-PB",
+    "away_team": "Inter de Limeira",
+    "stats": {
+      "home_corners": 0,
+      "away_corners": 0,
+      "home_yellow": null,
+      "away_yellow": null,
+      "home_red": null,
+      "away_red": null,
+      "home_shots": null,
+      "away_shots": null,
+      "home_shots_on_target": null,
+      "away_shots_on_target": null,
+      "home_fouls": null,
+      "away_fouls": null
+    },
+    "goals": []
+  }
+]
