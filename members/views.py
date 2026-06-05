@@ -725,28 +725,36 @@ def premium_dashboard(request):
                 'stats': day_stats
             })
 
-    # Primeiro: ordenar por maior probabilidade geral
+    # Ordenar por maior probabilidade geral primeiro
     prob_sort_func = lambda x: (-x['prob'], x['sort_date'] if x['sort_date'] else now_br)
-    MAX_TIPS_PER_CATEGORY = 30  # Mostrar apenas as top 30 melhores por categoria
-    
     for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
         lst.sort(key=prob_sort_func)
 
-    # Limitar cada categoria às melhores oportunidades gerais
-    tips_goals = tips_goals[:MAX_TIPS_PER_CATEGORY]
-    tips_btts = tips_btts[:MAX_TIPS_PER_CATEGORY]
-    tips_result = tips_result[:MAX_TIPS_PER_CATEGORY]
-    tips_specials = tips_specials[:MAX_TIPS_PER_CATEGORY]
-    tips_corners = tips_corners[:MAX_TIPS_PER_CATEGORY]
-    tips_cards = tips_cards[:MAX_TIPS_PER_CATEGORY]
-    tips_shots = tips_shots[:MAX_TIPS_PER_CATEGORY]
-    tips_dc_over = tips_dc_over[:MAX_TIPS_PER_CATEGORY]
-    tips_dc_btts = tips_dc_btts[:MAX_TIPS_PER_CATEGORY]
+    MAX_TIPS_PER_DATE = 30  # Top 30 melhores por DIA (Hoje, Amanhã, Próxima) em cada categoria
 
-    # Segundo: reordenar as top 30 para agrupar as datas corretamente no template
-    date_sort_func = lambda x: (get_date_group_order(x['sort_date']), -x['prob'])
-    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
-        lst.sort(key=date_sort_func)
+    def limit_per_date_group(lst, limit):
+        grouped = {}
+        for x in lst:
+            g = get_date_group_order(x['sort_date'])
+            if g not in grouped:
+                grouped[g] = []
+            if len(grouped[g]) < limit:
+                grouped[g].append(x)
+        new_lst = []
+        for g in sorted(grouped.keys()):
+            new_lst.extend(grouped[g])
+        return new_lst
+
+    # Limitar a top X por dia e automaticamente re-agrupar na ordem de data (0, 1, 2)
+    tips_goals = limit_per_date_group(tips_goals, MAX_TIPS_PER_DATE)
+    tips_btts = limit_per_date_group(tips_btts, MAX_TIPS_PER_DATE)
+    tips_result = limit_per_date_group(tips_result, MAX_TIPS_PER_DATE)
+    tips_specials = limit_per_date_group(tips_specials, MAX_TIPS_PER_DATE)
+    tips_corners = limit_per_date_group(tips_corners, MAX_TIPS_PER_DATE)
+    tips_cards = limit_per_date_group(tips_cards, MAX_TIPS_PER_DATE)
+    tips_shots = limit_per_date_group(tips_shots, MAX_TIPS_PER_DATE)
+    tips_dc_over = limit_per_date_group(tips_dc_over, MAX_TIPS_PER_DATE)
+    tips_dc_btts = limit_per_date_group(tips_dc_btts, MAX_TIPS_PER_DATE)
 
     # Split corners and cards categories for side-by-side display
     tips_corners_over = [x for x in tips_corners if x['market'].startswith('CORNERS_OVER_')]
