@@ -1427,6 +1427,7 @@
                 {% endif %}
             </div>
 
+            {% endcache %}
         {% else %}
             <!-- Lock Overlay for Free Users -->
             <div class="position-relative" style="min-height: 400px;">
@@ -1467,6 +1468,7 @@
     <!-- ====================================================================== -->
     <div class="tab-pane fade" id="tickets-pane" role="tabpanel" aria-labelledby="tickets-tab" tabindex="0">
         {% if is_premium %}
+            {% cache 7200 premium_tickets_pane request.LANGUAGE_CODE %}
             <style>
                 .ticket-sub-tab {
                     background: rgba(255, 255, 255, 0.03) !important;
