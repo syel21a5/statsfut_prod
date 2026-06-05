@@ -113,12 +113,12 @@ def premium_dashboard(request):
     br_tz = ZoneInfo('America/Sao_Paulo')
     now_br = timezone.now().astimezone(br_tz)
     start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
-    end_date = start_of_day + timedelta(days=45) # Próximos 45 dias para pegar todas as Próximas Rodadas
+    end_date = start_of_day + timedelta(days=7) # Próximos 7 dias (Hoje + Amanhã + Próxima Rodada)
     
     matches = Match.objects.filter(
         date__range=(start_of_day, end_date),
         status__in=['NS', 'Not Started', 'Scheduled', 'TBD', 'POSTPONED', 'Postponed'] # Apenas jogos não iniciados
-    ).select_related('league', 'home_team', 'away_team').order_by('date')[:100]
+    ).select_related('league', 'home_team', 'away_team').order_by('date')[:150]
     
     # Se não for premium, manda apenas os jogos crus para gerar a tela "borrada" de marketing
     if not is_premium:
@@ -395,11 +395,11 @@ def premium_dashboard(request):
         status__in=['Green', 'Red']
     ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league').order_by('-ticket_type', '-created_at')[:10]
 
-    # Buscar dicas pendentes para os próximos 3 dias
+    # Buscar dicas pendentes para os próximos 7 dias, priorizando alta probabilidade
     pending_tips = ScannerTip.objects.filter(
         status='PENDING',
         match__date__range=(start_of_day, end_date + timedelta(days=1))
-    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('match__date')
+    ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-probability', 'match__date')
     
     # Buscar histórico de dicas dos últimos 15 dias (GREEN, RED, e PENDING de jogos finalizados)
     fifteen_days_ago = timezone.now() - timedelta(days=15)
@@ -714,10 +714,21 @@ def premium_dashboard(request):
                 'stats': day_stats
             })
 
-    # Sort: date first, then by probability desc
-    sort_func = lambda x: (x['sort_date'] if x['sort_date'] else now_br, -x['prob'])
-    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots]:
+    # Sort: probability desc first (best opportunities on top), then by date
+    sort_func = lambda x: (-x['prob'], x['sort_date'] if x['sort_date'] else now_br)
+    MAX_TIPS_PER_CATEGORY = 30  # Mostrar apenas as top 30 melhores por categoria
+    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
         lst.sort(key=sort_func)
+    # Limitar cada categoria às melhores oportunidades
+    tips_goals = tips_goals[:MAX_TIPS_PER_CATEGORY]
+    tips_btts = tips_btts[:MAX_TIPS_PER_CATEGORY]
+    tips_result = tips_result[:MAX_TIPS_PER_CATEGORY]
+    tips_specials = tips_specials[:MAX_TIPS_PER_CATEGORY]
+    tips_corners = tips_corners[:MAX_TIPS_PER_CATEGORY]
+    tips_cards = tips_cards[:MAX_TIPS_PER_CATEGORY]
+    tips_shots = tips_shots[:MAX_TIPS_PER_CATEGORY]
+    tips_dc_over = tips_dc_over[:MAX_TIPS_PER_CATEGORY]
+    tips_dc_btts = tips_dc_btts[:MAX_TIPS_PER_CATEGORY]
 
     # Split corners and cards categories for side-by-side display
     tips_corners_over = [x for x in tips_corners if x['market'].startswith('CORNERS_OVER_')]
