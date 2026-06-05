@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from django.views.decorators.cache import never_cache
-from django.core.cache import cache
 
 from .forms import CustomLoginForm, CustomRegisterForm
 from .decorators import premium_required
@@ -386,13 +385,8 @@ def premium_dashboard(request):
             ticket.status = 'Green'
             ticket.save(update_fields=['status'])
 
-    # === CACHE HEAVY CONTEXT ===
-    cache_key = f'premium_dashboard_data_v1_{get_language()}'
-    heavy_data = cache.get(cache_key)
-
-    if heavy_data is None:
-        # Buscar Bilhetes Prontos (Estratégias) - Atualizados em tempo real e ordenados por tipo!
-        active_tickets = list(BetTicket.objects.filter(
+    # Buscar Bilhetes Prontos (Estratégias) - Atualizados em tempo real e ordenados por tipo!
+    active_tickets = BetTicket.objects.filter(
         status='Pending',
         date_target__gte=start_of_day.date()
     ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league').order_by('-ticket_type', '-created_at')
@@ -804,60 +798,55 @@ def premium_dashboard(request):
 
     total_opps = sum(len(lst) for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts])
 
-        heavy_data = {
-            # Legacy
-            'high_ht_goals': high_ht_goals,
-            'high_over15': high_over15,
-            'high_over25': high_over25,
-            'high_btts': high_btts,
-            'high_win': high_win,
-            'first_to_score': first_to_score,
-            'high_corners': high_corners,
-            # New expanded categories
-            'tips_goals': tips_goals,
-            'tips_btts': tips_btts,
-            'tips_result': tips_result,
-            'tips_specials': tips_specials,
-            'tips_corners': tips_corners,
-            'tips_corners_over': tips_corners_over,
-            'tips_corners_winner': tips_corners_winner,
-            'tips_cards': tips_cards,
-            'tips_cards_over': tips_cards_over,
-            'tips_cards_winner': tips_cards_winner,
-            'tips_shots': tips_shots,
-            'tips_shots_total': tips_shots_total,
-            'tips_shots_target': tips_shots_target,
-            'tips_dc_over': tips_dc_over,
-            'tips_dc_btts': tips_dc_btts,
-            # Stats
-            'stats_total_tickets': total_tickets,
-            'stats_greens': total_greens,
-            'stats_reds': total_reds,
-            'stats_win_rate': win_rate,
-            # Others
-            'active_tickets': active_tickets,
-            'doubles_tickets': [t for t in active_tickets if t.ticket_type == 'Double'],
-            'triples_tickets': [t for t in active_tickets if t.ticket_type == 'Treble'],
-            'multiples_tickets': [t for t in active_tickets if t.ticket_type == 'Multiple_4_5'],
-            'supers_tickets': [t for t in active_tickets if t.ticket_type == 'Super_6_8'],
-            'hedge_tickets': [t for t in active_tickets if t.ticket_type == 'Hedge_Favorito'],
-            'trixie_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie'],
-            'trixie_dc_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'DC_GOALS'],
-            'trixie_goals_btts_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'GOALS_BTTS'],
-            'trixie_half_goals_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'HALF_GOALS'],
-            'trixie_team_half_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'TEAM_HALF'],
-            'history_tickets': list(history_tickets),
-            'history_groups': history_groups,
-            'history_stats_by_market': history_stats_by_market,
-            'scanner_assertividade': scanner_assertividade,
-            'total_scanned': len(matches),
-            'total_opportunities': total_opps,
-        }
-        cache.set(cache_key, heavy_data, 60 * 60 * 2)  # Cache 2 hours
-
     context = {
         'is_premium': True,
-        **heavy_data
+        # Legacy
+        'high_ht_goals': high_ht_goals,
+        'high_over15': high_over15,
+        'high_over25': high_over25,
+        'high_btts': high_btts,
+        'high_win': high_win,
+        'first_to_score': first_to_score,
+        'high_corners': high_corners,
+        # New expanded categories
+        'tips_goals': tips_goals,
+        'tips_btts': tips_btts,
+        'tips_result': tips_result,
+        'tips_specials': tips_specials,
+        'tips_corners': tips_corners,
+        'tips_corners_over': tips_corners_over,
+        'tips_corners_winner': tips_corners_winner,
+        'tips_cards': tips_cards,
+        'tips_cards_over': tips_cards_over,
+        'tips_cards_winner': tips_cards_winner,
+        'tips_shots': tips_shots,
+        'tips_shots_total': tips_shots_total,
+        'tips_shots_target': tips_shots_target,
+        'tips_dc_over': tips_dc_over,
+        'tips_dc_btts': tips_dc_btts,
+        # Stats
+        'stats_total_tickets': total_tickets,
+        'stats_greens': total_greens,
+        'stats_reds': total_reds,
+        'stats_win_rate': win_rate,
+        # Others
+        'active_tickets': active_tickets,
+        'doubles_tickets': [t for t in active_tickets if t.ticket_type == 'Double'],
+        'triples_tickets': [t for t in active_tickets if t.ticket_type == 'Treble'],
+        'multiples_tickets': [t for t in active_tickets if t.ticket_type == 'Multiple_4_5'],
+        'supers_tickets': [t for t in active_tickets if t.ticket_type == 'Super_6_8'],
+        'hedge_tickets': [t for t in active_tickets if t.ticket_type == 'Hedge_Favorito'],
+        'trixie_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie'],
+        'trixie_dc_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'DC_GOALS'],
+        'trixie_goals_btts_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'GOALS_BTTS'],
+        'trixie_half_goals_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'HALF_GOALS'],
+        'trixie_team_half_tickets': [t for t in active_tickets if t.ticket_type == 'Trixie' and t.strategy == 'TEAM_HALF'],
+        'history_tickets': history_tickets,
+        'history_groups': history_groups,
+        'history_stats_by_market': history_stats_by_market,
+        'scanner_assertividade': scanner_assertividade,
+        'total_scanned': len(matches),
+        'total_opportunities': total_opps,
     }
     return render(request, 'members/premium_dashboard.html', context)
 
