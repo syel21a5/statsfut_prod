@@ -592,6 +592,28 @@ def premium_dashboard(request):
         elif tip.market.startswith('DC_1X_BTTS_') or tip.market.startswith('DC_X2_BTTS_'):
             tips_dc_btts.append(item)
 
+    def get_date_group_order(match_date):
+        if not match_date: return 99
+        match_date_br = match_date.astimezone(br_tz).date()
+        today = now_br.date()
+        diff = (match_date_br - today).days
+        if diff == 0: return 0
+        elif diff == 1: return 1
+        return 2
+
+    def sort_tips(tips_list):
+        tips_list.sort(key=lambda x: (get_date_group_order(x['sort_date']), -x['prob']))
+
+    sort_tips(tips_goals)
+    sort_tips(tips_btts)
+    sort_tips(tips_result)
+    sort_tips(tips_specials)
+    sort_tips(tips_corners)
+    sort_tips(tips_cards)
+    sort_tips(tips_shots)
+    sort_tips(tips_dc_over)
+    sort_tips(tips_dc_btts)
+
     history_groups = {
         'goals': [],
         'btts': [],
