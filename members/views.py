@@ -730,31 +730,32 @@ def premium_dashboard(request):
     for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
         lst.sort(key=prob_sort_func)
 
-    MAX_TIPS_PER_DATE = 30  # Top 30 melhores por DIA (Hoje, Amanhã, Próxima) em cada categoria
+    MAX_TIPS_PER_MARKET_PER_DATE = 30  # Top 30 melhores por DIA e por MERCADO (ex: 30 pro Over 0.5 hoje, 30 pro Over 1.5 hoje...)
 
-    def limit_per_date_group(lst, limit):
-        grouped = {}
+    def limit_per_market_and_date(lst, limit):
+        counts = {}
+        filtered = []
         for x in lst:
-            g = get_date_group_order(x['sort_date'])
-            if g not in grouped:
-                grouped[g] = []
-            if len(grouped[g]) < limit:
-                grouped[g].append(x)
-        new_lst = []
-        for g in sorted(grouped.keys()):
-            new_lst.extend(grouped[g])
-        return new_lst
+            # A chave única é o (grupo_da_data, mercado)
+            g = (get_date_group_order(x['sort_date']), x['market'])
+            counts[g] = counts.get(g, 0) + 1
+            if counts[g] <= limit:
+                filtered.append(x)
+        
+        # Re-agrupar na ordem de data (0, 1, 2) para o template
+        filtered.sort(key=lambda x: (get_date_group_order(x['sort_date']), -x['prob']))
+        return filtered
 
-    # Limitar a top X por dia e automaticamente re-agrupar na ordem de data (0, 1, 2)
-    tips_goals = limit_per_date_group(tips_goals, MAX_TIPS_PER_DATE)
-    tips_btts = limit_per_date_group(tips_btts, MAX_TIPS_PER_DATE)
-    tips_result = limit_per_date_group(tips_result, MAX_TIPS_PER_DATE)
-    tips_specials = limit_per_date_group(tips_specials, MAX_TIPS_PER_DATE)
-    tips_corners = limit_per_date_group(tips_corners, MAX_TIPS_PER_DATE)
-    tips_cards = limit_per_date_group(tips_cards, MAX_TIPS_PER_DATE)
-    tips_shots = limit_per_date_group(tips_shots, MAX_TIPS_PER_DATE)
-    tips_dc_over = limit_per_date_group(tips_dc_over, MAX_TIPS_PER_DATE)
-    tips_dc_btts = limit_per_date_group(tips_dc_btts, MAX_TIPS_PER_DATE)
+    # Limitar a top X por dia E por mercado, garantindo abas fartas
+    tips_goals = limit_per_market_and_date(tips_goals, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_btts = limit_per_market_and_date(tips_btts, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_result = limit_per_market_and_date(tips_result, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_specials = limit_per_market_and_date(tips_specials, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_corners = limit_per_market_and_date(tips_corners, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_cards = limit_per_market_and_date(tips_cards, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_shots = limit_per_market_and_date(tips_shots, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_dc_over = limit_per_market_and_date(tips_dc_over, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_dc_btts = limit_per_market_and_date(tips_dc_btts, MAX_TIPS_PER_MARKET_PER_DATE)
 
     # Split corners and cards categories for side-by-side display
     tips_corners_over = [x for x in tips_corners if x['market'].startswith('CORNERS_OVER_')]
