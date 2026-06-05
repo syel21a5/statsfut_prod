@@ -2294,6 +2294,55 @@
 </style>
 
 <script>
+/* ==================== Dynamic Empty State Helpers ==================== */
+function checkEmptyStateList(listElement) {
+    if (!listElement) return;
+    let hasVisible = false;
+    listElement.querySelectorAll('.scanner-tip-row').forEach(row => {
+        if (!row.classList.contains('hidden-tip')) hasVisible = true;
+    });
+    let emptyState = listElement.querySelector('.dynamic-empty-state');
+    if (!emptyState) {
+        emptyState = document.createElement('div');
+        emptyState.className = 'dynamic-empty-state p-4 text-center mt-2 w-100';
+        emptyState.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center h-100" style="opacity: 0.6;">
+                <i class="fa-solid fa-calendar-xmark fa-2x mb-3 text-secondary" style="color: rgba(255,255,255,0.3) !important;"></i>
+                <h6 class="text-white fw-bold mb-1">{% translate "Nenhum palpite encontrado" %}</h6>
+                <p class="text-secondary small mb-0">{% translate "Não há jogos para este mercado na data selecionada." %}</p>
+            </div>
+        `;
+        listElement.appendChild(emptyState);
+    }
+    emptyState.style.display = hasVisible ? 'none' : 'block';
+}
+
+function checkEmptyStateTickets() {
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        const cards = pane.querySelectorAll('.ticket-card-item');
+        if (cards.length === 0) return;
+        let hasVisible = false;
+        cards.forEach(c => {
+            if (c.style.display !== 'none') hasVisible = true;
+        });
+        let emptyState = pane.querySelector('.dynamic-empty-state');
+        if (!emptyState) {
+            emptyState = document.createElement('div');
+            emptyState.className = 'col-12 dynamic-empty-state';
+            emptyState.innerHTML = `
+                <div class="p-5 rounded-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
+                    <i class="fa-solid fa-calendar-xmark fa-2x mb-3 text-secondary" style="color: rgba(255,255,255,0.3) !important;"></i>
+                    <h5 class="text-white fw-bold">{% translate "Nenhum bilhete encontrado" %}</h5>
+                    <p class="text-secondary small mb-0">{% translate "Não foram encontrados bilhetes para esta estratégia na data selecionada." %}</p>
+                </div>
+            `;
+            const row = pane.querySelector('.row');
+            if (row) row.appendChild(emptyState);
+        }
+        emptyState.style.display = hasVisible ? 'none' : 'block';
+    });
+}
+
 /* ==================== Ticket Date Sub-tab Filtering ==================== */
 let activeTicketDateGroup = 'all';
 
@@ -2313,6 +2362,7 @@ window.applyTicketDateFilter = function() {
             card.style.display = 'none';
         }
     });
+    checkEmptyStateTickets();
 };
 
 /* ==================== Date Sub-tab Filtering ==================== */
@@ -2333,6 +2383,7 @@ function filterDateTab(btn, cardId, dateGroup) {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 /* ==================== Goals Market Sub-tab Filtering ==================== */
@@ -2377,6 +2428,7 @@ function applyGoalsAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 function filterGoalsMarket(btn, market) {
@@ -2426,6 +2478,7 @@ function applyDCOverAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 window.filterDCOverMarket = function(btn, market) {
@@ -2475,6 +2528,7 @@ function applyDCBTTSAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 window.filterDCBTTSMarket = function(btn, market) {
@@ -2521,6 +2575,7 @@ function applyCornersAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 window.filterCornersMarket = function(btn, market) {
@@ -2575,6 +2630,7 @@ function applyCardsAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 window.filterCardsMarket = function(btn, market) {
@@ -2652,6 +2708,7 @@ function applyShotsTotalAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 window.filterShotsTotalMarket = function(btn, market) {
@@ -2706,6 +2763,7 @@ function applyShotsTargetAllFilters() {
             row.classList.add('hidden-tip');
         }
     });
+    checkEmptyStateList(list);
 }
 
 window.filterShotsTargetMarket = function(btn, market) {
