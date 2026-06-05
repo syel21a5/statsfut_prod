@@ -1,4 +1,4 @@
-﻿"""
+"""
 tor_league_updater.py
 =====================
 Comando Django para atualizar ligas secundárias (2ª divisão etc.)
@@ -58,16 +58,96 @@ SECONDARY_LEAGUES = [
         "division": 1,
         "year": 2026,
     },
-    # Para adicionar mais ligas secundárias, basta copiar o bloco acima e preencher:
-    # {
-    #     "key": "serie_b_brasil",
-    #     "tournament_id": XXX,
-    #     "season_id": XXXXX,
-    #     "name": "Série B",
-    #     "country": "Brasil",
-    #     "division": 2,
-    #     "year": 2026,
-    # },
+    {
+        "key": "serie_b_brasil",
+        "tournament_id": 390,
+        "season_id": 89840,
+        "name": "Série B",
+        "country": "Brasil",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "serie_c_brasil",
+        "tournament_id": 1281,
+        "season_id": 90642,
+        "name": "Série C",
+        "country": "Brasil",
+        "division": 3,
+        "year": 2026,
+    },
+    {
+        "key": "primera_b_argentina",
+        "tournament_id": 1347,
+        "season_id": 87941,
+        "name": "Primera B",
+        "country": "Argentina",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "primera_b_chile",
+        "tournament_id": 1240,
+        "season_id": 89007,
+        "name": "Primera B",
+        "country": "Chile",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "serie_b_ecuador",
+        "tournament_id": 10240,
+        "season_id": 90244,
+        "name": "Serie B",
+        "country": "Equador",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "usl_usa",
+        "tournament_id": 13363,
+        "season_id": 87611,
+        "name": "USL Championship",
+        "country": "Estados Unidos",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "1st_division_noruega",
+        "tournament_id": 22,
+        "season_id": 87867,
+        "name": "1st Division",
+        "country": "Noruega",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "superettan_suecia",
+        "tournament_id": 46,
+        "season_id": 87924,
+        "name": "Superettan",
+        "country": "Suecia",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "ykkosliiga_finlandia",
+        "tournament_id": 55,
+        "season_id": 88387,
+        "name": "Ykkösliiga",
+        "country": "Finlandia",
+        "division": 2,
+        "year": 2026,
+    },
+    {
+        "key": "1deild_islandia",
+        "tournament_id": 675,
+        "season_id": 89207,
+        "name": "1. deild",
+        "country": "Islandia",
+        "division": 2,
+        "year": 2026,
+    },
 ]
 
 USER_AGENTS = [
