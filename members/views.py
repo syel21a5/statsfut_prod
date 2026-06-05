@@ -725,12 +725,14 @@ def premium_dashboard(request):
                 'stats': day_stats
             })
 
-    # Sort: group by date_group first, then probability desc (best opportunities on top)
-    sort_func = lambda x: (get_date_group_order(x['sort_date']), -x['prob'])
+    # Primeiro: ordenar por maior probabilidade geral
+    prob_sort_func = lambda x: (-x['prob'], x['sort_date'] if x['sort_date'] else now_br)
     MAX_TIPS_PER_CATEGORY = 30  # Mostrar apenas as top 30 melhores por categoria
+    
     for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
-        lst.sort(key=sort_func)
-    # Limitar cada categoria às melhores oportunidades
+        lst.sort(key=prob_sort_func)
+
+    # Limitar cada categoria às melhores oportunidades gerais
     tips_goals = tips_goals[:MAX_TIPS_PER_CATEGORY]
     tips_btts = tips_btts[:MAX_TIPS_PER_CATEGORY]
     tips_result = tips_result[:MAX_TIPS_PER_CATEGORY]
@@ -740,6 +742,11 @@ def premium_dashboard(request):
     tips_shots = tips_shots[:MAX_TIPS_PER_CATEGORY]
     tips_dc_over = tips_dc_over[:MAX_TIPS_PER_CATEGORY]
     tips_dc_btts = tips_dc_btts[:MAX_TIPS_PER_CATEGORY]
+
+    # Segundo: reordenar as top 30 para agrupar as datas corretamente no template
+    date_sort_func = lambda x: (get_date_group_order(x['sort_date']), -x['prob'])
+    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
+        lst.sort(key=date_sort_func)
 
     # Split corners and cards categories for side-by-side display
     tips_corners_over = [x for x in tips_corners if x['market'].startswith('CORNERS_OVER_')]
