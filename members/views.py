@@ -132,11 +132,12 @@ def premium_dashboard(request):
     from matches.models import ScannerTip, Goal
     
     from django.core.cache import cache
+    # Para evitar que a página demore a carregar, rodamos essa avaliação pesada no máximo a cada 3 minutos.
+    finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
     if not cache.get('premium_dashboard_eval_lock'):
         cache.set('premium_dashboard_eval_lock', 'locked', 180)
         # 1. Avaliar Dicas do Scanner Inteligente
         #    Inclui PENDING (normal) + GREEN/RED recentes (re-avaliação caso placar mude)
-        finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
         three_days_ago = timezone.now() - timedelta(days=3)
     
         tips_to_resolve = ScannerTip.objects.filter(
