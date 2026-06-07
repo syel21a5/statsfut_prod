@@ -9,6 +9,16 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     is_premium = models.BooleanField(default=False, help_text="Usuário tem acesso premium ativo?")
     premium_until = models.DateTimeField(null=True, blank=True, help_text="Data de expiração do premium")
+    PLAN_CHOICES = [
+        ('popular', 'Popular'),
+        ('vip', 'VIP'),
+    ]
+    plan_type = models.CharField(
+        max_length=10,
+        choices=PLAN_CHOICES,
+        default='popular',
+        help_text="Tipo de plano premium do usuário"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

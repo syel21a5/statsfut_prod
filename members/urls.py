@@ -10,4 +10,6 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('premium/', views.premium_dashboard, name='premium_dashboard'),
     path('plans/', views.paywall_view, name='paywall'),
+    path('webhook/kiwify/', views.kiwify_webhook, name='webhook_kiwify'),
+    path('webhook/stripe/', views.stripe_webhook, name='webhook_stripe'),
 ]

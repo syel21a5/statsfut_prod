@@ -1468,7 +1468,30 @@
     <!-- ====================================================================== -->
     <div class="tab-pane fade" id="tickets-pane" role="tabpanel" aria-labelledby="tickets-tab" tabindex="0">
         {% if is_premium %}
-            {% cache 7200 premium_tickets_pane request.LANGUAGE_CODE %}
+            {% if not is_vip %}
+                <!-- Paywall for Popular plan users (Upsell to VIP) -->
+                <div class="p-5 rounded-4 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(30,30,45,1) 0%, rgba(15,15,25,1) 100%); border: 1px solid rgba(245,158,11,0.25);">
+                    <!-- Blurred preview -->
+                    <div class="filter-blur" style="filter: blur(8px); opacity: 0.12; pointer-events: none; margin-bottom: 2rem;">
+                        <div class="d-flex justify-content-center gap-4 mb-4 flex-wrap">
+                            <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div>
+                            <div class="card p-4" style="width: 300px; height: 180px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);"></div>
+                        </div>
+                    </div>
+
+                    <div class="position-relative z-index-1 py-4">
+                        <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-4" style="width: 72px; height: 72px; background: linear-gradient(135deg, #f59e0b, #f97316); box-shadow: 0 4px 20px rgba(245,158,11,0.3);">
+                            <i class="fa-solid fa-lock text-white fa-2x"></i>
+                        </div>
+                        <h3 class="text-white fw-bold mb-3">⭐ {% translate "Disponível apenas no Plano VIP" %}</h3>
+                        <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">{% translate "O seu Plano Popular dá acesso total ao Scanner de Previsões. Faça o upgrade para o Plano VIP por apenas mais R$ 18/mês para liberar as Estratégias Prontas (Duplas/Triplas do robô)!" %}</p>
+                        <a href="{% url 'members:paywall' %}" class="btn btn-lg fw-bold px-5 text-white" style="border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #f97316); border: none; box-shadow: 0 4px 15px rgba(245,158,11,0.3);">
+                            <i class="fa-solid fa-crown me-2"></i>{% translate "Fazer Upgrade para VIP" %}
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                {% cache 7200 premium_tickets_pane request.LANGUAGE_CODE %}
             <style>
                 .ticket-sub-tab {
                     background: rgba(255, 255, 255, 0.03) !important;
@@ -1927,6 +1950,7 @@
                 {% endif %}
             </div>
             {% endcache %}
+            {% endif %}
 
         {% else %}
             <!-- Paywall for free users -->

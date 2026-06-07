@@ -105,10 +105,13 @@ from matches.services.advanced_stats import MatchAnalyzer
 def premium_dashboard(request):
     """Dashboard premium: Scanner Inteligente das Melhores Oportunidades do Dia."""
     is_premium = False
+    is_vip = False
     if request.user.is_superuser or request.user.is_staff:
         is_premium = True
+        is_vip = True
     elif hasattr(request.user, 'profile'):
         is_premium = request.user.profile.is_premium_active
+        is_vip = is_premium and (request.user.profile.plan_type == 'vip')
 
     br_tz = ZoneInfo('America/Sao_Paulo')
     now_br = timezone.now().astimezone(br_tz)
@@ -804,6 +807,7 @@ def premium_dashboard(request):
 
     context = {
         'is_premium': True,
+        'is_vip': is_vip,
         # Legacy
         'high_ht_goals': high_ht_goals,
         'high_over15': high_over15,
@@ -859,3 +863,168 @@ def premium_dashboard(request):
 def paywall_view(request):
     """Página que mostra os planos para quem não é premium."""
     return render(request, 'members/paywall.html')
+
+
+import json
+import logging
+from django.conf import settings
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from members.models import UserProfile
+from django.utils import timezone
+from datetime import timedelta
+
+logger = logging.getLogger(__name__)
+
+
+@csrf_exempt
+def kiwify_webhook(request):
+    """
+    Webhook da Kiwify para ativação automática de planos premium.
+    Segurança: verificar query param ?secret=TOKEN
+    """
+    secret_token = request.GET.get('secret')
+    EXPECTED_SECRET = getattr(settings, 'KIWIFY_WEBHOOK_SECRET', 'statsfut_kiwify_key_2026')
+    if secret_token != EXPECTED_SECRET:
+        return HttpResponse("Unauthorized", status=401)
+
+    if request.method != 'POST':
+        return HttpResponse("Method Not Allowed", status=405)
+
+    try:
+        data = json.loads(request.body)
+        order_status = data.get('order_status')
+        customer = data.get('Customer', {}) or {}
+        email = customer.get('email')
+        product_name = data.get('product_name', '').lower()
+        
+        if not email:
+            return JsonResponse({'status': 'ignored', 'message': 'No customer email'}, status=400)
+
+        plan_type = 'popular'
+        if 'vip' in product_name or 'best' in product_name:
+            plan_type = 'vip'
+
+        days = 30
+        plan_info = data.get('plan', {}) or {}
+        frequency = plan_info.get('frequency', 'mensal').lower()
+        if 'tri' in frequency or '3' in frequency or 'quarter' in frequency:
+            days = 90
+
+        if order_status in ['paid', 'approved', 'subscription_renewed']:
+            user, created = User.objects.get_or_create(
+                email=email,
+                defaults={
+                    'username': email.split('@')[0] + '_sf',
+                    'is_active': True
+                }
+            )
+            if created:
+                user.set_password(User.objects.make_random_password())
+                user.save()
+
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            profile.is_premium = True
+            profile.plan_type = plan_type
+            profile.premium_until = timezone.now() + timedelta(days=days)
+            profile.save()
+
+            logger.info(f"Kiwify webhook: Activated {plan_type} premium for user {email} until {profile.premium_until}")
+            return JsonResponse({'status': 'success', 'message': 'Premium activated'})
+
+        elif order_status in ['refunded', 'canceled', 'chargeback']:
+            try:
+                user = User.objects.get(email=email)
+                profile = user.profile
+                profile.is_premium = False
+                profile.save()
+                logger.info(f"Kiwify: Deactivated premium for user {email}")
+                return JsonResponse({'status': 'success', 'message': 'Premium deactivated'})
+            except User.DoesNotExist:
+                return JsonResponse({'status': 'ignored', 'message': 'User not found'})
+
+        return JsonResponse({'status': 'ignored', 'message': f'Status {order_status} ignored'})
+
+    except Exception as e:
+        logger.error(f"Error in Kiwify webhook: {str(e)}")
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    """
+    Webhook da Stripe para ativação automática de planos premium.
+    Segurança: verificar query param ?secret=TOKEN
+    """
+    secret_token = request.GET.get('secret')
+    EXPECTED_SECRET = getattr(settings, 'STRIPE_WEBHOOK_SECRET', 'statsfut_stripe_key_2026')
+    if secret_token != EXPECTED_SECRET:
+        return HttpResponse("Unauthorized", status=401)
+
+    if request.method != 'POST':
+        return HttpResponse("Method Not Allowed", status=405)
+
+    try:
+        data = json.loads(request.body)
+        event_type = data.get('type')
+
+        if event_type == 'checkout.session.completed':
+            session = data.get('data', {}).get('object', {})
+            email = session.get('customer_details', {}).get('email')
+            if not email:
+                email = session.get('customer_email')
+
+            if not email:
+                return JsonResponse({'status': 'ignored', 'message': 'No customer email'}, status=400)
+
+            plan_type = 'popular'
+            description = session.get('description', '') or ''
+            description = description.lower()
+            if 'vip' in description or 'best' in description:
+                plan_type = 'vip'
+
+            days = 30
+            if 'tri' in description or '3' in description or 'quarter' in description:
+                days = 90
+
+            user, created = User.objects.get_or_create(
+                email=email,
+                defaults={
+                    'username': email.split('@')[0] + '_sf',
+                    'is_active': True
+                }
+            )
+            if created:
+                user.set_password(User.objects.make_random_password())
+                user.save()
+
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            profile.is_premium = True
+            profile.plan_type = plan_type
+            profile.premium_until = timezone.now() + timedelta(days=days)
+            profile.save()
+
+            logger.info(f"Stripe: Activated {plan_type} premium for {email}")
+            return JsonResponse({'status': 'success', 'message': 'Premium activated'})
+
+        elif event_type in ['customer.subscription.deleted', 'invoice.payment_failed']:
+            subscription = data.get('data', {}).get('object', {})
+            email = subscription.get('customer_email')
+            if email:
+                try:
+                    user = User.objects.get(email=email)
+                    profile = user.profile
+                    profile.is_premium = False
+                    profile.save()
+                    logger.info(f"Stripe: Deactivated premium for {email}")
+                    return JsonResponse({'status': 'success', 'message': 'Premium deactivated'})
+                except User.DoesNotExist:
+                    pass
+
+        return JsonResponse({'status': 'ignored', 'message': f'Event {event_type} ignored'})
+
+    except Exception as e:
+        logger.error(f"Error in Stripe webhook: {str(e)}")
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
