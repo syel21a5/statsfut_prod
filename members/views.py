@@ -131,259 +131,262 @@ def premium_dashboard(request):
     # ----------------- ROBÔ DE AVALIAÇÃO EM TEMPO REAL -----------------
     from matches.models import ScannerTip, Goal
     
-    # 1. Avaliar Dicas do Scanner Inteligente
-    #    Inclui PENDING (normal) + GREEN/RED recentes (re-avaliação caso placar mude)
-    finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
-    three_days_ago = timezone.now() - timedelta(days=3)
+    from django.core.cache import cache
+    if not cache.get('premium_dashboard_eval_lock'):
+        cache.set('premium_dashboard_eval_lock', 'locked', 180)
+        # 1. Avaliar Dicas do Scanner Inteligente
+        #    Inclui PENDING (normal) + GREEN/RED recentes (re-avaliação caso placar mude)
+        finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
+        three_days_ago = timezone.now() - timedelta(days=3)
     
-    tips_to_resolve = ScannerTip.objects.filter(
-        match__status__in=finished_statuses,
-        match__date__gte=three_days_ago
-    ).select_related('match')
+        tips_to_resolve = ScannerTip.objects.filter(
+            match__status__in=finished_statuses,
+            match__date__gte=three_days_ago
+        ).select_related('match')
     
-    for tip in tips_to_resolve:
-        m = tip.match
-        if m.home_score is None or m.away_score is None:
-            continue
-        total_goals = m.home_score + m.away_score
-        is_green = False
+        for tip in tips_to_resolve:
+            m = tip.match
+            if m.home_score is None or m.away_score is None:
+                continue
+            total_goals = m.home_score + m.away_score
+            is_green = False
         
-        try:
-            if tip.market == 'HT_GOAL':
-                goals_ht = m.goals.filter(minute__lte=45).exists()
-                is_green = goals_ht
-            elif tip.market == 'HT_GOALS_NOT_2_4':
-                if m.ht_home_score is not None and m.ht_away_score is not None:
-                    ht_g = m.ht_home_score + m.ht_away_score
-                    is_green = not (2 <= ht_g <= 4)
-                else:
-                    goals_ht_count = m.goals.filter(minute__lte=45).count()
-                    is_green = not (2 <= goals_ht_count <= 4)
-            elif tip.market == 'SH_GOALS_NOT_2_4':
-                if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
-                    sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
-                    is_green = not (2 <= sh_g <= 4)
-                else:
-                    goals_sh_count = m.goals.filter(minute__gt=45).count()
-                    is_green = not (2 <= goals_sh_count <= 4)
-            elif tip.market.startswith('DC_1X_UNDER_'):
-                line = float(tip.market.split('_')[-1]) / 10.0
-                has_dc = m.home_score >= m.away_score
-                has_under = total_goals < line
-                is_green = has_dc and has_under
-            elif tip.market.startswith('DC_X2_UNDER_'):
-                line = float(tip.market.split('_')[-1]) / 10.0
-                has_dc = m.away_score >= m.home_score
-                has_under = total_goals < line
-                is_green = has_dc and has_under
-            elif tip.market == 'OVER_05':
-                is_green = total_goals >= 1
-            elif tip.market == 'OVER_15':
-                is_green = total_goals >= 2
-            elif tip.market == 'OVER_25':
-                is_green = total_goals >= 3
-            elif tip.market == 'OVER_35':
-                is_green = total_goals >= 4
-            elif tip.market == 'UNDER_35':
-                is_green = total_goals <= 3
-            elif tip.market == 'UNDER_45':
-                is_green = total_goals <= 4
-            elif tip.market == 'UNDER_55':
-                is_green = total_goals <= 5
-            elif tip.market == 'UNDER_65':
-                is_green = total_goals <= 6
-            elif tip.market == 'BTTS':
-                is_green = (m.home_score > 0 and m.away_score > 0)
-            elif tip.market == 'HOME_WIN':
-                is_green = m.home_score > m.away_score
-            elif tip.market == 'AWAY_WIN':
-                is_green = m.away_score > m.home_score
-            elif tip.market == 'DC_1X':
-                is_green = m.home_score >= m.away_score
-            elif tip.market == 'DC_X2':
-                is_green = m.away_score >= m.home_score
-            elif tip.market == 'DNB_HOME':
-                is_green = m.home_score > m.away_score
-            elif tip.market == 'DNB_AWAY':
-                is_green = m.away_score > m.home_score
-            elif tip.market == 'FIRST_SCORE_HOME':
-                first_goal = m.goals.order_by('minute').first()
-                if first_goal:
-                    is_green = first_goal.team_id == m.home_team_id
-                else:
-                    is_green = m.home_score > 0 and m.away_score == 0
-            elif tip.market == 'FIRST_SCORE_AWAY':
-                first_goal = m.goals.order_by('minute').first()
-                if first_goal:
-                    is_green = first_goal.team_id == m.away_team_id
-                else:
-                    is_green = m.away_score > 0 and m.home_score == 0
-            elif tip.market.startswith('CORNERS_OVER_'):
-                if m.home_corners is not None and m.away_corners is not None:
-                    try:
-                        line = float(tip.market.split('_')[-1]) / 10.0
-                    except ValueError:
-                        line = 9.5
-                    is_green = (m.home_corners + m.away_corners) > line
+            try:
+                if tip.market == 'HT_GOAL':
+                    goals_ht = m.goals.filter(minute__lte=45).exists()
+                    is_green = goals_ht
+                elif tip.market == 'HT_GOALS_NOT_2_4':
+                    if m.ht_home_score is not None and m.ht_away_score is not None:
+                        ht_g = m.ht_home_score + m.ht_away_score
+                        is_green = not (2 <= ht_g <= 4)
+                    else:
+                        goals_ht_count = m.goals.filter(minute__lte=45).count()
+                        is_green = not (2 <= goals_ht_count <= 4)
+                elif tip.market == 'SH_GOALS_NOT_2_4':
+                    if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
+                        sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
+                        is_green = not (2 <= sh_g <= 4)
+                    else:
+                        goals_sh_count = m.goals.filter(minute__gt=45).count()
+                        is_green = not (2 <= goals_sh_count <= 4)
+                elif tip.market.startswith('DC_1X_UNDER_'):
+                    line = float(tip.market.split('_')[-1]) / 10.0
+                    has_dc = m.home_score >= m.away_score
+                    has_under = total_goals < line
+                    is_green = has_dc and has_under
+                elif tip.market.startswith('DC_X2_UNDER_'):
+                    line = float(tip.market.split('_')[-1]) / 10.0
+                    has_dc = m.away_score >= m.home_score
+                    has_under = total_goals < line
+                    is_green = has_dc and has_under
+                elif tip.market == 'OVER_05':
+                    is_green = total_goals >= 1
+                elif tip.market == 'OVER_15':
+                    is_green = total_goals >= 2
+                elif tip.market == 'OVER_25':
+                    is_green = total_goals >= 3
+                elif tip.market == 'OVER_35':
+                    is_green = total_goals >= 4
+                elif tip.market == 'UNDER_35':
+                    is_green = total_goals <= 3
+                elif tip.market == 'UNDER_45':
+                    is_green = total_goals <= 4
+                elif tip.market == 'UNDER_55':
+                    is_green = total_goals <= 5
+                elif tip.market == 'UNDER_65':
+                    is_green = total_goals <= 6
+                elif tip.market == 'BTTS':
+                    is_green = (m.home_score > 0 and m.away_score > 0)
+                elif tip.market == 'HOME_WIN':
+                    is_green = m.home_score > m.away_score
+                elif tip.market == 'AWAY_WIN':
+                    is_green = m.away_score > m.home_score
+                elif tip.market == 'DC_1X':
+                    is_green = m.home_score >= m.away_score
+                elif tip.market == 'DC_X2':
+                    is_green = m.away_score >= m.home_score
+                elif tip.market == 'DNB_HOME':
+                    is_green = m.home_score > m.away_score
+                elif tip.market == 'DNB_AWAY':
+                    is_green = m.away_score > m.home_score
+                elif tip.market == 'FIRST_SCORE_HOME':
+                    first_goal = m.goals.order_by('minute').first()
+                    if first_goal:
+                        is_green = first_goal.team_id == m.home_team_id
+                    else:
+                        is_green = m.home_score > 0 and m.away_score == 0
+                elif tip.market == 'FIRST_SCORE_AWAY':
+                    first_goal = m.goals.order_by('minute').first()
+                    if first_goal:
+                        is_green = first_goal.team_id == m.away_team_id
+                    else:
+                        is_green = m.away_score > 0 and m.home_score == 0
+                elif tip.market.startswith('CORNERS_OVER_'):
+                    if m.home_corners is not None and m.away_corners is not None:
+                        try:
+                            line = float(tip.market.split('_')[-1]) / 10.0
+                        except ValueError:
+                            line = 9.5
+                        is_green = (m.home_corners + m.away_corners) > line
+                    else:
+                        continue
+                elif tip.market == 'CORNER_WIN_H':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = m.home_corners > m.away_corners
+                    else:
+                        continue
+                elif tip.market == 'CORNER_WIN_A':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        is_green = m.away_corners > m.home_corners
+                    else:
+                        continue
+                elif tip.market.startswith('CARDS_OVER_'):
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        try:
+                            line = float(tip.market.split('_')[-1]) / 10.0
+                        except ValueError:
+                            line = 4.5
+                        is_green = (m.home_yellow + m.away_yellow) > line
+                    else:
+                        continue
+                elif tip.market == 'CARD_WIN_H':
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        is_green = m.home_yellow > m.away_yellow
+                    else:
+                        continue
+                elif tip.market == 'CARD_WIN_A':
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        is_green = m.away_yellow > m.home_yellow
+                    else:
+                        continue
                 else:
                     continue
-            elif tip.market == 'CORNER_WIN_H':
-                if m.home_corners is not None and m.away_corners is not None:
-                    is_green = m.home_corners > m.away_corners
-                else:
-                    continue
-            elif tip.market == 'CORNER_WIN_A':
-                if m.home_corners is not None and m.away_corners is not None:
-                    is_green = m.away_corners > m.home_corners
-                else:
-                    continue
-            elif tip.market.startswith('CARDS_OVER_'):
-                if m.home_yellow is not None and m.away_yellow is not None:
-                    try:
-                        line = float(tip.market.split('_')[-1]) / 10.0
-                    except ValueError:
-                        line = 4.5
-                    is_green = (m.home_yellow + m.away_yellow) > line
-                else:
-                    continue
-            elif tip.market == 'CARD_WIN_H':
-                if m.home_yellow is not None and m.away_yellow is not None:
-                    is_green = m.home_yellow > m.away_yellow
-                else:
-                    continue
-            elif tip.market == 'CARD_WIN_A':
-                if m.home_yellow is not None and m.away_yellow is not None:
-                    is_green = m.away_yellow > m.home_yellow
-                else:
-                    continue
-            else:
-                continue
 
-            new_status = 'GREEN' if is_green else 'RED'
-            if tip.status != new_status:
-                tip.status = new_status
-                tip.save(update_fields=['status', 'updated_at'])
-        except Exception:
-            pass
+                new_status = 'GREEN' if is_green else 'RED'
+                if tip.status != new_status:
+                    tip.status = new_status
+                    tip.save(update_fields=['status', 'updated_at'])
+            except Exception:
+                pass
 
-    # 2. Avaliar Bilhetes Pendentes (Estratégias Prontas)
-    pending_tickets_to_resolve = BetTicket.objects.filter(status='Pending')
-    for ticket in pending_tickets_to_resolve:
-        selections = ticket.selections.all()
-        all_resolved = True
-        any_red = False
-        any_pending = False
+        # 2. Avaliar Bilhetes Pendentes (Estratégias Prontas)
+        pending_tickets_to_resolve = BetTicket.objects.filter(status='Pending')
+        for ticket in pending_tickets_to_resolve:
+            selections = ticket.selections.all()
+            all_resolved = True
+            any_red = False
+            any_pending = False
 
-        for sel in selections:
-            m = sel.match
+            for sel in selections:
+                m = sel.match
             
-            if sel.status == 'Void':
-                continue
-            if sel.status in ['Green', 'Red']:
-                if sel.status == 'Red':
-                    any_red = True
-                continue
+                if sel.status == 'Void':
+                    continue
+                if sel.status in ['Green', 'Red']:
+                    if sel.status == 'Red':
+                        any_red = True
+                    continue
 
-            is_postponed = m.status in ['POSTPONED', 'Postponed', 'CANCELLED', 'Cancelled', 'SUSPENDED', 'Suspended', 'TBD']
-            is_stale = False
-            if m.date and m.status not in ['FT', 'Finished', 'Concluded']:
-                is_stale = (timezone.now() - m.date).total_seconds() > (36 * 3600)
+                is_postponed = m.status in ['POSTPONED', 'Postponed', 'CANCELLED', 'Cancelled', 'SUSPENDED', 'Suspended', 'TBD']
+                is_stale = False
+                if m.date and m.status not in ['FT', 'Finished', 'Concluded']:
+                    is_stale = (timezone.now() - m.date).total_seconds() > (36 * 3600)
 
-            if is_postponed or is_stale:
-                if sel.status != 'Void':
-                    sel.status = 'Void'
-                    sel.save(update_fields=['status'])
-                continue
+                if is_postponed or is_stale:
+                    if sel.status != 'Void':
+                        sel.status = 'Void'
+                        sel.save(update_fields=['status'])
+                    continue
 
-            is_finished = m.status in ['FT', 'Finished', 'Concluded'] or (m.home_score is not None and m.away_score is not None)
+                is_finished = m.status in ['FT', 'Finished', 'Concluded'] or (m.home_score is not None and m.away_score is not None)
             
-            if not is_finished:
-                any_pending = True
-                all_resolved = False
-                continue
+                if not is_finished:
+                    any_pending = True
+                    all_resolved = False
+                    continue
 
-            home_score = m.home_score or 0
-            away_score = m.away_score or 0
-            total_goals = home_score + away_score
-            ht_home = m.ht_home_score or 0
-            ht_away = m.ht_away_score or 0
-            ht_goals = ht_home + ht_away
+                home_score = m.home_score or 0
+                away_score = m.away_score or 0
+                total_goals = home_score + away_score
+                ht_home = m.ht_home_score or 0
+                ht_away = m.ht_away_score or 0
+                ht_goals = ht_home + ht_away
 
-            result = 'Pending'
+                result = 'Pending'
 
-            if sel.prediction_market == 'over_15':
-                result = 'Green' if total_goals >= 2 else 'Red'
-            elif sel.prediction_market == 'ht_goal':
-                result = 'Green' if ht_goals >= 1 else 'Red'
-            elif sel.prediction_market == 'over_25':
-                result = 'Green' if total_goals >= 3 else 'Red'
-            elif sel.prediction_market == 'over_05':
-                result = 'Green' if total_goals >= 1 else 'Red'
-            elif sel.prediction_market == 'under_35':
-                result = 'Green' if total_goals <= 3 else 'Red'
-            elif sel.prediction_market == 'btts':
-                result = 'Green' if (home_score > 0 and away_score > 0) else 'Red'
-            elif sel.prediction_market == 'btts_no':
-                result = 'Green' if not (home_score > 0 and away_score > 0) else 'Red'
-            elif sel.prediction_market == 'home_win':
-                result = 'Green' if home_score > away_score else 'Red'
-            elif sel.prediction_market == 'away_win':
-                result = 'Green' if away_score > home_score else 'Red'
-            elif sel.prediction_market == 'double_chance_1x':
-                result = 'Green' if home_score >= away_score else 'Red'
-            elif sel.prediction_market == 'double_chance_x2':
-                result = 'Green' if away_score >= home_score else 'Red'
-            elif sel.prediction_market == 'over_95_corners':
-                if m.home_corners is not None and m.away_corners is not None:
-                    result = 'Green' if (m.home_corners + m.away_corners) >= 10 else 'Red'
+                if sel.prediction_market == 'over_15':
+                    result = 'Green' if total_goals >= 2 else 'Red'
+                elif sel.prediction_market == 'ht_goal':
+                    result = 'Green' if ht_goals >= 1 else 'Red'
+                elif sel.prediction_market == 'over_25':
+                    result = 'Green' if total_goals >= 3 else 'Red'
+                elif sel.prediction_market == 'over_05':
+                    result = 'Green' if total_goals >= 1 else 'Red'
+                elif sel.prediction_market == 'under_35':
+                    result = 'Green' if total_goals <= 3 else 'Red'
+                elif sel.prediction_market == 'btts':
+                    result = 'Green' if (home_score > 0 and away_score > 0) else 'Red'
+                elif sel.prediction_market == 'btts_no':
+                    result = 'Green' if not (home_score > 0 and away_score > 0) else 'Red'
+                elif sel.prediction_market == 'home_win':
+                    result = 'Green' if home_score > away_score else 'Red'
+                elif sel.prediction_market == 'away_win':
+                    result = 'Green' if away_score > home_score else 'Red'
+                elif sel.prediction_market == 'double_chance_1x':
+                    result = 'Green' if home_score >= away_score else 'Red'
+                elif sel.prediction_market == 'double_chance_x2':
+                    result = 'Green' if away_score >= home_score else 'Red'
+                elif sel.prediction_market == 'over_95_corners':
+                    if m.home_corners is not None and m.away_corners is not None:
+                        result = 'Green' if (m.home_corners + m.away_corners) >= 10 else 'Red'
+                    else:
+                        result = 'Void'
+                elif sel.prediction_market == 'home_first':
+                    first_goal = Goal.objects.filter(match=m).order_by('minute').first()
+                    if first_goal:
+                        result = 'Green' if first_goal.team == m.home_team else 'Red'
+                    else:
+                        result = 'Green' if home_score > 0 and away_score == 0 else 'Red'
+                elif sel.prediction_market == 'away_first':
+                    first_goal = Goal.objects.filter(match=m).order_by('minute').first()
+                    if first_goal:
+                        result = 'Green' if first_goal.team == m.away_team else 'Red'
+                    else:
+                        result = 'Green' if away_score > 0 and home_score == 0 else 'Red'
+                elif sel.prediction_market == 'dc_1x_2_4':
+                    result = 'Green' if (home_score >= away_score) and (2 <= total_goals <= 4) else 'Red'
+                elif sel.prediction_market == 'dc_x2_2_4':
+                    result = 'Green' if (away_score >= home_score) and (2 <= total_goals <= 4) else 'Red'
+                elif sel.prediction_market == 'over_25_yes':
+                    result = 'Green' if (total_goals >= 3) and (home_score > 0 and away_score > 0) else 'Red'
+                elif sel.prediction_market == 'under_25_no':
+                    result = 'Green' if (total_goals <= 2) and (not (home_score > 0 and away_score > 0)) else 'Red'
+                elif sel.prediction_market == 'most_goals_2t':
+                    goals_1t = ht_goals
+                    goals_2t = total_goals - ht_goals
+                    result = 'Green' if goals_2t > goals_1t else 'Red'
+                elif sel.prediction_market == 'home_score_2t':
+                    home_2t = home_score - ht_home
+                    result = 'Green' if home_2t > 0 else 'Red'
+                elif sel.prediction_market == 'away_score_2t':
+                    away_2t = away_score - ht_away
+                    result = 'Green' if away_2t > 0 else 'Red'
                 else:
                     result = 'Void'
-            elif sel.prediction_market == 'home_first':
-                first_goal = Goal.objects.filter(match=m).order_by('minute').first()
-                if first_goal:
-                    result = 'Green' if first_goal.team == m.home_team else 'Red'
-                else:
-                    result = 'Green' if home_score > 0 and away_score == 0 else 'Red'
-            elif sel.prediction_market == 'away_first':
-                first_goal = Goal.objects.filter(match=m).order_by('minute').first()
-                if first_goal:
-                    result = 'Green' if first_goal.team == m.away_team else 'Red'
-                else:
-                    result = 'Green' if away_score > 0 and home_score == 0 else 'Red'
-            elif sel.prediction_market == 'dc_1x_2_4':
-                result = 'Green' if (home_score >= away_score) and (2 <= total_goals <= 4) else 'Red'
-            elif sel.prediction_market == 'dc_x2_2_4':
-                result = 'Green' if (away_score >= home_score) and (2 <= total_goals <= 4) else 'Red'
-            elif sel.prediction_market == 'over_25_yes':
-                result = 'Green' if (total_goals >= 3) and (home_score > 0 and away_score > 0) else 'Red'
-            elif sel.prediction_market == 'under_25_no':
-                result = 'Green' if (total_goals <= 2) and (not (home_score > 0 and away_score > 0)) else 'Red'
-            elif sel.prediction_market == 'most_goals_2t':
-                goals_1t = ht_goals
-                goals_2t = total_goals - ht_goals
-                result = 'Green' if goals_2t > goals_1t else 'Red'
-            elif sel.prediction_market == 'home_score_2t':
-                home_2t = home_score - ht_home
-                result = 'Green' if home_2t > 0 else 'Red'
-            elif sel.prediction_market == 'away_score_2t':
-                away_2t = away_score - ht_away
-                result = 'Green' if away_2t > 0 else 'Red'
-            else:
-                result = 'Void'
 
-            if sel.status != result:
-                sel.status = result
-                sel.save(update_fields=['status'])
+                if sel.status != result:
+                    sel.status = result
+                    sel.save(update_fields=['status'])
 
-            if result == 'Red':
-                any_red = True
+                if result == 'Red':
+                    any_red = True
 
-        if any_red:
-            ticket.status = 'Red'
-            ticket.save(update_fields=['status'])
-        elif not any_pending and all_resolved:
-            ticket.status = 'Green'
-            ticket.save(update_fields=['status'])
+            if any_red:
+                ticket.status = 'Red'
+                ticket.save(update_fields=['status'])
+            elif not any_pending and all_resolved:
+                ticket.status = 'Green'
+                ticket.save(update_fields=['status'])
 
     # Buscar Bilhetes Prontos (Estratégias) - Atualizados em tempo real e ordenados por tipo!
     active_tickets = BetTicket.objects.filter(
