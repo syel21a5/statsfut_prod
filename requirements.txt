@@ -9,3 +9,8 @@ beautifulsoup4==4.12.2
 schedule==1.2.1
 pytz==2024.1
 curl_cffi==0.6.2
+
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+Pillow

@@ -83,3 +83,11 @@ video_maker/
 core/templates/video_maker/
 media/videos/
 *.mp4
+
+# Blogger Automation
+blogger/
+token.json
+client_secrets.json
+
+client_secrets.json
+token.json
