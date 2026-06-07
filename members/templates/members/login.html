@@ -95,4 +95,19 @@
         border-color: var(--primary);
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var loginForm = document.getElementById('login-form');
+        var btnLogin = document.getElementById('btn-login');
+        
+        if (loginForm && btnLogin) {
+            loginForm.addEventListener('submit', function() {
+                // Disable button to prevent double-click CSRF errors on mobile
+                btnLogin.disabled = true;
+                btnLogin.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>{% translate "Signing in..." %}';
+            });
+        }
+    });
+</script>
 {% endblock %}

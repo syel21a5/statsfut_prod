@@ -1539,10 +1539,10 @@
 
                 <!-- Filtro de datas para Bilhetes Prontos -->
                 <div class="col-12 d-flex flex-wrap align-items-center gap-2 mb-4 mt-2">
-                    <button class="btn btn-sm ticket-date-btn active" onclick="filterTicketDateTab(this, 'all')">
+                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'all')">
                         ✨ {% translate "Todos" %}
                     </button>
-                    <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Today" %}')">
+                    <button class="btn btn-sm ticket-date-btn active" onclick="filterTicketDateTab(this, '{% translate "Today" %}')">
                         📅 {% translate "Hoje" %}
                     </button>
                     <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Tomorrow" %}')">
@@ -2348,7 +2348,7 @@ function checkEmptyStateTickets() {
 }
 
 /* ==================== Ticket Date Sub-tab Filtering ==================== */
-let activeTicketDateGroup = 'all';
+let activeTicketDateGroup = '{% translate "Today" %}';
 
 window.filterTicketDateTab = function(btn, dateGroup) {
     document.querySelectorAll('.ticket-date-btn').forEach(b => b.classList.remove('active'));
