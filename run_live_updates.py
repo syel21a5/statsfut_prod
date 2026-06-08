@@ -38,9 +38,8 @@ def job_upcoming():
 
 # --- Configuração do Agendamento ---
 
-# 1. Jogos AO VIVO: A cada 15 minutos
-# Motivo: Atualizar placares e status em tempo real
-schedule.every(15).minutes.do(job_live)
+# 1. Jogos AO VIVO: Desativado para economizar recursos e API
+# schedule.every(15).minutes.do(job_live)
 
 # 2. Resultados Recentes: A cada 1 hora
 # Motivo: Garantir que jogos finalizados apareçam rápido na tabela
@@ -56,14 +55,14 @@ print("========================================================")
 print("🚀 AGENDADOR DE ATUALIZAÇÕES API INICIADO")
 print("========================================================")
 print("Configuração:")
-print("   - Ao Vivo: a cada 15 minutos")
+print("   - Ao Vivo: DESATIVADO")
 print("   - Resultados Recentes: a cada 1 hora (NOVO)")
 print("   - Próximos (15 dias): a cada 4 horas")
 print("========================================================")
 print("Pressione Ctrl+C para parar.")
 
 # Executa uma vez imediatamente ao iniciar para garantir dados frescos
-job_live()
+# job_live() # Desativado
 job_recent()
 job_upcoming()
 
