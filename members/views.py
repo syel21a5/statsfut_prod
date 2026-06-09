@@ -131,6 +131,14 @@ def premium_dashboard(request):
         }
         return render(request, 'members/premium_dashboard.html', context)
 
+    # NOVO: Cache interno do Dashboard Premium para economizar CPU/MySQL
+    from django.core.cache import cache
+    cached_context = cache.get('premium_dashboard_context_v1')
+    if cached_context:
+        # A única coisa que pode variar de usuário pra usuário premium é o is_vip
+        cached_context['is_vip'] = is_vip
+        return render(request, 'members/premium_dashboard.html', cached_context)
+
     # ----------------- ROBÔ DE AVALIAÇÃO EM TEMPO REAL -----------------
     from matches.models import ScannerTip, Goal
     
@@ -159,67 +167,32 @@ def premium_dashboard(request):
                 if tip.market == 'HT_GOAL':
                     goals_ht = m.goals.filter(minute__lte=45).exists()
                     is_green = goals_ht
-                    
-                elif tip.market == 'DNB_HOME':
-                    if m.home_score == m.away_score:
-                        is_green = None # Represents VOID
+                elif tip.market == 'HT_GOALS_NOT_2_4':
+                    if m.ht_home_score is not None and m.ht_away_score is not None:
+                        ht_g = m.ht_home_score + m.ht_away_score
+                        is_green = not (2 <= ht_g <= 4)
                     else:
-                        is_green = m.home_score > m.away_score
-                        
-                elif tip.market == 'DNB_AWAY':
-                    if m.home_score == m.away_score:
-                        is_green = None
+                        goals_ht_count = m.goals.filter(minute__lte=45).count()
+                        is_green = not (2 <= goals_ht_count <= 4)
+                elif tip.market == 'SH_GOALS_NOT_2_4':
+                    if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
+                        sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
+                        is_green = not (2 <= sh_g <= 4)
                     else:
-                        is_green = m.away_score > m.home_score
-                        
-                elif tip.market == 'DC_1X':
-                    is_green = m.home_score >= m.away_score
-                    
-                elif tip.market == 'DC_X2':
-                    is_green = m.away_score >= m.home_score
-                    
-                elif tip.market == 'HOME_CS':
-                    is_green = m.away_score == 0
-                    
-                elif tip.market == 'AWAY_CS':
-                    is_green = m.home_score == 0
-                    
-                elif tip.market == 'HOME_WTN':
-                    is_green = m.home_score > m.away_score and m.away_score == 0
-                    
-                elif tip.market == 'AWAY_WTN':
-                    is_green = m.away_score > m.home_score and m.home_score == 0
-                    
-                elif tip.market == 'HC_HOME_M05':
-                    is_green = m.home_score > m.away_score
-                    
-                elif tip.market == 'OVER_05':
-                    is_green = total_goals >= 1
-
+                        goals_sh_count = m.goals.filter(minute__gt=45).count()
+                        is_green = not (2 <= goals_sh_count <= 4)
                 elif tip.market.startswith('DC_1X_UNDER_'):
                     line = float(tip.market.split('_')[-1]) / 10.0
                     has_dc = m.home_score >= m.away_score
                     has_under = total_goals < line
                     is_green = has_dc and has_under
-                    
                 elif tip.market.startswith('DC_X2_UNDER_'):
                     line = float(tip.market.split('_')[-1]) / 10.0
                     has_dc = m.away_score >= m.home_score
                     has_under = total_goals < line
                     is_green = has_dc and has_under
-                    
-                elif tip.market.startswith('DC_1X_OVER_'):
-                    line = float(tip.market.split('_')[-1]) / 10.0
-                    has_dc = m.home_score >= m.away_score
-                    has_over = total_goals > line
-                    is_green = has_dc and has_over
-                    
-                elif tip.market.startswith('DC_X2_OVER_'):
-                    line = float(tip.market.split('_')[-1]) / 10.0
-                    has_dc = m.away_score >= m.home_score
-                    has_over = total_goals > line
-                    is_green = has_dc and has_over
-                    
+                elif tip.market == 'OVER_05':
+                    is_green = total_goals >= 1
                 elif tip.market == 'OVER_15':
                     is_green = total_goals >= 2
                 elif tip.market == 'OVER_25':
@@ -232,13 +205,34 @@ def premium_dashboard(request):
                     is_green = total_goals <= 4
                 elif tip.market == 'UNDER_55':
                     is_green = total_goals <= 5
+                elif tip.market == 'UNDER_65':
+                    is_green = total_goals <= 6
                 elif tip.market == 'BTTS':
                     is_green = (m.home_score > 0 and m.away_score > 0)
                 elif tip.market == 'HOME_WIN':
                     is_green = m.home_score > m.away_score
                 elif tip.market == 'AWAY_WIN':
                     is_green = m.away_score > m.home_score
-                    
+                elif tip.market == 'DC_1X':
+                    is_green = m.home_score >= m.away_score
+                elif tip.market == 'DC_X2':
+                    is_green = m.away_score >= m.home_score
+                elif tip.market == 'DNB_HOME':
+                    is_green = m.home_score > m.away_score
+                elif tip.market == 'DNB_AWAY':
+                    is_green = m.away_score > m.home_score
+                elif tip.market == 'FIRST_SCORE_HOME':
+                    first_goal = m.goals.order_by('minute').first()
+                    if first_goal:
+                        is_green = first_goal.team_id == m.home_team_id
+                    else:
+                        is_green = m.home_score > 0 and m.away_score == 0
+                elif tip.market == 'FIRST_SCORE_AWAY':
+                    first_goal = m.goals.order_by('minute').first()
+                    if first_goal:
+                        is_green = first_goal.team_id == m.away_team_id
+                    else:
+                        is_green = m.away_score > 0 and m.home_score == 0
                 elif tip.market.startswith('CORNERS_OVER_'):
                     if m.home_corners is not None and m.away_corners is not None:
                         try:
@@ -258,13 +252,29 @@ def premium_dashboard(request):
                         is_green = m.away_corners > m.home_corners
                     else:
                         continue
+                elif tip.market.startswith('CARDS_OVER_'):
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        try:
+                            line = float(tip.market.split('_')[-1]) / 10.0
+                        except ValueError:
+                            line = 4.5
+                        is_green = (m.home_yellow + m.away_yellow) > line
+                    else:
+                        continue
+                elif tip.market == 'CARD_WIN_H':
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        is_green = m.home_yellow > m.away_yellow
+                    else:
+                        continue
+                elif tip.market == 'CARD_WIN_A':
+                    if m.home_yellow is not None and m.away_yellow is not None:
+                        is_green = m.away_yellow > m.home_yellow
+                    else:
+                        continue
                 else:
                     continue
 
-                if is_green is None:
-                    new_status = 'VOID'
-                else:
-                    new_status = 'GREEN' if is_green else 'RED'
+                new_status = 'GREEN' if is_green else 'RED'
                 if tip.status != new_status:
                     tip.status = new_status
                     tip.save(update_fields=['status', 'updated_at'])
@@ -434,21 +444,21 @@ def premium_dashboard(request):
     SHOTS_MARKETS = {'SHOTS_OVER_205', 'SHOTS_OVER_225', 'SHOTS_OVER_245', 'SOT_OVER_65', 'SOT_OVER_75', 'SOT_OVER_85', 'SHOT_WIN_H', 'SHOT_WIN_A'}
     
     def get_date_group(match_date):
-        if not match_date: return "Próxima Rodada"
+        if not match_date: return _("Future")
         match_date_br = match_date.astimezone(br_tz).date()
         today = now_br.date()
         diff = (match_date_br - today).days
-        if diff == 0: return "Hoje"
-        elif diff == 1: return "Amanhã"
-        return "Próxima Rodada"
+        if diff == 0: return _("Today")
+        elif diff == 1: return _("Tomorrow")
+        return _("Next Round")
 
     def get_ticket_date_group(target_date):
-        if not target_date: return "Próxima Rodada"
+        if not target_date: return _("Future")
         today = now_br.date()
         diff = (target_date - today).days
-        if diff == 0: return "Hoje"
-        elif diff == 1: return "Amanhã"
-        return "Próxima Rodada"
+        if diff == 0: return _("Today")
+        elif diff == 1: return _("Tomorrow")
+        return _("Next Round")
 
     for t in active_tickets:
         if t.date_target:
@@ -458,7 +468,7 @@ def premium_dashboard(request):
             if first_sel and first_sel.match.date:
                 t.date_group = get_date_group(first_sel.match.date)
             else:
-                t.date_group = "Próxima Rodada"
+                t.date_group = _("Future")
 
     # Containers for each category
     tips_goals = []
@@ -854,6 +864,11 @@ def premium_dashboard(request):
         'total_scanned': len(matches),
         'total_opportunities': total_opps,
     }
+    
+    # Salvar no cache por 3 minutos. O script da Betano vai limpar esse cache automaticamente
+    # se conseguir novas odds antes dos 3 minutos.
+    cache.set('premium_dashboard_context_v1', context, 180)
+    
     return render(request, 'members/premium_dashboard.html', context)
 
 

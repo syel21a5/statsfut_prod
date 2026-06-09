@@ -94,6 +94,45 @@ class Match(models.Model):
     under_25_odds = models.FloatField(null=True, blank=True)
     under_35_odds = models.FloatField(null=True, blank=True)
     under_45_odds = models.FloatField(null=True, blank=True)
+    over_45_odds = models.FloatField(null=True, blank=True)
+    over_55_odds = models.FloatField(null=True, blank=True)
+    under_55_odds = models.FloatField(null=True, blank=True)
+    ht_goal_odds = models.FloatField(null=True, blank=True)
+    
+    # Dupla Chance
+    dc_1x_odds = models.FloatField(null=True, blank=True)
+    dc_x2_odds = models.FloatField(null=True, blank=True)
+    
+    # Dupla Chance & Over
+    dc_1x_over_15_odds = models.FloatField(null=True, blank=True)
+    dc_1x_over_25_odds = models.FloatField(null=True, blank=True)
+    dc_1x_over_35_odds = models.FloatField(null=True, blank=True)
+    dc_x2_over_15_odds = models.FloatField(null=True, blank=True)
+    dc_x2_over_25_odds = models.FloatField(null=True, blank=True)
+    dc_x2_over_35_odds = models.FloatField(null=True, blank=True)
+    
+    # Dupla Chance & Ambas Marcam
+    dc_1x_btts_yes_odds = models.FloatField(null=True, blank=True)
+    dc_1x_btts_no_odds = models.FloatField(null=True, blank=True)
+    dc_x2_btts_yes_odds = models.FloatField(null=True, blank=True)
+    dc_x2_btts_no_odds = models.FloatField(null=True, blank=True)
+    
+    # Especiais
+    dnb_home_odds = models.FloatField(null=True, blank=True)
+    dnb_away_odds = models.FloatField(null=True, blank=True)
+    clean_sheet_home_odds = models.FloatField(null=True, blank=True)
+    clean_sheet_away_odds = models.FloatField(null=True, blank=True)
+    
+    # Escanteios
+    corners_over_65_odds = models.FloatField(null=True, blank=True)
+    corners_over_75_odds = models.FloatField(null=True, blank=True)
+    corners_over_85_odds = models.FloatField(null=True, blank=True)
+    corners_over_95_odds = models.FloatField(null=True, blank=True)
+    corners_over_105_odds = models.FloatField(null=True, blank=True)
+    corners_over_115_odds = models.FloatField(null=True, blank=True)
+    corners_home_win_odds = models.FloatField(null=True, blank=True)
+    corners_draw_odds = models.FloatField(null=True, blank=True)
+    corners_away_win_odds = models.FloatField(null=True, blank=True)
     
     # Advanced Stats
     statistics_data = models.JSONField(null=True, blank=True)
@@ -392,33 +431,66 @@ class ScannerTip(models.Model):
         elif market == 'DRAW' and m.draw_odds:
             return round(m.draw_odds, 2)
             
-        # 2. Dupla chance baseada nas odds reais
-        elif market == 'DC_1X' and m.home_team_win_odds and m.draw_odds:
-            inv_odd = (1.0 / m.home_team_win_odds) + (1.0 / m.draw_odds)
-            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
-        elif market == 'DC_X2' and m.away_team_win_odds and m.draw_odds:
-            inv_odd = (1.0 / m.away_team_win_odds) + (1.0 / m.draw_odds)
-            return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
-            
+        # 2. Dupla chance
+        elif market == 'DC_1X':
+            if m.dc_1x_odds: return round(m.dc_1x_odds, 2)
+            if m.home_team_win_odds and m.draw_odds:
+                inv_odd = (1.0 / m.home_team_win_odds) + (1.0 / m.draw_odds)
+                return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+        elif market == 'DC_X2':
+            if m.dc_x2_odds: return round(m.dc_x2_odds, 2)
+            if m.away_team_win_odds and m.draw_odds:
+                inv_odd = (1.0 / m.away_team_win_odds) + (1.0 / m.draw_odds)
+                return round(1.0 / inv_odd, 2) if inv_odd > 0 else 1.20
+                
         # 3. Odds Reais de Ambas Marcam
         elif market == 'BTTS' and m.btts_yes_odds:
             return round(m.btts_yes_odds, 2)
             
+        # Especiais
+        elif market == 'DNB_HOME' and m.dnb_home_odds: return round(m.dnb_home_odds, 2)
+        elif market == 'DNB_AWAY' and m.dnb_away_odds: return round(m.dnb_away_odds, 2)
+        elif market == 'CLEAN_SHEET_HOME' and m.clean_sheet_home_odds: return round(m.clean_sheet_home_odds, 2)
+        elif market == 'CLEAN_SHEET_AWAY' and m.clean_sheet_away_odds: return round(m.clean_sheet_away_odds, 2)
+            
         # 4. Odds Reais de Gols (Over)
-        elif market == 'OVER_15' and m.over_15_odds:
-            return round(m.over_15_odds, 2)
-        elif market == 'OVER_25' and m.over_25_odds:
-            return round(m.over_25_odds, 2)
-        elif market == 'OVER_35' and m.over_35_odds:
-            return round(m.over_35_odds, 2)
+        elif market == 'HT_GOAL' and m.ht_goal_odds: return round(m.ht_goal_odds, 2)
+        elif market == 'OVER_15' and m.over_15_odds: return round(m.over_15_odds, 2)
+        elif market == 'OVER_25' and m.over_25_odds: return round(m.over_25_odds, 2)
+        elif market == 'OVER_35' and m.over_35_odds: return round(m.over_35_odds, 2)
+        elif market == 'OVER_45' and m.over_45_odds: return round(m.over_45_odds, 2)
+        elif market == 'OVER_55' and m.over_55_odds: return round(m.over_55_odds, 2)
             
         # 5. Odds Reais de Gols (Under)
-        elif market == 'UNDER_25' and m.under_25_odds:
-            return round(m.under_25_odds, 2)
-        elif market == 'UNDER_35' and m.under_35_odds:
-            return round(m.under_35_odds, 2)
-        elif market == 'UNDER_45' and m.under_45_odds:
-            return round(m.under_45_odds, 2)
+        elif market == 'UNDER_25' and m.under_25_odds: return round(m.under_25_odds, 2)
+        elif market == 'UNDER_35' and m.under_35_odds: return round(m.under_35_odds, 2)
+        elif market == 'UNDER_45' and m.under_45_odds: return round(m.under_45_odds, 2)
+        elif market == 'UNDER_55' and m.under_55_odds: return round(m.under_55_odds, 2)
+        
+        # Dupla Chance & Over
+        elif market == 'DC_1X_OVER_1_5' and m.dc_1x_over_15_odds: return round(m.dc_1x_over_15_odds, 2)
+        elif market == 'DC_1X_OVER_2_5' and m.dc_1x_over_25_odds: return round(m.dc_1x_over_25_odds, 2)
+        elif market == 'DC_1X_OVER_3_5' and m.dc_1x_over_35_odds: return round(m.dc_1x_over_35_odds, 2)
+        elif market == 'DC_X2_OVER_1_5' and m.dc_x2_over_15_odds: return round(m.dc_x2_over_15_odds, 2)
+        elif market == 'DC_X2_OVER_2_5' and m.dc_x2_over_25_odds: return round(m.dc_x2_over_25_odds, 2)
+        elif market == 'DC_X2_OVER_3_5' and m.dc_x2_over_35_odds: return round(m.dc_x2_over_35_odds, 2)
+        
+        # Dupla Chance & BTTS
+        elif market == 'DC_1X_BTTS_YES' and m.dc_1x_btts_yes_odds: return round(m.dc_1x_btts_yes_odds, 2)
+        elif market == 'DC_1X_BTTS_NO' and m.dc_1x_btts_no_odds: return round(m.dc_1x_btts_no_odds, 2)
+        elif market == 'DC_X2_BTTS_YES' and m.dc_x2_btts_yes_odds: return round(m.dc_x2_btts_yes_odds, 2)
+        elif market == 'DC_X2_BTTS_NO' and m.dc_x2_btts_no_odds: return round(m.dc_x2_btts_no_odds, 2)
+        
+        # Escanteios
+        elif market == 'CORNERS_OVER_65' and m.corners_over_65_odds: return round(m.corners_over_65_odds, 2)
+        elif market == 'CORNERS_OVER_75' and m.corners_over_75_odds: return round(m.corners_over_75_odds, 2)
+        elif market == 'CORNERS_OVER_85' and m.corners_over_85_odds: return round(m.corners_over_85_odds, 2)
+        elif market == 'CORNERS_OVER_95' and m.corners_over_95_odds: return round(m.corners_over_95_odds, 2)
+        elif market == 'CORNERS_OVER_105' and m.corners_over_105_odds: return round(m.corners_over_105_odds, 2)
+        elif market == 'CORNERS_OVER_115' and m.corners_over_115_odds: return round(m.corners_over_115_odds, 2)
+        elif market == 'CORNERS_HOME' and m.corners_home_win_odds: return round(m.corners_home_win_odds, 2)
+        elif market == 'CORNERS_DRAW' and m.corners_draw_odds: return round(m.corners_draw_odds, 2)
+        elif market == 'CORNERS_AWAY' and m.corners_away_win_odds: return round(m.corners_away_win_odds, 2)
             
         # 6. Fallback implícito estatístico (Simulação Realista)
         # O robô gera a probabilidade pelo histórico de acertos (ex: 85%).

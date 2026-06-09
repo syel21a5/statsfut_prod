@@ -52,37 +52,33 @@ class Command(BaseCommand):
                 
             # Se achou, atualiza as odds
             updated = False
+            fields_to_update = []
             
-            if 'home_win' in markets and markets['home_win'] > 0:
-                match.home_team_win_odds = markets['home_win']
-                updated = True
-            if 'draw' in markets and markets['draw'] > 0:
-                match.draw_odds = markets['draw']
-                updated = True
-            if 'away_win' in markets and markets['away_win'] > 0:
-                match.away_team_win_odds = markets['away_win']
-                updated = True
+            mapping = {
+                'home_win': 'home_team_win_odds',
+                'draw': 'draw_odds',
+                'away_win': 'away_team_win_odds',
+            }
+            
+            for field, odd_value in markets.items():
+                if odd_value > 0:
+                    model_field = mapping.get(field, f"{field}_odds")
+                    if hasattr(match, model_field):
+                        # Evitar saves desnecessários se a odd não mudou
+                        if getattr(match, model_field) != odd_value:
+                            setattr(match, model_field, odd_value)
+                            if model_field not in fields_to_update:
+                                fields_to_update.append(model_field)
+                                updated = True
                 
-            if 'btts_yes' in markets and markets['btts_yes'] > 0:
-                match.btts_yes_odds = markets['btts_yes']
-                updated = True
-            if 'btts_no' in markets and markets['btts_no'] > 0:
-                match.btts_no_odds = markets['btts_no']
-                updated = True
-                
-            if 'over_25' in markets and markets['over_25'] > 0:
-                match.over_25_odds = markets['over_25']
-                updated = True
-            if 'under_25' in markets and markets['under_25'] > 0:
-                match.under_25_odds = markets['under_25']
-                updated = True
-                
-            if updated:
-                match.save(update_fields=[
-                    'home_team_win_odds', 'draw_odds', 'away_team_win_odds',
-                    'btts_yes_odds', 'btts_no_odds', 'over_25_odds', 'under_25_odds'
-                ])
+            if updated and fields_to_update:
+                match.save(update_fields=fields_to_update)
                 updates += 1
                 self.stdout.write(f"✅ Odds atualizadas: {match.home_team.name} x {match.away_team.name}")
+
+        if updates > 0:
+            from django.core.cache import cache
+            cache.delete('premium_dashboard_context_v1')
+            self.stdout.write("🧹 Cache do Dashboard Premium limpo com sucesso!")
 
         self.stdout.write(self.style.SUCCESS(f"Processo concluído! {updates} partidas tiveram suas odds atualizadas."))

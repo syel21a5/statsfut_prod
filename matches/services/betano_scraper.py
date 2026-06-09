@@ -155,35 +155,94 @@ def extract_odds_from_betano_data(data):
                 
             # Parse markets
             for m in ev.get('markets', []):
-                # O mercado "Resultado Final" geralmente tem seleções 1, X, 2
-                if m.get('name') == 'Resultado Final':
-                    selections = m.get('selections', [])
+                m_name = m.get('name', '')
+                selections = m.get('selections', [])
+                
+                if m_name == 'Resultado Final':
                     for s in selections:
                         sel_name = s.get('name', '')
-                        price = s.get('price', 0.0)
-                        if sel_name == '1':
-                            event_info['markets']['home_win'] = price
-                        elif sel_name == 'X':
-                            event_info['markets']['draw'] = price
-                        elif sel_name == '2':
-                            event_info['markets']['away_win'] = price
-                            
-                elif m.get('name') == 'Ambas equipes Marcam':
-                    selections = m.get('selections', [])
+                        if sel_name == '1': event_info['markets']['home_win'] = s.get('price', 0.0)
+                        elif sel_name == 'X': event_info['markets']['draw'] = s.get('price', 0.0)
+                        elif sel_name == '2': event_info['markets']['away_win'] = s.get('price', 0.0)
+                        
+                elif m_name == 'Ambas equipes Marcam':
                     for s in selections:
-                        if s.get('name') == 'Sim':
-                            event_info['markets']['btts_yes'] = s.get('price', 0.0)
-                        elif s.get('name') == 'Não':
-                            event_info['markets']['btts_no'] = s.get('price', 0.0)
-                            
-                elif 'Mais/Menos' in m.get('name') and '2.5' in m.get('name'):
-                    selections = m.get('selections', [])
+                        if s.get('name') == 'Sim': event_info['markets']['btts_yes'] = s.get('price', 0.0)
+                        elif s.get('name') == 'Não': event_info['markets']['btts_no'] = s.get('price', 0.0)
+                        
+                elif 'Empate Anula' in m_name:
+                    if len(selections) >= 2:
+                        event_info['markets']['dnb_home'] = selections[0].get('price', 0.0)
+                        event_info['markets']['dnb_away'] = selections[1].get('price', 0.0)
+
+                elif 'Dupla chance' in m_name and 'Mais/Menos' not in m_name and 'Ambas' not in m_name:
                     for s in selections:
-                        if s.get('name') == 'Mais de':
-                            event_info['markets']['over_25'] = s.get('price', 0.0)
-                        elif s.get('name') == 'Menos de':
-                            event_info['markets']['under_25'] = s.get('price', 0.0)
-                            
+                        if s.get('name') in ['1X', 'Casa/Empate']: event_info['markets']['dc_1x'] = s.get('price', 0.0)
+                        elif s.get('name') in ['X2', 'Empate/Fora']: event_info['markets']['dc_x2'] = s.get('price', 0.0)
+
+                elif 'Dupla chance e Ambas' in m_name:
+                    for s in selections:
+                        sn = s.get('name', '')
+                        if '1X' in sn and 'Sim' in sn: event_info['markets']['dc_1x_btts_yes'] = s.get('price', 0.0)
+                        elif '1X' in sn and 'Não' in sn: event_info['markets']['dc_1x_btts_no'] = s.get('price', 0.0)
+                        elif 'X2' in sn and 'Sim' in sn: event_info['markets']['dc_x2_btts_yes'] = s.get('price', 0.0)
+                        elif 'X2' in sn and 'Não' in sn: event_info['markets']['dc_x2_btts_no'] = s.get('price', 0.0)
+
+                elif 'Dupla chance e' in m_name and 'Mais/Menos' in m_name:
+                    for s in selections:
+                        sn = s.get('name', '')
+                        if '1X' in sn and 'Mais de 1.5' in sn: event_info['markets']['dc_1x_over_15'] = s.get('price', 0.0)
+                        elif '1X' in sn and 'Mais de 2.5' in sn: event_info['markets']['dc_1x_over_25'] = s.get('price', 0.0)
+                        elif '1X' in sn and 'Mais de 3.5' in sn: event_info['markets']['dc_1x_over_35'] = s.get('price', 0.0)
+                        elif 'X2' in sn and 'Mais de 1.5' in sn: event_info['markets']['dc_x2_over_15'] = s.get('price', 0.0)
+                        elif 'X2' in sn and 'Mais de 2.5' in sn: event_info['markets']['dc_x2_over_25'] = s.get('price', 0.0)
+                        elif 'X2' in sn and 'Mais de 3.5' in sn: event_info['markets']['dc_x2_over_35'] = s.get('price', 0.0)
+
+                elif '1º Tempo' in m_name and 'Mais/Menos' in m_name and '0.5' in m_name:
+                    for s in selections:
+                        if 'Mais de' in s.get('name', ''): event_info['markets']['ht_goal'] = s.get('price', 0.0)
+
+                elif 'Escanteios' in m_name:
+                    if 'Mais/Menos' in m_name:
+                        line = ''
+                        if '6.5' in m_name: line = '65'
+                        elif '7.5' in m_name: line = '75'
+                        elif '8.5' in m_name: line = '85'
+                        elif '9.5' in m_name: line = '95'
+                        elif '10.5' in m_name: line = '105'
+                        elif '11.5' in m_name: line = '115'
+                        if line:
+                            for s in selections:
+                                if 'Mais de' in s.get('name', ''): event_info['markets'][f'corners_over_{line}'] = s.get('price', 0.0)
+                    elif '1X2' in m_name or 'Vencedor' in m_name or 'Resultado Final' in m_name:
+                        for s in selections:
+                            if s.get('name') == '1': event_info['markets']['corners_home_win'] = s.get('price', 0.0)
+                            elif s.get('name') == 'X': event_info['markets']['corners_draw'] = s.get('price', 0.0)
+                            elif s.get('name') == '2': event_info['markets']['corners_away_win'] = s.get('price', 0.0)
+
+                elif 'Sem Sofrer Gols' in m_name or 'Manter sua rede intacta' in m_name:
+                    if event_info['home_team'] in m_name:
+                        for s in selections:
+                            if s.get('name') == 'Sim': event_info['markets']['clean_sheet_home'] = s.get('price', 0.0)
+                    elif event_info['away_team'] in m_name:
+                        for s in selections:
+                            if s.get('name') == 'Sim': event_info['markets']['clean_sheet_away'] = s.get('price', 0.0)
+
+                elif 'Mais/Menos' in m_name and '1º Tempo' not in m_name and 'Escanteios' not in m_name and 'Cartões' not in m_name:
+                    line = ''
+                    if '1.5' in m_name: line = '15'
+                    elif '2.5' in m_name: line = '25'
+                    elif '3.5' in m_name: line = '35'
+                    elif '4.5' in m_name: line = '45'
+                    elif '5.5' in m_name: line = '55'
+                    
+                    if line:
+                        for s in selections:
+                            if 'Mais de' in s.get('name', ''):
+                                event_info['markets'][f'over_{line}'] = s.get('price', 0.0)
+                            elif 'Menos de' in s.get('name', ''):
+                                event_info['markets'][f'under_{line}'] = s.get('price', 0.0)
+                                
             if event_info['home_team'] and event_info['away_team']:
                 events_extracted.append(event_info)
                 
