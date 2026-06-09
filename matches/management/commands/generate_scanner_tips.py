@@ -173,8 +173,12 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"Scanner finalizado! Criados: {created_count}, Atualizados: {updated_count}, Pulados (Futuros): {skipped_count}"))
 
         try:
-            from django.core.management import call_command
-            call_command('clear_cache')
-            self.stdout.write(self.style.SUCCESS("Cache limpo automaticamente para atualizar a página Premium com as novas dicas!"))
+            from django.core.cache import cache
+            from django.core.cache.utils import make_template_fragment_key
+            for lang in ['pt-br', 'en']:
+                for fragment in ['premium_dashboard_html_v8', 'premium_tickets_pane']:
+                    key = make_template_fragment_key(fragment, [lang])
+                    cache.delete(key)
+            self.stdout.write(self.style.SUCCESS("Cache do dashboard premium invalidado com sucesso!"))
         except Exception as e:
             self.stdout.write(self.style.WARNING(f"Aviso ao limpar cache: {e}"))
