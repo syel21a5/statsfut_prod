@@ -91,3 +91,6 @@ client_secrets.json
 
 client_secrets.json
 token.json
+
+*.json
+*.png

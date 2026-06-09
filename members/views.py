@@ -159,32 +159,67 @@ def premium_dashboard(request):
                 if tip.market == 'HT_GOAL':
                     goals_ht = m.goals.filter(minute__lte=45).exists()
                     is_green = goals_ht
-                elif tip.market == 'HT_GOALS_NOT_2_4':
-                    if m.ht_home_score is not None and m.ht_away_score is not None:
-                        ht_g = m.ht_home_score + m.ht_away_score
-                        is_green = not (2 <= ht_g <= 4)
+                    
+                elif tip.market == 'DNB_HOME':
+                    if m.home_score == m.away_score:
+                        is_green = None # Represents VOID
                     else:
-                        goals_ht_count = m.goals.filter(minute__lte=45).count()
-                        is_green = not (2 <= goals_ht_count <= 4)
-                elif tip.market == 'SH_GOALS_NOT_2_4':
-                    if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
-                        sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
-                        is_green = not (2 <= sh_g <= 4)
+                        is_green = m.home_score > m.away_score
+                        
+                elif tip.market == 'DNB_AWAY':
+                    if m.home_score == m.away_score:
+                        is_green = None
                     else:
-                        goals_sh_count = m.goals.filter(minute__gt=45).count()
-                        is_green = not (2 <= goals_sh_count <= 4)
+                        is_green = m.away_score > m.home_score
+                        
+                elif tip.market == 'DC_1X':
+                    is_green = m.home_score >= m.away_score
+                    
+                elif tip.market == 'DC_X2':
+                    is_green = m.away_score >= m.home_score
+                    
+                elif tip.market == 'HOME_CS':
+                    is_green = m.away_score == 0
+                    
+                elif tip.market == 'AWAY_CS':
+                    is_green = m.home_score == 0
+                    
+                elif tip.market == 'HOME_WTN':
+                    is_green = m.home_score > m.away_score and m.away_score == 0
+                    
+                elif tip.market == 'AWAY_WTN':
+                    is_green = m.away_score > m.home_score and m.home_score == 0
+                    
+                elif tip.market == 'HC_HOME_M05':
+                    is_green = m.home_score > m.away_score
+                    
+                elif tip.market == 'OVER_05':
+                    is_green = total_goals >= 1
+
                 elif tip.market.startswith('DC_1X_UNDER_'):
                     line = float(tip.market.split('_')[-1]) / 10.0
                     has_dc = m.home_score >= m.away_score
                     has_under = total_goals < line
                     is_green = has_dc and has_under
+                    
                 elif tip.market.startswith('DC_X2_UNDER_'):
                     line = float(tip.market.split('_')[-1]) / 10.0
                     has_dc = m.away_score >= m.home_score
                     has_under = total_goals < line
                     is_green = has_dc and has_under
-                elif tip.market == 'OVER_05':
-                    is_green = total_goals >= 1
+                    
+                elif tip.market.startswith('DC_1X_OVER_'):
+                    line = float(tip.market.split('_')[-1]) / 10.0
+                    has_dc = m.home_score >= m.away_score
+                    has_over = total_goals > line
+                    is_green = has_dc and has_over
+                    
+                elif tip.market.startswith('DC_X2_OVER_'):
+                    line = float(tip.market.split('_')[-1]) / 10.0
+                    has_dc = m.away_score >= m.home_score
+                    has_over = total_goals > line
+                    is_green = has_dc and has_over
+                    
                 elif tip.market == 'OVER_15':
                     is_green = total_goals >= 2
                 elif tip.market == 'OVER_25':
@@ -197,34 +232,13 @@ def premium_dashboard(request):
                     is_green = total_goals <= 4
                 elif tip.market == 'UNDER_55':
                     is_green = total_goals <= 5
-                elif tip.market == 'UNDER_65':
-                    is_green = total_goals <= 6
                 elif tip.market == 'BTTS':
                     is_green = (m.home_score > 0 and m.away_score > 0)
                 elif tip.market == 'HOME_WIN':
                     is_green = m.home_score > m.away_score
                 elif tip.market == 'AWAY_WIN':
                     is_green = m.away_score > m.home_score
-                elif tip.market == 'DC_1X':
-                    is_green = m.home_score >= m.away_score
-                elif tip.market == 'DC_X2':
-                    is_green = m.away_score >= m.home_score
-                elif tip.market == 'DNB_HOME':
-                    is_green = m.home_score > m.away_score
-                elif tip.market == 'DNB_AWAY':
-                    is_green = m.away_score > m.home_score
-                elif tip.market == 'FIRST_SCORE_HOME':
-                    first_goal = m.goals.order_by('minute').first()
-                    if first_goal:
-                        is_green = first_goal.team_id == m.home_team_id
-                    else:
-                        is_green = m.home_score > 0 and m.away_score == 0
-                elif tip.market == 'FIRST_SCORE_AWAY':
-                    first_goal = m.goals.order_by('minute').first()
-                    if first_goal:
-                        is_green = first_goal.team_id == m.away_team_id
-                    else:
-                        is_green = m.away_score > 0 and m.home_score == 0
+                    
                 elif tip.market.startswith('CORNERS_OVER_'):
                     if m.home_corners is not None and m.away_corners is not None:
                         try:
@@ -244,29 +258,13 @@ def premium_dashboard(request):
                         is_green = m.away_corners > m.home_corners
                     else:
                         continue
-                elif tip.market.startswith('CARDS_OVER_'):
-                    if m.home_yellow is not None and m.away_yellow is not None:
-                        try:
-                            line = float(tip.market.split('_')[-1]) / 10.0
-                        except ValueError:
-                            line = 4.5
-                        is_green = (m.home_yellow + m.away_yellow) > line
-                    else:
-                        continue
-                elif tip.market == 'CARD_WIN_H':
-                    if m.home_yellow is not None and m.away_yellow is not None:
-                        is_green = m.home_yellow > m.away_yellow
-                    else:
-                        continue
-                elif tip.market == 'CARD_WIN_A':
-                    if m.home_yellow is not None and m.away_yellow is not None:
-                        is_green = m.away_yellow > m.home_yellow
-                    else:
-                        continue
                 else:
                     continue
 
-                new_status = 'GREEN' if is_green else 'RED'
+                if is_green is None:
+                    new_status = 'VOID'
+                else:
+                    new_status = 'GREEN' if is_green else 'RED'
                 if tip.status != new_status:
                     tip.status = new_status
                     tip.save(update_fields=['status', 'updated_at'])

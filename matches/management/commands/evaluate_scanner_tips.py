@@ -35,22 +35,44 @@ class Command(BaseCommand):
                     goals_ht = m.goals.filter(minute__lte=45).exists()
                     is_green = goals_ht
                     
-                elif tip.market == 'HT_GOALS_NOT_2_4':
-                    if m.ht_home_score is not None and m.ht_away_score is not None:
-                        ht_g = m.ht_home_score + m.ht_away_score
-                        is_green = not (2 <= ht_g <= 4)
-                    else:
-                        goals_ht_count = m.goals.filter(minute__lte=45).count()
-                        is_green = not (2 <= goals_ht_count <= 4)
-                        
-                elif tip.market == 'SH_GOALS_NOT_2_4':
-                    if m.ht_home_score is not None and m.ht_away_score is not None and m.home_score is not None and m.away_score is not None:
-                        sh_g = (m.home_score + m.away_score) - (m.ht_home_score + m.ht_away_score)
-                        is_green = not (2 <= sh_g <= 4)
-                    else:
-                        goals_sh_count = m.goals.filter(minute__gt=45).count()
-                        is_green = not (2 <= goals_sh_count <= 4)
-                        
+                elif tip.market == 'DNB_HOME':
+                    if m.home_score == m.away_score:
+                        tip.status = 'VOID'
+                        tip.save(update_fields=['status', 'updated_at'])
+                        continue
+                    is_green = m.home_score > m.away_score
+                    
+                elif tip.market == 'DNB_AWAY':
+                    if m.home_score == m.away_score:
+                        tip.status = 'VOID'
+                        tip.save(update_fields=['status', 'updated_at'])
+                        continue
+                    is_green = m.away_score > m.home_score
+                    
+                elif tip.market == 'DC_1X':
+                    is_green = m.home_score >= m.away_score
+                    
+                elif tip.market == 'DC_X2':
+                    is_green = m.away_score >= m.home_score
+                    
+                elif tip.market == 'HOME_CS':
+                    is_green = m.away_score == 0
+                    
+                elif tip.market == 'AWAY_CS':
+                    is_green = m.home_score == 0
+                    
+                elif tip.market == 'HOME_WTN':
+                    is_green = m.home_score > m.away_score and m.away_score == 0
+                    
+                elif tip.market == 'AWAY_WTN':
+                    is_green = m.away_score > m.home_score and m.home_score == 0
+                    
+                elif tip.market == 'HC_HOME_M05':
+                    is_green = m.home_score > m.away_score
+                    
+                elif tip.market == 'OVER_05':
+                    is_green = total_goals >= 1
+
                 elif tip.market.startswith('DC_1X_UNDER_'):
                     line = float(tip.market.replace('DC_1X_UNDER_', '').replace('_', '.'))
                     has_dc = m.home_score >= m.away_score
@@ -74,18 +96,6 @@ class Command(BaseCommand):
                     has_dc = m.away_score >= m.home_score
                     has_over = total_goals > line
                     is_green = has_dc and has_over
-
-                elif tip.market.startswith('DC_1X_BTTS_'):
-                    suffix = tip.market.split('_')[-1]
-                    has_dc = m.home_score >= m.away_score
-                    btts_match = (m.home_score > 0 and m.away_score > 0)
-                    is_green = has_dc and (btts_match if suffix == 'YES' else not btts_match)
-
-                elif tip.market.startswith('DC_X2_BTTS_'):
-                    suffix = tip.market.split('_')[-1]
-                    has_dc = m.away_score >= m.home_score
-                    btts_match = (m.home_score > 0 and m.away_score > 0)
-                    is_green = has_dc and (btts_match if suffix == 'YES' else not btts_match)
                     
                 elif tip.market == 'OVER_15':
                     is_green = total_goals >= 2
@@ -105,9 +115,6 @@ class Command(BaseCommand):
                 elif tip.market == 'UNDER_55':
                     is_green = total_goals <= 5
                     
-                elif tip.market == 'UNDER_65':
-                    is_green = total_goals <= 6
-                    
                 elif tip.market == 'BTTS':
                     is_green = (m.home_score > 0 and m.away_score > 0)
                     
@@ -116,21 +123,6 @@ class Command(BaseCommand):
                     
                 elif tip.market == 'AWAY_WIN':
                     is_green = m.away_score > m.home_score
-                    
-                elif tip.market == 'FIRST_SCORE_HOME':
-                    # Checar eventos de gol (quem marcou o primeiro)
-                    first_goal = m.goals.order_by('minute').first()
-                    if first_goal:
-                        is_green = first_goal.team_id == m.home_team_id
-                    else:
-                        is_green = False # 0x0 deu red
-                        
-                elif tip.market == 'FIRST_SCORE_AWAY':
-                    first_goal = m.goals.order_by('minute').first()
-                    if first_goal:
-                        is_green = first_goal.team_id == m.away_team_id
-                    else:
-                        is_green = False
                         
                 elif tip.market == 'CORNERS_OVER_65':
                     if m.home_corners is not None and m.away_corners is not None:
@@ -144,18 +136,6 @@ class Command(BaseCommand):
                     if m.home_corners is not None and m.away_corners is not None:
                         is_green = (m.home_corners + m.away_corners) >= 9
                     else: continue
-                elif tip.market == 'CORNERS_OVER_95':
-                    if m.home_corners is not None and m.away_corners is not None:
-                        is_green = (m.home_corners + m.away_corners) >= 10
-                    else: continue
-                elif tip.market == 'CORNERS_OVER_105':
-                    if m.home_corners is not None and m.away_corners is not None:
-                        is_green = (m.home_corners + m.away_corners) >= 11
-                    else: continue
-                elif tip.market == 'CORNERS_OVER_115':
-                    if m.home_corners is not None and m.away_corners is not None:
-                        is_green = (m.home_corners + m.away_corners) >= 12
-                    else: continue
                 elif tip.market == 'CORNER_WIN_H':
                     if m.home_corners is not None and m.away_corners is not None:
                         is_green = m.home_corners > m.away_corners
@@ -163,48 +143,6 @@ class Command(BaseCommand):
                 elif tip.market == 'CORNER_WIN_A':
                     if m.home_corners is not None and m.away_corners is not None:
                         is_green = m.away_corners > m.home_corners
-                    else: continue
-                        
-                elif tip.market.startswith('CARDS_OVER_'):
-                    if m.home_yellow is not None and m.away_yellow is not None:
-                        line = float(tip.market.replace('CARDS_OVER_', '').replace('_', '.'))
-                        # Total de cartões = Amarelos + Vermelhos
-                        total_cards = m.home_yellow + m.away_yellow + (m.home_red or 0) + (m.away_red or 0)
-                        is_green = total_cards > line
-                    else:
-                        continue
-                elif tip.market == 'CARD_WIN_H':
-                    if m.home_yellow is not None and m.away_yellow is not None:
-                        h_cards = m.home_yellow + (m.home_red or 0)
-                        a_cards = m.away_yellow + (m.away_red or 0)
-                        is_green = h_cards > a_cards
-                    else: continue
-                elif tip.market == 'CARD_WIN_A':
-                    if m.home_yellow is not None and m.away_yellow is not None:
-                        h_cards = m.home_yellow + (m.home_red or 0)
-                        a_cards = m.away_yellow + (m.away_red or 0)
-                        is_green = a_cards > h_cards
-                    else: continue
-                        
-                elif tip.market.startswith('SHOTS_OVER_'):
-                    if m.home_shots is not None and m.away_shots is not None:
-                        line = float(tip.market.replace('SHOTS_OVER_', '').replace('_', '.'))
-                        is_green = (m.home_shots + m.away_shots) > line
-                    else:
-                        continue
-                elif tip.market.startswith('SOT_OVER_'):
-                    if m.home_shots_on_target is not None and m.away_shots_on_target is not None:
-                        line = float(tip.market.replace('SOT_OVER_', '').replace('_', '.'))
-                        is_green = (m.home_shots_on_target + m.away_shots_on_target) > line
-                    else:
-                        continue
-                elif tip.market == 'SHOT_WIN_H':
-                    if m.home_shots is not None and m.away_shots is not None:
-                        is_green = m.home_shots > m.away_shots
-                    else: continue
-                elif tip.market == 'SHOT_WIN_A':
-                    if m.home_shots is not None and m.away_shots is not None:
-                        is_green = m.away_shots > m.home_shots
                     else: continue
 
                 tip.status = 'GREEN' if is_green else 'RED'
