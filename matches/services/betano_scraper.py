@@ -5,49 +5,8 @@ import socket
 from datetime import datetime
 from curl_cffi import requests
 
-def renew_tor_ip(session):
-    """Solicita um novo circuito Tor (novo IP) via ControlPort 9051/9151."""
-    try:
-        try:
-            r = session.get("https://api.ipify.org?format=json", timeout=10)
-            old_ip = r.json().get("ip", "?")
-        except:
-            old_ip = "?"
-
-        # Identifica a porta de controle baseada na porta de proxy
-        control_port = 9051
-        if hasattr(session, 'proxies') and session.proxies and "9150" in session.proxies.get("http", ""):
-            control_port = 9151
-            
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(("127.0.0.1", control_port))
-        s.send(b"AUTHENTICATE\r\n")
-        resp = s.recv(256)
-        if b"250" in resp:
-            s.send(b"SIGNAL NEWNYM\r\n")
-            resp = s.recv(256)
-            if b"250" in resp:
-                s.close()
-                print("    ⏳ Aguardando 10s para o Tor construir novo circuito...")
-                time.sleep(10)
-
-                try:
-                    r = session.get("https://api.ipify.org?format=json", timeout=10)
-                    new_ip = r.json().get("ip", "?")
-                except:
-                    new_ip = "?"
-
-                print(f"    🔄 IP Tor rotacionado: {old_ip} → {new_ip}")
-                return True
-        s.close()
-    except Exception as e:
-        print(f"    ⚠️ Falha ao rotacionar IP Tor: {e}")
-    
-    time.sleep(10)
-    return False
-
-def setup_tor_session():
-    """Configura a sessão do requests para usar o Tor com impersonate."""
+def setup_proxy_session():
+    """Configura a sessão do requests para usar o proxy residencial DataImpulse com impersonate."""
     session = requests.Session(impersonate="chrome120")
     
     # Adiciona headers padrões da Betano
@@ -55,40 +14,24 @@ def setup_tor_session():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "application/json, text/plain, */*",
         "Origin": "https://br.betano.com",
-        "Referer": "https://br.betano.com/"
+        "Referer": "https://br.betano.com/",
+        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
     })
     
-    proxies_9050 = {"http": "socks5h://127.0.0.1:9050", "https": "socks5h://127.0.0.1:9050"}
-    proxies_9150 = {"http": "socks5h://127.0.0.1:9150", "https": "socks5h://127.0.0.1:9150"}
+    # Suas credenciais DataImpulse (Pool Residencial Brasil)
+    # Adicionamos __cr.br ao login para forçar que a rotação traga APENAS IPs do Brasil
+    proxy_url = "http://fd01c63d380fd264da00__cr.br:a221e91446283ce8@gw.dataimpulse.com:823"
+    proxies = {"http": proxy_url, "https": proxy_url}
     
-    tor_ready = False
-    print("🌐 Iniciando conexão com a rede Tor...")
+    print("🌐 Iniciando conexão com Proxy Residencial (DataImpulse/Brasil)...")
+    session.proxies = proxies
     
-    for attempt in range(1, 3):
-        try:
-            session.get("https://api.ipify.org?format=json", proxies=proxies_9050, timeout=5)
-            session.proxies = proxies_9050
-            print("✅ Tor conectado com sucesso na porta 9050 (Docker/Linux)!")
-            tor_ready = True
-            break
-        except Exception:
-            pass
-            
-    if not tor_ready:
-        for attempt in range(1, 3):
-            try:
-                session.get("https://api.ipify.org?format=json", proxies=proxies_9150, timeout=5)
-                session.proxies = proxies_9150
-                print("✅ Tor conectado com sucesso na porta 9150 (Windows Local)!")
-                tor_ready = True
-                break
-            except Exception:
-                pass
-                
-    if not tor_ready:
-        print("⚠️ Aviso: Não foi possível conectar ao proxy Tor (nem 9050 nem 9150).")
-        print("🌍 Utilizando conexão direta (sem proxy)...")
-        session.proxies = {}
+    try:
+        r = session.get("https://api.ipify.org?format=json", timeout=15)
+        ip = r.json().get("ip", "?")
+        print(f"✅ Conectado com sucesso via Proxy! IP de saída: {ip}")
+    except Exception as e:
+        print(f"⚠️ Aviso: Falha ao testar proxy (api.ipify.org): {e}")
 
     return session
 
@@ -97,25 +40,21 @@ def fetch_betano_upcoming(session):
     Busca os próximos jogos de futebol na Betano.
     Retorna a lista de eventos e os mercados abertos.
     """
-    # Usaremos o endpoint geral de próximos jogos com sort por ligas.
-    # Pode ser trocado pelo endpoint de competições específicas se preferir.
-    url = "https://br.betano.com/api/sport/futebol/jogos-de-hoje/?sort=Leagues"
+    # O endpoint proximas-24-horas garante que peguemos os jogos de hoje e também os de amanhã
+    url = "https://br.betano.com/api/sport/futebol/proximas-24-horas/?sort=Leagues"
     print(f"Buscando eventos da Betano em: {url}")
     
     for attempt in range(3):
         try:
-            response = session.get(url, timeout=20)
+            response = session.get(url, timeout=25)
             if response.status_code == 200:
                 data = response.json()
                 return data
                 
             print(f"⚠️ Erro Betano {response.status_code}")
             if response.status_code in [403, 429, 503]:
-                print("🛑 Bloqueio detectado. Solicitando novo IP...")
-                if getattr(session, 'proxies', {}):
-                    renew_tor_ip(session)
-                else:
-                    time.sleep(5) # Espera simples se não tiver Tor
+                print("🛑 Bloqueio detectado. O proxy rotativo vai trocar de IP a cada request, aguardando 5s...")
+                time.sleep(5)
                 continue
                 
             break

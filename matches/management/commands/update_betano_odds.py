@@ -4,15 +4,15 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from matches.models import Match, League
 from matches.utils_odds_api import resolve_team
-from matches.services.betano_scraper import setup_tor_session, fetch_betano_upcoming, extract_odds_from_betano_data
+from matches.services.betano_scraper import setup_proxy_session, fetch_betano_upcoming, extract_odds_from_betano_data
 
 class Command(BaseCommand):
-    help = 'Busca e atualiza as odds dos próximos jogos via Betano/Altenar usando a rede Tor'
+    help = 'Busca e atualiza as odds dos próximos jogos via Betano/Altenar usando Proxy Residencial'
 
     def handle(self, *args, **options):
-        self.stdout.write("Iniciando scraper da Betano via Tor...")
+        self.stdout.write("Iniciando scraper da Betano via Proxy Residencial...")
         
-        session = setup_tor_session()
+        session = setup_proxy_session()
         raw_data = fetch_betano_upcoming(session)
         
         if not raw_data:
