@@ -316,7 +316,7 @@ class Command(BaseCommand):
         data = None
 
         for key_name, key_val in keys_pool:
-            url = f"{base_url}/sports/{league_key}/odds/?apiKey={key_val}&regions=eu&markets=h2h"
+            url = f"{base_url}/sports/{league_key}/odds/?apiKey={key_val}&regions=eu&markets=h2h,totals"
             self.stdout.write(f"Trying key {key_name}...")
             try:
                 resp = requests.get(url)
@@ -372,12 +372,16 @@ class Command(BaseCommand):
                 avg_home_odd = None
                 avg_draw_odd = None
                 avg_away_odd = None
+                avg_over25_odd = None
+                avg_under25_odd = None
                 
                 bookmakers = item.get('bookmakers', [])
                 if bookmakers:
                     h_odds = []
                     d_odds = []
                     a_odds = []
+                    o25_odds = []
+                    u25_odds = []
                     for book in bookmakers:
                         for market in book.get('markets', []):
                             if market['key'] == 'h2h':
@@ -388,9 +392,18 @@ class Command(BaseCommand):
                                         a_odds.append(outcome['price'])
                                     elif outcome['name'] == 'Draw':
                                         d_odds.append(outcome['price'])
+                            elif market['key'] == 'totals':
+                                for outcome in market['outcomes']:
+                                    if outcome.get('point') == 2.5:
+                                        if outcome['name'] == 'Over':
+                                            o25_odds.append(outcome['price'])
+                                        elif outcome['name'] == 'Under':
+                                            u25_odds.append(outcome['price'])
                     if h_odds: avg_home_odd = sum(h_odds) / len(h_odds)
                     if d_odds: avg_draw_odd = sum(d_odds) / len(d_odds)
                     if a_odds: avg_away_odd = sum(a_odds) / len(a_odds)
+                    if o25_odds: avg_over25_odd = sum(o25_odds) / len(o25_odds)
+                    if u25_odds: avg_under25_odd = sum(u25_odds) / len(u25_odds)
 
                 start_window = match_date - timezone.timedelta(hours=24)
                 end_window = match_date + timezone.timedelta(hours=24)
@@ -406,6 +419,8 @@ class Command(BaseCommand):
                     match.home_team_win_odds = avg_home_odd
                     match.draw_odds = avg_draw_odd
                     match.away_team_win_odds = avg_away_odd
+                    match.over_25_odds = avg_over25_odd
+                    match.under_25_odds = avg_under25_odd
                     if match.status not in ['Finished', 'Live', 'Postponed']:
                          match.status = 'Scheduled'
                          match.date = match_date
@@ -421,7 +436,9 @@ class Command(BaseCommand):
                         status='Scheduled',
                         home_team_win_odds=avg_home_odd,
                         draw_odds=avg_draw_odd,
-                        away_team_win_odds=avg_away_odd
+                        away_team_win_odds=avg_away_odd,
+                        over_25_odds=avg_over25_odd,
+                        under_25_odds=avg_under25_odd
                     )
                     count_created += 1
             

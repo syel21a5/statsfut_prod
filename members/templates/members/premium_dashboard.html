@@ -123,7 +123,7 @@
         <!-- Scanner Results Grid -->
         {% if is_premium %}
             
-            {% cache 7200 premium_dashboard_html request.LANGUAGE_CODE %}
+            {% cache 7200 premium_dashboard_html_v8 request.LANGUAGE_CODE %}
             <!-- AI Scanner Status Panel -->
             <div class="card bg-dark border-0 rounded-4 mb-4" style="background: linear-gradient(145deg, rgba(30,30,40,1) 0%, rgba(20,20,30,1) 100%); overflow: hidden;">
                 <div class="card-body p-4 position-relative">
@@ -181,16 +181,8 @@
                         🚩 {% translate "Corners" %}
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="cards-tab" data-bs-toggle="pill" data-bs-target="#cards-pane" type="button" role="tab">
-                        🟨 {% translate "Cards" %}
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="shots-tab" data-bs-toggle="pill" data-bs-target="#shots-pane" type="button" role="tab">
-                        🎯 {% translate "Shots" %}
-                    </button>
-                </li>
+                
+                
             </ul>
 
             <div class="tab-content" id="scannerTabsContent">
@@ -223,7 +215,6 @@
                                             <button class="btn btn-sm goals-market-tab active" data-market="all_over" onclick="filterGoalsMarket(this, 'all_over')">
                                                 {% translate "All" %}
                                             </button>
-                                            <button class="btn btn-sm goals-market-tab" data-market="OVER_05" onclick="filterGoalsMarket(this, 'OVER_05')">+0.5</button>
                                             <button class="btn btn-sm goals-market-tab" data-market="OVER_15" onclick="filterGoalsMarket(this, 'OVER_15')">+1.5</button>
                                             <button class="btn btn-sm goals-market-tab" data-market="OVER_25" onclick="filterGoalsMarket(this, 'OVER_25')">+2.5</button>
                                             <button class="btn btn-sm goals-market-tab" data-market="OVER_35" onclick="filterGoalsMarket(this, 'OVER_35')">+3.5</button>
@@ -240,21 +231,19 @@
                                             </button>
                                             <button class="btn btn-sm goals-market-tab" data-market="UNDER_35" onclick="filterGoalsMarket(this, 'UNDER_35')">-3.5</button>
                                             <button class="btn btn-sm goals-market-tab" data-market="UNDER_45" onclick="filterGoalsMarket(this, 'UNDER_45')">-4.5</button>
-                                            <button class="btn btn-sm goals-market-tab" data-market="UNDER_55" onclick="filterGoalsMarket(this, 'UNDER_55')">-5.5</button>
-                                            <button class="btn btn-sm goals-market-tab" data-market="UNDER_65" onclick="filterGoalsMarket(this, 'UNDER_65')">-6.5</button>
-                                            <button class="btn btn-sm goals-market-tab" data-market="HT_GOALS_NOT_2_4" onclick="filterGoalsMarket(this, 'HT_GOALS_NOT_2_4')">{% translate "Not 2-4 HT" %}</button>
-                                            <button class="btn btn-sm goals-market-tab" data-market="SH_GOALS_NOT_2_4" onclick="filterGoalsMarket(this, 'SH_GOALS_NOT_2_4')">{% translate "Not 2-4 2H" %}</button>
+                                            
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 
-                                {% if tips_goals %}
-                                    <!-- Date Sub-tabs -->
+                                <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="goals">
                                         {% regroup tips_goals by date_group as grouped_goals %}
-                                        {% for group in grouped_goals %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterGoalsDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterGoalsDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterGoalsDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterGoalsDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="goals-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_goals %}
@@ -274,12 +263,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -296,13 +280,13 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_btts %}
-                                    <!-- Date Sub-tabs -->
+                                <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="btts">
                                         {% regroup tips_btts by date_group as grouped_btts %}
-                                        {% for group in grouped_btts %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'btts', '{{ group.grouper }}')">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDateTab(this, 'btts', 'Hoje')">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDateTab(this, 'btts', 'Amanhã')">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDateTab(this, 'btts', 'Próxima Rodada')">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="btts-list" style="max-height: 590px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_btts %}
@@ -322,12 +306,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -355,7 +334,6 @@
                                             <button class="btn btn-sm dc-over-market-tab active" data-market="all_1x" onclick="filterDCOverMarket(this, 'all_1x')">
                                                 {% translate "All" %}
                                             </button>
-                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_0_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_0_5')">+0.5</button>
                                             <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_1_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_1_5')">+1.5</button>
                                             <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_2_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_2_5')">+2.5</button>
                                             <button class="btn btn-sm dc-over-market-tab" data-market="DC_1X_OVER_3_5" onclick="filterDCOverMarket(this, 'DC_1X_OVER_3_5')">+3.5</button>
@@ -368,7 +346,6 @@
                                             <button class="btn btn-sm dc-over-market-tab" data-market="all_x2" onclick="filterDCOverMarket(this, 'all_x2')">
                                                 {% translate "All" %}
                                             </button>
-                                            <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_0_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_0_5')">+0.5</button>
                                             <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_1_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_1_5')">+1.5</button>
                                             <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_2_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_2_5')">+2.5</button>
                                             <button class="btn btn-sm dc-over-market-tab" data-market="DC_X2_OVER_3_5" onclick="filterDCOverMarket(this, 'DC_X2_OVER_3_5')">+3.5</button>
@@ -376,12 +353,12 @@
                                     </div>
                                 </div>
 
-                                {% if tips_dc_over %}
-                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-over">
+                                <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-over">
                                         {% regroup tips_dc_over by date_group as grouped_dc_over %}
-                                        {% for group in grouped_dc_over %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDCOverDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDCOverDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDCOverDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDCOverDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="dc-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_dc_over %}
@@ -401,12 +378,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -451,12 +423,12 @@
                                     </div>
                                 </div>
 
-                                {% if tips_dc_btts %}
-                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-btts">
+                                <div class="date-subtabs d-flex gap-1 mb-3" data-card="dc-btts">
                                         {% regroup tips_dc_btts by date_group as grouped_dc_btts %}
-                                        {% for group in grouped_dc_btts %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDCBTTSDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDCBTTSDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDCBTTSDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDCBTTSDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="dc-btts-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_dc_btts %}
@@ -476,12 +448,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -505,13 +472,13 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_result %}
-                                    <!-- Date Sub-tabs -->
+                                <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="result">
                                         {% regroup tips_result by date_group as grouped_result %}
-                                        {% for group in grouped_result %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'result', '{{ group.grouper }}')">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDateTab(this, 'result', 'Hoje')">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDateTab(this, 'result', 'Amanhã')">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDateTab(this, 'result', 'Próxima Rodada')">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="result-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_result %}
@@ -531,12 +498,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -553,13 +515,13 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_specials %}
-                                    <!-- Date Sub-tabs -->
+                                <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="specials">
                                         {% regroup tips_specials by date_group as grouped_specials %}
-                                        {% for group in grouped_specials %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'specials', '{{ group.grouper }}')">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDateTab(this, 'specials', 'Hoje')">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDateTab(this, 'specials', 'Amanhã')">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDateTab(this, 'specials', 'Próxima Rodada')">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="specials-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_specials %}
@@ -579,12 +541,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -623,12 +580,12 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_corners_over %}
-                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-over">
+                                <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-over">
                                         {% regroup tips_corners_over by date_group as grouped_corners_over %}
-                                        {% for group in grouped_corners_over %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterCornersDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterCornersDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterCornersDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterCornersDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_corners_over %}
@@ -648,12 +605,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -670,12 +622,12 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_corners_winner %}
-                                    <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-winner">
+                                <div class="date-subtabs d-flex gap-1 mb-3" data-card="corners-winner">
                                         {% regroup tips_corners_winner by date_group as grouped_corners_winner %}
-                                        {% for group in grouped_corners_winner %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'corners-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDateTab(this, 'corners-winner', 'Hoje')">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDateTab(this, 'corners-winner', 'Amanhã')">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDateTab(this, 'corners-winner', 'Próxima Rodada')">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="corners-winner-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_corners_winner %}
@@ -695,12 +647,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
                     </div>
@@ -736,12 +683,13 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_cards_over %}
+
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-over">
                                         {% regroup tips_cards_over by date_group as grouped_cards_over %}
-                                        {% for group in grouped_cards_over %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterCardsDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterCardsDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterCardsDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterCardsDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-over-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_cards_over %}
@@ -761,12 +709,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -783,12 +726,13 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_cards_winner %}
+
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="cards-winner">
                                         {% regroup tips_cards_winner by date_group as grouped_cards_winner %}
-                                        {% for group in grouped_cards_winner %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'cards-winner', '{{ group.grouper }}')">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterDateTab(this, 'cards-winner', 'Hoje')">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterDateTab(this, 'cards-winner', 'Amanhã')">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterDateTab(this, 'cards-winner', 'Próxima Rodada')">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="cards-winner-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_cards_winner %}
@@ -808,12 +752,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
                     </div>
@@ -849,13 +788,14 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_shots_total %}
+
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots-total">
                                         {% regroup tips_shots_total by date_group as grouped_shots_total %}
-                                        {% for group in grouped_shots_total %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterShotsTotalDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterShotsTotalDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterShotsTotalDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterShotsTotalDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-total-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_shots_total %}
@@ -875,12 +815,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
 
@@ -910,13 +845,14 @@
                                     </div>
                                 </div>
                                 
-                                {% if tips_shots_target %}
+                                
                                     <!-- Date Sub-tabs -->
                                     <div class="date-subtabs d-flex gap-1 mb-3" data-card="shots-target">
                                         {% regroup tips_shots_target by date_group as grouped_shots_target %}
-                                        {% for group in grouped_shots_target %}
-                                        <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterShotsTargetDateTab(this)">{{ group.grouper }}</button>
-                                        {% endfor %}
+
+                                        <button class="btn btn-sm date-tab active" data-date-group="Hoje" onclick="filterShotsTargetDateTab(this)">Hoje</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Amanhã" onclick="filterShotsTargetDateTab(this)">Amanhã</button>
+                                        <button class="btn btn-sm date-tab" data-date-group="Próxima Rodada" onclick="filterShotsTargetDateTab(this)">Próxima Rodada</button>
                                     </div>
                                     <div class="d-flex flex-column gap-1 scanner-card-list" id="shots-target-list" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
                                         {% for group in grouped_shots_target %}
@@ -936,12 +872,7 @@
                                         {% endfor %}
                                         {% endfor %}
                                     </div>
-                                {% else %}
-                                    <div class="text-center p-4 text-secondary">
-                                        <i class="fa-solid fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
-                                        <p class="mb-0">{% translate "No matches met the criteria today." %}</p>
-                                    </div>
-                                {% endif %}
+                                
                             </div>
                         </div>
                     </div>
@@ -985,8 +916,8 @@
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="goals" onclick="filterHistCard(this, 'green', 'goals')">⚽ {% translate "Goals" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="btts" onclick="filterHistCard(this, 'green', 'btts')">🤝 {% translate "Btts" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="corners" onclick="filterHistCard(this, 'green', 'corners')">🚩 {% translate "Corners" %}</button>
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="cards" onclick="filterHistCard(this, 'green', 'cards')">🟨 {% translate "Cards" %}</button>
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="shots" onclick="filterHistCard(this, 'green', 'shots')">🎯 {% translate "Shots" %}</button>
+                            
+                            
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="outcomes" onclick="filterHistCard(this, 'green', 'outcomes')">🏆 {% translate "Outcomes" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green d-none" data-cat-btn="specials" onclick="filterHistCard(this, 'green', 'specials')">⭐ {% translate "Specials" %}</button>
                         </div>
@@ -1086,8 +1017,8 @@
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="goals" onclick="filterHistCard(this, 'red', 'goals')">⚽ {% translate "Goals" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="btts" onclick="filterHistCard(this, 'red', 'btts')">🤝 {% translate "Btts" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="corners" onclick="filterHistCard(this, 'red', 'corners')">🚩 {% translate "Corners" %}</button>
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="cards" onclick="filterHistCard(this, 'red', 'cards')">🟨 {% translate "Cards" %}</button>
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="shots" onclick="filterHistCard(this, 'red', 'shots')">🎯 {% translate "Shots" %}</button>
+                            
+                            
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="outcomes" onclick="filterHistCard(this, 'red', 'outcomes')">🏆 {% translate "Outcomes" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red d-none" data-cat-btn="specials" onclick="filterHistCard(this, 'red', 'specials')">⭐ {% translate "Specials" %}</button>
                         </div>
@@ -2431,8 +2362,8 @@ function applyGoalsAllFilters() {
         }
     }
     
-    const overMarkets = ['OVER_05', 'OVER_15', 'OVER_25', 'OVER_35', 'HT_GOAL'];
-    const underMarkets = ['UNDER_35', 'UNDER_45', 'UNDER_55', 'UNDER_65', 'HT_GOALS_NOT_2_4', 'SH_GOALS_NOT_2_4'];
+    const overMarkets = ['OVER_15', 'OVER_25', 'OVER_35', 'HT_GOAL'];
+    const underMarkets = ['UNDER_35', 'UNDER_45'];
     
     list.querySelectorAll('.scanner-tip-row').forEach(row => {
         const rowMarket = row.getAttribute('data-market');
@@ -2482,8 +2413,8 @@ function applyDCOverAllFilters() {
         }
     }
     
-    const over1xMarkets = ['DC_1X_OVER_0_5', 'DC_1X_OVER_1_5', 'DC_1X_OVER_2_5', 'DC_1X_OVER_3_5'];
-    const overX2Markets = ['DC_X2_OVER_0_5', 'DC_X2_OVER_1_5', 'DC_X2_OVER_2_5', 'DC_X2_OVER_3_5'];
+    const over1xMarkets = ['DC_1X_OVER_1_5', 'DC_1X_OVER_2_5', 'DC_1X_OVER_3_5'];
+    const overX2Markets = ['DC_X2_OVER_1_5', 'DC_X2_OVER_2_5', 'DC_X2_OVER_3_5'];
     
     list.querySelectorAll('.scanner-tip-row').forEach(row => {
         const rowMarket = row.getAttribute('data-market');
