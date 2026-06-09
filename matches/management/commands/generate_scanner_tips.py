@@ -13,7 +13,7 @@ class Command(BaseCommand):
         br_tz = ZoneInfo('America/Sao_Paulo')
         now_br = timezone.now().astimezone(br_tz)
         start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_date = start_of_day + timedelta(days=45) # Próximos 45 dias
+        end_date = start_of_day + timedelta(days=8) # Próximos 8 dias
         
         matches = Match.objects.filter(
             date__range=(start_of_day, end_date),
