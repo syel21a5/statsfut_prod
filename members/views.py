@@ -434,21 +434,21 @@ def premium_dashboard(request):
     SHOTS_MARKETS = {'SHOTS_OVER_205', 'SHOTS_OVER_225', 'SHOTS_OVER_245', 'SOT_OVER_65', 'SOT_OVER_75', 'SOT_OVER_85', 'SHOT_WIN_H', 'SHOT_WIN_A'}
     
     def get_date_group(match_date):
-        if not match_date: return _("Future")
+        if not match_date: return "Próxima Rodada"
         match_date_br = match_date.astimezone(br_tz).date()
         today = now_br.date()
         diff = (match_date_br - today).days
-        if diff == 0: return _("Today")
-        elif diff == 1: return _("Tomorrow")
-        return _("Next Round")
+        if diff == 0: return "Hoje"
+        elif diff == 1: return "Amanhã"
+        return "Próxima Rodada"
 
     def get_ticket_date_group(target_date):
-        if not target_date: return _("Future")
+        if not target_date: return "Próxima Rodada"
         today = now_br.date()
         diff = (target_date - today).days
-        if diff == 0: return _("Today")
-        elif diff == 1: return _("Tomorrow")
-        return _("Next Round")
+        if diff == 0: return "Hoje"
+        elif diff == 1: return "Amanhã"
+        return "Próxima Rodada"
 
     for t in active_tickets:
         if t.date_target:
@@ -458,7 +458,7 @@ def premium_dashboard(request):
             if first_sel and first_sel.match.date:
                 t.date_group = get_date_group(first_sel.match.date)
             else:
-                t.date_group = _("Future")
+                t.date_group = "Próxima Rodada"
 
     # Containers for each category
     tips_goals = []
