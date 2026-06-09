@@ -411,9 +411,11 @@ def premium_dashboard(request):
     ).prefetch_related('selections__match__home_team', 'selections__match__away_team', 'selections__match__league').order_by('-ticket_type', '-created_at')[:10]
 
     # Buscar dicas pendentes para os próximos 7 dias, priorizando alta probabilidade
+    # EXCLUIR jogos que começaram há mais de 2.5 horas (pois já acabaram, mesmo que o placar ainda não tenha atualizado no banco)
+    cutoff_time = timezone.now() - timedelta(hours=2, minutes=30)
     pending_tips = ScannerTip.objects.filter(
         status='PENDING',
-        match__date__range=(start_of_day, end_date + timedelta(days=1))
+        match__date__range=(cutoff_time, end_date + timedelta(days=1))
     ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-probability', 'match__date')
     
     # Buscar histórico de dicas dos últimos 15 dias (GREEN, RED, e PENDING de jogos finalizados)
