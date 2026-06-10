@@ -211,32 +211,16 @@
             <a href="{% url 'matches:country_stats' 'usa' %}" class="flag-btn" data-bs-toggle="tooltip" title="USA"><span class="fi fi-us"></span></a>
         </div>
 
-        <!-- Header & Banner Layout -->
+        <!-- Header Layout -->
         <div class="row align-items-center mb-4">
-            <!-- Left: Page Title -->
-            <div class="col-md-3">
+            <!-- Full Width: Page Title -->
+            <div class="col-12">
                 <div class="page-title">
                     {% block header %}
                     <h1 class="h3 mb-0 text-white">{% translate "Overview" %}</h1>
                     {% endblock %}
                 </div>
             </div>
-
-            <!-- Center: Banner -->
-            <div class="col-md-6 text-center">
-                <div class="ad-slot-leaderboard mx-auto rounded-3 overflow-hidden border border-secondary border-opacity-25" style="max-height: 90px; width: 100%; max-width: 728px;">
-                    <a href="/contact-us/" class="d-block w-100 h-100">
-                        <img src="{% static 'images/banners/banner1.png' %}" alt="Elite Analytics" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                    </a>
-                </div>
-            </div>
-
-            <!-- Right: Date (Removed, moved to top header) -->
-            <!-- <div class="col-md-3 text-md-end text-start mt-2 mt-md-0">
-                <div class="date-badge d-inline-block">
-                    <i class="fa-regular fa-clock me-1"></i> {% now "M d, Y, H:i" %}
-                </div>
-            </div> -->
         </div>
 
         {% block content %}{% endblock %}
