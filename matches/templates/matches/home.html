@@ -137,6 +137,21 @@
     }
 </style>
 
+<!-- Google AdSense: Banner Topo Horizontal (Oculto para Premium) -->
+{% if not request.user.is_authenticated or not request.user.profile.is_premium %}
+<div class="my-4 text-center">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2087369649856188"
+         data-ad-slot="6364623590"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+{% endif %}
+
 <div class="matches-container">
     {% cache 300 home_matches current_filter request.LANGUAGE_CODE %}
     {% for country_data in grouped_matches %}
@@ -230,6 +245,24 @@
         </div>
         {% endfor %}
     </div>
+
+    <!-- Google AdSense: Banner Meio da Lista (In-Feed Oculto para Premium) -->
+    {% if forloop.counter == 2 %}
+    {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
+    <div class="my-5 text-center">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-2087369649856188"
+             data-ad-slot="2921078319"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    {% endif %}
+    {% endif %}
+
     {% empty %}
     <div class="text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
         <i class="fa-solid fa-ghost mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
