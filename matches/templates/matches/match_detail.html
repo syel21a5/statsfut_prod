@@ -407,8 +407,6 @@
     </div>
     {% endif %}
 
-    <!-- In-Article Ad Slot 1 -->
-    <div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div>
 
     {% if advanced_stats %}
     
@@ -775,8 +773,6 @@
         </div>
         {% endif %}
 
-        <!-- In-Article Ad Slot 2 -->
-        <div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div>
 
         <!-- IA SUMMARY -->
         <div class="ia-panel-modern mt-4 mb-4">
@@ -882,7 +878,10 @@
                     </div>
                     
                     <div class="cpt-row over">
-                        <div class="row-label">Prob. Over</div>
+                        
+    <!-- Top Ad Block -->
+    <div class="row mb-4"><div class="col-12"><div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div></div></div>
+<div class="row-label">Prob. Over</div>
                         <div class="cpt-cell {% if advanced_stats.corners.match_overs.6 > 80 %}high{% elif advanced_stats.corners.match_overs.6 > 60 %}mid{% else %}low{% endif %}">
                             {{ advanced_stats.corners.match_overs.6 }}%
                         </div>
@@ -1323,6 +1322,9 @@
             </button>
         </div>
     </div>
+
+    <!-- Bottom Ad Block -->
+    <div class="row mt-4 mb-4"><div class="col-12"><div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div></div></div>
 </div>
 {% endif %}
 {% endblock %}
