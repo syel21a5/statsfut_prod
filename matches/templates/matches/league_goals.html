@@ -79,22 +79,15 @@
         <!-- Main Content -->
         <div class="col-lg-9" id="stats-content">
 
-            <!-- Horizontal Ad Slot (Top) -->
-            <div class="ad-slot-league mb-4 overflow-hidden mx-auto text-center d-block">
-                <!-- Statsfut - Liga - Topo Horizontal -->
-                <ins class="adsbygoogle ad-slot-top-responsive"
-                     data-ad-client="ca-pub-2087369649856188"
-                     data-ad-slot="9200043641"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-
             <!-- League Summary Cards -->
             {% if league_stats %}
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
-                <div class="card-body p-3">
-                    <div class="row align-items-center text-center">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="fa-solid fa-chart-pie fa-fw text-primary fs-4 me-3"></i>
+                        <h4 class="card-title fw-bold text-white mb-0">{% translate "Season Distribution" %}</h4>
+                    </div>
+                    <div class="row g-4">
                         <div class="col-md-4">
                             <div class="d-flex justify-content-between text-secondary small text-uppercase mb-1">
                                 <span>{% translate "Home Wins" %}</span>
@@ -105,7 +98,7 @@
                                     data-width="{{ league_stats.home_wins_pct }}%" style="width: 0;"></div>
                             </div>
                         </div>
-                        <div class="col-md-4 border-start border-end border-secondary border-opacity-25">
+                        <div class="col-md-4">
                             <div class="d-flex justify-content-between text-secondary small text-uppercase mb-1">
                                 <span>{% translate "Draws" %}</span>
                                 <span>{{ league_stats.draws_pct|floatformat:0 }}%</span>
@@ -129,6 +122,19 @@
                 </div>
             </div>
             {% endif %}
+
+            <!-- In-Article Ad Slot -->
+            <div class="ad-slot-inline mb-4 overflow-hidden text-center mx-auto" style="max-width: 100%;">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-2087369649856188"
+                     data-ad-slot="2921078319"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
 
             {% if league_avg_row %}
             <div class="row g-3 mb-4">
