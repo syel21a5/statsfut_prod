@@ -1180,7 +1180,7 @@ body {
 }
 .language-switcher form { line-height: 0; }
 
-/* Google AdSense: soften unfilled ad containers (remove visible box, keep space) */
+/* Google AdSense: fully collapse unfilled ad containers */
 .ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-leaderboard:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-home:has(ins.adsbygoogle[data-ad-status="unfilled"]),
@@ -1188,9 +1188,5 @@ body {
 .ad-slot-vertical:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-inline:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-rectangle:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    min-height: 0 !important;
+    display: none !important;
 }
-
