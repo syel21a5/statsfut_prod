@@ -30,6 +30,7 @@
     <div class="row">
         <div class="col-lg-9">
             <!-- Horizontal Ad Slot (Top) -->
+            {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
             <div class="ad-slot-league mb-4 d-none d-md-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="max-height: 150px; background: #0b0f19;">
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
                      crossorigin="anonymous"></script>
@@ -44,6 +45,7 @@
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
+            {% endif %}
 
             <!-- About Team Premium Card (AdSense Friendly SEO Text) -->
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
@@ -57,6 +59,7 @@
                                 {% blocktranslate with team_name=team.name league_name=league.name country=league.country|country_en %}O {{ team_name }} é um clube de futebol profissional disputando a {{ league_name }} em {{ country }}.{% endblocktranslate %}
                                 {% if standing %}
                                     {% blocktranslate with pos=standing.position pts=standing.points %}Na temporada atual, a equipe ocupa a <strong>{{ pos }}ª</strong> posição na tabela de classificação, somando um total de <strong>{{ pts }}</strong> pontos.{% endblocktranslate %}
+                                {% endif %}
                             </p>
                             <p class="mb-0">
                                 {% blocktranslate with team_name=team.name %}No StatsFut, você acompanha os placares ao vivo do {{ team_name }}, resultados detalhados, estatísticas de posse de bola, gols, cartões, escanteios, escalações e o calendário completo da temporada.{% endblocktranslate %}
@@ -82,6 +85,7 @@
                                             {% blocktranslate with name=top_scorer.name goals=top_scorer.total %}O artilheiro do elenco nesta temporada é <strong>{{ name }}</strong> com <strong>{{ goals }}</strong> gols marcados.{% endblocktranslate %}
                                         {% endwith %}
                                     </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -199,6 +203,7 @@
                                     <i class="fa-regular fa-calendar-xmark fa-2x mb-2"></i>
                                     <p class="mb-0">{% translate "No upcoming matches scheduled." %}</p>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -597,6 +602,7 @@
                                                 <span class="badge bg-success bg-opacity-25 text-success">H</span>
                                                 {% else %}
                                                 <span class="badge bg-warning bg-opacity-25 text-warning">A</span>
+                                                {% endif %}
                                             </td>
                                             <td>{% if m.is_home %}{{ m.col_away_ppg }}{% else %}{{ m.col_home_ppg }}{% endif %}</td>
 
@@ -1121,6 +1127,7 @@
                                 {% blocktranslate with team_name=team.name opp=next_m.home_team.name|default:next_m.away_team.name date=next_m.date|date:"d/m/Y H:i" league=league.name %}O {{ team_name }} jogará a próxima partida contra o <strong>{{ opp }}</strong> no dia <strong>{{ date }}</strong> pela <strong>{{ league }}</strong>.{% endblocktranslate %}
                             {% endwith %}
                         </p>
+                    {% endif %}
 
                     <!-- Previous Match -->
                     {% if matches_list %}
@@ -1137,6 +1144,7 @@
                                 {% endif %}
                             {% endwith %}
                         </p>
+                    {% endif %}
 
                     <!-- Graph description -->
                     <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Gráfico de desempenho e forma" %}</h6>
@@ -1155,6 +1163,7 @@
                                 {% endfor %}
                             </p>
                         </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -1164,6 +1173,7 @@
             <div class="sticky-top" style="top: 20px; z-index: 100;">
 
                 <!-- Vertical Ad Slot 1 -->
+                {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
                 <div class="card border-0 bg-transparent mb-4">
                     <div class="ad-slot text-center bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
                         style="min-height: 250px;">
@@ -1171,16 +1181,20 @@
                              crossorigin="anonymous"></script>
                         <!-- Statsfut - Times - Sidebar Superior -->
                         <ins class="adsbygoogle"
-                             style="display:inline-block;width:300px;height:250px"
+                             style="display:block"
                              data-ad-client="ca-pub-2087369649856188"
-                             data-ad-slot="2443063605"></ins>
+                             data-ad-slot="2443063605"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
                         <script>
                              (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
                 </div>
+                {% endif %}
 
                 <!-- Vertical Ad Slot 2 (Tall Skyscraper) -->
+                {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
                 <div class="card border-0 bg-transparent mb-4">
                     <div class="ad-slot text-center bg-dark bg-opacity-25 rounded border border-secondary border-opacity-10 d-flex flex-column justify-content-center align-items-center"
                         style="min-height: 600px;">
@@ -1188,14 +1202,17 @@
                              crossorigin="anonymous"></script>
                         <!-- Statsfut - Times - Sidebar Inferior -->
                         <ins class="adsbygoogle"
-                             style="display:inline-block;width:300px;height:600px"
+                             style="display:block"
                              data-ad-client="ca-pub-2087369649856188"
-                             data-ad-slot="7715908293"></ins>
+                             data-ad-slot="7715908293"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
                         <script>
                              (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
                 </div>
+                {% endif %}
 
             </div>
         </div>
