@@ -12,11 +12,9 @@
         gtag('config', 'G-9Q2MX8RCT6');
     </script>
 
-    <!-- Google AdSense (Oculto para usuários Premium) -->
-    {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
+    <!-- Google AdSense (Visível para todos os usuários) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
          crossorigin="anonymous"></script>
-    {% endif %}
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
