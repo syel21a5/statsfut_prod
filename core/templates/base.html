@@ -42,6 +42,21 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- Flag Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/7.1.0/css/flag-icons.min.css">
+    
+    <style>
+        /* Esconde o bloco de anúncio se o AdSense não conseguir preencher (status="unfilled") */
+        ins.adsbygoogle[data-ad-status="unfilled"] {
+            display: none !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div.ad-slot-inline:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+            display: none !important;
+            margin: 0 !important;
+            height: 0 !important;
+        }
+    </style>
 </head>
 
 <body>
