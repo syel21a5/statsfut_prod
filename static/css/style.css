@@ -1192,3 +1192,16 @@ body {
 .card:has(> .ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"])) {
     display: none !important;
 }
+
+/* Responsive Top Banner (Mobile 320x100 -> Desktop 728x90) */
+.ad-slot-top-responsive {
+    display: inline-block;
+    width: 320px;
+    height: 100px;
+}
+@media (min-width: 768px) {
+    .ad-slot-top-responsive {
+        width: 728px;
+        height: 90px;
+    }
+}
