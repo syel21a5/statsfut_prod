@@ -411,23 +411,7 @@
         }
     </script>
 
-    <!-- AdSense: collapse unfilled ad containers after delay -->
-    <script>
-        setTimeout(function() {
-            document.querySelectorAll('ins.adsbygoogle').forEach(function(ins) {
-                if (ins.dataset.adStatus === 'unfilled' || ins.innerHTML.trim() === '') {
-                    // Walk up to the nearest ad wrapper and hide it
-                    var wrapper = ins.closest('.ad-slot, .ad-slot-home, .ad-slot-league, .ad-slot-vertical, .ad-slot-leaderboard, .ad-slot-inline, .ad-slot-rectangle, [class*="ad-slot"]');
-                    if (wrapper) {
-                        wrapper.style.display = 'none';
-                        // Also hide the parent card if it's just a transparent wrapper
-                        var parentCard = wrapper.closest('.card.border-0.bg-transparent');
-                        if (parentCard) parentCard.style.display = 'none';
-                    }
-                }
-            });
-        }, 3000);
-    </script>
+
 
     {% block extra_js %}{% endblock %}
 </body>

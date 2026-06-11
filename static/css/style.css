@@ -1187,6 +1187,8 @@ body {
 .ad-slot-league:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-vertical:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-inline:has(ins.adsbygoogle[data-ad-status="unfilled"]),
-.ad-slot-rectangle:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+.ad-slot-rectangle:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.card:has(> .ad-slot-vertical:has(ins.adsbygoogle[data-ad-status="unfilled"])),
+.card:has(> .ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"])) {
     display: none !important;
 }
