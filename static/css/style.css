@@ -1193,12 +1193,7 @@ body {
 }
 .language-switcher form { line-height: 0; }
 
-/* Google AdSense Auto-Hiding of Empty Slots */
-ins.adsbygoogle[data-ad-status="unfilled"] {
-    display: none !important;
-}
-
-/* Hide parent container if it has borders/backgrounds to avoid empty styled boxes */
+/* Google AdSense: soften unfilled ad containers (remove visible box, keep space) */
 .ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-leaderboard:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-home:has(ins.adsbygoogle[data-ad-status="unfilled"]),
@@ -1206,6 +1201,9 @@ ins.adsbygoogle[data-ad-status="unfilled"] {
 .ad-slot-vertical:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-inline:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot-rectangle:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
-    display: none !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
 }
 
