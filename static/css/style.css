@@ -1192,3 +1192,20 @@ body {
     filter: grayscale(0%);
 }
 .language-switcher form { line-height: 0; }
+
+/* Google AdSense Auto-Hiding of Empty Slots */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+    display: none !important;
+}
+
+/* Hide parent container if it has borders/backgrounds to avoid empty styled boxes */
+.ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.ad-slot-leaderboard:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.ad-slot-home:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.ad-slot-league:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.ad-slot-vertical:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.ad-slot-inline:has(ins.adsbygoogle[data-ad-status="unfilled"]),
+.ad-slot-rectangle:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+    display: none !important;
+}
+
