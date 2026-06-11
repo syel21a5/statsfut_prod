@@ -32,22 +32,16 @@
     transition: color 0.2s ease;
 }
 
-/* Ad Placeholders */
+/* Ad Containers */
 .ad-slot-leaderboard, .ad-slot-home, .ad-slot-league, .ad-slot-vertical {
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
-    color: var(--text-muted);
+    border-radius: 8px;
 }
 
 .ad-slot-leaderboard { min-height: 90px; max-width: 728px; }
 .ad-slot-home { min-height: 100px; }
 .ad-slot-league { min-height: 90px; }
-.ad-slot-vertical { min-height: 250px; flex-direction: column; padding: 2rem 1rem; }
+.ad-slot-vertical { min-height: 250px; }
 
 .ad-placeholder-inner {
     width: 100%;
@@ -466,15 +460,8 @@ body {
 
 /* --- AD SLOTS --- */
 .ad-slot {
-    border: 1px dashed var(--border);
-    background: rgba(15, 23, 42, 0.6);
     border-radius: 0.75rem;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    overflow: hidden;
 }
 
 .ad-slot-leaderboard {
