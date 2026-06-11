@@ -308,6 +308,8 @@
 
 {% block content %}
 <div class="premium-dashboard">
+    <!-- Top Ad Block -->
+    <div class="row mb-4"><div class="col-12"><div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div></div></div>
 
     <!-- PLACAR E TIMES (COMPACTO) -->
     <div class="match-hero-minimal mb-4">
@@ -879,8 +881,6 @@
                     
                     <div class="cpt-row over">
                         
-    <!-- Top Ad Block -->
-    <div class="row mb-4"><div class="col-12"><div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div></div></div>
 <div class="row-label">Prob. Over</div>
                         <div class="cpt-cell {% if advanced_stats.corners.match_overs.6 > 80 %}high{% elif advanced_stats.corners.match_overs.6 > 60 %}mid{% else %}low{% endif %}">
                             {{ advanced_stats.corners.match_overs.6 }}%
