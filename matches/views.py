@@ -4008,15 +4008,19 @@ class LeagueDetailedStatsView(TemplateView):
             Q(away_matches__league=league, away_matches__season=latest_season)
         ).distinct()
 
+        # Otimização: Buscar todos os jogos relevantes da liga de uma vez para evitar N+1 queries
+        all_matches_for_stats = list(Match.objects.filter(
+            league=league, season=latest_season,
+            status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED'],
+            home_corners__isnull=False
+        ).select_related('home_team', 'away_team'))
+
         team_stats = []
         for team in teams:
-            # Jogos finalizados do time com dados de escanteios
-            matches = Match.objects.filter(
-                league=league, season=latest_season,
-                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
-            ).filter(Q(home_team=team) | Q(away_team=team)).filter(home_corners__isnull=False)
+            # Filtro em memória Python (muito mais rápido que queries individuais)
+            matches = [m for m in all_matches_for_stats if m.home_team_id == team.id or m.away_team_id == team.id]
 
-            gp = matches.count()
+            gp = len(matches)
             if gp > 0:
                 corners_for = 0
                 corners_against = 0
