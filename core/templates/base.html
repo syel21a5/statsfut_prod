@@ -426,6 +426,36 @@
 
 
 
+    <!-- Global Ad Injection (bypasses Django template cache) -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var placeholders = document.querySelectorAll('.ad-placeholder');
+        if (placeholders.length === 0) return;
+        placeholders.forEach(function(ph) {
+            var format = ph.getAttribute('data-ad-format') || 'auto';
+            var wrapper = document.createElement('div');
+            wrapper.className = 'ad-slot-inline mb-4 overflow-hidden text-center mx-auto';
+            wrapper.style.maxWidth = '100%';
+
+            var ins = document.createElement('ins');
+            ins.className = 'adsbygoogle';
+            ins.style.display = 'block';
+            ins.style.textAlign = 'center';
+            ins.setAttribute('data-ad-format', format);
+            ins.setAttribute('data-ad-client', 'ca-pub-2087369649856188');
+            ins.setAttribute('data-ad-slot', '1511520655');
+            ins.setAttribute('data-full-width-responsive', 'true');
+
+            wrapper.appendChild(ins);
+            ph.replaceWith(wrapper);
+
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch(e) {}
+        });
+    });
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 

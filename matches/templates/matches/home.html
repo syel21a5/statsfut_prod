@@ -134,17 +134,7 @@
 </style>
 
 
-<div class="ad-slot-inline mb-4 overflow-hidden text-center mx-auto" style="max-width: 100%;">
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-format="auto"
-         data-ad-client="ca-pub-2087369649856188"
-         data-ad-slot="1511520655"
-                     data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
+<div class="ad-placeholder" data-ad-format="auto"></div>
 
 <div class="matches-container">
     {% cache 300 home_matches current_filter request.LANGUAGE_CODE %}
@@ -240,19 +230,9 @@
         {% endfor %}
     </div>
 
-    <!-- Google AdSense: Banner Meio da Lista (In-Feed) -->
+    <!-- Ad placeholder (injected via JS to avoid cache) -->
     {% if forloop.counter == 2 %}
-    <div class="my-5 text-center">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-2087369649856188"
-             data-ad-slot="1511520655"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <div class="ad-placeholder my-5" data-ad-format="auto" data-ad-position="middle-home"></div>
     {% endif %}
 
     {% empty %}
@@ -272,17 +252,7 @@
 </div>
 
 <!-- In-Article Ad Slot 2 -->
-<div class="ad-slot-inline mb-4 overflow-hidden text-center mx-auto mt-4" style="max-width: 100%;">
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-format="auto"
-         data-ad-client="ca-pub-2087369649856188"
-         data-ad-slot="1511520655"
-                     data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
+<div class="ad-placeholder" data-ad-format="auto"></div>
 
 <style>
 .hover-effect { transition: transform 0.2s, box-shadow 0.2s; }
@@ -311,5 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+
 
 {% endblock %}

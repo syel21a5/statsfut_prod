@@ -37,18 +37,8 @@
         </div>
     </div>
 
-    <!-- Top Ad Slot -->
-    <div class="ad-slot-inline mb-4 overflow-hidden text-center mx-auto" style="max-width: 100%;">
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-format="horizontal"
-             data-ad-client="ca-pub-2087369649856188"
-             data-ad-slot="1511520655"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <!-- Top Ad Slot (injected via JS to avoid cache) -->
+    <div class="ad-placeholder" data-ad-format="horizontal" data-ad-position="top"></div>
 
     <!-- SEO TEXT DYNAMIC GENERATION (SofaScore / SoccerStats Premium Style) -->
     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
@@ -326,18 +316,8 @@
                 </div>
             </div>
 
-            <!-- Middle Ad Slot -->
-            <div class="ad-slot-inline mb-4 overflow-hidden text-center mx-auto" style="max-width: 100%;">
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-format="rectangle, horizontal"
-                     data-ad-client="ca-pub-2087369649856188"
-                     data-ad-slot="1511520655"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            <!-- Middle Ad Slot (injected via JS to avoid cache) -->
+            <div class="ad-placeholder" data-ad-format="rectangle, horizontal" data-ad-position="middle"></div>
 
             <!-- Pre-Match Analysis Section -->
             <div class="row mb-4">
@@ -1005,18 +985,8 @@
                 </div>
             </div>
 
-            <!-- Bottom Ad Slot -->
-            <div class="ad-slot-inline mb-4 overflow-hidden text-center mx-auto" style="max-width: 100%;">
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-format="auto"
-                     data-ad-client="ca-pub-2087369649856188"
-                     data-ad-slot="1511520655"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            <!-- Bottom Ad Slot (injected via JS to avoid cache) -->
+            <div class="ad-placeholder" data-ad-format="auto" data-ad-position="bottom"></div>
 
             <!-- Relative Form & Performance -->
             <div class="row g-4 mb-4">
@@ -1351,4 +1321,6 @@
     }
 </style>
 {% endcache %}
+
+
 {% endblock %}
