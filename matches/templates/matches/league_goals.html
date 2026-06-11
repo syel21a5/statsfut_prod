@@ -80,22 +80,18 @@
         <div class="col-lg-9" id="stats-content">
 
             <!-- Horizontal Ad Slot (Top) -->
-            {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
-            <div class="ad-slot-league mb-4 d-none d-md-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="height: 140px; position: relative;">
+            <div class="ad-slot-league mb-4 d-none d-md-block rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="min-height: 90px; background: #0b0f19; display: flex; justify-content: center; align-items: center;">
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
                      crossorigin="anonymous"></script>
                 <!-- Statsfut - Liga - Topo Horizontal -->
                 <ins class="adsbygoogle"
-                     style="display:block"
+                     style="display:inline-block;width:728px;height:90px"
                      data-ad-client="ca-pub-2087369649856188"
-                     data-ad-slot="9200043641"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                     data-ad-slot="9200043641"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
-            {% endif %}
 
             <!-- League Summary Cards -->
             {% if league_stats %}
@@ -712,40 +708,32 @@
             <div class="sticky-top" style="top: 20px; z-index: 100;">
 
                 <!-- Vertical Ad Slot 1 -->
-                {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
-                <div class="ad-slot-vertical mb-4 rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="min-height: 250px;">
+                <div class="ad-slot-vertical mb-4 rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-25" style="min-height: 250px;">
                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
                          crossorigin="anonymous"></script>
                     <!-- Statsfut - Liga - Sidebar Superior -->
                     <ins class="adsbygoogle"
-                         style="display:block"
+                         style="display:inline-block;width:300px;height:250px"
                          data-ad-client="ca-pub-2087369649856188"
-                         data-ad-slot="9994250565"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
+                         data-ad-slot="9994250565"></ins>
                     <script>
                          (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
-                {% endif %}
 
                 <!-- Vertical Ad Slot 2 (Tall) -->
-                {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
-                <div class="ad-slot-vertical mb-4 rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="min-height: 600px;">
+                <div class="ad-slot-vertical mb-4 rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-25" style="min-height: 600px;">
                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
                          crossorigin="anonymous"></script>
                     <!-- Statsfut - Liga - Sidebar Inferior -->
                     <ins class="adsbygoogle"
-                         style="display:block"
+                         style="display:inline-block;width:300px;height:600px"
                          data-ad-client="ca-pub-2087369649856188"
-                         data-ad-slot="7384735802"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
+                         data-ad-slot="7384735802"></ins>
                     <script>
                          (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
-                {% endif %}
 
             </div>
         </div>

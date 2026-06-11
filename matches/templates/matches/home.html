@@ -10,20 +10,16 @@
 
 {% block content %}
 
-<!-- Google AdSense: Banner Topo Horizontal (Oculto para Premium) -->
-{% if not request.user.is_authenticated or not request.user.profile.is_premium %}
-<div class="ad-slot-home mb-4 mx-auto rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="min-height: 90px; max-width: 1050px; position: relative; background: var(--bg-panel); display: flex; align-items: center; justify-content: center;">
+<!-- Google AdSense: Banner Topo Horizontal -->
+<div class="ad-slot-home mb-4 mx-auto rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-sm d-none d-md-flex" style="min-height: 90px; max-width: 1050px; background: var(--bg-panel); display: flex; align-items: center; justify-content: center;">
     <ins class="adsbygoogle"
-         style="display:block; width: 100%;"
+         style="display:inline-block;width:728px;height:90px"
          data-ad-client="ca-pub-2087369649856188"
-         data-ad-slot="6364623590"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+         data-ad-slot="6364623590"></ins>
     <script>
          (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 </div>
-{% endif %}
 
 <!-- Filters Row -->
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
@@ -242,9 +238,8 @@
         {% endfor %}
     </div>
 
-    <!-- Google AdSense: Banner Meio da Lista (In-Feed Oculto para Premium) -->
+    <!-- Google AdSense: Banner Meio da Lista (In-Feed) -->
     {% if forloop.counter == 2 %}
-    {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
     <div class="my-5 text-center">
         <ins class="adsbygoogle"
              style="display:block"
@@ -256,7 +251,6 @@
              (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
-    {% endif %}
     {% endif %}
 
     {% empty %}

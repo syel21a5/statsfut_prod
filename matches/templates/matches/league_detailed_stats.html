@@ -65,26 +65,22 @@
     </div>
 
     <!-- Horizontal Ad Slot (Top) -->
-    {% if not request.user.is_authenticated or not request.user.profile.is_premium %}
     <div class="row mb-4 d-none d-md-block">
         <div class="col-12">
-            <div class="ad-slot-league rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="max-height: 150px; background: #0b0f19;">
+            <div class="ad-slot-league rounded-3 overflow-hidden border border-secondary border-opacity-25 shadow-sm" style="min-height: 90px; background: #0b0f19; display: flex; justify-content: center; align-items: center;">
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
                      crossorigin="anonymous"></script>
                 <!-- Statsfut - Liga - Topo Horizontal -->
                 <ins class="adsbygoogle"
-                     style="display:block"
+                     style="display:inline-block;width:728px;height:90px"
                      data-ad-client="ca-pub-2087369649856188"
-                     data-ad-slot="9200043641"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                     data-ad-slot="9200043641"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
         </div>
     </div>
-    {% endif %}
 
     <!-- Main Grid -->
     <div class="row g-4 mb-4">
