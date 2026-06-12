@@ -1,320 +1,128 @@
+import os
+import requests
 from django.core.management.base import BaseCommand
-from django.db.models import Q, Subquery
 from django.db import transaction
-from matches.models import League, Season, Team, Match, LeagueStanding
-
-
 from django.utils import timezone
 from datetime import timedelta
 
+from matches.models import League, Season, Team, Match, LeagueStanding
+from matches.api_manager import APIManager
+from matches.utils_odds_api import resolve_team
+
 class Command(BaseCommand):
-    help = "Recalcula a tabela de classificação a partir dos jogos do banco"
+    help = "Atualiza a tabela de classificação oficial via API-Football PRO"
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--all",
-            action="store_true",
-            help="Recalcula a tabela para todas as ligas ativas",
-        )
-        parser.add_argument(
-            "--smart",
-            action="store_true",
-            help="Modo inteligente: recalcula apenas as ligas com jogos recentes (últimas 24h).",
-        )
-        parser.add_argument(
-            "--league_name",
-            type=str,
-            default=None,
-            help="Nome da liga para recalcular a tabela",
-        )
-        parser.add_argument(
-            "--country",
-            type=str,
-            default=None,
-            help="País da liga (opcional, para desambiguação)",
-        )
-        parser.add_argument(
-            "--division",
-            type=str,
-            help="Código da divisão (ex: AUT, E0) para configurar liga/país automaticamente",
-        )
-        parser.add_argument(
-            "--season_year",
-            type=int,
-            help="Ano de término da temporada (ex: 2026 para 2025/2026). Se omitido, usa a temporada mais recente com jogos",
-        )
+        parser.add_argument("--all", action="store_true", help="Atualiza a tabela para todas as ligas mapeadas")
+        parser.add_argument("--smart", action="store_true", help="Atualiza apenas ligas com jogos nas últimas 24h")
+        parser.add_argument("--league_id", type=int, default=None, help="ID da liga na API-Football")
 
     def handle(self, *args, **options):
-        if options["all"]:
-            # Se --smart for passado, filtra apenas ligas com jogos recentes
-            if options["smart"]:
-                self.stdout.write(self.style.SUCCESS("Modo SMART ativado: Buscando ligas com jogos nas últimas 24h..."))
-                yesterday = timezone.now() - timedelta(days=1)
-                
-                # Otimização crucial: Evitar JOIN pesado (LEFT OUTER JOIN no django .filter().distinct())
-                # Busca PIDs primeiro, depois as Ligas.
-                recent_league_ids = Match.objects.filter(
-                    date__gte=yesterday
-                ).values_list('league_id', flat=True).distinct()
-                
-                leagues_with_matches = League.objects.filter(id__in=recent_league_ids)
-            else:
-                self.stdout.write(self.style.WARNING("Modo FULL SCAN ativado: Recalculando TODAS as ligas do banco..."))
-                leagues_with_matches = League.objects.filter(matches__isnull=False).distinct()
-
-            
-            count = leagues_with_matches.count()
-            self.stdout.write(self.style.SUCCESS(f"Iniciando recálculo para {count} ligas..."))
-            
-            for league in leagues_with_matches:
-                self.recalculate_for_league(league, smart=options["smart"])
-            
-            self.stdout.write(self.style.SUCCESS("Recálculo concluído."))
-            return
-
-        league_name = options["league_name"]
-        country = options["country"]
-        division = options.get("division")
-        season_year = options.get("season_year")
-
-        if not league_name and not division:
-            self.stdout.write(self.style.ERROR("Você precisa especificar --league_name, --division ou usar --all."))
-            return
+        self.stdout.write(self.style.SUCCESS("Iniciando Atualização PRO de Classificação (Standings)"))
         
-        # Mapeamento auxiliar se usar --division
-        LEAGUE_MAPPING = {
-            'E0': ('Premier League', 'Inglaterra'),
-            'SP1': ('La Liga', 'Espanha'),
-            'D1': ('Bundesliga', 'Alemanha'),
-            'I1': ('Serie A', 'Italia'),
-            'F1': ('Ligue 1', 'Franca'),
-            'N1': ('Eredivisie', 'Holanda'),
-            'B1': ('Pro League', 'Belgica'),
-            'P1': ('Primeira Liga', 'Portugal'),
-            'T1': ('Super Lig', 'Turquia'),
-            'G1': ('Super League', 'Grecia'),
-            'DNK': ('Superliga', 'Dinamarca'),
-            'BRA': ('Brasileirao', 'Brasil'),
-            'ARG': ('Liga Profesional', 'Argentina'),
-            'AUT': ('Bundesliga', 'Austria'),
-            'SWZ': ('Super League', 'Suica'),
-            'SW1': ('Super League', 'Suica'),
-            'CZE': ('First League', 'Republica Tcheca'),
-        }
-
-        if division:
-            if division in LEAGUE_MAPPING:
-                league_name, country = LEAGUE_MAPPING[division]
-                self.stdout.write(f"Divisão '{division}' detectada. Usando Liga: {league_name}, País: {country}")
-            else:
-                self.stdout.write(self.style.ERROR(f"Divisão '{division}' não encontrada no mapeamento."))
-                return
-
-        try:
-            if country:
-                # Se passou país, tenta filtrar por ele
-                leagues = League.objects.filter(name=league_name, country=country)
-            else:
-                # Se não passou, busca pelo nome
-                leagues = League.objects.filter(name=league_name)
-
-            if not leagues.exists():
-                # Fallback: Se for Premier League, tenta filtrar por Inglaterra
-                if league_name == "Premier League":
-                     leagues = League.objects.filter(name=league_name, country="Inglaterra")
-                
-                if not leagues.exists():
-                    self.stdout.write(self.style.ERROR(f"Liga '{league_name}' (País: {country}) não encontrada"))
-                    return
-
-            # Se houver mais de uma liga com o mesmo nome (duplicata suja),
-            # pegamos a primeira que tiver jogos, ou simplesmente a primeira (ID menor)
-            # O ideal é rodar merge_duplicate_leagues, mas aqui evitamos o crash.
-            if leagues.count() > 1:
-                self.stdout.write(self.style.WARNING(f"Encontradas {leagues.count()} ligas com nome '{league_name}':"))
-                for l in leagues:
-                     self.stdout.write(self.style.WARNING(f" - ID: {l.id} | País: {l.country}"))
-                self.stdout.write(self.style.WARNING("Usando a primeira (ID menor). Para evitar isso, use o argumento --country 'NomeDoPais'."))
-            
-            league = leagues.first()
-            self.recalculate_for_league(league, season_year)
-
-        except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Erro ao buscar liga: {e}"))
+        api = APIManager()
+        api_config = api.apis.get('api_football_1')
+        
+        if not api_config or not api_config.get('key'):
+            self.stdout.write(self.style.ERROR("Chave API_FOOTBALL_KEY não encontrada. Abortando."))
             return
+            
+        base_url = api_config['base_url']
+        headers = api._get_headers(api_config)
+        
+        target_leagues = []
+        for l_name, l_data in api.LEAGUE_MAPPINGS.items():
+            if l_data.get('api_football'):
+                for api_id in l_data['api_football']:
+                    if options['league_id'] and api_id != options['league_id']:
+                        continue
+                        
+                    db_league = League.objects.filter(name__icontains=l_name[:5]).first()
+                    if db_league:
+                        target_leagues.append({'api_id': api_id, 'db_obj': db_league})
 
-    def recalculate_for_league(self, league, season_year=None, smart=False):
-        if season_year:
-            seasons = Season.objects.filter(year=season_year)
-            if not seasons.exists():
-                self.stdout.write(self.style.ERROR(f"Temporada {season_year} não encontrada"))
-                return
-        elif smart:
-            # No modo smart, pegamos apenas as seasons que tiveram jogos nas últimas 24h
+        if options["smart"]:
             yesterday = timezone.now() - timedelta(days=1)
-            recent_season_ids = Match.objects.filter(
-                league=league,
-                date__gte=yesterday
-            ).values_list('season_id', flat=True).distinct()
+            recent_league_ids = Match.objects.filter(date__gte=yesterday).values_list('league_id', flat=True).distinct()
+            target_leagues = [l for l in target_leagues if l['db_obj'].id in recent_league_ids]
             
-            seasons = Season.objects.filter(id__in=recent_season_ids)
-            
-            if not seasons.exists():
-                # Fallback de segurança: Pega a temporada mais recente (atual)
-                seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")[:1]
-        else:
-            # PADRÃO OTIMIZADO: Pega apenas a temporada mais recente (atual)
-            # Evita recalcular 2016, 2017, etc. que já estão consolidados.
-            seasons = Season.objects.filter(matches__league=league).distinct().order_by("-year")[:1]
-            
-        if not seasons.exists():
-            self.stdout.write(self.style.ERROR(f"Nenhuma temporada para recalcular na liga {league.name}"))
+        if not target_leagues:
+            self.stdout.write(self.style.WARNING("Nenhuma liga para processar."))
             return
 
-        for season in seasons:
-            # TRAVA DE SEGURANÇA: Se a liga tem múltiplos grupos (playoffs, etc),
-            # nós confiamos na importação do SofaScore (que já traz os pontos acumulados/divididos)
-            # e NÃO recalculamos do zero para não estragar a regra complexa de pontos.
-            complex_groups = LeagueStanding.objects.filter(
-                league=league, 
-                season=season
-            ).exclude(group_name='Regular Season').exists()
+        season_year = timezone.now().year
+        db_season, _ = Season.objects.get_or_create(year=season_year)
 
-            if complex_groups:
-                self.stdout.write(self.style.WARNING(f"PULANDO: {league.name} possui grupos complexos (Playoffs). A classificação é mantida via API."))
-                continue
-
-            self.stdout.write(
-                self.style.SUCCESS(
-                    f"Recalculando tabela para {league.name}, temporada {season.year}"
-                )
-            )
-
-            finished_matches = Match.objects.filter(
-            league=league,
-            season=season,
-            status__in=["Finished", "FT", "AET", "PEN"],
-            home_score__isnull=False,
-            away_score__isnull=False,
-        ).select_related("home_team", "away_team")
-
-            if not finished_matches.exists():
-                self.stdout.write(self.style.WARNING("Nenhum jogo finalizado encontrado para esta liga/temporada"))
-                continue
-
-            if league.country == "Alemanha":
-                base_qs = finished_matches
-            else:
-                base_qs = Match.objects.filter(league=league, season=season)
-
-            season_team_ids = set(
-                base_qs.values_list("home_team_id", flat=True)
-            ) | set(
-                base_qs.values_list("away_team_id", flat=True)
-            )
-
-            if not season_team_ids:
-                self.stdout.write(self.style.WARNING("Nenhum jogo (nem agendado) encontrado para definir os times da temporada. Tabela não será gerada."))
-                continue
+        for league_data in target_leagues:
+            api_league_id = league_data['api_id']
+            db_league = league_data['db_obj']
+            
+            self.stdout.write(f"\n--> Buscando Standings para: {db_league.name} (API ID: {api_league_id})")
+            
+            url = f"{base_url}/standings"
+            params = {'league': api_league_id, 'season': season_year}
+            
+            try:
+                resp = requests.get(url, headers=headers, params=params, timeout=10)
+                api._increment_usage('api_football_1')
                 
-            teams = Team.objects.filter(id__in=season_team_ids)
-
-            stats_by_team = {}
-            for team in teams:
-                stats_by_team[team.id] = {
-                    "team": team,
-                    "played": 0,
-                    "won": 0,
-                    "drawn": 0,
-                    "lost": 0,
-                    "gf": 0,
-                    "ga": 0,
-                    "points": 0,
-                }
-
-            for m in finished_matches:
-                home_id = m.home_team_id
-                away_id = m.away_team_id
-
-                if home_id not in stats_by_team or away_id not in stats_by_team:
+                if resp.status_code != 200:
+                    self.stdout.write(self.style.ERROR(f"Erro na API: {resp.text}"))
                     continue
-
-                home_stats = stats_by_team[home_id]
-                away_stats = stats_by_team[away_id]
-
-                home_stats["played"] += 1
-                away_stats["played"] += 1
-
-                home_goals = m.home_score or 0
-                away_goals = m.away_score or 0
-
-                home_stats["gf"] += home_goals
-                home_stats["ga"] += away_goals
-                away_stats["gf"] += away_goals
-                away_stats["ga"] += home_goals
-
-                if home_goals > away_goals:
-                    home_stats["won"] += 1
-                    home_stats["points"] += 3
-                    away_stats["lost"] += 1
-                elif home_goals < away_goals:
-                    away_stats["won"] += 1
-                    away_stats["points"] += 3
-                    home_stats["lost"] += 1
-                else:
-                    home_stats["drawn"] += 1
-                    away_stats["drawn"] += 1
-                    home_stats["points"] += 1
-                    away_stats["points"] += 1
-
-            teams_stats = [
-                (
-                    data["team"],
-                    data["played"],
-                    data["won"],
-                    data["drawn"],
-                    data["lost"],
-                    data["gf"],
-                    data["ga"],
-                    data["points"],
-                )
-                for data in stats_by_team.values()
-            ]
-
-            teams_stats.sort(
-                key=lambda item: (
-                    -item[7],
-                    - (item[5] - item[6]),
-                    -item[5],
-                    item[0].name,
-                )
-            )
-
-            # OTIMIZAÇÃO: Usa transação atômica + bulk_create para evitar locks de tabela
-            with transaction.atomic():
-                LeagueStanding.objects.filter(league=league, season=season).delete()
-
-                standings_to_create = []
-                for idx, (team, played, won, drawn, lost, gf, ga, pts) in enumerate(teams_stats, start=1):
-                    standings_to_create.append(LeagueStanding(
-                        league=league,
-                        season=season,
-                        team=team,
-                        position=idx,
-                        played=played,
-                        won=won,
-                        drawn=drawn,
-                        lost=lost,
-                        goals_for=gf,
-                        goals_against=ga,
-                        points=pts,
-                    ))
-
-                LeagueStanding.objects.bulk_create(standings_to_create)
-                created = len(standings_to_create)
-
-            self.stdout.write(
-                self.style.SUCCESS(
-                    f"Tabela recalculada para temporada {season.year}. Times atualizados: {created}"
-                )
-            )
+                    
+                data = resp.json().get('response', [])
+                if not data:
+                    self.stdout.write(self.style.WARNING("Sem dados de classificação para esta temporada."))
+                    continue
+                
+                standings_groups = data[0]['league']['standings']
+                
+                with transaction.atomic():
+                    # Deletar antigas classificações para esta liga e temporada
+                    LeagueStanding.objects.filter(league=db_league, season=db_season).delete()
+                    
+                    standings_to_create = []
+                    
+                    for group in standings_groups:
+                        for row in group:
+                            rank = row['rank']
+                            points = row['points']
+                            goals_diff = row['goalsDiff']
+                            group_name = row['group']
+                            
+                            all_stats = row['all']
+                            played = all_stats['played']
+                            won = all_stats['win']
+                            drawn = all_stats['draw']
+                            lost = all_stats['lose']
+                            gf = all_stats['goals']['for']
+                            ga = all_stats['goals']['against']
+                            
+                            team_name = row['team']['name']
+                            db_team = resolve_team(team_name, db_league)
+                            
+                            if not db_team:
+                                continue
+                                
+                            standings_to_create.append(LeagueStanding(
+                                league=db_league,
+                                season=db_season,
+                                team=db_team,
+                                position=rank,
+                                played=played,
+                                won=won,
+                                drawn=drawn,
+                                lost=lost,
+                                goals_for=gf,
+                                goals_against=ga,
+                                points=points,
+                                group_name=group_name
+                            ))
+                            
+                    LeagueStanding.objects.bulk_create(standings_to_create)
+                    self.stdout.write(self.style.SUCCESS(f"Tabela de {db_league.name} atualizada com {len(standings_to_create)} times."))
+                    
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"Erro: {e}"))
+                
+        self.stdout.write(self.style.SUCCESS("Processo Concluído!"))
