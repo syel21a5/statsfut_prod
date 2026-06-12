@@ -312,6 +312,25 @@ ODDS_API_TEAM_MAPPINGS = {
     "Cruzeiro MG": "Cruzeiro",
     "Bahia": "Bahia",
     "EC Bahia": "Bahia",
+    
+    # --- CHILE ---
+    "A. Italiano": "Audax Italiano",
+    "D. La Serena": "Deportes La Serena",
+    "La Serena": "Deportes La Serena",
+    "U. Catolica": "Universidad Catolica",
+    "Universidad Catolica": "Universidad Catolica",
+    "Everton de Vina": "Everton de Vina del Mar",
+    "Everton": "Everton de Vina del Mar",
+    "Universidad de Concepcion": "Univ. de Concepcion",
+    "U. De Concepcion": "Univ. de Concepcion",
+    "O'Higgins": "O'Higgins",
+    "OHiggins": "O'Higgins",
+    "Nublense": "Nublense",
+    "Ñublense": "Nublense",
+    "Concepción": "Deportes Concepcion",
+    "Concepcion": "Deportes Concepcion",
+    "Union La Calera": "Union La Calera",
+    "U. La Calera": "Union La Calera"
 }
 
 def resolve_team(name, league):

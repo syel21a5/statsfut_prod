@@ -108,8 +108,13 @@ class Command(BaseCommand):
                     ht_obj = resolve_team(home_name, db_league)
                     at_obj = resolve_team(away_name, db_league)
                     
-                    if not ht_obj or not at_obj:
-                        continue
+                    if not ht_obj:
+                        ht_obj = Team.objects.create(name=home_name, league=db_league)
+                        self.stdout.write(f"  [Time Criado] {home_name}")
+                    
+                    if not at_obj:
+                        at_obj = Team.objects.create(name=away_name, league=db_league)
+                        self.stdout.write(f"  [Time Criado] {away_name}")
                         
                     # Busca Match no DB (pelo time e data aproximada)
                     start_window = f_date - timedelta(hours=12)
