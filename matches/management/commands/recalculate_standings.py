@@ -37,7 +37,9 @@ class Command(BaseCommand):
                     if options['league_id'] and api_id != options['league_id']:
                         continue
                         
-                    db_league = League.objects.filter(name__icontains=l_name[:5]).first()
+                    db_league = League.objects.filter(name__iexact=l_name).first()
+                    if not db_league:
+                        db_league = League.objects.filter(name__icontains=l_name).first()
                     if db_league:
                         target_leagues.append({'api_id': api_id, 'db_obj': db_league})
 

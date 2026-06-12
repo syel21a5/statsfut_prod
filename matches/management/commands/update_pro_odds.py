@@ -47,8 +47,10 @@ class Command(BaseCommand):
                     # Find DB League
                     db_league = None
                     try:
-                        # Busca aproximada pelo nome (como feito em outros lugares)
-                        db_league = League.objects.filter(name__icontains=l_name[:5]).first()
+                        # Busca pelo nome exato ou contenção segura
+                        db_league = League.objects.filter(name__iexact=l_name).first()
+                        if not db_league:
+                            db_league = League.objects.filter(name__icontains=l_name).first()
                     except:
                         pass
                         
