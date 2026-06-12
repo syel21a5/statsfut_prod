@@ -231,6 +231,14 @@ class Command(BaseCommand):
                                         match.ht_goal_odds = get_odd('Over 0.5')
                                         odds_count += 1
                                     
+                                    # === MERCADO 72: Goal Line (1st Half) - Fallback para Bet365 ===
+                                    # Bet365 não usa Market 6, usa Market 72 com linhas asiáticas
+                                    elif m_id == 72:
+                                        if not match.ht_goal_odds:
+                                            match.ht_goal_odds = get_odd('Over 0.5')
+                                            if match.ht_goal_odds:
+                                                odds_count += 1
+                                    
                                     # === MERCADO 8: Both Teams Score ===
                                     elif m_id == 8:
                                         match.btts_yes_odds = get_odd('Yes')
@@ -261,16 +269,37 @@ class Command(BaseCommand):
                                     
                                     # === MERCADO 45: Corners Over/Under ===
                                     elif m_id == 45:
+                                        c_map = {
+                                            'Over 6.5': 'corners_over_65_odds',
+                                            'Over 7.5': 'corners_over_75_odds',
+                                            'Over 8.5': 'corners_over_85_odds',
+                                            'Over 9.5': 'corners_over_95_odds',
+                                            'Over 10.5': 'corners_over_105_odds',
+                                            'Over 11.5': 'corners_over_115_odds',
+                                        }
                                         for v in vals:
                                             val_str = str(v.get('value', ''))
-                                            odd_val = float(v['odd'])
-                                            if val_str == 'Over 6.5': match.corners_over_65_odds = odd_val
-                                            elif val_str == 'Over 7.5': match.corners_over_75_odds = odd_val
-                                            elif val_str == 'Over 8.5': match.corners_over_85_odds = odd_val
-                                            elif val_str == 'Over 9.5': match.corners_over_95_odds = odd_val
-                                            elif val_str == 'Over 10.5': match.corners_over_105_odds = odd_val
-                                            elif val_str == 'Over 11.5': match.corners_over_115_odds = odd_val
-                                        odds_count += 6
+                                            if val_str in c_map:
+                                                setattr(match, c_map[val_str], float(v['odd']))
+                                                odds_count += 1
+                                    
+                                    # === MERCADO 85: Total Corners (3 way) - Fallback ===
+                                    # Bet365 usa este mercado com Exactly/Over/Under por número
+                                    elif m_id == 85:
+                                        c85_map = {
+                                            'Over 6': 'corners_over_65_odds',
+                                            'Over 7': 'corners_over_75_odds',
+                                            'Over 8': 'corners_over_85_odds',
+                                            'Over 9': 'corners_over_95_odds',
+                                            'Over 10': 'corners_over_105_odds',
+                                            'Over 11': 'corners_over_115_odds',
+                                        }
+                                        for v in vals:
+                                            val_str = str(v.get('value', ''))
+                                            field = c85_map.get(val_str)
+                                            if field and not getattr(match, field, None):
+                                                setattr(match, field, float(v['odd']))
+                                                odds_count += 1
                                     
                                     # === MERCADO 55: Corners 1x2 ===
                                     elif m_id == 55:
