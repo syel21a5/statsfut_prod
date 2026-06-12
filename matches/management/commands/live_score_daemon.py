@@ -31,7 +31,7 @@ class ScraperAdapter:
 
 class BeSoccerAdapter(ScraperAdapter):
     name = "BeSoccer"
-    use_tor = True # BeSoccer bloqueia rápido, Tor é essencial aqui
+    use_tor = False # BeSoccer bloqueia rápido, Tor é essencial aqui
     
     def fetch_live_scores(self):
         from curl_cffi import requests as requests_cffi
@@ -258,7 +258,7 @@ class ESPNAdapter(ScraperAdapter):
 
 class SofaScoreAdapter(ScraperAdapter):
     name = "SofaScore"
-    use_tor = True
+    use_tor = False
     
     def __init__(self):
         self.session = None
@@ -294,7 +294,7 @@ class SofaScoreAdapter(ScraperAdapter):
         import random
         logger.warning("🔄 Bloqueio detectado! Forçando troca de IP do Tor no SofaScore...")
         try:
-            os.system("systemctl restart tor 2>/dev/null")
+            os.system("pkill -HUP tor 2>/dev/null || systemctl restart tor 2>/dev/null")
             time.sleep(random.uniform(8, 15))
             self._create_session()
             return True

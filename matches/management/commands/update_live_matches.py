@@ -359,7 +359,16 @@ class Command(BaseCommand):
                 mapped_league = league_map.get(raw_league_name)
                 
                 if not mapped_league:
-                    continue  # Pula ligas desconhecidas
+                    # Se não encontrou no mapa estático, tenta buscar direto do Banco de Dados
+                    fx_country = fixture.get('country', '')
+                    from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+                    db_country = COUNTRY_REVERSE_TRANSLATIONS.get(fx_country.lower(), fx_country)
+                    
+                    league_obj = League.objects.filter(name__iexact=raw_league_name, country__iexact=db_country).first()
+                    if league_obj:
+                        mapped_league = {'name': league_obj.name, 'country': league_obj.country}
+                    else:
+                        continue  # Pula ligas desconhecidas que não estão no BD
                 
                 # Preferir país da fixture quando disponível para desambiguar nomes (ex.: Bundesliga)
                 fx_country = fixture.get('country')
