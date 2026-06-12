@@ -21,21 +21,23 @@ class APIManager:
     ]
     
     LEAGUE_MAPPINGS = {
-        # Supported Leagues (Updated based on run_csv_updates.py)
         'Premier League': {'api_football': [39], 'football_data': [2021]},
         'La Liga': {'api_football': [140], 'football_data': [2014]},
         'Bundesliga': {'api_football': [78], 'football_data': [2002]},
         'Serie A': {'api_football': [135], 'football_data': [2019]},
         'Ligue 1': {'api_football': [61], 'football_data': [2015]},
-        'Eredivisie': {'api_football': [88], 'football_data': [2003]},         # Netherlands (Updated API-F ID just in case)
-        'Primeira Liga': {'api_football': [94], 'football_data': [2017]},      # Portugal (Updated API-F ID just in case)
+        'Eredivisie': {'api_football': [88], 'football_data': [2003]},
+        'Primeira Liga': {'api_football': [94], 'football_data': [2017]},
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
-        'Liga Profesional': {'api_football': [], 'football_data': []},    # Argentina (Handled by The Odds API)
-        'First League': {'api_football': [], 'football_data': []},           # Czech (No FD)
-        'Super Lig': {'api_football': [203], 'football_data': [2018]},          # Turkey (Updated API-F ID just in case)
-        'Super League': {'api_football': [], 'football_data': []},           # Greece (No FD)
-        'Austrian Bundesliga': {'api_football': [], 'football_data': []},    # Austria (No FD - Name might be just Bundesliga in API)
-        'Superliga': {'api_football': [119], 'football_data': []},           # Dinamarca (No FD)
+        'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina
+        'Primera Division': {'api_football': [265], 'football_data': []},    # Chile
+        'A-League': {'api_football': [188], 'football_data': []},            # Australia
+        'Pro League': {'api_football': [144], 'football_data': []},          # Belgium
+        'First League': {'api_football': [345], 'football_data': []},        # Czech (Czech Liga)
+        'Super Lig': {'api_football': [203], 'football_data': [2018]},       # Turkey
+        'Super League': {'api_football': [197], 'football_data': []},        # Greece (Super League 1)
+        'Austrian Bundesliga': {'api_football': [218], 'football_data': []}, # Austria
+        'Superliga': {'api_football': [119], 'football_data': []},           # Dinamarca
     }
 
     COUNTRY_TOP_LEAGUES = {
