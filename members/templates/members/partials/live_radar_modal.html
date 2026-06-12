@@ -1,0 +1,138 @@
+<div class="modal-header border-0" style="background: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.05)!important; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+    <div class="d-flex w-100 justify-content-between align-items-center">
+        <div>
+            <h5 class="modal-title text-white fw-bold mb-0">Radar Ao Vivo</h5>
+            <span class="text-secondary small">{{ match.league.name }}</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+</div>
+<div class="modal-body p-0" style="background: #0f172a;">
+    
+    <!-- Header Jogo -->
+    <div class="p-4 text-center" style="background: linear-gradient(180deg, rgba(30,41,59,1) 0%, rgba(15,23,42,1) 100%); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <span class="text-danger blink fw-bold me-2"><i class="fa-solid fa-circle small"></i> {{ match.minute|default:"HT" }}'</span>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center px-3">
+            <div class="text-end" style="flex: 1;">
+                <h4 class="text-white mb-0">{{ match.home_team.name }}</h4>
+                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mt-1">Casa</span>
+            </div>
+            
+            <div class="px-4 text-center">
+                <h1 class="text-white fw-bold mb-0 mx-2" style="font-size: 3rem; text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
+                    {{ match.home_score|default:"0" }} <span class="text-secondary">:</span> {{ match.away_score|default:"0" }}
+                </h1>
+            </div>
+            
+            <div class="text-start" style="flex: 1;">
+                <h4 class="text-white mb-0">{{ match.away_team.name }}</h4>
+                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mt-1">Fora</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas Gerais -->
+    <div class="p-4">
+        <h6 class="text-secondary text-uppercase fw-bold mb-3" style="font-size: 0.75rem; letter-spacing: 1px;">Estatísticas do Jogo (FT)</h6>
+        
+        <div class="row g-3 mb-4">
+            <!-- Chutes -->
+            <div class="col-4">
+                <div class="p-3 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-2 text-secondary" style="font-size: 0.7rem;">Chutes no Alvo</div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <span class="fs-5 text-success fw-bold">{{ match.home_shots_on_target|default:"0" }}</span>
+                        <span class="fs-5 text-danger fw-bold">{{ match.away_shots_on_target|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Escanteios -->
+            <div class="col-4">
+                <div class="p-3 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-2 text-secondary" style="font-size: 0.7rem;">Escanteios</div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <span class="fs-5 text-success fw-bold">{{ match.home_corners|default:"0" }}</span>
+                        <span class="fs-5 text-danger fw-bold">{{ match.away_corners|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Ataques Perigosos -->
+            <div class="col-4">
+                <div class="p-3 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-2 text-secondary" style="font-size: 0.7rem;">Atq. Perigosos</div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <span class="fs-5 text-success fw-bold">{{ match.home_dangerous_attacks|default:"0" }}</span>
+                        <span class="fs-5 text-danger fw-bold">{{ match.away_dangerous_attacks|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radar de Pressão Multi-Tempo -->
+        <h6 class="text-secondary text-uppercase fw-bold mb-3 mt-4" style="font-size: 0.75rem; letter-spacing: 1px;">Índice de Pressão (Radar)</h6>
+
+        <div class="d-flex flex-column gap-3">
+            
+            <!-- 5 Minutos -->
+            <div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="small text-white">Últimos 5 Minutos</span>
+                    <span class="small" style="color: #10b981;">{{ pressure_5.home_pressure }}% Casa</span>
+                </div>
+                <div class="progress" style="height: 10px; background: #2a2e37;">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: {{ pressure_5.home_pressure }}%"></div>
+                    <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: {{ pressure_5.away_pressure }}%"></div>
+                </div>
+                <div class="text-center mt-1" style="font-size: 0.65rem; color: #64748b;">
+                    Status: {{ pressure_5.status }}
+                </div>
+            </div>
+
+            <!-- 10 Minutos -->
+            <div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="small text-white">Últimos 10 Minutos</span>
+                    <span class="small" style="color: #10b981;">{{ pressure_10.home_pressure }}% Casa</span>
+                </div>
+                <div class="progress" style="height: 10px; background: #2a2e37;">
+                    <div class="progress-bar bg-success" style="width: {{ pressure_10.home_pressure }}%"></div>
+                    <div class="progress-bar bg-danger" style="width: {{ pressure_10.away_pressure }}%"></div>
+                </div>
+            </div>
+
+            <!-- 15 Minutos -->
+            <div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="small text-white">Últimos 15 Minutos</span>
+                    <span class="small" style="color: #10b981;">{{ pressure_15.home_pressure }}% Casa</span>
+                </div>
+                <div class="progress" style="height: 10px; background: #2a2e37;">
+                    <div class="progress-bar bg-success" style="width: {{ pressure_15.home_pressure }}%"></div>
+                    <div class="progress-bar bg-danger" style="width: {{ pressure_15.away_pressure }}%"></div>
+                </div>
+            </div>
+
+            <!-- Jogo Todo (FT) -->
+            <div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="small text-white">Jogo Todo (FT)</span>
+                    <span class="small" style="color: #10b981;">{{ pressure_ft.home_pressure }}% Casa</span>
+                </div>
+                <div class="progress" style="height: 10px; background: #2a2e37;">
+                    <div class="progress-bar bg-success" style="width: {{ pressure_ft.home_pressure }}%"></div>
+                    <div class="progress-bar bg-danger" style="width: {{ pressure_ft.away_pressure }}%"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer border-0" style="background: #0f172a; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+    <a href="{% url 'matches:match_detail' match.id match.slug %}" class="btn w-100" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2);">
+        Ver Análise Completa Pré-Live
+    </a>
+</div>

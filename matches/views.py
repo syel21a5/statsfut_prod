@@ -5659,3 +5659,25 @@ class HeadToHeadView(TemplateView):
             context['matches'] = []
 
         return context
+
+from django.shortcuts import get_object_or_404, render
+from matches.services.live_radar import LiveRadarService
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='members:login')
+def live_radar_partial(request, match_id):
+    match = get_object_or_404(Match, pk=match_id)
+    
+    pressure_5 = LiveRadarService.calculate_pressure(match, window_minutes=5)
+    pressure_10 = LiveRadarService.calculate_pressure(match, window_minutes=10)
+    pressure_15 = LiveRadarService.calculate_pressure(match, window_minutes=15)
+    pressure_ft = LiveRadarService.calculate_pressure(match, window_minutes=120)  # Effectively total match
+    
+    context = {
+        'match': match,
+        'pressure_5': pressure_5,
+        'pressure_10': pressure_10,
+        'pressure_15': pressure_15,
+        'pressure_ft': pressure_ft,
+    }
+    return render(request, 'members/partials/live_radar_modal.html', context)

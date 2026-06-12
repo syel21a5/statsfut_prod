@@ -131,13 +131,22 @@ def premium_dashboard(request):
         }
         return render(request, 'members/premium_dashboard.html', context)
 
-    # NOVO: Cache interno do Dashboard Premium para economizar CPU/MySQL
-    from django.core.cache import cache
-    cached_context = cache.get('premium_dashboard_context_v1')
-    if cached_context:
-        # A única coisa que pode variar de usuário pra usuário premium é o is_vip
-        cached_context['is_vip'] = is_vip
-        return render(request, 'members/premium_dashboard.html', cached_context)
+    # Cache interno do Dashboard Premium foi removido a pedido do usuário
+
+    # >> NOVO RADAR AO VIVO <<
+    from matches.services.live_radar import LiveRadarService
+    live_matches_qs = Match.objects.filter(
+        status__in=['Live', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED']
+    ).select_related('league', 'home_team', 'away_team')
+    
+    live_radar_matches = []
+    for match in live_matches_qs:
+        live_radar_matches.append({
+            'match': match,
+            'pressure': LiveRadarService.calculate_pressure(match, window_minutes=5)
+        })
+
+    # Caching check removido
 
     # ----------------- ROBÔ DE AVALIAÇÃO EM TEMPO REAL -----------------
     from matches.models import ScannerTip, Goal
@@ -580,6 +589,7 @@ def premium_dashboard(request):
         return _(tip.prediction_text)
 
     for tip in pending_tips:
+        is_live = tip.match.status in ['Live', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED']
         item = {
             'match': tip.match,
             'prob': tip.probability,
@@ -588,6 +598,7 @@ def premium_dashboard(request):
             'market': tip.market,
             'date_group': get_date_group(tip.match.date),
             'sort_date': tip.match.date,
+            'is_live': is_live,
         }
         
         if tip.market in GOALS_MARKETS or tip.market.startswith('DC_1X_UNDER_') or tip.market.startswith('DC_X2_UNDER_'):
@@ -848,6 +859,7 @@ def premium_dashboard(request):
         'stats_reds': total_reds,
         'stats_win_rate': win_rate,
         # Others
+        'live_radar_matches': live_radar_matches,
         'active_tickets': active_tickets,
         'doubles_tickets': [t for t in active_tickets if t.ticket_type == 'Double'],
         'triples_tickets': [t for t in active_tickets if t.ticket_type == 'Treble'],
@@ -866,10 +878,6 @@ def premium_dashboard(request):
         'total_scanned': len(matches),
         'total_opportunities': total_opps,
     }
-    
-    # Salvar no cache por 3 minutos. O script da Betano vai limpar esse cache automaticamente
-    # se conseguir novas odds antes dos 3 minutos.
-    cache.set('premium_dashboard_context_v1', context, 180)
     
     return render(request, 'members/premium_dashboard.html', context)
 

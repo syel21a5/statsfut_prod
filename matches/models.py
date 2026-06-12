@@ -503,3 +503,27 @@ class ScannerTip(models.Model):
         adjusted = 100.0 / bookmaker_implied_prob
         return round(max(adjusted, 1.10), 2)
 
+class LiveMatchSnapshot(models.Model):
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='snapshots')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    minute = models.IntegerField(default=0)
+    
+    home_shots_on_target = models.IntegerField(default=0)
+    away_shots_on_target = models.IntegerField(default=0)
+    home_shots_off_target = models.IntegerField(default=0)
+    away_shots_off_target = models.IntegerField(default=0)
+    
+    home_corners = models.IntegerField(default=0)
+    away_corners = models.IntegerField(default=0)
+    
+    home_dangerous_attacks = models.IntegerField(default=0)
+    away_dangerous_attacks = models.IntegerField(default=0)
+    
+    home_possession = models.IntegerField(default=50)
+    away_possession = models.IntegerField(default=50)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"Snapshot {self.match} at {self.minute}'"

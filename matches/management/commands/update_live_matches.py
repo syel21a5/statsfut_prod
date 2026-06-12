@@ -162,6 +162,13 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro geral ao buscar jogos ao vivo: {e}'))
 
+            try:
+                from matches.services.live_radar import LiveRadarService
+                self.stdout.write(self.style.SUCCESS('📸 Capturando snapshots para o Radar Ao Vivo...'))
+                LiveRadarService.take_snapshots_for_active_matches()
+                self.stdout.write(self.style.SUCCESS('✅ Snapshots capturados.'))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f'❌ Erro ao capturar snapshots do Radar Ao Vivo: {e}'))
         
         if mode in ['upcoming', 'both']:
             # The Odds API for Australia (Special Handling - Upcoming)
