@@ -16,6 +16,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--days', type=int, default=3, help='Dias a frente para buscar jogos')
         parser.add_argument('--league_id', type=int, default=None, help='ID da liga na API-Football (ex: 71 para Brasileirao)')
+        parser.add_argument('--all', action='store_true', help='Busca odds para todos os jogos, ignorando o filtro de tips')
 
     def handle(self, *args, **options):
         days_ahead = options['days']
@@ -149,6 +150,10 @@ class Command(BaseCommand):
                         
                         # --- PASSO 2: Buscar Odds ---
                         if match.status not in ['FT', 'AET', 'PEN', 'PST', 'CANC', 'FINISHED']:
+                            if not options['all'] and not match.scanner_tips.exists():
+                                self.stdout.write(f"  [Ignorado] Sem tips ativas para {home_name} x {away_name} (economia de API).")
+                                continue
+
                             self.stdout.write(f"  [Odds] Extraindo para {home_name} x {away_name}...")
                             
                             # Tenta Bet365 primeiro, fallback para qualquer bookmaker
