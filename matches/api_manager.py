@@ -66,7 +66,7 @@ class APIManager:
     }
 
     # FLAG TO DISABLE API-FOOTBALL (User request: "não a use")
-    USE_API_FOOTBALL = False
+    USE_API_FOOTBALL = True
 
     # Ligas que NÃO existem na Football-Data.org e precisam da API-Football
     # 119: Superliga (Dinamarca)
@@ -129,6 +129,13 @@ class APIManager:
                 'base_url': 'https://api.football-data.org/v4',
                 'daily_limit': 1000,
                 'type': 'football_data'
+            },
+            'api_football_1': {
+                'name': 'API-Football (PRO)',
+                'key': os.getenv('API_FOOTBALL_KEY'),
+                'base_url': 'https://v3.football.api-sports.io',
+                'daily_limit': 7500,
+                'type': 'api_football'
             }
         }
     
