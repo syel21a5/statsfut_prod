@@ -18,7 +18,7 @@ TOR_PROXIES = {
 class ScraperAdapter:
     """Classe base para os raspadores de placar ao vivo"""
     name = "BaseAdapter"
-    use_tor = False
+    use_tor = True
     
     def fetch_live_scores(self):
         """Deve retornar uma lista de dicionários com:
@@ -31,7 +31,7 @@ class ScraperAdapter:
 
 class BeSoccerAdapter(ScraperAdapter):
     name = "BeSoccer"
-    use_tor = False # BeSoccer bloqueia rápido, Tor é essencial aqui
+    use_tor = True # BeSoccer bloqueia rápido, Tor é essencial aqui
     
     def fetch_live_scores(self):
         from curl_cffi import requests as requests_cffi
@@ -117,7 +117,7 @@ class BeSoccerAdapter(ScraperAdapter):
 
 class GEAdapter(ScraperAdapter):
     name = "GloboEsporte"
-    use_tor = False # GE bloqueia Tor geralmente
+    use_tor = True # GE bloqueia Tor geralmente
     def fetch_live_scores(self):
         from curl_cffi import requests as requests_cffi
         from bs4 import BeautifulSoup
@@ -258,7 +258,7 @@ class ESPNAdapter(ScraperAdapter):
 
 class SofaScoreAdapter(ScraperAdapter):
     name = "SofaScore"
-    use_tor = False
+    use_tor = True
     
     def __init__(self):
         self.session = None
@@ -280,7 +280,8 @@ class SofaScoreAdapter(ScraperAdapter):
         self.session = requests_cffi.Session(impersonate=impersonate)
         self.session.headers.update({
             "User-Agent": ua,
-            "Accept": "application/json",
+            "Accept": "*/*",
+            "Accept-Language": "en-US,en;q=0.9",
             "Origin": "https://www.sofascore.com",
             "Referer": "https://www.sofascore.com/",
             "Cache-Control": "no-cache",
