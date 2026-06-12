@@ -258,106 +258,149 @@ class ESPNAdapter(ScraperAdapter):
 
 class SofaScoreAdapter(ScraperAdapter):
     name = "SofaScore"
-    use_tor = False  # curl_cffi direto funciona! IPs do Tor estão na blacklist do Cloudflare
+    use_tor = True
     
-    def fetch_live_scores(self):
+    def __init__(self):
+        self.session = None
+        self.max_retries = 3
+        self._create_session()
+
+    def _create_session(self):
+        import random
         from curl_cffi import requests as requests_cffi
-        
-        url = "https://api.sofascore.com/api/v1/sport/football/events/live"
-        session = requests_cffi.Session(impersonate="chrome120")
-        session.headers.update({
-            'Accept': 'application/json',
-            'Referer': 'https://www.sofascore.com/',
-            'Origin': 'https://www.sofascore.com'
+        USER_AGENTS = [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
+        ]
+        ua = random.choice(USER_AGENTS)
+        impersonate = random.choice(["chrome110", "chrome116", "chrome119", "chrome120"])
+        self.session = requests_cffi.Session(impersonate=impersonate)
+        self.session.headers.update({
+            "User-Agent": ua,
+            "Accept": "application/json",
+            "Origin": "https://www.sofascore.com",
+            "Referer": "https://www.sofascore.com/",
+            "Cache-Control": "no-cache",
         })
-        
+        if self.use_tor:
+            self.session.proxies = TOR_PROXIES
+
+    def _rotate_tor_ip(self):
+        import os
+        import time
+        import random
+        logger.warning("🔄 Bloqueio detectado! Forçando troca de IP do Tor no SofaScore...")
         try:
-            proxies = TOR_PROXIES if self.use_tor else None
-            response = session.get(url, timeout=25, proxies=proxies)
-            if response.status_code != 200:
-                logger.warning(f"SofaScore retornou status {response.status_code}")
-                return []
-            
-            data = response.json()
-            events = data.get('events', [])
-            payload = []
-            
-            for event in events:
-                try:
-                    # ID do evento SofaScore (chave para busca no banco)
-                    event_id = str(event.get('id', ''))
-                    if not event_id:
-                        continue
-                    
-                    # Status do jogo
-                    status_info = event.get('status', {})
-                    status_code = status_info.get('code', 0)
-                    
-                    # Códigos SofaScore: 6=1H, 7=2H, 8=FT, 31=HT, etc.
-                    live_codes = [6, 7, 31, 41, 42, 43, 44]
-                    finished_codes = [8, 9, 10, 11, 12]
-                    
-                    if status_code not in live_codes and status_code not in finished_codes:
-                        continue
-                    
-                    home_team_data = event.get('homeTeam', {})
-                    away_team_data = event.get('awayTeam', {})
-                    
-                    home_name = home_team_data.get('name', '')
-                    away_name = away_team_data.get('name', '')
-                    
-                    if not home_name or not away_name:
-                        continue
-                    
-                    home_score = event.get('homeScore', {}).get('current', 0)
-                    away_score = event.get('awayScore', {}).get('current', 0)
-                    
-                    # Calcular minutos de jogo com precisão
-                    elapsed = '0'
-                    if status_code == 31:
-                        elapsed = 'HT'
-                    elif status_code in finished_codes:
-                        elapsed = 'FT'
-                    else:
-                        # Tenta calcular a minutagem real
-                        import time as time_mod
-                        current_ts = event.get('time', {}).get('currentPeriodStartTimestamp')
-                        if current_ts:
-                            now_ts = int(time_mod.time())
-                            mins_in_period = (now_ts - current_ts) // 60
-                            if status_code == 7:  # 2H
-                                elapsed = str(45 + mins_in_period)
-                            else:
-                                elapsed = str(mins_in_period)
-                        else:
-                            elapsed = status_info.get('description', '0')
-                    
-                    # Liga e país
-                    tournament = event.get('tournament', {})
-                    league_name = tournament.get('name', 'Desconhecida')
-                    country_name = tournament.get('category', {}).get('name', 'Global')
-                    
-                    is_live = status_code in live_codes
-                    
-                    payload.append({
-                        'sofa_id': event_id,
-                        'home_team': home_name,
-                        'away_team': away_name,
-                        'home_score': str(home_score),
-                        'away_score': str(away_score),
-                        'status': 'Live' if is_live else 'FT',
-                        'elapsed': elapsed,
-                        'league': league_name,
-                        'country': country_name
-                    })
-                except Exception:
-                    continue
-            
-            return payload
-            
+            os.system("systemctl restart tor 2>/dev/null")
+            time.sleep(random.uniform(8, 15))
+            self._create_session()
+            return True
         except Exception as e:
-            logger.error(f"Erro no SofaScoreAdapter: {e}")
+            logger.error(f"Erro ao rotacionar Tor: {e}")
+            return False
+
+    def fetch_api(self, url):
+        import time
+        for attempt in range(self.max_retries + 1):
+            try:
+                response = self.session.get(url, timeout=25)
+                if response.status_code == 200:
+                    return response.json()
+                elif response.status_code == 403:
+                    logger.error(f"❌ 403 Forbidden (tentativa {attempt+1}/{self.max_retries+1})")
+                    if attempt < self.max_retries:
+                        self._rotate_tor_ip()
+                        continue
+                    return None
+                else:
+                    logger.warning(f"SofaScore retornou status {response.status_code}")
+                    return None
+            except Exception as e:
+                logger.error(f"Exceção no Request (tentativa {attempt+1}): {e}")
+                if attempt < self.max_retries:
+                    self._rotate_tor_ip()
+                    continue
+                return None
+        return None
+
+    def fetch_live_scores(self):
+        url = "https://api.sofascore.com/api/v1/sport/football/events/live"
+        data = self.fetch_api(url)
+        
+        if not data:
             return []
+            
+        events = data.get('events', [])
+        payload = []
+        
+        for event in events:
+            try:
+                event_id = str(event.get('id', ''))
+                if not event_id:
+                    continue
+                
+                status_info = event.get('status', {})
+                status_code = status_info.get('code', 0)
+                
+                live_codes = [6, 7, 31, 41, 42, 43, 44]
+                finished_codes = [8, 9, 10, 11, 12]
+                
+                if status_code not in live_codes and status_code not in finished_codes:
+                    continue
+                
+                home_team_data = event.get('homeTeam', {})
+                away_team_data = event.get('awayTeam', {})
+                
+                home_name = home_team_data.get('name', '')
+                away_name = away_team_data.get('name', '')
+                
+                if not home_name or not away_name:
+                    continue
+                
+                home_score = event.get('homeScore', {}).get('current', 0)
+                away_score = event.get('awayScore', {}).get('current', 0)
+                
+                elapsed = '0'
+                if status_code == 31:
+                    elapsed = 'HT'
+                elif status_code in finished_codes:
+                    elapsed = 'FT'
+                else:
+                    import time as time_mod
+                    current_ts = event.get('time', {}).get('currentPeriodStartTimestamp')
+                    if current_ts:
+                        now_ts = int(time_mod.time())
+                        mins_in_period = (now_ts - current_ts) // 60
+                        if status_code == 7:
+                            elapsed = str(45 + mins_in_period)
+                        else:
+                            elapsed = str(mins_in_period)
+                    else:
+                        elapsed = status_info.get('description', '0')
+                
+                tournament = event.get('tournament', {})
+                league_name = tournament.get('name', 'Desconhecida')
+                country_name = tournament.get('category', {}).get('name', 'Global')
+                
+                is_live = status_code in live_codes
+                
+                payload.append({
+                    'sofa_id': event_id,
+                    'home_team': home_name,
+                    'away_team': away_name,
+                    'home_score': str(home_score),
+                    'away_score': str(away_score),
+                    'status': 'Live' if is_live else 'FT',
+                    'elapsed': elapsed,
+                    'league': league_name,
+                    'country': country_name
+                })
+            except Exception:
+                continue
+        return payload
 
 class SoccerwayAdapter(ScraperAdapter):
     name = "Soccerway"
@@ -416,20 +459,37 @@ class Command(BaseCommand):
         return live_matches + upcoming_matches > 0
 
     def update_matches_sofascore(self, live_data, dry_run=False):
-        """Atualiza jogos usando api_id do SofaScore — 100% de precisão, zero erro de nome"""
+        """Atualiza jogos usando api_id do SofaScore ou pelo nome (fallback inteligente)"""
         if not live_data:
             return 0
             
         updated_count = 0
         for item in live_data:
             sofa_id = item.get('sofa_id')
-            if not sofa_id:
-                continue
+            match = None
             
-            match_api_id = f"sofa_{sofa_id}"
-            
-            # Busca DIRETA por api_id — sem necessidade de adivinhar nomes
-            match = Match.objects.filter(api_id=match_api_id).first()
+            # Tenta buscar pelo api_id primeiro
+            if sofa_id:
+                match_api_id = f"sofa_{sofa_id}"
+                match = Match.objects.filter(api_id=match_api_id).first()
+                
+            # Se não achou por api_id (pq foi criado via Football-Data, por ex), tenta por nome!
+            if not match:
+                home_name_raw = item.get('home_team')
+                away_name_raw = item.get('away_team')
+                
+                if home_name_raw and away_name_raw:
+                    home_name = normalize_team_name(home_name_raw)
+                    away_name = normalize_team_name(away_name_raw)
+                    
+                    h_clean = home_name.replace('.', '').strip()
+                    a_clean = away_name.replace('.', '').strip()
+
+                    match = Match.objects.filter(
+                        home_team__name__icontains=h_clean[:5],
+                        away_team__name__icontains=a_clean[:5],
+                        status__in=['Scheduled', 'Live', '1H', '2H', 'HT', 'In Play', 'LIVE']
+                    ).order_by('-date').first()
             
             if match:
                 if not dry_run:
