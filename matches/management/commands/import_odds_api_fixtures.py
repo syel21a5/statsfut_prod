@@ -94,6 +94,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        self.stdout.write(self.style.WARNING("⚠️ AVISO: Este script (The Odds API) está OBSOLETO. Use 'python manage.py update_pro_odds' que centraliza tudo via API-Football PRO."))
         league_arg = options['league']
         
         if league_arg == 'ALL':

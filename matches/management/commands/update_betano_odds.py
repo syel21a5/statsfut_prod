@@ -10,6 +10,7 @@ class Command(BaseCommand):
     help = 'Busca e atualiza as odds dos próximos jogos via Betano/Altenar usando Proxy Residencial'
 
     def handle(self, *args, **options):
+        self.stdout.write(self.style.WARNING("⚠️ AVISO: Este script (Betano) está OBSOLETO. Use 'python manage.py update_pro_odds' que utiliza a API-Football PRO."))
         self.stdout.write("Iniciando scraper da Betano via Proxy Residencial...")
         
         session = setup_proxy_session()

@@ -659,8 +659,54 @@ class APIManager:
         
         return normalized
     def get_predictions(self, fixture_id):
-        """Predições via API-Football desativadas"""
-        return None
+        """Busca predições matemáticas na API-Football PRO"""
+        if not self.USE_API_FOOTBALL:
+            return None
+        
+        api_config = self.apis.get('api_football_1')
+        if not api_config or not api_config.get('key'):
+            return None
+            
+        url = f"{api_config['base_url']}/predictions"
+        headers = self._get_headers(api_config)
+        params = {'fixture': fixture_id}
+        
+        try:
+            response = self._make_request(url, headers, params=params)
+            self._increment_usage('api_football_1')
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('response'):
+                    return data['response']
+            return None
+        except Exception as e:
+            print(f"[APIManager] Erro ao buscar predictions da fixture {fixture_id}: {e}")
+            return None
+
+    def get_odds(self, fixture_id, bookmaker=8):
+        """Busca Odds pré-jogo na API-Football PRO (Padrão 8 = Bet365)"""
+        if not self.USE_API_FOOTBALL:
+            return None
+            
+        api_config = self.apis.get('api_football_1')
+        if not api_config or not api_config.get('key'):
+            return None
+            
+        url = f"{api_config['base_url']}/odds"
+        headers = self._get_headers(api_config)
+        params = {'fixture': fixture_id, 'bookmaker': bookmaker}
+        
+        try:
+            response = self._make_request(url, headers, params=params)
+            self._increment_usage('api_football_1')
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('response'):
+                    return data['response']
+            return None
+        except Exception as e:
+            print(f"[APIManager] Erro ao buscar odds da fixture {fixture_id}: {e}")
+            return None
 
     def get_h2h(self, team1_name, team2_name):
         """
