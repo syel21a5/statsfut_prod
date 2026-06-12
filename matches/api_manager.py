@@ -686,7 +686,7 @@ class APIManager:
             return None
 
     def get_odds(self, fixture_id, bookmaker=8):
-        """Busca Odds pré-jogo na API-Football PRO (Padrão 8 = Bet365)"""
+        """Busca Odds pré-jogo na API-Football PRO (Padrão 8 = Bet365, None = todos)"""
         if not self.USE_API_FOOTBALL:
             return None
             
@@ -696,7 +696,9 @@ class APIManager:
             
         url = f"{api_config['base_url']}/odds"
         headers = self._get_headers(api_config)
-        params = {'fixture': fixture_id, 'bookmaker': bookmaker}
+        params = {'fixture': fixture_id}
+        if bookmaker is not None:
+            params['bookmaker'] = bookmaker
         
         try:
             response = self._make_request(url, headers, params=params)

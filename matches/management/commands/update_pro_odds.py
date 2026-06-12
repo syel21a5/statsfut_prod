@@ -150,37 +150,138 @@ class Command(BaseCommand):
                         # --- PASSO 2: Buscar Odds ---
                         if match.status not in ['FT', 'AET', 'PEN', 'PST', 'CANC', 'FINISHED']:
                             self.stdout.write(f"  [Odds] Extraindo para {home_name} x {away_name}...")
-                            odds_data = api.get_odds(f_id, bookmaker=8) # Bet365
-                            time.sleep(0.5) # Anti-rate limit
+                            
+                            # Tenta Bet365 primeiro, fallback para qualquer bookmaker
+                            odds_data = api.get_odds(f_id, bookmaker=8)  # Bet365
+                            time.sleep(0.5)
+                            
+                            chosen_bk_name = None
+                            markets = []
                             
                             if odds_data and len(odds_data) > 0:
                                 bookmakers = odds_data[0].get('bookmakers', [])
                                 if bookmakers:
+                                    chosen_bk_name = bookmakers[0].get('name', 'Bet365')
                                     markets = bookmakers[0].get('bets', [])
+                            
+                            # Fallback: se Bet365 não tem dados, busca sem filtro
+                            if not markets:
+                                self.stdout.write(f"    ⚠ Bet365 sem dados, tentando outros bookmakers...")
+                                odds_data_all = api.get_odds(f_id, bookmaker=None)
+                                time.sleep(0.5)
+                                
+                                if odds_data_all and len(odds_data_all) > 0:
+                                    all_bks = odds_data_all[0].get('bookmakers', [])
+                                    # Prioridade: Bet365 > Betano > 1xBet > qualquer
+                                    preferred_ids = [8, 32, 11]
+                                    chosen_bk = None
+                                    for pref_id in preferred_ids:
+                                        for bk in all_bks:
+                                            if bk.get('id') == pref_id:
+                                                chosen_bk = bk
+                                                break
+                                        if chosen_bk:
+                                            break
+                                    if not chosen_bk and all_bks:
+                                        # Pega o bookmaker com mais mercados
+                                        chosen_bk = max(all_bks, key=lambda b: len(b.get('bets', [])))
                                     
-                                    for m in markets:
-                                        m_id = m.get('id')
-                                        vals = m.get('values', [])
-                                        
-                                        # Match Winner (ID 1)
-                                        if m_id == 1:
-                                            for v in vals:
-                                                if str(v.get('value')) == 'Home': match.home_team_win_odds = float(v['odd'])
-                                                elif str(v.get('value')) == 'Draw': match.draw_odds = float(v['odd'])
-                                                elif str(v.get('value')) == 'Away': match.away_team_win_odds = float(v['odd'])
-                                        
-                                        # Goals Over/Under (ID 5)
-                                        elif m_id == 5:
-                                            for v in vals:
-                                                if str(v.get('value')) == 'Over 1.5': match.over_15_odds = float(v['odd'])
-                                                elif str(v.get('value')) == 'Over 2.5': match.over_25_odds = float(v['odd'])
-                                                elif str(v.get('value')) == 'Under 2.5': match.under_25_odds = float(v['odd'])
-                                                
-                                        # BTTS (ID 8)
-                                        elif m_id == 8:
-                                            for v in vals:
-                                                if str(v.get('value')) == 'Yes': match.btts_yes_odds = float(v['odd'])
-                                                elif str(v.get('value')) == 'No': match.btts_no_odds = float(v['odd'])
+                                    if chosen_bk:
+                                        chosen_bk_name = chosen_bk.get('name', '?')
+                                        markets = chosen_bk.get('bets', [])
+                            
+                            odds_count = 0
+                            
+                            if markets:
+                                self.stdout.write(f"    ✓ Usando {chosen_bk_name} ({len(markets)} mercados)")
+                                
+                                for m in markets:
+                                    m_id = m.get('id')
+                                    vals = m.get('values', [])
+                                    
+                                    # Helper para buscar valor por nome
+                                    def get_odd(value_name):
+                                        for v in vals:
+                                            if str(v.get('value')) == value_name:
+                                                return float(v['odd'])
+                                        return None
+                                    
+                                    # === MERCADO 1: Match Winner (1x2) ===
+                                    if m_id == 1:
+                                        match.home_team_win_odds = get_odd('Home')
+                                        match.draw_odds = get_odd('Draw')
+                                        match.away_team_win_odds = get_odd('Away')
+                                        odds_count += 3
+                                    
+                                    # === MERCADO 5: Goals Over/Under (Full Time) ===
+                                    elif m_id == 5:
+                                        match.over_15_odds = get_odd('Over 1.5')
+                                        match.over_25_odds = get_odd('Over 2.5')
+                                        match.over_35_odds = get_odd('Over 3.5')
+                                        match.over_45_odds = get_odd('Over 4.5')
+                                        match.over_55_odds = get_odd('Over 5.5')
+                                        match.under_25_odds = get_odd('Under 2.5')
+                                        match.under_35_odds = get_odd('Under 3.5')
+                                        match.under_45_odds = get_odd('Under 4.5')
+                                        match.under_55_odds = get_odd('Under 5.5')
+                                        odds_count += 9
+                                    
+                                    # === MERCADO 6: Goals Over/Under 1st Half ===
+                                    elif m_id == 6:
+                                        match.ht_goal_odds = get_odd('Over 0.5')
+                                        odds_count += 1
+                                    
+                                    # === MERCADO 8: Both Teams Score ===
+                                    elif m_id == 8:
+                                        match.btts_yes_odds = get_odd('Yes')
+                                        match.btts_no_odds = get_odd('No')
+                                        odds_count += 2
+                                    
+                                    # === MERCADO 12: Double Chance ===
+                                    elif m_id == 12:
+                                        match.dc_1x_odds = get_odd('Home/Draw')
+                                        match.dc_x2_odds = get_odd('Draw/Away')
+                                        odds_count += 2
+                                    
+                                    # === MERCADO 27: Clean Sheet - Home ===
+                                    elif m_id == 27:
+                                        match.clean_sheet_home_odds = get_odd('Yes')
+                                        odds_count += 1
+                                    
+                                    # === MERCADO 28: Clean Sheet - Away ===
+                                    elif m_id == 28:
+                                        match.clean_sheet_away_odds = get_odd('Yes')
+                                        odds_count += 1
+                                    
+                                    # === MERCADO 2: Home/Away (Draw No Bet) ===
+                                    elif m_id == 2:
+                                        match.dnb_home_odds = get_odd('Home')
+                                        match.dnb_away_odds = get_odd('Away')
+                                        odds_count += 2
+                                    
+                                    # === MERCADO 45: Corners Over/Under ===
+                                    elif m_id == 45:
+                                        for v in vals:
+                                            val_str = str(v.get('value', ''))
+                                            odd_val = float(v['odd'])
+                                            if val_str == 'Over 6.5': match.corners_over_65_odds = odd_val
+                                            elif val_str == 'Over 7.5': match.corners_over_75_odds = odd_val
+                                            elif val_str == 'Over 8.5': match.corners_over_85_odds = odd_val
+                                            elif val_str == 'Over 9.5': match.corners_over_95_odds = odd_val
+                                            elif val_str == 'Over 10.5': match.corners_over_105_odds = odd_val
+                                            elif val_str == 'Over 11.5': match.corners_over_115_odds = odd_val
+                                        odds_count += 6
+                                    
+                                    # === MERCADO 55: Corners 1x2 ===
+                                    elif m_id == 55:
+                                        match.corners_home_win_odds = get_odd('Home')
+                                        match.corners_draw_odds = get_odd('Draw')
+                                        match.corners_away_win_odds = get_odd('Away')
+                                        odds_count += 3
+                                
+                                self.stdout.write(f"    ✓ {odds_count} campos de odds preenchidos")
+                            else:
+                                self.stdout.write(f"    ✗ Nenhum bookmaker com odds disponíveis")
 
                             # --- PASSO 3: Buscar Predictions Matemáticas ---
                             self.stdout.write(f"  [Pred] Inteligência Artificial...")
@@ -188,7 +289,7 @@ class Command(BaseCommand):
                             time.sleep(0.5)
                             
                             if pred_data and len(pred_data) > 0:
-                                match.predictions_data = pred_data[0] # JSON Field com tudo mastigado
+                                match.predictions_data = pred_data[0]
                                 
                             match.save()
                             updates += 1
