@@ -187,9 +187,14 @@ class Command(BaseCommand):
                                     db_match.away_possession = safe_possession(away_stats_raw.get('Ball Possession'))
                                     
                                     # Dangerous Attacks (Ataques Perigosos)
-                                    # A API-Football não tem um campo direto "Dangerous Attacks" mas pode ter "expected_goals"
-                                    # Usamos "Blocked Shots" + chutes como proxy se não tiver o campo direto
+                                    db_match.home_dangerous_attacks = safe_int(home_stats_raw.get('Dangerous Attacks'))
+                                    db_match.away_dangerous_attacks = safe_int(away_stats_raw.get('Dangerous Attacks'))
                                     
+                                    # Fallback se a API só mandar 'Attacks'
+                                    if db_match.home_dangerous_attacks is None:
+                                        db_match.home_dangerous_attacks = safe_int(home_stats_raw.get('Attacks'))
+                                    if db_match.away_dangerous_attacks is None:
+                                        db_match.away_dangerous_attacks = safe_int(away_stats_raw.get('Attacks'))
                                     # HT Score (da API score section)
                                     score_info = fix.get('score', {})
                                     ht_score = score_info.get('halftime', {})
