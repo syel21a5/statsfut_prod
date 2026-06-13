@@ -167,6 +167,7 @@
             <!-- ================================================================ -->
             <!-- RADAR AO VIVO - Live Matches Section                              -->
             <!-- ================================================================ -->
+            <div id="live-radar-wrapper">
             {% if live_radar_matches %}
             <style>
                 @keyframes live-pulse {
@@ -307,6 +308,7 @@
                 </div>
             </div>
             {% endif %}
+            </div>
 
             
             <!-- Sub-navigation for Scanner Categories -->
@@ -3568,6 +3570,47 @@ function openLiveRadar(matchId) {
             modalContent.innerHTML = '<div class="p-4 text-center text-white bg-dark rounded">Erro ao carregar o radar. Tente novamente.</div>';
         });
 }
+</script>
+
+<!-- Auto-Refresh Live Radar Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Atualiza o Radar Ao Vivo a cada 20 segundos
+    setInterval(function() {
+        fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Verifica se há algum modal do radar aberto
+                const openModals = document.querySelectorAll('.modal.show');
+                let openLiveModalId = null;
+                openModals.forEach(modal => {
+                    if (modal.id && modal.id.startsWith('liveModal')) {
+                        openLiveModalId = modal.id;
+                    }
+                });
+                
+                if (openLiveModalId) {
+                    // Atualiza APENAS o conteúdo do modal aberto
+                    const newModalContent = doc.querySelector('#' + openLiveModalId + ' .modal-content');
+                    const currentModalContent = document.querySelector('#' + openLiveModalId + ' .modal-content');
+                    if (newModalContent && currentModalContent) {
+                        currentModalContent.innerHTML = newModalContent.innerHTML;
+                    }
+                } else {
+                    // Atualiza toda a seção do Live Radar
+                    const newRadar = doc.getElementById('live-radar-wrapper');
+                    const currentRadar = document.getElementById('live-radar-wrapper');
+                    if (newRadar && currentRadar) {
+                        currentRadar.innerHTML = newRadar.innerHTML;
+                    }
+                }
+            })
+            .catch(err => console.error('Erro ao atualizar Live Radar:', err));
+    }, 20000); // 20 segundos
+});
 </script>
 
 {% endblock %}
