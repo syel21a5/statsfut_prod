@@ -133,7 +133,14 @@ class Command(BaseCommand):
                                 # Atualiza status e gols
                                 db_match.home_score = g_info.get('home') if g_info.get('home') is not None else db_match.home_score
                                 db_match.away_score = g_info.get('away') if g_info.get('away') is not None else db_match.away_score
-                                db_match.elapsed_time = status_info.get('elapsed')
+                                
+                                elapsed_base = status_info.get('elapsed')
+                                elapsed_extra = status_info.get('extra')
+                                if elapsed_base is not None:
+                                    if elapsed_extra:
+                                        db_match.elapsed_time = elapsed_base + elapsed_extra
+                                    else:
+                                        db_match.elapsed_time = elapsed_base
                                 
                                 # === PARSE LIVE STATISTICS ===
                                 # A API retorna um array com 2 elementos: [home_stats, away_stats]
@@ -215,6 +222,17 @@ class Command(BaseCommand):
                                 
                                 db_match.save()
                                 matches_updated += 1
+
+                    live_api_ids = {str(f.get('fixture', {}).get('id')) for f in fixtures}
+                    
+                    # Limpeza de jogos Fantasmas (que sumiram da API sem mandar o FT)
+                    for m in db_matches:
+                        if m.status in ['Live', 'In Play', 'First Half', 'Second Half', 'Halftime', 'Extra Time', 'Penalty']:
+                            if m.api_id and str(m.api_id) not in live_api_ids:
+                                if m.date and m.date < now() - timedelta(minutes=110):
+                                    m.status = 'Finished'
+                                    m.save(update_fields=['status'])
+                                    self.stdout.write(self.style.WARNING(f"  👻 Jogo fantasma limpo (encerrado automaticamente): {m.home_team.name} x {m.away_team.name}"))
 
                     # Tirar snapshot para o Radar de Pressão (após salvar os dados)
                     try:
