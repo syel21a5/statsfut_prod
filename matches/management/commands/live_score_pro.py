@@ -102,6 +102,7 @@ class Command(BaseCommand):
                             t_info = fix.get('teams', {})
                             g_info = fix.get('goals', {})
                             status_info = f_info.get('status', {})
+                            stats_list = fix.get('statistics', [])
                             
                             f_id = f_info.get('id')
                             home_name = t_info.get('home', {}).get('name')
@@ -134,6 +135,69 @@ class Command(BaseCommand):
                                 db_match.away_score = g_info.get('away') if g_info.get('away') is not None else db_match.away_score
                                 db_match.elapsed_time = status_info.get('elapsed')
                                 
+                                # === PARSE LIVE STATISTICS ===
+                                # A API retorna um array com 2 elementos: [home_stats, away_stats]
+                                # Cada um contém: {"team": {...}, "statistics": [{"type": "...", "value": ...}, ...]}
+                                if stats_list and len(stats_list) >= 2:
+                                    home_stats_raw = {}
+                                    away_stats_raw = {}
+                                    
+                                    for stat in stats_list[0].get('statistics', []):
+                                        home_stats_raw[stat.get('type', '')] = stat.get('value')
+                                    for stat in stats_list[1].get('statistics', []):
+                                        away_stats_raw[stat.get('type', '')] = stat.get('value')
+                                    
+                                    # Helper to safely get int values
+                                    def safe_int(val):
+                                        if val is None: return None
+                                        try: return int(val)
+                                        except (ValueError, TypeError): return None
+                                    
+                                    def safe_possession(val):
+                                        if val is None: return None
+                                        try: return int(str(val).replace('%', ''))
+                                        except (ValueError, TypeError): return None
+                                    
+                                    # Shots
+                                    db_match.home_shots = safe_int(home_stats_raw.get('Total Shots'))
+                                    db_match.away_shots = safe_int(away_stats_raw.get('Total Shots'))
+                                    db_match.home_shots_on_target = safe_int(home_stats_raw.get('Shots on Goal'))
+                                    db_match.away_shots_on_target = safe_int(away_stats_raw.get('Shots on Goal'))
+                                    
+                                    # Corners
+                                    db_match.home_corners = safe_int(home_stats_raw.get('Corner Kicks'))
+                                    db_match.away_corners = safe_int(away_stats_raw.get('Corner Kicks'))
+                                    
+                                    # Fouls
+                                    db_match.home_fouls = safe_int(home_stats_raw.get('Fouls'))
+                                    db_match.away_fouls = safe_int(away_stats_raw.get('Fouls'))
+                                    
+                                    # Cards
+                                    db_match.home_yellow = safe_int(home_stats_raw.get('Yellow Cards'))
+                                    db_match.away_yellow = safe_int(away_stats_raw.get('Yellow Cards'))
+                                    db_match.home_red = safe_int(home_stats_raw.get('Red Cards'))
+                                    db_match.away_red = safe_int(away_stats_raw.get('Red Cards'))
+                                    
+                                    # Shots off target
+                                    db_match.home_shots_off_target = safe_int(home_stats_raw.get('Shots off Goal'))
+                                    db_match.away_shots_off_target = safe_int(away_stats_raw.get('Shots off Goal'))
+                                    
+                                    # Possession (vem como "55%" da API)
+                                    db_match.home_possession = safe_possession(home_stats_raw.get('Ball Possession'))
+                                    db_match.away_possession = safe_possession(away_stats_raw.get('Ball Possession'))
+                                    
+                                    # Dangerous Attacks (Ataques Perigosos)
+                                    # A API-Football não tem um campo direto "Dangerous Attacks" mas pode ter "expected_goals"
+                                    # Usamos "Blocked Shots" + chutes como proxy se não tiver o campo direto
+                                    
+                                    # HT Score (da API score section)
+                                    score_info = fix.get('score', {})
+                                    ht_score = score_info.get('halftime', {})
+                                    if ht_score.get('home') is not None:
+                                        db_match.ht_home_score = ht_score.get('home')
+                                    if ht_score.get('away') is not None:
+                                        db_match.ht_away_score = ht_score.get('away')
+                                
                                 s_short = status_info.get('short')
                                 if s_short in ['1H', '2H', 'ET', 'P', 'LIVE']:
                                     db_match.status = 'Live'
@@ -147,6 +211,14 @@ class Command(BaseCommand):
                                 db_match.save()
                                 matches_updated += 1
 
+                    # Tirar snapshot para o Radar de Pressão (após salvar os dados)
+                    try:
+                        from matches.services.live_radar import LiveRadarService
+                        snapshots = LiveRadarService.take_snapshots_for_active_matches()
+                        if snapshots > 0:
+                            self.stdout.write(f"  📸 Tirou {snapshots} snapshots para o Radar de Pressão.")
+                    except Exception as e:
+                        self.stdout.write(self.style.WARNING(f"  ⚠ Erro ao tirar snapshots: {e}"))
                                 
                     self.stdout.write(self.style.SUCCESS(f"  ✓ Sincronizou {matches_updated} jogos do nosso Radar com a API."))
                     

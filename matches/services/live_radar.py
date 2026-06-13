@@ -19,14 +19,14 @@ class LiveRadarService:
         Deve ser rodado por um CronJob a cada 1 ou 5 minutos.
         """
         # Apenas jogos que estão acontecendo agora
-        active_matches = Match.objects.filter(status__in=['IN_PLAY', 'PAUSED'])
+        active_matches = Match.objects.filter(status__in=['Live', 'Halftime', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED'])
         
         snapshots_created = 0
         for match in active_matches:
-            # Pega o minuto atual (se for nulo, tenta usar 0)
+            # Pega o minuto atual (elapsed_time do campo do Match)
             try:
-                minute = int(match.minute) if match.minute and str(match.minute).isdigit() else 0
-            except ValueError:
+                minute = int(match.elapsed_time) if match.elapsed_time else 0
+            except (ValueError, TypeError):
                 minute = 0
                 
             # Salva a fotografia do momento

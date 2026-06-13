@@ -144,6 +144,8 @@ class Match(models.Model):
     away_shots = models.IntegerField(null=True, blank=True)
     home_shots_on_target = models.IntegerField(null=True, blank=True)
     away_shots_on_target = models.IntegerField(null=True, blank=True)
+    home_shots_off_target = models.IntegerField(null=True, blank=True)
+    away_shots_off_target = models.IntegerField(null=True, blank=True)
     home_corners = models.IntegerField(null=True, blank=True)
     away_corners = models.IntegerField(null=True, blank=True)
     home_fouls = models.IntegerField(null=True, blank=True)
@@ -152,6 +154,12 @@ class Match(models.Model):
     away_yellow = models.IntegerField(null=True, blank=True)
     home_red = models.IntegerField(null=True, blank=True)
     away_red = models.IntegerField(null=True, blank=True)
+    
+    # Live Radar Fields
+    home_possession = models.IntegerField(null=True, blank=True)
+    away_possession = models.IntegerField(null=True, blank=True)
+    home_dangerous_attacks = models.IntegerField(null=True, blank=True)
+    away_dangerous_attacks = models.IntegerField(null=True, blank=True)
     
     class Meta:
         ordering = ['date']
