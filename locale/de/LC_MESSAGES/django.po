@@ -4185,3 +4185,110 @@ msgstr "Doppelte Chance & Über"
 
 msgid "Double Chance & BTTS"
 msgstr "Doppelte Chance & Beide Teams treffen"
+
+
+msgid "Golden Double HT (1st Half Goals)"
+msgstr "Goldenes Doppel HT (Tore in der 1. Halbzeit)"
+
+msgid "FT Goals Double (Over 1.5 Goals)"
+msgstr "Tore Doppel FT (Über 1.5 Tore)"
+
+msgid "Corners Double (Over 9.5 Corners)"
+msgstr "Ecken Doppel (Über 9.5 Ecken)"
+
+msgid "BTTS Double (Goals on Both Sides)"
+msgstr "BTTS Doppel (Tore auf beiden Seiten)"
+
+msgid "Favorites Double (Clear Wins)"
+msgstr "Favoriten Doppel (Klare Siege)"
+
+msgid "Under Control Double (Under 3.5 Goals)"
+msgstr "Unter Kontrolle Doppel (Unter 3.5 Tore)"
+
+msgid "Iron Defense Double (BTTS No)"
+msgstr "Eiserne Verteidigung Doppel (BTTS Nein)"
+
+msgid "Double Chance Double (Extra Safety)"
+msgstr "Doppelte Chance Doppel (Zusätzliche Sicherheit)"
+
+msgid "FT Goals Treble (Over 1.5 Goals)"
+msgstr "Tore Dreier FT (Über 1.5 Tore)"
+
+msgid "Double Chance Treble (Maximum Safety)"
+msgstr "Doppelte Chance Dreier (Maximale Sicherheit)"
+
+msgid "Leverage Treble (Over 0.5 FT Goals)"
+msgstr "Hebel Dreier (Über 0.5 Tore FT)"
+
+msgid "Golden Treble HT (1st Half Goals)"
+msgstr "Goldenes Dreier HT (Tore in der 1. Halbzeit)"
+
+msgid "Golden Multiple (Safety & Value)"
+msgstr "Goldene Kombi (Sicherheit & Wert)"
+
+msgid "Super Leverage Multiple (Giant Odds)"
+msgstr "Super Hebel Kombi (Riesige Quoten)"
+
+msgid "Trixie Combo: DC + Goal Range"
+msgstr "Trixie Combo: DC + Torbereich"
+
+msgid "Trixie Combo: Goals + BTTS"
+msgstr "Trixie Combo: Tore + BTTS"
+
+msgid "Special Trixie: 2nd Half with Most Goals"
+msgstr "Spezial Trixie: 2. Halbzeit mit den meisten Toren"
+
+msgid "Pressure Trixie: Team Scores in 2nd Half"
+msgstr "Druck Trixie: Team trifft in der 2. Halbzeit"
+
+msgid "Goal in 1st Half"
+msgstr "Tor in der 1. Halbzeit"
+
+msgid "Over 1.5 FT Goals"
+msgstr "Über 1.5 Tore FT"
+
+msgid "Both Teams to Score - Yes"
+msgstr "Beide Teams treffen - Ja"
+
+msgid "Both Teams to Score - No"
+msgstr "Beide Teams treffen - Nein"
+
+msgid "Over 9.5 Corners"
+msgstr "Über 9.5 Ecken"
+
+msgid "Over 0.5 FT Goals"
+msgstr "Über 0.5 Tore FT"
+
+msgid "Under 3.5 FT Goals"
+msgstr "Unter 3.5 Tore FT"
+
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "Hedge on Favorite"
+msgstr "Hedge auf Favoriten"
+
+msgid "Win"
+msgstr "Sieg"
+
+msgid "or Draw"
+msgstr "oder Unentschieden"
+
+msgid "Goals in Match"
+msgstr "Tore im Spiel"
+
+msgid "Draw or"
+msgstr "Unentschieden oder"
+
+msgid "+2.5 Goals & BTTS Yes"
+msgstr "+2.5 Tore & BTTS Ja"
+
+msgid "-2.5 Goals & BTTS No"
+msgstr "-2.5 Tore & BTTS Nein"
+
+msgid "2nd Half with Most Goals"
+msgstr "2. Halbzeit mit den meisten Toren"
+
+msgid "Scores in 2nd Half"
+msgstr "Trifft in der 2. Halbzeit"
+

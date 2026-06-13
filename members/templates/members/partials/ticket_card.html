@@ -1,10 +1,11 @@
 {% load i18n %}
+{% load ticket_tags %}
 <div class="col-lg-6 col-md-12 ticket-card-item" data-date-group="{{ ticket.date_group }}">
     <div class="card border-0 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #1e1e2d 0%, #151522 100%); border: 1px solid rgba(255,255,255,0.05) !important;">
         <div class="card-header border-0 bg-transparent py-3 px-4 d-flex justify-content-between align-items-center">
             <div>
                 <span class="badge bg-success mb-1" style="background: rgba(16,185,129,0.15) !important; color: #10b981; font-size: 10px;">{{ ticket.get_ticket_type_display }}</span>
-                <h5 class="text-white fw-bold mb-0" style="font-size: 1.1rem;">{{ ticket.title }}</h5>
+                <h5 class="text-white fw-bold mb-0" style="font-size: 1.1rem;">{{ ticket.title|translate_ticket }}</h5>
             </div>
             <div class="text-end d-flex align-items-center gap-3">
                 <div class="pe-3 border-end" style="border-color: rgba(255,255,255,0.08) !important;">
@@ -57,7 +58,7 @@
                             {% else %}
                             background: rgba(99,102,241,0.2) !important; color: #a5b4fc !important; border: 1px solid rgba(99,102,241,0.2);
                             {% endif %}">
-                            {{ sel.prediction_label }}
+                            {{ sel.prediction_label|translate_ticket }}
                         </span>
                         <span class="text-secondary small d-block mt-1" style="font-size: 10px;">
                             <span class="badge px-2 py-0.5 text-warning bg-warning-subtle border border-warning-subtle rounded-2 small me-2" style="background: rgba(245, 158, 11, 0.12) !important; border: 1px solid rgba(245, 158, 11, 0.25) !important; color: #f59e0b !important;">@ {{ sel.odd }}</span>

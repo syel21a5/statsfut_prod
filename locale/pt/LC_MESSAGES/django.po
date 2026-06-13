@@ -3975,3 +3975,110 @@ msgstr "Dupla Chance & Over"
 
 msgid "Double Chance & BTTS"
 msgstr "Dupla Chance & Ambas Marcam"
+
+
+msgid "Golden Double HT (1st Half Goals)"
+msgstr "Dupla Ouro HT (Gols no 1º Tempo)"
+
+msgid "FT Goals Double (Over 1.5 Goals)"
+msgstr "Dupla de Gols FT (Mais de 1.5 Gols)"
+
+msgid "Corners Double (Over 9.5 Corners)"
+msgstr "Dupla de Cantos (Over 9.5 Escanteios)"
+
+msgid "BTTS Double (Goals on Both Sides)"
+msgstr "Dupla Ambas Marcam (Gols dos Dois Lados)"
+
+msgid "Favorites Double (Clear Wins)"
+msgstr "Dupla de Favoritos (Vitórias Claras)"
+
+msgid "Under Control Double (Under 3.5 Goals)"
+msgstr "Dupla Sob Controle (Menos de 3.5 Gols)"
+
+msgid "Iron Defense Double (BTTS No)"
+msgstr "Dupla Defesa de Ferro (Ambas Marcam Não)"
+
+msgid "Double Chance Double (Extra Safety)"
+msgstr "Dupla Dupla Chance (Segurança Extra)"
+
+msgid "FT Goals Treble (Over 1.5 Goals)"
+msgstr "Tripla de Gols FT (Mais de 1.5 Gols)"
+
+msgid "Double Chance Treble (Maximum Safety)"
+msgstr "Tripla Dupla Chance (Segurança Máxima)"
+
+msgid "Leverage Treble (Over 0.5 FT Goals)"
+msgstr "Tripla Alavancagem (Mais de 0.5 Gols FT)"
+
+msgid "Golden Treble HT (1st Half Goals)"
+msgstr "Tripla Ouro HT (Gols no 1º Tempo)"
+
+msgid "Golden Multiple (Safety & Value)"
+msgstr "Múltipla de Ouro (Segurança & Valor)"
+
+msgid "Super Leverage Multiple (Giant Odds)"
+msgstr "Super Múltipla Alavancagem (Odds Gigantes)"
+
+msgid "Trixie Combo: DC + Goal Range"
+msgstr "Trixie Combo: DC + Faixa de Gols"
+
+msgid "Trixie Combo: Goals + BTTS"
+msgstr "Trixie Combo: Gols + Ambas Marcam"
+
+msgid "Special Trixie: 2nd Half with Most Goals"
+msgstr "Trixie Especial: 2º Tempo com Mais Gols"
+
+msgid "Pressure Trixie: Team Scores in 2nd Half"
+msgstr "Trixie Pressão: Equipe Marca no 2º Tempo"
+
+msgid "Goal in 1st Half"
+msgstr "Gol no 1º Tempo"
+
+msgid "Over 1.5 FT Goals"
+msgstr "Mais de 1.5 Gols FT"
+
+msgid "Both Teams to Score - Yes"
+msgstr "Ambas Marcam - Sim"
+
+msgid "Both Teams to Score - No"
+msgstr "Ambas Marcam - Não"
+
+msgid "Over 9.5 Corners"
+msgstr "Mais de 9.5 Escanteios"
+
+msgid "Over 0.5 FT Goals"
+msgstr "Mais de 0.5 Gols FT"
+
+msgid "Under 3.5 FT Goals"
+msgstr "Menos de 3.5 Gols FT"
+
+msgid "Group"
+msgstr "Grupo"
+
+msgid "Hedge on Favorite"
+msgstr "Hedge ao Favorito"
+
+msgid "Win"
+msgstr "Vitória"
+
+msgid "or Draw"
+msgstr "ou Empate"
+
+msgid "Goals in Match"
+msgstr "Gols no Jogo"
+
+msgid "Draw or"
+msgstr "Empate ou"
+
+msgid "+2.5 Goals & BTTS Yes"
+msgstr "+2.5 Gols & Ambas Sim"
+
+msgid "-2.5 Goals & BTTS No"
+msgstr "-2.5 Gols & Ambas Não"
+
+msgid "2nd Half with Most Goals"
+msgstr "2º Tempo Com Mais Gols"
+
+msgid "Scores in 2nd Half"
+msgstr "Marca no 2º Tempo"
+
