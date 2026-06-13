@@ -554,7 +554,7 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:732
 #: members/templates/members/premium_dashboard.html:1013
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: matches/templates/matches/h2h_detail.html:201
 #: matches/templates/matches/h2h_detail.html:466
@@ -1154,15 +1154,15 @@ msgstr ""
 
 #: matches/templates/matches/home.html:25 members/views.py:339
 msgid "Today"
-msgstr ""
+msgstr "Hoje"
 
 #: matches/templates/matches/home.html:26 members/views.py:340
 msgid "Tomorrow"
-msgstr ""
+msgstr "Amanhã"
 
 #: matches/templates/matches/home.html:27 matches/views.py:443
 msgid "Next Round"
-msgstr ""
+msgstr "Próxima Rodada"
 
 #: matches/templates/matches/home.html:32
 msgid "Upcoming"

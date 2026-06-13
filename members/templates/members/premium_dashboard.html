@@ -1275,7 +1275,7 @@
                                     </div>
                                     <div>
                                         <h5 class="text-white mb-0 fw-bold">{% translate "Winner" %}</h5>
-                                        <span class="text-secondary small">{% translate "Quem recebe mais cartões" %}</span>
+                                        <span class="text-secondary small">{% translate "Who gets more cards" %}</span>
                                     </div>
                                 </div>
                                 
@@ -1366,8 +1366,8 @@
                                         <i class="fa-solid fa-crosshairs fa-lg text-success"></i>
                                     </div>
                                     <div>
-                                        <h5 class="text-white mb-0 fw-bold">{% translate "Finalizações Totais" %}</h5>
-                                        <span class="text-secondary small">{% translate "Previsões de finalizações totais" %}</span>
+                                        <h5 class="text-white mb-0 fw-bold">{% translate "Total Shots" %}</h5>
+                                        <span class="text-secondary small">{% translate "Total shots predictions" %}</span>
                                     </div>
                                 </div>
                                 
@@ -1376,7 +1376,7 @@
                                     <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & Linhas</span>
                                     <div class="d-flex flex-wrap gap-1" id="shots-total-tabs">
                                         <button class="btn btn-sm goals-market-tab active" data-market="all_shots_total" onclick="filterShotsTotalMarket(this, 'all_shots_total')">
-                                            {% translate "Todos" %}
+                                            {% translate "All" %}
                                         </button>
                                         <button class="btn btn-sm goals-market-tab" data-market="SHOTS_OVER_205" onclick="filterShotsTotalMarket(this, 'SHOTS_OVER_205')">+20.5</button>
                                         <button class="btn btn-sm goals-market-tab" data-market="SHOTS_OVER_225" onclick="filterShotsTotalMarket(this, 'SHOTS_OVER_225')">+22.5</button>
@@ -1469,7 +1469,7 @@
                                     </div>
                                     <div>
                                         <h5 class="text-white mb-0 fw-bold">{% translate "Chutes no Alvo" %}</h5>
-                                        <span class="text-secondary small">{% translate "Previsões de chutes no alvo" %}</span>
+                                        <span class="text-secondary small">{% translate "Shots on target predictions" %}</span>
                                     </div>
                                 </div>
                                 
@@ -1478,7 +1478,7 @@
                                     <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-2 px-2 py-1" style="font-size: 0.65rem;">Over (+) & Linhas</span>
                                     <div class="d-flex flex-wrap gap-1" id="shots-target-tabs">
                                         <button class="btn btn-sm goals-market-tab active" data-market="all_shots_target" onclick="filterShotsTargetMarket(this, 'all_shots_target')">
-                                            {% translate "Todos" %}
+                                            {% translate "All" %}
                                         </button>
                                         <button class="btn btn-sm goals-market-tab" data-market="SOT_OVER_65" onclick="filterShotsTargetMarket(this, 'SOT_OVER_65')">+6.5</button>
                                         <button class="btn btn-sm goals-market-tab" data-market="SOT_OVER_75" onclick="filterShotsTargetMarket(this, 'SOT_OVER_75')">+7.5</button>
@@ -1630,7 +1630,7 @@
 
                         <!-- GREEN Cards Sub-markets -->
                         <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-green-cards-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "Todos os Cartões" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "All Cards" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_35')">+3.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_45')">+4.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'CARDS_OVER_55')">+5.5</button>
@@ -1639,7 +1639,7 @@
 
                         <!-- GREEN Shots Sub-markets -->
                         <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-green-shots-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "Todos os Chutes" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-green active" onclick="filterHistMarket(this, 'green', 'all')">{% translate "All Shots" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SHOTS_OVER_205')">+20.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SHOTS_OVER_225')">+22.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-green" onclick="filterHistMarket(this, 'green', 'SHOTS_OVER_245')">+24.5</button>
@@ -1731,7 +1731,7 @@
 
                         <!-- RED Cards Sub-markets -->
                         <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-red-cards-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "Todos os Cartões" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "All Cards" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_35')">+3.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_45')">+4.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'CARDS_OVER_55')">+5.5</button>
@@ -1740,7 +1740,7 @@
 
                         <!-- RED Shots Sub-markets -->
                         <div class="d-flex flex-wrap gap-1 mb-3 pb-2 d-none" id="hist-red-shots-markets" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "Todos os Chutes" %}</button>
+                            <button class="btn btn-sm hist-cat-tab hist-cat-tab-red active" onclick="filterHistMarket(this, 'red', 'all')">{% translate "All Shots" %}</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SHOTS_OVER_205')">+20.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SHOTS_OVER_225')">+22.5</button>
                             <button class="btn btn-sm hist-cat-tab hist-cat-tab-red" onclick="filterHistMarket(this, 'red', 'SHOTS_OVER_245')">+24.5</button>
@@ -2098,8 +2098,8 @@
                         <div class="d-flex align-items-center justify-content-center rounded-circle mx-auto mb-4" style="width: 72px; height: 72px; background: linear-gradient(135deg, #ec4899, #f97316); box-shadow: 0 4px 20px rgba(245,158,11,0.3);">
                             <i class="fa-solid fa-lock text-white fa-2x"></i>
                         </div>
-                        <h3 class="text-white fw-bold mb-3">⭐ {% translate "Disponível apenas no Plano VIP" %}</h3>
-                        <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">{% translate "O seu Plano Popular dá acesso total ao Scanner de Previsões. Faça o upgrade para o Plano VIP por apenas mais R$ 18/mês para liberar as Estratégias Prontas (Duplas/Triplas do robô)!" %}</p>
+                        <h3 class="text-white fw-bold mb-3">⭐ {% translate "Available only on VIP Plan" %}</h3>
+                        <p class="text-secondary mx-auto mb-4" style="max-width: 500px;">{% translate "Your Popular Plan gives full access to the Predictions Scanner. Upgrade to the VIP Plan for just R$ 18/month to unlock Ready Strategies (Bot Doubles/Triples)!" %}</p>
                         <a href="{% url 'members:paywall' %}" class="btn btn-lg fw-bold px-5 text-white" style="border-radius: 12px; background: linear-gradient(135deg, #ec4899, #f97316); border: none; box-shadow: 0 4px 15px rgba(245,158,11,0.3);">
                             <i class="fa-solid fa-crown me-2"></i>{% translate "Fazer Upgrade para VIP" %}
                         </a>
@@ -2177,16 +2177,16 @@
                 <!-- Filtro de datas para Bilhetes Prontos -->
                 <div class="col-12 d-flex flex-wrap align-items-center gap-2 mb-4 mt-2">
                     <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, 'all')">
-                        ✨ {% translate "Todos" %}
+                        ✨ {% translate "All" %}
                     </button>
                     <button class="btn btn-sm ticket-date-btn active" onclick="filterTicketDateTab(this, '{% translate "Today" %}')">
-                        📅 {% translate "Hoje" %}
+                        📅 {% translate "Today" %}
                     </button>
                     <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Tomorrow" %}')">
-                        📅 {% translate "Amanhã" %}
+                        📅 {% translate "Tomorrow" %}
                     </button>
                     <button class="btn btn-sm ticket-date-btn" onclick="filterTicketDateTab(this, '{% translate "Next Round" %}')">
-                        📅 {% translate "Próxima Rodada" %}
+                        📅 {% translate "Next Round" %}
                     </button>
                 </div>
 
@@ -2957,7 +2957,7 @@ function checkEmptyStateList(listElement) {
             <div class="d-flex flex-column align-items-center justify-content-center h-100" style="opacity: 0.6;">
                 <i class="fa-solid fa-calendar-xmark fa-2x mb-3 text-secondary" style="color: rgba(255,255,255,0.3) !important;"></i>
                 <h6 class="text-white fw-bold mb-1">{% translate "Nenhum palpite encontrado" %}</h6>
-                <p class="text-secondary small mb-0">{% translate "Não há jogos para este mercado na data selecionada." %}</p>
+                <p class="text-secondary small mb-0">{% translate "There are no matches for this market on the selected date." %}</p>
             </div>
         `;
         listElement.appendChild(emptyState);
@@ -2981,7 +2981,7 @@ function checkEmptyStateTickets() {
                 <div class="p-5 rounded-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
                     <i class="fa-solid fa-calendar-xmark fa-2x mb-3 text-secondary" style="color: rgba(255,255,255,0.3) !important;"></i>
                     <h5 class="text-white fw-bold">{% translate "Nenhum bilhete encontrado" %}</h5>
-                    <p class="text-secondary small mb-0">{% translate "Não foram encontrados bilhetes para esta estratégia na data selecionada." %}</p>
+                    <p class="text-secondary small mb-0">{% translate "No tickets were found for this strategy on the selected date." %}</p>
                 </div>
             `;
             const row = pane.querySelector('.row');
