@@ -10,6 +10,7 @@ class League(models.Model):
         max_length=100, blank=True, null=True, unique=True,
         help_text="Slug único no SoccerStats.com (ex: 'england', 'denmark'). Usado para evitar mistura entre divisões."
     )
+    api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID da Liga na API")
 
     def __str__(self):
         return f"{self.name} ({self.country}) - Div {self.division}"

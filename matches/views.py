@@ -329,22 +329,9 @@ class MatchDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         match = self.object
         
-        # Se não tem predictions e o jogo não é passado (ou é recente?), busca na API
+        # Evita consumir a cota da API em tempo real no site
         if not match.predictions_data:
-            # So busca se tiver api_id (salvo pelo scraper)
-            if match.api_id:
-                print(f"Fetching predictions for match API_ID {match.api_id}...")
-                api_manager = APIManager()
-                
-                try:
-                    preds = api_manager.get_predictions(match.api_id)
-                    if preds:
-                        match.predictions_data = preds[0] # API retorna lista
-                        match.save()
-                except Exception as e:
-                    print(f"Erro ao atualizar predictions: {e}")
-            else:
-                print(f"Match {match.id} sem API_ID. Ignorando fetch de predictions.")
+            print(f"Match {match.id} acessado, mas sem predictions salvas no banco. Aguardando sincronização do script em background.")
         
         # Instantiate the advanced stats engine
         try:
