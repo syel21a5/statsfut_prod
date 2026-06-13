@@ -71,9 +71,9 @@ class Match(models.Model):
     season = models.ForeignKey('Season', on_delete=models.CASCADE, related_name='matches', null=True)
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='home_matches')
     away_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='away_matches')
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateTimeField(null=True, blank=True, db_index=True)
     round_name = models.CharField(max_length=150, blank=True, null=True)
-    status = models.CharField(max_length=20, default="Scheduled")
+    status = models.CharField(max_length=20, default="Scheduled", db_index=True)
     api_id = models.CharField(max_length=255, unique=True, null=True, blank=True, help_text="ID da Fixture na API")
     elapsed_time = models.IntegerField(null=True, blank=True)
 
@@ -413,7 +413,7 @@ class ScannerTip(models.Model):
     market = models.CharField(max_length=50, help_text="Market identifier (e.g., HT_GOAL, OVER_15, BTTS, HOME_WIN)")
     probability = models.FloatField(default=0.0)
     prediction_text = models.CharField(max_length=200, help_text="User-friendly text (e.g., 'Gol no 1º Tempo')")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING', db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
