@@ -35,12 +35,12 @@ class LiveRadarService:
                 minute=minute,
                 home_shots_on_target=match.home_shots_on_target or 0,
                 away_shots_on_target=match.away_shots_on_target or 0,
-                home_shots_off_target=getattr(match, 'home_shots_off_target', 0),
-                away_shots_off_target=getattr(match, 'away_shots_off_target', 0),
+                home_shots_off_target=getattr(match, 'home_shots_off_target', 0) or 0,
+                away_shots_off_target=getattr(match, 'away_shots_off_target', 0) or 0,
                 home_corners=match.home_corners or 0,
                 away_corners=match.away_corners or 0,
-                home_dangerous_attacks=getattr(match, 'home_dangerous_attacks', 0),
-                away_dangerous_attacks=getattr(match, 'away_dangerous_attacks', 0),
+                home_dangerous_attacks=getattr(match, 'home_dangerous_attacks', 0) or 0,
+                away_dangerous_attacks=getattr(match, 'away_dangerous_attacks', 0) or 0,
                 home_possession=match.home_possession or 50,
                 away_possession=match.away_possession or 50
             )
@@ -59,8 +59,8 @@ class LiveRadarService:
         current_stats = {
             'home_shots': match.home_shots or 0,
             'away_shots': match.away_shots or 0,
-            'home_da': getattr(match, 'home_dangerous_attacks', 0),
-            'away_da': getattr(match, 'away_dangerous_attacks', 0),
+            'home_da': getattr(match, 'home_dangerous_attacks', 0) or 0,
+            'away_da': getattr(match, 'away_dangerous_attacks', 0) or 0,
             'home_corners': match.home_corners or 0,
             'away_corners': match.away_corners or 0
         }
@@ -79,12 +79,12 @@ class LiveRadarService:
             old_stats = {k: 0 for k in current_stats}
         else:
             old_stats = {
-                'home_shots': old_snapshot.home_shots_on_target + old_snapshot.home_shots_off_target,
-                'away_shots': old_snapshot.away_shots_on_target + old_snapshot.away_shots_off_target,
-                'home_da': old_snapshot.home_dangerous_attacks,
-                'away_da': old_snapshot.away_dangerous_attacks,
-                'home_corners': old_snapshot.home_corners,
-                'away_corners': old_snapshot.away_corners
+                'home_shots': (old_snapshot.home_shots_on_target or 0) + (old_snapshot.home_shots_off_target or 0),
+                'away_shots': (old_snapshot.away_shots_on_target or 0) + (old_snapshot.away_shots_off_target or 0),
+                'home_da': old_snapshot.home_dangerous_attacks or 0,
+                'away_da': old_snapshot.away_dangerous_attacks or 0,
+                'home_corners': old_snapshot.home_corners or 0,
+                'away_corners': old_snapshot.away_corners or 0
             }
             
         # Calcula a diferença (O que aconteceu apenas nessa janela de tempo)
