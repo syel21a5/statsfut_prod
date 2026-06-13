@@ -4008,3 +4008,33 @@ msgstr "Not 2-4 Goals in 2nd Half (2T)"
 #~ "below 30%%). Match trending towards few goals, ideal for analyzing the "
 #~ "\"Under\" market.\n"
 #~ "                        "
+
+msgid "Home or Draw & Under %(line)s Goals"
+msgstr "Home or Draw & Under %(line)s Goals"
+
+msgid "Draw or Away & Under %(line)s Goals"
+msgstr "Draw or Away & Under %(line)s Goals"
+
+msgid "Home or Draw & Over %(line)s Goals"
+msgstr "Home or Draw & Over %(line)s Goals"
+
+msgid "Draw or Away & Over %(line)s Goals"
+msgstr "Draw or Away & Over %(line)s Goals"
+
+msgid "Home or Draw & BTTS Yes"
+msgstr "Home or Draw & BTTS Yes"
+
+msgid "Home or Draw & BTTS No"
+msgstr "Home or Draw & BTTS No"
+
+msgid "Draw or Away & BTTS Yes"
+msgstr "Draw or Away & BTTS Yes"
+
+msgid "Draw or Away & BTTS No"
+msgstr "Draw or Away & BTTS No"
+
+msgid "Double Chance & Over"
+msgstr "Double Chance & Over"
+
+msgid "Double Chance & BTTS"
+msgstr "Double Chance & BTTS"

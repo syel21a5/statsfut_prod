@@ -78,7 +78,7 @@ msgstr ""
 #: members/templates/members/paywall.html:83
 #: members/templates/members/profile.html:42
 msgid "Premium"
-msgstr ""
+msgstr "Premium"
 
 #: core/templates/base.html:72
 msgid "Countries & Leagues"
@@ -334,7 +334,7 @@ msgstr ""
 
 #: matches/templates/matches/contact.html:24
 msgid "Email Support"
-msgstr ""
+msgstr "Suporte por Email"
 
 #: matches/templates/matches/contact.html:25
 msgid "For general inquiries and support:"
@@ -342,7 +342,7 @@ msgstr "Para dúvidas gerais e suporte:"
 
 #: matches/templates/matches/contact.html:32
 msgid "Business"
-msgstr ""
+msgstr "Negócios"
 
 #: matches/templates/matches/contact.html:33
 msgid "For advertising and partnerships:"
@@ -2525,17 +2525,17 @@ msgstr ""
 #: matches/templates/matches/team_detail.html:214
 #, python-format
 msgid "W%%"
-msgstr ""
+msgstr "V%%"
 
 #: matches/templates/matches/team_detail.html:215
 #, python-format
 msgid "D%%"
-msgstr ""
+msgstr "E%%"
 
 #: matches/templates/matches/team_detail.html:216
 #, python-format
 msgid "L%%"
-msgstr ""
+msgstr "D%%"
 
 #: matches/templates/matches/team_detail.html:295
 msgid "Relative Form"
@@ -2863,7 +2863,7 @@ msgstr ""
 
 #: matches/templates/matches/terms_of_use.html:22
 msgid "2. Use of Content"
-msgstr ""
+msgstr "2. Uso do Conteúdo"
 
 #: matches/templates/matches/terms_of_use.html:23
 msgid ""
@@ -2946,7 +2946,7 @@ msgstr "Usuário"
 
 #: members/forms.py:13
 msgid "Your username"
-msgstr ""
+msgstr "Seu nome de usuário"
 
 #: members/forms.py:19 members/templates/members/login.html:56
 #: members/templates/members/register.html:73
@@ -2955,7 +2955,7 @@ msgstr "Senha"
 
 #: members/forms.py:22
 msgid "Your password"
-msgstr ""
+msgstr "Sua senha"
 
 #: members/forms.py:31 members/templates/members/register.html:66
 msgid "Email"
@@ -2963,19 +2963,19 @@ msgstr "E-mail"
 
 #: members/forms.py:35
 msgid "your@email.com"
-msgstr ""
+msgstr "seu@email.com"
 
 #: members/forms.py:51
 msgid "Choose a username"
-msgstr ""
+msgstr "Escolha um nome de usuário"
 
 #: members/forms.py:56
 msgid "Create a password"
-msgstr ""
+msgstr "Crie uma senha"
 
 #: members/forms.py:61
 msgid "Confirm your password"
-msgstr ""
+msgstr "Confirme sua senha"
 
 #: members/templates/members/login.html:5
 msgid ""
@@ -2997,7 +2997,7 @@ msgstr "Usuário ou senha inválidos. Por favor, tente novamente."
 #: members/templates/members/login.html:62
 #: members/templates/members/register.html:102
 msgid "Sign In"
-msgstr ""
+msgstr "Entrar"
 
 #: members/templates/members/login.html:69
 #: members/templates/members/register.html:94
@@ -3021,7 +3021,7 @@ msgstr ""
 
 #: members/templates/members/partials/ticket_card.html:16
 msgid "Accuracy"
-msgstr ""
+msgstr "Precisão"
 
 #: members/templates/members/partials/ticket_card.html:64
 #: members/templates/members/premium_dashboard.html:1300
@@ -3030,16 +3030,16 @@ msgstr ""
 
 #: members/templates/members/partials/ticket_card.html:77
 msgid "match(es) pending"
-msgstr ""
+msgstr "partida(s) pendente(s)"
 
 #: members/templates/members/partials/ticket_card.html:82
 msgid "All matches finished"
-msgstr ""
+msgstr "Todas as partidas finalizadas"
 
 #: members/templates/members/paywall.html:4
 #: members/templates/members/paywall.html:8
 msgid "Upgrade to Premium"
-msgstr ""
+msgstr "Faça upgrade para Premium"
 
 #: members/templates/members/paywall.html:5
 msgid ""
@@ -3049,7 +3049,7 @@ msgstr ""
 
 #: members/templates/members/paywall.html:18
 msgid "Unlock the Full Power of StatsFut"
-msgstr ""
+msgstr "Desbloqueie todo o poder do StatsFut"
 
 #: members/templates/members/paywall.html:19
 msgid ""
@@ -3060,11 +3060,11 @@ msgstr ""
 #: members/templates/members/paywall.html:29
 #: members/templates/members/profile.html:46
 msgid "Free"
-msgstr ""
+msgstr "Grátis"
 
 #: members/templates/members/paywall.html:33
 msgid "forever"
-msgstr ""
+msgstr "para sempre"
 
 #: members/templates/members/paywall.html:39
 msgid "Basic match statistics"
@@ -3092,36 +3092,36 @@ msgstr ""
 
 #: members/templates/members/paywall.html:63
 msgid "AI Predictions"
-msgstr ""
+msgstr "Previsões de IA"
 
 #: members/templates/members/paywall.html:67
 msgid "Current Plan"
-msgstr ""
+msgstr "Plano Atual"
 
 #: members/templates/members/paywall.html:78
 msgid "MOST POPULAR"
-msgstr ""
+msgstr "MAIS POPULAR"
 
 #: members/templates/members/paywall.html:88
 msgid "month"
-msgstr ""
+msgstr "mês"
 
 #: members/templates/members/paywall.html:90
 #, python-format
 msgid "Save 40%% with annual plan"
-msgstr ""
+msgstr "Economize 40%% com o plano anual"
 
 #: members/templates/members/paywall.html:95
 msgid "Everything in Free"
-msgstr ""
+msgstr "Tudo do plano Grátis"
 
 #: members/templates/members/paywall.html:99
 msgid "Advanced Corner Analysis"
-msgstr ""
+msgstr "Análise Avançada de Escanteios"
 
 #: members/templates/members/paywall.html:103
 msgid "Card & Foul Trends"
-msgstr ""
+msgstr "Tendências de Cartões e Faltas"
 
 #: members/templates/members/paywall.html:107
 msgid "Shot Analysis & xG"
@@ -3129,59 +3129,59 @@ msgstr ""
 
 #: members/templates/members/paywall.html:111
 msgid "AI Smart Predictions"
-msgstr ""
+msgstr "Previsões Inteligentes de IA"
 
 #: members/templates/members/paywall.html:115
 msgid "Deep H2H Analytics"
-msgstr ""
+msgstr "Análises H2H Profundas"
 
 #: members/templates/members/paywall.html:119
 msgid "Goal Timing Breakdown"
-msgstr ""
+msgstr "Distribuição de Tempo de Gols"
 
 #: members/templates/members/paywall.html:123
 msgid "Subscribe Now"
-msgstr ""
+msgstr "Assinar Agora"
 
 #: members/templates/members/paywall.html:133
 msgid "Best Value"
-msgstr ""
+msgstr "Melhor Valor"
 
 #: members/templates/members/paywall.html:138
 msgid "year"
-msgstr ""
+msgstr "ano"
 
 #: members/templates/members/paywall.html:141
 msgid "Save R$ 149"
-msgstr ""
+msgstr "Economize R$ 149"
 
 #: members/templates/members/paywall.html:147
 msgid "Everything in Premium"
-msgstr ""
+msgstr "Tudo do Premium"
 
 #: members/templates/members/paywall.html:151
 msgid "12 months access"
-msgstr ""
+msgstr "12 meses de acesso"
 
 #: members/templates/members/paywall.html:155
 msgid "Priority support"
-msgstr ""
+msgstr "Suporte prioritário"
 
 #: members/templates/members/paywall.html:159
 msgid "Early access to new features"
-msgstr ""
+msgstr "Acesso antecipado a novos recursos"
 
 #: members/templates/members/paywall.html:163
 msgid "Get Annual"
-msgstr ""
+msgstr "Obter Anual"
 
 #: members/templates/members/paywall.html:171
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Perguntas Frequentes"
 
 #: members/templates/members/paywall.html:176
 msgid "What payment methods do you accept?"
-msgstr ""
+msgstr "Quais métodos de pagamento vocês aceitam?"
 
 #: members/templates/members/paywall.html:180
 msgid ""
@@ -3191,7 +3191,7 @@ msgstr ""
 
 #: members/templates/members/paywall.html:186
 msgid "Can I cancel anytime?"
-msgstr ""
+msgstr "Posso cancelar a qualquer momento?"
 
 #: members/templates/members/paywall.html:190
 msgid ""
@@ -3201,7 +3201,7 @@ msgstr ""
 
 #: members/templates/members/paywall.html:196
 msgid "How often is the data updated?"
-msgstr ""
+msgstr "Com que frequência os dados são atualizados?"
 
 #: members/templates/members/paywall.html:200
 msgid ""
@@ -3229,23 +3229,23 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:22
 msgid "Ready Strategies"
-msgstr ""
+msgstr "Estratégias Prontas"
 
 #: members/templates/members/premium_dashboard.html:44
 #: scratch/dashboard_current.html:45
 msgid "Premium Plan Active"
-msgstr ""
+msgstr "Plano Premium Ativo"
 
 #: members/templates/members/premium_dashboard.html:45
 #: scratch/dashboard_current.html:46
 msgid ""
 "You have full access to all advanced tables and AI smart predictions below."
-msgstr ""
+msgstr "Você tem acesso total a todas as tabelas avançadas e previsões inteligentes da IA abaixo."
 
 #: members/templates/members/premium_dashboard.html:55
 #: scratch/dashboard_current.html:56
 msgid "Free Account"
-msgstr ""
+msgstr "Conta Grátis"
 
 #: members/templates/members/premium_dashboard.html:56
 #: scratch/dashboard_current.html:57
@@ -3257,22 +3257,22 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:60
 #: scratch/dashboard_current.html:61
 msgid "Upgrade Now"
-msgstr ""
+msgstr "Faça Upgrade Agora"
 
 #: members/templates/members/premium_dashboard.html:80
 #: scratch/dashboard_current.html:82
 msgid "Smart Scanner Status"
-msgstr ""
+msgstr "Status do Scanner Inteligente"
 
 #: members/templates/members/premium_dashboard.html:82
 #: scratch/dashboard_current.html:84
 msgid "Online & Scanning"
-msgstr ""
+msgstr "Online & Escaneando"
 
 #: members/templates/members/premium_dashboard.html:83
 #: scratch/dashboard_current.html:85
 msgid "Updated in real-time"
-msgstr ""
+msgstr "Atualizado em tempo real"
 
 #: members/templates/members/premium_dashboard.html:92
 #: scratch/dashboard_current.html:94
@@ -3282,7 +3282,7 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:98
 #: scratch/dashboard_current.html:100
 msgid "Super Opportunities"
-msgstr ""
+msgstr "Super Oportunidades"
 
 #: members/templates/members/premium_dashboard.html:112
 #: scratch/dashboard_current.html:114
@@ -3292,7 +3292,7 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:117
 #: scratch/dashboard_current.html:119
 msgid "Winner & Specials"
-msgstr ""
+msgstr "Vencedor & Especiais"
 
 #: members/templates/members/premium_dashboard.html:151
 #: scratch/dashboard_current.html:152
@@ -3332,12 +3332,12 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:278
 #: scratch/dashboard_current.html:248
 msgid "Match Winner & DC"
-msgstr ""
+msgstr "Vencedor da Partida e Dupla Chance"
 
 #: members/templates/members/premium_dashboard.html:327
 #: scratch/dashboard_current.html:293
 msgid "Specials & Combos"
-msgstr ""
+msgstr "Especiais e Combos"
 
 #: members/templates/members/premium_dashboard.html:382
 msgid "Corners Over"
@@ -3349,7 +3349,7 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:431
 msgid "Who wins the corners battle"
-msgstr ""
+msgstr "Quem ganha a batalha de escanteios"
 
 #: members/templates/members/premium_dashboard.html:483
 msgid "Cards Over"
@@ -3361,16 +3361,16 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:532
 msgid "Who gets more cards"
-msgstr ""
+msgstr "Quem recebe mais cartões"
 
 #: members/templates/members/premium_dashboard.html:583
 #: scratch/dashboard_current.html:446
 msgid "Shots Markets"
-msgstr ""
+msgstr "Mercados de Chutes"
 
 #: members/templates/members/premium_dashboard.html:632
 msgid "Recent History (Greens & Reds)"
-msgstr ""
+msgstr "Histórico Recente (Greens & Reds)"
 
 #: members/templates/members/premium_dashboard.html:634
 msgid "Hit Rate"
@@ -3380,30 +3380,30 @@ msgstr ""
 msgid ""
 "Full transparency! Check the performance of the latest opportunities "
 "suggested by our Smart Scanner."
-msgstr ""
+msgstr "Transparência total! Acompanhe o desempenho das últimas oportunidades sugeridas pelo nosso Scanner Inteligente."
 
 #: members/templates/members/premium_dashboard.html:650
 msgid "Greens"
-msgstr ""
+msgstr "Greens (Vencidas)"
 
 #: members/templates/members/premium_dashboard.html:651
 msgid "Correct predictions"
-msgstr ""
+msgstr "Previsões corretas"
 
 #: members/templates/members/premium_dashboard.html:665
 #: members/templates/members/premium_dashboard.html:735
 msgid "Btts"
-msgstr ""
+msgstr "Ambas Marcam"
 
 #: members/templates/members/premium_dashboard.html:669
 #: members/templates/members/premium_dashboard.html:739
 msgid "Outcomes"
-msgstr ""
+msgstr "Resultados"
 
 #: members/templates/members/premium_dashboard.html:670
 #: members/templates/members/premium_dashboard.html:740
 msgid "Specials"
-msgstr ""
+msgstr "Especiais"
 
 #: members/templates/members/premium_dashboard.html:675
 #: members/templates/members/premium_dashboard.html:745
@@ -3413,7 +3413,7 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:720
 #: members/templates/members/premium_dashboard.html:1225
 msgid "Reds"
-msgstr ""
+msgstr "Reds (Perdidas)"
 
 #: members/templates/members/premium_dashboard.html:721
 msgid "Incorrect predictions"
@@ -3422,16 +3422,16 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:933
 #: scratch/dashboard_current.html:538
 msgid "No history available yet"
-msgstr ""
+msgstr "Nenhum histórico disponível ainda"
 
 #: members/templates/members/premium_dashboard.html:934
 #: scratch/dashboard_current.html:539
 msgid "Results will appear here after the tracked matches conclude."
-msgstr ""
+msgstr "Os resultados aparecerão aqui após a conclusão das partidas rastreadas."
 
 #: members/templates/members/premium_dashboard.html:964
 msgid "Smart AI Scanner Locked"
-msgstr ""
+msgstr "Scanner Inteligente de IA Bloqueado"
 
 #: members/templates/members/premium_dashboard.html:965
 msgid ""
@@ -3442,11 +3442,11 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:967
 msgid "Unlock Premium Scanner"
-msgstr ""
+msgstr "Desbloquear Scanner Premium"
 
 #: members/templates/members/premium_dashboard.html:1005
 msgid "Expert Tickets (Today)"
-msgstr ""
+msgstr "Bilhetes de Especialistas (Hoje)"
 
 #: members/templates/members/premium_dashboard.html:1006
 #, python-format
@@ -3461,15 +3461,15 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1023
 msgid "Triples"
-msgstr ""
+msgstr "Triplas"
 
 #: members/templates/members/premium_dashboard.html:1028
 msgid "Multiples (4-5x)"
-msgstr ""
+msgstr "Múltiplas (4-5x)"
 
 #: members/templates/members/premium_dashboard.html:1033
 msgid "Super Multiples"
-msgstr ""
+msgstr "Super Múltiplas"
 
 #: members/templates/members/premium_dashboard.html:1038
 msgid "Hedge Favorito"
@@ -3477,11 +3477,11 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1043
 msgid "Trixie"
-msgstr ""
+msgstr "Trixie"
 
 #: members/templates/members/premium_dashboard.html:1062
 msgid "No active tickets at the moment"
-msgstr ""
+msgstr "Nenhum bilhete ativo no momento"
 
 #: members/templates/members/premium_dashboard.html:1063
 msgid ""
@@ -3491,55 +3491,55 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1081
 msgid "No double tickets today"
-msgstr ""
+msgstr "Nenhum bilhete de dupla hoje"
 
 #: members/templates/members/premium_dashboard.html:1082
 msgid "No double tickets were generated for today yet."
-msgstr ""
+msgstr "Nenhum bilhete de dupla foi gerado para hoje ainda."
 
 #: members/templates/members/premium_dashboard.html:1100
 msgid "No triple tickets today"
-msgstr ""
+msgstr "Nenhum bilhete de tripla hoje"
 
 #: members/templates/members/premium_dashboard.html:1101
 msgid "No triple tickets were generated for today yet."
-msgstr ""
+msgstr "Nenhum bilhete de tripla foi gerado para hoje ainda."
 
 #: members/templates/members/premium_dashboard.html:1119
 msgid "No multiple tickets today"
-msgstr ""
+msgstr "Nenhum bilhete múltiplo hoje"
 
 #: members/templates/members/premium_dashboard.html:1120
 msgid "No 4-5 games multiple tickets were generated for today yet."
-msgstr ""
+msgstr "Nenhum bilhete múltiplo de 4-5 jogos foi gerado para hoje ainda."
 
 #: members/templates/members/premium_dashboard.html:1138
 msgid "No super multiples today"
-msgstr ""
+msgstr "Nenhuma super múltipla hoje"
 
 #: members/templates/members/premium_dashboard.html:1139
 msgid "No 6-8 games super multiple tickets were generated for today yet."
-msgstr ""
+msgstr "Nenhum bilhete super múltiplo de 6-8 jogos foi gerado para hoje ainda."
 
 #: members/templates/members/premium_dashboard.html:1157
 msgid "No Hedge Favorito tickets today"
-msgstr ""
+msgstr "Nenhum bilhete Hedge Favorito hoje"
 
 #: members/templates/members/premium_dashboard.html:1158
 msgid "No matches with odds >= 2.00 for the favorite were found today."
-msgstr ""
+msgstr "Nenhuma partida com odds >= 2.00 para o favorito foi encontrada hoje."
 
 #: members/templates/members/premium_dashboard.html:1176
 msgid "No Trixie tickets today"
-msgstr ""
+msgstr "Nenhum bilhete Trixie hoje"
 
 #: members/templates/members/premium_dashboard.html:1177
 msgid "No Trixie system tickets were generated for today yet."
-msgstr ""
+msgstr "Nenhum bilhete do sistema Trixie foi gerado para hoje ainda."
 
 #: members/templates/members/premium_dashboard.html:1190
 msgid "History of Latest Entries"
-msgstr ""
+msgstr "Histórico das Últimas Entradas"
 
 #: members/templates/members/premium_dashboard.html:1191
 msgid ""
@@ -3549,31 +3549,31 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1203
 msgid "Analyzed Tickets"
-msgstr ""
+msgstr "Bilhetes Analisados"
 
 #: members/templates/members/premium_dashboard.html:1214
 msgid "Greens Obtained"
-msgstr ""
+msgstr "Greens Obtidos"
 
 #: members/templates/members/premium_dashboard.html:1236
 msgid "Assertiveness Rate"
-msgstr ""
+msgstr "Taxa de Acerto"
 
 #: members/templates/members/premium_dashboard.html:1308
 msgid "Target date"
-msgstr ""
+msgstr "Data alvo"
 
 #: members/templates/members/premium_dashboard.html:1309
 msgid "Average Accuracy"
-msgstr ""
+msgstr "Precisão Média"
 
 #: members/templates/members/premium_dashboard.html:1321
 msgid "No resolved tickets in history."
-msgstr ""
+msgstr "Nenhum bilhete resolvido no histórico."
 
 #: members/templates/members/premium_dashboard.html:1341
 msgid "Expert Strategies Unlocked"
-msgstr ""
+msgstr "Estratégias de Especialistas Desbloqueadas"
 
 #: members/templates/members/premium_dashboard.html:1342
 #, python-format
@@ -3585,7 +3585,7 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1344
 msgid "I Want to Be Premium Now!"
-msgstr ""
+msgstr "Quero ser Premium Agora!"
 
 #: members/templates/members/profile.html:38
 msgid "Status"
@@ -3593,15 +3593,15 @@ msgstr ""
 
 #: members/templates/members/profile.html:53
 msgid "Upgrade"
-msgstr ""
+msgstr "Atualizar"
 
 #: members/templates/members/profile.html:60
 msgid "Member Since"
-msgstr ""
+msgstr "Membro Desde"
 
 #: members/templates/members/profile.html:69
 msgid "Premium Until"
-msgstr ""
+msgstr "Premium Até"
 
 #: members/templates/members/profile.html:80
 msgid "Premium Dashboard"
@@ -3640,19 +3640,19 @@ msgstr "Já tem uma conta?"
 #: members/views.py:24
 #, python-format
 msgid "Welcome back, %(username)s!"
-msgstr ""
+msgstr "Bem-vindo de volta, %(username)s!"
 
 #: members/views.py:44
 msgid "Account created successfully! Welcome to StatsFut."
-msgstr ""
+msgstr "Conta criada com sucesso! Bem-vindo ao StatsFut."
 
 #: members/views.py:57
 msgid "You have been logged out."
-msgstr ""
+msgstr "Você saiu da sua conta."
 
 #: members/views.py:335
 msgid "Future"
-msgstr ""
+msgstr "Futuro"
 
 #: members/views.py:341
 msgid "Day After Tomorrow"
@@ -3672,11 +3672,11 @@ msgstr ""
 
 #: members/views.py:366
 msgid "BTTS 1st Half"
-msgstr ""
+msgstr "Ambas Marcam 1º Tempo"
 
 #: members/views.py:367
 msgid "BTTS 2nd Half"
-msgstr ""
+msgstr "Ambas Marcam 2º Tempo"
 
 #: members/views.py:368
 msgid "BTTS Both Halves"
@@ -3690,17 +3690,17 @@ msgstr ""
 #: members/views.py:372
 #, python-format
 msgid "Double Chance 1X (%(team)s or Draw)"
-msgstr ""
+msgstr "Dupla Chance 1X (%(team)s ou Empate)"
 
 #: members/views.py:373
 #, python-format
 msgid "Double Chance X2 (Draw or %(team)s)"
-msgstr ""
+msgstr "Dupla Chance X2 (Empate ou %(team)s)"
 
 #: members/views.py:374 members/views.py:375
 #, python-format
 msgid "Draw No Bet - %(team)s"
-msgstr ""
+msgstr "Empate Anula Aposta - %(team)s"
 
 #: members/views.py:376 members/views.py:377
 #, python-format
@@ -3725,17 +3725,17 @@ msgstr ""
 #: members/views.py:385
 #, python-format
 msgid "%(team)s -0.5 (AH)"
-msgstr ""
+msgstr "%(team)s -0.5 (HA)"
 
 #: members/views.py:386
 #, python-format
 msgid "%(team)s -1.5 (AH)"
-msgstr ""
+msgstr "%(team)s -1.5 (HA)"
 
 #: members/views.py:387
 #, python-format
 msgid "%(team)s +1.5 (AH)"
-msgstr ""
+msgstr "%(team)s +1.5 (HA)"
 
 #: members/views.py:388
 #, python-format
@@ -3745,7 +3745,7 @@ msgstr ""
 #: members/views.py:389
 #, python-format
 msgid "%(team)s Wins by 2 Goals"
-msgstr ""
+msgstr "%(team)s Vence por 2 Gols"
 
 #: members/views.py:390 members/views.py:391
 #, python-format
@@ -3755,15 +3755,15 @@ msgstr ""
 #: members/views.py:392
 #, python-format
 msgid "%(team)s Win & BTTS No"
-msgstr ""
+msgstr "%(team)s Vence e Ambas Não Marcam"
 
 #: members/views.py:393
 msgid "1st Half Most Goals"
-msgstr ""
+msgstr "Mais Gols no 1º Tempo"
 
 #: members/views.py:394
 msgid "2nd Half Most Goals"
-msgstr ""
+msgstr "Mais Gols no 2º Tempo"
 
 #: members/views.py:396
 msgid "Over 7.5 Corners"
@@ -3809,7 +3809,7 @@ msgstr ""
 #: members/views.py:408 members/views.py:409
 #, python-format
 msgid "%(team)s Most Cards"
-msgstr ""
+msgstr "%(team)s Mais Cartões"
 
 #: members/views.py:411
 msgid "Over 20.5 Total Shots"
@@ -3825,28 +3825,28 @@ msgstr ""
 
 #: members/views.py:414
 msgid "Over 6.5 Shots on Target"
-msgstr ""
+msgstr "Mais de 6.5 Chutes ao Alvo"
 
 #: members/views.py:415
 msgid "Over 7.5 Shots on Target"
-msgstr ""
+msgstr "Mais de 7.5 Chutes ao Alvo"
 
 #: members/views.py:416
 msgid "Over 8.5 Shots on Target"
-msgstr ""
+msgstr "Mais de 8.5 Chutes ao Alvo"
 
 #: members/views.py:417 members/views.py:418
 #, python-format
 msgid "%(team)s More Shots"
-msgstr ""
+msgstr "%(team)s Mais Chutes"
 
 #: scratch/dashboard_current.html:22
 msgid "Estratégias Prontas"
-msgstr ""
+msgstr "Estratégias Prontas"
 
 #: scratch/dashboard_current.html:27
 msgid "Premium Features Guide"
-msgstr ""
+msgstr "Guia de Recursos Premium"
 
 #: scratch/dashboard_current.html:344
 msgid "Corners Markets"
@@ -3854,11 +3854,11 @@ msgstr ""
 
 #: scratch/dashboard_current.html:395
 msgid "Cards Markets"
-msgstr ""
+msgstr "Mercados de Cartões"
 
 #: scratch/dashboard_current.html:505
 msgid "Suggested Market"
-msgstr ""
+msgstr "Mercado Sugerido"
 
 #: scratch/dashboard_current.html:506
 msgid "Result"
@@ -3866,7 +3866,7 @@ msgstr ""
 
 #: scratch/dashboard_current.html:519
 msgid "Confidence"
-msgstr ""
+msgstr "Confiança"
 
 #: scratch/dashboard_current.html:527
 msgid "Pending"
@@ -3896,7 +3896,7 @@ msgstr ""
 
 #: scratch/dashboard_current.html:744
 msgid "Goal Timing"
-msgstr ""
+msgstr "Momento do Gol"
 
 #: scratch/dashboard_current.html:745
 msgid ""
@@ -3906,7 +3906,7 @@ msgstr ""
 
 #: scratch/dashboard_current.html:755
 msgid "Smart Predictions"
-msgstr ""
+msgstr "Previsões Inteligentes"
 
 #: scratch/dashboard_current.html:756
 msgid ""
@@ -3926,7 +3926,7 @@ msgstr ""
 
 #: scratch/dashboard_current.html:775
 msgid "More Features Coming Soon"
-msgstr ""
+msgstr "Mais Recursos em Breve"
 
 #: scratch/dashboard_current.html:776
 msgid ""
@@ -3945,3 +3945,33 @@ msgstr "Não 2-4 Gols no 1º Tempo (HT)"
 
 msgid "Not 2-4 Goals in 2nd Half (2T)"
 msgstr "Não 2-4 Gols no 2º Tempo (2T)"
+
+msgid "Home or Draw & Under %(line)s Goals"
+msgstr "Casa ou Empate & Menos de %(line)s Gols"
+
+msgid "Draw or Away & Under %(line)s Goals"
+msgstr "Empate ou Fora & Menos de %(line)s Gols"
+
+msgid "Home or Draw & Over %(line)s Goals"
+msgstr "Casa ou Empate & Mais de %(line)s Gols"
+
+msgid "Draw or Away & Over %(line)s Goals"
+msgstr "Empate ou Fora & Mais de %(line)s Gols"
+
+msgid "Home or Draw & BTTS Yes"
+msgstr "Casa ou Empate & Ambas Marcam Sim"
+
+msgid "Home or Draw & BTTS No"
+msgstr "Casa ou Empate & Ambas Marcam Não"
+
+msgid "Draw or Away & BTTS Yes"
+msgstr "Empate ou Fora & Ambas Marcam Sim"
+
+msgid "Draw or Away & BTTS No"
+msgstr "Empate ou Fora & Ambas Marcam Não"
+
+msgid "Double Chance & Over"
+msgstr "Dupla Chance & Over"
+
+msgid "Double Chance & BTTS"
+msgstr "Dupla Chance & Ambas Marcam"

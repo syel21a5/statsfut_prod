@@ -503,24 +503,24 @@ def premium_dashboard(request):
         elif m == 'SH_GOALS_NOT_2_4': return _("Not 2-4 Goals in 2nd Half (2T)")
         elif m.startswith('DC_1X_UNDER_'):
             line = m.replace('DC_1X_UNDER_', '').replace('_', '.')
-            return _("Casa ou Empate & Menos de %(line)s Gols") % {'line': line}
+            return _("Home or Draw & Under %(line)s Goals") % {'line': line}
         elif m.startswith('DC_X2_UNDER_'):
             line = m.replace('DC_X2_UNDER_', '').replace('_', '.')
-            return _("Empate ou Fora & Menos de %(line)s Gols") % {'line': line}
+            return _("Draw or Away & Under %(line)s Goals") % {'line': line}
         elif m.startswith('DC_1X_OVER_'):
             line = m.replace('DC_1X_OVER_', '').replace('_', '.')
-            return _("Casa ou Empate & Mais de %(line)s Gols") % {'line': line}
+            return _("Home or Draw & Over %(line)s Goals") % {'line': line}
         elif m.startswith('DC_X2_OVER_'):
             line = m.replace('DC_X2_OVER_', '').replace('_', '.')
-            return _("Empate ou Fora & Mais de %(line)s Gols") % {'line': line}
+            return _("Draw or Away & Over %(line)s Goals") % {'line': line}
         elif m == 'DC_1X_BTTS_YES':
-            return _("Casa ou Empate & Ambas Marcam Sim")
+            return _("Home or Draw & BTTS Yes")
         elif m == 'DC_1X_BTTS_NO':
-            return _("Casa ou Empate & Ambas Marcam Não")
+            return _("Home or Draw & BTTS No")
         elif m == 'DC_X2_BTTS_YES':
-            return _("Empate ou Fora & Ambas Marcam Sim")
+            return _("Draw or Away & BTTS Yes")
         elif m == 'DC_X2_BTTS_NO':
-            return _("Empate ou Fora & Ambas Marcam Não")
+            return _("Draw or Away & BTTS No")
         elif m == 'OVER_05': return _("Over 0.5 Goals")
         elif m == 'OVER_15': return _("Over 1.5 Goals")
         elif m == 'OVER_25': return _("Over 2.5 Goals")
