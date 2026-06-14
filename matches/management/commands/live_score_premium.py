@@ -84,6 +84,27 @@ class Command(BaseCommand):
                         if f_id and str(f_id) in live_api_dict:
                             fix_data = live_api_dict[str(f_id)]
 
+                        if not fix_data:
+                            # Fallback: Tentar casar pelo nome dos times, já que o ID do banco pode ser do SofaScore (sofa_...)
+                            db_home = db_match.home_team.name.lower().replace('-', ' ').strip()
+                            db_away = db_match.away_team.name.lower().replace('-', ' ').strip()
+                            
+                            for api_f_id, api_f_data in live_api_dict.items():
+                                try:
+                                    api_home = api_f_data['teams']['home']['name'].lower().replace('-', ' ').strip()
+                                    api_away = api_f_data['teams']['away']['name'].lower().replace('-', ' ').strip()
+                                    
+                                    home_match = (db_home in api_home) or (api_home in db_home)
+                                    away_match = (db_away in api_away) or (api_away in db_away)
+                                    
+                                    if home_match and away_match:
+                                        fix_data = api_f_data
+                                        # Encontrou o jogo por nome! Atualizamos o ID para ser instantaneo da proxima vez
+                                        db_match.api_id = str(api_f_id)
+                                        break
+                                except Exception:
+                                    continue
+
                         if fix_data:
                             # Proteção Máxima: Se a API diz que está vivo, mas o jogo começou há mais de 4 horas, a API travou!
                             if db_match.date and db_match.date < now() - timedelta(hours=4):
