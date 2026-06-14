@@ -79,13 +79,6 @@ class Command(BaseCommand):
                         fix_data = None
                         if f_id and str(f_id) in live_api_dict:
                             fix_data = live_api_dict[str(f_id)]
-                        else:
-                            for fix in fixtures:
-                                home_name_api = fix['teams']['home']['name']
-                                if db_match.home_team.name.lower() in home_name_api.lower() or home_name_api.lower() in db_match.home_team.name.lower():
-                                    fix_data = fix
-                                    db_match.api_id = str(fix['fixture']['id'])
-                                    break
 
                         if fix_data:
                             f_info = fix_data.get('fixture', {})
