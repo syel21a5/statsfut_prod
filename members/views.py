@@ -133,19 +133,6 @@ def premium_dashboard(request):
 
     # Cache interno do Dashboard Premium foi removido a pedido do usuário
 
-    # >> NOVO RADAR AO VIVO <<
-    from matches.services.live_radar import LiveRadarService
-    live_matches_qs = Match.objects.filter(
-        status__in=['Live', 'Halftime', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED']
-    ).select_related('league', 'home_team', 'away_team')
-    
-    live_radar_matches = []
-    for match in live_matches_qs:
-        live_radar_matches.append({
-            'match': match,
-            'pressure': LiveRadarService.calculate_pressure(match, window_minutes=5)
-        })
-
     # Caching check removido
 
     # ----------------- ROBÔ DE AVALIAÇÃO EM TEMPO REAL -----------------
@@ -425,6 +412,8 @@ def premium_dashboard(request):
     pending_tips = ScannerTip.objects.filter(
         status='PENDING',
         match__date__range=(cutoff_time, end_date + timedelta(days=1))
+    ).exclude(
+        match__status__in=finished_statuses
     ).select_related('match', 'match__league', 'match__home_team', 'match__away_team').order_by('-probability', 'match__date')
     
     # Buscar histórico de dicas dos últimos 15 dias (GREEN, RED, e PENDING de jogos finalizados)
@@ -588,6 +577,8 @@ def premium_dashboard(request):
         
         return _(tip.prediction_text)
 
+    pending_tips_map = {}
+
     for tip in pending_tips:
         is_live = tip.match.status in ['Live', 'Halftime', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED']
         item = {
@@ -600,6 +591,10 @@ def premium_dashboard(request):
             'sort_date': tip.match.date,
             'is_live': is_live,
         }
+        
+        if tip.match.id not in pending_tips_map:
+            pending_tips_map[tip.match.id] = []
+        pending_tips_map[tip.match.id].append(item)
         
         if tip.market in GOALS_MARKETS or tip.market.startswith('DC_1X_UNDER_') or tip.market.startswith('DC_X2_UNDER_'):
             tips_goals.append(item)
@@ -619,6 +614,22 @@ def premium_dashboard(request):
             tips_dc_over.append(item)
         elif tip.market.startswith('DC_1X_BTTS_') or tip.market.startswith('DC_X2_BTTS_'):
             tips_dc_btts.append(item)
+
+    # >> NOVO RADAR AO VIVO <<
+    from matches.services.live_radar import LiveRadarService
+    live_matches_qs = Match.objects.filter(
+        status__in=['Live', 'Halftime', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED']
+    ).select_related('league', 'home_team', 'away_team')
+    
+    live_radar_matches = []
+    for match in live_matches_qs:
+        match_tips = pending_tips_map.get(match.id, [])
+        if match_tips:
+            live_radar_matches.append({
+                'match': match,
+                'pressure': LiveRadarService.calculate_pressure(match, window_minutes=5),
+                'tips': match_tips[:4]
+            })
 
     def get_date_group_order(match_date):
         if not match_date: return 99

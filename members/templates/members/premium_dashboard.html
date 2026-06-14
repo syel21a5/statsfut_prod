@@ -275,6 +275,17 @@
                                     </div>
                                 </div>
 
+                                <!-- Match Tips / Badges -->
+                                {% if item.tips %}
+                                <div class="d-flex flex-wrap gap-1 justify-content-center mt-2 mb-3">
+                                    {% for tip in item.tips %}
+                                    <span class="badge" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #818cf8; font-size: 0.6rem; padding: 3px 6px;">
+                                        <i class="fa-solid fa-bolt me-1"></i>{{ tip.text }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
                                 <!-- Pressure Bar -->
                                 <div>
                                     <div class="d-flex justify-content-between mb-1" style="font-size: 0.65rem;">
