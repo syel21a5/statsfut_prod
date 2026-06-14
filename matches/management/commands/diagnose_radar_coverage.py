@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = 'Analisa quais ligas ativas não possuem estatísticas avançadas preenchidas.'
 
     def handle(self, *args, **options):
-        leagues = League.objects.filter(is_active=True)
+        leagues = League.objects.all()
         finished_statuses = ['FT', 'Finished', 'AET', 'PEN', 'Match Finished']
 
         results = []
