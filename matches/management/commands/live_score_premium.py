@@ -44,9 +44,16 @@ class Command(BaseCommand):
         is_there_active_game = False
         for m in active_premium:
             if m.status in ['Scheduled', 'Not Started', 'Timed', 'NS']:
-                if m.date and m.date <= now() + timedelta(minutes=15):
-                    is_there_active_game = True
-                    break
+                if m.date:
+                    time_diff_hours = (now() - m.date).total_seconds() / 3600.0
+                    # Acorda apenas se o jogo começa em 15 min ou começou há no máximo 4 horas
+                    if -0.25 <= time_diff_hours <= 4.0:
+                        is_there_active_game = True
+                        break
+                    elif time_diff_hours > 4.0:
+                        # Jogo atrasou mais de 4h e nunca começou. Marca como adiado para despoluir
+                        m.status = 'Postponed'
+                        m.save()
             else:
                 # É um jogo Live
                 is_there_active_game = True
