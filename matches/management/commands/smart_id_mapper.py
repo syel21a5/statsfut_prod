@@ -100,9 +100,12 @@ class Command(BaseCommand):
                                 best_t_match = at
                         
                         if best_t_match and best_t_score > 0.60:
-                            db_t.api_id = best_t_match['id']
-                            db_t.save()
-                            self.stdout.write(self.style.SUCCESS(f"    ✓ Time mapeado: {db_t.name} -> {best_t_match['id']}"))
+                            try:
+                                db_t.api_id = best_t_match['id']
+                                db_t.save()
+                                self.stdout.write(self.style.SUCCESS(f"    ✓ Time mapeado: {db_t.name} -> {best_t_match['id']}"))
+                            except Exception as e:
+                                self.stdout.write(self.style.WARNING(f"    ! Time duplicado ignorado: {db_t.name} (já existe outro time com ID {best_t_match['id']})"))
 
             # --- MAPEAMENTO DE PARTIDAS ---
             if matches_to_map.exists():
@@ -127,9 +130,12 @@ class Command(BaseCommand):
                             match_a = (db_a_name in api_a_name) or (api_a_name in db_a_name)
                             
                             if match_h and match_a:
-                                db_m.api_id = str(f['fixture']['id'])
-                                db_m.save()
-                                self.stdout.write(self.style.SUCCESS(f"    ✓ Partida mapeada: {db_m.home_team.name} x {db_m.away_team.name} -> {f['fixture']['id']}"))
+                                try:
+                                    db_m.api_id = str(f['fixture']['id'])
+                                    db_m.save()
+                                    self.stdout.write(self.style.SUCCESS(f"    ✓ Partida mapeada: {db_m.home_team.name} x {db_m.away_team.name} -> {f['fixture']['id']}"))
+                                except Exception:
+                                    self.stdout.write(self.style.WARNING(f"    ! Partida duplicada ignorada: {db_m.home_team.name} x {db_m.away_team.name}"))
                                 found = True
                                 break
                         
