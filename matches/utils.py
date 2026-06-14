@@ -409,24 +409,29 @@ COUNTRY_TRANSLATIONS = {
 
 COUNTRY_REVERSE_TRANSLATIONS = {v.lower(): k for k, v in COUNTRY_TRANSLATIONS.items()}
 
+import unicodedata
+
 def normalize_team_name(name):
     """
     Retorna o nome padronizado do time, se existir no mapeamento.
-    Caso contrário, retorna o nome original limpo.
+    Remove caracteres especiais e acentos do nome original se não houver mapeamento.
     """
     if not name:
         return None
     
     clean_name = name.strip()
     
-    # Tenta busca exata (com strip)
+    # Tenta busca exata no mapeamento primeiro
     result = TEAM_NAME_MAPPINGS.get(clean_name)
     if result:
         return result
         
-    # Tenta busca case-insensitive se necessário (opcional, mas seguro)
-    # Por enquanto o strip já resolve 99% dos casos do CSV.
-    return clean_name
+    # Remove acentos (ex: Örebro -> Orebro, São Paulo -> Sao Paulo)
+    nfkd_form = unicodedata.normalize('NFKD', clean_name)
+    clean_name_no_accents = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+    
+    return clean_name_no_accents
+
 def get_flag_code(country_name):
     """
     Helper to map country names to Flag Icons (fi fi-xx).

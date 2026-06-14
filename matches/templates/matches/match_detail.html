@@ -463,7 +463,7 @@
             <span class="t-name">{{ match.home_team.name }}</span>
         </div>
         <div class="score-mini">
-            {% if match.status == 'Scheduled' %}
+            {% if match.status == 'Scheduled' or match.home_score is None or match.away_score is None %}
                 <span class="vs">VS</span>
             {% else %}
                 <span class="val">{{ match.home_score }}</span>
