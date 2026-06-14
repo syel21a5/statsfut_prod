@@ -182,10 +182,12 @@
                     border: 1px solid rgba(255, 255, 255, 0.05);
                     border-radius: 20px;
                     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    cursor: pointer;
                     overflow: hidden;
                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
                     position: relative;
+                }
+                .live-match-card[data-bs-toggle="modal"] {
+                    cursor: pointer;
                 }
                 .live-match-card::after {
                     content: '';
@@ -195,10 +197,10 @@
                     opacity: 0;
                     transition: opacity 0.4s ease;
                 }
-                .live-match-card:hover::after {
+                .live-match-card[data-bs-toggle="modal"]:hover::after {
                     opacity: 1;
                 }
-                .live-match-card:hover {
+                .live-match-card[data-bs-toggle="modal"]:hover {
                     border-color: rgba(239, 68, 68, 0.3);
                     transform: translateY(-4px);
                     box-shadow: 0 12px 30px rgba(239, 68, 68, 0.15), 0 0 20px rgba(239, 68, 68, 0.05) inset;
@@ -235,7 +237,7 @@
                     flex: 1;
                     margin: 0 3px;
                 }
-                .live-match-card:hover .stat-micro-card {
+                .live-match-card[data-bs-toggle="modal"]:hover .stat-micro-card {
                     background: rgba(255, 255, 255, 0.04);
                 }
             </style>
@@ -259,7 +261,7 @@
                     <div class="row g-2">
                         {% for item in live_radar_matches %}
                         <div class="col-12 col-md-6 col-xl-4 col-xxl-3">
-                            <div class="live-match-card p-2" data-bs-toggle="modal" data-bs-target="#liveModal{{ item.match.id }}">
+                            <div class="live-match-card p-2" {% if not item.has_basic_coverage %}data-bs-toggle="modal" data-bs-target="#liveModal{{ item.match.id }}"{% endif %}>
                                 <!-- League & Status -->
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="text-secondary text-truncate fw-bold" style="font-size: 0.7rem; max-width: 60%; letter-spacing: 0.5px;">
