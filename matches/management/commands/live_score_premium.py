@@ -27,8 +27,8 @@ class Command(BaseCommand):
         }
 
         # 1. Filtra APENAS jogos Premium (que possuem ScannerTip ou BetTicketSelection)
-        today_start = now() - timedelta(hours=12)
-        today_end = now() + timedelta(hours=12)
+        today_start = now() - timedelta(hours=24)
+        today_end = now() + timedelta(hours=24)
 
         premium_matches = Match.objects.filter(
             Q(scanner_tips__isnull=False) | Q(ticket_selections__isnull=False),
@@ -138,7 +138,10 @@ class Command(BaseCommand):
                             self.stdout.write(f"  ✓ [{db_match.elapsed_time}'] {db_match.home_team.name} {db_match.home_score}x{db_match.away_score} {db_match.away_team.name}")
                         else:
                             # Se o jogo estava como AO VIVO no banco, mas sumiu da resposta da API, significa que acabou!
-                            if db_match.status in ['Live', 'In Play', '1H', '2H', 'HT', 'ET', 'P', 'First Half', 'Second Half', 'Halftime', 'Extra Time', 'Penalty']:
+                            current_status = str(db_match.status).upper()
+                            live_statuses = ['LIVE', 'IN PLAY', 'IN_PLAY', '1H', '2H', 'HT', 'ET', 'P', 'FIRST HALF', 'SECOND HALF', 'HALFTIME', 'EXTRA TIME', 'PENALTY', 'PAUSED']
+                            
+                            if current_status in live_statuses:
                                 db_match.status = 'FT'
                                 db_match.save()
                                 matches_updated += 1
