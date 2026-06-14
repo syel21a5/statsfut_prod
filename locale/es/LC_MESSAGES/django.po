@@ -5982,3 +5982,10 @@ msgstr ""
 #~ "(Precisión por debajo del 30%%). Partido con tendencia a pocos goles, "
 #~ "ideal para analizar el mercado de \"Under\".\n"
 #~ "                        "
+
+msgid "Basic Coverage"
+msgstr "Cobertura Básica"
+
+msgid "Advanced live stats are not available for this league."
+msgstr "Las estadísticas avanzadas en tiempo real no están disponibles para esta liga."
+

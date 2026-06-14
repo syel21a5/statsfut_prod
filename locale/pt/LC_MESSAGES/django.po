@@ -5695,3 +5695,10 @@ msgstr ""
 
 #~ msgid "Not 2-4 2H"
 #~ msgstr "Não 2-4 2T"
+
+msgid "Basic Coverage"
+msgstr "Cobertura Básica"
+
+msgid "Advanced live stats are not available for this league."
+msgstr "Estatísticas avançadas ao vivo não estão disponíveis para esta liga."
+

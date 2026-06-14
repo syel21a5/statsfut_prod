@@ -5941,3 +5941,10 @@ msgstr ""
 
 #~ msgid "Waiting for matches to start"
 #~ msgstr "Aguardando as partidas iniciarem"
+
+msgid "Basic Coverage"
+msgstr "Cobertura Básica"
+
+msgid "Advanced live stats are not available for this league."
+msgstr "Estatísticas avançadas ao vivo não estão disponíveis para esta liga."
+
