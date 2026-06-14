@@ -10,9 +10,23 @@ class Command(BaseCommand):
         
         teams = Team.objects.all()
         count = 0
+        
+        replacements = {
+            'ø': 'o', 'Ø': 'O',
+            'æ': 'ae', 'Æ': 'Ae',
+            'ð': 'd', 'Ð': 'D',
+            'þ': 'th', 'Þ': 'Th',
+            'ß': 'ss'
+        }
+        
         for team in teams:
             old_name = team.name
-            nfkd_form = unicodedata.normalize('NFKD', old_name)
+            clean_name = old_name
+            
+            for char, replacement in replacements.items():
+                clean_name = clean_name.replace(char, replacement)
+                
+            nfkd_form = unicodedata.normalize('NFKD', clean_name)
             new_name = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
             
             if old_name != new_name:

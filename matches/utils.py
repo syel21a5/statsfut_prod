@@ -426,6 +426,17 @@ def normalize_team_name(name):
     if result:
         return result
         
+    # Substituições manuais para caracteres nórdicos/especiais que o NFKD não remove
+    replacements = {
+        'ø': 'o', 'Ø': 'O',
+        'æ': 'ae', 'Æ': 'Ae',
+        'ð': 'd', 'Ð': 'D',
+        'þ': 'th', 'Þ': 'Th',
+        'ß': 'ss'
+    }
+    for char, replacement in replacements.items():
+        clean_name = clean_name.replace(char, replacement)
+        
     # Remove acentos (ex: Örebro -> Orebro, São Paulo -> Sao Paulo)
     nfkd_form = unicodedata.normalize('NFKD', clean_name)
     clean_name_no_accents = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
