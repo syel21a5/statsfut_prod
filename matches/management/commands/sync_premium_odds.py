@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 from django.db.models import Q
+from django.core.cache import cache
 
 from matches.models import Match
 from matches.api_manager import APIManager
@@ -11,8 +12,12 @@ from matches.api_manager import APIManager
 class Command(BaseCommand):
     help = 'Busca odds APENAS para os jogos Premium (com tips ativas)'
 
-    # Limite: jogos a partir de 12h no futuro só buscam odds se ainda não tiverem
+    # Limite: jogos a partir de 12h no futuro so buscam odds se ainda nao tiverem
     HORAS_LIMITE_ATUALIZACAO = 12
+    
+    # Cooldown: quantas horas esperar antes de tentar de novo um jogo sem odds
+    COOLDOWN_HORAS_FUTURO = 6    # Jogos distantes: tenta de novo em 6h
+    COOLDOWN_HORAS_PROXIMO = 1   # Jogos proximos (<3h): tenta de novo em 1h
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS("Iniciando Sincronizacao de Odds Premium..."))
@@ -33,53 +38,56 @@ class Command(BaseCommand):
         ).distinct()
 
         if not premium_matches.exists():
-            self.stdout.write(self.style.WARNING("SMART SLEEP: Nenhum jogo Premium pendente de Odds no horizonte. (0 Creditos Gastos)"))
+            self.stdout.write(self.style.WARNING("SMART SLEEP: Nenhum jogo Premium pendente de Odds. (0 Creditos Gastos)"))
             return
         
-        # 2. Separar jogos em HOJE (atualiza sempre) vs FUTURO (so busca se nao tem odds)
+        # 2. Separar jogos em HOJE vs FUTURO, e aplicar cooldown
         limite_hoje = now() + timedelta(hours=self.HORAS_LIMITE_ATUALIZACAO)
         
-        jogos_hoje = []
-        jogos_futuro_sem_odds = []
+        jogos_para_buscar = []
         jogos_futuro_ja_tem_odds = 0
+        jogos_em_cooldown = 0
         
         for match in premium_matches:
             if not match.api_id:
                 continue
             
+            # Checar cooldown: se ja tentamos e nao tinha odds, pular
+            cooldown_key = f"odds_cooldown_{match.id}"
+            if cache.get(cooldown_key):
+                jogos_em_cooldown += 1
+                continue
+            
             if match.date <= limite_hoje:
                 # Jogo e HOJE ou nas proximas 12h -> sempre atualiza
-                jogos_hoje.append(match)
+                jogos_para_buscar.append(match)
             else:
                 # Jogo e AMANHA ou depois -> so busca se NAO tem odds salvas
                 if match.home_team_win_odds is None:
-                    jogos_futuro_sem_odds.append(match)
+                    jogos_para_buscar.append(match)
                 else:
                     jogos_futuro_ja_tem_odds += 1
         
-        jogos_para_buscar = jogos_hoje + jogos_futuro_sem_odds
         total_candidatos = premium_matches.count()
         
         self.stdout.write(f"Total Premium: {total_candidatos} jogos")
-        self.stdout.write(f"  HOJE (atualiza sempre): {len(jogos_hoje)} jogos")
-        self.stdout.write(f"  FUTURO sem odds (1a busca): {len(jogos_futuro_sem_odds)} jogos")
-        self.stdout.write(f"  FUTURO ja tem odds (PULANDO): {jogos_futuro_ja_tem_odds} jogos (economia de creditos)")
+        self.stdout.write(f"  Buscando agora: {len(jogos_para_buscar)} jogos")
+        self.stdout.write(f"  Ja tem odds (PULANDO): {jogos_futuro_ja_tem_odds} jogos")
+        self.stdout.write(f"  Em cooldown (PULANDO): {jogos_em_cooldown} jogos")
         
         if not jogos_para_buscar:
-            self.stdout.write(self.style.WARNING("Todos os jogos futuros ja possuem odds. Nada a buscar. (0 Creditos Gastos)"))
+            self.stdout.write(self.style.WARNING("Nada a buscar agora. (0 Creditos Gastos)"))
             return
-        
-        self.stdout.write(f"Buscando odds para {len(jogos_para_buscar)} jogos na API...")
         
         updates = 0
         creditos_gastos = 0
         for match in jogos_para_buscar:
-            self.stdout.write(f"  [Odds] Buscando para: {match.home_team.name} x {match.away_team.name}")
+            self.stdout.write(f"  [Odds] {match.home_team.name} x {match.away_team.name}")
             
             # Tenta Bet365 primeiro (ID 8)
             odds_data = api.get_odds(match.api_id, bookmaker=8)
             creditos_gastos += 1
-            time.sleep(0.5) # Protecao de rate limit
+            time.sleep(0.5)
             
             chosen_bk_name = None
             markets = []
@@ -113,7 +121,7 @@ class Command(BaseCommand):
                         markets = chosen_bk.get('bets', [])
             
             if markets:
-                self.stdout.write(f"    OK Odds obtidas na {chosen_bk_name} ({len(markets)} mercados)")
+                self.stdout.write(f"    OK {chosen_bk_name} ({len(markets)} mercados)")
                 odds_count = 0
                 
                 for m in markets:
@@ -155,6 +163,14 @@ class Command(BaseCommand):
                 match.save()
                 updates += 1
             else:
-                self.stdout.write(f"    X Bookmakers ainda nao liberaram odds")
+                # Sem odds: ativar cooldown para nao tentar de novo tao cedo
+                horas_ate_jogo = (match.date - now()).total_seconds() / 3600
+                if horas_ate_jogo <= 3:
+                    cooldown_seg = self.COOLDOWN_HORAS_PROXIMO * 3600
+                else:
+                    cooldown_seg = self.COOLDOWN_HORAS_FUTURO * 3600
+                cache.set(f"odds_cooldown_{match.id}", True, timeout=cooldown_seg)
+                self.stdout.write(f"    X Sem odds (cooldown {cooldown_seg//3600}h ativado)")
                 
-        self.stdout.write(self.style.SUCCESS(f"Concluido: {updates} jogos atualizados, ~{creditos_gastos} creditos gastos, {jogos_futuro_ja_tem_odds} jogos futuros pulados (economia)"))
+        self.stdout.write(self.style.SUCCESS(f"Concluido: {updates} atualizados, ~{creditos_gastos} creditos, {jogos_em_cooldown} em cooldown, {jogos_futuro_ja_tem_odds} ja tinham odds"))
+
