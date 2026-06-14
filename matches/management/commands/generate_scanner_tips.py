@@ -106,36 +106,36 @@ class Command(BaseCommand):
                             save_tip(match, f"DC_{combo}_BTTS_{btts_val.upper()}", prob, f"{label_combo} & BTTS: {label_btts}")
 
 
-                if goals.get('over_15', 0) >= 85:
+                if goals.get('over_15', 0) >= 88:
                     save_tip(match, 'OVER_15', goals['over_15'], 'Over 1.5 Goals')
-                if goals.get('over_25', 0) >= 75 and home_over25_pct >= 60 and away_over25_pct >= 60:
+                if goals.get('over_25', 0) >= 80 and home_over25_pct >= 70 and away_over25_pct >= 70:
                     save_tip(match, 'OVER_25', goals['over_25'], 'Over 2.5 Goals')
-                if goals.get('over_35', 0) >= 70 and home_over35_pct >= 55 and away_over35_pct >= 55:
+                if goals.get('over_35', 0) >= 75 and home_over35_pct >= 60 and away_over35_pct >= 60:
                     save_tip(match, 'OVER_35', goals['over_35'], 'Over 3.5 Goals')
-                if goals.get('under_35', 0) >= 80:
+                if goals.get('under_35', 0) >= 85:
                     save_tip(match, 'UNDER_35', goals['under_35'], 'Under 3.5 Goals')
-                if goals.get('under_45', 0) >= 85:
+                if goals.get('under_45', 0) >= 90:
                     save_tip(match, 'UNDER_45', goals['under_45'], 'Under 4.5 Goals')
 
                     
-                if goals.get('btts', 0) >= 75 and home_btts_pct >= 60 and away_btts_pct >= 60:
+                if goals.get('btts', 0) >= 80 and home_btts_pct >= 70 and away_btts_pct >= 70:
                     save_tip(match, 'BTTS', goals['btts'], 'Both Teams to Score')
                 
                 # ========== VENCEDOR / RESULTADO ==========
-                if odds.get('home_win', 0) >= 70:
+                if odds.get('home_win', 0) >= 75:
                     save_tip(match, 'HOME_WIN', odds['home_win'], f'{home} to Win')
-                elif odds.get('away_win', 0) >= 70:
+                elif odds.get('away_win', 0) >= 75:
                     save_tip(match, 'AWAY_WIN', odds['away_win'], f'{away} to Win')
                 
-                if odds.get('double_home', 0) >= 85:
+                if odds.get('double_home', 0) >= 90:
                     save_tip(match, 'DC_1X', odds['double_home'], f'Double Chance 1X ({home} or Draw)')
-                if odds.get('double_away', 0) >= 85:
+                if odds.get('double_away', 0) >= 90:
                     save_tip(match, 'DC_X2', odds['double_away'], f'Double Chance X2 (Draw or {away})')
                 
                 dnb: dict = goals.get('dnb') or {}
-                if dnb.get('home', 0) >= 75:
+                if dnb.get('home', 0) >= 80:
                     save_tip(match, 'DNB_HOME', dnb['home'], f'Draw No Bet - {home}')
-                elif dnb.get('away', 0) >= 75:
+                elif dnb.get('away', 0) >= 80:
                     save_tip(match, 'DNB_AWAY', dnb['away'], f'Draw No Bet - {away}')
                 
                 # ========== CLEAN SHEET / WIN TO NIL ==========
