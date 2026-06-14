@@ -1,6 +1,21 @@
 from django.db.models import Q
 from matches.models import Match
 from django.utils.translation import gettext_lazy as _
+import math
+from functools import lru_cache
+
+@lru_cache(maxsize=2048)
+def global_poisson_prob(expected, occurrences):
+    """P(X=k) para distribuição de Poisson, otimizado com cache em memória."""
+    # Previne erros matemáticos se o expected for <= 0
+    expected = max(0.01, float(expected))
+    return (math.exp(-expected) * (expected ** occurrences)) / math.factorial(occurrences)
+
+def get_poisson_over_prob(expected, line, max_calc=15):
+    """Calcula a probabilidade de OVER usando o complemento (1 - soma de under)"""
+    under_prob = sum(global_poisson_prob(expected, k) for k in range(int(line) + 1))
+    # Para linhas maiores, o complemento pode dar leve imprecisão, mas é suficiente para apostas.
+    return max(0, 1.0 - under_prob)
 
 class MatchAnalyzer:
     """
@@ -214,22 +229,118 @@ class MatchAnalyzer:
                 'comeback': int((comeback / valid) * 100),
             }
 
-        base_stats = {
-            'over_05': calc_over(combined_matches, 0.5),
-            'over_15': calc_over(combined_matches, 1.5),
-            'over_25': calc_over(combined_matches, 2.5),
-            'over_35': calc_over(combined_matches, 3.5),
-            'under_35': 100 - calc_over(combined_matches, 3.5),
-            'under_45': 100 - calc_over(combined_matches, 4.5),
-            'under_55': 100 - calc_over(combined_matches, 5.5),
-            'under_65': 100 - calc_over(combined_matches, 6.5),
-            'btts': calc_btts(combined_matches),
-            'ht_goal': calc_ht_goal(combined_matches),
-            'home_first_score': calc_first_to_score(self.home_last_10, self.home_team),
-            'away_first_score': calc_first_to_score(self.away_last_10, self.away_team),
-            'home_special': calc_team_goal_stats(self.home_last_10, self.home_team),
-            'away_special': calc_team_goal_stats(self.away_last_10, self.away_team),
+        # --- POISSON MATRIX PREDICTION FOR GOALS ---
+        # 1. Calcular xG (Expected Goals)
+        general_stats = self.get_general_form()
+        xg_home = ((general_stats['home']['avg_gf'] + general_stats['away']['avg_ga']) / 2) * 1.10
+        xg_away = ((general_stats['away']['avg_gf'] + general_stats['home']['avg_ga']) / 2) * 0.90
+        
+        # 2. Gerar Matriz de Poisson para Gols e BTTS
+        p_over_05 = p_over_15 = p_over_25 = p_over_35 = p_btts = 0
+        
+        # Poisson Matrix for Combos
+        p_home_btts = p_home_no_btts = 0
+        p_draw_btts = p_draw_no_btts = 0
+        p_away_btts = p_away_no_btts = 0
+        
+        p_home_o15 = p_home_u25 = p_home_o25 = p_home_u35 = 0
+        p_draw_o15 = p_draw_u25 = p_draw_o25 = p_draw_u35 = 0
+        p_away_o15 = p_away_u25 = p_away_o25 = p_away_u35 = 0
+        
+        dc_poisson = {
+            '1X': {'1_2': 0, '1_3': 0, '2_3': 0, '2_4': 0},
+            'X2': {'1_2': 0, '1_3': 0, '2_3': 0, '2_4': 0},
+            '12': {'1_2': 0, '1_3': 0, '2_3': 0, '2_4': 0},
         }
+        
+        for h in range(8):
+            for a in range(8):
+                prob = global_poisson_prob(xg_home, h) * global_poisson_prob(xg_away, a)
+                total = h + a
+                btts = h > 0 and a > 0
+                
+                if total > 0: p_over_05 += prob
+                if total > 1: p_over_15 += prob
+                if total > 2: p_over_25 += prob
+                if total > 3: p_over_35 += prob
+                if btts: p_btts += prob
+                
+                is_home = h > a
+                is_draw = h == a
+                is_away = h < a
+                
+                if is_home:
+                    if btts: p_home_btts += prob
+                    else: p_home_no_btts += prob
+                    if total > 1.5: p_home_o15 += prob
+                    if total < 2.5: p_home_u25 += prob
+                    if total > 2.5: p_home_o25 += prob
+                    if total < 3.5: p_home_u35 += prob
+                elif is_draw:
+                    if btts: p_draw_btts += prob
+                    else: p_draw_no_btts += prob
+                    if total > 1.5: p_draw_o15 += prob
+                    if total < 2.5: p_draw_u25 += prob
+                    if total > 2.5: p_draw_o25 += prob
+                    if total < 3.5: p_draw_u35 += prob
+                else:
+                    if btts: p_away_btts += prob
+                    else: p_away_no_btts += prob
+                    if total > 1.5: p_away_o15 += prob
+                    if total < 2.5: p_away_u25 += prob
+                    if total > 2.5: p_away_o25 += prob
+                    if total < 3.5: p_away_u35 += prob
+                    
+                for combo in ['1X', 'X2', '12']:
+                    has_dc = False
+                    if combo == '1X': has_dc = is_home or is_draw
+                    elif combo == 'X2': has_dc = is_away or is_draw
+                    elif combo == '12': has_dc = is_home or is_away
+                    
+                    if has_dc:
+                        if 1 <= total <= 2: dc_poisson[combo]['1_2'] += prob
+                        if 1 <= total <= 3: dc_poisson[combo]['1_3'] += prob
+                        if 2 <= total <= 3: dc_poisson[combo]['2_3'] += prob
+                        if 2 <= total <= 4: dc_poisson[combo]['2_4'] += prob
+        # 3. Mistura Híbrida (70% Poisson / 30% Frequência Histórica)
+        w_poisson = 0.70
+        w_hist = 0.30
+        
+        over_45_val = int((get_poisson_over_prob(xg_home + xg_away, 4.5) * 100 * w_poisson) + (calc_over(combined_matches, 4.5) * w_hist))
+        base_stats = {
+            'over_05': int((p_over_05 * 100 * w_poisson) + (calc_over(combined_matches, 0.5) * w_hist)),
+            'over_15': int((p_over_15 * 100 * w_poisson) + (calc_over(combined_matches, 1.5) * w_hist)),
+            'over_25': int((p_over_25 * 100 * w_poisson) + (calc_over(combined_matches, 2.5) * w_hist)),
+            'over_35': int((p_over_35 * 100 * w_poisson) + (calc_over(combined_matches, 3.5) * w_hist)),
+            'over_45': over_45_val,
+        }
+        
+        base_stats['under_35'] = 100 - base_stats['over_35']
+        base_stats['under_45'] = 100 - over_45_val
+        base_stats['under_55'] = 100 - int((get_poisson_over_prob(xg_home + xg_away, 5.5) * 100 * w_poisson) + (calc_over(combined_matches, 5.5) * w_hist))
+        base_stats['under_65'] = 100 - int((get_poisson_over_prob(xg_home + xg_away, 6.5) * 100 * w_poisson) + (calc_over(combined_matches, 6.5) * w_hist))
+        
+        base_stats['btts'] = int((p_btts * 100 * w_poisson) + (calc_btts(combined_matches) * w_hist))
+        base_stats['btts_no'] = 100 - base_stats['btts']
+        
+        # HT Goals (Projeta-se que 45% dos gols saem no 1º tempo)
+        xg_ht = (xg_home + xg_away) * 0.45
+        p_ht_over_05 = get_poisson_over_prob(xg_ht, 0.5)
+        base_stats['ht_goal'] = int((p_ht_over_05 * 100 * w_poisson) + (calc_ht_goal(combined_matches) * w_hist))
+        
+        # Chance to Score First (baseado na proporção de xG e probabilidade de sair gol)
+        p_0_0 = global_poisson_prob(xg_home, 0) * global_poisson_prob(xg_away, 0)
+        p_any_goal = 1.0 - p_0_0
+        if p_any_goal > 0 and (xg_home + xg_away) > 0:
+            home_first_pct = (xg_home / (xg_home + xg_away)) * p_any_goal * 100
+            away_first_pct = (xg_away / (xg_home + xg_away)) * p_any_goal * 100
+        else:
+            home_first_pct = away_first_pct = 0
+            
+        base_stats['home_first_score'] = int(home_first_pct)
+        base_stats['away_first_score'] = int(away_first_pct)
+        base_stats['home_special'] = calc_team_goal_stats(self.home_last_10, self.home_team)
+        base_stats['away_special'] = calc_team_goal_stats(self.away_last_10, self.away_team)
         base_stats.update(calc_advanced_match_stats(combined_matches))
         
         # Mapeamento detalhado para mercados combo
@@ -303,7 +414,7 @@ class MatchAnalyzer:
             'away_3plus': int((a3p / total_mapped) * 100),
         }
 
-        # Double Chance + Faixa de Gols
+        # Double Chance + Faixa de Gols (Híbrido)
         dc_brackets = {}
         for combo in ['1X', 'X2', '12']:
             for bracket in ['1-2', '1-3', '2-3', '2-4']:
@@ -319,7 +430,11 @@ class MatchAnalyzer:
                     
                     if has_dc and has_bracket:
                         count += 1
-                dc_brackets[f"{combo}_{bracket.replace('-', '_')}"] = int((count / total_mapped) * 100)
+                
+                hist_prob = (count / total_mapped) * 100
+                pois_prob = dc_poisson[combo][bracket.replace('-', '_')] * 100
+                
+                dc_brackets[f"{combo}_{bracket.replace('-', '_')}"] = int((pois_prob * w_poisson) + (hist_prob * w_hist))
         base_stats['dc_brackets'] = dc_brackets
 
         # Double Chance + Under Goals
@@ -388,32 +503,32 @@ class MatchAnalyzer:
             dc_btts[f"X2_btts_{suffix}"] = int((c_x2 / total_away_ind) * 100)
         base_stats['dc_btts'] = dc_btts
 
-        # Winner + BTTS
+        # Winner + BTTS (Híbrido)
         base_stats['winner_btts'] = {
-            'home_yes': int((sum(1 for item in home_mapped_ind if item['win'] and item['btts']) / total_home_ind) * 100),
-            'home_no': int((sum(1 for item in home_mapped_ind if item['win'] and not item['btts']) / total_home_ind) * 100),
-            'draw_yes': int((sum(1 for item in mapped_matches if item['draw'] and item['btts']) / total_mapped) * 100),
-            'draw_no': int((sum(1 for item in mapped_matches if item['draw'] and not item['btts']) / total_mapped) * 100),
-            'away_yes': int((sum(1 for item in away_mapped_ind if item['win'] and item['btts']) / total_away_ind) * 100),
-            'away_no': int((sum(1 for item in away_mapped_ind if item['win'] and not item['btts']) / total_away_ind) * 100),
+            'home_yes': int((p_home_btts * 100 * w_poisson) + ((sum(1 for item in home_mapped_ind if item['win'] and item['btts']) / total_home_ind) * 100 * w_hist)),
+            'home_no': int((p_home_no_btts * 100 * w_poisson) + ((sum(1 for item in home_mapped_ind if item['win'] and not item['btts']) / total_home_ind) * 100 * w_hist)),
+            'draw_yes': int((p_draw_btts * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['draw'] and item['btts']) / total_mapped) * 100 * w_hist)),
+            'draw_no': int((p_draw_no_btts * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['draw'] and not item['btts']) / total_mapped) * 100 * w_hist)),
+            'away_yes': int((p_away_btts * 100 * w_poisson) + ((sum(1 for item in away_mapped_ind if item['win'] and item['btts']) / total_away_ind) * 100 * w_hist)),
+            'away_no': int((p_away_no_btts * 100 * w_poisson) + ((sum(1 for item in away_mapped_ind if item['win'] and not item['btts']) / total_away_ind) * 100 * w_hist)),
         }
 
-        # Winner + Gols
+        # Winner + Gols (Híbrido)
         base_stats['winner_goals'] = {
-            'home_over_15': int((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] > 1.5) / total_mapped) * 100),
-            'home_under_25': int((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] < 2.5) / total_mapped) * 100),
-            'home_over_25': int((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] > 2.5) / total_mapped) * 100),
-            'home_under_35': int((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] < 3.5) / total_mapped) * 100),
+            'home_over_15': int((p_home_o15 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] > 1.5) / total_mapped) * 100 * w_hist)),
+            'home_under_25': int((p_home_u25 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] < 2.5) / total_mapped) * 100 * w_hist)),
+            'home_over_25': int((p_home_o25 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] > 2.5) / total_mapped) * 100 * w_hist)),
+            'home_under_35': int((p_home_u35 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['home_win'] and item['total_goals'] < 3.5) / total_mapped) * 100 * w_hist)),
             
-            'draw_over_15': int((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] > 1.5) / total_mapped) * 100),
-            'draw_under_25': int((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] < 2.5) / total_mapped) * 100),
-            'draw_over_25': int((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] > 2.5) / total_mapped) * 100),
-            'draw_under_35': int((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] < 3.5) / total_mapped) * 100),
+            'draw_over_15': int((p_draw_o15 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] > 1.5) / total_mapped) * 100 * w_hist)),
+            'draw_under_25': int((p_draw_u25 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] < 2.5) / total_mapped) * 100 * w_hist)),
+            'draw_over_25': int((p_draw_o25 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] > 2.5) / total_mapped) * 100 * w_hist)),
+            'draw_under_35': int((p_draw_u35 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['draw'] and item['total_goals'] < 3.5) / total_mapped) * 100 * w_hist)),
             
-            'away_over_15': int((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] > 1.5) / total_mapped) * 100),
-            'away_under_25': int((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] < 2.5) / total_mapped) * 100),
-            'away_over_25': int((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] > 2.5) / total_mapped) * 100),
-            'away_under_35': int((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] < 3.5) / total_mapped) * 100),
+            'away_over_15': int((p_away_o15 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] > 1.5) / total_mapped) * 100 * w_hist)),
+            'away_under_25': int((p_away_u25 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] < 2.5) / total_mapped) * 100 * w_hist)),
+            'away_over_25': int((p_away_o25 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] > 2.5) / total_mapped) * 100 * w_hist)),
+            'away_under_35': int((p_away_u35 * 100 * w_poisson) + ((sum(1 for item in mapped_matches if item['away_win'] and item['total_goals'] < 3.5) / total_mapped) * 100 * w_hist)),
         }
 
         # Goals + BTTS
@@ -684,28 +799,15 @@ class MatchAnalyzer:
             f4_home = f4_draw = f4_away = 0
         
         # ═══════════════════════════════════════════════════════
-        # FATOR 5: Odds Reais das Casas de Apostas
-        # ═══════════════════════════════════════════════════════
-        odds_probs = self._odds_to_probs()
-        has_odds = odds_probs is not None
-        
-        if has_odds:
-            f5_home = odds_probs['home']
-            f5_draw = odds_probs['draw']
-            f5_away = odds_probs['away']
-        else:
-            f5_home = f5_draw = f5_away = 0
-        
-        # ═══════════════════════════════════════════════════════
-        # COMBINAÇÃO COM PESOS DINÂMICOS
+        # COMBINAÇÃO COM PESOS DINÂMICOS (Puro Preditivo sem Odds da Casa)
         # ═══════════════════════════════════════════════════════
         # Pesos base
         weights = {
             'general_form': 15,
-            'specific_form': 25,
-            'strength_xg': 20,
-            'h2h': 15 if has_h2h else 0,
-            'odds': 25 if has_odds else 0,
+            'specific_form': 40,
+            'strength_xg': 35,
+            'h2h': 10 if has_h2h else 0,
+            'odds': 0, # Viés removido para encontrar Valor real
         }
         
         # Redistribui pesos ausentes proporcionalmente
@@ -719,24 +821,21 @@ class MatchAnalyzer:
             f1_home * weights['general_form'] +
             f2_home * weights['specific_form'] +
             f3_home * weights['strength_xg'] +
-            f4_home * weights['h2h'] +
-            f5_home * weights['odds']
+            f4_home * weights['h2h']
         ) / 100
         
         prob_draw = (
             f1_draw * weights['general_form'] +
             f2_draw * weights['specific_form'] +
             f3_draw * weights['strength_xg'] +
-            f4_draw * weights['h2h'] +
-            f5_draw * weights['odds']
+            f4_draw * weights['h2h']
         ) / 100
         
         prob_away = (
             f1_away * weights['general_form'] +
             f2_away * weights['specific_form'] +
             f3_away * weights['strength_xg'] +
-            f4_away * weights['h2h'] +
-            f5_away * weights['odds']
+            f4_away * weights['h2h']
         ) / 100
         
         # Normaliza para somar exatamente 100
@@ -799,7 +898,7 @@ class MatchAnalyzer:
             'best_bet_prob': best_bet_prob,
             'double_bet': double_bet,
             'double_bet_prob': double_bet_prob,
-            'has_odds': has_odds,
+            'has_odds': False,  # Desabilitado propositalmente para pureza do modelo
             'has_h2h': has_h2h,
             'factors_used': sum(1 for v in weights.values() if v > 0),
         }
@@ -842,11 +941,36 @@ class MatchAnalyzer:
         home_corners = get_corner_stats(self.home_last_10_home, self.home_team)
         away_corners = get_corner_stats(self.away_last_10_away, self.away_team)
         
-        # Blend probabilities for the match
+        # --- POISSON & GAME STATE MODIFIER FOR CORNERS ---
+        general_stats = self.get_general_form()
+        xg_home = ((general_stats['home']['avg_gf'] + general_stats['away']['avg_ga']) / 2) * 1.10
+        xg_away = ((general_stats['away']['avg_gf'] + general_stats['home']['avg_ga']) / 2) * 0.90
+        
+        xc_home_raw = (home_corners['avg_scored'] + away_corners['avg_conceded']) / 2
+        xc_away_raw = (away_corners['avg_scored'] + home_corners['avg_conceded']) / 2
+        
+        # Game State Modifier (O efeito Zebra Desesperada)
+        # Se um time tem muito mais chance de gol, ele recua após marcar e gera menos escanteios
+        xg_diff = xg_home - xg_away
+        if xg_diff >= 1.0: # Mandante é Super Favorito
+            xc_home = xc_home_raw * 0.85 # Penaliza
+            xc_away = xc_away_raw * 1.15 # Bônus
+        elif xg_diff <= -1.0: # Visitante é Super Favorito
+            xc_home = xc_home_raw * 1.15
+            xc_away = xc_away_raw * 0.85
+        else:
+            xc_home = xc_home_raw
+            xc_away = xc_away_raw
+            
+        xc_total = xc_home + xc_away
+        
+        # Mistura Híbrida para Over/Under
         match_overs = {}
         match_unders = {}
         for k in home_corners['overs'].keys():
-            match_overs[k] = int((home_corners['overs'][k] + away_corners['overs'][k]) / 2)
+            p_poisson = get_poisson_over_prob(xc_total, k + 0.5) * 100
+            p_hist = (home_corners['overs'][k] + away_corners['overs'][k]) / 2
+            match_overs[k] = int((p_poisson * 0.70) + (p_hist * 0.30))
             match_unders[k] = 100 - match_overs[k]
             
         # Basic recommendation logic (e.g., highest line with >= 70% probability)
@@ -919,7 +1043,33 @@ class MatchAnalyzer:
         home_stats = get_stats(self.home_last_10, self.home_team)
         away_stats = get_stats(self.away_last_10, self.away_team)
         
-        # Calculate O/U cards and card winners
+        # Poisson for Cards
+        x_cards_home = home_stats['yellow'] + (home_stats['red'] * 2)
+        x_cards_away = away_stats['yellow'] + (away_stats['red'] * 2)
+        
+        # Ajuste de Game State (Se um time é muito favorito, geralmente o azarão defende mais e toma mais cartões)
+        general_stats = self.get_general_form()
+        xg_home = ((general_stats['home']['avg_gf'] + general_stats['away']['avg_ga']) / 2) * 1.10
+        xg_away = ((general_stats['away']['avg_gf'] + general_stats['home']['avg_ga']) / 2) * 0.90
+        xg_diff = xg_home - xg_away
+        if xg_diff >= 1.0: # Mandante super favorito
+            x_cards_away *= 1.2
+            x_cards_home *= 0.8
+        elif xg_diff <= -1.0:
+            x_cards_home *= 1.2
+            x_cards_away *= 0.8
+            
+        x_cards_total = x_cards_home + x_cards_away
+        
+        p_home_win_c = p_draw_c = p_away_win_c = 0
+        for h in range(15):
+            for a in range(15):
+                prob = global_poisson_prob(x_cards_home, h) * global_poisson_prob(x_cards_away, a)
+                if h > a: p_home_win_c += prob
+                elif h == a: p_draw_c += prob
+                else: p_away_win_c += prob
+        
+        # Calculate O/U cards and card winners (Híbrido)
         combined = list(self.home_last_10) + list(self.away_last_10)
         valid_cards = 0
         cards_totals = {3: 0, 4: 0, 5: 0, 6: 0, 7: 0}
@@ -945,16 +1095,24 @@ class MatchAnalyzer:
                 if o_cards - t_cards >= 0: hc_away_plus_0_5 += 1
                 
         div_cards = valid_cards or 1
+        w_poisson = 0.70
+        w_hist = 0.30
         
+        cards_totals_overs = {}
+        for k in cards_totals.keys():
+            hist_prob = (cards_totals[k] / div_cards) * 100
+            pois_prob = get_poisson_over_prob(x_cards_total, k + 0.5) * 100
+            cards_totals_overs[k] = int((pois_prob * w_poisson) + (hist_prob * w_hist))
+            
         return {
             'match_has_data': home_stats['has_data'] or away_stats['has_data'],
             'home': home_stats,
             'away': away_stats,
-            'cards_totals_overs': {k: int((v / div_cards) * 100) for k, v in cards_totals.items()},
+            'cards_totals_overs': cards_totals_overs,
             'winner_cards': {
-                'home': int((home_win_cards / div_cards) * 100),
-                'away': int((away_win_cards / div_cards) * 100),
-                'draw': int((draw_cards / div_cards) * 100)
+                'home': int((p_home_win_c * 100 * w_poisson) + ((home_win_cards / div_cards) * 100 * w_hist)),
+                'draw': int((p_draw_c * 100 * w_poisson) + ((draw_cards / div_cards) * 100 * w_hist)),
+                'away': int((p_away_win_c * 100 * w_poisson) + ((away_win_cards / div_cards) * 100 * w_hist))
             },
             'handicaps': {
                 'home_minus_0_5': int((hc_home_minus_0_5 / div_cards) * 100),
@@ -993,7 +1151,7 @@ class MatchAnalyzer:
         combined = list(self.home_last_10) + list(self.away_last_10)
         
         valid_match_shots = 0
-        shots_totals = {18: 0, 20: 0, 22: 0, 24: 0, 26: 0}
+        shots_totals = {18: 0, 20: 0, 22: 0, 24: 0}
         shots_on_target = {6: 0, 7: 0, 8: 0, 9: 0, 10: 0}
         
         home_win_shots = away_win_shots = draw_shots = 0
@@ -1047,21 +1205,83 @@ class MatchAnalyzer:
                 if o_ot > 4.5: away_ot_over_4_5 += 1
 
         div = valid_match_shots or 1
+        
+        # --- POISSON & GAME STATE MODIFIER FOR SHOTS ---
+        general_stats = self.get_general_form()
+        xg_home = ((general_stats['home']['avg_gf'] + general_stats['away']['avg_ga']) / 2) * 1.10
+        xg_away = ((general_stats['away']['avg_gf'] + general_stats['home']['avg_ga']) / 2) * 0.90
+        
+        xs_home_raw = home_stats['avg_shots']
+        xs_away_raw = away_stats['avg_shots']
+        xs_ot_home_raw = home_stats['avg_on_target']
+        xs_ot_away_raw = away_stats['avg_on_target']
+        
+        # Game State Modifier (O efeito Zebra Desesperada)
+        xg_diff = xg_home - xg_away
+        if xg_diff >= 1.0: # Mandante Super Favorito
+            xs_home = xs_home_raw * 0.85
+            xs_away = xs_away_raw * 1.15
+            xs_ot_home = xs_ot_home_raw * 0.85
+            xs_ot_away = xs_ot_away_raw * 1.15
+        elif xg_diff <= -1.0: # Visitante Super Favorito
+            xs_home = xs_home_raw * 1.15
+            xs_away = xs_away_raw * 0.85
+            xs_ot_home = xs_ot_home_raw * 1.15
+            xs_ot_away = xs_ot_away_raw * 0.85
+        else:
+            xs_home, xs_away = xs_home_raw, xs_away_raw
+            xs_ot_home, xs_ot_away = xs_ot_home_raw, xs_ot_away_raw
+            
+        xs_total = xs_home + xs_away
+        xs_ot_total = xs_ot_home + xs_ot_away
+        
+        w_p, w_h = 0.70, 0.30
+        
+        shots_totals_overs_hybrid = {}
+        for k, v in shots_totals.items():
+            p_hist = (v / div) * 100
+            p_poiss = get_poisson_over_prob(xs_total, k + 0.5) * 100
+            shots_totals_overs_hybrid[k] = int((p_poiss * w_p) + (p_hist * w_h))
+            
+        shots_on_target_overs_hybrid = {}
+        for k, v in shots_on_target.items():
+            p_hist = (v / div) * 100
+            p_poiss = get_poisson_over_prob(xs_ot_total, k + 0.5) * 100
+            shots_on_target_overs_hybrid[k] = int((p_poiss * w_p) + (p_hist * w_h))
+            
+        # Poisson para Match Winner de Chutes
+        p_hw_s = p_d_s = p_aw_s = 0
+        p_hw_ot = p_d_ot = p_aw_ot = 0
+        
+        for h in range(35):
+            for a in range(35):
+                prob_s = global_poisson_prob(xs_home, h) * global_poisson_prob(xs_away, a)
+                if h > a: p_hw_s += prob_s
+                elif h == a: p_d_s += prob_s
+                else: p_aw_s += prob_s
+                
+        for h in range(25):
+            for a in range(25):
+                prob_ot = global_poisson_prob(xs_ot_home, h) * global_poisson_prob(xs_ot_away, a)
+                if h > a: p_hw_ot += prob_ot
+                elif h == a: p_d_ot += prob_ot
+                else: p_aw_ot += prob_ot
+            
         return {
             'match_has_data': home_stats['has_data'] or away_stats['has_data'],
             'home': home_stats,
             'away': away_stats,
-            'shots_totals_overs': {k: int((v / div) * 100) for k, v in shots_totals.items()},
-            'shots_on_target_overs': {k: int((v / div) * 100) for k, v in shots_on_target.items()},
+            'shots_totals_overs': shots_totals_overs_hybrid,
+            'shots_on_target_overs': shots_on_target_overs_hybrid,
             'winner_shots': {
-                'home': int((home_win_shots / div) * 100),
-                'away': int((away_win_shots / div) * 100),
-                'draw': int((draw_shots / div) * 100)
+                'home': int((p_hw_s * 100 * w_p) + ((home_win_shots / div) * 100 * w_h)),
+                'draw': int((p_d_s * 100 * w_p) + ((draw_shots / div) * 100 * w_h)),
+                'away': int((p_aw_s * 100 * w_p) + ((away_win_shots / div) * 100 * w_h))
             },
             'winner_shots_ot': {
-                'home': int((home_win_ot / div) * 100),
-                'away': int((away_win_ot / div) * 100),
-                'draw': int((draw_ot / div) * 100)
+                'home': int((p_hw_ot * 100 * w_p) + ((home_win_ot / div) * 100 * w_h)),
+                'draw': int((p_d_ot * 100 * w_p) + ((draw_ot / div) * 100 * w_h)),
+                'away': int((p_aw_ot * 100 * w_p) + ((away_win_ot / div) * 100 * w_h))
             },
             'home_shots_overs': {
                 '10_5': int((home_over_10_5 / div) * 100),

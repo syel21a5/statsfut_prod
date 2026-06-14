@@ -59,3 +59,18 @@ def mul(value, arg):
         return float(value) * float(arg)
     except (ValueError, TypeError):
         return 0
+
+@register.filter
+def fair_odd(value):
+    """
+    Converte uma probabilidade em % (ex: 67) para Odd Justa (ex: 1.49).
+    Fórmula: 100 / probabilidade. Retorna string formatada com 2 casas decimais.
+    """
+    try:
+        val = float(value)
+        if val <= 0:
+            return "-"
+        odd = 100.0 / val
+        return f"{odd:.2f}"
+    except (ValueError, TypeError):
+        return "-"

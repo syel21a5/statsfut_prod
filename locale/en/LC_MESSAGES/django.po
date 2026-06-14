@@ -40,9 +40,7 @@ msgstr ""
 msgid ""
 "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, "
 "BTTS and direct confrontations of the world's main leagues."
-msgstr ""
-"StatsFut - Advanced football statistics, pre-match analysis, Over/Under, "
-"BTTS and direct confrontations of the world's main leagues."
+msgstr "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, BTTS and direct confrontations of the world's main leagues."
 
 #: core/templates/base.html:27
 msgid "StatsFut | Football Analytics"
@@ -133,10 +131,7 @@ msgid ""
 "We use cookies to personalize content and ads, provide social media "
 "features, and analyze our traffic. By continuing to use our site, you accept "
 "our use of cookies."
-msgstr ""
-"We use cookies to personalize content and ads, provide social media "
-"features, and analyze our traffic. By continuing to use our site, you accept "
-"our use of cookies."
+msgstr "We use cookies to personalize content and ads, provide social media features, and analyze our traffic. By continuing to use our site, you accept our use of cookies."
 
 #: core/templates/base.html:277
 msgid "Learn more"
@@ -739,8 +734,6 @@ msgstr ""
 
 #: matches/templates/matches/h2h_detail.html:892
 #: matches/templates/matches/h2h_detail.html:947
-#, fuzzy, python-format
-#| msgid "%(name)s Upcoming"
 msgid "%(name)s Upcoming"
 msgstr "Upcoming"
 
@@ -1140,10 +1133,7 @@ msgid ""
 "Explore advanced football statistics, pre-match analysis, Over/Under "
 "predictions and head-to-head data for the world's top leagues. StatsFut - "
 "Your data-driven edge."
-msgstr ""
-"Explore advanced football statistics, pre-match analysis, Over/Under "
-"predictions and head-to-head data for the world's top leagues. StatsFut - "
-"Your data-driven edge."
+msgstr "Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge."
 
 # ============================================================
 # HOME PAGE - BUTTONS & FILTERS
@@ -1708,10 +1698,7 @@ msgid ""
 "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, "
 "cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e "
 "palpites esportivos baseados em dados."
-msgstr ""
-"Analyze the probabilities of Both Teams to Score (BTTS), Over 2.5 Goals, "
-"corners, cards, and head-to-head (H2H) history to support your data-driven "
-"sports analysis and predictions."
+msgstr "Analyze the probabilities of Both Teams to Score (BTTS), Over 2.5 Goals, corners, cards, and head-to-head (H2H) history to support your data-driven sports analysis and predictions."
 
 #: matches/templates/matches/match_detail.html:347
 msgid "TIMELINE"
@@ -1964,9 +1951,7 @@ msgstr "SMART LAY BETS (EXCHANGE)"
 msgid ""
 "Betting <strong>AGAINST</strong> these outcomes has a high statistical "
 "probability of success based on recent data."
-msgstr ""
-"Betting <strong>AGAINST</strong> these outcomes has a high statistical "
-"probability of success based on recent data."
+msgstr "Betting <strong>AGAINST</strong> these outcomes has a high statistical probability of success based on recent data."
 
 #: matches/templates/matches/match_detail.html:773
 msgid "Success Chance"
@@ -2069,11 +2054,11 @@ msgstr ""
 
 #: matches/templates/matches/match_detail.html:982
 msgid "Red Cards Avg:"
-msgstr ""
+msgstr "Red Cards Avg:"
 
 #: matches/templates/matches/match_detail.html:982
 msgid "per game"
-msgstr ""
+msgstr "per game"
 
 #: matches/templates/matches/match_detail.html:988
 msgid "Total de Cartões (O/U)"
@@ -2127,10 +2112,7 @@ msgid ""
 "With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game "
 "with many stops. The chance of cards (currently %(cards)s yellows/game) is "
 "high."
-msgstr ""
-"With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game "
-"with many stops. The chance of cards (currently %(cards)s yellows/game) is "
-"high."
+msgstr "With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game with many stops. The chance of cards (currently %(cards)s yellows/game) is high."
 
 #: matches/templates/matches/match_detail.html:1025
 #, python-format
@@ -2479,19 +2461,14 @@ msgstr "About"
 msgid ""
 "O %(team_name)s é um clube de futebol profissional disputando a "
 "%(league_name)s em %(country)s."
-msgstr ""
-"The %(team_name)s is a professional football club competing in the "
-"%(league_name)s in %(country)s."
+msgstr "The %(team_name)s is a professional football club competing in the %(league_name)s in %(country)s."
 
 #: matches/templates/matches/team_detail.html:49
 #, python-format
 msgid ""
 "Na temporada atual, a equipe ocupa a <strong>%(pos)sª</strong> posição na "
 "tabela de classificação, somando um total de <strong>%(pts)s</strong> pontos."
-msgstr ""
-"In the current season, the team occupies the <strong>%(pos)s</strong> "
-"position in the league table, summing up a total of <strong>%(pts)s</strong> "
-"points."
+msgstr "In the current season, the team occupies the <strong>%(pos)s</strong> position in the league table, summing up a total of <strong>%(pts)s</strong> points."
 
 #: matches/templates/matches/team_detail.html:53
 #, python-format
@@ -2499,10 +2476,7 @@ msgid ""
 "No StatsFut, você acompanha os placares ao vivo do %(team_name)s, resultados "
 "detalhados, estatísticas de posse de bola, gols, cartões, escanteios, "
 "escalações e o calendário completo da temporada."
-msgstr ""
-"On StatsFut, you can follow live scores of %(team_name)s, detailed results, "
-"ball possession statistics, goals, cards, corners, lineups, and the full "
-"season schedule."
+msgstr "On StatsFut, you can follow live scores of %(team_name)s, detailed results, ball possession statistics, goals, cards, corners, lineups, and the full season schedule."
 
 #: matches/templates/matches/team_detail.html:57
 msgid "Desempenho Geral"
@@ -2513,27 +2487,21 @@ msgstr "Overall Performance"
 msgid ""
 "Média de <strong>%(avg_gf)s</strong> gols marcados e <strong>%(avg_ga)s</"
 "strong> sofridos por partida."
-msgstr ""
-"Average of <strong>%(avg_gf)s</strong> goals scored and <strong>%(avg_ga)s</"
-"strong> conceded per match."
+msgstr "Average of <strong>%(avg_gf)s</strong> goals scored and <strong>%(avg_ga)s</strong> conceded per match."
 
 #: matches/templates/matches/team_detail.html:66
 #, python-format
 msgid ""
 "Ambas as equipes marcaram (BTTS) em <strong>%(btts)s%%</strong> dos jogos do "
 "clube."
-msgstr ""
-"Both teams scored (BTTS) in <strong>%(btts)s%%</strong> of the club's "
-"matches."
+msgstr "Both teams scored (BTTS) in <strong>%(btts)s%%</strong> of the club's matches."
 
 #: matches/templates/matches/team_detail.html:73
 #, python-format
 msgid ""
 "O artilheiro do elenco nesta temporada é <strong>%(name)s</strong> com "
 "<strong>%(goals)s</strong> gols marcados."
-msgstr ""
-"The team's top scorer this season is <strong>%(name)s</strong> with "
-"<strong>%(goals)s</strong> goals scored."
+msgstr "The team's top scorer this season is <strong>%(name)s</strong> with <strong>%(goals)s</strong> goals scored."
 
 #: matches/templates/matches/team_detail.html:89
 msgid "Latest Matches"
@@ -2807,9 +2775,7 @@ msgstr ""
 msgid ""
 "Placares ao vivo, jogadores, programação da temporada e resultados de hoje "
 "do <strong>%(team_name)s</strong> estão disponíveis no StatsFut."
-msgstr ""
-"Live scores, players, season schedule, and today's results for "
-"<strong>%(team_name)s</strong> are available on StatsFut."
+msgstr "Live scores, players, season schedule, and today's results for <strong>%(team_name)s</strong> are available on StatsFut."
 
 #: matches/templates/matches/team_detail.html:1118
 msgid "Próxima partida do"
@@ -2820,9 +2786,7 @@ msgstr "Next match of"
 msgid ""
 "O %(team_name)s jogará a próxima partida contra o <strong>%(opp)s</strong> "
 "no dia <strong>%(date)s</strong> pela <strong>%(league)s</strong>."
-msgstr ""
-"%(team_name)s will play the next match against <strong>%(opp)s</strong> on "
-"<strong>%(date)s</strong> in <strong>%(league)s</strong>."
+msgstr "%(team_name)s will play the next match against <strong>%(opp)s</strong> on <strong>%(date)s</strong> in <strong>%(league)s</strong>."
 
 #: matches/templates/matches/team_detail.html:1128
 msgid "Partida anterior do"
@@ -2834,10 +2798,7 @@ msgid ""
 "O jogo anterior do %(team_name)s foi contra o <strong>%(opp)s</strong> pela "
 "<strong>%(league)s</strong>, terminando com o placar de <strong>%(score)s</"
 "strong>."
-msgstr ""
-"The previous match of %(team_name)s was against <strong>%(opp)s</strong> in "
-"<strong>%(league)s</strong>, ending with a score of <strong>%(score)s</"
-"strong>."
+msgstr "The previous match of %(team_name)s was against <strong>%(opp)s</strong> in <strong>%(league)s</strong>, ending with a score of <strong>%(score)s</strong>."
 
 #: matches/templates/matches/team_detail.html:1133
 #, python-format
@@ -2863,11 +2824,7 @@ msgid ""
 "algoritmo exclusivo do StatsFut que geramos a partir das últimas partidas, "
 "estatísticas de gols, finalizações e escanteios. Ele ajuda a entender a "
 "tendência atual da equipe e a projetar os próximos confrontos."
-msgstr ""
-"The performance and form chart of <strong>%(team_name)s</strong> is an "
-"exclusive StatsFut algorithm that we generate from recent matches, goal "
-"statistics, shots, and corners. It helps to understand the team's current "
-"trend and project upcoming clashes."
+msgstr "The performance and form chart of <strong>%(team_name)s</strong> is an exclusive StatsFut algorithm that we generate from recent matches, goal statistics, shots, and corners. It helps to understand the team's current trend and project upcoming clashes."
 
 #: matches/templates/matches/team_detail.html:1151
 msgid "Jogadores atuais do"
@@ -3315,8 +3272,6 @@ msgid "Live Radar"
 msgstr ""
 
 #: members/templates/members/premium_dashboard.html:218
-#, fuzzy
-#| msgid "matches"
 msgid "match"
 msgstr "matches"
 
@@ -3424,16 +3379,12 @@ msgid "Total shots predictions"
 msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1384
-#, fuzzy
-#| msgid "Vence HT"
 msgid "Vencedor"
 msgstr "Wins HT"
 
 #: members/templates/members/premium_dashboard.html:1471
-#, fuzzy
-#| msgid "Over 6.5 Chutes no Alvo"
 msgid "Chutes no Alvo"
-msgstr "Over 6.5 Shots on Target"
+msgstr "Shots on Target"
 
 #: members/templates/members/premium_dashboard.html:1472
 msgid "Shots on target predictions"
@@ -3479,22 +3430,16 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:1622
 #: members/templates/members/premium_dashboard.html:1723
-#, fuzzy
-#| msgid "Corner Kicks"
 msgid "All Corners"
 msgstr "Corner Kicks"
 
 #: members/templates/members/premium_dashboard.html:1633
 #: members/templates/members/premium_dashboard.html:1734
-#, fuzzy
-#| msgid "Yellow Cards"
 msgid "All Cards"
 msgstr "Yellow Cards"
 
 #: members/templates/members/premium_dashboard.html:1642
 #: members/templates/members/premium_dashboard.html:1743
-#, fuzzy
-#| msgid "Total Shots"
 msgid "All Shots"
 msgstr "Total Shots"
 
@@ -3645,8 +3590,6 @@ msgid "Gols + BTTS"
 msgstr ""
 
 #: members/templates/members/premium_dashboard.html:2331
-#, fuzzy
-#| msgid "Mais gols no 1º Tempo"
 msgid "Mais Gols (Tempo)"
 msgstr "More goals in 1st Half"
 
@@ -3669,8 +3612,6 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:2386
 #: members/templates/members/premium_dashboard.html:2401
 #: members/templates/members/premium_dashboard.html:2416
-#, fuzzy
-#| msgid "No matches found for this period."
 msgid "No tickets found for this strategy today."
 msgstr "No matches found for this period."
 
@@ -3871,20 +3812,14 @@ msgid "Group"
 msgstr ""
 
 #: members/templatetags/ticket_tags.py:41
-#, fuzzy
-#| msgid "Hedge Favorito"
 msgid "Hedge on Favorite"
 msgstr "Favorites"
 
 #: members/templatetags/ticket_tags.py:44
-#, fuzzy
-#| msgid "Not 2-4 Goals in 1st Half (HT)"
 msgid "Goal in 1st Half"
 msgstr "Not 2-4 Goals in 1st Half (HT)"
 
 #: members/templatetags/ticket_tags.py:45
-#, fuzzy
-#| msgid "Over 0.5 Goals"
 msgid "Over 1.5 FT Goals"
 msgstr "Overview"
 
@@ -3897,14 +3832,10 @@ msgid "Over 9.5 Corners"
 msgstr ""
 
 #: members/templatetags/ticket_tags.py:48
-#, fuzzy
-#| msgid "Over 0.5 Goals"
 msgid "Over 0.5 FT Goals"
 msgstr "Overview"
 
 #: members/templatetags/ticket_tags.py:49
-#, fuzzy
-#| msgid "Over 3.5 Goals"
 msgid "Under 3.5 FT Goals"
 msgstr "Overview"
 
@@ -3924,8 +3855,6 @@ msgid "or Draw"
 msgstr ""
 
 #: members/templatetags/ticket_tags.py:58
-#, fuzzy
-#| msgid "Total Match"
 msgid "Goals in Match"
 msgstr "matches"
 
@@ -3934,14 +3863,10 @@ msgid "Draw or"
 msgstr ""
 
 #: members/templatetags/ticket_tags.py:61
-#, fuzzy
-#| msgid "Home or Draw & BTTS Yes"
 msgid "+2.5 Goals & BTTS Yes"
 msgstr "Home or Draw & BTTS Yes"
 
 #: members/templatetags/ticket_tags.py:62
-#, fuzzy
-#| msgid "Home or Draw & BTTS No"
 msgid "-2.5 Goals & BTTS No"
 msgstr "Home or Draw & BTTS No"
 
@@ -4027,26 +3952,18 @@ msgid "Over 3.5 Goals"
 msgstr "Overview"
 
 #: members/views.py:528
-#, fuzzy
-#| msgid "Over 3.5 Goals"
 msgid "Under 3.5 Goals"
 msgstr "Overview"
 
 #: members/views.py:529
-#, fuzzy
-#| msgid "Over 0.5 Goals"
 msgid "Under 4.5 Goals"
 msgstr "Overview"
 
 #: members/views.py:530
-#, fuzzy
-#| msgid "Over 0.5 Goals"
 msgid "Under 5.5 Goals"
 msgstr "Overview"
 
 #: members/views.py:531
-#, fuzzy
-#| msgid "Over 0.5 Goals"
 msgid "Under 6.5 Goals"
 msgstr "Overview"
 
@@ -4146,8 +4063,6 @@ msgid "2nd Half Most Goals"
 msgstr ""
 
 #: members/views.py:564
-#, fuzzy
-#| msgid "Over 6.5 Cards"
 msgid "Over 6.5 Corners"
 msgstr "Overview"
 
@@ -5172,8 +5087,6 @@ msgid "sep"
 msgstr ""
 
 #: venv/Lib/site-packages/django/utils/dates.py:48
-#, fuzzy
-#| msgid "Tot"
 msgid "oct"
 msgstr "Total Avg"
 
