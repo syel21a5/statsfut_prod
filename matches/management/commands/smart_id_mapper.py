@@ -1,6 +1,7 @@
 import os
 import time
 import difflib
+import unicodedata
 from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
@@ -8,6 +9,27 @@ from django.db.models import Q
 
 from matches.models import League, Team, Match
 from matches.api_manager import APIManager
+
+TEAM_ALIASES = {
+    'odds bk': 'odd ballklubb',
+    'stabaek fotball': 'stabaek',
+    'hodd il': 'hodd',
+    'asane': 'asane',
+    'strommen if': 'strommen',
+    'ranheim il': 'ranheim',
+    'moss fk': 'moss',
+    'sogndal il': 'sogndal',
+    'bryne fk': 'bryne',
+    'lyn fk': 'lyn',
+    'sandnes ulf': 'sandnes ulf'
+}
+
+def normalize_name(name):
+    # Remove acentos e caracteres especiais (ex: æ -> ae, ø -> o, å -> a)
+    n = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode('utf-8').lower().strip()
+    n = n.replace('-', ' ')
+    # Se o nome normalizado estiver no dicionario de alias, retorna o alias
+    return TEAM_ALIASES.get(n, n)
 
 class Command(BaseCommand):
     help = 'Mapeamento Econômico e Inteligente de IDs do SofaScore para API-Football'
@@ -93,8 +115,11 @@ class Command(BaseCommand):
                     for db_t in teams_to_map:
                         best_t_match = None
                         best_t_score = 0
+                        db_t_norm = normalize_name(db_t.name)
+                        
                         for at in api_t_list:
-                            score = difflib.SequenceMatcher(None, db_t.name.lower(), at['name'].lower()).ratio()
+                            at_norm = normalize_name(at['name'])
+                            score = difflib.SequenceMatcher(None, db_t_norm, at_norm).ratio()
                             if score > best_t_score:
                                 best_t_score = score
                                 best_t_match = at
@@ -102,8 +127,10 @@ class Command(BaseCommand):
                         if best_t_match and best_t_score > 0.60:
                             try:
                                 db_t.api_id = best_t_match['id']
+                                # Atualizar o nome no banco para ficar bonito sem caracteres especiais
+                                db_t.name = best_t_match['name']
                                 db_t.save()
-                                self.stdout.write(self.style.SUCCESS(f"    ✓ Time mapeado: {db_t.name} -> {best_t_match['id']}"))
+                                self.stdout.write(self.style.SUCCESS(f"    ✓ Time mapeado e nome limpo: {db_t.name} -> {best_t_match['id']}"))
                             except Exception as e:
                                 self.stdout.write(self.style.WARNING(f"    ! Time duplicado ignorado: {db_t.name} (já existe outro time com ID {best_t_match['id']})"))
 
@@ -118,13 +145,13 @@ class Command(BaseCommand):
                     api_fixtures = resp_m.json().get('response', [])
                     
                     for db_m in matches_to_map:
-                        db_h_name = db_m.home_team.name.lower().replace('-', ' ').strip()
-                        db_a_name = db_m.away_team.name.lower().replace('-', ' ').strip()
+                        db_h_name = normalize_name(db_m.home_team.name)
+                        db_a_name = normalize_name(db_m.away_team.name)
                         
                         found = False
                         for f in api_fixtures:
-                            api_h_name = f['teams']['home']['name'].lower().replace('-', ' ').strip()
-                            api_a_name = f['teams']['away']['name'].lower().replace('-', ' ').strip()
+                            api_h_name = normalize_name(f['teams']['home']['name'])
+                            api_a_name = normalize_name(f['teams']['away']['name'])
                             
                             match_h = (db_h_name in api_h_name) or (api_h_name in db_h_name)
                             match_a = (db_a_name in api_a_name) or (api_a_name in db_a_name)
