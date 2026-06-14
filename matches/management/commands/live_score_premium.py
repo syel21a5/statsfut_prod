@@ -81,6 +81,14 @@ class Command(BaseCommand):
                             fix_data = live_api_dict[str(f_id)]
 
                         if fix_data:
+                            # Proteção Máxima: Se a API diz que está vivo, mas o jogo começou há mais de 4 horas, a API travou!
+                            if db_match.date and db_match.date < now() - timedelta(hours=4):
+                                db_match.status = 'FT'
+                                db_match.save()
+                                matches_updated += 1
+                                self.stdout.write(f"  🛑 Timeout/Travado na API: {db_match.home_team.name} x {db_match.away_team.name} (Forçado FT)")
+                                continue
+                                
                             f_info = fix_data.get('fixture', {})
                             g_info = fix_data.get('goals', {})
                             status_info = f_info.get('status', {})
