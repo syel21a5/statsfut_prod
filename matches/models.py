@@ -502,15 +502,17 @@ class ScannerTip(models.Model):
         elif market == 'CORNERS_AWAY' and m.corners_away_win_odds: return round(m.corners_away_win_odds, 2)
             
         # 6. Fallback implícito estatístico (Simulação Realista)
-        # O robô gera a probabilidade pelo histórico de acertos (ex: 85%).
-        # As casas de apostas puxam essa probabilidade para baixo para embutir a margem de lucro.
-        # Aplicamos um 'deflator' de 0.82 que aproxima perfeitamente o número gerado à Odd da Bet365.
+        # Odd Justa = 100 / probabilidade. As casas de aposta aplicam um "juice" (margem de lucro)
+        # que joga a odd real um pouco para baixo da odd justa.
         prob = self.probability or 50
-        bookmaker_implied_prob = prob * 0.82
+        fair_odd = 100.0 / prob
         
-        # Se a probabilidade for muito alta, garantimos que a odd não fique bizarra (menor que 1.10)
-        adjusted = 100.0 / bookmaker_implied_prob
-        return round(max(adjusted, 1.10), 2)
+        # Aplicamos o juice da casa de apostas (em média pagam 95% do valor justo)
+        adjusted = fair_odd * 0.95
+        
+        # Limitamos para não gerar odds menores que 1.05
+        return round(max(adjusted, 1.05), 2)
+
 
 class LiveMatchSnapshot(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='snapshots')
