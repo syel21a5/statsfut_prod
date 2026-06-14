@@ -253,6 +253,7 @@
                                     </div>
                                 </div>
 
+                                {% if not item.has_basic_coverage %}
                                 <!-- Quick Stats -->
                                 <div class="d-flex justify-content-around mb-3" style="font-size: 0.72rem;">
                                     <div class="text-center">
@@ -274,6 +275,14 @@
                                         <span class="text-danger fw-bold">{{ item.match.away_dangerous_attacks|default:"0" }}</span>
                                     </div>
                                 </div>
+                                {% else %}
+                                <!-- Basic Coverage Message -->
+                                <div class="text-center py-2 mb-3 rounded-3" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
+                                    <i class="fa-solid fa-satellite-dish mb-1" style="color: #64748b; font-size: 1rem; opacity: 0.7;"></i>
+                                    <div class="text-secondary fw-bold text-uppercase" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Basic Coverage" %}</div>
+                                    <div class="text-secondary px-2 mt-1" style="font-size: 0.55rem; opacity: 0.6;">{% translate "Advanced live stats are not available for this league." %}</div>
+                                </div>
+                                {% endif %}
 
                                 <!-- Match Tips / Badges -->
                                 {% if item.tips %}
@@ -286,6 +295,7 @@
                                 </div>
                                 {% endif %}
 
+                                {% if not item.has_basic_coverage %}
                                 <!-- Pressure Bar -->
                                 <div>
                                     <div class="d-flex justify-content-between mb-1" style="font-size: 0.65rem;">
@@ -301,6 +311,7 @@
                                         {{ item.pressure.status }}
                                     </div>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
 

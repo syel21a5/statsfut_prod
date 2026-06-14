@@ -625,10 +625,22 @@ def premium_dashboard(request):
     for match in live_matches_qs:
         match_tips = pending_tips_map.get(match.id, [])
         if match_tips:
+            # Detectar ligas sem cobertura avançada de dados (depois dos 10 min de jogo)
+            has_basic_coverage = False
+            if match.elapsed_time and match.elapsed_time > 10:
+                stats = [
+                    match.home_shots_on_target, match.away_shots_on_target,
+                    match.home_corners, match.away_corners,
+                    match.home_dangerous_attacks, match.away_dangerous_attacks
+                ]
+                if all(not s for s in stats):
+                    has_basic_coverage = True
+
             live_radar_matches.append({
                 'match': match,
                 'pressure': LiveRadarService.calculate_pressure(match, window_minutes=5),
-                'tips': match_tips[:4]
+                'tips': match_tips[:4],
+                'has_basic_coverage': has_basic_coverage
             })
 
     def get_date_group_order(match_date):
