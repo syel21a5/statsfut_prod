@@ -136,7 +136,14 @@ class Command(BaseCommand):
                             db_match.save()
                             matches_updated += 1
                             self.stdout.write(f"  ✓ [{db_match.elapsed_time}'] {db_match.home_team.name} {db_match.home_score}x{db_match.away_score} {db_match.away_team.name}")
-                            
+                        else:
+                            # Se o jogo estava como AO VIVO no banco, mas sumiu da resposta da API, significa que acabou!
+                            if db_match.status in ['Live', 'In Play', '1H', '2H', 'HT', 'ET', 'P', 'First Half', 'Second Half', 'Halftime', 'Extra Time', 'Penalty']:
+                                db_match.status = 'FT'
+                                db_match.save()
+                                matches_updated += 1
+                                self.stdout.write(f"  🏁 Finalizado/Removido: {db_match.home_team.name} x {db_match.away_team.name}")
+                                
                 if matches_updated > 0:
                     try:
                         from matches.services.live_radar import LiveRadarService
