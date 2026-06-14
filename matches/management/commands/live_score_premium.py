@@ -73,11 +73,8 @@ class Command(BaseCommand):
                 data = response.json()
                 fixtures = data.get('response', [])
                 
-                if not fixtures:
-                    return
-
                 matches_updated = 0
-                live_api_dict = {str(f['fixture']['id']): f for f in fixtures}
+                live_api_dict = {str(f['fixture']['id']): f for f in fixtures} if fixtures else {}
 
                 with transaction.atomic():
                     for db_match in active_premium:
