@@ -133,6 +133,10 @@ class Command(BaseCommand):
                                 self.stdout.write(self.style.SUCCESS(f"    ✓ Time mapeado e nome limpo: {db_t.name} -> {best_t_match['id']}"))
                             except Exception as e:
                                 self.stdout.write(self.style.WARNING(f"    ! Time duplicado ignorado: {db_t.name} (já existe outro time com ID {best_t_match['id']})"))
+                        else:
+                            closest_name = best_t_match['name'] if best_t_match else 'Nenhum'
+                            closest_id = best_t_match['id'] if best_t_match else 'N/A'
+                            self.stdout.write(self.style.ERROR(f"    X Time NÃO mapeado: '{db_t.name}' no Banco. (Mais próximo na API: '{closest_name}' ID: {closest_id})"))
 
             # --- MAPEAMENTO DE PARTIDAS ---
             if matches_to_map.exists():
