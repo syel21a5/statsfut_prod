@@ -11,13 +11,16 @@ from matches.api_manager import APIManager
 class Command(BaseCommand):
     help = 'Busca odds APENAS para os jogos Premium (com tips ativas)'
 
+    # Limite: jogos a partir de 12h no futuro só buscam odds se ainda não tiverem
+    HORAS_LIMITE_ATUALIZACAO = 12
+
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS("🎯 Iniciando Sincronização de Odds Premium..."))
+        self.stdout.write(self.style.SUCCESS("Iniciando Sincronizacao de Odds Premium..."))
         
         api = APIManager()
         
         # 1. Filtra jogos Premium (ScannerTip ou BetTicketSelection)
-        # Otimização: Apenas jogos não finalizados nas próximas 48 horas e últimas 6 horas
+        # Janela: ultimas 6 horas ate proximas 48 horas
         time_min = now() - timedelta(hours=6)
         time_max = now() + timedelta(hours=48)
         
@@ -30,22 +33,53 @@ class Command(BaseCommand):
         ).distinct()
 
         if not premium_matches.exists():
-            self.stdout.write(self.style.WARNING("💤 SMART SLEEP: Nenhum jogo Premium pendente de Odds no horizonte. (0 Créditos Gastos)"))
+            self.stdout.write(self.style.WARNING("SMART SLEEP: Nenhum jogo Premium pendente de Odds no horizonte. (0 Creditos Gastos)"))
             return
-            
-        self.stdout.write(f"🔍 Encontrados {premium_matches.count()} jogos Premium pendentes. Buscando Odds na API...")
         
-        updates = 0
+        # 2. Separar jogos em HOJE (atualiza sempre) vs FUTURO (so busca se nao tem odds)
+        limite_hoje = now() + timedelta(hours=self.HORAS_LIMITE_ATUALIZACAO)
+        
+        jogos_hoje = []
+        jogos_futuro_sem_odds = []
+        jogos_futuro_ja_tem_odds = 0
+        
         for match in premium_matches:
             if not match.api_id:
-                # Se o jogo não tem api_id, não conseguimos puxar a odd pontualmente
                 continue
-                
+            
+            if match.date <= limite_hoje:
+                # Jogo e HOJE ou nas proximas 12h -> sempre atualiza
+                jogos_hoje.append(match)
+            else:
+                # Jogo e AMANHA ou depois -> so busca se NAO tem odds salvas
+                if match.home_team_win_odds is None:
+                    jogos_futuro_sem_odds.append(match)
+                else:
+                    jogos_futuro_ja_tem_odds += 1
+        
+        jogos_para_buscar = jogos_hoje + jogos_futuro_sem_odds
+        total_candidatos = premium_matches.count()
+        
+        self.stdout.write(f"Total Premium: {total_candidatos} jogos")
+        self.stdout.write(f"  HOJE (atualiza sempre): {len(jogos_hoje)} jogos")
+        self.stdout.write(f"  FUTURO sem odds (1a busca): {len(jogos_futuro_sem_odds)} jogos")
+        self.stdout.write(f"  FUTURO ja tem odds (PULANDO): {jogos_futuro_ja_tem_odds} jogos (economia de creditos)")
+        
+        if not jogos_para_buscar:
+            self.stdout.write(self.style.WARNING("Todos os jogos futuros ja possuem odds. Nada a buscar. (0 Creditos Gastos)"))
+            return
+        
+        self.stdout.write(f"Buscando odds para {len(jogos_para_buscar)} jogos na API...")
+        
+        updates = 0
+        creditos_gastos = 0
+        for match in jogos_para_buscar:
             self.stdout.write(f"  [Odds] Buscando para: {match.home_team.name} x {match.away_team.name}")
             
             # Tenta Bet365 primeiro (ID 8)
             odds_data = api.get_odds(match.api_id, bookmaker=8)
-            time.sleep(0.5) # Proteção de rate limit
+            creditos_gastos += 1
+            time.sleep(0.5) # Protecao de rate limit
             
             chosen_bk_name = None
             markets = []
@@ -57,8 +91,9 @@ class Command(BaseCommand):
                     markets = bookmakers[0].get('bets', [])
                     
             if not markets:
-                # Fallback genérico se Bet365 falhar
+                # Fallback generico se Bet365 falhar
                 odds_data_all = api.get_odds(match.api_id, bookmaker=None)
+                creditos_gastos += 1
                 time.sleep(0.5)
                 if odds_data_all and len(odds_data_all) > 0:
                     all_bks = odds_data_all[0].get('bookmakers', [])
@@ -78,7 +113,7 @@ class Command(BaseCommand):
                         markets = chosen_bk.get('bets', [])
             
             if markets:
-                self.stdout.write(f"    ✓ Odds obtidas na {chosen_bk_name} ({len(markets)} mercados)")
+                self.stdout.write(f"    OK Odds obtidas na {chosen_bk_name} ({len(markets)} mercados)")
                 odds_count = 0
                 
                 for m in markets:
@@ -120,6 +155,6 @@ class Command(BaseCommand):
                 match.save()
                 updates += 1
             else:
-                self.stdout.write(f"    ✗ Bookmakers ainda não liberaram odds")
+                self.stdout.write(f"    X Bookmakers ainda nao liberaram odds")
                 
-        self.stdout.write(self.style.SUCCESS(f"✅ Concluído! {updates} Jogos Premium atualizados com sucesso."))
+        self.stdout.write(self.style.SUCCESS(f"Concluido: {updates} jogos atualizados, ~{creditos_gastos} creditos gastos, {jogos_futuro_ja_tem_odds} jogos futuros pulados (economia)"))
