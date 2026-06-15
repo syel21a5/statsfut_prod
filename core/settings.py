@@ -28,6 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-ag%%ixyoe(tcagidf45lbnq^&af%wlosgc0ogh4#b+g!4$@^3h')
 
+# Configuração do Telegram Bot (Radar Ao Vivo)
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '8984489557:AAGEfYKwUWVoJFRAiCwJvtlCiqvwlbLJaW4')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '7883491565') # Será preenchido via .env no servidor
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 

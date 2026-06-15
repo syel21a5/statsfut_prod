@@ -36,10 +36,21 @@ def job_upcoming():
     except subprocess.CalledProcessError as e:
         print(f"[{datetime.now()}] ❌ Erro na atualização de próximos jogos: {e}")
 
+def job_live_lay_bot():
+    print(f"[{datetime.now()}] 🤖 Iniciando Live Lay Telegram Bot...")
+    try:
+        # Roda o bot de Lay (Usa APENAS O BANCO LOCAL, CUSTO ZERO DE API)
+        subprocess.run([sys.executable, "manage.py", "run_live_lay_bot"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"[{datetime.now()}] ❌ Erro no Live Lay Bot: {e}")
+
 # --- Configuração do Agendamento ---
 
 # 1. Jogos AO VIVO: Desativado para economizar recursos e API
 # schedule.every(15).minutes.do(job_live)
+
+# 1.5. Live Lay Bot do Telegram: A cada 2 minutos (Custo zero, roda 100% local)
+schedule.every(2).minutes.do(job_live_lay_bot)
 
 # 2. Resultados Recentes: A cada 1 hora
 # Motivo: Garantir que jogos finalizados apareçam rápido na tabela
@@ -55,7 +66,8 @@ print("========================================================")
 print("🚀 AGENDADOR DE ATUALIZAÇÕES API INICIADO")
 print("========================================================")
 print("Configuração:")
-print("   - Ao Vivo: DESATIVADO")
+print("   - Ao Vivo API: DESATIVADO")
+print("   - Robô Telegram Lay: a cada 2 minutos (Local)")
 print("   - Resultados Recentes: a cada 1 hora (NOVO)")
 print("   - Próximos (15 dias): a cada 4 horas")
 print("========================================================")
