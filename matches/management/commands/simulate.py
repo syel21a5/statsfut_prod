@@ -32,6 +32,8 @@ class Command(BaseCommand):
             'CORNERS_O85_80': {'hits': 0, 'total': 0},
             'CORNER_WIN_H_70': {'hits': 0, 'total': 0},
             'CORNER_WIN_H_80': {'hits': 0, 'total': 0},
+            'LAY_CS_90': {'hits': 0, 'total': 0},
+            'LAY_CS_95': {'hits': 0, 'total': 0},
         }
 
         for match in matches:
@@ -125,6 +127,20 @@ class Command(BaseCommand):
                     if p_wc_h >= 80:
                         stats['CORNER_WIN_H_80']['total'] += 1
                         if corner_win_h: stats['CORNER_WIN_H_80']['hits'] += 1
+
+                # LAY CORRECT SCORE
+                lay_cs = goals.get('lay_correct_scores') or {}
+                actual_score_key = f"{match.home_score}_{match.away_score}"
+                
+                for score_key, lay_prob in lay_cs.items():
+                    if lay_prob >= 90:
+                        stats['LAY_CS_90']['total'] += 1
+                        if actual_score_key != score_key:
+                            stats['LAY_CS_90']['hits'] += 1
+                    if lay_prob >= 95:
+                        stats['LAY_CS_95']['total'] += 1
+                        if actual_score_key != score_key:
+                            stats['LAY_CS_95']['hits'] += 1
 
             except Exception as e:
                 import traceback

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 11:05-0300\n"
+"POT-Creation-Date: 2026-06-15 08:34-0300\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -40,7 +40,9 @@ msgstr "StatsFut | Fußball-Analysen & Vorhersagen"
 msgid ""
 "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, "
 "BTTS and direct confrontations of the world's main leagues."
-msgstr "StatsFut - Detaillierte Fußballstatistiken, Pre-Match-Analysen, Over/Under, BTTS und direkte Duelle der wichtigsten Ligen der Welt."
+msgstr ""
+"StatsFut - Detaillierte Fußballstatistiken, Pre-Match-Analysen, Over/Under, "
+"BTTS und direkte Duelle der wichtigsten Ligen der Welt."
 
 #: core/templates/base.html:27
 msgid "StatsFut | Football Analytics"
@@ -131,7 +133,11 @@ msgid ""
 "We use cookies to personalize content and ads, provide social media "
 "features, and analyze our traffic. By continuing to use our site, you accept "
 "our use of cookies."
-msgstr "Wir verwenden Cookies, um Inhalte und Anzeigen zu personalisieren, Funktionen für soziale Medien anzubieten und unseren Datenverkehr zu analysieren. Durch die weitere Nutzung unserer Website akzeptieren Sie unsere Verwendung von Cookies."
+msgstr ""
+"Wir verwenden Cookies, um Inhalte und Anzeigen zu personalisieren, "
+"Funktionen für soziale Medien anzubieten und unseren Datenverkehr zu "
+"analysieren. Durch die weitere Nutzung unserer Website akzeptieren Sie "
+"unsere Verwendung von Cookies."
 
 #: core/templates/base.html:277
 msgid "Learn more"
@@ -141,97 +147,90 @@ msgstr "Mehr erfahren"
 msgid "Accept"
 msgstr "Akzeptieren"
 
-#: matches/services/advanced_stats.py:97
+#: matches/services/advanced_stats.py:112
 msgid "Strong"
 msgstr "Stark"
 
-#: matches/services/advanced_stats.py:98
+#: matches/services/advanced_stats.py:113
 msgid "Average"
 msgstr "Durchschnittlich"
 
-#: matches/services/advanced_stats.py:99
+#: matches/services/advanced_stats.py:114
 msgid "Weak"
 msgstr "Schwach"
 
-#: matches/services/advanced_stats.py:853
+#: matches/services/advanced_stats.py:991
 msgid "No clear suggestion"
 msgstr "Kein klarer Vorschlag"
 
-#: matches/services/advanced_stats.py:856
+#: matches/services/advanced_stats.py:994
 #, python-format
 msgid "Over %(val)s.5"
 msgstr "Über %(val)s.5"
 
-#: matches/services/advanced_stats.py:1123
-#: matches/services/advanced_stats.py:1125
+#: matches/services/advanced_stats.py:1357
+#: matches/services/advanced_stats.py:1359
 #, python-format
 msgid "Lay %(team)s"
 msgstr "Lay %(team)s (Dagegen)"
 
-#: matches/services/advanced_stats.py:1123
+#: matches/services/advanced_stats.py:1357
 #, python-format
 msgid "Home win probability is only %(prob)s%%"
 msgstr "Heimsiegwahrscheinlichkeit beträgt nur %(prob)s%%"
 
-#: matches/services/advanced_stats.py:1125
+#: matches/services/advanced_stats.py:1359
 #, python-format
 msgid "Away win probability is only %(prob)s%%"
 msgstr "Auswärtssiegwahrscheinlichkeit beträgt nur %(prob)s%%"
 
-#: matches/services/advanced_stats.py:1127
+#: matches/services/advanced_stats.py:1361
 msgid "Lay Draw"
 msgstr "Lay Unentschieden"
 
-#: matches/services/advanced_stats.py:1127
+#: matches/services/advanced_stats.py:1361
 #, python-format
 msgid "Draw probability is only %(prob)s%%"
 msgstr "Unentschieden-Wahrscheinlichkeit beträgt nur %(prob)s%%"
 
-#: matches/services/advanced_stats.py:1131
+#: matches/services/advanced_stats.py:1365
 msgid "Lay Over 2.5 Goals"
 msgstr "Lay Over 2.5 Tore"
 
-#: matches/services/advanced_stats.py:1131
+#: matches/services/advanced_stats.py:1365
 #, python-format
 msgid "Over 2.5 probability is only %(prob)s%%"
 msgstr "Over 2.5 Wahrscheinlichkeit beträgt nur %(prob)s%%"
 
-#: matches/services/advanced_stats.py:1133
+#: matches/services/advanced_stats.py:1367
 msgid "Lay Under 2.5 Goals"
 msgstr "Lay Under 2.5 Tore"
 
-#: matches/services/advanced_stats.py:1133
+#: matches/services/advanced_stats.py:1367
 #, python-format
 msgid "Over 2.5 probability is %(prob)s%% (high)"
 msgstr "Over 2.5 Wahrscheinlichkeit beträgt %(prob)s%% (hoch)"
 
-#: matches/services/advanced_stats.py:1137
+#: matches/services/advanced_stats.py:1371
 msgid "Lay BTTS (Yes)"
 msgstr "Lay BTTS (Ja)"
 
-#: matches/services/advanced_stats.py:1137
+#: matches/services/advanced_stats.py:1371
 #, python-format
 msgid "BTTS probability is only %(prob)s%%"
 msgstr "BTTS-Wahrscheinlichkeit beträgt nur %(prob)s%%"
 
-#: matches/services/advanced_stats.py:1141
-msgid "Lay Score 0-0"
-msgstr "Lay Ergebnis 0-0"
-
-#: matches/services/advanced_stats.py:1141
+#: matches/services/advanced_stats.py:1385 members/views.py:580
 #, python-format
-msgid "Over 0.5 goals probability is %(prob)s%%"
-msgstr "Over 0.5 Tore Wahrscheinlichkeit beträgt %(prob)s%%"
+msgid "Lay Score %(score)s"
+msgstr "Lay Ergebnis %(score)s"
 
-#: matches/services/advanced_stats.py:1144
-msgid "Lay Any Other Score (4+ goals)"
-msgstr "Lay Jedes andere Ergebnis (4+ Tore)"
+#: matches/services/advanced_stats.py:1388
+#, python-format
+msgid "Mathematical chance of this score is only %(fail)s%%"
+msgstr "Die mathematische Chance auf dieses Ergebnis beträgt nur %(fail)s%%"
 
-#: matches/services/advanced_stats.py:1144
-msgid "Low probability of a high scoring match"
-msgstr "Geringe Wahrscheinlichkeit für ein torreiches Spiel"
-
-#: matches/services/advanced_stats.py:1162
+#: matches/services/advanced_stats.py:1407
 #, python-format
 msgid ""
 "%(home_team)s has a %(win_pct)s%% win rate playing at home (scoring an "
@@ -263,7 +262,11 @@ msgid ""
 "clear, actionable insights for fans, bettors, and analysts. We believe that "
 "high-quality statistical information should be accessible, fast, and "
 "visually intuitive."
-msgstr "StatsFut wurde mit dem Ziel geboren, komplexe Fußballdaten in klare, umsetzbare Erkenntnisse für Fans, Wettende und Analysten zu verwandeln. Wir glauben, dass qualitativ hochwertige statistische Informationen zugänglich, schnell und visuell intuitiv sein sollten."
+msgstr ""
+"StatsFut wurde mit dem Ziel geboren, komplexe Fußballdaten in klare, "
+"umsetzbare Erkenntnisse für Fans, Wettende und Analysten zu verwandeln. Wir "
+"glauben, dass qualitativ hochwertige statistische Informationen zugänglich, "
+"schnell und visuell intuitiv sein sollten."
 
 #: matches/templates/matches/about_us.html:21
 msgid "Technology and Precision"
@@ -276,7 +279,13 @@ msgid ""
 "360º view of every league, team, and matchup. We focus on advanced metrics "
 "that go beyond the scoreline, such as goal probabilities, corner trends, and "
 "head-to-head (H2H) analysis."
-msgstr "Wir nutzen modernste Technologien, um Tausende von Ereignissen in Echtzeit zu verarbeiten. Unsere Plattform integriert Daten aus verschiedenen globalen Quellen, um eine 360-Grad-Ansicht jeder Liga, jedes Teams und jeder Begegnung zu bieten. Wir konzentrieren uns auf fortschrittliche Kennzahlen, die über das reine Spielergebnis hinausgehen, wie Torwahrscheinlichkeiten, Eckentrends und Head-to-Head-Analysen (H2H)."
+msgstr ""
+"Wir nutzen modernste Technologien, um Tausende von Ereignissen in Echtzeit "
+"zu verarbeiten. Unsere Plattform integriert Daten aus verschiedenen globalen "
+"Quellen, um eine 360-Grad-Ansicht jeder Liga, jedes Teams und jeder "
+"Begegnung zu bieten. Wir konzentrieren uns auf fortschrittliche Kennzahlen, "
+"die über das reine Spielergebnis hinausgehen, wie Torwahrscheinlichkeiten, "
+"Eckentrends und Head-to-Head-Analysen (H2H)."
 
 #: matches/templates/matches/about_us.html:26
 msgid "Why StatsFut?"
@@ -288,7 +297,12 @@ msgid ""
 "data curation. We don't just show numbers; we organize them so you can make "
 "smarter decisions, whether to follow your favorite team or conduct "
 "professional analysis."
-msgstr "In einer Flut von Informationen zeichnet sich StatsFut durch seine Premium-Benutzeroberfläche und Datenkuratierung aus. Wir zeigen nicht nur Zahlen; wir organisieren sie, damit Sie intelligentere Entscheidungen treffen können, sei es, um Ihrem Lieblingsteam zu folgen oder professionelle Analysen durchzuführen."
+msgstr ""
+"In einer Flut von Informationen zeichnet sich StatsFut durch seine Premium-"
+"Benutzeroberfläche und Datenkuratierung aus. Wir zeigen nicht nur Zahlen; "
+"wir organisieren sie, damit Sie intelligentere Entscheidungen treffen "
+"können, sei es, um Ihrem Lieblingsteam zu folgen oder professionelle "
+"Analysen durchzuführen."
 
 #: matches/templates/matches/about_us.html:31
 msgid "Constantly Evolving"
@@ -299,7 +313,10 @@ msgid ""
 "We are in an expansion phase, adding new leagues and predictive analysis "
 "tools regularly. StatsFut is made by data enthusiasts for football "
 "enthusiasts."
-msgstr "Wir befinden uns in einer Expansionsphase und fügen regelmäßig neue Ligen und prädiktive Analysetools hinzu. StatsFut wird von Datenbegeisterten für Fußballbegeisterten gemacht."
+msgstr ""
+"Wir befinden uns in einer Expansionsphase und fügen regelmäßig neue Ligen "
+"und prädiktive Analysetools hinzu. StatsFut wird von Datenbegeisterten für "
+"Fußballbegeisterten gemacht."
 
 #: matches/templates/matches/contact.html:16
 msgid "Get in Touch"
@@ -309,7 +326,9 @@ msgstr "In Kontakt treten"
 msgid ""
 "Have questions about our data or suggestions for new features? We'd love to "
 "hear from you."
-msgstr "Haben Sie Fragen zu unseren Daten oder Vorschläge für neue Funktionen? Wir würden uns freuen, von Ihnen zu hören."
+msgstr ""
+"Haben Sie Fragen zu unseren Daten oder Vorschläge für neue Funktionen? Wir "
+"würden uns freuen, von Ihnen zu hören."
 
 #: matches/templates/matches/contact.html:24
 msgid "Email Support"
@@ -335,7 +354,9 @@ msgstr "Unsere Antwortzeit"
 msgid ""
 "We typically respond to all inquiries within 24-48 business hours. Thank you "
 "for your patience."
-msgstr "Wir antworten in der Regel auf alle Anfragen innerhalb von 24–48 Geschäftsstunden. Vielen Dank für Ihre Geduld."
+msgstr ""
+"Wir antworten in der Regel auf alle Anfragen innerhalb von 24–48 "
+"Geschäftsstunden. Vielen Dank für Ihre Geduld."
 
 #: matches/templates/matches/h2h_detail.html:18
 msgid "Head-to-Head"
@@ -403,7 +424,6 @@ msgstr "Saisonstatistiken"
 #: matches/templates/matches/league_goals.html:517
 #: matches/templates/matches/league_goals.html:576
 #: matches/templates/matches/league_goals.html:635
-#: matches/templates/matches/match_detail.html:524
 #: matches/templates/matches/streaks_snippet.html:13
 #: matches/templates/matches/team_detail.html:97
 #: matches/templates/matches/team_detail.html:149
@@ -419,18 +439,18 @@ msgstr "Saisonstatistiken"
 #: matches/templates/matches/team_detail.html:997
 #: matches/templates/matches/team_detail.html:1042
 #: matches/templates/matches/team_detail.html:1077
-#: members/templates/members/premium_dashboard.html:423
-#: members/templates/members/premium_dashboard.html:511
-#: members/templates/members/premium_dashboard.html:630
-#: members/templates/members/premium_dashboard.html:745
-#: members/templates/members/premium_dashboard.html:840
-#: members/templates/members/premium_dashboard.html:928
-#: members/templates/members/premium_dashboard.html:1037
-#: members/templates/members/premium_dashboard.html:1124
-#: members/templates/members/premium_dashboard.html:1230
-#: members/templates/members/premium_dashboard.html:1317
-#: members/templates/members/premium_dashboard.html:1424
-#: members/templates/members/premium_dashboard.html:1525
+#: members/templates/members/premium_dashboard.html:493
+#: members/templates/members/premium_dashboard.html:581
+#: members/templates/members/premium_dashboard.html:700
+#: members/templates/members/premium_dashboard.html:815
+#: members/templates/members/premium_dashboard.html:910
+#: members/templates/members/premium_dashboard.html:998
+#: members/templates/members/premium_dashboard.html:1107
+#: members/templates/members/premium_dashboard.html:1194
+#: members/templates/members/premium_dashboard.html:1300
+#: members/templates/members/premium_dashboard.html:1387
+#: members/templates/members/premium_dashboard.html:1494
+#: members/templates/members/premium_dashboard.html:1595
 msgid "Home"
 msgstr "Heim"
 
@@ -450,7 +470,6 @@ msgstr "Heim"
 #: matches/templates/matches/league_goals.html:520
 #: matches/templates/matches/league_goals.html:579
 #: matches/templates/matches/league_goals.html:638
-#: matches/templates/matches/match_detail.html:528
 #: matches/templates/matches/streaks_snippet.html:14
 #: matches/templates/matches/team_detail.html:99
 #: matches/templates/matches/team_detail.html:151
@@ -466,18 +485,18 @@ msgstr "Heim"
 #: matches/templates/matches/team_detail.html:1004
 #: matches/templates/matches/team_detail.html:1049
 #: matches/templates/matches/team_detail.html:1078
-#: members/templates/members/premium_dashboard.html:430
-#: members/templates/members/premium_dashboard.html:518
-#: members/templates/members/premium_dashboard.html:637
-#: members/templates/members/premium_dashboard.html:752
-#: members/templates/members/premium_dashboard.html:847
-#: members/templates/members/premium_dashboard.html:935
-#: members/templates/members/premium_dashboard.html:1044
-#: members/templates/members/premium_dashboard.html:1131
-#: members/templates/members/premium_dashboard.html:1237
-#: members/templates/members/premium_dashboard.html:1324
-#: members/templates/members/premium_dashboard.html:1431
-#: members/templates/members/premium_dashboard.html:1532
+#: members/templates/members/premium_dashboard.html:500
+#: members/templates/members/premium_dashboard.html:588
+#: members/templates/members/premium_dashboard.html:707
+#: members/templates/members/premium_dashboard.html:822
+#: members/templates/members/premium_dashboard.html:917
+#: members/templates/members/premium_dashboard.html:1005
+#: members/templates/members/premium_dashboard.html:1114
+#: members/templates/members/premium_dashboard.html:1201
+#: members/templates/members/premium_dashboard.html:1307
+#: members/templates/members/premium_dashboard.html:1394
+#: members/templates/members/premium_dashboard.html:1501
+#: members/templates/members/premium_dashboard.html:1602
 msgid "Away"
 msgstr "Auswärts"
 
@@ -541,20 +560,20 @@ msgstr "Metrik"
 #: matches/templates/matches/h2h_detail.html:470
 #: matches/templates/matches/team_detail.html:312
 #: matches/templates/matches/team_detail.html:362
-#: members/templates/members/premium_dashboard.html:362
-#: members/templates/members/premium_dashboard.html:377
-#: members/templates/members/premium_dashboard.html:572
-#: members/templates/members/premium_dashboard.html:585
-#: members/templates/members/premium_dashboard.html:691
-#: members/templates/members/premium_dashboard.html:702
-#: members/templates/members/premium_dashboard.html:991
-#: members/templates/members/premium_dashboard.html:1186
-#: members/templates/members/premium_dashboard.html:1379
-#: members/templates/members/premium_dashboard.html:1481
-#: members/templates/members/premium_dashboard.html:1599
-#: members/templates/members/premium_dashboard.html:1700
-#: members/templates/members/premium_dashboard.html:2141
-#: members/templates/members/premium_dashboard.html:2180
+#: members/templates/members/premium_dashboard.html:432
+#: members/templates/members/premium_dashboard.html:447
+#: members/templates/members/premium_dashboard.html:642
+#: members/templates/members/premium_dashboard.html:655
+#: members/templates/members/premium_dashboard.html:761
+#: members/templates/members/premium_dashboard.html:772
+#: members/templates/members/premium_dashboard.html:1061
+#: members/templates/members/premium_dashboard.html:1256
+#: members/templates/members/premium_dashboard.html:1449
+#: members/templates/members/premium_dashboard.html:1551
+#: members/templates/members/premium_dashboard.html:1745
+#: members/templates/members/premium_dashboard.html:1846
+#: members/templates/members/premium_dashboard.html:2287
+#: members/templates/members/premium_dashboard.html:2326
 msgid "All"
 msgstr "Alle"
 
@@ -705,12 +724,12 @@ msgstr "Datum"
 #: matches/templates/matches/h2h_detail.html:1076
 #: matches/templates/matches/league_goals.html:186
 #: matches/templates/matches/team_detail.html:98
-#: members/templates/members/premium_dashboard.html:2526
+#: members/templates/members/premium_dashboard.html:2655
 msgid "Score"
 msgstr "Ergebnis"
 
 #: matches/templates/matches/h2h_detail.html:803
-#: members/templates/members/premium_dashboard.html:1277
+#: members/templates/members/premium_dashboard.html:1347
 msgid "Winner"
 msgstr "Sieger"
 
@@ -730,8 +749,8 @@ msgstr "Detaillierte Tor-Statistiken"
 
 #: matches/templates/matches/h2h_detail.html:853
 #: matches/templates/matches/league_detailed_stats.html:219
-#: members/templates/members/premium_dashboard.html:1601
-#: members/templates/members/premium_dashboard.html:1702
+#: members/templates/members/premium_dashboard.html:1747
+#: members/templates/members/premium_dashboard.html:1848
 msgid "Goals"
 msgstr "Tore"
 
@@ -1141,30 +1160,33 @@ msgid ""
 "Explore advanced football statistics, pre-match analysis, Over/Under "
 "predictions and head-to-head data for the world's top leagues. StatsFut - "
 "Your data-driven edge."
-msgstr "Erkunden Sie detaillierte Fußballstatistiken, Pre-Match-Analysen, Over/Under-Prognosen und Head-to-Head-Daten für die weltbesten Ligen. StatsFut - Ihr datenbasierter Vorteil."
+msgstr ""
+"Erkunden Sie detaillierte Fußballstatistiken, Pre-Match-Analysen, Over/Under-"
+"Prognosen und Head-to-Head-Daten für die weltbesten Ligen. StatsFut - Ihr "
+"datenbasierter Vorteil."
 
 # ============================================================
 # HOME PAGE - BUTTONS & FILTERS
 # ============================================================
 #: matches/templates/matches/home.html:19
-#: members/templates/members/premium_dashboard.html:2182
-#: members/templates/members/premium_dashboard.html:2183
-#: members/templates/members/premium_dashboard.html:2995 members/views.py:462
-#: members/views.py:470
+#: members/templates/members/premium_dashboard.html:2328
+#: members/templates/members/premium_dashboard.html:2329
+#: members/templates/members/premium_dashboard.html:3124 members/views.py:451
+#: members/views.py:459
 msgid "Today"
 msgstr "Heute"
 
 #: matches/templates/matches/home.html:20
-#: members/templates/members/premium_dashboard.html:2185
-#: members/templates/members/premium_dashboard.html:2186 members/views.py:463
-#: members/views.py:471
+#: members/templates/members/premium_dashboard.html:2331
+#: members/templates/members/premium_dashboard.html:2332 members/views.py:452
+#: members/views.py:460
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: matches/templates/matches/home.html:21 matches/views.py:621
-#: members/templates/members/premium_dashboard.html:2188
-#: members/templates/members/premium_dashboard.html:2189 members/views.py:464
-#: members/views.py:472
+#: matches/templates/matches/home.html:21 matches/views.py:608
+#: members/templates/members/premium_dashboard.html:2334
+#: members/templates/members/premium_dashboard.html:2335 members/views.py:453
+#: members/views.py:461
 msgid "Next Round"
 msgstr "Nächste Runde"
 
@@ -1228,20 +1250,26 @@ msgstr "Über Uns"
 msgid ""
 "The <strong>%(league_name)s</strong> is the main professional football "
 "league in <strong>%(country)s</strong>."
-msgstr "Die <strong>%(league_name)s</strong> ist die wichtigste professionelle Fußballliga in <strong>%(country)s</strong>."
+msgstr ""
+"Die <strong>%(league_name)s</strong> ist die wichtigste professionelle "
+"Fußballliga in <strong>%(country)s</strong>."
 
 #: matches/templates/matches/league_dashboard.html:58
 #, python-format
 msgid ""
 "Currently, the competition leader is <strong>%(leader)s</strong>, leading "
 "the league table this season."
-msgstr "Derzeit ist <strong>%(leader)s</strong> der Tabellenführer und führt die Tabelle in dieser Saison an."
+msgstr ""
+"Derzeit ist <strong>%(leader)s</strong> der Tabellenführer und führt die "
+"Tabelle in dieser Saison an."
 
 #: matches/templates/matches/league_dashboard.html:63
 msgid ""
 "StatsFut tracks live football scores, detailed statistics, standings, and "
 "performance analysis for all rounds of the competition."
-msgstr "StatsFut verfolgt Live-Fußballergebnisse, detaillierte Statistiken, Tabellen und Leistungsanalysen für alle Spieltage des Wettbewerbs."
+msgstr ""
+"StatsFut verfolgt Live-Fußballergebnisse, detaillierte Statistiken, Tabellen "
+"und Leistungsanalysen für alle Spieltage des Wettbewerbs."
 
 #: matches/templates/matches/league_dashboard.html:67
 msgid "Season Statistical Analysis"
@@ -1252,14 +1280,19 @@ msgstr "Saisonstatistiken"
 msgid ""
 "The average goals per match in the league is <strong>%(avg_goals)s</strong> "
 "goals."
-msgstr "Der Tordurchschnitt pro Spiel in der Liga liegt bei <strong>%(avg_goals)s</strong> Toren."
+msgstr ""
+"Der Tordurchschnitt pro Spiel in der Liga liegt bei <strong>%(avg_goals)s</"
+"strong> Toren."
 
 #: matches/templates/matches/league_dashboard.html:76
 #, python-format
 msgid ""
 "About <strong>%(over25)s%%</strong> of matches ended with over 2.5 goals, "
 "and in <strong>%(btts)s%%</strong> of the games both teams scored (BTTS)."
-msgstr "Etwa <strong>%(over25)s%%</strong> der Spiele endeten mit über 2,5 Toren, und in <strong>%(btts)s%%</strong> der Spiele haben beide Teams getroffen (BTTS)."
+msgstr ""
+"Etwa <strong>%(over25)s%%</strong> der Spiele endeten mit über 2,5 Toren, "
+"und in <strong>%(btts)s%%</strong> der Spiele haben beide Teams getroffen "
+"(BTTS)."
 
 #: matches/templates/matches/league_dashboard.html:83
 #, python-format
@@ -1267,7 +1300,9 @@ msgid ""
 "The most common result recorded this season is the score of "
 "<strong>%(score)s</strong>, occurring in <strong>%(pct)s%%</strong> of all "
 "matches played."
-msgstr "Das häufigste Ergebnis in dieser Saison ist <strong>%(score)s</strong>, was in <strong>%(pct)s%%</strong> aller gespielten Spiele vorkommt."
+msgstr ""
+"Das häufigste Ergebnis in dieser Saison ist <strong>%(score)s</strong>, was "
+"in <strong>%(pct)s%%</strong> aller gespielten Spiele vorkommt."
 
 #: matches/templates/matches/league_dashboard.html:105
 msgid "Avg PPG"
@@ -1288,11 +1323,11 @@ msgstr "Weiße Weste %%"
 msgid "Scoring Rate"
 msgstr "Trefferquote"
 
-#: matches/templates/matches/league_dashboard.html:141 members/views.py:525
+#: matches/templates/matches/league_dashboard.html:141 members/views.py:515
 msgid "Over 1.5 Goals"
 msgstr "Über 1.5 Tore"
 
-#: matches/templates/matches/league_dashboard.html:149 members/views.py:526
+#: matches/templates/matches/league_dashboard.html:149 members/views.py:516
 msgid "Over 2.5 Goals"
 msgstr "Über 2.5 Tore"
 
@@ -1382,7 +1417,11 @@ msgid ""
 "strong>. A tabela de classificação acima é atualizada em tempo real após "
 "cada partida, fornecendo as posições mais recentes e os pontos acumulados "
 "pelas equipes."
-msgstr "Verfolgen Sie die komplette Leistung der Teams in der <strong>%(league_name)s</strong>. Die obige Tabelle wird nach jedem Spiel in Echtzeit aktualisiert und liefert die neuesten Platzierungen und gesammelten Punkte der Teams."
+msgstr ""
+"Verfolgen Sie die komplette Leistung der Teams in der "
+"<strong>%(league_name)s</strong>. Die obige Tabelle wird nach jedem Spiel in "
+"Echtzeit aktualisiert und liefert die neuesten Platzierungen und gesammelten "
+"Punkte der Teams."
 
 #: matches/templates/matches/league_dashboard.html:1274
 #, python-format
@@ -1392,14 +1431,22 @@ msgid ""
 "dos confrontos ambas as equipes marcam gols (BTTS), enquanto "
 "<strong>%(over25)s%%</strong> das partidas terminam com mais de 2.5 gols no "
 "total."
-msgstr "In dieser Saison weist die Liga einen Durchschnitt von <strong>%(avg_g)s Toren pro Spiel</strong> auf. Die Statistiken zeigen, dass in <strong>%(btts)s%%</strong> der Duelle beide Teams treffen (BTTS), während <strong>%(over25)s%%</strong> der Spiele mit über 2,5 Toren enden."
+msgstr ""
+"In dieser Saison weist die Liga einen Durchschnitt von <strong>%(avg_g)s "
+"Toren pro Spiel</strong> auf. Die Statistiken zeigen, dass in "
+"<strong>%(btts)s%%</strong> der Duelle beide Teams treffen (BTTS), während "
+"<strong>%(over25)s%%</strong> der Spiele mit über 2,5 Toren enden."
 
 #: matches/templates/matches/league_dashboard.html:1279
 msgid ""
 "Analise a progressão de cada time, a média de pontos por jogo (PPG) e as "
 "taxas de vitória para fazer as melhores projeções. O StatsFut é a sua "
 "plataforma definitiva para acompanhar o futebol mundial com dados precisos."
-msgstr "Analysieren Sie die Entwicklung jedes Teams, die durchschnittlichen Punkte pro Spiel (PPG) und die Siegquoten, um die besten Vorhersagen zu treffen. StatsFut ist Ihre ultimative Plattform, um den Weltfußball mit präzisen Daten zu verfolgen."
+msgstr ""
+"Analysieren Sie die Entwicklung jedes Teams, die durchschnittlichen Punkte "
+"pro Spiel (PPG) und die Siegquoten, um die besten Vorhersagen zu treffen. "
+"StatsFut ist Ihre ultimative Plattform, um den Weltfußball mit präzisen "
+"Daten zu verfolgen."
 
 #: matches/templates/matches/league_detailed_stats.html:23
 msgid "Elite Statistics"
@@ -1480,9 +1527,9 @@ msgid "Offensive Shots (Avg)"
 msgstr "Torschüsse (Durchschnitt)"
 
 #: matches/templates/matches/league_detailed_stats.html:259
-#: members/templates/members/premium_dashboard.html:259
-#: members/templates/members/premium_dashboard.html:1605
-#: members/templates/members/premium_dashboard.html:1706
+#: members/templates/members/premium_dashboard.html:298
+#: members/templates/members/premium_dashboard.html:1751
+#: members/templates/members/premium_dashboard.html:1852
 #: scratch/dashboard_current.html:134
 msgid "Shots"
 msgstr "Schüsse"
@@ -1499,7 +1546,12 @@ msgid ""
 "corner averages, distribution of yellow and red cards per game, team "
 "discipline, volume of shots, and the exact moment goals happen throughout "
 "the 90 minutes."
-msgstr "Erweiterte Statistiken und detaillierte Analysen für die Liga %(league_name)s (%(country)s), Saison %(year)s. Entdecken Sie detaillierte Informationen über Ecken-Durchschnitte, Verteilung von gelben und roten Karten pro Spiel, Teamdisziplin, Schussvolumen und den genauen Zeitpunkt, an dem Tore innerhalb der 90 Minuten erzielt werden."
+msgstr ""
+"Erweiterte Statistiken und detaillierte Analysen für die Liga "
+"%(league_name)s (%(country)s), Saison %(year)s. Entdecken Sie detaillierte "
+"Informationen über Ecken-Durchschnitte, Verteilung von gelben und roten "
+"Karten pro Spiel, Teamdisziplin, Schussvolumen und den genauen Zeitpunkt, an "
+"dem Tore innerhalb der 90 Minuten erzielt werden."
 
 #: matches/templates/matches/league_detailed_stats.html:292
 #, python-format
@@ -1508,7 +1560,12 @@ msgid ""
 "taken per match and a disciplinary average of %(avg_yellow)s yellow cards "
 "received per game. This data provides a complete overview of the tactical "
 "behavior trends and game intensity of each team in the competition."
-msgstr "Bisher verzeichnet der Gesamtdurchschnitt der Meisterschaft %(avg_corners)s Ecken pro Spiel und einen Disziplinarschnitt de %(avg_yellow)s erhaltenen gelben Karten pro Spiel. Diese Daten bieten einen vollständigen Überblick über die taktischen Verhaltenstrends und die Spielintensität jedes Teams im Wettbewerb."
+msgstr ""
+"Bisher verzeichnet der Gesamtdurchschnitt der Meisterschaft %(avg_corners)s "
+"Ecken pro Spiel und einen Disziplinarschnitt de %(avg_yellow)s erhaltenen "
+"gelben Karten pro Spiel. Diese Daten bieten einen vollständigen Überblick "
+"über die taktischen Verhaltenstrends und die Spielintensität jedes Teams im "
+"Wettbewerb."
 
 #: matches/templates/matches/league_goals.html:71
 msgid "Goal Statistics"
@@ -1564,6 +1621,8 @@ msgstr "In den letzten 8 Spielen erzielt Punkte"
 #: matches/templates/matches/league_goals.html:296
 #: matches/templates/matches/league_goals.html:362
 #: matches/templates/matches/league_goals.html:400
+#: matches/templates/matches/match_detail.html:833
+#: matches/templates/matches/match_detail.html:844
 #: matches/templates/matches/team_detail.html:943
 #: matches/templates/matches/team_detail.html:989
 #: matches/templates/matches/team_detail.html:1034
@@ -1640,7 +1699,7 @@ msgid "Half-Time Stats"
 msgstr "Halbzeit-Statistiken"
 
 #: matches/templates/matches/league_goals.html:451
-#: members/templates/members/premium_dashboard.html:470 members/views.py:533
+#: members/templates/members/premium_dashboard.html:540 members/views.py:523
 #: scratch/dashboard_current.html:197
 msgid "Both Teams to Score"
 msgstr "Beide Teams treffen"
@@ -1656,7 +1715,12 @@ msgid ""
 "league. This page gathers detailed metrics on goal averages, Over/Under "
 "markets, Both Teams to Score (BTTS), Clean Sheets, and the most frequent "
 "scores to assist in your sports analysis."
-msgstr "Vollständige Statistiken und Toranalysen für die Liga %(league_name)s (%(country)s). Diese Seite sammelt detaillierte Metriken zu Tordurchschnitten, Over/Under-Märkten, Beide Teams treffen (BTTS), Spielen ohne Gegentor und den häufigsten Ergebnissen, um Sie bei Ihrer Sportanalyse zu unterstützen."
+msgstr ""
+"Vollständige Statistiken und Toranalysen für die Liga %(league_name)s "
+"(%(country)s). Diese Seite sammelt detaillierte Metriken zu "
+"Tordurchschnitten, Over/Under-Märkten, Beide Teams treffen (BTTS), Spielen "
+"ohne Gegentor und den häufigsten Ergebnissen, um Sie bei Ihrer Sportanalyse "
+"zu unterstützen."
 
 #: matches/templates/matches/league_goals.html:698
 #, python-format
@@ -1667,9 +1731,15 @@ msgid ""
 "goals. The Both Teams to Score (BTTS) rate is at %(btts)s%%, while the "
 "percentage of games where at least one team did not concede any goals (Clean "
 "Sheet) is %(cs)s%%."
-msgstr "Die aktuelle Saison des Wettbewerbs verzeichnet einen Gesamtdurchschnitt von %(avg_goals)s Toren pro Spiel. In Bezug auf die Marktmuster übertrafen %(over15)s%% der Spiele die 1,5-Tore-Marke und %(over25)s%% verzeichneten mehr als 2,5 Tore. Die Beide-Teams-treffen-Quote (BTTS) liegt bei %(btts)s%%, während der Prozentsatz der Spiele, in denen mindestens ein Team kein Gegentor kassierte (Clean Sheet), bei %(cs)s%% liegt."
+msgstr ""
+"Die aktuelle Saison des Wettbewerbs verzeichnet einen Gesamtdurchschnitt von "
+"%(avg_goals)s Toren pro Spiel. In Bezug auf die Marktmuster übertrafen "
+"%(over15)s%% der Spiele die 1,5-Tore-Marke und %(over25)s%% verzeichneten "
+"mehr als 2,5 Tore. Die Beide-Teams-treffen-Quote (BTTS) liegt bei "
+"%(btts)s%%, während der Prozentsatz der Spiele, in denen mindestens ein Team "
+"kein Gegentor kassierte (Clean Sheet), bei %(cs)s%% liegt."
 
-#: matches/templates/matches/live_matches.html:18 matches/views.py:656
+#: matches/templates/matches/live_matches.html:18 matches/views.py:643
 msgid "Live Matches"
 msgstr "Live-Spiele"
 
@@ -1692,343 +1762,287 @@ msgstr ""
 msgid "Go to Dashboard"
 msgstr "Zur Übersicht"
 
-#: matches/templates/matches/match_detail.html:338
+#: matches/templates/matches/match_detail.html:483
 msgid "Estatísticas completas e previsões detalhadas para a partida entre"
-msgstr "Vollständige Statistiken und detaillierte Prognosen für das Spiel zwischen"
+msgstr ""
+"Vollständige Statistiken und detaillierte Prognosen für das Spiel zwischen"
 
-#: matches/templates/matches/match_detail.html:338
+#: matches/templates/matches/match_detail.html:483
 msgid "e"
 msgstr "und"
 
-#: matches/templates/matches/match_detail.html:338
+#: matches/templates/matches/match_detail.html:483
 msgid "válida pela"
 msgstr "gültig für die"
 
-#: matches/templates/matches/match_detail.html:339
+#: matches/templates/matches/match_detail.html:484
 msgid ""
 "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, "
 "cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e "
 "palpites esportivos baseados em dados."
-msgstr "Analysieren Sie die Wahrscheinlichkeiten für Beide treffen (BTTS), Über 2,5 Tore, Ecken, Karten und den direkten Vergleich (H2H), um Ihre datenbasierten Sportanalysen und Wetten zu unterstützen."
+msgstr ""
+"Analysieren Sie die Wahrscheinlichkeiten für Beide treffen (BTTS), Über 2,5 "
+"Tore, Ecken, Karten und den direkten Vergleich (H2H), um Ihre datenbasierten "
+"Sportanalysen und Wetten zu unterstützen."
 
-#: matches/templates/matches/match_detail.html:347
+#: matches/templates/matches/match_detail.html:492
 msgid "TIMELINE"
 msgstr "ZEITLEISTE"
 
-#: matches/templates/matches/match_detail.html:348
+#: matches/templates/matches/match_detail.html:493
 msgid "MATCH STATS"
 msgstr "SPIELSTATISTIKEN"
 
-#: matches/templates/matches/match_detail.html:364
+#: matches/templates/matches/match_detail.html:509
 msgid "No goal events recorded"
 msgstr "Keine Torereignisse aufgezeichnet"
 
-#: matches/templates/matches/match_detail.html:373
+#: matches/templates/matches/match_detail.html:518
 msgid "Corner Kicks"
 msgstr "Eckbälle"
 
-#: matches/templates/matches/match_detail.html:386
-#: members/templates/members/premium_dashboard.html:1369
+#: matches/templates/matches/match_detail.html:531
+#: members/templates/members/premium_dashboard.html:1439
 msgid "Total Shots"
 msgstr "Schüsse insgesamt"
 
-#: matches/templates/matches/match_detail.html:398
+#: matches/templates/matches/match_detail.html:543
 #: matches/templates/matches/team_detail.html:1084
 msgid "Yellow Cards"
 msgstr "Gelbe Karten"
 
-#: matches/templates/matches/match_detail.html:417
+#: matches/templates/matches/match_detail.html:562
 msgid "Gols & Tempos"
 msgstr "Tore & Halbzeiten"
 
-#: matches/templates/matches/match_detail.html:418
+#: matches/templates/matches/match_detail.html:563
 msgid "Escanteios"
 msgstr "Ecken"
 
-#: matches/templates/matches/match_detail.html:419
+#: matches/templates/matches/match_detail.html:564
 msgid "Cartões"
 msgstr "Karten"
 
-#: matches/templates/matches/match_detail.html:420
+#: matches/templates/matches/match_detail.html:565
+#: matches/templates/matches/match_detail.html:1123
+#: matches/templates/matches/match_detail.html:1125
 msgid "Chutes"
 msgstr "Schüsse"
 
-#: matches/templates/matches/match_detail.html:421
+#: matches/templates/matches/match_detail.html:566
 msgid "Especiais & Combos"
 msgstr "Spezialwetten & Kombis"
 
-#: matches/templates/matches/match_detail.html:424
+#: matches/templates/matches/match_detail.html:567
+msgid "Trade & Lays"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:570
 msgid "Gerar Roteiro (IA)"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:434
-msgid "OVER/UNDER PROBABILITIES / BTTS / FIRST TO SCORE / OVER 0.5 HT"
+#: matches/templates/matches/match_detail.html:580
+msgid "OVER/UNDER PROBABILITIES & TOP PICKS"
 msgstr "OVER/UNDER WAHRSCHEINLICHKEITEN / BTTS / ERSTES TOR / OVER 0.5 HT"
 
-#: matches/templates/matches/match_detail.html:467
-msgid "BETTING SUGGESTIONS"
-msgstr "WETTVORSCHLÄGE"
-
-#: matches/templates/matches/match_detail.html:472
-#: matches/templates/matches/match_detail.html:477
-msgid "Recommended"
-msgstr "Empfohlen"
-
-#: matches/templates/matches/match_detail.html:482
-#: matches/templates/matches/match_detail.html:487
-msgid "Over"
-msgstr "Über"
-
-#: matches/templates/matches/match_detail.html:482
-#: matches/templates/matches/match_detail.html:487
-msgid "Under"
-msgstr "Unter"
-
-#: matches/templates/matches/match_detail.html:520
-msgid "Chance to score first"
-msgstr "Chance auf das erste Tor"
-
-#: matches/templates/matches/match_detail.html:534
-msgid "BTTS"
-msgstr "Beide treffen"
-
-#: matches/templates/matches/match_detail.html:541
-#: venv/Lib/site-packages/django/forms/widgets.py:797
-msgid "Yes"
-msgstr "Ja"
-
-#: matches/templates/matches/match_detail.html:542
-#: venv/Lib/site-packages/django/forms/widgets.py:798
-msgid "No"
-msgstr "Nein"
-
-#: matches/templates/matches/match_detail.html:550
-msgid "Double"
-msgstr "Doppel"
-
-#: matches/templates/matches/match_detail.html:556
-msgid "HT Goal Probability"
-msgstr "HT Torwahrscheinlichkeit"
-
-#: matches/templates/matches/match_detail.html:557
-msgid "HT GOAL"
-msgstr "HT TOR"
-
-#: matches/templates/matches/match_detail.html:562
-msgid "To Win"
-msgstr "Sieg"
-
-#: matches/templates/matches/match_detail.html:573
-msgid "Ambas Marcam Detalhado"
-msgstr "Beide treffen Detailliert"
-
-#: matches/templates/matches/match_detail.html:594
-msgid "Clean Sheet (Sem Sofrer Gols)"
-msgstr "Ohne Gegentor & Torlos"
-
-#: matches/templates/matches/match_detail.html:611
-msgid "Faixa de Gols (Partida)"
-msgstr "Torbereich (Spiel)"
-
-#: matches/templates/matches/match_detail.html:617
-msgid "Faixa (1º Tempo)"
-msgstr "Bereich (1. Halbzeit)"
-
-#: matches/templates/matches/match_detail.html:622
-msgid "Faixa (2º Tempo)"
-msgstr "Bereich (2. Halbzeit)"
-
-#: matches/templates/matches/match_detail.html:631
-msgid "Margem de Vitória Exata"
-msgstr "Genaue Gewinnspanne"
-
-#: matches/templates/matches/match_detail.html:632
-#: matches/templates/matches/match_detail.html:637
-msgid "por 1 gol"
-msgstr "mit 1 Tor"
-
-#: matches/templates/matches/match_detail.html:633
-#: matches/templates/matches/match_detail.html:638
-msgid "por 2 gols"
-msgstr "mit 2 Toren"
-
-#: matches/templates/matches/match_detail.html:634
-#: matches/templates/matches/match_detail.html:639
-msgid "por 3+ gols"
-msgstr "mit 3+ Toren"
-
-#: matches/templates/matches/match_detail.html:635
-msgid "Empate com gols"
-msgstr "Unentschieden mit Toren"
-
-#: matches/templates/matches/match_detail.html:636
-msgid "Empate sem gols (0-0)"
-msgstr "Torloses Unentschieden (0-0)"
-
-#: matches/templates/matches/match_detail.html:643
-msgid "Metades & Tempos"
-msgstr "Hälften & Spielzeiten"
-
-#: matches/templates/matches/match_detail.html:644
-msgid "Mais gols no 1º Tempo"
-msgstr "Mehr Tore in der 1. Halbzeit"
-
-#: matches/templates/matches/match_detail.html:645
-msgid "Mais gols no 2º Tempo"
-msgstr "Mehr Tore in der 2. Halbzeit"
-
-#: matches/templates/matches/match_detail.html:646
-msgid "Metades com gols iguais"
-msgstr "Gleich viele Tore in beiden Hälften"
-
-#: matches/templates/matches/match_detail.html:648
-msgid "Marcar em Ambos os Tempos"
-msgstr "Treffen in beiden Halbzeiten"
-
+#: matches/templates/matches/match_detail.html:588
+#: matches/templates/matches/match_detail.html:596
+#: matches/templates/matches/match_detail.html:604
+#: matches/templates/matches/match_detail.html:612
+#: matches/templates/matches/match_detail.html:620
 #: matches/templates/matches/match_detail.html:649
-#: matches/templates/matches/match_detail.html:651
-msgid "Marcar Ambos Tempos"
-msgstr "In beiden Hälften treffen"
-
-#: matches/templates/matches/match_detail.html:650
-#: matches/templates/matches/match_detail.html:652
-msgid "Marcar pelo menos Um"
-msgstr "Mindestens eine treffen"
-
-#: matches/templates/matches/match_detail.html:656
-msgid "Intervalo / Fim do Jogo"
-msgstr "Halbzeit / Endstand"
-
-#: matches/templates/matches/match_detail.html:671
-msgid "Resultado 1º Tempo"
-msgstr "Ergebnis 1. Halbzeit"
-
-#: matches/templates/matches/match_detail.html:672
-#: matches/templates/matches/match_detail.html:674
-msgid "Vence HT"
-msgstr "Führt zur Halbzeit"
-
-#: matches/templates/matches/match_detail.html:673
-msgid "Empate HT"
-msgstr "Unentschieden zur Halbzeit"
-
-#: matches/templates/matches/match_detail.html:692
-msgid "Vencedor + Ambos Marcam"
-msgstr "Sieger + Beide treffen"
-
-#: matches/templates/matches/match_detail.html:694
-#: matches/templates/matches/match_detail.html:702
-#: matches/templates/matches/match_detail.html:710
-msgid "Sim"
-msgstr "Ja"
-
-#: matches/templates/matches/match_detail.html:698
-#: matches/templates/matches/match_detail.html:706
-#: matches/templates/matches/match_detail.html:714
-msgid "Não"
-msgstr "Nein"
-
-#: matches/templates/matches/match_detail.html:702
-#: matches/templates/matches/match_detail.html:706
-msgid "Empate"
-msgstr "Unentschieden"
-
-#: matches/templates/matches/match_detail.html:720
-msgid "Chance Dupla + Faixa de Gols"
-msgstr "Doppelte Chance + Torbereich"
-
-#: matches/templates/matches/match_detail.html:721
-#: matches/templates/matches/match_detail.html:722
-#: matches/templates/matches/match_detail.html:723
-#: matches/templates/matches/match_detail.html:724
-#: matches/templates/matches/match_detail.html:725
-#: matches/templates/matches/match_detail.html:726
+#: matches/templates/matches/match_detail.html:773
+#: matches/templates/matches/match_detail.html:774
+#: matches/templates/matches/match_detail.html:775
+#: matches/templates/matches/match_detail.html:776
+#: matches/templates/matches/match_detail.html:777
+#: matches/templates/matches/match_detail.html:778
 msgid "Gols"
 msgstr "Tore"
 
-#: matches/templates/matches/match_detail.html:732
+#: matches/templates/matches/match_detail.html:588
+#: matches/templates/matches/match_detail.html:596
+#: matches/templates/matches/match_detail.html:604
+#: matches/templates/matches/match_detail.html:612
+#: matches/templates/matches/match_detail.html:620
+msgid "Odd Justa"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:631
+msgid "Ambas Equipes Marcam (BTTS)"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:634
+#: matches/templates/matches/match_detail.html:746
+#: matches/templates/matches/match_detail.html:754
+#: matches/templates/matches/match_detail.html:762
+msgid "Sim"
+msgstr "Ja"
+
+#: matches/templates/matches/match_detail.html:638
+#: matches/templates/matches/match_detail.html:750
+#: matches/templates/matches/match_detail.html:758
+#: matches/templates/matches/match_detail.html:766
+msgid "Não"
+msgstr "Nein"
+
+#: matches/templates/matches/match_detail.html:650
+msgid "Recomendado"
+msgstr "Empfohlen"
+
+#: matches/templates/matches/match_detail.html:653
+msgid "Linha Principal (2.5)"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:663
+msgid "Vencer a Partida"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:668
+msgid "Chance Dupla"
+msgstr "Doppelte Chance + Torbereich"
+
+#: matches/templates/matches/match_detail.html:670
+msgid "Seguro"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:673
+msgid "Gol no 1º Tempo (HT)"
+msgstr "Mehr Tore in der 1. Halbzeit"
+
+#: matches/templates/matches/match_detail.html:675
+msgid "Probabilidade"
+msgstr "HT Torwahrscheinlichkeit"
+
+#: matches/templates/matches/match_detail.html:678
+msgid "Marcar Primeiro"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:698
+msgid "Margens & Metades"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:699
+msgid "por 1 gol"
+msgstr "mit 1 Tor"
+
+#: matches/templates/matches/match_detail.html:700
+msgid "por 2 gols"
+msgstr "mit 2 Toren"
+
+#: matches/templates/matches/match_detail.html:701
+msgid "por 3+ gols"
+msgstr "mit 3+ Toren"
+
+#: matches/templates/matches/match_detail.html:702
+msgid "Empate (Com Gols)"
+msgstr "Unentschieden mit Toren"
+
+#: matches/templates/matches/match_detail.html:703
+msgid "Empate (0-0)"
+msgstr "Torloses Unentschieden (0-0)"
+
+#: matches/templates/matches/match_detail.html:705
+msgid "Distribuição"
+msgstr "Torminuten-Verteilung"
+
+#: matches/templates/matches/match_detail.html:706
+msgid "Mais gols no 1º Tempo"
+msgstr "Mehr Tore in der 1. Halbzeit"
+
+#: matches/templates/matches/match_detail.html:707
+msgid "Mais gols no 2º Tempo"
+msgstr "Mehr Tore in der 2. Halbzeit"
+
+#: matches/templates/matches/match_detail.html:712
+msgid "Faixas & HT/FT"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:716
+msgid "Faixa FT"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:717
+msgid "1 a 2 Gols"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:718
+msgid "2 a 3 Gols"
+msgstr ""
+
+#: matches/templates/matches/match_detail.html:721
+msgid "Clean Sheet"
+msgstr "Ohne Gegentor"
+
+#: matches/templates/matches/match_detail.html:727
+msgid "Intervalo / Fim de Jogo"
+msgstr "Halbzeit / Endstand"
+
+#: matches/templates/matches/match_detail.html:744
+msgid "Vencedor + Ambos Marcam"
+msgstr "Sieger + Beide treffen"
+
+#: matches/templates/matches/match_detail.html:754
+#: matches/templates/matches/match_detail.html:758
+#: matches/templates/matches/match_detail.html:894
+#: matches/templates/matches/match_detail.html:990
+msgid "Empate"
+msgstr "Unentschieden"
+
+#: matches/templates/matches/match_detail.html:772
+msgid "Chance Dupla + Faixa de Gols"
+msgstr "Doppelte Chance + Torbereich"
+
+#: matches/templates/matches/match_detail.html:784
 msgid "Handicap Asiático & Europeu"
 msgstr "Asiatisches & Europäisches Handicap"
 
-#: matches/templates/matches/match_detail.html:742
+#: matches/templates/matches/match_detail.html:794
 msgid "Empate Anula Aposta (Draw No Bet)"
 msgstr "Unentschieden keine Wette (Draw No Bet)"
 
-#: matches/templates/matches/match_detail.html:760
-msgid "SMART LAY BETS (EXCHANGE)"
-msgstr "SMART LAY BETS (EXCHANGE)"
-
-#: matches/templates/matches/match_detail.html:764
-msgid ""
-"Betting <strong>AGAINST</strong> these outcomes has a high statistical "
-"probability of success based on recent data."
-msgstr "Wetten <strong>GEGEN</strong> diese Ergebnisse haben basierend auf jüngsten Daten eine hohe statistische Erfolgswahrscheinlichkeit."
-
-#: matches/templates/matches/match_detail.html:773
-msgid "Success Chance"
-msgstr "Erfolgschance"
-
-#: matches/templates/matches/match_detail.html:784
+#: matches/templates/matches/match_detail.html:813
 msgid "MATCH ANALYSIS"
 msgstr "SPIELANALYSE"
 
 # ============================================================
 # MATCH DETAIL - HEADERS
 # ============================================================
-#: matches/templates/matches/match_detail.html:796
+#: matches/templates/matches/match_detail.html:825
 msgid "ELITE CORNERS PROJECTION"
 msgstr "ELITE-ECKEN-PROGNOSE"
 
-# ============================================================
-# MATCH DETAIL - LABELS
-# ============================================================
-#: matches/templates/matches/match_detail.html:807
-#: matches/templates/matches/match_detail.html:842
-#: matches/templates/matches/team_detail.html:711
-msgid "Scored"
-msgstr "Erzielt"
+#: matches/templates/matches/match_detail.html:856
+msgid "Base do Jogo"
+msgstr ""
 
-#: matches/templates/matches/match_detail.html:811
-#: matches/templates/matches/match_detail.html:846
-#: matches/templates/matches/team_detail.html:717
-msgid "Conceded"
-msgstr "Kassiert"
-
-#: matches/templates/matches/match_detail.html:815
-#: matches/templates/matches/match_detail.html:850
-msgid "Total Avg"
-msgstr "Gesamt Ø"
-
-#: matches/templates/matches/match_detail.html:824
-msgid "Base"
-msgstr "Basis"
-
-#: matches/templates/matches/match_detail.html:829
+#: matches/templates/matches/match_detail.html:860
 msgid "Best Pick"
 msgstr "Beste Wahl"
 
-#: matches/templates/matches/match_detail.html:860
-msgid "Match Winner (Escanteios)"
+#: matches/templates/matches/match_detail.html:868
+msgid "Probabilidades Over"
+msgstr "Schlüsselwahrscheinlichkeiten"
+
+#: matches/templates/matches/match_detail.html:892
+msgid "Match Winner (Cantos)"
 msgstr "Spielsieger (Ecken)"
 
-#: matches/templates/matches/match_detail.html:861
-#: matches/templates/matches/match_detail.html:863
+#: matches/templates/matches/match_detail.html:893
+#: matches/templates/matches/match_detail.html:895
 msgid "Mais Escanteios"
 msgstr "Mehr Ecken"
 
-#: matches/templates/matches/match_detail.html:862
-msgid "Empate de Escanteios"
-msgstr "Ecken-Unentschieden"
+#: matches/templates/matches/match_detail.html:898
+#: matches/templates/matches/match_detail.html:994
+msgid "Handicap Asiático"
+msgstr "Asiatisches & Europäisches Handicap"
 
-#: matches/templates/matches/match_detail.html:867
-msgid "Handicap de Escanteios"
-msgstr "Ecken-Handicap"
-
-#: matches/templates/matches/match_detail.html:935
+#: matches/templates/matches/match_detail.html:906
 msgid "Analyst Insight: How to Profit"
 msgstr "Analysten-Einblick: Wie man profitiert"
 
-#: matches/templates/matches/match_detail.html:940
+#: matches/templates/matches/match_detail.html:910
 #, python-format
 msgid ""
 "This game has a <strong>Base of %(base)s corners</strong>, indicating high "
@@ -2039,7 +2053,7 @@ msgstr ""
 "hohes Offensivvolumen hinweist. Mit einer Over 8.5 Wahrscheinlichkeit von "
 "%(prob)s%% ist das Szenario ideal für \"Über 8.5 oder 9.5\" Ecken-Märkte."
 
-#: matches/templates/matches/match_detail.html:944
+#: matches/templates/matches/match_detail.html:914
 #, python-format
 msgid ""
 "The base of %(base)s suggests moderate volume. The best strategy here is to "
@@ -2050,7 +2064,7 @@ msgstr ""
 "hier ist, nach Sicherheitsmärkten wie \"Über 7.5\" zu suchen oder auf "
 "\"Live\" für bessere Quoten zu warten."
 
-#: matches/templates/matches/match_detail.html:948
+#: matches/templates/matches/match_detail.html:918
 #, python-format
 msgid ""
 "Game with a tendency for low lateral volume (Base %(base)s). Be cautious "
@@ -2064,77 +2078,56 @@ msgstr ""
 # ============================================================
 # MATCH DETAIL - HEADERS
 # ============================================================
-#: matches/templates/matches/match_detail.html:966
-msgid "DISCIPLINE & CARDS PROJECTION"
+#: matches/templates/matches/match_detail.html:935
+msgid "ELITE DISCIPLINE PROJECTION"
 msgstr "ELITE-ECKEN-PROGNOSE"
 
-#: matches/templates/matches/match_detail.html:973
+#: matches/templates/matches/match_detail.html:947
+#: matches/templates/matches/match_detail.html:953
 msgid "Fouls"
 msgstr "Fouls"
 
-#: matches/templates/matches/match_detail.html:982
+#: matches/templates/matches/match_detail.html:958
 msgid "Red Cards Avg:"
 msgstr "Rote Karten (Schnitt):"
 
-#: matches/templates/matches/match_detail.html:982
+#: matches/templates/matches/match_detail.html:958
 msgid "per game"
 msgstr "pro Spiel"
 
+#: matches/templates/matches/match_detail.html:964
+msgid "Probabilidades Over Cartões"
+msgstr ""
+
 #: matches/templates/matches/match_detail.html:988
-msgid "Total de Cartões (O/U)"
-msgstr "Ecken Gesamt (Dafür)"
+msgid "Match Winner (Cartões)"
+msgstr "Spiel-Ecken (Gesamt)"
 
 #: matches/templates/matches/match_detail.html:989
-msgid "Over 3.5 Cartões"
-msgstr "Über 1.5 Tore"
-
-#: matches/templates/matches/match_detail.html:990
-msgid "Over 4.5 Cartões"
-msgstr "Über 1.5 Tore"
-
 #: matches/templates/matches/match_detail.html:991
-msgid "Over 5.5 Cartões"
-msgstr "Über 1.5 Tore"
-
-#: matches/templates/matches/match_detail.html:992
-msgid "Over 6.5 Cartões"
-msgstr "Über 1.5 Tore"
-
-#: matches/templates/matches/match_detail.html:996
-msgid "Winner & Handicap (Cartões)"
-msgstr "Sieger & Handicap (Karten)"
-
-#: matches/templates/matches/match_detail.html:997
-#: matches/templates/matches/match_detail.html:999
 msgid "Mais Cartões"
 msgstr "Mehr Karten"
 
-#: matches/templates/matches/match_detail.html:998
-msgid "Empate de Cartões"
-msgstr "Karten-Unentschieden"
-
-#: matches/templates/matches/match_detail.html:1000
-#: matches/templates/matches/match_detail.html:1001
-msgid "Handicap"
-msgstr "Handicap"
-
-#: matches/templates/matches/match_detail.html:1008
+#: matches/templates/matches/match_detail.html:1003
 msgid "Insufficient disciplinary data"
 msgstr "Unzureichende Disziplinardaten"
 
-#: matches/templates/matches/match_detail.html:1016
+#: matches/templates/matches/match_detail.html:1009
 msgid "Disciplinary Tip"
 msgstr "Disziplinarischer Tipp"
 
-#: matches/templates/matches/match_detail.html:1021
+#: matches/templates/matches/match_detail.html:1013
 #, python-format
 msgid ""
 "With an average of <strong>%(fouls)s fouls</strong>, we expect a tense game "
 "with many stops. The chance of cards (currently %(cards)s yellows/game) is "
 "high."
-msgstr "Mit durchschnittlich <strong>%(fouls)s Fouls</strong> erwarten wir ein spannungsgeladenes Spiel mit vielen Unterbrechungen. Die Wahrscheinlichkeit für Karten (aktuell %(cards)s Gelbe Karten/Spiel) ist hoch."
+msgstr ""
+"Mit durchschnittlich <strong>%(fouls)s Fouls</strong> erwarten wir ein "
+"spannungsgeladenes Spiel mit vielen Unterbrechungen. Die Wahrscheinlichkeit "
+"für Karten (aktuell %(cards)s Gelbe Karten/Spiel) ist hoch."
 
-#: matches/templates/matches/match_detail.html:1025
+#: matches/templates/matches/match_detail.html:1017
 #, python-format
 msgid ""
 "Game with a tendency to be more fluid (only %(fouls)s fouls on average). The "
@@ -2148,93 +2141,69 @@ msgstr ""
 # ============================================================
 # MATCH DETAIL - HEADERS
 # ============================================================
-#: matches/templates/matches/match_detail.html:1043
-msgid "ATTACK & SHOTS PROJECTION"
+#: matches/templates/matches/match_detail.html:1035
+msgid "ELITE SHOTS & ATTACK PROJECTION"
 msgstr "ELITE-ECKEN-PROGNOSE"
 
-#: matches/templates/matches/match_detail.html:1049
+#: matches/templates/matches/match_detail.html:1044
 msgid "Shot Accuracy (Target)"
 msgstr "Schussgenauigkeit (Aufs Tor)"
 
-#: matches/templates/matches/match_detail.html:1068
+#: matches/templates/matches/match_detail.html:1066
+#: matches/templates/matches/match_detail.html:1070
 msgid "Shots per Goal"
 msgstr "Schüsse pro Tor"
 
-#: matches/templates/matches/match_detail.html:1079
-msgid "Total de Chutes (Over/Under)"
+#: matches/templates/matches/match_detail.html:1078
+msgid "Total de Chutes (Over)"
 msgstr "Torschüsse insgesamt (Über/Unter)"
 
-#: matches/templates/matches/match_detail.html:1080
-msgid "Over 18.5 Chutes"
-msgstr "Über 1.5 Tore"
+#: matches/templates/matches/match_detail.html:1097
+#: members/templates/members/premium_dashboard.html:1541
+msgid "Chutes no Alvo"
+msgstr "Schüsse aufs Tor"
 
-#: matches/templates/matches/match_detail.html:1081
-msgid "Over 20.5 Chutes"
-msgstr "Über 2.5"
+#: matches/templates/matches/match_detail.html:1100
+#: matches/templates/matches/match_detail.html:1104
+msgid "Alvo"
+msgstr ""
 
-#: matches/templates/matches/match_detail.html:1082
-msgid "Over 22.5 Chutes"
-msgstr "Über 2.5 %%"
-
-#: matches/templates/matches/match_detail.html:1083
-msgid "Over 24.5 Chutes"
-msgstr "Über 2.5"
-
-#: matches/templates/matches/match_detail.html:1084
-msgid "Over 26.5 Chutes"
-msgstr "Über 2.5"
-
-#: matches/templates/matches/match_detail.html:1086
-msgid "Chutes ao Gol (Over/Under)"
-msgstr "Schüsse aufs Tor (Über/Unter)"
-
-#: matches/templates/matches/match_detail.html:1087
-msgid "Over 6.5 Chutes no Alvo"
-msgstr "Über 6.5 Schüsse aufs Tor"
-
-#: matches/templates/matches/match_detail.html:1088
-msgid "Over 7.5 Chutes no Alvo"
-msgstr "Über 7.5 Schüsse aufs Tor"
-
-#: matches/templates/matches/match_detail.html:1089
-msgid "Over 8.5 Chutes no Alvo"
-msgstr "Über 8.5 Schüsse aufs Tor"
-
-#: matches/templates/matches/match_detail.html:1090
-msgid "Over 9.5 Chutes no Alvo"
-msgstr "Über 9.5 Schüsse aufs Tor"
-
-#: matches/templates/matches/match_detail.html:1094
+#: matches/templates/matches/match_detail.html:1113
 msgid "Match Winner (Chutes)"
 msgstr "Spiel-Ecken (Gesamt)"
 
-#: matches/templates/matches/match_detail.html:1095
-#: matches/templates/matches/match_detail.html:1096
+#: matches/templates/matches/match_detail.html:1114
+#: matches/templates/matches/match_detail.html:1115
 msgid "Mais Chutes"
 msgstr "Mehr Schüsse"
 
-#: matches/templates/matches/match_detail.html:1098
-msgid "Match Winner (Chutes no Alvo)"
+#: matches/templates/matches/match_detail.html:1117
+msgid "Match Winner (No Alvo)"
 msgstr "Spielsieger (Schüsse aufs Tor)"
 
-#: matches/templates/matches/match_detail.html:1099
-#: matches/templates/matches/match_detail.html:1100
+#: matches/templates/matches/match_detail.html:1118
+#: matches/templates/matches/match_detail.html:1119
 msgid "Mais no Alvo"
 msgstr "Mehr aufs Tor"
 
-#: matches/templates/matches/match_detail.html:1102
-msgid "Linhas Individuais por Time"
+#: matches/templates/matches/match_detail.html:1122
+msgid "Linhas Individuais"
 msgstr "Individuelle Teamlinien"
 
-#: matches/templates/matches/match_detail.html:1113
+#: matches/templates/matches/match_detail.html:1124
+#: matches/templates/matches/match_detail.html:1126
+msgid "no Alvo"
+msgstr "Mehr aufs Tor"
+
+#: matches/templates/matches/match_detail.html:1133
 msgid "Shot statistics unavailable"
 msgstr "Schussstatistiken nicht verfügbar"
 
-#: matches/templates/matches/match_detail.html:1121
+#: matches/templates/matches/match_detail.html:1139
 msgid "Efficiency Guide"
 msgstr "Effizienz-Leitfaden"
 
-#: matches/templates/matches/match_detail.html:1125
+#: matches/templates/matches/match_detail.html:1142
 #, python-format
 msgid ""
 "Both teams have accuracy above 30%% on target. This is a very strong signal "
@@ -2245,7 +2214,7 @@ msgstr ""
 "starkes Signal für den <strong>\"Beide Teams treffen: Ja\"</strong>- oder "
 "\"Über 1.5/2.5 Tore\"-Markt."
 
-#: matches/templates/matches/match_detail.html:1129
+#: matches/templates/matches/match_detail.html:1146
 msgid ""
 "Only one of the teams is being lethal in finishing. Consider betting on the "
 "\"Team Goals\" market for the one with higher accuracy."
@@ -2253,7 +2222,7 @@ msgstr ""
 "Nur eines der Teams agiert beim Abschluss tödlich. Erwägen Sie eine Wette "
 "auf den \"Team-Tore\"-Markt für das Team mit der höheren Genauigkeit."
 
-#: matches/templates/matches/match_detail.html:1133
+#: matches/templates/matches/match_detail.html:1150
 #, python-format
 msgid ""
 "Both teams are struggling with finishing (Accuracy below 30%%). Game with a "
@@ -2262,51 +2231,75 @@ msgstr ""
 "Beide Teams tun sich beim Abschluss schwer (Genauigkeit unter 30%%). Spiel "
 "mit Tendenz zu wenigen Toren, ideal zur Analyse des \"Under\"-Marktes."
 
-#: matches/templates/matches/match_detail.html:1221
+#: matches/templates/matches/match_detail.html:1166
+msgid "Smart Lay Bets (Exchange)"
+msgstr "Smart Lay Wetten (Exchange)"
+
+#: matches/templates/matches/match_detail.html:1169
+msgid ""
+"Betting <strong>AGAINST</strong> these outcomes has a high statistical "
+"probability of success."
+msgstr ""
+"Wetten <strong>GEGEN</strong> diese Ergebnisse haben eine hohe statistische "
+"Erfolgswahrscheinlichkeit."
+
+#: matches/templates/matches/match_detail.html:1182
+msgid "FAIR ODD"
+msgstr "FAIRE QUOTE"
+
+#: matches/templates/matches/match_detail.html:1189
+msgid "Success"
+msgstr "Erfolg"
+
+#: matches/templates/matches/match_detail.html:1198
+msgid "No high-probability Lay bets found."
+msgstr "Keine Lay-Wetten mit hoher Wahrscheinlichkeit gefunden."
+
+#: matches/templates/matches/match_detail.html:1282
 msgid "Analisando estatísticas do Statsfut..."
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1222
+#: matches/templates/matches/match_detail.html:1283
 msgid "Consultando o Gemini 2.5 Flash..."
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1223
+#: matches/templates/matches/match_detail.html:1284
 msgid "Estruturando o roteiro de alta conversão..."
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1224
+#: matches/templates/matches/match_detail.html:1285
 msgid "Finalizando ganchos e palpites de valor..."
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1260
+#: matches/templates/matches/match_detail.html:1321
 msgid "Erro"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1260
+#: matches/templates/matches/match_detail.html:1321
 msgid "Erro desconhecido"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1267
+#: matches/templates/matches/match_detail.html:1328
 msgid "Erro na requisição"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1292
+#: matches/templates/matches/match_detail.html:1353
 msgid "Copiado!"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1311
+#: matches/templates/matches/match_detail.html:1372
 msgid "Roteiro de Vídeo IA"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1317
+#: matches/templates/matches/match_detail.html:1378
 msgid "Analisando histórico de confrontos..."
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1322
+#: matches/templates/matches/match_detail.html:1383
 msgid "Fechar"
 msgstr ""
 
-#: matches/templates/matches/match_detail.html:1324
+#: matches/templates/matches/match_detail.html:1385
 msgid "Copiar Roteiro"
 msgstr ""
 
@@ -2324,7 +2317,11 @@ msgid ""
 "Welcome to StatsFut. Your privacy is of extreme importance to us. This "
 "Privacy Policy explains how we collect, use, protect, and handle your "
 "information when using our website (statsfut.com)."
-msgstr "Willkommen bei StatsFut. Ihre Privatsphäre ist uns von äußerster Wichtigkeit. Diese Datenschutzrichtlinie erklärt, wie wir Ihre Informationen sammeln, verwenden, schützen und handhaben, wenn Sie unsere Website (statsfut.com) nutzen."
+msgstr ""
+"Willkommen bei StatsFut. Ihre Privatsphäre ist uns von äußerster "
+"Wichtigkeit. Diese Datenschutzrichtlinie erklärt, wie wir Ihre Informationen "
+"sammeln, verwenden, schützen und handhaben, wenn Sie unsere Website "
+"(statsfut.com) nutzen."
 
 #: matches/templates/matches/privacy_policy.html:22
 msgid "2. Information Collection"
@@ -2335,7 +2332,10 @@ msgid ""
 "We do not require registration to view public statistics. However, we "
 "collect basic information automatically through log files and cookies to "
 "improve your experience, such as:"
-msgstr "Wir verlangen keine Registrierung zur Einsicht öffentlicher Statistiken. Wir sammeln jedoch automatisch grundlegende Informationen durch Protokolldateien und Cookies, um Ihr Erlebnis zu verbessern, wie z. B.:"
+msgstr ""
+"Wir verlangen keine Registrierung zur Einsicht öffentlicher Statistiken. Wir "
+"sammeln jedoch automatisch grundlegende Informationen durch Protokolldateien "
+"und Cookies, um Ihr Erlebnis zu verbessern, wie z. B.:"
 
 #: matches/templates/matches/privacy_policy.html:25
 msgid "IP Address"
@@ -2362,13 +2362,20 @@ msgid ""
 "We use cookies to provide personalized content and ads. Google, as a third-"
 "party vendor, uses cookies (such as the DART cookie) to serve ads based on "
 "your visits to our and other sites on the internet."
-msgstr "Wir verwenden Cookies, um personalisierte Inhalte und Anzeigen bereitzustellen. Google als Drittanbieter verwendet Cookies (wie das DART-Cookie), um Anzeigen basierend auf Ihren Besuchen auf unserer und anderen Websites im Internet zu schalten."
+msgstr ""
+"Wir verwenden Cookies, um personalisierte Inhalte und Anzeigen "
+"bereitzustellen. Google als Drittanbieter verwendet Cookies (wie das DART-"
+"Cookie), um Anzeigen basierend auf Ihren Besuchen auf unserer und anderen "
+"Websites im Internet zu schalten."
 
 #: matches/templates/matches/privacy_policy.html:35
 msgid ""
 "Users may opt-out of the use of the DART cookie by visiting the Google Ad "
 "and Content Network Privacy Policy."
-msgstr "Nutzer können die Verwendung des DART-Cookies deaktivieren, indem sie die Datenschutzrichtlinie des Werbenetzwerks und Content-Werbenetzwerks von Google besuchen."
+msgstr ""
+"Nutzer können die Verwendung des DART-Cookies deaktivieren, indem sie die "
+"Datenschutzrichtlinie des Werbenetzwerks und Content-Werbenetzwerks von "
+"Google besuchen."
 
 #: matches/templates/matches/privacy_policy.html:39
 msgid "4. Use of Information"
@@ -2399,7 +2406,10 @@ msgid ""
 "We employ industry-standard security measures to protect information "
 "processed on our site against unauthorized access, alteration, or "
 "destruction."
-msgstr "Wir setzen Sicherheitsmaßnahmen nach Branchenstandard ein, um die auf unserer Website verarbeiteten Informationen vor unbefugtem Zugriff, Änderung oder Zerstörung zu schützen."
+msgstr ""
+"Wir setzen Sicherheitsmaßnahmen nach Branchenstandard ein, um die auf "
+"unserer Website verarbeiteten Informationen vor unbefugtem Zugriff, Änderung "
+"oder Zerstörung zu schützen."
 
 #: matches/templates/matches/privacy_policy.html:54
 msgid "6. Contact"
@@ -2409,7 +2419,9 @@ msgstr "6. Kontakt"
 msgid ""
 "If you have any questions about this Privacy Policy, please contact us "
 "through our official channels."
-msgstr "Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns bitte über unsere offiziellen Kanäle."
+msgstr ""
+"Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, kontaktieren Sie uns "
+"bitte über unsere offiziellen Kanäle."
 
 #: matches/templates/matches/streaks_snippet.html:4
 msgid "Current Streaks & Sequences"
@@ -2491,14 +2503,18 @@ msgstr "Über"
 msgid ""
 "O %(team_name)s é um clube de futebol profissional disputando a "
 "%(league_name)s em %(country)s."
-msgstr "Der %(team_name)s ist ein professioneller Fußballverein, der in der %(league_name)s in %(country)s spielt."
+msgstr ""
+"Der %(team_name)s ist ein professioneller Fußballverein, der in der "
+"%(league_name)s in %(country)s spielt."
 
 #: matches/templates/matches/team_detail.html:49
 #, python-format
 msgid ""
 "Na temporada atual, a equipe ocupa a <strong>%(pos)sª</strong> posição na "
 "tabela de classificação, somando um total de <strong>%(pts)s</strong> pontos."
-msgstr "In der aktuellen Saison belegt das Team den <strong>%(pos)s.</strong> Platz in der Tabelle und hat insgesamt <strong>%(pts)s</strong> Punkte gesammelt."
+msgstr ""
+"In der aktuellen Saison belegt das Team den <strong>%(pos)s.</strong> Platz "
+"in der Tabelle und hat insgesamt <strong>%(pts)s</strong> Punkte gesammelt."
 
 #: matches/templates/matches/team_detail.html:53
 #, python-format
@@ -2506,7 +2522,10 @@ msgid ""
 "No StatsFut, você acompanha os placares ao vivo do %(team_name)s, resultados "
 "detalhados, estatísticas de posse de bola, gols, cartões, escanteios, "
 "escalações e o calendário completo da temporada."
-msgstr "Auf StatsFut können Sie Live-Ergebnisse von %(team_name)s, detaillierte Ergebnisse, Ballbesitzstatistiken, Tore, Karten, Ecken, Aufstellungen und den kompletten Saisonplan verfolgen."
+msgstr ""
+"Auf StatsFut können Sie Live-Ergebnisse von %(team_name)s, detaillierte "
+"Ergebnisse, Ballbesitzstatistiken, Tore, Karten, Ecken, Aufstellungen und "
+"den kompletten Saisonplan verfolgen."
 
 #: matches/templates/matches/team_detail.html:57
 msgid "Desempenho Geral"
@@ -2517,21 +2536,27 @@ msgstr "Allgemeine Leistung"
 msgid ""
 "Média de <strong>%(avg_gf)s</strong> gols marcados e <strong>%(avg_ga)s</"
 "strong> sofridos por partida."
-msgstr "Durchschnittlich <strong>%(avg_gf)s</strong> erzielte Tore und <strong>%(avg_ga)s</strong> Gegentore pro Spiel."
+msgstr ""
+"Durchschnittlich <strong>%(avg_gf)s</strong> erzielte Tore und "
+"<strong>%(avg_ga)s</strong> Gegentore pro Spiel."
 
 #: matches/templates/matches/team_detail.html:66
 #, python-format
 msgid ""
 "Ambas as equipes marcaram (BTTS) em <strong>%(btts)s%%</strong> dos jogos do "
 "clube."
-msgstr "Beide Teams trafen (BTTS) in <strong>%(btts)s%%</strong> der Spiele des Vereins."
+msgstr ""
+"Beide Teams trafen (BTTS) in <strong>%(btts)s%%</strong> der Spiele des "
+"Vereins."
 
 #: matches/templates/matches/team_detail.html:73
 #, python-format
 msgid ""
 "O artilheiro do elenco nesta temporada é <strong>%(name)s</strong> com "
 "<strong>%(goals)s</strong> gols marcados."
-msgstr "Der beste Torschütze des Teams in dieser Saison ist <strong>%(name)s</strong> mit <strong>%(goals)s</strong> erzielten Toren."
+msgstr ""
+"Der beste Torschütze des Teams in dieser Saison ist <strong>%(name)s</"
+"strong> mit <strong>%(goals)s</strong> erzielten Toren."
 
 #: matches/templates/matches/team_detail.html:89
 msgid "Latest Matches"
@@ -2710,14 +2735,25 @@ msgstr "Zeitpunkt der Tore"
 msgid "Period"
 msgstr "Zeitraum"
 
+# ============================================================
+# MATCH DETAIL - LABELS
+# ============================================================
+#: matches/templates/matches/team_detail.html:711
+msgid "Scored"
+msgstr "Erzielt"
+
+#: matches/templates/matches/team_detail.html:717
+msgid "Conceded"
+msgstr "Kassiert"
+
 #: matches/templates/matches/team_detail.html:731
 msgid "Cards & Corners (Average)"
 msgstr "Karten & Ecken (Durchschnitt)"
 
 #: matches/templates/matches/team_detail.html:738
 #: matches/templates/matches/team_detail.html:1070
-#: members/templates/members/premium_dashboard.html:1604
-#: members/templates/members/premium_dashboard.html:1705
+#: members/templates/members/premium_dashboard.html:1750
+#: members/templates/members/premium_dashboard.html:1851
 #: scratch/dashboard_current.html:129
 msgid "Cards"
 msgstr "Karten"
@@ -2731,10 +2767,10 @@ msgid "Red"
 msgstr "Rot"
 
 #: matches/templates/matches/team_detail.html:767
-#: members/templates/members/premium_dashboard.html:265
-#: members/templates/members/premium_dashboard.html:328
-#: members/templates/members/premium_dashboard.html:1603
-#: members/templates/members/premium_dashboard.html:1704
+#: members/templates/members/premium_dashboard.html:306
+#: members/templates/members/premium_dashboard.html:394
+#: members/templates/members/premium_dashboard.html:1749
+#: members/templates/members/premium_dashboard.html:1850
 #: scratch/dashboard_current.html:124
 msgid "Corners"
 msgstr "Ecken"
@@ -2805,7 +2841,9 @@ msgstr "Rote Karten"
 msgid ""
 "Placares ao vivo, jogadores, programação da temporada e resultados de hoje "
 "do <strong>%(team_name)s</strong> estão disponíveis no StatsFut."
-msgstr "Live-Ergebnisse, Spieler, Saisonplan und die heutigen Ergebnisse von <strong>%(team_name)s</strong> sind auf StatsFut verfügbar."
+msgstr ""
+"Live-Ergebnisse, Spieler, Saisonplan und die heutigen Ergebnisse von "
+"<strong>%(team_name)s</strong> sind auf StatsFut verfügbar."
 
 #: matches/templates/matches/team_detail.html:1118
 msgid "Próxima partida do"
@@ -2816,7 +2854,9 @@ msgstr "Nächstes Spiel von"
 msgid ""
 "O %(team_name)s jogará a próxima partida contra o <strong>%(opp)s</strong> "
 "no dia <strong>%(date)s</strong> pela <strong>%(league)s</strong>."
-msgstr "Der %(team_name)s spielt das nächste Spiel gegen den <strong>%(opp)s</strong> am <strong>%(date)s</strong> in der <strong>%(league)s</strong>."
+msgstr ""
+"Der %(team_name)s spielt das nächste Spiel gegen den <strong>%(opp)s</"
+"strong> am <strong>%(date)s</strong> in der <strong>%(league)s</strong>."
 
 #: matches/templates/matches/team_detail.html:1128
 msgid "Partida anterior do"
@@ -2828,12 +2868,17 @@ msgid ""
 "O jogo anterior do %(team_name)s foi contra o <strong>%(opp)s</strong> pela "
 "<strong>%(league)s</strong>, terminando com o placar de <strong>%(score)s</"
 "strong>."
-msgstr "Das vorherige Spiel von %(team_name)s war gegen den <strong>%(opp)s</strong> in der <strong>%(league)s</strong> und endete mit dem Ergebnis <strong>%(score)s</strong>."
+msgstr ""
+"Das vorherige Spiel von %(team_name)s war gegen den <strong>%(opp)s</strong> "
+"in der <strong>%(league)s</strong> und endete mit dem Ergebnis "
+"<strong>%(score)s</strong>."
 
 #: matches/templates/matches/team_detail.html:1133
 #, python-format
 msgid "O <strong>%(team_name)s</strong> saiu vencedor desse confronto."
-msgstr "Der <strong>%(team_name)s</strong> ging als Sieger aus dieser Begegnung hervor."
+msgstr ""
+"Der <strong>%(team_name)s</strong> ging als Sieger aus dieser Begegnung "
+"hervor."
 
 #: matches/templates/matches/team_detail.html:1135
 msgid "A equipe acabou sendo derrotada."
@@ -2854,7 +2899,11 @@ msgid ""
 "algoritmo exclusivo do StatsFut que geramos a partir das últimas partidas, "
 "estatísticas de gols, finalizações e escanteios. Ele ajuda a entender a "
 "tendência atual da equipe e a projetar os próximos confrontos."
-msgstr "Das Leistungs- und Formdiagramm von <strong>%(team_name)s</strong> ist ein exklusiver StatsFut-Algorithmus, den wir aus aktuellen Spielen, Torstatistiken, Schüssen und Ecken generieren. Es hilft, den aktuellen Trend des Teams zu verstehen und anstehende Begegnungen zu projizieren."
+msgstr ""
+"Das Leistungs- und Formdiagramm von <strong>%(team_name)s</strong> ist ein "
+"exklusiver StatsFut-Algorithmus, den wir aus aktuellen Spielen, "
+"Torstatistiken, Schüssen und Ecken generieren. Es hilft, den aktuellen Trend "
+"des Teams zu verstehen und anstehende Begegnungen zu projizieren."
 
 #: matches/templates/matches/team_detail.html:1151
 msgid "Jogadores atuais do"
@@ -2877,7 +2926,11 @@ msgid ""
 "By accessing and using the StatsFut website (statsfut.com), you agree to "
 "comply with and be bound by the following terms and conditions of use. If "
 "you do not agree with any part of these terms, you must not use our website."
-msgstr "Durch den Zugriff auf und die Nutzung der StatsFut-Website (statsfut.com) erklären Sie sich mit den folgenden Nutzungsbedingungen einverstanden. Wenn Sie mit Teilen dieser Bedingungen nicht einverstanden sind, dürfen Sie unsere Website nicht nutzen."
+msgstr ""
+"Durch den Zugriff auf und die Nutzung der StatsFut-Website (statsfut.com) "
+"erklären Sie sich mit den folgenden Nutzungsbedingungen einverstanden. Wenn "
+"Sie mit Teilen dieser Bedingungen nicht einverstanden sind, dürfen Sie "
+"unsere Website nicht nutzen."
 
 #: matches/templates/matches/terms_of_use.html:22
 msgid "2. Use of Content"
@@ -2902,7 +2955,13 @@ msgid ""
 "financial losses or decisions made based on the information contained on "
 "this site. Football is unpredictable, and past statistics do not guarantee "
 "future results."
-msgstr "Obwohl wir uns um Datengenauigkeit bemühen, garantiert StatsFut nicht, dass die Informationen frei von Fehlern oder Auslassungen sind. Wir sind nicht verantwortlich für finanzielle Verluste oder Entscheidungen, die auf der Grundlage der auf dieser Website enthaltenen Informationen getroffen werden. Fußball ist unberechenbar, und vergangene Statistiken garantieren keine zukünftigen Ergebnisse."
+msgstr ""
+"Obwohl wir uns um Datengenauigkeit bemühen, garantiert StatsFut nicht, dass "
+"die Informationen frei von Fehlern oder Auslassungen sind. Wir sind nicht "
+"verantwortlich für finanzielle Verluste oder Entscheidungen, die auf der "
+"Grundlage der auf dieser Website enthaltenen Informationen getroffen werden. "
+"Fußball ist unberechenbar, und vergangene Statistiken garantieren keine "
+"zukünftigen Ergebnisse."
 
 #: matches/templates/matches/terms_of_use.html:32
 msgid "4. Intellectual Property"
@@ -2913,7 +2972,10 @@ msgid ""
 "The design, layout, logos, and original texts of StatsFut are intellectual "
 "property protected by copyright laws. Unauthorized reproduction of material "
 "from this site is prohibited."
-msgstr "Das Design, das Layout, die Logos und die Originaltexte von StatsFut sind geistiges Eigentum, das durch Urheberrechtsgesetze geschützt ist. Die unbefugte Vervielfältigung von Material dieser Website ist untersagt."
+msgstr ""
+"Das Design, das Layout, die Logos und die Originaltexte von StatsFut sind "
+"geistiges Eigentum, das durch Urheberrechtsgesetze geschützt ist. Die "
+"unbefugte Vervielfältigung von Material dieser Website ist untersagt."
 
 #: matches/templates/matches/terms_of_use.html:37
 msgid "5. Third-Party Links"
@@ -2924,7 +2986,11 @@ msgid ""
 "Our site may contain links to third-party websites (such as advertisers or "
 "partners). We have no control over the content or privacy practices of those "
 "sites and assume no responsibility for them."
-msgstr "Unsere Website kann Links zu Websites Dritter enthalten (z. B. Werbetreibende oder Partner). Wir haben keine Kontrolle über den Inhalt oder die Datenschutzpraktiken dieser Websites und übernehmen keine Verantwortung für sie."
+msgstr ""
+"Unsere Website kann Links zu Websites Dritter enthalten (z. B. "
+"Werbetreibende oder Partner). Wir haben keine Kontrolle über den Inhalt oder "
+"die Datenschutzpraktiken dieser Websites und übernehmen keine Verantwortung "
+"für sie."
 
 #: matches/templates/matches/terms_of_use.html:42
 msgid "6. Changes to Terms"
@@ -2934,13 +3000,16 @@ msgstr "6. Änderungen der Bedingungen"
 msgid ""
 "StatsFut reserves the right to modify these terms at any time without prior "
 "notice. We recommend periodic review of this page."
-msgstr "StatsFut behält sich das Recht vor, diese Bedingungen jederzeit und ohne vorherige Ankündigung zu ändern. Wir empfehlen eine regelmäßige Überprüfung dieser Seite."
+msgstr ""
+"StatsFut behält sich das Recht vor, diese Bedingungen jederzeit und ohne "
+"vorherige Ankündigung zu ändern. Wir empfehlen eine regelmäßige Überprüfung "
+"dieser Seite."
 
-#: matches/views.py:619
+#: matches/views.py:606
 msgid "Tomorrow's Matches"
 msgstr "Spiele von Morgen"
 
-#: matches/views.py:623
+#: matches/views.py:610
 msgid "Today's Matches"
 msgstr "Heutige Spiele"
 
@@ -3033,19 +3102,19 @@ msgid "Accuracy"
 msgstr "Genauigkeit"
 
 #: members/templates/members/partials/ticket_card.html:65
-#: members/templates/members/premium_dashboard.html:436
-#: members/templates/members/premium_dashboard.html:524
-#: members/templates/members/premium_dashboard.html:643
-#: members/templates/members/premium_dashboard.html:758
-#: members/templates/members/premium_dashboard.html:853
-#: members/templates/members/premium_dashboard.html:941
-#: members/templates/members/premium_dashboard.html:1050
-#: members/templates/members/premium_dashboard.html:1137
-#: members/templates/members/premium_dashboard.html:1243
-#: members/templates/members/premium_dashboard.html:1330
-#: members/templates/members/premium_dashboard.html:1437
-#: members/templates/members/premium_dashboard.html:1538
-#: members/templates/members/premium_dashboard.html:2540
+#: members/templates/members/premium_dashboard.html:506
+#: members/templates/members/premium_dashboard.html:594
+#: members/templates/members/premium_dashboard.html:713
+#: members/templates/members/premium_dashboard.html:828
+#: members/templates/members/premium_dashboard.html:923
+#: members/templates/members/premium_dashboard.html:1011
+#: members/templates/members/premium_dashboard.html:1120
+#: members/templates/members/premium_dashboard.html:1207
+#: members/templates/members/premium_dashboard.html:1313
+#: members/templates/members/premium_dashboard.html:1400
+#: members/templates/members/premium_dashboard.html:1507
+#: members/templates/members/premium_dashboard.html:1608
+#: members/templates/members/premium_dashboard.html:2669
 msgid "Probability"
 msgstr "HT Torwahrscheinlichkeit"
 
@@ -3299,49 +3368,61 @@ msgstr "Spiele"
 msgid "Super Opportunities"
 msgstr "Super Chancen"
 
-#: members/templates/members/premium_dashboard.html:216
+#: members/templates/members/premium_dashboard.html:254
 msgid "Live Radar"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:218
+#: members/templates/members/premium_dashboard.html:256
 msgid "match"
 msgstr "Spiele"
 
-#: members/templates/members/premium_dashboard.html:218
+#: members/templates/members/premium_dashboard.html:256
 msgid "happening now"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:271
+#: members/templates/members/premium_dashboard.html:314
 msgid "Attacks"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:282
+#: members/templates/members/premium_dashboard.html:326
+msgid "Basic Coverage"
+msgstr "Grundlegende Abdeckung"
+
+#: members/templates/members/premium_dashboard.html:327
+msgid "Advanced live stats are not available for this league."
+msgstr "Erweiterte Live-Statistiken sind für diese Liga nicht verfügbar."
+
+#: members/templates/members/premium_dashboard.html:347
 msgid "PRESSURE"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:318
+#: members/templates/members/premium_dashboard.html:384
 #: scratch/dashboard_current.html:114
 msgid "Goals & BTTS"
 msgstr "Tor-Statistiken"
 
-#: members/templates/members/premium_dashboard.html:323
+#: members/templates/members/premium_dashboard.html:389
 #: scratch/dashboard_current.html:119
 msgid "Winner & Specials"
 msgstr "Gewinner & Specials"
 
-#: members/templates/members/premium_dashboard.html:349
+#: members/templates/members/premium_dashboard.html:399
+msgid "Lays Seguros"
+msgstr ""
+
+#: members/templates/members/premium_dashboard.html:419
 #: scratch/dashboard_current.html:152
 msgid "Goals Markets"
 msgstr "Tor-Statistiken"
 
-#: members/templates/members/premium_dashboard.html:350
-#: members/templates/members/premium_dashboard.html:471
-#: members/templates/members/premium_dashboard.html:560
-#: members/templates/members/premium_dashboard.html:679
-#: members/templates/members/premium_dashboard.html:800
-#: members/templates/members/premium_dashboard.html:888
-#: members/templates/members/premium_dashboard.html:982
-#: members/templates/members/premium_dashboard.html:1177
+#: members/templates/members/premium_dashboard.html:420
+#: members/templates/members/premium_dashboard.html:541
+#: members/templates/members/premium_dashboard.html:630
+#: members/templates/members/premium_dashboard.html:749
+#: members/templates/members/premium_dashboard.html:870
+#: members/templates/members/premium_dashboard.html:958
+#: members/templates/members/premium_dashboard.html:1052
+#: members/templates/members/premium_dashboard.html:1247
 #: scratch/dashboard_current.html:153 scratch/dashboard_current.html:198
 #: scratch/dashboard_current.html:249 scratch/dashboard_current.html:294
 #: scratch/dashboard_current.html:345 scratch/dashboard_current.html:396
@@ -3349,18 +3430,18 @@ msgstr "Tor-Statistiken"
 msgid "Top scanned matches"
 msgstr "Keine aktuellen Spiele."
 
-#: members/templates/members/premium_dashboard.html:456
-#: members/templates/members/premium_dashboard.html:544
-#: members/templates/members/premium_dashboard.html:663
-#: members/templates/members/premium_dashboard.html:778
-#: members/templates/members/premium_dashboard.html:873
-#: members/templates/members/premium_dashboard.html:961
-#: members/templates/members/premium_dashboard.html:1070
-#: members/templates/members/premium_dashboard.html:1157
-#: members/templates/members/premium_dashboard.html:1263
-#: members/templates/members/premium_dashboard.html:1350
-#: members/templates/members/premium_dashboard.html:1457
-#: members/templates/members/premium_dashboard.html:1558
+#: members/templates/members/premium_dashboard.html:526
+#: members/templates/members/premium_dashboard.html:614
+#: members/templates/members/premium_dashboard.html:733
+#: members/templates/members/premium_dashboard.html:848
+#: members/templates/members/premium_dashboard.html:943
+#: members/templates/members/premium_dashboard.html:1031
+#: members/templates/members/premium_dashboard.html:1140
+#: members/templates/members/premium_dashboard.html:1227
+#: members/templates/members/premium_dashboard.html:1333
+#: members/templates/members/premium_dashboard.html:1420
+#: members/templates/members/premium_dashboard.html:1527
+#: members/templates/members/premium_dashboard.html:1628
 #: scratch/dashboard_current.html:183 scratch/dashboard_current.html:228
 #: scratch/dashboard_current.html:279 scratch/dashboard_current.html:324
 #: scratch/dashboard_current.html:375 scratch/dashboard_current.html:426
@@ -3368,65 +3449,65 @@ msgstr "Keine aktuellen Spiele."
 msgid "No matches met the criteria today."
 msgstr "Keine Spiele entsprechen Ihrem Filter."
 
-#: members/templates/members/premium_dashboard.html:559
+#: members/templates/members/premium_dashboard.html:629
 msgid "Double Chance & Over"
 msgstr "Doppelte Chance & Über"
 
-#: members/templates/members/premium_dashboard.html:678
+#: members/templates/members/premium_dashboard.html:748
 msgid "Double Chance & BTTS"
 msgstr "Doppelte Chance & Beide Teams treffen"
 
-#: members/templates/members/premium_dashboard.html:799
+#: members/templates/members/premium_dashboard.html:869
 #: scratch/dashboard_current.html:248
 msgid "Match Winner & DC"
 msgstr "Spielgewinner & DC"
 
-#: members/templates/members/premium_dashboard.html:887
+#: members/templates/members/premium_dashboard.html:957
 #: scratch/dashboard_current.html:293
 msgid "Specials & Combos"
 msgstr "Specials & Kombis"
 
-#: members/templates/members/premium_dashboard.html:981
+#: members/templates/members/premium_dashboard.html:1051
 msgid "Corners Over"
 msgstr "Ecken"
 
-#: members/templates/members/premium_dashboard.html:1084
+#: members/templates/members/premium_dashboard.html:1154
 msgid "Corner Winner"
 msgstr "Sieger"
 
-#: members/templates/members/premium_dashboard.html:1085
+#: members/templates/members/premium_dashboard.html:1155
 msgid "Who wins the corners battle"
 msgstr "Wer gewinnt das Eckball-Duell"
 
-#: members/templates/members/premium_dashboard.html:1176
+#: members/templates/members/premium_dashboard.html:1246
 msgid "Cards Over"
 msgstr "Karten"
 
-#: members/templates/members/premium_dashboard.html:1278
+#: members/templates/members/premium_dashboard.html:1348
 msgid "Who gets more cards"
 msgstr "Wer bekommt mehr Karten"
 
-#: members/templates/members/premium_dashboard.html:1370
+#: members/templates/members/premium_dashboard.html:1440
 msgid "Total shots predictions"
 msgstr "Richtige Vorhersagen"
 
-#: members/templates/members/premium_dashboard.html:1384
+#: members/templates/members/premium_dashboard.html:1454
 msgid "Vencedor"
 msgstr "Führt zur Halbzeit"
 
-#: members/templates/members/premium_dashboard.html:1471
-msgid "Chutes no Alvo"
-msgstr "Schüsse aufs Tor"
-
-#: members/templates/members/premium_dashboard.html:1472
+#: members/templates/members/premium_dashboard.html:1542
 msgid "Shots on target predictions"
 msgstr "Richtige Vorhersagen"
 
-#: members/templates/members/premium_dashboard.html:1572
+#: members/templates/members/premium_dashboard.html:1706
+msgid "No Lay Correct Score opportunities found."
+msgstr ""
+
+#: members/templates/members/premium_dashboard.html:1718
 msgid "Recent History (Greens & Reds)"
 msgstr "Aktueller Verlauf (Greens & Reds)"
 
-#: members/templates/members/premium_dashboard.html:1574
+#: members/templates/members/premium_dashboard.html:1720
 msgid ""
 "Full transparency! Check the performance of the latest opportunities "
 "suggested by our Smart Scanner."
@@ -3434,264 +3515,259 @@ msgstr ""
 "Volle Transparenz! Überprüfen Sie die Leistung der neuesten von unserem "
 "Smart Scanner vorgeschlagenen Möglichkeiten."
 
-#: members/templates/members/premium_dashboard.html:1587
+#: members/templates/members/premium_dashboard.html:1733
 msgid "Greens"
 msgstr "Grüne (Gewonnen)"
 
-#: members/templates/members/premium_dashboard.html:1588
+#: members/templates/members/premium_dashboard.html:1734
 msgid "Correct predictions"
 msgstr "Richtige Vorhersagen"
 
-#: members/templates/members/premium_dashboard.html:1602
-#: members/templates/members/premium_dashboard.html:1703
+#: members/templates/members/premium_dashboard.html:1748
+#: members/templates/members/premium_dashboard.html:1849
 msgid "Btts"
 msgstr "Beide Treffen"
 
-#: members/templates/members/premium_dashboard.html:1606
-#: members/templates/members/premium_dashboard.html:1707
+#: members/templates/members/premium_dashboard.html:1752
+#: members/templates/members/premium_dashboard.html:1853
 msgid "Outcomes"
 msgstr "Ergebnisse"
 
-#: members/templates/members/premium_dashboard.html:1607
-#: members/templates/members/premium_dashboard.html:1708
+#: members/templates/members/premium_dashboard.html:1753
+#: members/templates/members/premium_dashboard.html:1854
 msgid "Specials"
 msgstr "Specials"
 
-#: members/templates/members/premium_dashboard.html:1612
-#: members/templates/members/premium_dashboard.html:1713
+#: members/templates/members/premium_dashboard.html:1758
+#: members/templates/members/premium_dashboard.html:1859
 msgid "All Goals"
 msgstr "Ø Tore"
 
-#: members/templates/members/premium_dashboard.html:1622
-#: members/templates/members/premium_dashboard.html:1723
+#: members/templates/members/premium_dashboard.html:1768
+#: members/templates/members/premium_dashboard.html:1869
 msgid "All Corners"
 msgstr "Ecken"
 
-#: members/templates/members/premium_dashboard.html:1633
-#: members/templates/members/premium_dashboard.html:1734
+#: members/templates/members/premium_dashboard.html:1779
+#: members/templates/members/premium_dashboard.html:1880
 msgid "All Cards"
 msgstr "Gelbe Karten"
 
-#: members/templates/members/premium_dashboard.html:1642
-#: members/templates/members/premium_dashboard.html:1743
+#: members/templates/members/premium_dashboard.html:1788
+#: members/templates/members/premium_dashboard.html:1889
 msgid "All Shots"
 msgstr "Schüsse"
 
-#: members/templates/members/premium_dashboard.html:1688
-#: members/templates/members/premium_dashboard.html:2465
+#: members/templates/members/premium_dashboard.html:1834
+#: members/templates/members/premium_dashboard.html:2594
 msgid "Reds"
 msgstr "Rote (Verloren)"
 
-#: members/templates/members/premium_dashboard.html:1689
+#: members/templates/members/premium_dashboard.html:1835
 msgid "Incorrect predictions"
 msgstr "aktuell vs vorherig"
 
-#: members/templates/members/premium_dashboard.html:2039
+#: members/templates/members/premium_dashboard.html:2185
 #: scratch/dashboard_current.html:538
 msgid "No history available yet"
 msgstr "Noch kein Verlauf verfügbar"
 
-#: members/templates/members/premium_dashboard.html:2040
+#: members/templates/members/premium_dashboard.html:2186
 #: scratch/dashboard_current.html:539
 msgid "Results will appear here after the tracked matches conclude."
 msgstr ""
 "Ergebnisse werden hier angezeigt, nachdem die verfolgten Spiele "
 "abgeschlossen sind."
 
-#: members/templates/members/premium_dashboard.html:2069
+#: members/templates/members/premium_dashboard.html:2215
 msgid "Smart AI Scanner Locked"
 msgstr "Smart KI-Scanner Gesperrt"
 
-#: members/templates/members/premium_dashboard.html:2070
+#: members/templates/members/premium_dashboard.html:2216
 msgid ""
 "Stop searching manually! Our Premium Smart Scanner analyzes every upcoming "
 "match and automatically filters the ones with the highest probabilities for "
 "HT Goals, Over 1.5, BTTS, and Corners."
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2072
+#: members/templates/members/premium_dashboard.html:2218
 msgid "Unlock Premium Scanner"
 msgstr "Premium-Scanner Freischalten"
 
-#: members/templates/members/premium_dashboard.html:2101
+#: members/templates/members/premium_dashboard.html:2247
 msgid "Available only on VIP Plan"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2102
+#: members/templates/members/premium_dashboard.html:2248
 msgid ""
 "Your Popular Plan gives full access to the Predictions Scanner. Upgrade to "
 "the VIP Plan for just R$ 18/month to unlock Ready Strategies (Bot Doubles/"
 "Triples)!"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2104
+#: members/templates/members/premium_dashboard.html:2250
 msgid "Fazer Upgrade para VIP"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2133
+#: members/templates/members/premium_dashboard.html:2279
 msgid "Expert Tickets (Today)"
 msgstr "Experten-Tickets (Heute)"
 
-#: members/templates/members/premium_dashboard.html:2134
+#: members/templates/members/premium_dashboard.html:2280
 #, python-format
 msgid ""
 "Doubles, Triples and Accumulators generated automatically based on our data "
 "intelligence with over 80%% accuracy."
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2146
+#: members/templates/members/premium_dashboard.html:2292
 msgid "Doubles"
 msgstr "Doppel"
 
-#: members/templates/members/premium_dashboard.html:2151
+#: members/templates/members/premium_dashboard.html:2297
 msgid "Triples"
 msgstr "Dreifach"
 
-#: members/templates/members/premium_dashboard.html:2156
+#: members/templates/members/premium_dashboard.html:2302
 msgid "Multiples (4-5x)"
 msgstr "Mehrfach (4-5x)"
 
-#: members/templates/members/premium_dashboard.html:2161
+#: members/templates/members/premium_dashboard.html:2307
 msgid "Super Multiples"
 msgstr "Super Mehrfach"
 
-#: members/templates/members/premium_dashboard.html:2166
+#: members/templates/members/premium_dashboard.html:2312
 msgid "Hedge Favorito"
 msgstr "Favoriten"
 
-#: members/templates/members/premium_dashboard.html:2171
+#: members/templates/members/premium_dashboard.html:2317
 msgid "Trixie"
 msgstr "Trixie"
 
-#: members/templates/members/premium_dashboard.html:2206
+#: members/templates/members/premium_dashboard.html:2352
 msgid "No active tickets at the moment"
 msgstr "Im Moment keine aktiven Tickets"
 
-#: members/templates/members/premium_dashboard.html:2207
+#: members/templates/members/premium_dashboard.html:2353
 msgid ""
 "Strategies are generated in the morning. Come back later to check the best "
 "doubles and triples."
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2225
+#: members/templates/members/premium_dashboard.html:2371
 msgid "No double tickets today"
 msgstr "Heute keine Doppel-Tickets"
 
-#: members/templates/members/premium_dashboard.html:2226
+#: members/templates/members/premium_dashboard.html:2372
 msgid "No double tickets were generated for today yet."
 msgstr "Für heute wurden noch keine Doppel-Tickets generiert."
 
-#: members/templates/members/premium_dashboard.html:2244
+#: members/templates/members/premium_dashboard.html:2390
 msgid "No triple tickets today"
 msgstr "Heute keine Dreifach-Tickets"
 
-#: members/templates/members/premium_dashboard.html:2245
+#: members/templates/members/premium_dashboard.html:2391
 msgid "No triple tickets were generated for today yet."
 msgstr "Für heute wurden noch keine Dreifach-Tickets generiert."
 
-#: members/templates/members/premium_dashboard.html:2263
+#: members/templates/members/premium_dashboard.html:2409
 msgid "No multiple tickets today"
 msgstr "Heute keine Mehrfach-Tickets"
 
-#: members/templates/members/premium_dashboard.html:2264
+#: members/templates/members/premium_dashboard.html:2410
 msgid "No 4-5 games multiple tickets were generated for today yet."
 msgstr "Für heute wurden noch keine 4-5 Spiele Mehrfach-Tickets generiert."
 
-#: members/templates/members/premium_dashboard.html:2282
+#: members/templates/members/premium_dashboard.html:2428
 msgid "No super multiples today"
 msgstr "Heute keine Super-Mehrfach-Tickets"
 
-#: members/templates/members/premium_dashboard.html:2283
+#: members/templates/members/premium_dashboard.html:2429
 msgid "No 6-8 games super multiple tickets were generated for today yet."
 msgstr ""
 "Für heute wurden noch keine 6-8 Spiele Super-Mehrfach-Tickets generiert."
 
-#: members/templates/members/premium_dashboard.html:2301
+#: members/templates/members/premium_dashboard.html:2447
 msgid "No Hedge Favorito tickets today"
 msgstr "Heute keine Hedge-Favorito-Tickets"
 
-#: members/templates/members/premium_dashboard.html:2302
+#: members/templates/members/premium_dashboard.html:2448
 msgid "No matches with odds >= 2.00 for the favorite were found today."
 msgstr ""
 "Es wurden heute keine Spiele mit Quoten >= 2.00 für den Favoriten gefunden."
 
-#: members/templates/members/premium_dashboard.html:2316
+#: members/templates/members/premium_dashboard.html:2462
 msgid "Todas as Trixies"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2321
-msgid "DC + 2-4 Gols"
-msgstr ""
+#: members/templates/members/premium_dashboard.html:2468
+msgid "Empate Anula"
+msgstr "Unentschieden zur Halbzeit"
 
-#: members/templates/members/premium_dashboard.html:2326
-msgid "Gols + BTTS"
-msgstr "Tor-Statistiken"
+#: members/templates/members/premium_dashboard.html:2473
+msgid "Mais 1.5 Gols"
+msgstr "Über 1.5 Tore"
 
-#: members/templates/members/premium_dashboard.html:2331
-msgid "Mais Gols (Tempo)"
-msgstr "Mehr Tore in der 1. Halbzeit"
+#: members/templates/members/premium_dashboard.html:2478
+msgid "Dupla Chance Segura"
+msgstr "Doppelte Chance & Über"
 
-#: members/templates/members/premium_dashboard.html:2336
-msgid "Equipe Marca (Tempo)"
-msgstr ""
-
-#: members/templates/members/premium_dashboard.html:2354
+#: members/templates/members/premium_dashboard.html:2496
 msgid "No Trixie tickets today"
 msgstr "Heute keine Trixie-Tickets"
 
-#: members/templates/members/premium_dashboard.html:2355
+#: members/templates/members/premium_dashboard.html:2497
 msgid "No Trixie system tickets were generated for today yet."
 msgstr "Für heute wurden noch keine Trixie-System-Tickets generiert."
 
 # ============================================================
 # HOME PAGE - EMPTY STATES
 # ============================================================
-#: members/templates/members/premium_dashboard.html:2371
-#: members/templates/members/premium_dashboard.html:2386
-#: members/templates/members/premium_dashboard.html:2401
-#: members/templates/members/premium_dashboard.html:2416
+#: members/templates/members/premium_dashboard.html:2515
+#: members/templates/members/premium_dashboard.html:2530
+#: members/templates/members/premium_dashboard.html:2545
 msgid "No tickets found for this strategy today."
 msgstr "Keine Spiele für diesen Zeitraum gefunden."
 
-#: members/templates/members/premium_dashboard.html:2430
+#: members/templates/members/premium_dashboard.html:2559
 msgid "History of Latest Entries"
 msgstr "Verlauf der letzten Einträge"
 
-#: members/templates/members/premium_dashboard.html:2431
+#: members/templates/members/premium_dashboard.html:2560
 msgid ""
 "Full transparency! Track the results of strategies generated in the previous "
 "days."
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2443
+#: members/templates/members/premium_dashboard.html:2572
 msgid "Analyzed Tickets"
 msgstr "Analysierte Tickets"
 
-#: members/templates/members/premium_dashboard.html:2454
+#: members/templates/members/premium_dashboard.html:2583
 msgid "Greens Obtained"
 msgstr "Erhaltene Grüne"
 
-#: members/templates/members/premium_dashboard.html:2476
+#: members/templates/members/premium_dashboard.html:2605
 msgid "Assertiveness Rate"
 msgstr "Erfolgsquote"
 
-#: members/templates/members/premium_dashboard.html:2548
+#: members/templates/members/premium_dashboard.html:2677
 msgid "Target date"
 msgstr "Zieldatum"
 
-#: members/templates/members/premium_dashboard.html:2549
+#: members/templates/members/premium_dashboard.html:2678
 msgid "Average Accuracy"
 msgstr "Durchschnittliche Genauigkeit"
 
-#: members/templates/members/premium_dashboard.html:2561
+#: members/templates/members/premium_dashboard.html:2690
 msgid "No resolved tickets in history."
 msgstr "Keine gelösten Tickets im Verlauf."
 
-#: members/templates/members/premium_dashboard.html:2582
+#: members/templates/members/premium_dashboard.html:2711
 msgid "Expert Strategies Unlocked"
 msgstr "Expertenstrategien Freigeschaltet"
 
-#: members/templates/members/premium_dashboard.html:2583
+#: members/templates/members/premium_dashboard.html:2712
 #, python-format
 msgid ""
 "Subscribe to the Premium Plan for instant access to ready-made tickets "
@@ -3699,23 +3775,23 @@ msgid ""
 "80%%!"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2585
+#: members/templates/members/premium_dashboard.html:2714
 msgid "I Want to Be Premium Now!"
 msgstr "Ich möchte jetzt Premium werden!"
 
-#: members/templates/members/premium_dashboard.html:2959
+#: members/templates/members/premium_dashboard.html:3088
 msgid "Nenhum palpite encontrado"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2960
+#: members/templates/members/premium_dashboard.html:3089
 msgid "There are no matches for this market on the selected date."
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2983
+#: members/templates/members/premium_dashboard.html:3112
 msgid "Nenhum bilhete encontrado"
 msgstr ""
 
-#: members/templates/members/premium_dashboard.html:2984
+#: members/templates/members/premium_dashboard.html:3113
 msgid "No tickets were found for this strategy on the selected date."
 msgstr ""
 
@@ -3865,7 +3941,7 @@ msgstr "Über 1.5 Tore FT"
 msgid "Both Teams to Score - Yes"
 msgstr "Beide Teams treffen - Ja"
 
-#: members/templatetags/ticket_tags.py:47 members/views.py:567
+#: members/templatetags/ticket_tags.py:47 members/views.py:557
 msgid "Over 9.5 Corners"
 msgstr "Über 9.5 Ecken"
 
@@ -3929,240 +4005,248 @@ msgstr "Konto erfolgreich erstellt! Willkommen bei StatsFut."
 msgid "You have been logged out."
 msgstr "Sie wurden abgemeldet."
 
-#: members/views.py:458 members/views.py:467 members/views.py:482
+#: members/views.py:447 members/views.py:456 members/views.py:471
 msgid "Future"
 msgstr "Zukunft"
 
-#: members/views.py:501
+#: members/views.py:491
 msgid "Goal in 1st Half (HT)"
 msgstr "Gegentore (GT)"
 
-#: members/views.py:502
+#: members/views.py:492
 msgid "Not 2-4 Goals in 1st Half (HT)"
 msgstr "Nicht 2-4 Tore in der 1. Halbzeit (HT)"
 
-#: members/views.py:503
+#: members/views.py:493
 msgid "Not 2-4 Goals in 2nd Half (2T)"
 msgstr "Nicht 2-4 Tore in der 2. Halbzeit (2T)"
 
-#: members/views.py:506
+#: members/views.py:496
 #, python-format
 msgid "Home or Draw & Under %(line)s Goals"
 msgstr "Heimsieg oder Unentschieden & Unter %(line)s Tore"
 
-#: members/views.py:509
+#: members/views.py:499
 #, python-format
 msgid "Draw or Away & Under %(line)s Goals"
 msgstr "Unentschieden oder Auswärtssieg & Unter %(line)s Tore"
 
-#: members/views.py:512
+#: members/views.py:502
 #, python-format
 msgid "Home or Draw & Over %(line)s Goals"
 msgstr "Heimsieg oder Unentschieden & Über %(line)s Tore"
 
-#: members/views.py:515
+#: members/views.py:505
 #, python-format
 msgid "Draw or Away & Over %(line)s Goals"
 msgstr "Unentschieden oder Auswärtssieg & Über %(line)s Tore"
 
-#: members/views.py:517
+#: members/views.py:507
 msgid "Home or Draw & BTTS Yes"
 msgstr "Heimsieg oder Unentschieden & Beide Teams treffen Ja"
 
-#: members/views.py:519
+#: members/views.py:509
 msgid "Home or Draw & BTTS No"
 msgstr "Heimsieg oder Unentschieden & Beide Teams treffen Nein"
 
-#: members/views.py:521
+#: members/views.py:511
 msgid "Draw or Away & BTTS Yes"
 msgstr "Unentschieden oder Auswärtssieg & Beide Teams treffen Ja"
 
-#: members/views.py:523
+#: members/views.py:513
 msgid "Draw or Away & BTTS No"
 msgstr "Unentschieden oder Auswärtssieg & Beide Teams treffen Nein"
 
-#: members/views.py:524
+#: members/views.py:514
 msgid "Over 0.5 Goals"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:527
+#: members/views.py:517
 msgid "Over 3.5 Goals"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:528
+#: members/views.py:518
 msgid "Under 3.5 Goals"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:529
+#: members/views.py:519
 msgid "Under 4.5 Goals"
 msgstr "Lay Under 2.5 Tore"
 
-#: members/views.py:530
+#: members/views.py:520
 msgid "Under 5.5 Goals"
 msgstr "Lay Under 2.5 Tore"
 
-#: members/views.py:531
+#: members/views.py:521
 msgid "Under 6.5 Goals"
 msgstr "Lay Under 2.5 Tore"
 
-#: members/views.py:534
+#: members/views.py:524
 msgid "BTTS 1st Half"
 msgstr "Beide Treffen 1. Hz"
 
-#: members/views.py:535
+#: members/views.py:525
 msgid "BTTS 2nd Half"
 msgstr "Beide Treffen 2. Hz"
 
-#: members/views.py:536
+#: members/views.py:526
 msgid "BTTS Both Halves"
 msgstr "Traf in beiden Halbzeiten"
 
-#: members/views.py:538 members/views.py:539
+#: members/views.py:528 members/views.py:529
+#, python-format
 msgid "%(team)s to Win"
 msgstr "Sieg für %(team)s"
 
-#: members/views.py:540
+#: members/views.py:530
 #, python-format
 msgid "Double Chance 1X (%(team)s or Draw)"
 msgstr "Doppelte Chance 1X (%(team)s oder Unentschieden)"
 
-#: members/views.py:541
+#: members/views.py:531
 #, python-format
 msgid "Double Chance X2 (Draw or %(team)s)"
 msgstr "Doppelte Chance X2 (Unentschieden oder %(team)s)"
 
-#: members/views.py:542 members/views.py:543
+#: members/views.py:532 members/views.py:533
 #, python-format
 msgid "Draw No Bet - %(team)s"
 msgstr "Unentschieden Keine Wette - %(team)s"
 
-#: members/views.py:544 members/views.py:545
+#: members/views.py:534 members/views.py:535
+#, python-format
 msgid "%(team)s to Score First"
-msgstr "Team erzielt erstes Tor"
+msgstr "%(team)s erzielt erstes Tor"
 
-#: members/views.py:546 members/views.py:547
+#: members/views.py:536 members/views.py:537
+#, python-format
 msgid "%(team)s Leading at HT"
-msgstr "Führung zur Halbzeit"
+msgstr "%(team)s Führung zur Halbzeit"
 
-#: members/views.py:549 members/views.py:550
+#: members/views.py:539 members/views.py:540
+#, python-format
 msgid "%(team)s Clean Sheet"
-msgstr "Ohne Gegentor"
+msgstr "%(team)s ohne Gegentor"
 
-#: members/views.py:551 members/views.py:552
+#: members/views.py:541 members/views.py:542
+#, python-format
 msgid "%(team)s Win to Nil"
 msgstr "Sieg für %(team)s"
 
-#: members/views.py:553
+#: members/views.py:543
 #, python-format
 msgid "%(team)s -0.5 (AH)"
 msgstr "%(team)s -0.5 (AH)"
 
-#: members/views.py:554
+#: members/views.py:544
 #, python-format
 msgid "%(team)s -1.5 (AH)"
 msgstr "%(team)s -1.5 (AH)"
 
-#: members/views.py:555
+#: members/views.py:545
 #, python-format
 msgid "%(team)s +1.5 (AH)"
 msgstr "%(team)s +1.5 (AH)"
 
-#: members/views.py:556
+#: members/views.py:546
+#, python-format
 msgid "%(team)s Wins by 1 Goal"
 msgstr "Sieg für %(team)s"
 
-#: members/views.py:557
+#: members/views.py:547
 #, python-format
 msgid "%(team)s Wins by 2 Goals"
 msgstr "%(team)s Gewinnt mit 2 Toren"
 
-#: members/views.py:558 members/views.py:559
+#: members/views.py:548 members/views.py:549
+#, python-format
 msgid "%(team)s Win & BTTS Yes"
 msgstr "Sieg für %(team)s"
 
-#: members/views.py:560
+#: members/views.py:550
 #, python-format
 msgid "%(team)s Win & BTTS No"
 msgstr "%(team)s Sieg & Beide Treffen Nein"
 
-#: members/views.py:561
+#: members/views.py:551
 msgid "1st Half Most Goals"
 msgstr "1. Hz Meiste Tore"
 
-#: members/views.py:562
+#: members/views.py:552
 msgid "2nd Half Most Goals"
 msgstr "2. Hz Meiste Tore"
 
-#: members/views.py:564
+#: members/views.py:554
 msgid "Over 6.5 Corners"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:565
+#: members/views.py:555
 msgid "Over 7.5 Corners"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:566
+#: members/views.py:556
 msgid "Over 8.5 Corners"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:568
+#: members/views.py:558
 msgid "Over 10.5 Corners"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:569
+#: members/views.py:559
 msgid "Over 11.5 Corners"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:570 members/views.py:571
+#: members/views.py:560 members/views.py:561
+#, python-format
 msgid "%(team)s Wins Corners"
 msgstr "Sieg für %(team)s"
 
-#: members/views.py:573
+#: members/views.py:563
 msgid "Over 3.5 Cards"
 msgstr "Über 3.5"
 
-#: members/views.py:574
+#: members/views.py:564
 msgid "Over 4.5 Cards"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:575
+#: members/views.py:565
 msgid "Over 5.5 Cards"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:576
+#: members/views.py:566
 msgid "Over 6.5 Cards"
 msgstr "Über 1.5 Tore"
 
-#: members/views.py:577 members/views.py:578
+#: members/views.py:567 members/views.py:568
 #, python-format
 msgid "%(team)s Most Cards"
 msgstr "%(team)s Meiste Karten"
 
-#: members/views.py:580
+#: members/views.py:570
 msgid "Over 20.5 Total Shots"
 msgstr "Über 2.5 Tore"
 
-#: members/views.py:581
+#: members/views.py:571
 msgid "Over 22.5 Total Shots"
 msgstr "Über 2.5 Tore"
 
-#: members/views.py:582
+#: members/views.py:572
 msgid "Over 24.5 Total Shots"
 msgstr "Über 2.5 Tore"
 
-#: members/views.py:583
+#: members/views.py:573
 msgid "Over 6.5 Shots on Target"
 msgstr "Über 6.5 Schüsse aufs Tor"
 
-#: members/views.py:584
+#: members/views.py:574
 msgid "Over 7.5 Shots on Target"
 msgstr "Über 7.5 Schüsse aufs Tor"
 
-#: members/views.py:585
+#: members/views.py:575
 msgid "Over 8.5 Shots on Target"
 msgstr "Über 8.5 Schüsse aufs Tor"
 
-#: members/views.py:586 members/views.py:587
+#: members/views.py:576 members/views.py:577
 #, python-format
 msgid "%(team)s More Shots"
 msgstr "%(team)s Mehr Schüsse"
@@ -4914,6 +4998,14 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
+#: venv/Lib/site-packages/django/forms/widgets.py:797
+msgid "Yes"
+msgstr "Ja"
+
+#: venv/Lib/site-packages/django/forms/widgets.py:798
+msgid "No"
+msgstr "Nein"
+
 #. Translators: Please do not add spaces around commas.
 #: venv/Lib/site-packages/django/template/defaultfilters.py:875
 msgid "yes,no,maybe"
@@ -5304,12 +5396,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: venv/Lib/site-packages/django/utils/timesince.py:13
-#, fuzzy, python-format
-#| msgid "%(mins)s min"
+#, python-format
 msgid "%(num)d minute"
 msgid_plural "%(num)d minutes"
-msgstr[0] "%(mins)s Min."
-msgstr[1] "%(mins)s Min."
+msgstr[0] "%(num)d Min."
+msgstr[1] "%(num)d Min."
 
 #: venv/Lib/site-packages/django/views/csrf.py:29
 msgid "Forbidden"
@@ -5509,6 +5600,179 @@ msgstr ""
 msgid "Redirected but the response is missing a Location: header."
 msgstr ""
 
+#~| msgid "Empate"
+#~ msgid "Lay Empate"
+#~ msgstr "Unentschieden"
+
+#, python-format
+#~| msgid "Over 0.5 goals probability is %(prob)s%%"
+#~ msgid "A chance de Over 2.5 gols é de apenas %(prob)s%%"
+#~ msgstr "Over 0.5 Tore Wahrscheinlichkeit beträgt %(prob)s%%"
+
+#, python-format
+#~| msgid "Over 0.5 goals probability is %(prob)s%%"
+#~ msgid "A chance de Over 2.5 gols é alta: %(prob)s%%"
+#~ msgstr "Over 0.5 Tore Wahrscheinlichkeit beträgt %(prob)s%%"
+
+#~ msgid "Lay Any Other Score (4+ goals)"
+#~ msgstr "Lay Jedes andere Ergebnis (4+ Tore)"
+
+#~ msgid "Low probability of a high scoring match"
+#~ msgstr "Geringe Wahrscheinlichkeit für ein torreiches Spiel"
+
+#~ msgid "BETTING SUGGESTIONS"
+#~ msgstr "WETTVORSCHLÄGE"
+
+#~ msgid "Over"
+#~ msgstr "Über"
+
+#~ msgid "Under"
+#~ msgstr "Unter"
+
+#~ msgid "Chance to score first"
+#~ msgstr "Chance auf das erste Tor"
+
+#~ msgid "BTTS"
+#~ msgstr "Beide treffen"
+
+#~ msgid "Double"
+#~ msgstr "Doppel"
+
+#~ msgid "HT Goal Probability"
+#~ msgstr "HT Torwahrscheinlichkeit"
+
+#~ msgid "HT GOAL"
+#~ msgstr "HT TOR"
+
+#~ msgid "To Win"
+#~ msgstr "Sieg"
+
+#~ msgid "Ambas Marcam Detalhado"
+#~ msgstr "Beide treffen Detailliert"
+
+#~ msgid "Clean Sheet (Sem Sofrer Gols)"
+#~ msgstr "Ohne Gegentor & Torlos"
+
+#~ msgid "Faixa de Gols (Partida)"
+#~ msgstr "Torbereich (Spiel)"
+
+#~ msgid "Faixa (1º Tempo)"
+#~ msgstr "Bereich (1. Halbzeit)"
+
+#~ msgid "Faixa (2º Tempo)"
+#~ msgstr "Bereich (2. Halbzeit)"
+
+#~ msgid "Margem de Vitória Exata"
+#~ msgstr "Genaue Gewinnspanne"
+
+#~ msgid "Metades & Tempos"
+#~ msgstr "Hälften & Spielzeiten"
+
+#~ msgid "Metades com gols iguais"
+#~ msgstr "Gleich viele Tore in beiden Hälften"
+
+#~ msgid "Marcar em Ambos os Tempos"
+#~ msgstr "Treffen in beiden Halbzeiten"
+
+#~ msgid "Marcar Ambos Tempos"
+#~ msgstr "In beiden Hälften treffen"
+
+#~ msgid "Marcar pelo menos Um"
+#~ msgstr "Mindestens eine treffen"
+
+#~ msgid "Resultado 1º Tempo"
+#~ msgstr "Ergebnis 1. Halbzeit"
+
+#~ msgid "Vence HT"
+#~ msgstr "Führt zur Halbzeit"
+
+#~ msgid "SMART LAY BETS (EXCHANGE)"
+#~ msgstr "SMART LAY BETS (EXCHANGE)"
+
+#~ msgid "Total Avg"
+#~ msgstr "Gesamt Ø"
+
+#~ msgid "Base"
+#~ msgstr "Basis"
+
+#~ msgid "Empate de Escanteios"
+#~ msgstr "Ecken-Unentschieden"
+
+#~ msgid "Handicap de Escanteios"
+#~ msgstr "Ecken-Handicap"
+
+# ============================================================
+# MATCH DETAIL - HEADERS
+# ============================================================
+#~ msgid "DISCIPLINE & CARDS PROJECTION"
+#~ msgstr "ELITE-ECKEN-PROGNOSE"
+
+#~ msgid "Total de Cartões (O/U)"
+#~ msgstr "Ecken Gesamt (Dafür)"
+
+#~ msgid "Over 3.5 Cartões"
+#~ msgstr "Über 1.5 Tore"
+
+#~ msgid "Over 4.5 Cartões"
+#~ msgstr "Über 1.5 Tore"
+
+#~ msgid "Over 5.5 Cartões"
+#~ msgstr "Über 1.5 Tore"
+
+#~ msgid "Over 6.5 Cartões"
+#~ msgstr "Über 1.5 Tore"
+
+#~ msgid "Winner & Handicap (Cartões)"
+#~ msgstr "Sieger & Handicap (Karten)"
+
+#~ msgid "Empate de Cartões"
+#~ msgstr "Karten-Unentschieden"
+
+#~ msgid "Handicap"
+#~ msgstr "Handicap"
+
+# ============================================================
+# MATCH DETAIL - HEADERS
+# ============================================================
+#~ msgid "ATTACK & SHOTS PROJECTION"
+#~ msgstr "ELITE-ECKEN-PROGNOSE"
+
+#~ msgid "Over 18.5 Chutes"
+#~ msgstr "Über 1.5 Tore"
+
+#~ msgid "Over 20.5 Chutes"
+#~ msgstr "Über 2.5"
+
+#~ msgid "Over 22.5 Chutes"
+#~ msgstr "Über 2.5 %%"
+
+#~ msgid "Over 24.5 Chutes"
+#~ msgstr "Über 2.5"
+
+#~ msgid "Over 26.5 Chutes"
+#~ msgstr "Über 2.5"
+
+#~ msgid "Chutes ao Gol (Over/Under)"
+#~ msgstr "Schüsse aufs Tor (Über/Unter)"
+
+#~ msgid "Over 6.5 Chutes no Alvo"
+#~ msgstr "Über 6.5 Schüsse aufs Tor"
+
+#~ msgid "Over 7.5 Chutes no Alvo"
+#~ msgstr "Über 7.5 Schüsse aufs Tor"
+
+#~ msgid "Over 8.5 Chutes no Alvo"
+#~ msgstr "Über 8.5 Schüsse aufs Tor"
+
+#~ msgid "Over 9.5 Chutes no Alvo"
+#~ msgstr "Über 9.5 Schüsse aufs Tor"
+
+#~ msgid "Gols + BTTS"
+#~ msgstr "Tor-Statistiken"
+
+#~ msgid "Mais Gols (Tempo)"
+#~ msgstr "Mehr Tore in der 1. Halbzeit"
+
 #~ msgid "Advertisement"
 #~ msgstr "Werbung"
 
@@ -5704,10 +5968,3 @@ msgstr ""
 #~ "(Genauigkeit unter 30%%). Spiel mit Tendenz zu wenigen Toren, ideal um "
 #~ "den \"Under\"-Markt zu analysieren.\n"
 #~ "                        "
-
-msgid "Basic Coverage"
-msgstr "Grundlegende Abdeckung"
-
-msgid "Advanced live stats are not available for this league."
-msgstr "Erweiterte Live-Statistiken sind für diese Liga nicht verfügbar."
-

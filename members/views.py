@@ -480,6 +480,7 @@ def premium_dashboard(request):
     tips_shots = []
     tips_dc_over = []
     tips_dc_btts = []
+    tips_lays = []
 
     def get_translated_text(tip):
         m = tip.market
@@ -574,6 +575,9 @@ def premium_dashboard(request):
         elif m == 'SOT_OVER_85': return _("Over 8.5 Shots on Target")
         elif m == 'SHOT_WIN_H': return _("%(team)s More Shots") % {'team': home}
         elif m == 'SHOT_WIN_A': return _("%(team)s More Shots") % {'team': away}
+        elif m.startswith('LAY_CS_'):
+            score = m.replace('LAY_CS_', '').replace('_', '-')
+            return _("Lay Score %(score)s") % {'score': score}
         
         return _(tip.prediction_text)
 
@@ -610,6 +614,8 @@ def premium_dashboard(request):
             tips_cards.append(item)
         elif tip.market in SHOTS_MARKETS:
             tips_shots.append(item)
+        elif tip.market.startswith('LAY_CS_'):
+            tips_lays.append(item)
         elif tip.market.startswith('DC_1X_OVER_') or tip.market.startswith('DC_X2_OVER_'):
             tips_dc_over.append(item)
         elif tip.market.startswith('DC_1X_BTTS_') or tip.market.startswith('DC_X2_BTTS_'):
@@ -661,7 +667,8 @@ def premium_dashboard(request):
         'cards': [],
         'shots': [],
         'outcomes': [],
-        'specials': []
+        'specials': [],
+        'lays': []
     }
     history_stats_by_market = {}
 
@@ -676,6 +683,7 @@ def premium_dashboard(request):
         elif m_type in SHOTS_MARKETS: group_key = 'shots'
         elif m_type in RESULT_MARKETS: group_key = 'outcomes'
         elif m_type in SPECIALS_MARKETS: group_key = 'specials'
+        elif m_type.startswith('LAY_CS_'): group_key = 'lays'
 
         item = {
             'match': tip.match,
@@ -778,7 +786,7 @@ def premium_dashboard(request):
 
     # Ordenar por maior probabilidade geral primeiro
     prob_sort_func = lambda x: (-x['prob'], x['sort_date'] if x['sort_date'] else now_br)
-    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts]:
+    for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts, tips_lays]:
         lst.sort(key=prob_sort_func)
 
     MAX_TIPS_PER_MARKET_PER_DATE = 30  # Top 30 melhores por DIA e por MERCADO (ex: 30 pro Over 0.5 hoje, 30 pro Over 1.5 hoje...)
@@ -807,6 +815,7 @@ def premium_dashboard(request):
     tips_shots = limit_per_market_and_date(tips_shots, MAX_TIPS_PER_MARKET_PER_DATE)
     tips_dc_over = limit_per_market_and_date(tips_dc_over, MAX_TIPS_PER_MARKET_PER_DATE)
     tips_dc_btts = limit_per_market_and_date(tips_dc_btts, MAX_TIPS_PER_MARKET_PER_DATE)
+    tips_lays = limit_per_market_and_date(tips_lays, MAX_TIPS_PER_MARKET_PER_DATE)
 
     # Split corners and cards categories for side-by-side display
     tips_corners_over = [x for x in tips_corners if x['market'].startswith('CORNERS_OVER_')]
@@ -847,7 +856,7 @@ def premium_dashboard(request):
     total_tickets = total_greens + total_reds
     win_rate = int((total_greens / total_tickets * 100)) if total_tickets > 0 else 0
 
-    total_opps = sum(len(lst) for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts])
+    total_opps = sum(len(lst) for lst in [tips_goals, tips_btts, tips_result, tips_specials, tips_corners, tips_cards, tips_shots, tips_dc_over, tips_dc_btts, tips_lays])
 
     context = {
         'is_premium': True,
@@ -876,6 +885,7 @@ def premium_dashboard(request):
         'tips_shots_target': tips_shots_target,
         'tips_dc_over': tips_dc_over,
         'tips_dc_btts': tips_dc_btts,
+        'tips_lays': tips_lays,
         # Stats
         'stats_total_tickets': total_tickets,
         'stats_greens': total_greens,

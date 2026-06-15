@@ -172,6 +172,15 @@ class Command(BaseCommand):
                     wc: dict = corners.get('winner_corners') or {}
                     if wc.get('home', 0) >= 75: save_tip(match, 'CORNER_WIN_H', wc['home'], f'{home} Wins Corners')
                     elif wc.get('away', 0) >= 75: save_tip(match, 'CORNER_WIN_A', wc['away'], f'{away} Wins Corners')
+                    
+                # ========== LAY CORRECT SCORES ==========
+                # lay_scores: dict = goals.get('lay_correct_scores') or {}
+                # # Vamos focar apenas nos placares mais comuns para evitar poluir o painel com "Lay 3-3" que bate 99%
+                # target_lays = ['0_0', '0_1', '1_0', '1_1', '0_2', '2_0', '1_2', '2_1', '2_2', '3_0', '0_3']
+                # for score in target_lays:
+                #     if lay_scores.get(score, 0) >= 92:
+                #         readable_score = score.replace('_', '-')
+                #         save_tip(match, f'LAY_CS_{score}', lay_scores[score], f'Lay Score {readable_score}')
 
             except Exception as e:
                 continue

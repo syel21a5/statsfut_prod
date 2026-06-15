@@ -253,6 +253,8 @@ class MatchAnalyzer:
             '12': {'1_2': 0, '1_3': 0, '2_3': 0, '2_4': 0},
         }
         
+        exact_scores = {}
+        
         for h in range(8):
             for a in range(8):
                 prob = global_poisson_prob(xg_home, h) * global_poisson_prob(xg_away, a)
@@ -268,6 +270,13 @@ class MatchAnalyzer:
                 is_home = h > a
                 is_draw = h == a
                 is_away = h < a
+                
+                if h <= 3 and a <= 3:
+                    exact_scores[f"{h}_{a}"] = prob
+                else:
+                    if is_home: exact_scores['any_other_home'] = exact_scores.get('any_other_home', 0) + prob
+                    elif is_away: exact_scores['any_other_away'] = exact_scores.get('any_other_away', 0) + prob
+                    elif is_draw: exact_scores['any_other_draw'] = exact_scores.get('any_other_draw', 0) + prob
                 
                 if is_home:
                     if btts: p_home_btts += prob
@@ -314,6 +323,11 @@ class MatchAnalyzer:
             'over_35': int((p_over_35 * 100 * w_poisson) + (calc_over(combined_matches, 3.5) * w_hist)),
             'over_45': over_45_val,
         }
+        
+        # O histórico real de placares exatos é muito ruidoso para amostras pequenas (10 jogos),
+        # então usamos 100% da probabilidade de Poisson para os placares e seus respectivos Lays.
+        base_stats['exact_scores'] = {k: int(v * 100) for k, v in exact_scores.items()}
+        base_stats['lay_correct_scores'] = {k: 100 - int(v * 100) for k, v in exact_scores.items()}
         
         base_stats['under_35'] = 100 - base_stats['over_35']
         base_stats['under_45'] = 100 - over_45_val
@@ -1340,29 +1354,40 @@ class MatchAnalyzer:
         
         # Lay Match Odds
         if odds['home_win'] <= 25:
-            lays.append({'market': _("Lay %(team)s") % {'team': self.home_team.name}, 'prob': 100 - odds['home_win'], 'reason': _("Home win probability is only %(prob)s%%") % {'prob': odds['home_win']}})
+            lays.append({'market': _("Lay %(team)s") % {'team': self.home_team.name}, 'prob': 100 - odds['home_win'], 'back_odd': round(100/odds['home_win'], 2) if odds['home_win'] > 0 else 1000.0, 'reason': _("Home win probability is only %(prob)s%%") % {'prob': odds['home_win']}})
         if odds['away_win'] <= 25:
-            lays.append({'market': _("Lay %(team)s") % {'team': self.away_team.name}, 'prob': 100 - odds['away_win'], 'reason': _("Away win probability is only %(prob)s%%") % {'prob': odds['away_win']}})
+            lays.append({'market': _("Lay %(team)s") % {'team': self.away_team.name}, 'prob': 100 - odds['away_win'], 'back_odd': round(100/odds['away_win'], 2) if odds['away_win'] > 0 else 1000.0, 'reason': _("Away win probability is only %(prob)s%%") % {'prob': odds['away_win']}})
         if odds['draw'] <= 25:
-            lays.append({'market': _("Lay Draw"), 'prob': 100 - odds['draw'], 'reason': _("Draw probability is only %(prob)s%%") % {'prob': odds['draw']}})
+            lays.append({'market': _("Lay Draw"), 'prob': 100 - odds['draw'], 'back_odd': round(100/odds['draw'], 2) if odds['draw'] > 0 else 1000.0, 'reason': _("Draw probability is only %(prob)s%%") % {'prob': odds['draw']}})
             
         # Lay Goals
         if goals['over_25'] <= 35:
-            lays.append({'market': _("Lay Over 2.5 Goals"), 'prob': 100 - goals['over_25'], 'reason': _("Over 2.5 probability is only %(prob)s%%") % {'prob': goals['over_25']}})
+            lays.append({'market': _("Lay Over 2.5 Goals"), 'prob': 100 - goals['over_25'], 'back_odd': round(100/goals['over_25'], 2) if goals['over_25'] > 0 else 1000.0, 'reason': _("Over 2.5 probability is only %(prob)s%%") % {'prob': goals['over_25']}})
         elif goals['over_25'] >= 65:
-            lays.append({'market': _("Lay Under 2.5 Goals"), 'prob': goals['over_25'], 'reason': _("Over 2.5 probability is %(prob)s%% (high)") % {'prob': goals['over_25']}})
+            lays.append({'market': _("Lay Under 2.5 Goals"), 'prob': goals['over_25'], 'back_odd': round(100/(100-goals['over_25']), 2) if (100-goals['over_25']) > 0 else 1000.0, 'reason': _("Over 2.5 probability is %(prob)s%% (high)") % {'prob': goals['over_25']}})
             
         # Lay BTTS
         if goals['btts'] <= 35:
-            lays.append({'market': _("Lay BTTS (Yes)"), 'prob': 100 - goals['btts'], 'reason': _("BTTS probability is only %(prob)s%%") % {'prob': goals['btts']}})
+            lays.append({'market': _("Lay BTTS (Yes)"), 'prob': 100 - goals['btts'], 'back_odd': round(100/goals['btts'], 2) if goals['btts'] > 0 else 1000.0, 'reason': _("BTTS probability is only %(prob)s%%") % {'prob': goals['btts']}})
             
         # Lay Correct Score
-        if goals['over_05'] >= 85:
-            lays.append({'market': _("Lay Score 0-0"), 'prob': goals['over_05'], 'reason': _("Over 0.5 goals probability is %(prob)s%%") % {'prob': goals['over_05']}})
-            
-        if goals['over_25'] <= 35:
-            lays.append({'market': _("Lay Any Other Score (4+ goals)"), 'prob': 100 - goals['over_25'], 'reason': _("Low probability of a high scoring match")})
-            
+        lay_cs = goals.get('lay_correct_scores', {})
+        for score, prob in lay_cs.items():
+            # If the probability of LAYING this score is 92% or higher, add it as a Smart Lay
+            if prob >= 92:
+                fail_prob = 100 - prob
+                back_odd = round(100 / fail_prob, 2) if fail_prob > 0 else 1000.0
+                
+                # Ignorar odds absurdas (maior que 50) pois o risco/retorno (liability) não compensa
+                if back_odd <= 50.0:
+                    readable_score = score.replace('_', '-')
+                    lays.append({
+                        'market': _("Lay Score %(score)s") % {'score': readable_score}, 
+                        'prob': prob, 
+                        'back_odd': back_odd,
+                        'reason': _("Mathematical chance of this score is only %(fail)s%%") % {'fail': fail_prob}
+                    })
+        
         # Sort by highest lay success probability
         lays.sort(key=lambda x: x['prob'], reverse=True)
         return lays

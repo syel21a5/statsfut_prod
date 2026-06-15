@@ -394,7 +394,11 @@
                         🚩 {% translate "Corners" %}
                     </button>
                 </li>
-
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link scanner-cat-tab fw-bold px-4 py-2" id="lays-tab" data-bs-toggle="pill" data-bs-target="#lays-pane" type="button" role="tab" style="color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <i class="fa-solid fa-bolt-lightning"></i> {% translate "Lays Seguros" %}
+                    </button>
+                </li>
             </ul>
 
             <div class="tab-content" id="scannerTabsContent">
@@ -1626,6 +1630,82 @@
                                 {% endif %}
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ==================== LAYS PANE ==================== -->
+                <div class="tab-pane fade" id="lays-pane" role="tabpanel" tabindex="0">
+                    <div class="p-4 rounded-4 shadow-sm mb-4" style="background: var(--bg-panel); border: 1px solid rgba(239, 68, 68, 0.3);">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="d-flex align-items-center justify-content-center rounded-3 me-3" style="width: 48px; height: 48px; background: rgba(239, 68, 68, 0.15);">
+                                <i class="fa-solid fa-bolt-lightning fa-lg text-danger"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-white mb-0 fw-bold">SMART LAY BETS (EXCHANGE)</h5>
+                                <span class="text-secondary small">Estratégias de Lay Correct Score (Apostar Contra) com mais de 92% de chance.</span>
+                            </div>
+                        </div>
+
+                        {% if tips_lays %}
+                            <div class="date-subtabs d-flex gap-1 mb-3" data-card="lays">
+                                {% regroup tips_lays by date_group as grouped_lays %}
+                                {% for group in grouped_lays %}
+                                <button class="btn btn-sm date-tab{% if forloop.first %} active{% endif %}" data-date-group="{{ group.grouper }}" onclick="filterDateTab(this, 'lays-list')">{{ group.grouper }}</button>
+                                {% endfor %}
+                            </div>
+                            <div class="scanner-card-list custom-scrollbar" id="lays-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 500px; overflow-y: auto; padding-right: 8px; padding-bottom: 8px;">
+                                {% for group in grouped_lays %}
+                                {% for item in group.list %}
+                                <a href="{% url 'matches:match_detail' item.match.id item.match.slug %}" class="text-decoration-none scanner-tip-row{% if not forloop.parentloop.first %} hidden-tip{% endif %}" data-date-group="{{ group.grouper }}">
+                                    <div class="p-3 rounded-4 d-flex flex-column h-100 position-relative premium-card-hover" style="background: linear-gradient(160deg, #1a1e24 0%, #121418 100%); border: 1px solid rgba(239, 68, 68, 0.2); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255,255,255,0.05); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseenter="this.style.borderColor='#ef4444'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(239, 68, 68, 0.25), inset 0 1px 1px rgba(255,255,255,0.05)'" onmouseleave="this.style.borderColor='rgba(239, 68, 68, 0.2)'; this.style.transform='none'; this.style.boxShadow='0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255,255,255,0.05)'">
+                                        
+                                        <!-- Header -->
+                                        <div class="d-flex justify-content-between align-items-center mb-4 pb-2" style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa-solid fa-location-dot" style="color: #ef4444; font-size: 0.8rem; text-shadow: 0 0 8px rgba(239, 68, 68, 0.5);"></i>
+                                                <span class="text-secondary text-uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 0.8px;">{{ item.match.league.country }} <span class="mx-1" style="color: #ef4444;">•</span> {{ item.match.league.name|truncatechars:18 }}</span>
+                                            </div>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="d-flex gap-2">
+                                                    <span class="text-secondary" style="font-size: 0.7rem;"><i class="fa-regular fa-calendar me-1" style="opacity:0.7"></i>{{ item.match.date|date:"d/m" }}</span>
+                                                    <span class="text-secondary" style="font-size: 0.7rem;"><i class="fa-regular fa-clock me-1" style="opacity:0.7"></i>{{ item.match.date|date:"H:i" }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Teams -->
+                                        <div class="d-flex justify-content-between align-items-center mb-auto px-2">
+                                            <div class="d-flex flex-column text-center" style="flex: 1; max-width: 42%;">
+                                                <div class="text-white fw-bold text-truncate mb-1" style="font-size: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);" title="{{ item.match.home_team.name }}">{{ item.match.home_team.name|truncatechars:15 }}</div>
+                                            </div>
+                                            <div class="mx-3 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; background: rgba(236, 72, 153, 0.1); border-radius: 50%; border: 1px solid rgba(236, 72, 153, 0.2); flex-shrink: 0;">
+                                                <div class="text-warning fw-bold" style="font-size: 0.65rem;">VS</div>
+                                            </div>
+                                            <div class="d-flex flex-column text-center" style="flex: 1; max-width: 42%;">
+                                                <div class="text-white fw-bold text-truncate mb-1" style="font-size: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);" title="{{ item.match.away_team.name }}">{{ item.match.away_team.name|truncatechars:15 }}</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Market row -->
+                                        <div class="rounded-4 px-3 py-2 d-flex justify-content-between align-items-center mt-4" style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25); position: relative; overflow: hidden;">
+                                            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #ef4444; box-shadow: 0 0 10px #ef4444;"></div>
+                                            <div class="d-flex flex-column ms-2">
+                                                <div class="text-white fw-bold" style="font-size: 0.9rem; letter-spacing: 0.2px;">{{ item.text }}</div>
+                                                <div class="text-danger" style="font-size: 0.7rem; font-weight: 700;">Chance de Sucesso: {{ item.prob }}%</div>
+                                            </div>
+                                            <div class="fw-bold fs-5" style="color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);">{{ item.odd }} <i class="fa-solid fa-arrow-up-right-dots" style="font-size: 0.7rem; opacity: 0.8; margin-left: 2px;"></i></div>
+                                        </div>
+                                    </div>
+                                </a>
+                                {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center p-4 text-secondary">
+                                <i class="fa-solid fa-bolt-slash fa-2x mb-2 opacity-50"></i>
+                                <p class="mb-0">{% translate "No Lay Correct Score opportunities found." %}</p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 

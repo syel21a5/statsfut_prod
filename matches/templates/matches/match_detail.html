@@ -564,6 +564,7 @@
         <button class="market-tab-btn" onclick="switchMarketTab('cartoes', this)"><i class="fa-solid fa-clone"></i> {% translate "Cartões" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('chutes', this)"><i class="fa-solid fa-bullseye"></i> {% translate "Chutes" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('especiais', this)"><i class="fa-solid fa-bolt"></i> {% translate "Especiais & Combos" %}</button>
+        {# <button class="market-tab-btn" onclick="switchMarketTab('lays', this)"><i class="fa-solid fa-bolt-lightning text-danger"></i> {% translate "Trade & Lays" %}</button> #}
         {% if show_script_btn %}
         <button class="market-tab-btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border-color: rgba(139, 92, 246, 0.5); margin-left: auto;" onclick="openVideoScriptModal()">
             <i class="fa-solid fa-wand-magic-sparkles"></i> {% translate "Gerar Roteiro (IA)" %}
@@ -804,30 +805,7 @@
             </div>
         </div>
 
-        {% if advanced_stats.lay_bets %}
-        <!-- SMART LAY BETS -->
-        <div class="analytic-board mb-4" style="border-color: rgba(239, 68, 68, 0.4);">
-            <div class="board-header" style="background: linear-gradient(90deg, #7f1d1d, #991b1b);">
-                <i class="fa-solid fa-bolt"></i> {% translate "SMART LAY BETS (EXCHANGE)" %}
-            </div>
-            <div class="board-body" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
-                <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem;">
-                    {% blocktranslate trimmed %}
-                    Betting <strong>AGAINST</strong> these outcomes has a high statistical probability of success based on recent data.
-                    {% endblocktranslate %}
-                </p>
-                <div class="sugg-list">
-                    {% for lay in advanced_stats.lay_bets %}
-                    <div class="sugg-item" style="border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.75rem; border-radius: 8px; background: rgba(239, 68, 68, 0.05); margin-bottom: 0.5rem;">
-                        <span class="market" style="color: #fca5a5; font-size: 1rem; min-width: 150px; font-weight: 800;"><i class="fa-solid fa-xmark me-1"></i> {{ lay.market }}</span>
-                        <span style="font-size: 0.75rem; color: var(--text-muted); flex: 1; text-align: center;">{{ lay.reason }}</span>
-                        <span class="perc" style="font-size: 1.1rem; color: #fff; text-align: right; min-width: 100px;">{{ lay.prob }}% <br><small style="font-size:0.5rem; color:#fca5a5; text-transform:uppercase; letter-spacing:1px;">{% translate "Success Chance" %}</small></span>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        {% endif %}
+
 
 
         <!-- IA SUMMARY -->
@@ -1179,6 +1157,50 @@
             </div>
         </div>
     </div> <!-- END TAB CHUTES -->
+
+    <!-- ==================== ABA: TRADE & LAYS ==================== -->
+    <div id="tab-lays" class="market-tab-content d-none">
+        <!-- SMART LAY BETS -->
+        <div class="mb-4">
+            <div class="d-flex align-items-center mb-3" style="color: #f87171; font-weight: 800; font-size: 1.1rem; text-transform: uppercase;">
+                <i class="fa-solid fa-bolt me-2"></i> {% translate "Smart Lay Bets (Exchange)" %}
+            </div>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.5rem;">
+                {% blocktranslate trimmed %}
+                Betting <strong>AGAINST</strong> these outcomes has a high statistical probability of success.
+                {% endblocktranslate %}
+            </p>
+            
+            <div class="row g-3">
+                {% if advanced_stats.lay_bets %}
+                    {% for lay in advanced_stats.lay_bets %}
+                    <div class="col-md-6 col-12">
+                        <div class="p-3" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(17, 24, 39, 0.4) 100%); border-left: 4px solid #ef4444; border-radius: 8px; border-top: 1px solid rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.02); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge mb-2" style="background: rgba(239,68,68,0.2); color: #fca5a5; font-weight:800; font-size:0.65rem; letter-spacing: 1px; padding: 4px 8px; border: 1px solid rgba(239,68,68,0.3);">
+                                        <i class="fa-solid fa-chart-line me-1"></i> {% translate "FAIR ODD" %}: <strong style="color:#fff;">{{ lay.back_odd|floatformat:2 }}</strong>
+                                    </span>
+                                    <h4 style="color:#fff; font-weight:800; margin:0; font-size:1.1rem; font-family: 'Inter', sans-serif;">{{ lay.market }}</h4>
+                                    <div style="color: #94a3b8; font-size: 0.75rem; margin-top:6px; line-height: 1.4;">{{ lay.reason }}</div>
+                                </div>
+                                <div class="text-center" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 12px 15px; min-width: 90px;">
+                                    <div style="color: #fff; font-size: 1.4rem; font-weight: 900; line-height:1; font-family: 'Inter', sans-serif;">{{ lay.prob }}%</div>
+                                    <div style="color: #ef4444; font-size: 0.6rem; font-weight: 800; text-transform:uppercase; margin-top:4px; letter-spacing: 0.5px;">{% translate "Success" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center text-muted" style="padding: 2rem 0;">
+                        <i class="fa-solid fa-shield-halved mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
+                        <p class="small m-0">{% translate "No high-probability Lay bets found." %}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div> <!-- END TAB LAYS -->
 
     {% endif %}
 
