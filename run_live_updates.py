@@ -46,8 +46,8 @@ def job_live_lay_bot():
 
 # --- Configuração do Agendamento ---
 
-# 1. Jogos AO VIVO: Desativado para economizar recursos e API
-# schedule.every(15).minutes.do(job_live)
+# 1. Jogos AO VIVO: Ativado para alimentar o Radar e os Robôs
+schedule.every(15).minutes.do(job_live)
 
 # 1.5. Live Lay Bot do Telegram: A cada 2 minutos (Custo zero, roda 100% local)
 schedule.every(2).minutes.do(job_live_lay_bot)
@@ -66,7 +66,7 @@ print("========================================================")
 print("🚀 AGENDADOR DE ATUALIZAÇÕES API INICIADO")
 print("========================================================")
 print("Configuração:")
-print("   - Ao Vivo API: DESATIVADO")
+print("   - Ao Vivo API: a cada 15 minutos")
 print("   - Robô Telegram Lay: a cada 2 minutos (Local)")
 print("   - Resultados Recentes: a cada 1 hora (NOVO)")
 print("   - Próximos (15 dias): a cada 4 horas")
@@ -74,7 +74,7 @@ print("========================================================")
 print("Pressione Ctrl+C para parar.")
 
 # Executa uma vez imediatamente ao iniciar para garantir dados frescos
-# job_live() # Desativado
+job_live() # Agora ativado para já puxar o ao vivo no start
 job_recent()
 job_upcoming()
 
