@@ -564,7 +564,7 @@
         <button class="market-tab-btn" onclick="switchMarketTab('cartoes', this)"><i class="fa-solid fa-clone"></i> {% translate "Cartões" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('chutes', this)"><i class="fa-solid fa-bullseye"></i> {% translate "Chutes" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('especiais', this)"><i class="fa-solid fa-bolt"></i> {% translate "Especiais & Combos" %}</button>
-        {# <button class="market-tab-btn" onclick="switchMarketTab('lays', this)"><i class="fa-solid fa-bolt-lightning text-danger"></i> {% translate "Trade & Lays" %}</button> #}
+        <button class="market-tab-btn" onclick="switchMarketTab('lays', this)"><i class="fa-solid fa-bolt-lightning text-danger"></i> {% translate "Trade & Lays" %}</button>
         {% if show_script_btn %}
         <button class="market-tab-btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border-color: rgba(139, 92, 246, 0.5); margin-left: auto;" onclick="openVideoScriptModal()">
             <i class="fa-solid fa-wand-magic-sparkles"></i> {% translate "Gerar Roteiro (IA)" %}
@@ -1171,34 +1171,70 @@
                 {% endblocktranslate %}
             </p>
             
-            <div class="row g-3">
-                {% if advanced_stats.lay_bets %}
-                    {% for lay in advanced_stats.lay_bets %}
-                    <div class="col-md-6 col-12">
-                        <div class="p-3" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(17, 24, 39, 0.4) 100%); border-left: 4px solid #ef4444; border-radius: 8px; border-top: 1px solid rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.02); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="badge mb-2" style="background: rgba(239,68,68,0.2); color: #fca5a5; font-weight:800; font-size:0.65rem; letter-spacing: 1px; padding: 4px 8px; border: 1px solid rgba(239,68,68,0.3);">
-                                        <i class="fa-solid fa-chart-line me-1"></i> {% translate "FAIR ODD" %}: <strong style="color:#fff;">{{ lay.back_odd|floatformat:2 }}</strong>
-                                    </span>
-                                    <h4 style="color:#fff; font-weight:800; margin:0; font-size:1.1rem; font-family: 'Inter', sans-serif;">{{ lay.market }}</h4>
-                                    <div style="color: #94a3b8; font-size: 0.75rem; margin-top:6px; line-height: 1.4;">{{ lay.reason }}</div>
+            <div class="lay-betting-table-wrapper" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: separate; border-spacing: 0 8px; min-width: 600px;">
+                    <thead>
+                        <tr style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">
+                            <th class="ps-4 pb-2" style="text-align: left;">{% translate "Placar" %}</th>
+                            <th class="text-center pb-2">{% translate "Success" %}</th>
+                            <th class="text-center pb-2">{% translate "FAIR ODD" %}</th>
+                            <th class="text-center pb-2 pe-3" style="width: 130px;">{% translate "Exchange" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if advanced_stats.lay_bets %}
+                        {% for lay in advanced_stats.lay_bets %}
+                        <tr class="lay-row" style="background: linear-gradient(90deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%); transition: all 0.2s ease;">
+                            <td class="ps-4 py-3" style="border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); border-left: 1px solid rgba(255,255,255,0.03);">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 4px; height: 28px; background: #ef4444; border-radius: 4px; margin-right: 14px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);"></div>
+                                    <div>
+                                        <span style="color: #f8fafc; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px;">{{ lay.market }}</span>
+                                        <div style="color: #64748b; font-size: 0.75rem; margin-top: 4px; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ lay.reason }}">{{ lay.reason }}</div>
+                                    </div>
                                 </div>
-                                <div class="text-center" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 12px 15px; min-width: 90px;">
-                                    <div style="color: #fff; font-size: 1.4rem; font-weight: 900; line-height:1; font-family: 'Inter', sans-serif;">{{ lay.prob }}%</div>
-                                    <div style="color: #ef4444; font-size: 0.6rem; font-weight: 800; text-transform:uppercase; margin-top:4px; letter-spacing: 0.5px;">{% translate "Success" %}</div>
+                            </td>
+                            <td class="text-center py-3" style="border-top: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                <div class="d-inline-flex align-items-center justify-content-center" style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 20px; padding: 6px 14px; box-shadow: inset 0 0 8px rgba(239, 68, 68, 0.05);">
+                                    <i class="fa-solid fa-shield-halved text-danger me-2" style="font-size: 0.85rem;"></i>
+                                    <span style="color: #fca5a5; font-weight: 800; font-size: 1rem;">{{ lay.prob }}%</span>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="col-12 text-center text-muted" style="padding: 2rem 0;">
-                        <i class="fa-solid fa-shield-halved mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
-                        <p class="small m-0">{% translate "No high-probability Lay bets found." %}</p>
-                    </div>
-                {% endif %}
+                            </td>
+                            <td class="text-center py-3" style="border-top: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 6px 12px; display: inline-block; border: 1px solid rgba(255,255,255,0.05);">
+                                    <span style="color: #cbd5e1; font-weight: 700; font-size: 1.05rem; font-family: monospace;">{{ lay.back_odd|floatformat:2 }}</span>
+                                </div>
+                            </td>
+                            <td class="text-center py-3 pe-3" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-top: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03);">
+                                <div style="background: #fca5a5; border: 1px solid #f87171; border-radius: 6px; padding: 10px 0; width: 100%; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15); cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f87171'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#fca5a5'; this.style.transform='translateY(0)';">
+                                    <div style="color: #7f1d1d; font-weight: 900; font-size: 0.85rem; letter-spacing: 1px;">{% translate "LAY" %}</div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">
+                                <div class="col-12 text-center text-muted" style="padding: 3.5rem 0; background: rgba(255,255,255,0.015); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); margin-top: 10px;">
+                                    <i class="fa-solid fa-folder-open mb-3" style="font-size: 2.5rem; opacity: 0.15;"></i>
+                                    <p class="m-0" style="font-weight: 600; font-size: 0.95rem; color: #64748b;">{% translate "No high-probability Lay bets found." %}</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
             </div>
+            
+            <style>
+                .lay-row:hover {
+                    background: linear-gradient(90deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
+                    transform: scale(1.01) translateY(-1px);
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                    z-index: 10;
+                    position: relative;
+                }
+            </style>
         </div>
     </div> <!-- END TAB LAYS -->
 

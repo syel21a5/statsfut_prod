@@ -615,7 +615,8 @@ def premium_dashboard(request):
         elif tip.market in SHOTS_MARKETS:
             tips_shots.append(item)
         elif tip.market.startswith('LAY_CS_'):
-            tips_lays.append(item)
+            if str(item['date_group']) == str(_("Today")):
+                tips_lays.append(item)
         elif tip.market.startswith('DC_1X_OVER_') or tip.market.startswith('DC_X2_OVER_'):
             tips_dc_over.append(item)
         elif tip.market.startswith('DC_1X_BTTS_') or tip.market.startswith('DC_X2_BTTS_'):
