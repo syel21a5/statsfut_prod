@@ -119,6 +119,8 @@ class Command(BaseCommand):
                 # RESTRITIVO: Busca apenas as ligas que o usuário habilitou expressamente
                 enabled_leagues = [
                     {'name': 'Brasileirao', 'country': 'Brasil'},
+                    {'name': 'Série B', 'country': 'Brasil'},
+                    {'name': 'Série C', 'country': 'Brasil'},
                     {'name': 'La Liga', 'country': 'Espanha'},
                     {'name': 'Premier League', 'country': 'Inglaterra'},
                     {'name': 'Serie A', 'country': 'Italia'},
