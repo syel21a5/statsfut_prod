@@ -47,7 +47,7 @@ def job_live_lay_bot():
 # --- Configuração do Agendamento ---
 
 # 1. Jogos AO VIVO: Ativado para alimentar o Radar e os Robôs
-schedule.every(15).minutes.do(job_live)
+schedule.every(1).minutes.do(job_live)
 
 # 1.5. Live Lay Bot do Telegram: A cada 2 minutos (Custo zero, roda 100% local)
 schedule.every(2).minutes.do(job_live_lay_bot)
