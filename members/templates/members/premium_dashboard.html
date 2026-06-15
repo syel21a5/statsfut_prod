@@ -2382,24 +2382,20 @@
                                         <i class="fa-solid fa-list me-2"></i>{% translate "Todas as Trixies" %}
                                     </button>
                                 </li>
+
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link rounded-pill px-4" id="trixie-dc-tab" data-bs-toggle="pill" data-bs-target="#trixie-dc-pane" type="button" role="tab">
-                                        <i class="fa-solid fa-shield-halved me-2"></i>{% translate "DC + 2-4 Gols" %}
+                                    <button class="nav-link rounded-pill px-4" id="trixie-dnb-tab" data-bs-toggle="pill" data-bs-target="#trixie-dnb-pane" type="button" role="tab">
+                                        <i class="fa-solid fa-rotate-left me-2"></i>{% translate "Empate Anula" %}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link rounded-pill px-4" id="trixie-goals-btts-tab" data-bs-toggle="pill" data-bs-target="#trixie-goals-btts-pane" type="button" role="tab">
-                                        <i class="fa-solid fa-futbol me-2"></i>{% translate "Gols + BTTS" %}
+                                    <button class="nav-link rounded-pill px-4" id="trixie-over-15-tab" data-bs-toggle="pill" data-bs-target="#trixie-over-15-pane" type="button" role="tab">
+                                        <i class="fa-solid fa-futbol me-2"></i>{% translate "Mais 1.5 Gols" %}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link rounded-pill px-4" id="trixie-half-goals-tab" data-bs-toggle="pill" data-bs-target="#trixie-half-goals-pane" type="button" role="tab">
-                                        <i class="fa-solid fa-stopwatch me-2"></i>{% translate "Mais Gols (Tempo)" %}
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link rounded-pill px-4" id="trixie-team-half-tab" data-bs-toggle="pill" data-bs-target="#trixie-team-half-pane" type="button" role="tab">
-                                        <i class="fa-solid fa-crosshairs me-2"></i>{% translate "Equipe Marca (Tempo)" %}
+                                    <button class="nav-link rounded-pill px-4" id="trixie-dc-safe-tab" data-bs-toggle="pill" data-bs-target="#trixie-dc-safe-pane" type="button" role="tab">
+                                        <i class="fa-solid fa-lock me-2"></i>{% translate "Dupla Chance Segura" %}
                                     </button>
                                 </li>
                             </ul>
@@ -2425,11 +2421,13 @@
                                 </div>
                             </div>
                             
-                            <!-- DC + Gols -->
-                            <div class="tab-pane fade" id="trixie-dc-pane" role="tabpanel" tabindex="0">
+
+
+                            <!-- DNB -->
+                            <div class="tab-pane fade" id="trixie-dnb-pane" role="tabpanel" tabindex="0">
                                 <div class="row g-4">
-                                    {% if trixie_dc_tickets %}
-                                        {% for ticket in trixie_dc_tickets %}
+                                    {% if trixie_dnb_tickets %}
+                                        {% for ticket in trixie_dnb_tickets %}
                                             {% include "members/partials/ticket_card.html" with ticket=ticket %}
                                         {% endfor %}
                                     {% else %}
@@ -2440,11 +2438,11 @@
                                 </div>
                             </div>
 
-                            <!-- Gols + BTTS -->
-                            <div class="tab-pane fade" id="trixie-goals-btts-pane" role="tabpanel" tabindex="0">
+                            <!-- Over 1.5 -->
+                            <div class="tab-pane fade" id="trixie-over-15-pane" role="tabpanel" tabindex="0">
                                 <div class="row g-4">
-                                    {% if trixie_goals_btts_tickets %}
-                                        {% for ticket in trixie_goals_btts_tickets %}
+                                    {% if trixie_over_15_tickets %}
+                                        {% for ticket in trixie_over_15_tickets %}
                                             {% include "members/partials/ticket_card.html" with ticket=ticket %}
                                         {% endfor %}
                                     {% else %}
@@ -2455,26 +2453,11 @@
                                 </div>
                             </div>
 
-                            <!-- Half Goals -->
-                            <div class="tab-pane fade" id="trixie-half-goals-pane" role="tabpanel" tabindex="0">
+                            <!-- DC Safe -->
+                            <div class="tab-pane fade" id="trixie-dc-safe-pane" role="tabpanel" tabindex="0">
                                 <div class="row g-4">
-                                    {% if trixie_half_goals_tickets %}
-                                        {% for ticket in trixie_half_goals_tickets %}
-                                            {% include "members/partials/ticket_card.html" with ticket=ticket %}
-                                        {% endfor %}
-                                    {% else %}
-                                        <div class="col-12 text-center p-5 rounded-4" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
-                                            <p class="text-secondary mb-0">{% translate "No tickets found for this strategy today." %}</p>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <!-- Team Half Goals -->
-                            <div class="tab-pane fade" id="trixie-team-half-pane" role="tabpanel" tabindex="0">
-                                <div class="row g-4">
-                                    {% if trixie_team_half_tickets %}
-                                        {% for ticket in trixie_team_half_tickets %}
+                                    {% if trixie_dc_safe_tickets %}
+                                        {% for ticket in trixie_dc_safe_tickets %}
                                             {% include "members/partials/ticket_card.html" with ticket=ticket %}
                                         {% endfor %}
                                     {% else %}

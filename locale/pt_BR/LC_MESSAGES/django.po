@@ -4012,19 +4012,19 @@ msgstr "Mais de 3.5 Gols"
 
 #: members/views.py:528
 msgid "Under 3.5 Goals"
-msgstr "Mais de 3.5 Gols"
+msgstr "Menos de 3.5 Gols"
 
 #: members/views.py:529
 msgid "Under 4.5 Goals"
-msgstr "Lay Under 2.5 Gols"
+msgstr "Menos de 4.5 Gols"
 
 #: members/views.py:530
 msgid "Under 5.5 Goals"
-msgstr "Lay Under 2.5 Gols"
+msgstr "Menos de 5.5 Gols"
 
 #: members/views.py:531
 msgid "Under 6.5 Goals"
-msgstr "Lay Under 2.5 Gols"
+msgstr "Menos de 6.5 Gols"
 
 #: members/views.py:534
 msgid "BTTS 1st Half"

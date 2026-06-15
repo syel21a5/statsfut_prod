@@ -51,10 +51,9 @@ class Command(BaseCommand):
                     'btts_no': [],
                     'double_chance': [],
                     'hedge_favorito': [],
-                    'trixie_dc_goals': [],
-                    'trixie_goals_btts': [],
-                    'trixie_half_goals': [],
-                    'trixie_team_half': []
+                    'trixie_dnb': [],
+                    'trixie_over_15': [],
+                    'trixie_dc_safe': []
                 }
             
             pool = by_date_pools[m_date]
@@ -77,82 +76,80 @@ class Command(BaseCommand):
                 
                 # 3. Ambas Marcam (BTTS)
                 btts = goals.get('btts', 0)
-                if btts >= 65:
+                if btts >= 70:
                     pool['btts'].append({'match': m, 'market': 'btts', 'label': 'Ambas Marcam - Sim', 'prob': btts})
                 
-                # 4. Escanteios (Over 9.5)
-                over9_corners = corners.get('match_overs', {}).get(9, 0)
-                if over9_corners >= 70:
-                    pool['corners'].append({'match': m, 'market': 'over_95_corners', 'label': 'Mais de 9.5 Escanteios', 'prob': over9_corners})
+                # 4. Escanteios (Over 7.5 Super Seguro)
+                over7_corners = corners.get('match_overs', {}).get(7, 0)
+                if over7_corners >= 80:
+                    pool['corners'].append({'match': m, 'market': 'over_75_corners', 'label': 'Mais de 7.5 Escanteios', 'prob': over7_corners})
                 
                 # 5. Favorito Seguro (Back Favorito)
                 home_win = odds.get('home_win', 0)
                 away_win = odds.get('away_win', 0)
-                if home_win >= 70:
+                if home_win >= 75:
                     pool['favorites'].append({'match': m, 'market': 'home_win', 'label': f'Vitória do {m.home_team.name}', 'prob': home_win})
-                elif away_win >= 70:
+                elif away_win >= 75:
                     pool['favorites'].append({'match': m, 'market': 'away_win', 'label': f'Vitória do {m.away_team.name}', 'prob': away_win})
 
                 # 6. Over 0.5 Gols FT (Alavancagem)
                 over_05 = goals.get('over_05', 0)
-                if over_05 >= 90:
+                if over_05 >= 95:
                     pool['over_05'].append({'match': m, 'market': 'over_05', 'label': 'Mais de 0.5 Gols FT', 'prob': over_05})
 
                 # 7. Menos de 3.5 Gols FT (Under 3.5 Gols)
                 over_35 = goals.get('over_35', 0)
                 under_35 = 100 - over_35
-                if under_35 >= 80:
+                if under_35 >= 85:
                     pool['under_35'].append({'match': m, 'market': 'under_35', 'label': 'Menos de 3.5 Gols FT', 'prob': under_35})
 
                 # 8. Ambas Marcam Não (BTTS No)
                 btts_no = 100 - btts
-                if btts_no >= 65:
+                if btts_no >= 70:
                     pool['btts_no'].append({'match': m, 'market': 'btts_no', 'label': 'Ambas Marcam - Não', 'prob': btts_no})
 
-                # 9. Dupla Chance (1X ou X2 Segura)
+                # 9. Dupla Chance (1X ou X2 Super Segura)
                 double_home = odds.get('double_home', 0)
                 double_away = odds.get('double_away', 0)
-                if double_home >= 80:
+                if double_home >= 90:
                     pool['double_chance'].append({'match': m, 'market': 'double_chance_1x', 'label': f'1X - {m.home_team.name} ou Empate', 'prob': double_home})
-                elif double_away >= 80:
+                elif double_away >= 90:
                     pool['double_chance'].append({'match': m, 'market': 'double_chance_x2', 'label': f'X2 - {m.away_team.name} ou Empate', 'prob': double_away})
+
+                # 9.1 Empate Anula (DNB Seguro)
+                dnb_home = goals.get('dnb', {}).get('home', 0)
+                dnb_away = goals.get('dnb', {}).get('away', 0)
+                if dnb_home >= 80:
+                    pool['double_chance'].append({'match': m, 'market': 'dnb_home', 'label': f'Empate Anula - {m.home_team.name}', 'prob': dnb_home})
+                elif dnb_away >= 80:
+                    pool['double_chance'].append({'match': m, 'market': 'dnb_away', 'label': f'Empate Anula - {m.away_team.name}', 'prob': dnb_away})
 
                 # 10. Hedge ao Favorito
                 if m.home_team_win_odds and m.away_team_win_odds:
                     if m.home_team_win_odds < m.away_team_win_odds and m.home_team_win_odds >= 2.00:
-                        if goals.get('over_15', 0) >= 70:
+                        if goals.get('over_15', 0) >= 75:
                             pool['hedge_favorito'].append({'match': m, 'market': 'home_win', 'label': f'Hedge - Vitória do {m.home_team.name}', 'prob': int(100/m.home_team_win_odds)})
                     elif m.away_team_win_odds < m.home_team_win_odds and m.away_team_win_odds >= 2.00:
-                        if goals.get('over_15', 0) >= 70:
+                        if goals.get('over_15', 0) >= 75:
                             pool['hedge_favorito'].append({'match': m, 'market': 'away_win', 'label': f'Hedge - Vitória do {m.away_team.name}', 'prob': int(100/m.away_team_win_odds)})
 
-                # 11. Trixie Combo Bets (New Strategies)
-                dc_brackets = goals.get('dc_brackets', {})
-                goals_btts = goals.get('goals_btts', {})
-                half_most = goals.get('half_most_goals', {})
-                team_scoring = goals.get('team_scoring_halves', {})
+                # 11. Trixie Combo Bets (As Mais Seguras Possíveis)
+                # Novas Trixies de Ouro
 
-                # Grupo 1: DC + 2-4 Gols
-                if dc_brackets.get('1X_2_4', 0) >= 40:
-                    pool['trixie_dc_goals'].append({'match': m, 'market': 'dc_1x_2_4', 'label': f'{m.home_team.name} ou Empate & 2-4 Gols no Jogo', 'prob': dc_brackets['1X_2_4'], 'odd': 1.85})
-                elif dc_brackets.get('X2_2_4', 0) >= 40:
-                    pool['trixie_dc_goals'].append({'match': m, 'market': 'dc_x2_2_4', 'label': f'Empate ou {m.away_team.name} & 2-4 Gols no Jogo', 'prob': dc_brackets['X2_2_4'], 'odd': 1.85})
+                # Novas Trixies de Ouro
+                if dnb_home >= 80:
+                    pool['trixie_dnb'].append({'match': m, 'market': 'dnb_home', 'label': f'Empate Anula - {m.home_team.name}', 'prob': dnb_home, 'odd': 1.60})
+                elif dnb_away >= 80:
+                    pool['trixie_dnb'].append({'match': m, 'market': 'dnb_away', 'label': f'Empate Anula - {m.away_team.name}', 'prob': dnb_away, 'odd': 1.60})
 
-                # Grupo 2: Gols + BTTS
-                if goals_btts.get('over_25_yes', 0) >= 55:
-                    pool['trixie_goals_btts'].append({'match': m, 'market': 'over_25_yes', 'label': '+2.5 Gols & Ambas Sim', 'prob': goals_btts['over_25_yes'], 'odd': 2.30})
-                elif goals_btts.get('under_25_no', 0) >= 55:
-                    pool['trixie_goals_btts'].append({'match': m, 'market': 'under_25_no', 'label': '-2.5 Gols & Ambas Não', 'prob': goals_btts['under_25_no'], 'odd': 2.20})
+                over_15_trixie = goals.get('over_15', 0)
+                if over_15_trixie >= 85:
+                    pool['trixie_over_15'].append({'match': m, 'market': 'over_15', 'label': 'Mais de 1.5 Gols FT', 'prob': over_15_trixie, 'odd': 1.35})
 
-                # Grupo 3: 2º Tempo com Mais Gols
-                if half_most.get('2t', 0) >= 65:
-                    pool['trixie_half_goals'].append({'match': m, 'market': 'most_goals_2t', 'label': '2º Tempo Com Mais Gols', 'prob': half_most['2t'], 'odd': 2.05})
-
-                # Grupo 4: Equipe Marca no 2º Tempo
-                if team_scoring.get('home_2t', 0) >= 70:
-                    pool['trixie_team_half'].append({'match': m, 'market': 'home_score_2t', 'label': f'{m.home_team.name} Marca no 2º Tempo', 'prob': team_scoring['home_2t'], 'odd': 1.70})
-                elif team_scoring.get('away_2t', 0) >= 70:
-                    pool['trixie_team_half'].append({'match': m, 'market': 'away_score_2t', 'label': f'{m.away_team.name} Marca no 2º Tempo', 'prob': team_scoring['away_2t'], 'odd': 1.70})
+                if double_home >= 90:
+                    pool['trixie_dc_safe'].append({'match': m, 'market': 'double_chance_1x', 'label': f'1X - {m.home_team.name} ou Empate', 'prob': double_home, 'odd': 1.30})
+                elif double_away >= 90:
+                    pool['trixie_dc_safe'].append({'match': m, 'market': 'double_chance_x2', 'label': f'X2 - {m.away_team.name} ou Empate', 'prob': double_away, 'odd': 1.30})
 
             except Exception:
                 continue
@@ -182,13 +179,10 @@ class Command(BaseCommand):
             doubles_created = 0
             
             doubles_pool_sources = [
-                {'opts': pool['ht_goal'], 'title': 'Dupla Ouro HT (Gols no 1º Tempo)'},
                 {'opts': pool['over_15'], 'title': 'Dupla de Gols FT (Mais de 1.5 Gols)'},
-                {'opts': pool['corners'], 'title': 'Dupla de Cantos (Over 9.5 Escanteios)'},
-                {'opts': pool['btts'], 'title': 'Dupla Ambas Marcam (Gols dos Dois Lados)'},
+                {'opts': pool['corners'], 'title': 'Dupla de Cantos (Over 7.5 Escanteios)'},
                 {'opts': pool['favorites'], 'title': 'Dupla de Favoritos (Vitórias Claras)'},
                 {'opts': pool['under_35'], 'title': 'Dupla Sob Controle (Menos de 3.5 Gols)'},
-                {'opts': pool['btts_no'], 'title': 'Dupla Defesa de Ferro (Ambas Marcam Não)'},
                 {'opts': pool['double_chance'], 'title': 'Dupla Dupla Chance (Segurança Extra)'},
             ]
             
@@ -236,7 +230,6 @@ class Command(BaseCommand):
                 {'opts': pool['over_15'], 'title': 'Tripla de Gols FT (Mais de 1.5 Gols)'},
                 {'opts': pool['double_chance'], 'title': 'Tripla Dupla Chance (Segurança Máxima)'},
                 {'opts': pool['over_05'], 'title': 'Tripla Alavancagem (Mais de 0.5 Gols FT)'},
-                {'opts': pool['ht_goal'], 'title': 'Tripla Ouro HT (Gols no 1º Tempo)'},
             ]
             
             for source in triples_pool_sources:
@@ -401,12 +394,10 @@ class Command(BaseCommand):
 
             # ==========================================
             # 6. GERAR SISTEMAS TRIXIE (Trixie) - 4 Estratégias
-            # ==========================================
             strategies = [
-                {'list': pool['trixie_dc_goals'], 'name': 'DC_GOALS', 'title': 'Trixie Combo: DC + Faixa de Gols'},
-                {'list': pool['trixie_goals_btts'], 'name': 'GOALS_BTTS', 'title': 'Trixie Combo: Gols + Ambas Marcam'},
-                {'list': pool['trixie_half_goals'], 'name': 'HALF_GOALS', 'title': 'Trixie Especial: 2º Tempo com Mais Gols'},
-                {'list': pool['trixie_team_half'], 'name': 'TEAM_HALF', 'title': 'Trixie Pressão: Equipe Marca no 2º Tempo'},
+                {'list': pool['trixie_dnb'], 'name': 'TRIXIE_DNB', 'title': 'Trixie de Ouro: Empate Anula'},
+                {'list': pool['trixie_over_15'], 'name': 'TRIXIE_OVER_15', 'title': 'Trixie Combo: Mais de 1.5 Gols'},
+                {'list': pool['trixie_dc_safe'], 'name': 'TRIXIE_DC_SAFE', 'title': 'Trixie Blindada: Dupla Chance 90%+'},
             ]
 
             trixie_created = 0

@@ -4019,7 +4019,7 @@ msgstr "Traf in beiden Halbzeiten"
 
 #: members/views.py:538 members/views.py:539
 msgid "%(team)s to Win"
-msgstr "%(name)s Siege"
+msgstr "Sieg für %(team)s"
 
 #: members/views.py:540
 #, python-format
@@ -4050,7 +4050,7 @@ msgstr "Ohne Gegentor"
 
 #: members/views.py:551 members/views.py:552
 msgid "%(team)s Win to Nil"
-msgstr "%(name)s Siege"
+msgstr "Sieg für %(team)s"
 
 #: members/views.py:553
 #, python-format
@@ -4069,7 +4069,7 @@ msgstr "%(team)s +1.5 (AH)"
 
 #: members/views.py:556
 msgid "%(team)s Wins by 1 Goal"
-msgstr "%(name)s Siege"
+msgstr "Sieg für %(team)s"
 
 #: members/views.py:557
 #, python-format
@@ -4078,7 +4078,7 @@ msgstr "%(team)s Gewinnt mit 2 Toren"
 
 #: members/views.py:558 members/views.py:559
 msgid "%(team)s Win & BTTS Yes"
-msgstr "%(name)s Siege"
+msgstr "Sieg für %(team)s"
 
 #: members/views.py:560
 #, python-format
@@ -4115,7 +4115,7 @@ msgstr "Über 1.5 Tore"
 
 #: members/views.py:570 members/views.py:571
 msgid "%(team)s Wins Corners"
-msgstr "%(name)s Siege"
+msgstr "Sieg für %(team)s"
 
 #: members/views.py:573
 msgid "Over 3.5 Cards"

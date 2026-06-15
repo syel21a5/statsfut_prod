@@ -80,7 +80,7 @@ class Command(BaseCommand):
                         line_str = str(line).replace('.', '_')
                         key = f"{combo}_under_{line_str}"
                         prob = dc_unders.get(key, 0)
-                        threshold = 80 if line == 2.5 else (85 if line == 3.5 else 90)
+                        threshold = 85 if line == 2.5 else (90 if line == 3.5 else 95)
                         if prob >= threshold:
                             save_tip(match, f"DC_{combo}_UNDER_{line_str}", prob, f"{label_combo} & Under {line} Goals")
 
@@ -91,7 +91,7 @@ class Command(BaseCommand):
                         line_str = str(line).replace('.', '_')
                         key = f"{combo}_over_{line_str}"
                         prob = dc_overs.get(key, 0)
-                        threshold = 80
+                        threshold = 85
                         if prob >= threshold:
                             save_tip(match, f"DC_{combo}_OVER_{line_str}", prob, f"{label_combo} & Over {line} Goals")
 
@@ -101,12 +101,18 @@ class Command(BaseCommand):
                     for btts_val, label_btts in [('yes', 'Yes'), ('no', 'No')]:
                         key = f"{combo}_btts_{btts_val}"
                         prob = dc_btts.get(key, 0)
-                        threshold = 70 if btts_val == 'no' else 65
-                        if prob >= threshold:
-                            save_tip(match, f"DC_{combo}_BTTS_{btts_val.upper()}", prob, f"{label_combo} & BTTS: {label_btts}")
+                        threshold = 80 if btts_val == 'no' else 75
+                        
+                        # Apply the same strict history requirements for BTTS YES combos
+                        if btts_val == 'yes':
+                            if prob >= threshold and home_btts_pct >= 60 and away_btts_pct >= 60:
+                                save_tip(match, f"DC_{combo}_BTTS_YES", prob, f"{label_combo} & BTTS: Yes")
+                        else:
+                            if prob >= threshold:
+                                save_tip(match, f"DC_{combo}_BTTS_NO", prob, f"{label_combo} & BTTS: No")
 
 
-                if goals.get('over_15', 0) >= 88:
+                if goals.get('over_15', 0) >= 85:
                     save_tip(match, 'OVER_15', goals['over_15'], 'Over 1.5 Goals')
                 if goals.get('over_25', 0) >= 80 and home_over25_pct >= 70 and away_over25_pct >= 70:
                     save_tip(match, 'OVER_25', goals['over_25'], 'Over 2.5 Goals')
@@ -118,7 +124,7 @@ class Command(BaseCommand):
                     save_tip(match, 'UNDER_45', goals['under_45'], 'Under 4.5 Goals')
 
                     
-                if goals.get('btts', 0) >= 80 and home_btts_pct >= 70 and away_btts_pct >= 70:
+                if goals.get('btts', 0) >= 75 and home_btts_pct >= 60 and away_btts_pct >= 60:
                     save_tip(match, 'BTTS', goals['btts'], 'Both Teams to Score')
                 
                 # ========== VENCEDOR / RESULTADO ==========
@@ -133,9 +139,9 @@ class Command(BaseCommand):
                     save_tip(match, 'DC_X2', odds['double_away'], f'Double Chance X2 (Draw or {away})')
                 
                 dnb: dict = goals.get('dnb') or {}
-                if dnb.get('home', 0) >= 80:
+                if dnb.get('home', 0) >= 75:
                     save_tip(match, 'DNB_HOME', dnb['home'], f'Draw No Bet - {home}')
-                elif dnb.get('away', 0) >= 80:
+                elif dnb.get('away', 0) >= 75:
                     save_tip(match, 'DNB_AWAY', dnb['away'], f'Draw No Bet - {away}')
                 
                 # ========== CLEAN SHEET / WIN TO NIL ==========
@@ -159,13 +165,13 @@ class Command(BaseCommand):
                 # ========== CORNERS ==========
                 if corners and corners.get('match_has_data'):
                     m_overs: dict = corners.get('match_overs') or {}
-                    if m_overs.get(6, 0) >= 80: save_tip(match, 'CORNERS_OVER_65', m_overs[6], 'Over 6.5 Corners')
-                    if m_overs.get(7, 0) >= 80: save_tip(match, 'CORNERS_OVER_75', m_overs[7], 'Over 7.5 Corners')
-                    if m_overs.get(8, 0) >= 80: save_tip(match, 'CORNERS_OVER_85', m_overs[8], 'Over 8.5 Corners')
+                    if m_overs.get(6, 0) >= 75: save_tip(match, 'CORNERS_OVER_65', m_overs[6], 'Over 6.5 Corners')
+                    if m_overs.get(7, 0) >= 75: save_tip(match, 'CORNERS_OVER_75', m_overs[7], 'Over 7.5 Corners')
+                    if m_overs.get(8, 0) >= 75: save_tip(match, 'CORNERS_OVER_85', m_overs[8], 'Over 8.5 Corners')
                     
                     wc: dict = corners.get('winner_corners') or {}
-                    if wc.get('home', 0) >= 70: save_tip(match, 'CORNER_WIN_H', wc['home'], f'{home} Wins Corners')
-                    elif wc.get('away', 0) >= 70: save_tip(match, 'CORNER_WIN_A', wc['away'], f'{away} Wins Corners')
+                    if wc.get('home', 0) >= 75: save_tip(match, 'CORNER_WIN_H', wc['home'], f'{home} Wins Corners')
+                    elif wc.get('away', 0) >= 75: save_tip(match, 'CORNER_WIN_A', wc['away'], f'{away} Wins Corners')
 
             except Exception as e:
                 continue

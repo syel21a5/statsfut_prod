@@ -4016,7 +4016,7 @@ msgstr "Anotó en Ambos Tiempos"
 
 #: members/views.py:538 members/views.py:539
 msgid "%(team)s to Win"
-msgstr "Victorias de %(name)s"
+msgstr "Victoria de %(team)s"
 
 #: members/views.py:540
 #, python-format
@@ -4047,7 +4047,7 @@ msgstr "Vallas Invictas"
 
 #: members/views.py:551 members/views.py:552
 msgid "%(team)s Win to Nil"
-msgstr "Victorias de %(name)s"
+msgstr "Victoria de %(team)s"
 
 #: members/views.py:553
 #, python-format
@@ -4066,7 +4066,7 @@ msgstr "%(team)s +1.5 (HA)"
 
 #: members/views.py:556
 msgid "%(team)s Wins by 1 Goal"
-msgstr "Victorias de %(name)s"
+msgstr "Victoria de %(team)s"
 
 #: members/views.py:557
 #, python-format
@@ -4075,7 +4075,7 @@ msgstr "%(team)s Gana por 2 Goles"
 
 #: members/views.py:558 members/views.py:559
 msgid "%(team)s Win & BTTS Yes"
-msgstr "Victorias de %(name)s"
+msgstr "Victoria de %(team)s"
 
 #: members/views.py:560
 #, python-format
@@ -4112,7 +4112,7 @@ msgstr "Más de 1.5 goles"
 
 #: members/views.py:570 members/views.py:571
 msgid "%(team)s Wins Corners"
-msgstr "Victorias de %(name)s"
+msgstr "Victoria de %(team)s"
 
 #: members/views.py:573
 msgid "Over 3.5 Cards"
