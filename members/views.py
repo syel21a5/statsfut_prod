@@ -624,8 +624,10 @@ def premium_dashboard(request):
 
     # >> NOVO RADAR AO VIVO <<
     from matches.services.live_radar import LiveRadarService
+    live_cutoff_time = timezone.now() - timedelta(hours=5)
     live_matches_qs = Match.objects.filter(
-        status__in=['Live', 'Halftime', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED']
+        status__in=['Live', 'Halftime', '1H', '2H', 'HT', 'ET', 'P', 'In Play', 'IN_PLAY', 'PAUSED'],
+        date__gte=live_cutoff_time
     ).select_related('league', 'home_team', 'away_team')
     
     live_radar_matches = []
