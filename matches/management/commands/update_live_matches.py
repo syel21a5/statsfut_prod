@@ -102,18 +102,6 @@ class Command(BaseCommand):
         api_manager = APIManager()
         
         if mode == 'live' or mode == 'both':
-            pass # A lógica de Live foi movida para o início do handle() para usar o Smart Check antes de tudo.
-            # O código acima já chamou as APIs se necessário.
-            
-        if mode == 'upcoming' or mode == 'both':
-            fetch_upcoming_odds_api_australia()
-            # Futuramente: fetch_upcoming_odds_api_brazil()
-            # Futuramente: fetch_upcoming_odds_api_england()
-        all_api_football_ids = []
-        for m in api_manager.LEAGUE_MAPPINGS.values():
-            all_api_football_ids.extend(m['api_football'])
-        
-            # (Removido logs repetitivos comentados)
             self.stdout.write(self.style.SUCCESS('🔴 Buscando jogos AO VIVO (Ligas Habilitadas)...'))
             try:
                 # RESTRITIVO: Busca apenas as ligas que o usuário habilitou expressamente
@@ -138,14 +126,20 @@ class Command(BaseCommand):
                     {'name': 'Liga Profesional', 'country': 'Argentina'},
                 ]
                 
+                # Faz UMA ÚNICA chamada para a API com todos os jogos ao vivo do mundo
+                all_live_fixtures = api_manager.get_live_fixtures()
+                
                 for lg in enabled_leagues:
                     try:
                         # Busca por league_ids mapeados no api_manager para essa liga
                         mapping = api_manager.LEAGUE_MAPPINGS.get(lg['name'])
                         if mapping:
-                            live_fixtures = api_manager.get_live_fixtures(league_ids=mapping['api_football'])
-                            # Filtra apenas jogos que realmente pertencem a esse país/liga (api_manager retorna tudo se ids forem genéricos)
-                            filtered_fixtures = [f for f in live_fixtures if f.get('country') == lg['country'] or f.get('league') == lg['name']]
+                            # Filtra as partidas retornadas na única request
+                            filtered_fixtures = [
+                                f for f in all_live_fixtures 
+                                if f.get('league_id') in mapping['api_football'] 
+                                and (f.get('country') == lg['country'] or f.get('league') == lg['name'])
+                            ]
                             
                             # SINCRONIZAÇÃO INTELIGENTE: Ligas do SofaScore permitem atualização de placar, mas com travas
                             is_sofascore_league = lg['name'] in ['Ligue 1', 'Bundesliga', 'Pro League', 'Super League', 'Premier League', 'Superliga', 'La Liga', 'Veikkausliiga']
@@ -155,11 +149,8 @@ class Command(BaseCommand):
                                 # Passa a flag de proteção para o processador
                                 self.process_fixtures(filtered_fixtures, is_live=True, readonly_structure=is_sofascore_league)
                             
-                            if filtered_fixtures:
-                                self.stdout.write(f"  > Processando {len(filtered_fixtures)} jogos ao vivo para {lg['name']} ({lg['country']})")
-                                self.process_fixtures(filtered_fixtures, is_live=True)
                     except Exception as e:
-                        self.stdout.write(self.style.WARNING(f"  ⚠️ Erro ao buscar live {lg['name']}: {e}"))
+                        self.stdout.write(self.style.WARNING(f"  ⚠️ Erro ao processar liga {lg['name']}: {e}"))
 
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro geral ao buscar jogos ao vivo: {e}'))
@@ -172,7 +163,7 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao capturar snapshots do Radar Ao Vivo: {e}'))
         
-        if mode in ['upcoming', 'both']:
+        if mode == 'upcoming' or mode == 'both':
             # The Odds API for Australia (Special Handling - Upcoming)
             self.stdout.write(self.style.SUCCESS('\n🔴 [SPECIAL] Buscando PRÓXIMOS JOGOS da A-League (Australia) via The Odds API...'))
             try:

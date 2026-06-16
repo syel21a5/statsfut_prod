@@ -238,21 +238,9 @@ class APIManager:
 
     def get_live_fixtures(self, league_ids=None, exclude_apis=None):
         """
-        Busca fixtures ao vivo
+        Busca fixtures ao vivo - OTIMIZADO PARA USAR APENAS API-FOOTBALL (1 request global v3)
         """
         exclude_apis = exclude_apis or []
-        fd_keys = [f'football_data_{i}' for i in range(1, 9)]
-        api_fd = self._choose_best_api_from_list(fd_keys, exclude_apis=exclude_apis)
-        if api_fd:
-            api_config = self.apis[api_fd]
-            try:
-                print(f"[APIManager] Live fixtures via {api_fd} ({api_config['name']})")
-                fixtures = self._get_football_data_fixtures(api_fd, api_config, status='live')
-                if fixtures:
-                    return fixtures
-            except Exception as e:
-                print(f"Erro na {api_config['name']}: {e}")
-                exclude_apis.append(api_fd)
         
         # Check if API-Football is allowed
         # Se USE_API_FOOTBALL for False, retornamos vazio imediatamente
