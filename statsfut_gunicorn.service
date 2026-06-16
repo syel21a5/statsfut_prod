@@ -1,0 +1,21 @@
+[Unit]
+Description=StatsFut Gunicorn (Django Web)
+After=network.target mysql.service
+
+[Service]
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/statsfut.com
+Environment="PATH=/www/wwwroot/statsfut.com/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/www/wwwroot/statsfut.com/venv/bin/gunicorn -c /www/wwwroot/statsfut.com/gunicorn_config.py core.wsgi:application
+ExecReload=/bin/kill -HUP $MAINPID
+
+# ── Auto-restart em caso de crash ──
+Restart=always
+RestartSec=5
+
+# ── Limites de segurança ──
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

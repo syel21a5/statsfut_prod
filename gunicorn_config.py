@@ -1,10 +1,22 @@
 workers = 3
-bind = "0.0.0.0:8000"
-# Caminho para o log de erro - ajuste conforme necessário no servidor
-errorlog = "/www/wwwroot/statsfut.com/gunicorn_error.log"
-# Nível de log
+bind = "0.0.0.0:8092"
+
+# ── Logging ──────────────────────────────────────────────
+errorlog = "/www/wwwroot/statsfut.com/logs/gunicorn_error.log"
+accesslog = "/www/wwwroot/statsfut.com/logs/gunicorn_access.log"
 loglevel = "info"
-# Timeout para evitar que workers morram em requests longos
-timeout = 120
-# Nome do processo para facilitar identificação
+capture_output = True  # Captura print() e tracebacks do Django no errorlog
+
+# ── Timeout & Graceful Restart ───────────────────────────
+timeout = 120          # Mata worker que demorar mais de 120s em 1 request
+graceful_timeout = 30  # Tempo para worker terminar requests pendentes ao reiniciar
+
+# ── Auto-reciclar workers (PREVINE MEMORY LEAK) ─────────
+max_requests = 1000         # Reinicia cada worker a cada 1000 requests
+max_requests_jitter = 100   # Variação aleatória para não reiniciar todos juntos
+
+# ── Identificação ───────────────────────────────────────
 proc_name = "statsfut_gunicorn"
+
+# ── Performance ─────────────────────────────────────────
+preload_app = True  # Carrega o app uma vez e faz fork (usa menos memória)
