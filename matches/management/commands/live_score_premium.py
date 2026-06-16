@@ -46,12 +46,13 @@ class Command(BaseCommand):
             if m.status in ['Scheduled', 'Not Started', 'Timed', 'NS']:
                 if m.date:
                     time_diff_hours = (now() - m.date).total_seconds() / 3600.0
-                    # Acorda apenas se o jogo começa em 15 min ou começou há no máximo 1.5 horas (90 min)
-                    if -0.25 <= time_diff_hours <= 1.5:
+                    # Acorda apenas se o jogo começa em 15 min ou começou há no máximo 30 minutos (0.5 horas)
+                    if -0.25 <= time_diff_hours <= 0.5:
                         is_there_active_game = True
                         break
-                    elif time_diff_hours > 1.5:
-                        # Jogo atrasou muito e a API não entregou. Marca como adiado.
+                    elif time_diff_hours > 0.5:
+                        # Jogo atrasou 30 minutos e a API não entregou os dados ao vivo.
+                        # Marca como adiado para MATAR O CONSUMO DE CRÉDITOS IMEDIATAMENTE.
                         m.status = 'Postponed'
                         m.save()
             else:
