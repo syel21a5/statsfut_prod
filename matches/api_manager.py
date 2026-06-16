@@ -531,29 +531,11 @@ class APIManager:
                     exclude_apis.append(api_fd)
         
         # Fallback API-Football
-        # Se USE_API_FOOTBALL for False, retornamos vazio imediatamente
-        if not self.USE_API_FOOTBALL:
-             print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca de passados para {league_name or 'leagues'}.")
-             return []
-        
-        af_keys = [f'api_football_{i}' for i in range(1, 3)]
-        api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
-        if not api_af:
-            print("[APIManager] Todas as APIs (API-Football) atingiram o limite ou falharam.")
-            return []
-            
-        api_config = self.apis[api_af]
-        
-        # Se estamos buscando por liga específica (orphan ou normal), usamos os IDs mapeados
-        search_ids = af_ids
-        
-        print(f"[APIManager] Past fixtures via {api_af} ({api_config['name']})")
-        # Se não tiver IDs, a busca de passados da API-Football é perigosa (muitos dados)?
-        # API-Football exige 'league' e 'season' para buscar fixtures passadas geralmente, ou range de datas.
-        # _get_api_football_fixtures implementa range de datas se status != live.
-        # Mas se league_ids for None, ele busca de TUDO? 
-        # Vamos verificar _get_api_football_fixtures.
-        return self._get_api_football_fixtures(api_af, api_config, status='finished', league_ids=search_ids, days_ahead=-days_back)
+        # BLINDAGEM MÁXIMA: Desativamos o fallback automático para API-Football PRO 
+        # em jogos recentes para não gerar consumo desenfreado quando a Football-Data cai!
+        # Se a gratuita cair, ficamos sem atualizar resultados recentes até ela voltar, 
+        # mas não gastamos 1 centavo da paga!
+        return []
 
     def _get_football_data_fixtures(self, api_id, api_config, status='live', days_ahead=7, days_back=None, league_ids=None):
         """Busca fixtures da Football-Data.org"""
