@@ -11,6 +11,7 @@ class League(models.Model):
         help_text="Slug único no SoccerStats.com (ex: 'england', 'denmark'). Usado para evitar mistura entre divisões."
     )
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID da Liga na API")
+    fd_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID da Liga na Football-Data")
 
     def __str__(self):
         return f"{self.name} ({self.country}) - Div {self.division}"
@@ -19,6 +20,7 @@ class Team(models.Model):
     name = models.CharField(max_length=100)
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='teams')
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na API")
+    fd_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na Football-Data")
 
     def get_stats(self, market="over25"):
         cache_key = f"team_stats_{self.id}_{market}"
@@ -75,6 +77,7 @@ class Match(models.Model):
     round_name = models.CharField(max_length=150, blank=True, null=True)
     status = models.CharField(max_length=20, default="Scheduled", db_index=True)
     api_id = models.CharField(max_length=255, unique=True, null=True, blank=True, help_text="ID da Fixture na API")
+    fd_id = models.CharField(max_length=255, unique=True, null=True, blank=True, help_text="ID da Fixture na Football-Data")
     elapsed_time = models.IntegerField(null=True, blank=True)
 
     home_score = models.IntegerField(null=True, blank=True)

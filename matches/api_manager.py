@@ -593,6 +593,7 @@ class APIManager:
         
         for fixture in fixtures:
             normalized.append({
+                'source_api': 'api_football',
                 'id': fixture['fixture']['id'],
                 'date': fixture['fixture']['date'],
                 'status': fixture['fixture']['status']['short'],
@@ -616,6 +617,7 @@ class APIManager:
         
         for match in matches:
             normalized.append({
+                'source_api': 'football_data',
                 'id': match['id'],
                 'date': match['utcDate'],
                 'status': match['status'],

@@ -236,52 +236,57 @@ class Command(BaseCommand):
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f'    ❌ Erro ao buscar jogos de {league_name}: {e}'))
 
-    def _get_or_create_team(self, name, league, api_id):
-        # 1. Tenta buscar pelo api_id **na mesma liga** (evita cross-league leakage)
-        if api_id:
-            team = Team.objects.filter(api_id=str(api_id), league=league).first()
+    def _get_or_create_team(self, name, league, external_id, source_api='api_football'):
+        # 1. Tenta buscar pelo id correto na mesma liga
+        if external_id:
+            if source_api == 'football_data':
+                team = Team.objects.filter(fd_id=str(external_id), league=league).first()
+            else:
+                team = Team.objects.filter(api_id=str(external_id), league=league).first()
+            
             if team:
-                # Atualiza o nome se necessário
                 if team.name != name:
                     team.name = name
                     team.save()
                 return team
 
-        # 2. Se não achou pelo api_id na liga, busca por nome e liga
+        # 2. Se não achou pelo id na liga, busca por nome e liga
         try:
             team = Team.objects.get(name=name, league=league)
-            if api_id:
-                # Se achou e tem api_id novo, atualiza apenas se o api_id estiver livre
-                if not team.api_id:
-                    team.api_id = str(api_id)
-                    team.save()
-                elif team.api_id != str(api_id):
-                    # api_id diferente - verifica se o novo está livre globalmente
-                    if not Team.objects.filter(api_id=str(api_id)).exists():
-                        team.api_id = str(api_id)
+            if external_id:
+                if source_api == 'football_data':
+                    if not team.fd_id:
+                        team.fd_id = str(external_id)
                         team.save()
+                else:
+                    if not team.api_id:
+                        team.api_id = str(external_id)
+                        team.save()
+                    elif team.api_id != str(external_id):
+                        if not Team.objects.filter(api_id=str(external_id)).exists():
+                            team.api_id = str(external_id)
+                            team.save()
             return team
         except Team.DoesNotExist:
             pass
 
         # 3. Se ainda não tem time, cria um novo
         try:
-            # Verifica se o api_id já existe em outra liga para evitar unique constraint
             create_api_id = None
-            if api_id:
-                if not Team.objects.filter(api_id=str(api_id)).exists():
-                    create_api_id = str(api_id)
+            create_fd_id = None
+            if external_id:
+                if source_api == 'football_data':
+                    create_fd_id = str(external_id)
                 else:
-                    self.stdout.write(self.style.WARNING(
-                        f"  ⚠️ api_id {api_id} já usado por outro time. Criando {name} sem api_id na liga {league.name}."
-                    ))
+                    if not Team.objects.filter(api_id=str(external_id)).exists():
+                        create_api_id = str(external_id)
             return Team.objects.create(
                 name=name,
                 league=league,
-                api_id=create_api_id
+                api_id=create_api_id,
+                fd_id=create_fd_id
             )
         except Exception as e:
-            # Se der erro de duplicata de nome+liga, busca de novo
             if 'Duplicate entry' in str(e) or 'unique_team_name_per_league' in str(e):
                 team = Team.objects.filter(name=name, league=league).first()
                 if team:
@@ -385,8 +390,7 @@ class Command(BaseCommand):
                 # Marcar liga tocada para recalcular tabela depois
                 touched_leagues.add((league_obj.name, league_obj.country))
 
-                # Mapping names from Football-Data.org/API-Football to local DB
-
+                source_api = fixture.get('source_api', 'api_football')
                 
                 home_name = fixture['home_team']
                 away_name = fixture['away_team']
@@ -406,13 +410,15 @@ class Command(BaseCommand):
                 home_team = self._get_or_create_team(
                     home_name, 
                     league_obj, 
-                    fixture.get('home_team_id')
+                    fixture.get('home_team_id'),
+                    source_api
                 )
                 
                 away_team = self._get_or_create_team(
                     away_name, 
                     league_obj, 
-                    fixture.get('away_team_id')
+                    fixture.get('away_team_id'),
+                    source_api
                 )
                 
                 # Parse data
@@ -458,14 +464,18 @@ class Command(BaseCommand):
                 status = status_map.get(fixture['status'], 'Scheduled')
                 
                 # Dados para salvar
-                match_api_id = str(fixture['id']) if fixture.get('id') else None
+                match_external_id = str(fixture['id']) if fixture.get('id') else None
                 
                 defaults = {
                     'date': match_date,
                     'status': status,
                     'elapsed_time': fixture.get('elapsed'),
-                    'api_id': match_api_id
                 }
+                
+                if source_api == 'football_data':
+                    defaults['fd_id'] = match_external_id
+                else:
+                    defaults['api_id'] = match_external_id
                 
                 # PROTEÇÃO: Só atualiza scores se a API realmente trouxe dados
                 # Evita sobrescrever scores válidos do SofaScore com None
@@ -474,12 +484,16 @@ class Command(BaseCommand):
                 if fixture['away_score'] is not None:
                     defaults['away_score'] = fixture['away_score']
                 
-                # Lógica segura para Match: Prioriza busca por api_id
+                # Lógica segura para Match: Prioriza busca por api_id ou fd_id
                 match_obj = None
                 created = False
-                if match_api_id:
+                if match_external_id:
                     try:
-                        match_obj = Match.objects.get(api_id=match_api_id)
+                        if source_api == 'football_data':
+                            match_obj = Match.objects.get(fd_id=match_external_id)
+                        else:
+                            match_obj = Match.objects.get(api_id=match_external_id)
+                            
                         # OTIMIZAÇÃO: Só salva se houver mudança real
                         if self._has_changes(match_obj, defaults) or match_obj.league_id != league_obj.id or match_obj.season_id != season_obj.id or match_obj.home_team_id != home_team.id or match_obj.away_team_id != away_team.id:
                             # Atualiza campos
