@@ -46,35 +46,31 @@ def job_live_lay_bot():
 
 # --- Configuração do Agendamento ---
 
-# 1. Jogos AO VIVO: Ativado para alimentar o Radar e os Robôs
-schedule.every(1).minutes.do(job_live)
+# 1. Jogos AO VIVO: DESATIVADO no script local (Agora é controlado pelo Crontab inteligente para economizar API)
+# schedule.every(1).minutes.do(job_live)
 
 # 1.5. Live Lay Bot do Telegram: A cada 2 minutos (Custo zero, roda 100% local)
 schedule.every(2).minutes.do(job_live_lay_bot)
 
-# 2. Resultados Recentes: A cada 1 hora
-# Motivo: Garantir que jogos finalizados apareçam rápido na tabela
-# (Usa API Football-Data, quota tranquila)
-schedule.every(1).hours.do(job_recent)
+# 2. Resultados Recentes (FALLBACK CARD BÁSICO): A cada 10 minutos
+# Usa Football-Data.org (API Gratuita) para salvar o Radar quando a API principal falha!
+schedule.every(10).minutes.do(job_recent)
 
 # 3. Próximos Jogos: A cada 4 horas
-# Motivo: Atualizar odds, horários e novas marcações (não muda tanto quanto ao vivo)
-# Isso economiza MUITAS requisições das APIs
 schedule.every(4).hours.do(job_upcoming)
 
 print("========================================================")
-print("🚀 AGENDADOR DE ATUALIZAÇÕES API INICIADO")
+print("🚀 AGENDADOR DE FALLBACKS INICIADO (CUSTO ZERO API-FOOTBALL)")
 print("========================================================")
 print("Configuração:")
-print("   - Ao Vivo API: a cada 15 minutos")
-print("   - Robô Telegram Lay: a cada 2 minutos (Local)")
-print("   - Resultados Recentes: a cada 1 hora (NOVO)")
+print("   - Ao Vivo API: DESATIVADO (Controlado pelo Crontab)")
+print("   - Robô Telegram: a cada 2 minutos (Local)")
+print("   - Fallback Card Básico (Recentes): a cada 10 minutos (API Gratuita)")
 print("   - Próximos (15 dias): a cada 4 horas")
 print("========================================================")
 print("Pressione Ctrl+C para parar.")
 
-# Executa uma vez imediatamente ao iniciar para garantir dados frescos
-job_live() # Agora ativado para já puxar o ao vivo no start
+# Executa uma vez imediatamente ao iniciar
 job_recent()
 job_upcoming()
 
