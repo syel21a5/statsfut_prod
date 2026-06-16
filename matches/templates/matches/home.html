@@ -174,7 +174,7 @@
                                 {% if match.status == 'Scheduled' %}
                                     {{ match.date|date:"H:i" }}
                                 {% elif match.status == 'Live' %}
-                                    {{ match.elapsed_time }}'
+                                    {{ match.elapsed_time|default:"1" }}'
                                 {% else %}
                                     {{ match.status }}
                                 {% endif %}

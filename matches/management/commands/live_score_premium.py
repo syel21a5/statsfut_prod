@@ -179,6 +179,13 @@ class Command(BaseCommand):
                         LiveRadarService.take_snapshots_for_active_matches()
                     except:
                         pass
+                        
+                    # Limpa o cache para que a página inicial mostre os gols e o tempo imediatamente!
+                    try:
+                        from django.core.cache import cache
+                        cache.clear()
+                    except:
+                        pass
                 
                 self.stdout.write(self.style.SUCCESS(f"✅ Sincronizou {matches_updated} Jogos Premium Ao Vivo!"))
                 
