@@ -26,18 +26,17 @@ class Command(BaseCommand):
             'x-rapidapi-host': 'v3.football.api-sports.io'
         }
 
-        # 1. Filtra APENAS jogos Premium (que possuem ScannerTip ou BetTicketSelection)
+        # 1. Busca TODOS os jogos de hoje para alimentar os Radares e os Bots do Telegram
         today_start = now() - timedelta(hours=24)
         today_end = now() + timedelta(hours=24)
 
-        premium_matches = Match.objects.filter(
-            Q(scanner_tips__isnull=False) | Q(ticket_selections__isnull=False),
+        all_today_matches = Match.objects.filter(
             date__gte=today_start,
             date__lte=today_end
         ).distinct()
 
-        # 2. Desses premium, existem jogos rodando AGORA ou começando nos próximos 15 minutos?
-        active_premium = premium_matches.filter(
+        # 2. Desses jogos de hoje, existem jogos rodando AGORA ou começando nos próximos 15 minutos?
+        active_premium = all_today_matches.filter(
             status__in=['Live', 'In Play', '1H', '2H', 'HT', 'ET', 'P', 'First Half', 'Second Half', 'Halftime', 'Extra Time', 'Penalty', 'Scheduled', 'Not Started', 'Timed', 'NS']
         )
         
