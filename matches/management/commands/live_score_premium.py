@@ -26,19 +26,12 @@ class Command(BaseCommand):
             'x-rapidapi-host': 'v3.football.api-sports.io'
         }
 
-        # 1. Filtra jogos Premium (com ScannerTip ou BetTicket) OU jogos de ligas habilitadas para o Radar
+        # 1. Filtra APENAS jogos Premium (que possuem ScannerTip ou BetTicketSelection)
         today_start = now() - timedelta(hours=24)
         today_end = now() + timedelta(hours=24)
 
-        enabled_leagues = [
-            'Brasileirao', 'Série B', 'Série C', 'La Liga', 'Premier League', 
-            'Serie A', 'Primeira Liga', 'Ligue 1', 'Bundesliga', 'A-League', 
-            'Pro League', 'Super League', 'Eredivisie', 'Super Lig', 
-            'Superliga', 'Liga Profesional'
-        ]
-
         premium_matches = Match.objects.filter(
-            Q(scanner_tips__isnull=False) | Q(ticket_selections__isnull=False) | Q(league__name__in=enabled_leagues),
+            Q(scanner_tips__isnull=False) | Q(ticket_selections__isnull=False),
             date__gte=today_start,
             date__lte=today_end
         ).distinct()

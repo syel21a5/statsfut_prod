@@ -633,6 +633,10 @@ def premium_dashboard(request):
     live_radar_matches = []
     for match in live_matches_qs:
         match_tips = pending_tips_map.get(match.id, [])
+        # Restaurando a trava: SÓ MOSTRAR NO RADAR SE TIVER TIP GERADA!
+        if not match_tips:
+            continue
+            
         # Detectar ligas sem cobertura avançada de dados (depois dos 10 min de jogo)
         has_basic_coverage = False
         if match.elapsed_time and match.elapsed_time > 10:
