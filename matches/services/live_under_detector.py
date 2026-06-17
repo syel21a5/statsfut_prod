@@ -54,11 +54,8 @@ class LiveUnderDetector:
             if total_goals == 0 and elapsed > 15:
                 return
 
-            # Verifica cartões vermelhos (Vermelho desconfigura o modelo Under)
-            red_cards_home = match.home_red or 0
-            red_cards_away = match.away_red or 0
-            if red_cards_home > 0 or red_cards_away > 0:
-                return
+            # A remoção do filtro de cartão vermelho foi solicitada pelo usuário.
+            # O usuário validará os cartões vermelhos manualmente na casa de apostas.
 
             # Analisa as estatísticas
             analyzer = MatchAnalyzer(match)
