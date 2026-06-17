@@ -12,8 +12,8 @@ class LiveLayDetector:
         self.MIN_MINUTE = 15
         self.MAX_MINUTE = 65
         
-        # O nível de segurança exigido pela matemática (ex: 96% de chance de NÃO acontecer o placar)
-        self.MIN_PROBABILITY_LAY = 96.0
+        # O nível de segurança exigido pela matemática (ex: 90% de chance de NÃO acontecer o placar)
+        self.MIN_PROBABILITY_LAY = 90.0
 
     def process_live_matches(self):
         """Busca jogos ao vivo e envia alertas se oportunidades forem encontradas."""
