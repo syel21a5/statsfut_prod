@@ -30,61 +30,33 @@ class LiveLayDetector:
             home_score = match.home_score or 0
             away_score = match.away_score or 0
             
-            # Se ainda está 0-0, não há pânico no mercado
-            if home_score == 0 and away_score == 0:
+            # Fase 0: RADAR INICIAL (0-0, Primeiros 15 minutos)
+            if home_score == 0 and away_score == 0 and elapsed <= 15:
+                self._process_radar_phase(match, elapsed, stats)
                 return
-
-            elapsed = match.elapsed_time or 0
-            if match.status == 'HT':
-                elapsed = 45
-            
+                
+            # Fase 1: PÂNICO DO MERCADO (15 aos 65 minutos, jogo com gols)
             # Filtro da Janela de Liquidez
             if elapsed < self.MIN_MINUTE or elapsed > self.MAX_MINUTE:
                 return
                 
-            analyzer = MatchAnalyzer(match)
-            stats = analyzer.generate_full_report()
-            
-            if not stats or 'poisson' not in stats:
-                return
+            if home_score == 0 and away_score == 0:
+                return # Pânico só acontece com gol
                 
             cs_probs = stats['poisson'].get('correct_score', {})
-            
-            # Vamos encontrar o "Lay Seguro" ideal baseado na vantagem atual
-            # Se o Time de Casa está ganhando, procuramos uma goleada absurda do Visitante (e vice-versa)
             best_lay_score = None
             best_prob = 0.0
             
-            # Nós varremos todos os placares até 4 gols
             for h in range(5):
                 for a in range(5):
-                    # Não vamos mandar lay em placares que já aconteceram ou foram superados
                     if h < home_score or a < away_score:
                         continue
                         
                     score_str = f"{h}-{a}"
                     prob_to_happen = cs_probs.get(score_str, 0)
-                    prob_to_fail = 100 - prob_to_happen
-                    
-                    # Se o placar exige uma virada colossal ou muitos gols, a chance de falhar é gigante
-                    # Filtro de Cartão Vermelho (Regra 2)
-                    red_cards_home = match.home_red or 0
-                    red_cards_away = match.away_red or 0
-                    
-                    # Ajuste de probabilidade dinâmico baseado no cartão vermelho
-                    # Se eu vou fazer Lay numa virada do Visitante, e o Visitante tem vermelho, fica ainda mais seguro
-                    if a > away_score and red_cards_away > 0:
-                        prob_to_fail += 2.0  # Fica ainda mais seguro
-                    if h > home_score and red_cards_home > 0:
-                        prob_to_fail += 2.0
-                        
-                    prob_to_fail = min(99.9, prob_to_fail)
+                    prob_to_fail = min(99.9, 100 - prob_to_happen)
                     
                     if prob_to_fail >= self.MIN_PROBABILITY_LAY:
-                        # Precisamos garantir que esse placar seja o "próximo passo" ilógico do mercado
-                        # Exemplo: Casa fez 1-0. Queremos fazer Lay no Casa 0-3 (Visitante virando).
-                        # Vamos focar em vitórias esticadas do time que está perdendo ou do time que fez o gol 
-                        # mas que o placar exija muitos gols adicionais
                         total_goals_needed = (h - home_score) + (a - away_score)
                         
                         if total_goals_needed >= 2:
@@ -93,17 +65,70 @@ class LiveLayDetector:
                                 best_lay_score = score_str
 
             if best_lay_score:
-                self.send_telegram_alert(match, home_score, away_score, elapsed, best_lay_score, best_prob)
+                self.send_panic_alert(match, home_score, away_score, elapsed, best_lay_score, best_prob)
 
         except Exception as e:
             logger.error(f"Erro ao analisar jogo para Live Lay {match.id}: {str(e)}")
 
-    def send_telegram_alert(self, match, h_score, a_score, elapsed, lay_score, prob):
+    def _process_radar_phase(self, match, elapsed, stats):
+        from django.core.cache import cache
+        
+        cache_key = f"live_lay_radar_{match.id}"
+        if cache.get(cache_key):
+            return
+            
+        probs = MatchAnalyzer(match).get_match_odds_probs()
+        if not probs:
+            return
+            
+        home_win = probs.get('home_win', 33)
+        away_win = probs.get('away_win', 33)
+        
+        # Determina quem é o favorito matematicamente
+        if home_win >= away_win:
+            fav_name = match.home_team.name
+            fav_prob = home_win
+        else:
+            fav_name = match.away_team.name
+            fav_prob = away_win
+
+        cs_probs = stats['poisson'].get('correct_score', {})
+        safe_lays = []
+        
+        for h in range(5):
+            for a in range(5):
+                prob_to_fail = min(99.9, 100 - cs_probs.get(f"{h}-{a}", 0))
+                if prob_to_fail >= self.MIN_PROBABILITY_LAY:
+                    safe_lays.append((f"{h}-{a}", prob_to_fail))
+                    
+        # Ordena para pegar os placares mais absurdos/impossíveis primeiro
+        safe_lays.sort(key=lambda x: x[1], reverse=True)
+        top_lays = safe_lays[:3] # Pega os 3 melhores
+        
+        if not top_lays:
+            return
+            
+        cache.set(cache_key, True, 60*60*4)
+        
+        linhas_str = "\n".join([f"🔴 <b>Lay {score}</b> ({prob:.1f}% Seguro)" for score, prob in top_lays])
+        
+        msg = (
+            f"📡 <b>RADAR LIVE LAY (Início de Jogo)</b> 📡\n\n"
+            f"🏆 {match.league.name}\n"
+            f"⚽ <b>{match.home_team.name} 0 x 0 {match.away_team.name}</b>\n"
+            f"⏱️ <i>{elapsed}' minutos</i>\n\n"
+            f"👑 <b>Favorito Matemático:</b> {fav_name} ({fav_prob:.1f}%)\n\n"
+            f"🛡️ <b>Top 3 Placares para Apostar CONTRA:</b>\n"
+            f"{linhas_str}\n\n"
+            f"💡 <i>Dica: O jogo começou agora. Esses são os placares que a matemática praticamente descarta. Deixe na mira da Exchange!</i>"
+        )
+        
+        logger.info(f"Disparando RADAR Lay para {match.home_team.name} x {match.away_team.name}")
+        TelegramBotService.send_message(msg)
+
+    def send_panic_alert(self, match, h_score, a_score, elapsed, lay_score, prob):
         """Envia o alerta para o Telegram montando a mensagem visual."""
         
-        # Para evitar spam de dezenas de mensagens para o mesmo jogo, deveríamos
-        # guardar no banco ou no cache que esse alerta já foi enviado.
-        # Por simplicidade, usamos cache.
         from django.core.cache import cache
         
         cache_key = f"live_lay_alert_{match.id}_{h_score}_{a_score}_{lay_score}"
@@ -117,14 +142,14 @@ class LiveLayDetector:
         league = match.league.name
         
         msg = (
-            f"🚨 <b>OPORTUNIDADE LIVE LAY (EXCHANGE)</b> 🚨\n\n"
+            f"🚨 <b>OPORTUNIDADE LIVE LAY (Pânico no Mercado)</b> 🚨\n\n"
             f"🏆 {league}\n"
             f"⚽ <b>{home_name} {h_score} x {a_score} {away_name}</b>\n"
             f"⏱️ <i>{elapsed}' minutos</i>\n\n"
             f"📉 <b>Alvo para Apostar CONTRA (Lay):</b> Placar <b>{lay_score}</b>\n"
             f"🛡️ <b>Chance de Sucesso:</b> {prob:.1f}%\n\n"
-            f"💡 <i>Dica: O mercado se desesperou com o gol. A Odd desse Lay despencou, mas a matemática diz que é um placar quase impossível. Aproveite a liquidez!</i>"
+            f"💡 <i>Dica: O mercado se desesperou com o gol. A Odd desse Lay despencou, mas a matemática diz que é um placar extremamente improvável. Aproveite a liquidez!</i>"
         )
         
-        logger.info(f"Disparando Alerta Telegram para {home_name} x {away_name} - Lay {lay_score}")
+        logger.info(f"Disparando Alerta Lay (Pânico) para {home_name} x {away_name} - Lay {lay_score}")
         TelegramBotService.send_message(msg)
