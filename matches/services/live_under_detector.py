@@ -55,8 +55,8 @@ class LiveUnderDetector:
                 return
 
             # Verifica cartões vermelhos (Vermelho desconfigura o modelo Under)
-            red_cards_home = match.home_red_cards or 0
-            red_cards_away = match.away_red_cards or 0
+            red_cards_home = match.home_red or 0
+            red_cards_away = match.away_red or 0
             if red_cards_home > 0 or red_cards_away > 0:
                 return
 
