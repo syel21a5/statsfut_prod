@@ -80,6 +80,11 @@
             <i class="fa-solid fa-ticket me-2" style="color: #10b981;"></i>{% translate "Ready Strategies" %}
         </button>
     </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link fw-bold text-secondary px-4 py-2 border-0 rounded-3" id="live-tab" data-bs-toggle="tab" data-bs-target="#live-pane" type="button" role="tab" aria-controls="live-pane" aria-selected="false" style="background: rgba(255,255,255,0.03); transition: all 0.3s ease;">
+            <i class="fa-solid fa-satellite-dish me-2" style="color: #f87171;"></i><span class="live-pulse-dot text-danger me-1" style="font-size: 0.6rem; vertical-align: middle;">●</span>{% translate "Live Radar" %}
+        </button>
+    </li>
 </ul>
 
 <!-- ========================================================================== -->
@@ -161,223 +166,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            
-            <!-- ================================================================ -->
-            <!-- RADAR AO VIVO - Live Matches Section                              -->
-            <!-- ================================================================ -->
-            <div id="live-radar-wrapper">
-            {% if live_radar_matches %}
-            <style>
-                @keyframes live-pulse {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0.4; }
-                }
-                .live-pulse-dot {
-                    animation: live-pulse 1.5s ease-in-out infinite;
-                }
-                .live-match-card {
-                    background: linear-gradient(160deg, #181c2b 0%, #111420 100%);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 20px;
-                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    overflow: hidden;
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
-                    position: relative;
-                }
-                .live-match-card[data-bs-toggle="modal"] {
-                    cursor: pointer;
-                }
-                .live-match-card::after {
-                    content: '';
-                    position: absolute;
-                    top: 0; left: 0; right: 0; height: 1px;
-                    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.5), transparent);
-                    opacity: 0;
-                    transition: opacity 0.4s ease;
-                }
-                .live-match-card[data-bs-toggle="modal"]:hover::after {
-                    opacity: 1;
-                }
-                .live-match-card[data-bs-toggle="modal"]:hover {
-                    border-color: rgba(239, 68, 68, 0.3);
-                    transform: translateY(-4px);
-                    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.15), 0 0 20px rgba(239, 68, 68, 0.05) inset;
-                }
-                .pressure-bar-home {
-                    background: linear-gradient(90deg, #10b981, #34d399);
-                    border-radius: 6px 0 0 6px;
-                    height: 10px;
-                    transition: width 0.5s ease;
-                    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-                }
-                .pressure-bar-away {
-                    background: linear-gradient(90deg, #f87171, #ef4444);
-                    border-radius: 0 6px 6px 0;
-                    height: 10px;
-                    transition: width 0.5s ease;
-                    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
-                }
-                .match-score-display {
-                    font-size: 1.6rem;
-                    font-weight: 900;
-                    letter-spacing: 1px;
-                    text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-                    background: linear-gradient(to bottom, #ffffff, #cbd5e1);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
-                .stat-micro-card {
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(255, 255, 255, 0.04);
-                    border-radius: 8px;
-                    padding: 4px 6px;
-                    transition: background 0.3s;
-                    flex: 1;
-                    margin: 0 3px;
-                }
-                .live-match-card[data-bs-toggle="modal"]:hover .stat-micro-card {
-                    background: rgba(255, 255, 255, 0.04);
-                }
-            </style>
-            <div class="card bg-dark border-0 rounded-4 mb-4" style="background: linear-gradient(145deg, rgba(25,15,15,1) 0%, rgba(20,12,12,1) 100%); border: 1px solid rgba(239, 68, 68, 0.25) !important; overflow: hidden;">
-                <div class="card-body p-3">
-                    <!-- Header -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.3); box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);">
-                            <i class="fa-solid fa-satellite-dish fa-sm" style="color: #f87171;"></i>
-                        </div>
-                        <div>
-                            <h5 class="text-white fw-bold mb-0" style="letter-spacing: 0.5px;">
-                                <span class="live-pulse-dot text-danger me-2">●</span>
-                                {% translate "Live Radar" %}
-                            </h5>
-                            <span class="text-secondary small">{{ live_radar_matches|length }} {% translate "match" %}{{ live_radar_matches|length|pluralize:"es" }} {% translate "happening now" %}</span>
-                        </div>
-                    </div>
-
-                    <!-- Live Matches Grid -->
-                    <div class="row g-2">
-                        {% for item in live_radar_matches %}
-                        <div class="col-12 col-md-6 col-xl-4 col-xxl-3">
-                            <div class="live-match-card p-2" {% if not item.has_basic_coverage %}data-bs-toggle="modal" data-bs-target="#liveModal{{ item.match.id }}"{% endif %}>
-                                <!-- League & Status -->
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-secondary text-truncate fw-bold" style="font-size: 0.7rem; max-width: 60%; letter-spacing: 0.5px;">
-                                        {% if item.match.league.logo %}
-                                        <img src="{{ item.match.league.logo }}" alt="" width="14" height="14" class="me-1" style="vertical-align: -2px;">
-                                        {% endif %}
-                                        {{ item.match.league.name|upper }}
-                                    </span>
-                                    <span class="badge rounded-pill" style="background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.65rem; padding: 4px 8px; border: 1px solid rgba(239, 68, 68, 0.2);">
-                                        <i class="fa-solid fa-circle live-pulse-dot me-1" style="font-size: 0.4rem; vertical-align: middle;"></i>
-                                        {% if item.match.status == 'Halftime' %}HT{% else %}{{ item.match.elapsed_time|default:"" }}'{% endif %}
-                                    </span>
-                                </div>
-                                
-                                <!-- Teams & Score -->
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div class="text-start" style="flex: 1; padding-right: 5px;">
-                                        <div class="text-white fw-bolder text-truncate" style="font-size: 0.85rem;">{{ item.match.home_team.name }}</div>
-                                    </div>
-                                    <div class="px-2 text-center">
-                                        <div class="match-score-display">
-                                            {{ item.match.home_score|default:"0" }} <span style="color: #64748b; font-weight: 300; font-size: 1.2rem; vertical-align: 2px;">:</span> {{ item.match.away_score|default:"0" }}
-                                        </div>
-                                    </div>
-                                    <div class="text-end" style="flex: 1; padding-left: 5px;">
-                                        <div class="text-white fw-bolder text-truncate" style="font-size: 0.85rem;">{{ item.match.away_team.name }}</div>
-                                    </div>
-                                </div>
-
-                                {% if not item.has_basic_coverage %}
-                                <!-- Quick Stats -->
-                                <div class="d-flex justify-content-between mb-2">
-                                    <div class="text-center stat-micro-card">
-                                        <div class="text-secondary mb-1" style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px;">🎯 {% translate "Shots" %}</div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <span class="text-success fw-bold" style="font-size: 0.8rem;">{{ item.match.home_shots_on_target|default:"0" }}</span>
-                                            <span class="text-secondary mx-1" style="opacity: 0.5; font-size: 0.8rem;">-</span>
-                                            <span class="text-danger fw-bold" style="font-size: 0.8rem;">{{ item.match.away_shots_on_target|default:"0" }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-center stat-micro-card">
-                                        <div class="text-secondary mb-1" style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px;">🚩 {% translate "Corners" %}</div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <span class="text-success fw-bold" style="font-size: 0.8rem;">{{ item.match.home_corners|default:"0" }}</span>
-                                            <span class="text-secondary mx-1" style="opacity: 0.5; font-size: 0.8rem;">-</span>
-                                            <span class="text-danger fw-bold" style="font-size: 0.8rem;">{{ item.match.away_corners|default:"0" }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="text-center stat-micro-card">
-                                        <div class="text-secondary mb-1" style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px;">⚡ {% translate "Attacks" %}</div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <span class="text-success fw-bold" style="font-size: 0.8rem;">{{ item.match.home_dangerous_attacks|default:"0" }}</span>
-                                            <span class="text-secondary mx-1" style="opacity: 0.5; font-size: 0.8rem;">-</span>
-                                            <span class="text-danger fw-bold" style="font-size: 0.8rem;">{{ item.match.away_dangerous_attacks|default:"0" }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% else %}
-                                <!-- Basic Coverage Message -->
-                                <div class="text-center py-2 mb-3 rounded-3" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
-                                    <i class="fa-solid fa-satellite-dish mb-1" style="color: #64748b; font-size: 1rem; opacity: 0.7;"></i>
-                                    <div class="text-secondary fw-bold text-uppercase" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Basic Coverage" %}</div>
-                                    <div class="text-secondary px-2 mt-1" style="font-size: 0.55rem; opacity: 0.6;">{% translate "Advanced live stats are not available for this league." %}</div>
-                                </div>
-                                {% endif %}
-
-                                <!-- Match Tips / Badges -->
-                                {% if item.tips %}
-                                <div class="d-flex flex-wrap gap-1 justify-content-center mt-2 mb-3">
-                                    {% for tip in item.tips %}
-                                    <span class="badge" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #818cf8; font-size: 0.6rem; padding: 3px 6px;">
-                                        <i class="fa-solid fa-bolt me-1"></i>{{ tip.text }}
-                                    </span>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-
-                                {% if not item.has_basic_coverage %}
-                                <!-- Pressure Bar -->
-                                <div>
-                                    <div class="d-flex justify-content-between mb-1" style="font-size: 0.65rem;">
-                                        <span class="text-success">{{ item.pressure.home_pressure }}%</span>
-                                        <span class="text-secondary fw-bold" style="font-size: 0.6rem; letter-spacing: 1px;">{% translate "PRESSURE" %}</span>
-                                        <span class="text-danger">{{ item.pressure.away_pressure }}%</span>
-                                    </div>
-                                    <div class="d-flex" style="border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.05);">
-                                        <div class="pressure-bar-home" style="width: {{ item.pressure.home_pressure }}%;"></div>
-                                        <div class="pressure-bar-away" style="width: {{ item.pressure.away_pressure }}%;"></div>
-                                    </div>
-                                    <div class="text-center mt-1" style="font-size: 0.6rem; color: #64748b;">
-                                        {{ item.pressure.status }}
-                                    </div>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <!-- Modal for this match -->
-                        <div class="modal fade" id="liveModal{{ item.match.id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content bg-transparent border-0">
-                                    {% with match=item.match pressure_5=item.pressure %}
-                                    {% include "members/partials/live_radar_modal.html" %}
-                                    {% endwith %}
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            </div>
-
-            
-            <!-- Sub-navigation for Scanner Categories -->
+            </div><!-- Sub-navigation for Scanner Categories -->
             <ul class="nav nav-pills mb-4 gap-2 flex-nowrap overflow-auto pb-2" id="scannerTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link scanner-cat-tab active fw-bold px-4 py-2" id="goals-tab" data-bs-toggle="pill" data-bs-target="#goals-pane" type="button" role="tab">
@@ -2717,6 +2506,230 @@
             </div>
         {% endif %}
     </div> <!-- END tickets-pane -->
+
+    <!-- ====================================================================== -->
+    <!-- TAB 3 : Live Radar (Ao Vivo)                                           -->
+    <!-- ====================================================================== -->
+    <div class="tab-pane fade" id="live-pane" role="tabpanel" aria-labelledby="live-tab" tabindex="0">
+
+
+            
+            <!-- ================================================================ -->
+            <!-- RADAR AO VIVO - Live Matches Section                              -->
+            <!-- ================================================================ -->
+            <div id="live-radar-wrapper">
+            {% if live_radar_matches %}
+            <style>
+                @keyframes live-pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.4; }
+                }
+                .live-pulse-dot {
+                    animation: live-pulse 1.5s ease-in-out infinite;
+                }
+                .live-match-card {
+                    background: linear-gradient(160deg, #181c2b 0%, #111420 100%);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border-radius: 20px;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    overflow: hidden;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+                    position: relative;
+                }
+                .live-match-card[data-bs-toggle="modal"] {
+                    cursor: pointer;
+                }
+                .live-match-card::after {
+                    content: '';
+                    position: absolute;
+                    top: 0; left: 0; right: 0; height: 1px;
+                    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.5), transparent);
+                    opacity: 0;
+                    transition: opacity 0.4s ease;
+                }
+                .live-match-card[data-bs-toggle="modal"]:hover::after {
+                    opacity: 1;
+                }
+                .live-match-card[data-bs-toggle="modal"]:hover {
+                    border-color: rgba(239, 68, 68, 0.3);
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.15), 0 0 20px rgba(239, 68, 68, 0.05) inset;
+                }
+                .pressure-bar-home {
+                    background: linear-gradient(90deg, #10b981, #34d399);
+                    border-radius: 6px 0 0 6px;
+                    height: 10px;
+                    transition: width 0.5s ease;
+                    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+                }
+                .pressure-bar-away {
+                    background: linear-gradient(90deg, #f87171, #ef4444);
+                    border-radius: 0 6px 6px 0;
+                    height: 10px;
+                    transition: width 0.5s ease;
+                    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+                }
+                .match-score-display {
+                    font-size: 1.6rem;
+                    font-weight: 900;
+                    letter-spacing: 1px;
+                    text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+                    background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+                .stat-micro-card {
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(255, 255, 255, 0.04);
+                    border-radius: 8px;
+                    padding: 4px 6px;
+                    transition: background 0.3s;
+                    flex: 1;
+                    margin: 0 3px;
+                }
+                .live-match-card[data-bs-toggle="modal"]:hover .stat-micro-card {
+                    background: rgba(255, 255, 255, 0.04);
+                }
+            </style>
+            <div class="card bg-dark border-0 rounded-4 mb-4" style="background: linear-gradient(145deg, rgba(25,15,15,1) 0%, rgba(20,12,12,1) 100%); border: 1px solid rgba(239, 68, 68, 0.25) !important; overflow: hidden;">
+                <div class="card-body p-3">
+                    <!-- Header -->
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.3); box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);">
+                            <i class="fa-solid fa-satellite-dish fa-sm" style="color: #f87171;"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white fw-bold mb-0" style="letter-spacing: 0.5px;">
+                                <span class="live-pulse-dot text-danger me-2">●</span>
+                                {% translate "Live Radar" %}
+                            </h5>
+                            <span class="text-secondary small">{{ live_radar_matches|length }} {% translate "match" %}{{ live_radar_matches|length|pluralize:"es" }} {% translate "happening now" %}</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Matches Grid -->
+                    <div class="row g-2">
+                        {% for item in live_radar_matches %}
+                        <div class="col-12 col-md-6 col-xl-4 col-xxl-3">
+                            <div class="live-match-card p-2" {% if not item.has_basic_coverage %}data-bs-toggle="modal" data-bs-target="#liveModal{{ item.match.id }}"{% endif %}>
+                                <!-- League & Status -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-secondary text-truncate fw-bold" style="font-size: 0.7rem; max-width: 60%; letter-spacing: 0.5px;">
+                                        {% if item.match.league.logo %}
+                                        <img src="{{ item.match.league.logo }}" alt="" width="14" height="14" class="me-1" style="vertical-align: -2px;">
+                                        {% endif %}
+                                        {{ item.match.league.name|upper }}
+                                    </span>
+                                    <span class="badge rounded-pill" style="background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.65rem; padding: 4px 8px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                                        <i class="fa-solid fa-circle live-pulse-dot me-1" style="font-size: 0.4rem; vertical-align: middle;"></i>
+                                        {% if item.match.status == 'Halftime' %}HT{% else %}{{ item.match.elapsed_time|default:"" }}'{% endif %}
+                                    </span>
+                                </div>
+                                
+                                <!-- Teams & Score -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="text-start" style="flex: 1; padding-right: 5px;">
+                                        <div class="text-white fw-bolder text-truncate" style="font-size: 0.85rem;">{{ item.match.home_team.name }}</div>
+                                    </div>
+                                    <div class="px-2 text-center">
+                                        <div class="match-score-display">
+                                            {{ item.match.home_score|default:"0" }} <span style="color: #64748b; font-weight: 300; font-size: 1.2rem; vertical-align: 2px;">:</span> {{ item.match.away_score|default:"0" }}
+                                        </div>
+                                    </div>
+                                    <div class="text-end" style="flex: 1; padding-left: 5px;">
+                                        <div class="text-white fw-bolder text-truncate" style="font-size: 0.85rem;">{{ item.match.away_team.name }}</div>
+                                    </div>
+                                </div>
+
+                                {% if not item.has_basic_coverage %}
+                                <!-- Quick Stats -->
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div class="text-center stat-micro-card">
+                                        <div class="text-secondary mb-1" style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px;">🎯 {% translate "Shots" %}</div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <span class="text-success fw-bold" style="font-size: 0.8rem;">{{ item.match.home_shots_on_target|default:"0" }}</span>
+                                            <span class="text-secondary mx-1" style="opacity: 0.5; font-size: 0.8rem;">-</span>
+                                            <span class="text-danger fw-bold" style="font-size: 0.8rem;">{{ item.match.away_shots_on_target|default:"0" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center stat-micro-card">
+                                        <div class="text-secondary mb-1" style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px;">🚩 {% translate "Corners" %}</div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <span class="text-success fw-bold" style="font-size: 0.8rem;">{{ item.match.home_corners|default:"0" }}</span>
+                                            <span class="text-secondary mx-1" style="opacity: 0.5; font-size: 0.8rem;">-</span>
+                                            <span class="text-danger fw-bold" style="font-size: 0.8rem;">{{ item.match.away_corners|default:"0" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center stat-micro-card">
+                                        <div class="text-secondary mb-1" style="font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px;">⚡ {% translate "Attacks" %}</div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <span class="text-success fw-bold" style="font-size: 0.8rem;">{{ item.match.home_dangerous_attacks|default:"0" }}</span>
+                                            <span class="text-secondary mx-1" style="opacity: 0.5; font-size: 0.8rem;">-</span>
+                                            <span class="text-danger fw-bold" style="font-size: 0.8rem;">{{ item.match.away_dangerous_attacks|default:"0" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <!-- Basic Coverage Message -->
+                                <div class="text-center py-2 mb-3 rounded-3" style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);">
+                                    <i class="fa-solid fa-satellite-dish mb-1" style="color: #64748b; font-size: 1rem; opacity: 0.7;"></i>
+                                    <div class="text-secondary fw-bold text-uppercase" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Basic Coverage" %}</div>
+                                    <div class="text-secondary px-2 mt-1" style="font-size: 0.55rem; opacity: 0.6;">{% translate "Advanced live stats are not available for this league." %}</div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Match Tips / Badges -->
+                                {% if item.tips %}
+                                <div class="d-flex flex-wrap gap-1 justify-content-center mt-2 mb-3">
+                                    {% for tip in item.tips %}
+                                    <span class="badge" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #818cf8; font-size: 0.6rem; padding: 3px 6px;">
+                                        <i class="fa-solid fa-bolt me-1"></i>{{ tip.text }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                {% if not item.has_basic_coverage %}
+                                <!-- Pressure Bar -->
+                                <div>
+                                    <div class="d-flex justify-content-between mb-1" style="font-size: 0.65rem;">
+                                        <span class="text-success">{{ item.pressure.home_pressure }}%</span>
+                                        <span class="text-secondary fw-bold" style="font-size: 0.6rem; letter-spacing: 1px;">{% translate "PRESSURE" %}</span>
+                                        <span class="text-danger">{{ item.pressure.away_pressure }}%</span>
+                                    </div>
+                                    <div class="d-flex" style="border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.05);">
+                                        <div class="pressure-bar-home" style="width: {{ item.pressure.home_pressure }}%;"></div>
+                                        <div class="pressure-bar-away" style="width: {{ item.pressure.away_pressure }}%;"></div>
+                                    </div>
+                                    <div class="text-center mt-1" style="font-size: 0.6rem; color: #64748b;">
+                                        {{ item.pressure.status }}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Modal for this match -->
+                        <div class="modal fade" id="liveModal{{ item.match.id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content bg-transparent border-0">
+                                    {% with match=item.match pressure_5=item.pressure %}
+                                    {% include "members/partials/live_radar_modal.html" %}
+                                    {% endwith %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            </div>
+
+            
+            
+    </div> <!-- END live-pane -->
+
 
 
 </div> <!-- END premiumTabContent -->
