@@ -68,8 +68,8 @@ class LiveLayDetector:
                     
                     # Se o placar exige uma virada colossal ou muitos gols, a chance de falhar é gigante
                     # Filtro de Cartão Vermelho (Regra 2)
-                    red_cards_home = match.home_red_cards or 0
-                    red_cards_away = match.away_red_cards or 0
+                    red_cards_home = match.home_red or 0
+                    red_cards_away = match.away_red or 0
                     
                     # Ajuste de probabilidade dinâmico baseado no cartão vermelho
                     # Se eu vou fazer Lay numa virada do Visitante, e o Visitante tem vermelho, fica ainda mais seguro
