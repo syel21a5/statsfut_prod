@@ -74,3 +74,12 @@ def fair_odd(value):
         return f"{odd:.2f}"
     except (ValueError, TypeError):
         return "-"
+
+from django.urls import translate_url
+
+@register.simple_tag(takes_context=True)
+def translated_url(context, language):
+    request = context.get('request')
+    if not request:
+        return ''
+    return translate_url(request.path, language)

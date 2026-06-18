@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n matches_extras %}
 <!DOCTYPE html>
 <html lang="{{ request.LANGUAGE_CODE }}">
 
@@ -22,7 +22,11 @@
     <meta name="description" content="{% block meta_description %}{% translate "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, BTTS and direct confrontations of the world's main leagues." %}{% endblock %}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://statsfut.com{{ request.path }}">
-
+    <link rel="alternate" hreflang="en" href="https://statsfut.com{% translated_url 'en' %}" />
+    <link rel="alternate" hreflang="pt-br" href="https://statsfut.com{% translated_url 'pt-br' %}" />
+    <link rel="alternate" hreflang="es" href="https://statsfut.com{% translated_url 'es' %}" />
+    <link rel="alternate" hreflang="de" href="https://statsfut.com{% translated_url 'de' %}" />
+    <link rel="alternate" hreflang="x-default" href="https://statsfut.com{% translated_url 'en' %}" />
     <!-- Open Graph SEO Tags -->
     <meta property="og:title" content="{% block og_title %}{% translate 'StatsFut | Football Analytics' %}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{% translate 'Advanced football statistics, predictions and analysis.' %}{% endblock %}">
@@ -240,6 +244,14 @@
 
         <!-- Footer -->
         <footer class="mt-5 pt-5 pb-4 border-top border-secondary border-opacity-25">
+            <!-- SEO Text Block -->
+            <div class="row mb-4 d-none d-md-block">
+                <div class="col-12 text-secondary" style="font-size: 0.75rem; text-align: justify; opacity: 0.5;">
+                    <strong>{% translate "Advanced Football Statistics & Predictions" %}</strong> — 
+                    {% translate "StatsFut is the ultimate platform for football analysts, offering live score tracking, Both Teams to Score (BTTS) probabilities, Over/Under 2.5 goals trends, corner statistics, and detailed head-to-head (H2H) analysis. Find accurate football predictions today, algorithmic match analysis, and historical data for over 100 leagues worldwide (including Premier League, Brasileirão, La Liga, and Champions League). Boost your pre-match and in-play sports analysis with our data-driven edge." %}
+                </div>
+            </div>
+            
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     <div class="brand mb-2" style="font-size: 1.1rem;">
