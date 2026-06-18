@@ -71,10 +71,19 @@ class LiveLayDetector:
             logger.error(f"Erro ao analisar jogo para Live Lay {match.id}: {str(e)}")
 
     def _process_radar_phase(self, match, elapsed, stats):
-        from django.core.cache import cache
+        from matches.models import ScannerTip
         
-        cache_key = f"live_lay_radar_{match.id}"
-        if cache.get(cache_key):
+        market_key = f"TLGRM_LAY_RADAR"
+        tip, created = ScannerTip.objects.get_or_create(
+            match=match,
+            market=market_key,
+            defaults={
+                'prediction_text': "Telegram Lay Radar",
+                'probability': 0,
+                'status': 'PENDING'
+            }
+        )
+        if not created:
             return
             
         probs = MatchAnalyzer(match).get_match_odds_probs()
@@ -107,8 +116,6 @@ class LiveLayDetector:
         
         if not top_lays:
             return
-            
-        cache.set(cache_key, True, 60*60*4)
         
         linhas_str = "\n".join([f"🔴 <b>Lay {score}</b> ({prob:.1f}% Seguro)" for score, prob in top_lays])
         
@@ -129,13 +136,20 @@ class LiveLayDetector:
     def send_panic_alert(self, match, h_score, a_score, elapsed, lay_score, prob):
         """Envia o alerta para o Telegram montando a mensagem visual."""
         
-        from django.core.cache import cache
+        from matches.models import ScannerTip
         
-        cache_key = f"live_lay_alert_{match.id}_{h_score}_{a_score}_{lay_score}"
-        if cache.get(cache_key):
+        market_key = f"TLGRM_LAY_PANIC_{h_score}_{a_score}_{lay_score}"
+        tip, created = ScannerTip.objects.get_or_create(
+            match=match,
+            market=market_key,
+            defaults={
+                'prediction_text': f"Telegram Lay Panic ({lay_score})",
+                'probability': prob,
+                'status': 'PENDING'
+            }
+        )
+        if not created:
             return  # Já alertamos esse exato cenário hoje
-            
-        cache.set(cache_key, True, 60*60*4) # Salva por 4 horas para não repetir
         
         home_name = match.home_team.name
         away_name = match.away_team.name

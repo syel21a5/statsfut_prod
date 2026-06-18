@@ -76,13 +76,23 @@ class LiveUnderDetector:
             logger.error(f"Erro ao analisar Under para jogo {match.id}: {str(e)}")
 
     def send_telegram_alert(self, match, h_score, a_score, elapsed, over_45_prob, total_goals):
-        from django.core.cache import cache
+        from matches.models import ScannerTip
 
-        # Anti-spam: Uma mensagem por jogo baseado no número de gols
-        cache_key = f"live_under_alert_{match.id}_goals_{total_goals}"
-        if cache.get(cache_key):
+        # Anti-spam definitivo via Banco de Dados
+        market_key = f"TLGRM_UNDER_{total_goals}_GOLS"
+        tip, created = ScannerTip.objects.get_or_create(
+            match=match,
+            market=market_key,
+            defaults={
+                'prediction_text': f"Telegram Under Alert ({total_goals} Gols)",
+                'probability': over_45_prob,
+                'status': 'PENDING'
+            }
+        )
+        
+        # Se não foi criado agora, é porque já tínhamos salvo no banco que a mensagem foi enviada
+        if not created:
             return
-        cache.set(cache_key, True, 60 * 60 * 4)
 
         home_name = match.home_team.name
         away_name = match.away_team.name
