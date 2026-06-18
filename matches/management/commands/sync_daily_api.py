@@ -32,13 +32,22 @@ class Command(BaseCommand):
 
         for i, league in enumerate(leagues, 1):
             self.stdout.write(self.style.SUCCESS(f"\n[{i}/{total_leagues}] Processando a liga: {league.name} (API ID: {league.api_id})"))
+            
+            # Lógica inteligente de calendário: Europa = Ano-1 (ex: 25/26), Américas = Ano (ex: 2026)
+            european_leagues = [
+                'Premier League', 'La Liga', 'Serie A', 'Bundesliga', 'Ligue 1', 
+                'Eredivisie', 'Primeira Liga', 'Championship', 'Super League', 
+                'Premiership', 'Ekstraklasa', 'Superliga', 'Pro League'
+            ]
+            league_season = (season_year - 1) if league.name in european_leagues else season_year
+            
             try:
                 # Chama o nosso super motor de backfill para essa liga específica
                 call_command(
                     'backfill_api_matches', 
                     league_id=league.id, 
                     limit=stat_limit,
-                    season=season_year
+                    season=league_season
                 )
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Erro ao sincronizar a liga {league.name}: {e}"))

@@ -130,9 +130,17 @@ class Command(BaseCommand):
         stats_fetched = 0
         from matches.models import Goal
         for match in matches_needs_stats:
-            self.stdout.write(f"  -> Buscando dados completos (Stats+Gols) de: {match.home_team.name} x {match.away_team.name} (API ID: {match.api_id})")
+            api_id_str = str(match.api_id)
+            if api_id_str.startswith('sofa_') or not ''.join(filter(str.isdigit, api_id_str)):
+                self.stdout.write(f"  -> Ignorando jogo antigo do SofaScore ou ID invalido: {match.home_team.name} x {match.away_team.name} (API ID: {match.api_id})")
+                continue
+                
+            # Extrai apenas os numeros caso tenha algum prefixo como API_
+            clean_api_id = ''.join(filter(str.isdigit, api_id_str))
+            
+            self.stdout.write(f"  -> Buscando dados completos (Stats+Gols) de: {match.home_team.name} x {match.away_team.name} (API ID: {clean_api_id})")
             # Usa a rota /fixtures com id=... para trazer TODO O PACOTE (eventos, estatisticas, gols) por apenas 1 credito
-            stat_params = {'id': match.api_id}
+            stat_params = {'id': clean_api_id}
             
             try:
                 r_stats = api._make_request(f"{base_url}/fixtures", headers=headers, params=stat_params, timeout=10)
