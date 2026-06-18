@@ -66,26 +66,60 @@ class Command(BaseCommand):
                 f_status = fix['fixture']['status']['short']
                 home_goals = fix['goals'].get('home')
                 away_goals = fix['goals'].get('away')
+                home_api_id = str(fix['teams']['home']['id'])
+                away_api_id = str(fix['teams']['away']['id'])
+                home_name = fix['teams']['home']['name']
+                away_name = fix['teams']['away']['name']
+                f_date_str = fix['fixture'].get('date', '')
+                round_name = fix.get('league', {}).get('round', '')
                 
-                # Tenta achar o match pelo api_id
+                # 1. Tenta achar o match pelo api_id do fixture
                 match = Match.objects.filter(api_id=f_id).first()
+                
                 if not match:
-                    # Se não tem api_id, tenta parear pelo time da casa e da fora
-                    home_name = fix['teams']['home']['name']
-                    away_name = fix['teams']['away']['name']
+                    # 2. Tenta parear pelos api_id de AMBOS os times (seguro)
                     match = Match.objects.filter(
                         league=db_league,
                         season=db_season,
-                        home_team__api_id=str(fix['teams']['home']['id'])
+                        home_team__api_id=home_api_id,
+                        away_team__api_id=away_api_id
                     ).first()
-                    # Fallback por nome caso os times nao tenham api_id
-                    if not match:
-                        match = Match.objects.filter(
-                            league=db_league,
-                            season=db_season,
-                            home_team__name__icontains=home_name[:5],
-                            away_team__name__icontains=away_name[:5]
-                        ).first()
+                
+                if not match:
+                    # 3. Se não achou, CRIA o match novo com os times corretos
+                    home_team = Team.objects.filter(api_id=home_api_id).first()
+                    away_team = Team.objects.filter(api_id=away_api_id).first()
+                    
+                    # Se os times não existem no banco, cria-os
+                    if not home_team:
+                        home_team = Team.objects.create(
+                            name=home_name,
+                            api_id=home_api_id,
+                            league=db_league
+                        )
+                        self.stdout.write(f"  🆕 Time criado: {home_name} (API ID: {home_api_id})")
+                    if not away_team:
+                        away_team = Team.objects.create(
+                            name=away_name,
+                            api_id=away_api_id,
+                            league=db_league
+                        )
+                        self.stdout.write(f"  🆕 Time criado: {away_name} (API ID: {away_api_id})")
+                    
+                    # Parseia a data do jogo
+                    from django.utils.dateparse import parse_datetime
+                    match_date = parse_datetime(f_date_str) if f_date_str else timezone.now()
+                    
+                    match = Match.objects.create(
+                        league=db_league,
+                        season=db_season,
+                        home_team=home_team,
+                        away_team=away_team,
+                        date=match_date,
+                        api_id=f_id,
+                        round_name=round_name,
+                        status='Scheduled'
+                    )
 
                 if match:
                     matched_count += 1
@@ -97,7 +131,10 @@ class Command(BaseCommand):
                         if away_goals is not None: match.away_score = away_goals
                     else:
                         match.status = 'Scheduled' if f_status in ['NS', 'TBD'] else f_status
-                    match.save(update_fields=['api_id', 'status', 'home_score', 'away_score'])
+                    
+                    if round_name and not match.round_name:
+                        match.round_name = round_name
+                    match.save(update_fields=['api_id', 'status', 'home_score', 'away_score', 'round_name'])
             
             self.stdout.write(self.style.SUCCESS(f"✅ Pareados e atualizados placares base de {matched_count} jogos no banco!"))
             
