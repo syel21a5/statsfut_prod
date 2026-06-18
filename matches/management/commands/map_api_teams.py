@@ -120,14 +120,30 @@ class Command(BaseCommand):
                         matched_api_id = api_teams_dict[db_norm_lower]
                     else:
                         # 3. Fuzzy Match (Busca Aproximada)
-                        matches = difflib.get_close_matches(db_name_lower, api_team_names_list, n=1, cutoff=0.75)
+                        matches = difflib.get_close_matches(db_name_lower, api_team_names_list, n=1, cutoff=0.6)
                         if matches:
                             matched_api_id = api_teams_dict[matches[0]]
                         else:
                             # Tenta fuzzy com nome normalizado
-                            matches_norm = difflib.get_close_matches(db_norm_lower, api_team_names_list, n=1, cutoff=0.75)
+                            matches_norm = difflib.get_close_matches(db_norm_lower, api_team_names_list, n=1, cutoff=0.6)
                             if matches_norm:
                                 matched_api_id = api_teams_dict[matches_norm[0]]
+                            else:
+                                # 4. Substring Inteligente (Ex: Vasco em Vasco da Gama)
+                                def strip_common(n):
+                                    words = [' fc', ' ec', ' sc', ' cd', ' ac', ' af', ' uanl', ' de ', ' da ', ' do ', 'club ']
+                                    for w in words:
+                                        n = n.replace(w, ' ')
+                                    return n.strip()
+                                
+                                db_clean = strip_common(db_norm_lower)
+                                for api_name in api_team_names_list:
+                                    api_clean = strip_common(api_name)
+                                    if len(db_clean) > 3 and len(api_clean) > 3:
+                                        # Se o nome limpo está contido ou vice-versa
+                                        if db_clean in api_clean or api_clean in db_clean:
+                                            matched_api_id = api_teams_dict[api_name]
+                                            break
 
                     if matched_api_id:
                         if Team.objects.filter(api_id=matched_api_id).exclude(id=db_team.id).exists():
