@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 'russia': 'russia', 'ukraine': 'ucrania', 'czech-republic': 'republica tcheca',
                 'japan': 'japao', 'usa': 'estados unidos', 'paraguay': 'paraguai',
                 'iceland': 'islandia', 'ecuador': 'equador', 'world': 'america do sul',
-                'south-america': 'america do sul'
+                'south-america': 'america do sul', 'uruguay': 'uruguai'
             }
             lcountry_mapped = COUNTRY_MAP.get(lcountry, lcountry)
             
@@ -98,8 +98,11 @@ class Command(BaseCommand):
                         matched_id = api_league_dict[matches[0]]
 
             if matched_id:
-                db_league.api_id = str(matched_id)
-                db_league.save(update_fields=['api_id'])
-                self.stdout.write(self.style.SUCCESS(f"✅ Liga mapeada: {db_league.name} ({db_league.country}) -> {matched_id}"))
+                try:
+                    db_league.api_id = str(matched_id)
+                    db_league.save(update_fields=['api_id'])
+                    self.stdout.write(self.style.SUCCESS(f"✅ Liga mapeada: {db_league.name} ({db_league.country}) -> {matched_id}"))
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"❌ Liga falhou (Conflito de ID): {db_league.name} ({db_league.country}) -> {matched_id}. Erro: {e}"))
             else:
-                self.stdout.write(self.style.WARNING(f"❌ Liga falhou: {db_league.name} ({db_league.country})"))
+                self.stdout.write(self.style.WARNING(f"❌ Liga falhou (Não encontrada): {db_league.name} ({db_league.country})"))
