@@ -20,23 +20,28 @@ class Command(BaseCommand):
         league_id_arg = options.get('league_id')
 
         # Dicionário de Aliases para tratar nomes difíceis
-        # Chave: Nome na API, Valor: Nome no Banco (SofaScore)
+        # Chave: Nome na API-Football, Valor: Nome no Banco (SofaScore)
         TEAM_ALIASES = {
-            'Atletico-GO': 'Atletico Goianiense',
-            'Athletico-PR': 'Athletico Paranaense',
+            # Série B - Brasil
+            'Athletic Club': 'Athletic',
+            'Atletico Goianiense': 'Atletico-GO',
+            'Athletico Paranaense': 'Athletico-PR',
             'Red Bull Bragantino': 'Bragantino',
             'Cuiaba': 'Cuiabá',
-            'America Mineiro': 'América Mineiro',
+            'America Mineiro': 'América-MG',
             'Vasco Da Gama': 'Vasco da Gama',
             'Sao Paulo': 'São Paulo',
             'Gremio': 'Grêmio',
             'Ceara': 'Ceará',
             'Goias': 'Goiás',
             'Avai': 'Avaí',
-            'Coritiba': 'Coritiba',
             'Operario-PR': 'Operário-PR',
-            'Sport Recife': 'Sport Recife',
-            'Mirassol': 'Mirassol',
+            'Botafogo SP': 'Botafogo-SP',
+            'Nautico': 'Náutico',
+            'Gremio Novorizontino': 'Novorizontino',
+            'Sao Bernardo': 'São Bernardo',
+            'Criciuma': 'Criciúma',
+            # Europa
             'Paris Saint Germain': 'PSG',
             'Atletico Madrid': 'Ath Madrid',
             'Hellas Verona': 'Verona',
