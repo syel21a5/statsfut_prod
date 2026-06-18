@@ -37,6 +37,9 @@ class Command(BaseCommand):
             'Operario-PR': 'Operário-PR',
             'Sport Recife': 'Sport Recife',
             'Mirassol': 'Mirassol',
+            'Paris Saint Germain': 'PSG',
+            'Atletico Madrid': 'Ath Madrid',
+            'Hellas Verona': 'Verona',
             # Adicione outros conforme necessário
         }
 
