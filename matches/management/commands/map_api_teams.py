@@ -70,21 +70,30 @@ class Command(BaseCommand):
                 self.stdout.write(f"Todos os times da liga '{league.name}' já possuem api_id! Pulando...")
                 continue
 
-            params = {'league': league.api_id, 'season': season_year}
+            api_teams_response = []
             
-            try:
-                resp = api._make_request(f"{base_url}/teams", headers=headers, params=params, timeout=15)
-                api._increment_usage('api_football_1')
-                
-                data_json = resp.json()
-                if 'errors' in data_json and data_json['errors']:
-                    self.stdout.write(self.style.ERROR(f"Erro da API: {data_json['errors']}"))
-                    continue
+            # Tenta o ano atual, se vier vazio (calendário europeu), tenta o ano anterior
+            for year_to_try in [season_year, season_year - 1, season_year - 2]:
+                params = {'league': league.api_id, 'season': year_to_try}
+                try:
+                    resp = api._make_request(f"{base_url}/teams", headers=headers, params=params, timeout=15)
+                    api._increment_usage('api_football_1')
+                    data_json = resp.json()
                     
-                api_teams_response = data_json.get('response', [])
-                if not api_teams_response:
-                    self.stdout.write(self.style.WARNING("Nenhum time retornado pela API."))
-                    continue
+                    if 'errors' in data_json and data_json['errors']:
+                        self.stdout.write(self.style.ERROR(f"Erro da API (Season {year_to_try}): {data_json['errors']}"))
+                        continue
+                        
+                    api_teams_response = data_json.get('response', [])
+                    if api_teams_response:
+                        self.stdout.write(f"  (Usando temporada {year_to_try})")
+                        break # Achou os times! Sai do loop de tentativas
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"Erro de conexão: {e}"))
+
+            if not api_teams_response:
+                self.stdout.write(self.style.WARNING("  Nenhum time retornado pela API mesmo voltando os anos."))
+                continue
                 
                 # Criar um dicionário de times da API {nome_normalizado_da_api: api_id}
                 api_teams_dict = {}
