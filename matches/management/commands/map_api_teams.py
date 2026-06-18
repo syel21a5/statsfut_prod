@@ -158,9 +158,24 @@ class Command(BaseCommand):
                                         break
 
                 if matched_api_id:
-                    if Team.objects.filter(api_id=matched_api_id).exclude(id=db_team.id).exists():
-                        self.stdout.write(self.style.WARNING(f"  ⚠️ Ignorado: '{db_team.name}' (ID {matched_api_id} já usado na outra liga)"))
-                        league_missed += 1
+                    existing_team = Team.objects.filter(api_id=matched_api_id).exclude(id=db_team.id).first()
+                    if existing_team:
+                        self.stdout.write(self.style.WARNING(f"  ⚠️ Conflito: '{db_team.name}' quer o ID {matched_api_id}, mas '{existing_team.name}' já tem! Fundindo os times..."))
+                        
+                        # Transfere os jogos em que o time fantasma era mandante
+                        for match in db_team.home_matches.all():
+                            match.home_team = existing_team
+                            match.save()
+                        
+                        # Transfere os jogos em que o time fantasma era visitante
+                        for match in db_team.away_matches.all():
+                            match.away_team = existing_team
+                            match.save()
+                            
+                        # Deleta o time fantasma
+                        db_team.delete()
+                        self.stdout.write(self.style.SUCCESS(f"    ✅ '{db_team.name}' fundido com sucesso para dentro de '{existing_team.name}'!"))
+                        league_mapped += 1
                     else:
                         db_team.api_id = matched_api_id
                         db_team.save(update_fields=['api_id'])
