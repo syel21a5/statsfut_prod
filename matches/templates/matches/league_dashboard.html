@@ -1261,22 +1261,22 @@
         <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
             <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                 <h5 class="mb-0 fw-bold text-info">
-                    <i class="fa-solid fa-chart-line me-2"></i>{% translate "Resumo da Temporada" %}: {{ league.name }}
+                    <i class="fa-solid fa-chart-line me-2"></i>{% translate "Season Summary" %}: {{ league.name }}
                 </h5>
             </div>
             <div class="card-body p-4" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
                 <p class="mb-3">
-                    {% blocktranslate with league_name=league.name %}Acompanhe o desempenho completo dos times na <strong>{{ league_name }}</strong>. A tabela de classificação acima é atualizada em tempo real após cada partida, fornecendo as posições mais recentes e os pontos acumulados pelas equipes.{% endblocktranslate %}
+                    {% blocktranslate with league_name=league.name %}Follow the complete performance of the teams in the <strong>{{ league_name }}</strong>. The standings table above is updated in real time after each match, providing the latest positions and points accumulated by the teams.{% endblocktranslate %}
                 </p>
                 
                 {% if league_stats.avg_goals_match %}
                 <p class="mb-3">
-                    {% blocktranslate with avg_g=league_stats.avg_goals_match btts=league_stats.btts_pct over25=league_stats.over25_pct %}Nesta temporada, a liga apresenta uma média de <strong>{{ avg_g }} gols por partida</strong>. As estatísticas mostram que em <strong>{{ btts }}%</strong> dos confrontos ambas as equipes marcam gols (BTTS), enquanto <strong>{{ over25 }}%</strong> das partidas terminam com mais de 2.5 gols no total.{% endblocktranslate %}
+                    {% blocktranslate with avg_g=league_stats.avg_goals_match btts=league_stats.btts_pct over25=league_stats.over25_pct %}This season, the league features an average of <strong>{{ avg_g }} goals per match</strong>. Statistics show that in <strong>{{ btts }}%</strong> of the matches both teams score goals (BTTS), while <strong>{{ over25 }}%</strong> of the matches end with more than 2.5 goals in total.{% endblocktranslate %}
                 </p>
                 {% endif %}
                 
                 <p class="mb-0">
-                    {% blocktranslate %}Analise a progressão de cada time, a média de pontos por jogo (PPG) e as taxas de vitória para fazer as melhores projeções. O StatsFut é a sua plataforma definitiva para acompanhar o futebol mundial com dados precisos.{% endblocktranslate %}
+                    {% blocktranslate %}Analyze the progression of each team, the average points per game (PPG), and win rates to make the best projections. StatsFut is your ultimate platform to follow world football with accurate data.{% endblocktranslate %}
                 </p>
             </div>
         </div>

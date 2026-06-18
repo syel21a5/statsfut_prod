@@ -39,38 +39,38 @@
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3 text-info">
-                        <i class="fa-solid fa-circle-info me-2"></i>{% translate "Sobre o" %} {{ team.name }}
+                        <i class="fa-solid fa-circle-info me-2"></i>{% translate "About" %} {{ team.name }}
                     </h5>
                     <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
                         <div class="col-md-7">
                             <p class="mb-2">
-                                {% blocktranslate with team_name=team.name league_name=league.name country=league.country|country_en %}O {{ team_name }} é um clube de futebol profissional disputando a {{ league_name }} em {{ country }}.{% endblocktranslate %}
+                                {% blocktranslate with team_name=team.name league_name=league.name country=league.country|country_en %}<strong>{{ team_name }}</strong> is a professional football club competing in the <strong>{{ league_name }}</strong> in <strong>{{ country }}</strong>.{% endblocktranslate %}
                                 {% if standing %}
-                                    {% blocktranslate with pos=standing.position pts=standing.points %}Na temporada atual, a equipe ocupa a <strong>{{ pos }}ª</strong> posição na tabela de classificação, somando um total de <strong>{{ pts }}</strong> pontos.{% endblocktranslate %}
+                                    {% blocktranslate with pos=standing.position pts=standing.points %}In the current season, the team is ranked <strong>{{ pos }}</strong> in the standings, with a total of <strong>{{ pts }}</strong> points.{% endblocktranslate %}
                                 {% endif %}
                             </p>
                             <p class="mb-0">
-                                {% blocktranslate with team_name=team.name %}No StatsFut, você acompanha os placares ao vivo do {{ team_name }}, resultados detalhados, estatísticas de posse de bola, gols, cartões, escanteios, escalações e o calendário completo da temporada.{% endblocktranslate %}
+                                {% blocktranslate with team_name=team.name %}At StatsFut, you can track live scores for <strong>{{ team_name }}</strong>, detailed match results, ball possession statistics, goals, cards, corners, lineups, and the complete season schedule.{% endblocktranslate %}
                             </p>
                         </div>
                         <div class="col-md-5 border-start border-secondary border-opacity-25 ps-md-4">
-                            <h6 class="fw-bold text-white mb-2 small text-uppercase">{% translate "Desempenho Geral" %}</h6>
+                            <h6 class="fw-bold text-white mb-2 small text-uppercase">{% translate "Overall Performance" %}</h6>
                             <ul class="list-unstyled mb-0 small">
                                 {% if stats.total %}
                                     <li class="mb-2">
                                         <i class="fa-solid fa-chart-line text-success me-2"></i>
-                                        {% blocktranslate with avg_gf=stats.total.avg_gf avg_ga=stats.total.avg_ga %}Média de <strong>{{ avg_gf }}</strong> gols marcados e <strong>{{ avg_ga }}</strong> sofridos por partida.{% endblocktranslate %}
+                                        {% blocktranslate with avg_gf=stats.total.avg_gf avg_ga=stats.total.avg_ga %}Average of <strong>{{ avg_gf }}</strong> goals scored and <strong>{{ avg_ga }}</strong> conceded per match.{% endblocktranslate %}
                                     </li>
                                     <li class="mb-2">
                                         <i class="fa-solid fa-bullseye text-warning me-2"></i>
-                                        {% blocktranslate with btts=rates.total.bts_pct %}Ambas as equipes marcaram (BTTS) em <strong>{{ btts }}%</strong> dos jogos do clube.{% endblocktranslate %}
+                                        {% blocktranslate with btts=rates.total.bts_pct %}Both teams scored (BTTS) in <strong>{{ btts }}%</strong> of the club's matches.{% endblocktranslate %}
                                     </li>
                                 {% endif %}
                                 {% if top_scorers %}
                                     <li class="mb-0">
                                         <i class="fa-solid fa-fire text-danger me-2"></i>
                                         {% with top_scorer=top_scorers.0 %}
-                                            {% blocktranslate with name=top_scorer.name goals=top_scorer.total %}O artilheiro do elenco nesta temporada é <strong>{{ name }}</strong> com <strong>{{ goals }}</strong> gols marcados.{% endblocktranslate %}
+                                            {% blocktranslate with name=top_scorer.name goals=top_scorer.total %}The top scorer of the squad this season is <strong>{{ name }}</strong> with <strong>{{ goals }}</strong> goals scored.{% endblocktranslate %}
                                         {% endwith %}
                                     </li>
                                 {% endif %}
@@ -1104,56 +1104,56 @@
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                 <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
                     <h5 class="mb-0 fw-bold text-info">
-                        <i class="fa-solid fa-circle-info me-2"></i>{% translate "Sobre o" %} {{ team.name }}
+                        <i class="fa-solid fa-circle-info me-2"></i>{% translate "About" %} {{ team.name }}
                     </h5>
                 </div>
                 <div class="card-body p-4" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
                     <!-- Intro -->
                     <p class="mb-3">
-                        {% blocktranslate with team_name=team.name %}Placares ao vivo, jogadores, programação da temporada e resultados de hoje do <strong>{{ team_name }}</strong> estão disponíveis no StatsFut.{% endblocktranslate %}
+                        {% blocktranslate with team_name=team.name %}Live scores, players, season schedule, and today's results for <strong>{{ team_name }}</strong> are available at StatsFut.{% endblocktranslate %}
                     </p>
 
                     <!-- Next Match -->
                     {% if upcoming_matches %}
-                        <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Próxima partida do" %} {{ team.name }}</h6>
+                        <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Next match of" %} {{ team.name }}</h6>
                         <p class="mb-3">
                             {% with next_m=upcoming_matches.0 %}
-                                {% blocktranslate with team_name=team.name opp=next_m.home_team.name|default:next_m.away_team.name date=next_m.date|date:"d/m/Y H:i" league=league.name %}O {{ team_name }} jogará a próxima partida contra o <strong>{{ opp }}</strong> no dia <strong>{{ date }}</strong> pela <strong>{{ league }}</strong>.{% endblocktranslate %}
+                                {% blocktranslate with team_name=team.name opp=next_m.home_team.name|default:next_m.away_team.name date=next_m.date|date:"d/m/Y H:i" league=league.name %}{{ team_name }} will play the next match against <strong>{{ opp }}</strong> on <strong>{{ date }}</strong> for the <strong>{{ league }}</strong>.{% endblocktranslate %}
                             {% endwith %}
                         </p>
                     {% endif %}
 
                     <!-- Previous Match -->
                     {% if matches_list %}
-                        <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Partida anterior do" %} {{ team.name }}</h6>
+                        <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Previous match of" %} {{ team.name }}</h6>
                         <p class="mb-3">
                             {% with last_m=matches_list.0 %}
-                                {% blocktranslate with team_name=team.name opp=last_m.opponent.name score=last_m.score league=league.name %}O jogo anterior do {{ team_name }} foi contra o <strong>{{ opp }}</strong> pela <strong>{{ league }}</strong>, terminando com o placar de <strong>{{ score }}</strong>.{% endblocktranslate %}
+                                {% blocktranslate with team_name=team.name opp=last_m.opponent.name score=last_m.score league=league.name %}The previous match of {{ team_name }} was against <strong>{{ opp }}</strong> in the <strong>{{ league }}</strong>, ending with a score of <strong>{{ score }}</strong>.{% endblocktranslate %}
                                 {% if last_m.result == 'W' %}
-                                    {% blocktranslate with team_name=team.name %}O <strong>{{ team_name }}</strong> saiu vencedor desse confronto.{% endblocktranslate %}
+                                    {% blocktranslate with team_name=team.name %}<strong>{{ team_name }}</strong> emerged victorious in this encounter.{% endblocktranslate %}
                                 {% elif last_m.result == 'L' %}
-                                    {% blocktranslate with team_name=team.name %}A equipe acabou sendo derrotada.{% endblocktranslate %}
+                                    {% blocktranslate with team_name=team.name %}The team ended up being defeated.{% endblocktranslate %}
                                 {% else %}
-                                    {% blocktranslate %}A partida terminou empatada.{% endblocktranslate %}
+                                    {% blocktranslate %}The match ended in a draw.{% endblocktranslate %}
                                 {% endif %}
                             {% endwith %}
                         </p>
                     {% endif %}
 
                     <!-- Graph description -->
-                    <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Gráfico de desempenho e forma" %}</h6>
+                    <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Performance and form graph" %}</h6>
                     <p class="mb-3">
-                        {% blocktranslate with team_name=team.name %}O gráfico de desempenho e forma do <strong>{{ team_name }}</strong> é um algoritmo exclusivo do StatsFut que geramos a partir das últimas partidas, estatísticas de gols, finalizações e escanteios. Ele ajuda a entender a tendência atual da equipe e a projetar os próximos confrontos.{% endblocktranslate %}
+                        {% blocktranslate with team_name=team.name %}The performance and form graph of <strong>{{ team_name }}</strong> is a unique StatsFut algorithm that we generate from the latest matches, goal statistics, shots, and corners. It helps to understand the team's current trend and predict upcoming matchups.{% endblocktranslate %}
                     </p>
 
                     <!-- Squad -->
                     {% if squad %}
-                        <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Jogadores atuais do" %} {{ team.name }}</h6>
+                        <h6 class="fw-bold text-white mt-4 mb-2">{% translate "Current squad of" %} {{ team.name }}</h6>
                         <div class="p-3 rounded bg-dark bg-opacity-25 border border-secondary border-opacity-10">
                             <p class="mb-0 small" style="line-height: 1.6;">
-                                <span class="text-secondary fw-bold">{% translate "Elenco" %}:</span>
+                                <span class="text-secondary fw-bold">{% translate "Squad" %}:</span>
                                 {% for player in squad %}
-                                    {{ player.name }}{% if player.age %} ({{ player.age }} {% translate "anos" %}){% endif %}{% if not forloop.last %}, {% endif %}
+                                    {{ player.name }}{% if player.age %} ({{ player.age }} {% translate "years" %}){% endif %}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                             </p>
                         </div>

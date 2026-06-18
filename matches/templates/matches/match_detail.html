@@ -480,8 +480,7 @@
     <!-- SEO TEXT DYNAMIC GENERATION -->
     <div class="seo-match-text mb-4 p-3 rounded" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: #94a3b8; line-height: 1.6;">
         <p class="mb-0">
-            {% translate "Estatísticas completas e previsões detalhadas para a partida entre" %} <strong>{{ match.home_team.name }}</strong> {% translate "e" %} <strong>{{ match.away_team.name }}</strong>, {% translate "válida pela" %} <strong>{{ match.league.name }}</strong>. 
-            {% translate "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e palpites esportivos baseados em dados." %}
+            {% blocktranslate with home=match.home_team.name away=match.away_team.name league=match.league.name %}Complete statistics, predictions, and detailed analysis for the match between <strong>{{ home }}</strong> and <strong>{{ away }}</strong>, valid for the <strong>{{ league }}</strong>. Analyze the probabilities of Both Teams to Score (BTTS), Over 2.5 Goals, corners, cards, and head-to-head (H2H) history to support your data-driven sports analysis.{% endblocktranslate %}
         </p>
     </div>
     

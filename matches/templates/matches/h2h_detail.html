@@ -104,6 +104,22 @@
                 </div>
             </div>
 
+            <!-- H2H SEO Dynamic Text -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3 text-info">
+                        <i class="fa-solid fa-circle-info me-2"></i>{% blocktranslate with t1=team1.name t2=team2.name %}H2H Analysis: {{ t1 }} vs {{ t2 }}{% endblocktranslate %}
+                    </h5>
+                    <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
+                        <div class="col-12">
+                            <p class="mb-0">
+                                {% blocktranslate with t1=team1.name t2=team2.name league_name=league.name count=h2h_stats.gp %}Complete head-to-head (H2H) history between <strong>{{ t1 }}</strong> and <strong>{{ t2 }}</strong> in the <strong>{{ league_name }}</strong>. Discover who has the advantage in win statistics, average goals, corners, and mathematical predictions for the upcoming matches. By analyzing the last {{ count }} encounters, it is possible to identify important trends for the Over/Under 2.5 goals and Both Teams to Score (BTTS) markets. Compare current performance (points per game, form, and unbeaten streaks) to base your sports analysis on real data.{% endblocktranslate %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- MAIN GRID: Team 1 Column vs Team 2 Column -->
             <div class="row g-4 mb-4">
                 <!-- TEAM 1 COLUMN -->
