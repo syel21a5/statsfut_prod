@@ -312,6 +312,12 @@ ODDS_API_TEAM_MAPPINGS = {
     "Cruzeiro MG": "Cruzeiro",
     "Bahia": "Bahia",
     "EC Bahia": "Bahia",
+    "Atletico Goianiense": "Atletico-GO",
+    "Botafogo SP": "Botafogo-SP",
+    "Nautico Recife": "Nautico",
+    "Vila Nova FC": "Vila Nova",
+    "Fortaleza EC": "Fortaleza",
+    "Athletic Club": "Athletic Club",
     
     # --- CHILE ---
     "A. Italiano": "Audax Italiano",
