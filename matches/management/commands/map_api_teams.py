@@ -167,19 +167,9 @@ class Command(BaseCommand):
                     if existing_team:
                         self.stdout.write(self.style.WARNING(f"  ⚠️ Conflito: '{db_team.name}' quer o ID {matched_api_id}, mas '{existing_team.name}' já tem! Fundindo os times..."))
                         
-                        # Transfere os jogos em que o time fantasma era mandante
-                        for match in db_team.home_matches.all():
-                            match.home_team = existing_team
-                            match.save()
-                        
-                        # Transfere os jogos em que o time fantasma era visitante
-                        for match in db_team.away_matches.all():
-                            match.away_team = existing_team
-                            match.save()
-                            
-                        # Deleta o time fantasma
+                        # Deleta o time fantasma e todos os seus jogos antigos (que a API ja buscou para o time novo)
                         db_team.delete()
-                        self.stdout.write(self.style.SUCCESS(f"    ✅ '{db_team.name}' fundido com sucesso para dentro de '{existing_team.name}'!"))
+                        self.stdout.write(self.style.SUCCESS(f"    ✅ '{db_team.name}' fundido com sucesso para dentro de '{existing_team.name}'! (Jogos duplicados removidos)"))
                         league_mapped += 1
                     else:
                         db_team.api_id = matched_api_id
