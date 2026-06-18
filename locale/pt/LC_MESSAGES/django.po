@@ -112,7 +112,7 @@ msgstr ""
 
 #: .\core\templates\base.html:250
 msgid "Advanced Football Statistics & Predictions"
-msgstr ""
+msgstr "Estatísticas Avançadas de Futebol e Previsões"
 
 #: .\core\templates\base.html:251
 msgid ""
@@ -123,7 +123,7 @@ msgid ""
 "historical data for over 100 leagues worldwide (including Premier League, "
 "Brasileirão, La Liga, and Champions League). Boost your pre-match and in-"
 "play sports analysis with our data-driven edge."
-msgstr ""
+msgstr "O StatsFut é a plataforma definitiva para analistas de futebol, oferecendo acompanhamento de placares ao vivo, probabilidades de Ambas as Equipes Marcam (BTTS), tendências de Mais/Menos de 2.5 gols, estatísticas de escanteios e análises detalhadas de confrontos diretos (H2H). Encontre palpites de futebol precisos hoje, análises de partidas por algoritmos e dados históricos para mais de 100 ligas em todo o mundo (incluindo Premier League, Brasileirão, La Liga e Liga dos Campeões). Impulsione sua análise esportiva pré-jogo e ao vivo com nossa vantagem baseada em dados."
 
 #: .\core\templates\base.html:261
 msgid "All rights reserved. Professional statistics for analysts."

@@ -106,10 +106,8 @@ msgid "Overview"
 msgstr "Resumen"
 
 #: .\core\templates\base.html:250
-#, fuzzy
-#| msgid "Advanced football statistics, predictions and analysis."
 msgid "Advanced Football Statistics & Predictions"
-msgstr "StatsFut - Estadísticas, Predicciones y Análisis de Partidos de Fútbol"
+msgstr "Estadísticas Avanzadas de Fútbol y Pronósticos"
 
 #: .\core\templates\base.html:251
 msgid ""
@@ -120,7 +118,7 @@ msgid ""
 "historical data for over 100 leagues worldwide (including Premier League, "
 "Brasileirão, La Liga, and Champions League). Boost your pre-match and in-"
 "play sports analysis with our data-driven edge."
-msgstr ""
+msgstr "StatsFut es la plataforma definitiva para analistas de fútbol, que ofrece seguimiento de marcadores en vivo, probabilidades de Ambos Equipos Marcan (BTTS), tendencias de Más/Menos de 2.5 goles, estadísticas de córners y análisis detallados de enfrentamientos directos (H2H). Encuentre pronósticos de fútbol precisos hoy, análisis de partidos por algoritmos y datos históricos para más de 100 ligas en todo el mundo (incluyendo Premier League, Brasileirão, La Liga y Liga de Campeones). Impulse su análisis deportivo previo al partido y en vivo con nuestra ventaja basada en datos."
 
 # ============================================================
 # FOOTER
