@@ -172,7 +172,6 @@ class Command(BaseCommand):
                 self.stdout.write(f"Resumo da {league.name}: {league_mapped} mapeados, {league_missed} não encontrados.")
                 time.sleep(1) # Delay leve para não bater no rate limit
                 
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f"Erro ao processar liga {league.name}: {e}"))
+ 
 
         self.stdout.write(self.style.SUCCESS(f"\n🏆 Fim da execução! Total de times mapeados: {total_mapped}. Ficaram sem mapear: {total_missed}."))
