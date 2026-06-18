@@ -50,7 +50,9 @@ class Command(BaseCommand):
                 'australia': 'australia', 'austria': 'austria', 'finland': 'finlandia',
                 'norway': 'noruega', 'sweden': 'suecia', 'poland': 'polonia',
                 'russia': 'russia', 'ukraine': 'ucrania', 'czech-republic': 'republica tcheca',
-                'japan': 'japao'
+                'japan': 'japao', 'usa': 'estados unidos', 'paraguay': 'paraguai',
+                'iceland': 'islandia', 'ecuador': 'equador', 'world': 'america do sul',
+                'south-america': 'america do sul'
             }
             lcountry_mapped = COUNTRY_MAP.get(lcountry, lcountry)
             
@@ -65,7 +67,12 @@ class Command(BaseCommand):
             'primeira liga': 'primeira liga',
             'copa do brasil': 'copa do brasil',
             'libertadores': 'copa libertadores',
-            'copa libertadores': 'copa libertadores'
+            'copa libertadores': 'copa libertadores',
+            'mls': 'major league soccer',
+            'besta deild karla': 'urvalsdeild',
+            '1st division': '1. division',
+            'ykkösliiga': 'ykkosliiga',
+            'serie b': 'liga pro serie b'
         }
 
         for db_league in unmapped_leagues:
