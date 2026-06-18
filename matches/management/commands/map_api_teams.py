@@ -95,83 +95,83 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING("  Nenhum time retornado pela API mesmo voltando os anos."))
                 continue
                 
-                # Criar um dicionário de times da API {nome_normalizado_da_api: api_id}
-                api_teams_dict = {}
-                for t in api_teams_response:
-                    api_t_name = t['team']['name']
-                    api_t_id = str(t['team']['id'])
-                    
-                    # Passa pelo dicionário de aliases
-                    mapped_name = TEAM_ALIASES.get(api_t_name, api_t_name)
-                    
-                    # Guarda os dois mapeamentos (o exato que criamos e o normalizado)
-                    api_teams_dict[mapped_name.lower()] = api_t_id
-                    api_teams_dict[normalize_team_name(mapped_name).lower()] = api_t_id
-                    api_teams_dict[api_t_name.lower()] = api_t_id
-                    
-                # Pegar nomes das chaves para usar no fuzzy matching
-                api_team_names_list = list(api_teams_dict.keys())
-
-                league_mapped = 0
-                league_missed = 0
-
-                for db_team in db_teams:
-                    db_name_lower = db_team.name.lower()
-                    db_norm_lower = normalize_team_name(db_team.name).lower()
-                    
-                    matched_api_id = None
-                    
-                    # 1. Match exato direto
-                    if db_name_lower in api_teams_dict:
-                        matched_api_id = api_teams_dict[db_name_lower]
-                    # 2. Match normalizado direto
-                    elif db_norm_lower in api_teams_dict:
-                        matched_api_id = api_teams_dict[db_norm_lower]
-                    else:
-                        # 3. Fuzzy Match (Busca Aproximada)
-                        matches = difflib.get_close_matches(db_name_lower, api_team_names_list, n=1, cutoff=0.6)
-                        if matches:
-                            matched_api_id = api_teams_dict[matches[0]]
-                        else:
-                            # Tenta fuzzy com nome normalizado
-                            matches_norm = difflib.get_close_matches(db_norm_lower, api_team_names_list, n=1, cutoff=0.6)
-                            if matches_norm:
-                                matched_api_id = api_teams_dict[matches_norm[0]]
-                            else:
-                                # 4. Substring Inteligente (Ex: Vasco em Vasco da Gama)
-                                def strip_common(n):
-                                    words = [' fc', ' ec', ' sc', ' cd', ' ac', ' af', ' uanl', ' de ', ' da ', ' do ', 'club ']
-                                    for w in words:
-                                        n = n.replace(w, ' ')
-                                    return n.strip()
-                                
-                                db_clean = strip_common(db_norm_lower)
-                                for api_name in api_team_names_list:
-                                    api_clean = strip_common(api_name)
-                                    if len(db_clean) > 3 and len(api_clean) > 3:
-                                        # Se o nome limpo está contido ou vice-versa
-                                        if db_clean in api_clean or api_clean in db_clean:
-                                            matched_api_id = api_teams_dict[api_name]
-                                            break
-
-                    if matched_api_id:
-                        if Team.objects.filter(api_id=matched_api_id).exclude(id=db_team.id).exists():
-                            self.stdout.write(self.style.WARNING(f"  ⚠️ Ignorado: '{db_team.name}' (ID {matched_api_id} já usado na outra liga)"))
-                            league_missed += 1
-                        else:
-                            db_team.api_id = matched_api_id
-                            db_team.save(update_fields=['api_id'])
-                            self.stdout.write(self.style.SUCCESS(f"  ✅ Pareado: '{db_team.name}' -> API ID {matched_api_id}"))
-                            league_mapped += 1
-                            total_mapped += 1
-                    else:
-                        self.stdout.write(self.style.WARNING(f"  ❌ Falhou: Não encontrou na API para '{db_team.name}'"))
-                        league_missed += 1
-                        total_missed += 1
-
-                self.stdout.write(f"Resumo da {league.name}: {league_mapped} mapeados, {league_missed} não encontrados.")
-                time.sleep(1) # Delay leve para não bater no rate limit
+            # Criar um dicionário de times da API {nome_normalizado_da_api: api_id}
+            api_teams_dict = {}
+            for t in api_teams_response:
+                api_t_name = t['team']['name']
+                api_t_id = str(t['team']['id'])
                 
+                # Passa pelo dicionário de aliases
+                mapped_name = TEAM_ALIASES.get(api_t_name, api_t_name)
+                
+                # Guarda os dois mapeamentos (o exato que criamos e o normalizado)
+                api_teams_dict[mapped_name.lower()] = api_t_id
+                api_teams_dict[normalize_team_name(mapped_name).lower()] = api_t_id
+                api_teams_dict[api_t_name.lower()] = api_t_id
+                
+            # Pegar nomes das chaves para usar no fuzzy matching
+            api_team_names_list = list(api_teams_dict.keys())
+
+            league_mapped = 0
+            league_missed = 0
+
+            for db_team in db_teams:
+                db_name_lower = db_team.name.lower()
+                db_norm_lower = normalize_team_name(db_team.name).lower()
+                
+                matched_api_id = None
+                
+                # 1. Match exato direto
+                if db_name_lower in api_teams_dict:
+                    matched_api_id = api_teams_dict[db_name_lower]
+                # 2. Match normalizado direto
+                elif db_norm_lower in api_teams_dict:
+                    matched_api_id = api_teams_dict[db_norm_lower]
+                else:
+                    # 3. Fuzzy Match (Busca Aproximada)
+                    matches = difflib.get_close_matches(db_name_lower, api_team_names_list, n=1, cutoff=0.6)
+                    if matches:
+                        matched_api_id = api_teams_dict[matches[0]]
+                    else:
+                        # Tenta fuzzy com nome normalizado
+                        matches_norm = difflib.get_close_matches(db_norm_lower, api_team_names_list, n=1, cutoff=0.6)
+                        if matches_norm:
+                            matched_api_id = api_teams_dict[matches_norm[0]]
+                        else:
+                            # 4. Substring Inteligente (Ex: Vasco em Vasco da Gama)
+                            def strip_common(n):
+                                words = [' fc', ' ec', ' sc', ' cd', ' ac', ' af', ' uanl', ' de ', ' da ', ' do ', 'club ']
+                                for w in words:
+                                    n = n.replace(w, ' ')
+                                return n.strip()
+                            
+                            db_clean = strip_common(db_norm_lower)
+                            for api_name in api_team_names_list:
+                                api_clean = strip_common(api_name)
+                                if len(db_clean) > 3 and len(api_clean) > 3:
+                                    # Se o nome limpo está contido ou vice-versa
+                                    if db_clean in api_clean or api_clean in db_clean:
+                                        matched_api_id = api_teams_dict[api_name]
+                                        break
+
+                if matched_api_id:
+                    if Team.objects.filter(api_id=matched_api_id).exclude(id=db_team.id).exists():
+                        self.stdout.write(self.style.WARNING(f"  ⚠️ Ignorado: '{db_team.name}' (ID {matched_api_id} já usado na outra liga)"))
+                        league_missed += 1
+                    else:
+                        db_team.api_id = matched_api_id
+                        db_team.save(update_fields=['api_id'])
+                        self.stdout.write(self.style.SUCCESS(f"  ✅ Pareado: '{db_team.name}' -> API ID {matched_api_id}"))
+                        league_mapped += 1
+                        total_mapped += 1
+                else:
+                    self.stdout.write(self.style.WARNING(f"  ❌ Falhou: Não encontrou na API para '{db_team.name}'"))
+                    league_missed += 1
+                    total_missed += 1
+
+            self.stdout.write(f"Resumo da {league.name}: {league_mapped} mapeados, {league_missed} não encontrados.")
+            time.sleep(1) # Delay leve para não bater no rate limit
+            
  
 
         self.stdout.write(self.style.SUCCESS(f"\n🏆 Fim da execução! Total de times mapeados: {total_mapped}. Ficaram sem mapear: {total_missed}."))
