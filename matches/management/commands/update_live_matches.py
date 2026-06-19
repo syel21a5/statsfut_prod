@@ -394,16 +394,16 @@ class Command(BaseCommand):
                 home_name = fixture['home_team']
                 away_name = fixture['away_team']
                 
-                # CRITICAL: Validate teams BEFORE processing
+                home_name = normalize_team_name(home_name)
+                away_name = normalize_team_name(away_name)
+                
+                # CRITICAL: Validate teams AFTER normalization
                 if not is_team_valid_for_league(home_name, league_obj.name):
                     self.stdout.write(self.style.WARNING(f'  🚫 Rejeitado: {home_name} não pertence à {league_obj.name} ({league_obj.country})'))
                     continue
                 if not is_team_valid_for_league(away_name, league_obj.name):
                     self.stdout.write(self.style.WARNING(f'  🚫 Rejeitado: {away_name} não pertence à {league_obj.name} ({league_obj.country})'))
                     continue
-
-                home_name = normalize_team_name(home_name)
-                away_name = normalize_team_name(away_name)
 
                 # Busca ou cria times usando o método seguro
                 home_team = self._get_or_create_team(

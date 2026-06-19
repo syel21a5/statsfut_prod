@@ -119,15 +119,20 @@ class Command(BaseCommand):
                     ))
                     continue
                 
+                # Normaliza os nomes antes da whitelist para garantir que aliases (ex: "Gremio Novorizontino") sejam convertidos para o nome oficial ("Novorizontino") antes da checagem
+                from matches.utils import normalize_team_name
+                home_name_norm = normalize_team_name(home_name)
+                away_name_norm = normalize_team_name(away_name)
+                
                 # WHITELIST CHECK: Valida se os times pertencem à liga (segunda camada)
-                if not is_team_valid_for_league(home_name, db_league.name):
+                if not is_team_valid_for_league(home_name_norm, db_league.name):
                     self.stdout.write(self.style.WARNING(
-                        f"  🚫 WHITELIST: Rejeitado {home_name} - não pertence à {db_league.name}"
+                        f"  🚫 WHITELIST: Rejeitado {home_name_norm} (original: {home_name}) - não pertence à {db_league.name}"
                     ))
                     continue
-                if not is_team_valid_for_league(away_name, db_league.name):
+                if not is_team_valid_for_league(away_name_norm, db_league.name):
                     self.stdout.write(self.style.WARNING(
-                        f"  🚫 WHITELIST: Rejeitado {away_name} - não pertence à {db_league.name}"
+                        f"  🚫 WHITELIST: Rejeitado {away_name_norm} (original: {away_name}) - não pertence à {db_league.name}"
                     ))
                     continue
                 # ============================================================
