@@ -361,9 +361,9 @@ def resolve_team(name, league):
         return team
         
     # 4. Try normalized name
-    # from .utils import normalize_team_name
-    # normalized = normalize_team_name(name)
-    # team = Team.objects.filter(name__iexact=normalized, league=league).first()
+    from .utils import normalize_team_name
+    normalized = normalize_team_name(name)
+    team = Team.objects.filter(name__iexact=normalized, league=league).first()
     
     return None
 
