@@ -99,17 +99,19 @@ class Command(BaseCommand):
                         raise
 
     def merge_teams(self, league, bad_name, good_name):
-        # Find Canonical Team
-        good_team = Team.objects.filter(name__iexact=good_name, league=league).first()
-        if not good_team:
-            self.stdout.write(f"Canonical team not found: {good_name}. Skipping {bad_name}.")
-            return
-
-        # Find Bad Team
         # We search exactly for the bad name
         bad_team = Team.objects.filter(name__iexact=bad_name, league=league).first()
         if not bad_team:
-            # self.stdout.write(f"Bad team not found: {bad_name}. Good.")
+            return
+
+        # Find Canonical Team
+        good_team = Team.objects.filter(name__iexact=good_name, league=league).first()
+        
+        if not good_team:
+            # If the canonical team doesn't exist, we just RENAME the bad team
+            self.stdout.write(f"Renaming {bad_team.name} ({bad_team.id}) to {good_name}")
+            bad_team.name = good_name
+            bad_team.save(update_fields=['name'])
             return
 
         if bad_team.id == good_team.id:
