@@ -9,13 +9,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         country = "Brasil"
-        leagues = League.objects.filter(name__icontains="Brasileir", country=country)
+        leagues = League.objects.filter(country=country)
         if not leagues.exists():
             self.stdout.write(self.style.ERROR("No Brazil leagues found"))
             return
 
         # Map Bad Name -> Canonical Name
         merges = {
+            "Ath Bilbao": "Athletic Club",
             "Mirassol FC": "Mirassol",
             "Chapecoense AF": "Chapecoense",
             "CA Mineiro": "Atletico-MG",
