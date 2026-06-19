@@ -4,6 +4,31 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from matches.models import League, Match, Season, Team
 from matches.api_manager import APIManager
+from matches.team_validation import is_team_valid_for_league
+
+# ============================================================================
+# BLACKLIST: Times que a API-Football retorna incorretamente para certas ligas.
+# Chave = api_id da liga na API-Football
+# Valor = set de api_ids de times que NUNCA devem ser criados/associados a essa liga
+#
+# Exemplo real: A API retorna "Ath Bilbao" (API ID 531) em fixtures da Série B
+# do Brasil (API ID 72), o que é um bug da API.
+# ============================================================================
+LEAGUE_TEAM_BLACKLIST = {
+    # Série B do Brasil (api_id=72) - times europeus que aparecem por bug da API
+    '72': {'531', '529', '530', '532', '533'},  # 531=Ath Bilbao, 529=Barcelona, 530=Atletico Madrid, etc.
+    # Série A do Brasil (api_id=71)
+    '71': {'531', '529', '530', '532', '533'},
+}
+
+# Blacklist por NOME de time (fallback caso o api_id mude)
+LEAGUE_TEAM_NAME_BLACKLIST = {
+    '72': {'ath bilbao', 'athletic bilbao', 'athletic club', 'barcelona', 'atletico madrid',
+           'real madrid', 'sevilla', 'valencia', 'real betis', 'villarreal', 'real sociedad'},
+    '71': {'ath bilbao', 'athletic bilbao', 'athletic club', 'barcelona', 'atletico madrid',
+           'real madrid', 'sevilla', 'valencia', 'real betis', 'villarreal', 'real sociedad'},
+}
+
 
 class Command(BaseCommand):
     help = 'Busca fixtures e estatísticas passadas (Estratégia 1 - Otimizada) evitando chamadas redundantes.'
@@ -72,6 +97,40 @@ class Command(BaseCommand):
                 away_name = fix['teams']['away']['name']
                 f_date_str = fix['fixture'].get('date', '')
                 round_name = fix.get('league', {}).get('round', '')
+                
+                # ============================================================
+                # BLACKLIST CHECK: Pula fixtures com times que não pertencem à liga
+                # ============================================================
+                league_api_str = str(db_league.api_id)
+                bl_ids = LEAGUE_TEAM_BLACKLIST.get(league_api_str, set())
+                bl_names = LEAGUE_TEAM_NAME_BLACKLIST.get(league_api_str, set())
+                
+                if home_api_id in bl_ids or away_api_id in bl_ids:
+                    self.stdout.write(self.style.WARNING(
+                        f"  ⛔ BLACKLIST (ID): Pulando fixture {home_name} vs {away_name} "
+                        f"(IDs: {home_api_id}/{away_api_id}) - Time não pertence à liga {db_league.name}"
+                    ))
+                    continue
+                
+                if home_name.lower() in bl_names or away_name.lower() in bl_names:
+                    self.stdout.write(self.style.WARNING(
+                        f"  ⛔ BLACKLIST (Nome): Pulando fixture {home_name} vs {away_name} "
+                        f"- Time não pertence à liga {db_league.name}"
+                    ))
+                    continue
+                
+                # WHITELIST CHECK: Valida se os times pertencem à liga (segunda camada)
+                if not is_team_valid_for_league(home_name, db_league.name):
+                    self.stdout.write(self.style.WARNING(
+                        f"  🚫 WHITELIST: Rejeitado {home_name} - não pertence à {db_league.name}"
+                    ))
+                    continue
+                if not is_team_valid_for_league(away_name, db_league.name):
+                    self.stdout.write(self.style.WARNING(
+                        f"  🚫 WHITELIST: Rejeitado {away_name} - não pertence à {db_league.name}"
+                    ))
+                    continue
+                # ============================================================
                 
                 # 1. Tenta achar o match pelo api_id do fixture
                 match = Match.objects.filter(api_id=f_id).first()
