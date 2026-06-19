@@ -65,9 +65,10 @@ class LiveUnderDetector:
                 return
 
             over_45_prob = stats['goals'].get('over_45', 100)
+            over_35_prob = stats['goals'].get('over_35', 100)
 
             # Filtro Mestre: Validação Matemática
-            if over_45_prob <= self.MAX_OVER_45_PROB:
+            if over_45_prob <= self.MAX_OVER_45_PROB and over_35_prob <= 25.0:
                 self.send_telegram_alert(
                     match, home_score, away_score, elapsed, over_45_prob, total_goals
                 )
