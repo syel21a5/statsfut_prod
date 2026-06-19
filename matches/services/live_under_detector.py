@@ -105,9 +105,15 @@ class LiveUnderDetector:
             obs = "Partida excelente para a estratégia Under! Favorita esse jogo na corretora e fique de olho. Se sair um gol bobo, a gente entra!"
             linhas = f"🟢 <b>Favoritar o Jogo</b>"
         elif total_goals == 1:
-            titulo = "GOL RÁPIDO (Susto Inicial)"
-            obs = "O mercado se assustou com esse primeiro gol. As odds para Under 4.5 acabaram de ganhar muito valor!"
-            linhas = f"🟢 <b>Under 4.5</b>\n🟢 <b>Under 5.5</b> (Muito Seguro)"
+            if elapsed <= 25:
+                titulo = "GOL CEDO (Oportunidade de Ouro)"
+                obs = ("Gol antes dos 25min! A odd do Under 3.5 subiu absurdamente.\n"
+                       "👉 <b>Estratégia Profissional:</b> Entre no <b>Under 3.5</b> e separe ~25% do lucro esperado para fazer <b>Dutching (Proteção)</b> nos Placares Exatos que somam 4 gols (2-2, 3-1, 1-3, 4-0, 0-4). Assim você fica imune ao pior cenário!")
+                linhas = f"🟢 <b>Under 3.5</b> (Agressivo + Proteção CS)\n🟢 <b>Under 4.5</b> (Conservador)"
+            else:
+                titulo = "GOL (Susto no Mercado)"
+                obs = "O mercado se assustou com esse gol. As odds para Under 4.5 acabaram de ganhar muito valor!"
+                linhas = f"🟢 <b>Under 4.5</b>\n🟢 <b>Under 5.5</b> (Muito Seguro)"
         elif total_goals == 2:
             titulo = "PÂNICO DO MERCADO (2 Gols)"
             obs = "Dois gols tão cedo num jogo de tendência Under! O mercado entrou em colapso projetando uma chuva de gols. Abrace as linhas altas."
