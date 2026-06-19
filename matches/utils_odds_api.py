@@ -364,7 +364,9 @@ def resolve_team(name, league):
     from .utils import normalize_team_name
     normalized = normalize_team_name(name)
     team = Team.objects.filter(name__iexact=normalized, league=league).first()
-    
+    if team:
+        return team
+        
     return None
 
 def log_api_usage(api_name, headers):

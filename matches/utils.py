@@ -436,10 +436,11 @@ def normalize_team_name(name):
     
     clean_name = name.strip()
     
-    # Tenta busca exata no mapeamento primeiro
-    result = TEAM_NAME_MAPPINGS.get(clean_name)
-    if result:
-        return result
+    # Busca case-insensitive no mapeamento
+    clean_name_lower = clean_name.lower()
+    for k, v in TEAM_NAME_MAPPINGS.items():
+        if k.lower() == clean_name_lower:
+            return v
         
     # Substituições manuais para caracteres nórdicos/especiais que o NFKD não remove
     replacements = {
