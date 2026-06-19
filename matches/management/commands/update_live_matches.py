@@ -243,11 +243,10 @@ class Command(BaseCommand):
                 team = Team.objects.filter(fd_id=str(external_id), league=league).first()
             else:
                 team = Team.objects.filter(api_id=str(external_id), league=league).first()
-            
             if team:
-                if team.name != name:
-                    team.name = name
-                    team.save()
+                # OTIMIZAÇÃO: NUNCA sobrescrever o nome do time no banco de dados com o nome da API.
+                # Isso preserva os nomes canônicos limpos (ex: "Atletico-GO", "Sport Recife")
+                # e evita que a API reescreva como "AC Goianiense" ou "Sport Club do Recife".
                 return team
 
         # 2. Se não achou pelo id na liga, busca por nome e liga
