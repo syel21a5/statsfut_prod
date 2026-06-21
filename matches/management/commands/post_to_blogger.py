@@ -423,35 +423,29 @@ class Command(BaseCommand):
         # Usar imagem curada hospedada localmente no próprio statsfut.com
         image_url = None
         
-        # Para isso funcionar, as imagens precisam estar na pasta "static/curated_images" ou servidas pelo nginx
-        # Como o Nginx costuma servir a pasta /media/, vamos apontar para lá (você deve colocar as imagens em media/curated_images)
-        # Por via das dúvidas, vamos usar a URL do diretório raiz. Mas o ideal é movermos pro MEDIA_ROOT.
-        curated_dir = os.path.join(settings.BASE_DIR, "media", "curated_images")
+        # O Django vai servir as imagens da pasta original através da rota /imagens-blog/
+        curated_dir = os.path.join(settings.BASE_DIR, "curated_images")
         
-        # Cria a pasta caso não exista
         if not os.path.exists(curated_dir):
             os.makedirs(curated_dir, exist_ok=True)
-            self.stdout.write(self.style.WARNING(f"Aviso: Pasta 'media/curated_images' criada. Mova suas imagens para cá!"))
-        
-        # Vamos tentar achar a imagem também na pasta antiga (raiz) caso o usuário não tenha movido ainda
-        old_dir = os.path.join(settings.BASE_DIR, "curated_images")
-        if os.path.exists(old_dir) and len(os.listdir(old_dir)) > 0:
-            import shutil
-            for f in os.listdir(old_dir):
-                if f.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
-                    shutil.copy(os.path.join(old_dir, f), os.path.join(curated_dir, f))
-            self.stdout.write(self.style.SUCCESS(f"Imagens copiadas automaticamente de curated_images/ para media/curated_images/"))
+            self.stdout.write(self.style.WARNING(f"Aviso: Pasta 'curated_images' vazia. Adicione imagens."))
             
         valid_exts = (".png", ".jpg", ".jpeg", ".webp")
-        curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)]
+        curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)] if os.path.exists(curated_dir) else []
+        
+        # Fallback para caso estejam na pasta media/curated_images
+        if not curated_files:
+            curated_dir = os.path.join(settings.BASE_DIR, "media", "curated_images")
+            if os.path.exists(curated_dir):
+                curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)]
         
         if curated_files:
             selected_file = random.choice(curated_files)
-            # Ao invés de fazer upload pro Catbox, usamos a URL do nosso próprio site!
-            image_url = f"https://statsfut.com/media/curated_images/{selected_file}"
+            # A rota nova que criamos no urls.py atende pelo /imagens-blog/
+            image_url = f"https://statsfut.com/imagens-blog/{selected_file}"
             self.stdout.write(self.style.SUCCESS(f"Usando imagem do próprio site: {image_url}"))
         else:
-            self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback pois a pasta media/curated_images está vazia."))
+            self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback pois não foram encontradas imagens curadas."))
             image_url = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80"
 
         html += f'<p><img src="{image_url}" alt="Palpites de Futebol e Estatísticas" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; margin: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" /></p>'
