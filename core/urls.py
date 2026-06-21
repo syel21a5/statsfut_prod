@@ -31,7 +31,6 @@ from django.conf import settings
 i18n_routes = [
     path('admin/', admin.site.urls),
     path('members/', include('members.urls')),
-    path('blog/', include('blog.urls')),
 ]
 
 if 'video_maker' in settings.INSTALLED_APPS:
