@@ -422,27 +422,25 @@ class Command(BaseCommand):
 
         # O Nginx é configurado para servir tudo que está na pasta "staticfiles" através da URL "/static/"
         # Então vamos copiar a imagem escolhida direto para lá para "hackear" o Nginx
-        curated_dir = os.path.join(settings.BASE_DIR, "curated_images")
+        # Lê links de imagens diretamente de um arquivo de texto (image_links.txt)
+        # Isso contorna qualquer problema de servidor, Nginx ou Catbox.
+        image_url = None
+        links_file = os.path.join(settings.BASE_DIR, "image_links.txt")
         
-        if not os.path.exists(curated_dir):
-            os.makedirs(curated_dir, exist_ok=True)
-            self.stdout.write(self.style.WARNING(f"Aviso: Pasta 'curated_images' vazia. Adicione imagens."))
+        if os.path.exists(links_file):
+            with open(links_file, "r", encoding="utf-8") as f:
+                links = [line.strip() for line in f if line.strip() and line.strip().startswith("http")]
             
-        valid_exts = (".png", ".jpg", ".jpeg", ".webp")
-        curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)] if os.path.exists(curated_dir) else []
-        
-        if curated_files:
-            selected_file = random.choice(curated_files)
-            
-            # ATENÇÃO: Nginx bloqueia automaticamente URLs com .jpg ou .png no final.
-            # Para desviar disso 100%, nós disfarçamos a URL trocando o ponto por '_dot_'
-            # O Django (urls.py) recebe isso, desfaz a troca e entrega a imagem via FileResponse!
-            filename_safe = selected_file.replace(".", "_dot_")
-            
-            image_url = f"https://statsfut.com/imagens-blog/{filename_safe}"
-            self.stdout.write(self.style.SUCCESS(f"Usando URL Anti-Nginx: {image_url}"))
+            if links:
+                image_url = random.choice(links)
+                self.stdout.write(self.style.SUCCESS(f"Usando imagem de link externo: {image_url}"))
+            else:
+                self.stdout.write(self.style.WARNING("Aviso: 'image_links.txt' está vazio ou não contém links válidos."))
         else:
-            self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback pois não foram encontradas imagens curadas."))
+            self.stdout.write(self.style.WARNING(f"Aviso: Arquivo 'image_links.txt' não encontrado. Crie este arquivo e cole os links das imagens."))
+
+        if not image_url:
+            self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback pois não há links curados."))
             image_url = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80"
 
         html += f'<p><img src="{image_url}" alt="Palpites de Futebol e Estatísticas" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; margin: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" /></p>'
