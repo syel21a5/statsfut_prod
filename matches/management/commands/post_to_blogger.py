@@ -423,7 +423,8 @@ class Command(BaseCommand):
         # Usar imagem curada hospedada localmente no próprio statsfut.com
         image_url = None
         
-        # O Django vai servir as imagens da pasta original através da rota /imagens-blog/
+        # Como o Nginx intercepta todas as extensões de imagem (.jpg, .png), ele ignora as rotas do Django
+        # e procura o arquivo diretamente no disco. Então a URL TEM QUE bater com o nome da pasta física.
         curated_dir = os.path.join(settings.BASE_DIR, "curated_images")
         
         if not os.path.exists(curated_dir):
@@ -433,17 +434,11 @@ class Command(BaseCommand):
         valid_exts = (".png", ".jpg", ".jpeg", ".webp")
         curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)] if os.path.exists(curated_dir) else []
         
-        # Fallback para caso estejam na pasta media/curated_images
-        if not curated_files:
-            curated_dir = os.path.join(settings.BASE_DIR, "media", "curated_images")
-            if os.path.exists(curated_dir):
-                curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)]
-        
         if curated_files:
             selected_file = random.choice(curated_files)
-            # A rota nova que criamos no urls.py atende pelo /imagens-blog/
-            image_url = f"https://statsfut.com/imagens-blog/{selected_file}"
-            self.stdout.write(self.style.SUCCESS(f"Usando imagem do próprio site: {image_url}"))
+            # A URL usa o caminho real da pasta para que o Nginx entregue direto o arquivo
+            image_url = f"https://statsfut.com/curated_images/{selected_file}"
+            self.stdout.write(self.style.SUCCESS(f"Usando imagem direto do Nginx: {image_url}"))
         else:
             self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback pois não foram encontradas imagens curadas."))
             image_url = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80"
