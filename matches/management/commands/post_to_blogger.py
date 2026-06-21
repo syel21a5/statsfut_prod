@@ -178,49 +178,64 @@ class Command(BaseCommand):
         download_font("https://github.com/google/fonts/raw/main/ofl/montserrat/static/Montserrat-Regular.ttf", font_regular_path)
         download_font("https://github.com/google/fonts/raw/main/ofl/montserrat/static/Montserrat-SemiBold.ttf", font_medium_path)
 
-        # 2. Criar Prompt Variado da IA de Futebol com jerseys de cores dinâmicas e seed única
-        atmospheres = [
-            "at night under bright stadium floodlights",
-            "during a golden sunset in a massive crowded stadium",
-            "in a futuristic arena with neon light details",
-            "in the heavy rain with water splashes on the pitch",
-            "with dramatic cinematic smoke and golden light beams"
-        ]
-        actions = [
-            "striking a ball in mid-air",
-            "dribbling past a defender in high speed",
-            "goalkeeper diving to save a shot near the post",
-            "celebrating a goal on the pitch with fans in background",
-            "sliding tackle on green grass close-up"
-        ]
-        styles = [
-            "highly detailed sports photography, 8k resolution, cinematic lighting, motion blur",
-            "dramatic sports action shot, dynamic angle, award-winning photography, rich colors"
-        ]
-
-        selected_atmosphere = random.choice(atmospheres)
-        selected_action = random.choice(actions)
-        selected_style = random.choice(styles)
-        
-        colors = ["red", "blue", "white", "black", "yellow", "green", "orange", "purple", "cyan", "magenta"]
-        c1 = random.choice(colors)
-        colors.remove(c1)
-        c2 = random.choice(colors)
-
-        prompt = f"a professional soccer match action shot, player in {c1} jersey vs player in {c2} jersey, {selected_action}, {selected_atmosphere}, {selected_style}"
-        
-        # 3. Tentar baixar a imagem gerada por IA com seed única para evitar duplicatas
+        # 2. Tentar carregar imagem local curada primeiro
         img = None
-        seed = random.randint(1, 999999)
-        try:
-            from urllib.parse import quote
-            prompt_quoted = quote(prompt)
-            ia_url = f"https://image.pollinations.ai/prompt/{prompt_quoted}?width={width}&height={height}&nologo=true&seed={seed}"
-            response = requests.get(ia_url, timeout=25)
-            if response.status_code == 200:
-                img = Image.open(io.BytesIO(response.content)).convert("RGBA")
-        except Exception as e:
-            self.stdout.write(self.style.WARNING(f"Erro ao gerar imagem por IA: {e}"))
+        curated_dir = os.path.join(settings.BASE_DIR, "curated_images")
+        if os.path.exists(curated_dir):
+            valid_exts = (".png", ".jpg", ".jpeg", ".webp")
+            curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)]
+            if curated_files:
+                selected_file = random.choice(curated_files)
+                try:
+                    img_path = os.path.join(curated_dir, selected_file)
+                    img = Image.open(img_path).convert("RGBA")
+                    self.stdout.write(self.style.SUCCESS(f"Usando imagem curada local: {selected_file}"))
+                except Exception as e:
+                    self.stdout.write(self.style.WARNING(f"Erro ao carregar imagem curada {selected_file}: {e}"))
+
+        if not img:
+            # 3. Criar Prompt Variado da IA de Futebol com jerseys de cores dinâmicas e seed única
+            atmospheres = [
+                "at night under bright stadium floodlights",
+                "during a golden sunset in a massive crowded stadium",
+                "in a futuristic arena with neon light details",
+                "in the heavy rain with water splashes on the pitch",
+                "with dramatic cinematic smoke and golden light beams"
+            ]
+            actions = [
+                "striking a ball in mid-air",
+                "dribbling past a defender in high speed",
+                "goalkeeper diving to save a shot near the post",
+                "celebrating a goal on the pitch with fans in background",
+                "sliding tackle on green grass close-up"
+            ]
+            styles = [
+                "highly detailed sports photography, 8k resolution, cinematic lighting, motion blur",
+                "dramatic sports action shot, dynamic angle, award-winning photography, rich colors"
+            ]
+
+            selected_atmosphere = random.choice(atmospheres)
+            selected_action = random.choice(actions)
+            selected_style = random.choice(styles)
+            
+            colors = ["red", "blue", "white", "black", "yellow", "green", "orange", "purple", "cyan", "magenta"]
+            c1 = random.choice(colors)
+            colors.remove(c1)
+            c2 = random.choice(colors)
+
+            prompt = f"a professional soccer match action shot, player in {c1} jersey vs player in {c2} jersey, {selected_action}, {selected_atmosphere}, {selected_style}"
+            
+            # Tentar baixar a imagem gerada por IA com seed única para evitar duplicatas
+            seed = random.randint(1, 999999)
+            try:
+                from urllib.parse import quote
+                prompt_quoted = quote(prompt)
+                ia_url = f"https://image.pollinations.ai/prompt/{prompt_quoted}?width={width}&height={height}&nologo=true&seed={seed}"
+                response = requests.get(ia_url, timeout=25)
+                if response.status_code == 200:
+                    img = Image.open(io.BytesIO(response.content)).convert("RGBA")
+            except Exception as e:
+                self.stdout.write(self.style.WARNING(f"Erro ao gerar imagem por IA: {e}"))
 
         # Fallback caso a IA falhe (IP bloqueado no proxy/VPS ou indisponível)
         if not img:
