@@ -368,15 +368,17 @@ class Command(BaseCommand):
         img.save(img_byte_arr, format="PNG")
         return img_byte_arr.getvalue()
 
-    def upload_to_catbox(self, image_bytes):
+    def upload_to_catbox(self, image_bytes, filename="banner.png", mime_type="image/png"):
         """Envia os bytes da imagem para o Catbox e retorna o link direto."""
         url = "https://catbox.moe/user/api.php"
         data = {"reqtype": "fileupload"}
-        files = {"fileToUpload": ("banner.png", image_bytes, "image/png")}
+        files = {"fileToUpload": (filename, image_bytes, mime_type)}
         try:
             response = requests.post(url, data=data, files=files, timeout=15)
             if response.status_code == 200:
                 return response.text.strip()
+            else:
+                self.stdout.write(self.style.WARNING(f"Erro no Catbox. Status: {response.status_code}, Resposta: {response.text}"))
         except Exception as e:
             self.stdout.write(self.style.WARNING(f"Erro ao subir imagem para o Catbox: {e}"))
         return None
@@ -431,12 +433,22 @@ class Command(BaseCommand):
                 try:
                     with open(img_path, "rb") as f:
                         image_bytes = f.read()
-                    image_url = self.upload_to_catbox(image_bytes)
+                    
+                    # Determinar mime_type
+                    ext = selected_file.lower().split('.')[-1]
+                    mime_type = "image/jpeg"
+                    if ext == "png":
+                        mime_type = "image/png"
+                    elif ext == "webp":
+                        mime_type = "image/webp"
+
+                    image_url = self.upload_to_catbox(image_bytes, filename=selected_file, mime_type=mime_type)
                 except Exception as e:
                     self.stdout.write(self.style.WARNING(f"Erro ao ler/enviar imagem curada {selected_file}: {e}"))
 
         if not image_url:
             # Fallback caso não tenha imagens curadas ou dê erro no upload
+            self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback. O link do catbox não foi retornado."))
             image_url = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80"
 
         html += f'<p><img src="{image_url}" alt="Palpites de Futebol e Estatísticas" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; margin: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" /></p>'
