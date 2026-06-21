@@ -420,20 +420,35 @@ class Command(BaseCommand):
         ]
         html = random.choice(intro_templates)
 
-        # O Nginx é configurado para servir tudo que está na pasta "staticfiles" através da URL "/static/"
-        # Então vamos copiar a imagem escolhida direto para lá para "hackear" o Nginx
         # Lê links de imagens diretamente de um arquivo de texto (image_links.txt)
-        # Isso contorna qualquer problema de servidor, Nginx ou Catbox.
+        # Sistema de Carrossel (Ordem Sequencial): Garante que a imagem nunca se repita antes de todas serem usadas.
         image_url = None
         links_file = os.path.join(settings.BASE_DIR, "image_links.txt")
+        index_file = os.path.join(settings.BASE_DIR, "last_image_index.txt")
         
         if os.path.exists(links_file):
             with open(links_file, "r", encoding="utf-8") as f:
                 links = [line.strip() for line in f if line.strip() and line.strip().startswith("http")]
             
             if links:
-                image_url = random.choice(links)
-                self.stdout.write(self.style.SUCCESS(f"Usando imagem de link externo: {image_url}"))
+                # Lê o último índice usado
+                current_index = -1
+                if os.path.exists(index_file):
+                    try:
+                        with open(index_file, "r", encoding="utf-8") as f:
+                            current_index = int(f.read().strip())
+                    except ValueError:
+                        current_index = -1
+                
+                # Avança para a próxima imagem (e volta para 0 se chegar no final da lista)
+                next_index = (current_index + 1) % len(links)
+                image_url = links[next_index]
+                
+                # Salva o novo índice para o próximo post
+                with open(index_file, "w", encoding="utf-8") as f:
+                    f.write(str(next_index))
+                
+                self.stdout.write(self.style.SUCCESS(f"Usando imagem sequencial (link {next_index + 1}/{len(links)}): {image_url}"))
             else:
                 self.stdout.write(self.style.WARNING("Aviso: 'image_links.txt' está vazio ou não contém links válidos."))
         else:
