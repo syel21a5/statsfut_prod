@@ -418,16 +418,25 @@ class Command(BaseCommand):
         ]
         html = random.choice(intro_templates)
 
-        # Gerar imagem dinâmica baseada no confronto em destaque
+        # Usar imagem curada da pasta curated_images (sem edição, sem overlay)
         image_url = None
-        try:
-            image_bytes = self.generate_banner_image(date_str, featured_match)
-            image_url = self.upload_to_catbox(image_bytes)
-        except Exception as e:
-            self.stdout.write(self.style.WARNING(f"Erro na geração do banner: {e}"))
+        curated_dir = os.path.join(settings.BASE_DIR, "curated_images")
+        if os.path.exists(curated_dir):
+            valid_exts = (".png", ".jpg", ".jpeg", ".webp")
+            curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)]
+            if curated_files:
+                selected_file = random.choice(curated_files)
+                img_path = os.path.join(curated_dir, selected_file)
+                self.stdout.write(self.style.SUCCESS(f"Usando imagem curada local: {selected_file}"))
+                try:
+                    with open(img_path, "rb") as f:
+                        image_bytes = f.read()
+                    image_url = self.upload_to_catbox(image_bytes)
+                except Exception as e:
+                    self.stdout.write(self.style.WARNING(f"Erro ao ler/enviar imagem curada {selected_file}: {e}"))
 
         if not image_url:
-            # Fallback caso dê erro no Catbox
+            # Fallback caso não tenha imagens curadas ou dê erro no upload
             image_url = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80"
 
         html += f'<p><img src="{image_url}" alt="Palpites de Futebol e Estatísticas" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; margin: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" /></p>'
