@@ -48,18 +48,22 @@ from django.http import FileResponse, Http404
 import os
 from django.conf import settings
 
-def serve_curated_image(request, filename):
+def serve_curated_image(request, filename_safe):
+    # O Nginx intercepta qualquer URL com '.jpg'. Para evitar isso,
+    # passamos a URL com '_dot_' no lugar do ponto.
+    filename = filename_safe.replace("_dot_", ".")
+    
     # Serve a imagem direto da pasta curated_images original na raiz do projeto
     path = os.path.join(settings.BASE_DIR, "curated_images", filename)
     if os.path.exists(path):
         return FileResponse(open(path, 'rb'))
-    # Fallback para a pasta media que criamos antes
-    path2 = os.path.join(settings.BASE_DIR, "media", "curated_images", filename)
+    # Fallback para a pasta media ou static
+    path2 = os.path.join(settings.BASE_DIR, "staticfiles", "curated_images", filename)
     if os.path.exists(path2):
         return FileResponse(open(path2, 'rb'))
     raise Http404("Imagem não encontrada")
 
-# Forçar o Django a servir a pasta media/ na web para o Blogger enxergar as imagens
+# Forçar o Django a servir a pasta na web para o Blogger enxergar as imagens
 urlpatterns += [
-    path('imagens-blog/<str:filename>', serve_curated_image),
+    path('imagens-blog/<str:filename_safe>', serve_curated_image),
 ]

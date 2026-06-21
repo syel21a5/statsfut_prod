@@ -423,14 +423,10 @@ class Command(BaseCommand):
         # O Nginx é configurado para servir tudo que está na pasta "staticfiles" através da URL "/static/"
         # Então vamos copiar a imagem escolhida direto para lá para "hackear" o Nginx
         curated_dir = os.path.join(settings.BASE_DIR, "curated_images")
-        static_dir = os.path.join(settings.BASE_DIR, "staticfiles", "curated_images")
         
         if not os.path.exists(curated_dir):
             os.makedirs(curated_dir, exist_ok=True)
             self.stdout.write(self.style.WARNING(f"Aviso: Pasta 'curated_images' vazia. Adicione imagens."))
-            
-        if not os.path.exists(static_dir):
-            os.makedirs(static_dir, exist_ok=True)
             
         valid_exts = (".png", ".jpg", ".jpeg", ".webp")
         curated_files = [f for f in os.listdir(curated_dir) if f.lower().endswith(valid_exts)] if os.path.exists(curated_dir) else []
@@ -438,15 +434,13 @@ class Command(BaseCommand):
         if curated_files:
             selected_file = random.choice(curated_files)
             
-            # Copia a imagem da pasta privada para a pasta pública do Nginx
-            import shutil
-            src_path = os.path.join(curated_dir, selected_file)
-            dst_path = os.path.join(static_dir, selected_file)
-            shutil.copy(src_path, dst_path)
+            # ATENÇÃO: Nginx bloqueia automaticamente URLs com .jpg ou .png no final.
+            # Para desviar disso 100%, nós disfarçamos a URL trocando o ponto por '_dot_'
+            # O Django (urls.py) recebe isso, desfaz a troca e entrega a imagem via FileResponse!
+            filename_safe = selected_file.replace(".", "_dot_")
             
-            # Agora a URL usa o caminho oficial de arquivos estáticos do Nginx
-            image_url = f"https://statsfut.com/static/curated_images/{selected_file}"
-            self.stdout.write(self.style.SUCCESS(f"Usando imagem pública via staticfiles: {image_url}"))
+            image_url = f"https://statsfut.com/imagens-blog/{filename_safe}"
+            self.stdout.write(self.style.SUCCESS(f"Usando URL Anti-Nginx: {image_url}"))
         else:
             self.stdout.write(self.style.WARNING(f"Aviso: Usando imagem de fallback pois não foram encontradas imagens curadas."))
             image_url = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=800&q=80"
