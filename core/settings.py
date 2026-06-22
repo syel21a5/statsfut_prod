@@ -47,6 +47,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -274,3 +275,19 @@ LOGGING = {
 # RESTART FORCE
 # REFRESH 2
 
+
+
+# JAZZMIN SETTINGS
+JAZZMIN_SETTINGS = {
+    'site_title': 'StatsFut Admin',
+    'site_header': 'StatsFut',
+    'site_brand': 'StatsFut Admin',
+    'welcome_sign': 'Bem-vindo ao Painel StatsFut',
+    'search_model': ['auth.User'],
+    'show_ui_builder': False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    'theme': 'darkly',
+    'dark_mode_theme': 'darkly',
+}
