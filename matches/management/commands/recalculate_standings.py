@@ -104,6 +104,7 @@ class Command(BaseCommand):
                             db_team = resolve_team(team_name, db_league)
                             
                             if not db_team:
+                                print(f"⚠️ AVISO: Time da classificação não encontrado no banco: '{team_name}'")
                                 continue
                                 
                             standings_to_create.append(LeagueStanding(

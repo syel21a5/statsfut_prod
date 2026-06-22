@@ -445,8 +445,15 @@ class Command(BaseCommand):
                 image_url = links[next_index]
                 
                 # Salva o novo índice para o próximo post
-                with open(index_file, "w", encoding="utf-8") as f:
-                    f.write(str(next_index))
+                try:
+                    with open(index_file, "w", encoding="utf-8") as f:
+                        f.write(str(next_index))
+                    # Força as permissões para que root ou www possam editar no futuro
+                    os.chmod(index_file, 0o666)
+                except PermissionError:
+                    self.stdout.write(self.style.WARNING(f"Aviso: Sem permissão para atualizar {index_file}. Ignorando para não travar o post."))
+                except Exception as e:
+                    self.stdout.write(self.style.WARNING(f"Aviso: Erro ao salvar {index_file}: {e}"))
                 
                 self.stdout.write(self.style.SUCCESS(f"Usando imagem sequencial (link {next_index + 1}/{len(links)}): {image_url}"))
             else:
