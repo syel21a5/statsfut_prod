@@ -16,6 +16,12 @@ class UserProfileInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = (UserProfileInline,)
     
+    def get_inline_instances(self, request, obj=None):
+        """Não mostra inlines na tela de criação de usuário para evitar conflito com signals."""
+        if not obj:
+            return list()
+        return super(UserAdmin, self).get_inline_instances(request, obj)
+
     # Adiciona coluna indicando se é premium na listagem de usuários
     def get_is_premium(self, instance):
         try:
