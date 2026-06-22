@@ -36,8 +36,8 @@ admin.site.register(User, UserAdmin)
 # Mantém o registro individual do perfil para edições rápidas em lote
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'is_premium', 'premium_until', 'created_at')
-    list_filter = ('is_premium',)
+    list_display = ('user', 'is_premium', 'plan_type', 'premium_until', 'created_at')
+    list_filter = ('is_premium', 'plan_type')
     search_fields = ('user__username', 'user__email')
-    list_editable = ('is_premium', 'premium_until')
+    list_editable = ('is_premium', 'plan_type', 'premium_until')
     readonly_fields = ('created_at',)
