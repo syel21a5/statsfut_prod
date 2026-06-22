@@ -446,7 +446,7 @@ Nesta seção, você deve colocar APENAS o texto corrido que o apresentador vai 
         # 1. Se o usuário definiu uma chave direta no .env, usá-la imediatamente e ignorar o proxy.
         # Isso garante que se ele tiver uma chave de API própria funcionando, ela seja usada diretamente.
         if api_key:
-            model = os.getenv('GEMINI_MODEL', 'gemini-1.5-flash')
+            model = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
             headers = {'Content-Type': 'application/json'}
             payload = {
