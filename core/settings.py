@@ -285,6 +285,10 @@ JAZZMIN_SETTINGS = {
     'welcome_sign': 'Bem-vindo ao Painel StatsFut',
     'search_model': ['auth.User'],
     'show_ui_builder': False,
+    'default_icon_parents': 'fas fa-chevron-circle-right',
+    'default_icon_children': 'fas fa-circle',
+    'custom_css': 'admin/css/custom_admin.css',
+    'custom_js': 'admin/js/force_dark.js',
 }
 
 JAZZMIN_UI_TWEAKS = {
@@ -308,7 +312,6 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
     "theme": "darkly",
-    "dark_mode_theme": "darkly",
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",
