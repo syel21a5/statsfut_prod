@@ -147,7 +147,9 @@ class LiveUnderDetector:
             f"💡 <b>Recomendação:</b>\n"
             f"Fique de olho nas linhas com odd esticada:\n"
             f"{linhas}\n\n"
-            f"<i>{obs}</i>"
+            f"<i>{obs}</i>\n\n"
+            f"🧮 <b>Calcule suas Stakes na hora:</b>\n"
+            f"👉 https://statsfut.com/calculadora-under/"
         )
 
         logger.info(f"Disparando Under Alert Dinâmico para {home_name} x {away_name} ({total_goals} gols)")
