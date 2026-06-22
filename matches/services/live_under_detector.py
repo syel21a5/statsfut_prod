@@ -103,19 +103,30 @@ class LiveUnderDetector:
         # Módulos de Mensagem Dinâmica
         if total_goals == 0:
             titulo = "RADAR (Jogo Promissor)"
-            obs = "Partida excelente para a estratégia Under! Favorita esse jogo na corretora e fique de olho. Se sair um gol bobo, a gente entra!"
-            linhas = f"🟢 <b>Favoritar o Jogo</b>"
+            obs = ("Partida excelente para a estratégia Under! Favorite na corretora e aguarde.\n"
+                   "⚠️ <b>NÃO entre agora:</b> Aguarde o primeiro gol em 0x0 para fazer a entrada + proteções juntas.")
+            linhas = f"🟢 <b>Favoritar o Jogo</b> (Aguardar 1º gol)"
         elif total_goals == 1:
-            if elapsed <= 30:
-                titulo = "GOL CEDO (Oportunidade de Ouro)"
-                obs = ("Gol antes dos 30min! A odd do Under 3.5 subiu absurdamente.\n"
-                       "👉 <b>Estratégia Profissional:</b> Entre no <b>Under 3.5</b> e separe ~25% do lucro esperado para fazer <b>Dutching (Proteção)</b> nos Placares Exatos que somam 4 gols (2-2, 3-1, 1-3, 4-0, 0-4).\n"
-                       "⚡ <b>Dica de Ouro (Celular):</b> Faça SEMPRE a aposta do Under 3.5 primeiro! Depois, com calma, vá no mercado de Placar Exato e faça as moedas de proteção.")
-                linhas = f"🟢 <b>Under 3.5</b> (Agressivo + Proteção CS)\n🟢 <b>Under 4.5</b> (Conservador)"
+            if elapsed <= 15:
+                titulo = "GOL CEDO (Blindagem Total ou Under 4.5)"
+                obs = (f"Gol muito cedo aos {elapsed}'min! Risco de goleada ativa.\n"
+                       "👉 <b>Como agir profissionalmente (Stake R$ 50):</b>\n"
+                       "1. <b>Linha Conservadora:</b> Entre no <b>Under 4.5</b> (R$ 50) e proteja apenas com R$ 2,50 no AOV Casa e R$ 1,00 no AOV Visitante.\n"
+                       "2. <b>Linha Blindagem Total:</b> Entre no <b>Under 3.5</b> (R$ 50) e coloque seguros de R$ 1,00 a R$ 3,50 no AOV Casa/Vis e nos placares (2-2, 3-1, 1-3, 3-2, 2-3) para cobrir 100% dos cenários.")
+                linhas = f"🟢 <b>Under 4.5</b> (Seguro) ou <b>Under 3.5</b> (Com 7 Proteções)"
+            elif elapsed <= 30:
+                titulo = "GOL INTERMEDIÁRIO (Under 3.5 Protegido)"
+                obs = (f"Gol aos {elapsed}'min! A chance de goleada caiu. O inimigo é o placar de 4 gols.\n"
+                       "👉 <b>Como agir profissionalmente (Stake R$ 50):</b>\n"
+                       "Entre no <b>Under 3.5</b> (R$ 50) e proteja apenas os placares de 4 gols: R$ 2,00 no 2-2, R$ 2,00 no 3-1 e R$ 1,00 no 1-3. (Economiza R$ 10 em seguros).")
+                linhas = f"🟢 <b>Under 3.5</b> (Com proteção apenas de 4 gols)"
             else:
-                titulo = "GOL (Susto no Mercado)"
-                obs = "O mercado se assustou com esse gol (mas o tempo já passou dos 30'). As odds para Under 4.5 ganharam valor."
-                linhas = f"🟢 <b>Under 4.5</b>\n🟢 <b>Under 5.5</b> (Muito Seguro)"
+                titulo = "GOL NO FIM DO HT (Under 3.5 ou Under 2.5)"
+                obs = (f"Gol tardio aos {elapsed}'min! Perto do intervalo.\n"
+                       "👉 <b>Como agir profissionalmente (Stake R$ 50):</b>\n"
+                       "1. <b>Seguro:</b> Entre no <b>Under 3.5</b> seco (R$ 50) sem proteções.\n"
+                       "2. <b>Agressivo:</b> Entre no <b>Under 2.5</b> (R$ 50) e coloque apenas R$ 2,00 no 2-1 e R$ 1,00 no 1-2 de proteção.")
+                linhas = f"🟢 <b>Under 3.5</b> (Sem seguro) ou <b>Under 2.5</b> (Protegido no 2-1/1-2)"
         elif total_goals == 2:
             titulo = "PÂNICO DO MERCADO (2 Gols)"
             obs = "Dois gols tão cedo num jogo de tendência Under! O mercado entrou em colapso projetando uma chuva de gols. Abrace as linhas altas."

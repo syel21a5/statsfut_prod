@@ -13,6 +13,7 @@ urlpatterns = [
     path('privacy-policy/', TemplateView.as_view(template_name='matches/privacy_policy.html'), name='privacy_policy'),
     path('terms-of-use/', TemplateView.as_view(template_name='matches/terms_of_use.html'), name='terms_of_use'),
     path('about-us/', TemplateView.as_view(template_name='matches/about_us.html'), name='about_us'),
+    path('calculadora-under/', TemplateView.as_view(template_name='matches/under_calculator.html'), name='under_calculator'),
     path('contact-us/', views.ContactView.as_view(), name='contact_us'),
 
     path('search/', views.GlobalSearchView.as_view(), name='global_search'),

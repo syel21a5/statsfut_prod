@@ -1,0 +1,346 @@
+{% extends "matches/home.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 1000px; color: #f8fafc;">
+    <!-- Header com visual Premium -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold" style="background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            🛡️ Simulador de Proteções Under Dinâmico
+        </h1>
+        <p class="text-muted fs-5">
+            Calcule a distribuição perfeita de moedas para se blindar de goleadas e cenários catastróficos.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Coluna de Inputs -->
+        <div class="col-md-5">
+            <div class="card p-4 border-0 shadow-lg" style="background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05) !important;">
+                <h4 class="mb-4 text-sky-400 fw-bold border-bottom pb-2" style="color: #38bdf8;">📥 Configurar Entrada</h4>
+                
+                <!-- Seleção da Linha Under -->
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Mercado de Under Principal</label>
+                    <select id="underLine" class="form-select bg-dark border-0 text-white fw-bold" onchange="calculateStakes()">
+                        <option value="2.5">Under 2.5 Gols</option>
+                        <option value="3.5" selected>Under 3.5 Gols</option>
+                        <option value="4.5">Under 4.5 Gols</option>
+                    </select>
+                </div>
+
+                <!-- Aposta Principal -->
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Investimento no Under (Stake)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark border-0 text-white-50">R$</span>
+                        <input type="number" id="mainStake" class="form-control bg-dark border-0 text-white fw-bold" value="50.00" step="1" oninput="calculateStakes()">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Odd do Under Selecionado (Back / A Favor)</label>
+                    <input type="number" id="mainOdd" class="form-control bg-dark border-0 text-white fw-bold" value="1.75" step="0.05" oninput="calculateStakes()">
+                </div>
+
+                <!-- Odds das Proteções de Goleada -->
+                <h5 class="mt-4 mb-3 text-indigo-300 fw-bold" style="color: #a5b4fc;">🛡️ Odds de Goleada (AOV)</h5>
+                
+                <div class="mb-3">
+                    <label class="form-label text-white-50">AOV Casa (Back / A Favor)</label>
+                    <input type="number" id="oddAOVCasa" class="form-control bg-dark border-0 text-white" value="20.00" step="0.5">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white-50">AOV Visitante (Back / A Favor)</label>
+                    <input type="number" id="oddAOVVisitante" class="form-control bg-dark border-0 text-white" value="12.00" step="0.5">
+                </div>
+
+                <!-- Odds dos Placares Exatos de 4 Gols -->
+                <h5 class="mt-4 mb-3 text-indigo-300 fw-bold" style="color: #a5b4fc;">🎯 Odds de Placares Exatos (4 e 5 Gols)</h5>
+                
+                <div class="mb-2">
+                    <label class="form-label text-white-50">Placar 3 - 1 (Back / A Favor)</label>
+                    <input type="number" id="odd31" class="form-control bg-dark border-0 text-white" value="45.0" step="1">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label text-white-50">Placar 1 - 3 (Back / A Favor)</label>
+                    <input type="number" id="odd13" class="form-control bg-dark border-0 text-white" value="25.0" step="1">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label text-white-50">Placar 2 - 2 (Back / A Favor)</label>
+                    <input type="number" id="odd22" class="form-control bg-dark border-0 text-white" value="18.0" step="1">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label text-white-50">Placar 3 - 2 (Back / A Favor)</label>
+                    <input type="number" id="odd32" class="form-control bg-dark border-0 text-white" value="15.0" step="1">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Placar 2 - 3 (Back / A Favor)</label>
+                    <input type="number" id="odd23" class="form-control bg-dark border-0 text-white" value="40.0" step="1">
+                </div>
+
+                <button onclick="calculateStakes()" class="btn w-100 py-3 mt-3 fw-bold border-0 text-white" style="background: linear-gradient(135deg, #0284c7, #4f46e5); border-radius: 8px; transition: transform 0.2s;">
+                    🧮 CALCULAR DISTRIBUIÇÃO
+                </button>
+            </div>
+        </div>
+
+        <!-- Coluna de Resultados / Distribuição -->
+        <div class="col-md-7">
+            <!-- Card de Distribuição Recomendada -->
+            <div class="card p-4 border-0 shadow-lg mb-4" style="background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05) !important;">
+                <h4 class="mb-4 text-emerald-400 fw-bold border-bottom pb-2" style="color: #34d399;">💸 Distribuição de Stakes</h4>
+                
+                <div class="table-responsive">
+                    <table class="table table-dark table-borderless align-middle m-0">
+                        <thead>
+                            <tr class="text-white-50">
+                                <th>Seleção</th>
+                                <th>Odd</th>
+                                <th>Investimento Sugerido</th>
+                                <th>Retorno Bruto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="distributionBody">
+                            <!-- Injetado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 p-3 bg-dark bg-opacity-50 rounded border border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                    <span class="text-white-50">Custo Total de Entrada (Aposta + Seguros):</span>
+                    <h4 class="text-white fw-bold m-0" id="totalInvestment">R$ 0,00</h4>
+                </div>
+            </div>
+
+            <!-- Tabela de Simulação por Resultado Real -->
+            <div class="card p-4 border-0 shadow-lg" style="background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05) !important;">
+                <h4 class="mb-4 text-sky-400 fw-bold border-bottom pb-2" style="color: #38bdf8;">📊 Simulação de Resultados Finais</h4>
+                
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover m-0 align-middle">
+                        <thead>
+                            <tr class="text-white-50">
+                                <th>Resultado Final Real do Jogo</th>
+                                <th>Quem bate?</th>
+                                <th class="text-end">Lucro/Prejuízo Líquido</th>
+                            </tr>
+                        </thead>
+                        <tbody id="outcomesBody">
+                            <!-- Injetado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateStakes() {
+        const underLine = parseFloat(document.getElementById('underLine').value) || 3.5;
+        const mainStake = parseFloat(document.getElementById('mainStake').value) || 0;
+        const mainOdd = parseFloat(document.getElementById('mainOdd').value) || 0;
+
+        const oddAOVCasa = parseFloat(document.getElementById('oddAOVCasa').value) || 0;
+        const oddAOVVisitante = parseFloat(document.getElementById('oddAOVVisitante').value) || 0;
+
+        const odd31 = parseFloat(document.getElementById('odd31').value) || 0;
+        const odd13 = parseFloat(document.getElementById('odd13').value) || 0;
+        const odd22 = parseFloat(document.getElementById('odd22').value) || 0;
+        const odd32 = parseFloat(document.getElementById('odd32').value) || 0;
+        const odd23 = parseFloat(document.getElementById('odd23').value) || 0;
+
+        // 1. Calcular Retorno Alvo para proteção (precisamos cobrir a stake principal)
+        // Se a linha for Under 4.5, os placares de 4 gols (3-1, 1-3, 2-2) já estão cobertos pelo Under 4.5,
+        // então não precisamos gastar stake de proteção com eles (setamos para 0)
+        
+        const stakeAOVCasa = Math.max(1.00, mainStake / (oddAOVCasa - 1));
+        const stakeAOVVisitante = Math.max(1.00, mainStake / (oddAOVVisitante - 1));
+        
+        const stake31 = (underLine === 4.5) ? 0 : Math.max(1.00, mainStake / (odd31 - 1));
+        const stake13 = (underLine === 4.5) ? 0 : Math.max(1.00, mainStake / (odd13 - 1));
+        const stake22 = (underLine === 4.5) ? 0 : Math.max(1.00, mainStake / (odd22 - 1));
+        
+        const stake32 = Math.max(1.00, mainStake / (odd32 - 1));
+        const stake23 = Math.max(1.00, mainStake / (odd23 - 1));
+
+        const totalInsurance = stakeAOVCasa + stakeAOVVisitante + stake31 + stake13 + stake22 + stake32 + stake23;
+        const totalCost = mainStake + totalInsurance;
+
+        // Distribuição de Stakes
+        const distBody = document.getElementById('distributionBody');
+        
+        let rowsHtml = `
+            <tr>
+                <td><b>Under ${underLine} Gols</b> (Aposta Principal)</td>
+                <td>${mainOdd.toFixed(2)}</td>
+                <td class="text-info fw-bold">R$ ${mainStake.toFixed(2)}</td>
+                <td>R$ ${(mainStake * mainOdd).toFixed(2)}</td>
+            </tr>
+            <tr>
+                <td>🛡️ Qualquer Outra Vitória Casa</td>
+                <td>${oddAOVCasa.toFixed(2)}</td>
+                <td class="text-warning">R$ ${stakeAOVCasa.toFixed(2)}</td>
+                <td>R$ ${(stakeAOVCasa * oddAOVCasa).toFixed(2)}</td>
+            </tr>
+            <tr>
+                <td>🛡️ Qualquer Outra Vitória Visitante</td>
+                <td>${oddAOVVisitante.toFixed(2)}</td>
+                <td class="text-warning">R$ ${stakeAOVVisitante.toFixed(2)}</td>
+                <td>R$ ${(stakeAOVVisitante * oddAOVVisitante).toFixed(2)}</td>
+            </tr>
+        `;
+
+        // Só exibe as proteções de 4 gols na distribuição se a linha NÃO for Under 4.5
+        if (underLine !== 4.5) {
+            rowsHtml += `
+                <tr>
+                    <td>🎯 Placar Exato 3 - 1</td>
+                    <td>${odd31.toFixed(2)}</td>
+                    <td class="text-warning">R$ ${stake31.toFixed(2)}</td>
+                    <td>R$ ${(stake31 * odd31).toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>🎯 Placar Exato 1 - 3</td>
+                    <td>${odd13.toFixed(2)}</td>
+                    <td class="text-warning">R$ ${stake13.toFixed(2)}</td>
+                    <td>R$ ${(stake13 * odd13).toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>🎯 Placar Exato 2 - 2</td>
+                    <td>${odd22.toFixed(2)}</td>
+                    <td class="text-warning">R$ ${stake22.toFixed(2)}</td>
+                    <td>R$ ${(stake22 * odd22).toFixed(2)}</td>
+                </tr>
+            `;
+        } else {
+            rowsHtml += `
+                <tr class="text-white-50 opacity-50">
+                    <td>🎯 Placar Exato 3-1, 1-3, 2-2</td>
+                    <td>-</td>
+                    <td class="text-muted"><i>Não Necessário</i></td>
+                    <td><i>Coberto pelo Under 4.5</i></td>
+                </tr>
+            `;
+        }
+
+        // Se for Under 2.5, avisa o usuário do perigo do "limbo" de 3 gols
+        if (underLine === 2.5) {
+            rowsHtml += `
+                <tr class="table-danger text-dark fw-bold">
+                    <td colspan="4" class="text-center bg-danger bg-opacity-25 text-white" style="font-size: 0.85rem;">
+                        ⚠️ <b>AVISO:</b> O Under 2.5 deixa livre o "limbo" de 3 gols (2-1, 1-2, 3-0, 0-3). 
+                        Protegê-lo é inviável pelo custo das stakes. Recomenda-se operar seco ou usar Under 3.5.
+                    </td>
+                </tr>
+            `;
+        }
+
+        rowsHtml += `
+            <tr>
+                <td>🛡️ Placar Exato 3 - 2 (Ponto Cego)</td>
+                <td>${odd32.toFixed(2)}</td>
+                <td class="text-warning">R$ ${stake32.toFixed(2)}</td>
+                <td>R$ ${(stake32 * odd32).toFixed(2)}</td>
+            </tr>
+            <tr>
+                <td>🛡️ Placar Exato 2 - 3 (Ponto Cego)</td>
+                <td>${odd23.toFixed(2)}</td>
+                <td class="text-warning">R$ ${stake23.toFixed(2)}</td>
+                <td>R$ ${(stake23 * odd23).toFixed(2)}</td>
+            </tr>
+        `;
+
+        distBody.innerHTML = rowsHtml;
+
+        document.getElementById('totalInvestment').innerText = `R$ ${totalCost.toFixed(2)}`;
+
+        // Resultados Finais Simulados
+        const outcomesBody = document.getElementById('outcomesBody');
+        
+        function formatProfit(profit) {
+            if (profit > 0) {
+                return `<span class="text-emerald-400 fw-bold">+ R$ ${profit.toFixed(2)}</span>`;
+            } else if (profit === 0) {
+                return `<span class="text-white-50">R$ 0,00 (Break-Even)</span>`;
+            } else {
+                return `<span class="text-danger fw-bold">- R$ ${Math.abs(profit).toFixed(2)}</span>`;
+            }
+        }
+
+        // Cenários de lucro
+        const profitUnder = (mainStake * mainOdd) - totalCost;
+        const profitAOVCasa = (stakeAOVCasa * oddAOVCasa) - totalCost;
+        const profitAOVVis = (stakeAOVVisitante * oddAOVVisitante) - totalCost;
+        
+        // Se a linha for Under 4.5, os placares de 4 gols (3-1, 1-3, 2-2) são vencedores automáticos do Under!
+        const profit31 = (underLine === 4.5) ? profitUnder : (stake31 * odd31) - totalCost;
+        const profit13 = (underLine === 4.5) ? profitUnder : (stake13 * odd13) - totalCost;
+        const profit22 = (underLine === 4.5) ? profitUnder : (stake22 * odd22) - totalCost;
+        
+        const profit32 = (stake32 * odd32) - totalCost;
+        const profit23 = (stake23 * odd23) - totalCost;
+        const profitUnprotected = -totalCost;
+
+        // Limites de gols em texto
+        let goalsText = "0 a 3 Gols";
+        if (underLine === 2.5) goalsText = "0 a 2 Gols";
+        if (underLine === 4.5) goalsText = "0 a 4 Gols";
+
+        outcomesBody.innerHTML = `
+            <tr>
+                <td>🟢 <b>Jogo Termina Under (${goalsText})</b></td>
+                <td><span class="badge bg-success">Under ${underLine} Bate</span></td>
+                <td class="text-end">${formatProfit(profitUnder)}</td>
+            </tr>
+            <tr>
+                <td>💥 <b>Goleada da Casa (AOV)</b><br><small class="text-white-50">(Ex: 4-0, 4-1, 4-2, 4-3, 5-0, etc.)</small></td>
+                <td><span class="badge bg-warning text-dark">${underLine === 4.5 ? 'Under 4.5 / ' : ''}Proteção AOV Casa</span></td>
+                <td class="text-end">${formatProfit(profitAOVCasa)}</td>
+            </tr>
+            <tr>
+                <td>💥 <b>Goleada do Visitante (AOV)</b><br><small class="text-white-50">(Ex: 0-4, 1-4, 2-4, 3-4, 0-5, etc.)</small></td>
+                <td><span class="badge bg-warning text-dark">${underLine === 4.5 ? 'Under 4.5 / ' : ''}Proteção AOV Visitante</span></td>
+                <td class="text-end">${formatProfit(profitAOVVis)}</td>
+            </tr>
+            <tr>
+                <td>🎯 <b>Placar Exato 3 - 1</b></td>
+                <td><span class="badge ${underLine === 4.5 ? 'bg-success' : 'bg-info text-dark'}">${underLine === 4.5 ? 'Under 4.5 Bate' : 'Proteção 3 - 1'}</span></td>
+                <td class="text-end">${formatProfit(profit31)}</td>
+            </tr>
+            <tr>
+                <td>🎯 <b>Placar Exato 1 - 3</b></td>
+                <td><span class="badge ${underLine === 4.5 ? 'bg-success' : 'bg-info text-dark'}">${underLine === 4.5 ? 'Under 4.5 Bate' : 'Proteção 1 - 3'}</span></td>
+                <td class="text-end">${formatProfit(profit13)}</td>
+            </tr>
+            <tr>
+                <td>🎯 <b>Placar Exato 2 - 2</b></td>
+                <td><span class="badge ${underLine === 4.5 ? 'bg-success' : 'bg-info text-dark'}">${underLine === 4.5 ? 'Under 4.5 Bate' : 'Proteção 2 - 2'}</span></td>
+                <td class="text-end">${formatProfit(profit22)}</td>
+            </tr>
+            <tr>
+                <td>🎯 <b>Placar Exato 3 - 2 (Ponto Cego)</b></td>
+                <td><span class="badge bg-info text-dark">Proteção 3 - 2</span></td>
+                <td class="text-end">${formatProfit(profit32)}</td>
+            </tr>
+            <tr>
+                <td>🎯 <b>Placar Exato 2 - 3 (Ponto Cego)</b></td>
+                <td><span class="badge bg-info text-dark">Proteção 2 - 3</span></td>
+                <td class="text-end">${formatProfit(profit23)}</td>
+            </tr>
+            <tr>
+                <td>❌ <b>Goleada Empate Exótica</b><br><small class="text-white-50">(Ex: 3-3, 4-4, 5-5 - sem proteção)</small></td>
+                <td><span class="badge bg-danger">Nenhuma</span></td>
+                <td class="text-end">${formatProfit(profitUnprotected)}</td>
+            </tr>
+        `;
+    }
+
+    // Inicializar na primeira carga
+    window.onload = function() {
+        calculateStakes();
+    };
+</script>
+{% endblock %}
