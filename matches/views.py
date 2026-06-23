@@ -362,6 +362,8 @@ class MatchVideoScriptView(View):
             return JsonResponse({'status': 'error', 'message': f'Erro ao analisar partida: {str(e)}'}, status=500)
             
         # Formatar estatísticas para o prompt
+        format_type = request.GET.get('format', 'short')
+        
         home_team = match.home_team.name
         away_team = match.away_team.name
         league = match.league.name
@@ -371,68 +373,81 @@ class MatchVideoScriptView(View):
         odds_probs = report.get('odds_probs', {})
         strength = report.get('strength', {})
         summary = report.get('summary', '')
+        disciplinary = report.get('disciplinary', {})
+        efficiency = report.get('efficiency', {})
+        lay_bets = report.get('lay_bets', [])
         
-        prompt = f"""
-Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas de muito sucesso no YouTube e TikTok.
-Escreva um roteiro de vídeo dinâmico, envolvente e focado em estatísticas para analisar a partida abaixo:
+        if format_type == 'long':
+            prompt = f"""
+Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas de muito sucesso no YouTube.
+Sua missão é escrever um roteiro de vídeo PROFUNDO, DENSO E DETALHADO para um vídeo de 8 a 10 minutos (aprox. 1200 a 1500 palavras), analisando minuciosamente a partida abaixo:
 
 PARTIDA: {home_team} vs {away_team}
 COMPETIÇÃO: {league} ({country})
 
-ESTATÍSTICAS DO STATSFUT:
-- Probabilidade de gol no 1º Tempo (HT Goal): {goals.get('ht_goal', 0)}%
-- Probabilidade de Ambas Marcam (BTTS): {goals.get('btts', 0)}%
-- Probabilidades de Over/Under:
-  * Over 0.5 Gols: {goals.get('over_05', 0)}%
-  * Over 1.5 Gols: {goals.get('over_15', 0)}%
-  * Over 2.5 Gols: {goals.get('over_25', 0)}%
-  * Over 3.5 Gols: {goals.get('over_35', 0)}%
-- Força das Equipes:
-  * Ataque do {home_team} (Casa): {strength.get('home_attack', '')}
-  * Defesa do {home_team} (Casa): {strength.get('home_defense', '')}
-  * Ataque do {away_team} (Fora): {strength.get('away_attack', '')}
-  * Defesa do {away_team} (Fora): {strength.get('away_defense', '')}
-- Projeção de Escanteios (Cantos):
-  * Média de Cantos do {home_team}: {corners.get('home', {}).get('avg_total', 0)}
-  * Média de Cantos do {away_team}: {corners.get('away', {}).get('avg_total', 0)}
-  * Melhor aposta de cantos recomendada: {corners.get('recommendation', '')}
-- Probabilidade de Resultado Final:
-  * Vitória {home_team}: {odds_probs.get('home_win', 0)}%
-  * Empate: {odds_probs.get('draw', 0)}%
-  * Vitória {away_team}: {odds_probs.get('away_win', 0)}%
-  * Palpite principal de vencedor/dupla chance: {odds_probs.get('double_bet', '')} ({odds_probs.get('double_bet_prob', 0)}% de confiança)
-- Resumo técnico dos times: {summary}
+ESTATÍSTICAS COMPLETAS DO STATSFUT:
+1. GOLS & TEMPOS:
+   - Prob. HT Goal (Gol no 1º Tempo): {goals.get('ht_goal', 0)}%
+   - Prob. Ambas Marcam (BTTS): {goals.get('btts', 0)}%
+   - Over 1.5 Gols: {goals.get('over_15', 0)}% | Over 2.5: {goals.get('over_25', 0)}%
 
-Instruções para o roteiro:
-1. **TONALIDADE CASUAL, PÉ NO CHÃO E HUMANA**: Evite gritaria, tom de urgência exagerado, alarmismos ou palavras sensacionalistas como "ANOMALIA BIZARRA", "ERRO DAS CASAS" ou "MINA DE OURO". Escreva em um tom de conversa de apostador profissional para apostador comum, muito tranquilo, amigável e focado em credibilidade ("Fala galera, beleza?", "Olha esse detalhe interessante...", "Temos uma linha bem segura...").
-2. **ARGUMENTAÇÃO DE FUTEBOL REAL (NÃO ROBÓTICA)**: 
-   - **NÃO fale de algoritmos**, "nosso robô", fórmulas ou matemática complexa no texto da fala do apresentador. A análise deve parecer 100% vinda de um especialista humano de carne e osso interpretando os dados.
-   - Apresente um **Contexto de Jogo Real**: Comente brevemente sobre a situação das equipes, fase atual ou a importância do confronto.
-   - Justifique as estatísticas com **Leitura de Campo e Tática Real**: Se a probabilidade de gols ou escanteios é alta, explique isso usando dinâmicas práticas do esporte (ex: "A média de escanteios é alta porque o time ataca muito pelas pontas buscando linha de fundo").
-   - **NÃO faça perguntas bobas, artificiais ou superficiais** ao público (como "quem tem o melhor elenco?"). Se for pedir engajamento, que seja apenas focado no palpite do jogo ("Quem você acha que leva a melhor? Deixa nos comentários").
-3. Divida o roteiro em seções claras usando marcações como:
-   - [0:00 - INTRODUÇÃO / HOOK]
-   - [0:30 - ANÁLISE DE GOLS E MOMENTOS]
-   - [2:00 - ANÁLISE DE ESCANTEIOS E TÁTICA]
-   - [3:30 - CONCLUSÃO E PALPITE DE VALOR]
-4. INSTRUÇÕES VISUAIS: Em cada seção, forneça instruções exatas para o editor de vídeo. Use a tag [EDICAO: <instrução>] (ex: [EDICAO: Mostrar print do Statsfut com a barra de Over 1.5 gols em verde]).
-5. Faça menção constante de forma natural às informações presentes na tela ou no "painel do Statsfut".
-6. CHAMADA PARA AÇÃO (CTA): Antes do palpite final e no encerramento, faça uma chamada natural e madura para o público conhecer a plataforma.
-7. GESTÃO DE BANCA: Termine o vídeo lembrando de forma muito profissional que gestão de banca é indispensável.
-8. O roteiro deve ter cerca de 3 a 5 minutos se lido em voz alta (cerca de 500 a 700 palavras), sendo rico em leitura de jogo para prender o público.
+2. FORÇA TÁTICA E CHUTES:
+   - Ataque Casa ({home_team}): {strength.get('home_attack', '')} | Defesa Casa: {strength.get('home_defense', '')}
+   - Ataque Fora ({away_team}): {strength.get('away_attack', '')} | Defesa Fora: {strength.get('away_defense', '')}
+   - Eficiência de Chutes (Casa): {efficiency.get('home', {}).get('conversion_rate', 0)}% converte em gol.
+   - Eficiência de Chutes (Fora): {efficiency.get('away', {}).get('conversion_rate', 0)}% converte em gol.
 
-9. **SEÇÃO EXTRA (LOCUÇÃO - CRÍTICO)**:
-Ao final da resposta, após o roteiro completo, crie OBRIGATORIAMENTE uma divisória e uma seção chamada exatamente:
-`=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===`
-Nesta seção, você deve colocar APENAS o texto corrido que o apresentador vai falar do início ao fim, seguindo rigidamente estas regras para o ElevenLabs ler perfeitamente sem parecer robô:
-- REMOVA COMPLETAMENTE todas as indicações de tempo (como [0:00...]), instruções de edição (como [EDICAO: ...]), nomes de personagens (como 'Apresentador:') e títulos de seções. Deixe apenas os parágrafos de fala contínuos.
-- Escreva por extenso todos os símbolos e números para garantir a pronúncia correta da voz de Inteligência Artificial:
-  * Substitua o símbolo '%' por 'por cento' (ex: escreva 'oitenta por cento' ao invés de '80%').
-  * Substitua pontos em números decimais por 'ponto' (ex: escreva 'um ponto cinco' ao vir de '1.5', 'oito ponto setenta e cinco' ao invés de '8.75').
-  * Substitua termos de aposta como 'X2' por 'empate ou vitória do visitante' (ou o equivalente correspondente a dupla chance de visitante/empate de forma natural para a partida).
-  * Substitua 'HT Goal' por 'gol no primeiro tempo'.
-  * Substitua 'Over' por 'mais de' ou pronuncie 'over' de forma natural no fluxo da frase.
-- O texto dessa seção deve ser idêntico ao que o apresentador vai falar na primeira parte, porém 100% limpo, sem nenhuma formatação especial, pronto para ser copiado e colado direto na ferramenta de voz.
+3. ESCANTEIOS (CORNERS):
+   - Média Casa: {corners.get('home', {}).get('avg_total', 0)} cantos/jogo.
+   - Média Fora: {corners.get('away', {}).get('avg_total', 0)} cantos/jogo.
+   - Recomendação de Cantos: {corners.get('recommendation', '')}
+
+4. CARTÕES E DISCIPLINA:
+   - Média de Cartões da Partida: {disciplinary.get('match_avg_cards', 0)} cartões.
+   - Casa toma em média: {disciplinary.get('home', {}).get('avg_cards', 0)} cartões.
+   - Fora toma em média: {disciplinary.get('away', {}).get('avg_cards', 0)} cartões.
+
+5. OPORTUNIDADES DE LAY (LAY BETS):
+   - Sugestões de Lay: {lay_bets}
+
+6. PROBABILIDADES FINAIS E RESUMO:
+   - Vitória Casa: {odds_probs.get('home_win', 0)}% | Empate: {odds_probs.get('draw', 0)}% | Vitória Fora: {odds_probs.get('away_win', 0)}%
+   - Palpite Principal: {odds_probs.get('double_bet', '')} ({odds_probs.get('double_bet_prob', 0)}%)
+   - Resumo do Motor IA: {summary}
+
+Instruções para o roteiro LONGO (8-10 Minutos):
+1. TONALIDADE: Profissional, analítica, mas acessível. Sem gritaria. Use tom de "aula de apostas" e "leitura de jogo profunda".
+2. ESTRUTURA EXTENSA: Aprofunde em CADA UMA das abas acima. Dedique tempo para explicar POR QUE as estatísticas estão assim.
+   - [0:00] Introdução e Contexto (Prenda a atenção).
+   - [1:30] Análise de Gols e Eficiência de Chutes (Ataque vs Defesa).
+   - [4:00] Mercado de Escanteios (Associe com a tática de ataque pelas pontas ou pressão).
+   - [5:30] Mercado de Cartões (Fale sobre a agressividade das equipes ou necessidade de vitória).
+   - [7:00] Oportunidades Especiais e Lay (Como lucrar indo contra tendências fracas).
+   - [8:30] Conclusão, Gestão de Banca e Palpite Ouro.
+3. INSTRUÇÕES VISUAIS: Coloque muitas tags [EDICAO: Mostrar aba X do Statsfut].
+4. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===` contendo apenas o texto corrido (sem tags [EDICAO], sem timestamps), com números por extenso (ex: 'oitenta por cento', 'um ponto cinco'). O texto da locução deve ter entre 1000 e 1500 palavras para gerar os 8 a 10 minutos de áudio.
+"""
+        else:
+            prompt = f"""
+Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok, Reels e YouTube Shorts.
+Escreva um roteiro de vídeo CURTO, dinâmico e viral (máximo de 60 segundos, cerca de 130 a 160 palavras) para analisar a partida:
+
+PARTIDA: {home_team} vs {away_team}
+COMPETIÇÃO: {league} ({country})
+
+ESTATÍSTICAS:
+- HT Goal: {goals.get('ht_goal', 0)}% | BTTS: {goals.get('btts', 0)}%
+- Over 1.5: {goals.get('over_15', 0)}% | Over 2.5: {goals.get('over_25', 0)}%
+- Cantos Casa: {corners.get('home', {}).get('avg_total', 0)} | Cantos Fora: {corners.get('away', {}).get('avg_total', 0)}
+- Vitória Casa: {odds_probs.get('home_win', 0)}% | Empate: {odds_probs.get('draw', 0)}% | Vitória Fora: {odds_probs.get('away_win', 0)}%
+- Palpite Principal: {odds_probs.get('double_bet', '')} ({odds_probs.get('double_bet_prob', 0)}%)
+
+Instruções para o roteiro CURTO (Shorts/TikTok):
+1. DIRETO AO PONTO: Sem introduções longas. Comece com um gancho forte (ex: "Esse jogo tem uma tendência absurda...").
+2. FOCO NO MELHOR MERCADO: Escolha apenas 1 ou 2 estatísticas que mais chamam atenção (Gols, Escanteios ou Vencedor) e vá direto nela. Ignore o resto.
+3. LINGUAGEM: Casual, rápida, focada em retenção. Não use palavras como "robô" ou "algoritmo", pareça um analista humano muito inteligente.
+4. INSTRUÇÕES VISUAIS: Coloque tags breves como [EDICAO: Mostrar barra de Probabilidade].
+5. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===` contendo apenas o texto corrido (sem tags [EDICAO], sem timestamps), com números por extenso (ex: 'oitenta por cento').
 """
         import requests
         import os
@@ -453,6 +468,7 @@ Nesta seção, você deve colocar APENAS o texto corrido que o apresentador vai 
             }
             payload = {
                 "model": "deepseek-chat",
+                "temperature": 0.85,
                 "messages": [
                     {"role": "user", "content": prompt}
                 ]

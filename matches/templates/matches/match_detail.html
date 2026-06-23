@@ -565,9 +565,14 @@
         <button class="market-tab-btn" onclick="switchMarketTab('especiais', this)"><i class="fa-solid fa-bolt"></i> {% translate "Especiais & Combos" %}</button>
         <button class="market-tab-btn" onclick="switchMarketTab('lays', this)"><i class="fa-solid fa-bolt-lightning text-danger"></i> {% translate "Trade & Lays" %}</button>
         {% if show_script_btn %}
-        <button class="market-tab-btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border-color: rgba(139, 92, 246, 0.5); margin-left: auto;" onclick="openVideoScriptModal()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> {% translate "Gerar Roteiro (IA)" %}
-        </button>
+        <div class="d-flex flex-column gap-2 ms-auto">
+            <button class="market-tab-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; border-color: rgba(16, 185, 129, 0.5);" onclick="openVideoScriptModal('short')">
+                <i class="fa-solid fa-bolt"></i> {% translate "Roteiro Curto (Shorts)" %}
+            </button>
+            <button class="market-tab-btn" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #fff; border-color: rgba(239, 68, 68, 0.5);" onclick="openVideoScriptModal('long')">
+                <i class="fa-brands fa-youtube"></i> {% translate "Roteiro Longo (YouTube)" %}
+            </button>
+        </div>
         {% endif %}
     </div>
     <!-- ==================== ABA: GOLS & TEMPOS ==================== -->
@@ -1321,7 +1326,7 @@
     ];
     let loadingTextInterval = null;
 
-    function openVideoScriptModal() {
+    function openVideoScriptModal(format = 'short') {
         const modal = document.getElementById('videoScriptModal');
         const loader = document.getElementById('scriptLoader');
         const textarea = document.getElementById('scriptTextarea');
@@ -1343,7 +1348,8 @@
         }, 3000);
         
         // Fetch script from API
-        fetch("{% url 'matches:match_video_script' match.id %}")
+        const url = `{% url 'matches:match_video_script' match.id %}?format=${format}`;
+        fetch(url)
             .then(res => res.json())
             .then(data => {
                 clearInterval(loadingTextInterval);

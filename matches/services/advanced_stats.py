@@ -922,7 +922,7 @@ class MatchAnalyzer:
 
     def get_corner_markets(self):
         # Corner calculations
-        def get_corner_stats(matches, team):
+        def get_corner_stats(matches, team) -> Dict[str, Any]:
             scored = 0
             conceded = 0
             valid_matches = 0
