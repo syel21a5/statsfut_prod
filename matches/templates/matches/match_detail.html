@@ -1350,7 +1350,14 @@
         // Fetch script from API
         const url = `{% url 'matches:match_video_script' match.id %}?format=${format}`;
         fetch(url)
-            .then(res => res.json())
+            .then(async res => {
+                const contentType = res.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return res.json();
+                } else {
+                    throw new Error("O servidor demorou muito para responder (Timeout). A IA tentou gerar um texto muito longo.");
+                }
+            })
             .then(data => {
                 clearInterval(loadingTextInterval);
                 loader.classList.add('d-none');

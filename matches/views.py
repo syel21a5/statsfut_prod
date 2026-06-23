@@ -380,7 +380,7 @@ class MatchVideoScriptView(View):
         if format_type == 'long':
             prompt = f"""
 Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas de muito sucesso no YouTube.
-Sua missão é escrever um roteiro de vídeo PROFUNDO, DENSO E DETALHADO para um vídeo de 8 a 10 minutos (aprox. 1200 a 1500 palavras), analisando minuciosamente a partida abaixo:
+Sua missão é escrever um roteiro de vídeo PROFUNDO, DENSO E DETALHADO para um vídeo de 8 a 10 minutos (aprox. 800 a 1000 palavras), analisando minuciosamente a partida abaixo:
 
 PARTIDA: {home_team} vs {away_team}
 COMPETIÇÃO: {league} ({country})
@@ -425,7 +425,7 @@ Instruções para o roteiro LONGO (8-10 Minutos):
    - [7:00] Oportunidades Especiais e Lay (Como lucrar indo contra tendências fracas).
    - [8:30] Conclusão, Gestão de Banca e Palpite Ouro.
 3. INSTRUÇÕES VISUAIS: Coloque muitas tags [EDICAO: Mostrar aba X do Statsfut].
-4. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===` contendo apenas o texto corrido (sem tags [EDICAO], sem timestamps), com números por extenso (ex: 'oitenta por cento', 'um ponto cinco'). O texto da locução deve ter entre 1000 e 1500 palavras para gerar os 8 a 10 minutos de áudio.
+4. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===` contendo apenas o texto corrido (sem tags [EDICAO], sem timestamps), com números por extenso (ex: 'oitenta por cento', 'um ponto cinco'). O texto da locução deve ter entre 800 e 1000 palavras.
 """
         else:
             prompt = f"""
@@ -474,7 +474,7 @@ Instruções para o roteiro CURTO (Shorts/TikTok):
                 ]
             }
             try:
-                r = requests.post(url, headers=headers, json=payload, timeout=120)
+                r = requests.post(url, headers=headers, json=payload, timeout=90)
                 if r.status_code == 200:
                     data = r.json()
                     script_text = data['choices'][0]['message']['content']
