@@ -3,6 +3,7 @@ from matches.models import Match
 from django.utils.translation import gettext_lazy as _
 import math
 from functools import lru_cache
+from typing import Any, Dict
 
 @lru_cache(maxsize=2048)
 def global_poisson_prob(expected, occurrences):
@@ -55,7 +56,8 @@ class MatchAnalyzer:
         else:
             home_qs = qs.filter(home_team=team).order_by('-date')[:limit]
             away_qs = qs.filter(away_team=team).order_by('-date')[:limit]
-            combined = sorted(list(home_qs) + list(away_qs), key=lambda x: x.date if x.date else x.created_at, reverse=True)[:limit]
+            # Use 0 as fallback if date is None since Match doesn't have created_at
+            combined = sorted(list(home_qs) + list(away_qs), key=lambda x: x.date.timestamp() if x.date else 0, reverse=True)[:limit]
             return combined
 
     def _calc_win_draw_loss(self, matches, team):
@@ -316,7 +318,7 @@ class MatchAnalyzer:
         w_hist = 0.30
         
         over_45_val = int((get_poisson_over_prob(xg_home + xg_away, 4.5) * 100 * w_poisson) + (calc_over(combined_matches, 4.5) * w_hist))
-        base_stats = {
+        base_stats: Dict[str, Any] = {
             'over_05': int((p_over_05 * 100 * w_poisson) + (calc_over(combined_matches, 0.5) * w_hist)),
             'over_15': int((p_over_15 * 100 * w_poisson) + (calc_over(combined_matches, 1.5) * w_hist)),
             'over_25': int((p_over_25 * 100 * w_poisson) + (calc_over(combined_matches, 2.5) * w_hist)),

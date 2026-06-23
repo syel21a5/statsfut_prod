@@ -441,13 +441,43 @@ Nesta seção, você deve colocar APENAS o texto corrido que o apresentador vai 
         # Recarrega o arquivo .env dinamicamente para não precisar reiniciar o servidor Django
         load_dotenv(override=True)
         
-        api_key = os.getenv('GEMINI_API_KEY')
+        deepseek_api_key = os.getenv('DEEPSEEK_API_KEY')
+        gemini_api_key = os.getenv('GEMINI_API_KEY')
         
-        # 1. Se o usuário definiu uma chave direta no .env, usá-la imediatamente e ignorar o proxy.
-        # Isso garante que se ele tiver uma chave de API própria funcionando, ela seja usada diretamente.
-        if api_key:
+        # 1. Prioridade Máxima: DeepSeek API
+        if deepseek_api_key:
+            url = "https://api.deepseek.com/chat/completions"
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {deepseek_api_key}'
+            }
+            payload = {
+                "model": "deepseek-chat",
+                "messages": [
+                    {"role": "user", "content": prompt}
+                ]
+            }
+            try:
+                r = requests.post(url, headers=headers, json=payload, timeout=120)
+                if r.status_code == 200:
+                    data = r.json()
+                    script_text = data['choices'][0]['message']['content']
+                    return JsonResponse({'status': 'success', 'script': script_text})
+                else:
+                    return JsonResponse({
+                        'status': 'error', 
+                        'message': f'Erro na API do DeepSeek ({r.status_code}): {r.text}'
+                    }, status=500)
+            except Exception as e:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': f'Erro ao conectar à API do DeepSeek: {str(e)}'
+                }, status=500)
+                
+        # 2. Fallback: Gemini direto
+        if gemini_api_key:
             model = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_api_key}"
             headers = {'Content-Type': 'application/json'}
             payload = {
                 "contents": [{
