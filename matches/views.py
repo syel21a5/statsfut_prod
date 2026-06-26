@@ -354,15 +354,14 @@ class MatchVideoScriptView(View):
             
         match = get_object_or_404(Match, pk=pk)
         
-        # Obter estatísticas do MatchAnalyzer
         try:
             analyzer = MatchAnalyzer(match)
             report = analyzer.generate_full_report()
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f'Erro ao analisar partida: {str(e)}'}, status=500)
             
-        # Formatar estatísticas para o prompt
         format_type = request.GET.get('format', 'short')
+        aba_ativa = request.GET.get('aba', 'gols')
         
         home_team = match.home_team.name
         away_team = match.away_team.name
@@ -377,78 +376,188 @@ class MatchVideoScriptView(View):
         efficiency = report.get('efficiency', {})
         lay_bets = report.get('lay_bets', [])
         
+        # Mapeamento de abas para as instruções da IA
+        # Formata o palpite de chance dupla para ser lido corretamente
+        dc_bet = odds_probs.get('double_bet', '')
+        if dc_bet == '12': dc_bet = 'um dois'
+        elif dc_bet == '1X': dc_bet = 'um x'
+        elif dc_bet == 'X2': dc_bet = 'x dois'
+
+        instrucoes_aba = {
+            'gols': {
+                'contexto': f"1. GOLS: HT Goal: {goals.get('ht_goal', 0)}%, BTTS: {goals.get('btts', 0)}% | Over 1.5: {goals.get('over_15', 0)}%, 2.5: {goals.get('over_25', 0)}%, 3.5: {goals.get('over_35', 0)}%, 4.5: {goals.get('over_45', 0)}%\n" +
+                            f"6. RESUMO: Vencedor Casa {odds_probs.get('home_win', 0)}%, Empate {odds_probs.get('draw', 0)}%, Fora {odds_probs.get('away_win', 0)}%. Palpite: {dc_bet}",
+                'json_keys': '''{
+  "introducao": "Texto de introdução da partida (somente se for o inicio do video).",
+  "gols_over_1_5": "Análise do over 1.5 gols baseada na %...",
+  "gols_over_2_5": "Análise do over 2.5 gols...",
+  "gols_over_3_5": "Análise do over 3.5 gols...",
+  "gols_over_4_5": "Análise do over 4.5 gols...",
+  "gols_btts": "Análise de ambas marcam...",
+  "gols_vencedor": "Análise do favorito a vencer a partida...",
+  "gols_chance_dupla": "Análise do palpite de chance dupla...",
+  "gols_ht": "Análise de gols no HT..."
+}'''
+            },
+            'escanteios': {
+                'contexto': f"3. ESCANTEIOS: Média Total: {round(corners.get('home', dict()).get('avg_total', 0) + corners.get('away', dict()).get('avg_total', 0), 1)}, Over 7.5: {corners.get('match_overs', dict()).get(7, 0)}%, Over 8.5: {corners.get('match_overs', dict()).get(8, 0)}%. Mais Cantos: Casa {corners.get('winner_corners', dict()).get('home', 0)}%, Fora {corners.get('winner_corners', dict()).get('away', 0)}%",
+                'json_keys': '''{
+  "escanteios_intro": "Frase curta de gancho para começar a falar de escanteios.",
+  "escanteios_over_7_5": "Análise do over 7.5 cantos...",
+  "escanteios_over_8_5": "Análise do over 8.5 cantos...",
+  "escanteios_base": "Análise da base do jogo somada (média de cantos)...",
+  "escanteios_palpite": "Análise do melhor palpite de cantos...",
+  "escanteios_mais_cantos": "Análise de quem fará mais escanteios..."
+}'''
+            },
+            'cartoes': {
+                'contexto': f"4. CARTÕES: Over 3.5: {disciplinary.get('cards_totals_overs', dict()).get(3, 0)}%, 4.5: {disciplinary.get('cards_totals_overs', dict()).get(4, 0)}%. Mais Cartões: Casa {disciplinary.get('winner_cards', dict()).get('home', 0)}%, Empate {disciplinary.get('winner_cards', dict()).get('draw', 0)}%, Fora {disciplinary.get('winner_cards', dict()).get('away', 0)}%",
+                'json_keys': '''{
+  "cartoes_intro": "Frase curta de gancho para a disciplina/cartões.",
+  "cartoes_over_3_5": "Análise do over 3.5 cartões...",
+  "cartoes_over_4_5": "Análise do over 4.5...",
+  "cartoes_over_5_5": "Análise do over 5.5...",
+  "cartoes_mais_cartoes": "Análise de quem vai tomar mais cartões..."
+}'''
+            },
+            'chutes': {
+                'contexto': f"2. CHUTES: Eficiência Casa: {efficiency.get('home', dict()).get('conversion_rate', 0)}%, Fora: {efficiency.get('away', dict()).get('conversion_rate', 0)}%",
+                'json_keys': '''{
+  "chutes_intro": "Frase curta de gancho sobre as finalizações.",
+  "chutes_ao_alvo": "Análise da eficiência de chutes dos times...",
+  "chutes_precisao": "Análise de como a precisão (conversão em gol) afeta o jogo..."
+}'''
+            },
+            'especiais': {
+                'contexto': f"5. RESUMO E CHANCES: Vencedor Casa {odds_probs.get('home_win', 0)}%, Empate {odds_probs.get('draw', 0)}%. Palpite: {dc_bet}",
+                'json_keys': '''{
+  "especiais_intro": "Frase curta introduzindo mercados especiais.",
+  "especiais_vencedor_ambos": "Análise do vencedor + ambas marcam...",
+  "especiais_dupla_gols": "Análise de dupla chance + gols...",
+  "especiais_empate_anula": "Análise do mercado empate anula..."
+}'''
+            },
+            'lays': {
+                'contexto': f"LAYS: {lay_bets}",
+                'json_keys': '''{
+  "lays_intro": "Frase curta sobre fraudes ou lays...",
+  "lays_melhor_lay": "Análise das oportunidades de Lay Bets...",
+  "despedida": "Texto rápido de encerramento do vídeo."
+}'''
+            }
+        }
+        
+        # Pega as configs da aba solicitada
+        aba_config = instrucoes_aba.get(aba_ativa, instrucoes_aba['gols'])
+        
         if format_type == 'long':
             prompt = f"""
-Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas de muito sucesso no YouTube.
-Sua missão é escrever um roteiro de vídeo PROFUNDO, DENSO E DETALHADO para um vídeo de 8 a 10 minutos (aprox. 800 a 1000 palavras), analisando minuciosamente a partida abaixo:
+Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas no YouTube.
+Devolva a análise em formato ESTRITAMENTE JSON.
 
 PARTIDA: {home_team} vs {away_team}
 COMPETIÇÃO: {league} ({country})
 
-ESTATÍSTICAS COMPLETAS DO STATSFUT:
-1. GOLS & TEMPOS:
-   - Prob. HT Goal (Gol no 1º Tempo): {goals.get('ht_goal', 0)}%
-   - Prob. Ambas Marcam (BTTS): {goals.get('btts', 0)}%
-   - Over 1.5 Gols: {goals.get('over_15', 0)}% | Over 2.5: {goals.get('over_25', 0)}%
+ESTATÍSTICAS DA ABA ({aba_ativa.upper()}):
+{aba_config['contexto']}
 
-2. FORÇA TÁTICA E CHUTES:
-   - Ataque Casa ({home_team}): {strength.get('home_attack', '')} | Defesa Casa: {strength.get('home_defense', '')}
-   - Ataque Fora ({away_team}): {strength.get('away_attack', '')} | Defesa Fora: {strength.get('away_defense', '')}
-   - Eficiência de Chutes (Casa): {efficiency.get('home', {}).get('conversion_rate', 0)}% converte em gol.
-   - Eficiência de Chutes (Fora): {efficiency.get('away', {}).get('conversion_rate', 0)}% converte em gol.
+INSTRUÇÕES DE ESCRITA:
+Escreva a análise técnica e humana de CADA tópico de forma PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 35 e 50 palavras (para render de 15 a 20 segundos de áudio na locução final). Não seja muito breve! Desenvolva a ideia, explique o motivo da estatística e dê um pitaco tático. Cite números por extenso (ex: "cinquenta por cento"). NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e alongadas de análise.
 
-3. ESCANTEIOS (CORNERS):
-   - Média Casa: {corners.get('home', {}).get('avg_total', 0)} cantos/jogo.
-   - Média Fora: {corners.get('away', {}).get('avg_total', 0)} cantos/jogo.
-   - Recomendação de Cantos: {corners.get('recommendation', '')}
-
-4. CARTÕES E DISCIPLINA:
-   - Média de Cartões da Partida: {disciplinary.get('match_avg_cards', 0)} cartões.
-   - Casa toma em média: {disciplinary.get('home', {}).get('avg_cards', 0)} cartões.
-   - Fora toma em média: {disciplinary.get('away', {}).get('avg_cards', 0)} cartões.
-
-5. OPORTUNIDADES DE LAY (LAY BETS):
-   - Sugestões de Lay: {lay_bets}
-
-6. PROBABILIDADES FINAIS E RESUMO:
-   - Vitória Casa: {odds_probs.get('home_win', 0)}% | Empate: {odds_probs.get('draw', 0)}% | Vitória Fora: {odds_probs.get('away_win', 0)}%
-   - Palpite Principal: {odds_probs.get('double_bet', '')} ({odds_probs.get('double_bet_prob', 0)}%)
-   - Resumo do Motor IA: {summary}
-
-Instruções para o roteiro LONGO (8-10 Minutos):
-1. TONALIDADE: Profissional, analítica, mas acessível. Sem gritaria. Use tom de "aula de apostas" e "leitura de jogo profunda".
-2. ESTRUTURA EXTENSA: Aprofunde em CADA UMA das abas acima. Dedique tempo para explicar POR QUE as estatísticas estão assim.
-   - [0:00] Introdução e Contexto (Prenda a atenção).
-   - [1:30] Análise de Gols e Eficiência de Chutes (Ataque vs Defesa).
-   - [4:00] Mercado de Escanteios (Associe com a tática de ataque pelas pontas ou pressão).
-   - [5:30] Mercado de Cartões (Fale sobre a agressividade das equipes ou necessidade de vitória).
-   - [7:00] Oportunidades Especiais e Lay (Como lucrar indo contra tendências fracas).
-   - [8:30] Conclusão, Gestão de Banca e Palpite Ouro.
-3. INSTRUÇÕES VISUAIS: Coloque muitas tags [EDICAO: Mostrar aba X do Statsfut].
-4. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===` contendo apenas o texto corrido (sem tags [EDICAO], sem timestamps), com números por extenso (ex: 'oitenta por cento', 'um ponto cinco'). O texto da locução deve ter entre 800 e 1000 palavras.
+Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
+{aba_config['json_keys']}
 """
         else:
             prompt = f"""
-Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok, Reels e YouTube Shorts.
-Escreva um roteiro de vídeo CURTO, dinâmico e viral (máximo de 60 segundos, cerca de 130 a 160 palavras) para analisar a partida:
+Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok.
+Escreva um roteiro de vídeo CURTO e direto sobre a aba {aba_ativa.upper()} (máximo de 60 segundos) para analisar:
 
 PARTIDA: {home_team} vs {away_team}
-COMPETIÇÃO: {league} ({country})
+ESTATÍSTICAS: {aba_config['contexto']}
 
-ESTATÍSTICAS:
-- HT Goal: {goals.get('ht_goal', 0)}% | BTTS: {goals.get('btts', 0)}%
-- Over 1.5: {goals.get('over_15', 0)}% | Over 2.5: {goals.get('over_25', 0)}%
-- Cantos Casa: {corners.get('home', {}).get('avg_total', 0)} | Cantos Fora: {corners.get('away', {}).get('avg_total', 0)}
-- Vitória Casa: {odds_probs.get('home_win', 0)}% | Empate: {odds_probs.get('draw', 0)}% | Vitória Fora: {odds_probs.get('away_win', 0)}%
-- Palpite Principal: {odds_probs.get('double_bet', '')} ({odds_probs.get('double_bet_prob', 0)}%)
-
-Instruções para o roteiro CURTO (Shorts/TikTok):
-1. DIRETO AO PONTO: Sem introduções longas. Comece com um gancho forte (ex: "Esse jogo tem uma tendência absurda...").
-2. FOCO NO MELHOR MERCADO: Escolha apenas 1 ou 2 estatísticas que mais chamam atenção (Gols, Escanteios ou Vencedor) e vá direto nela. Ignore o resto.
-3. LINGUAGEM: Casual, rápida, focada em retenção. Não use palavras como "robô" ou "algoritmo", pareça um analista humano muito inteligente.
-4. INSTRUÇÕES VISUAIS: Coloque tags breves como [EDICAO: Mostrar barra de Probabilidade].
-5. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO (COPIAR PARA O ELEVENLABS) ===` contendo apenas o texto corrido (sem tags [EDICAO], sem timestamps), com números por extenso (ex: 'oitenta por cento').
+Instruções para o roteiro CURTO:
+1. DIRETO AO PONTO: Comece com um gancho forte.
+2. LINGUAGEM: Casual, rápida.
+3. INSTRUÇÕES VISUAIS: Coloque tags breves como [EDICAO: Mostrar aba de {aba_ativa}].
+4. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO ===` com texto corrido.
 """
+
+        def process_hybrid_response(text, format_type, aba_ativa):
+            if format_type != 'long':
+                return text
+                
+            import json
+            import random
+            
+            try:
+                clean_json = text.replace('```json', '').replace('```', '').strip()
+                j = json.loads(clean_json)
+                
+                def pick(d): return random.choice(d)
+                def lower_first(s): return s[0].lower() + s[1:] if s else ""
+                
+                texto_limpo = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
+                texto_maq = f"{j.get('introducao', '')}\n\n[ABA: {aba_ativa}] " if j.get('introducao') else f"[ABA: {aba_ativa}] "
+                
+                if aba_ativa == 'gols':
+                    keys = ['gols_over_1_5', 'gols_over_2_5', 'gols_over_3_5', 'gols_over_4_5', 'gols_btts', 'gols_vencedor', 'gols_chance_dupla', 'gols_ht']
+                    tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', 'BTTS', 'Vencer a Partida', 'Chance Dupla', 'HT']
+                    words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
+                elif aba_ativa == 'escanteios':
+                    keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
+                    tags = ['Over 7.5', 'Over 8.5', 'Base do Jogo', 'Melhor Palpite', 'Mais Escanteios']
+                    words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
+                    texto_limpo += f"{j.get('escanteios_intro', '')} "
+                    texto_maq += f"{j.get('escanteios_intro', '')} "
+                elif aba_ativa == 'cartoes':
+                    keys = ['cartoes_over_3_5', 'cartoes_over_4_5', 'cartoes_over_5_5', 'cartoes_mais_cartoes']
+                    tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', 'Mais Cartões']
+                    words = [['Abrindo', 'Lançando', 'Trazendo'], ['Subindo', 'Elevando', 'Escalando'], ['Atingindo', 'Chegando', 'Alcançando'], ['Coroando', 'Completando', 'Despedindo']]
+                    texto_limpo += f"{j.get('cartoes_intro', '')} "
+                    texto_maq += f"{j.get('cartoes_intro', '')} "
+                elif aba_ativa == 'chutes':
+                    keys = ['chutes_ao_alvo', 'chutes_precisao']
+                    tags = ['Chutes ao Alvo', 'Precisão']
+                    words = [['Examinando', 'Conferindo', 'Checando'], ['Constatando', 'Mapeando', 'Identificando']]
+                    texto_limpo += f"{j.get('chutes_intro', '')} "
+                    texto_maq += f"{j.get('chutes_intro', '')} "
+                elif aba_ativa == 'especiais':
+                    keys = ['especiais_vencedor_ambos', 'especiais_dupla_gols', 'especiais_empate_anula']
+                    tags = ['Vencedor e Ambos Marcam', 'Dupla e Gols', 'Empate Anula']
+                    words = [['Inspecionando', 'Desvendando', 'Apurando'], ['Combinando', 'Juntando', 'Unindo'], ['Garantindo', 'Assegurando', 'Protegendo']]
+                    texto_limpo += f"{j.get('especiais_intro', '')} "
+                    texto_maq += f"{j.get('especiais_intro', '')} "
+                elif aba_ativa == 'lays':
+                    keys = ['lays_melhor_lay']
+                    tags = ['Melhor Lay']
+                    words = [['Investigando', 'Ponderando', 'Julgando']]
+                    texto_limpo += f"{j.get('lays_intro', '')} "
+                    texto_maq += f"{j.get('lays_intro', '')} "
+                
+                for i, (k, tag) in enumerate(zip(keys, tags)):
+                    val = lower_first(j.get(k, ''))
+                    if val:
+                        word = pick(words[i]) if i < len(words) else "Analisando"
+                        phrase = f"{word} o mercado de {tag}, {val}" if aba_ativa != 'gols' else f"{word} as estatísticas de {tag}, {val}"
+                        texto_limpo += f"{phrase} "
+                        texto_maq += f"[FOCO: {tag}] {phrase} [OFF] "
+                
+                if j.get('despedida'):
+                    texto_limpo += f"\n\n{j.get('despedida', '')}"
+                    texto_maq += f"\n\n{j.get('despedida', '')}"
+                
+                texto_limpo_audio = texto_limpo.replace('.5', ' ponto 5')
+                
+                final_script = (
+                    "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
+                    f"{texto_limpo_audio}\n\n"
+                    "👇👇👇 TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt) 👇👇👇\n\n"
+                    f"{texto_maq}"
+                )
+                return final_script
+            except Exception as e:
+                return f"👇👇👇 ERRO NO PARSER HÍBRIDO 👇👇👇\n\nErro: {str(e)}\n\nTexto Original da IA:\n{text}"
+
         import requests
         import os
         from dotenv import load_dotenv
@@ -478,6 +587,7 @@ Instruções para o roteiro CURTO (Shorts/TikTok):
                 if r.status_code == 200:
                     data = r.json()
                     script_text = data['choices'][0]['message']['content']
+                    script_text = process_hybrid_response(script_text, format_type, aba_ativa)
                     return JsonResponse({'status': 'success', 'script': script_text})
                 else:
                     return JsonResponse({
@@ -507,6 +617,7 @@ Instruções para o roteiro CURTO (Shorts/TikTok):
                 if r.status_code == 200:
                     data = r.json()
                     script_text = data['candidates'][0]['content']['parts'][0]['text']
+                    script_text = process_hybrid_response(script_text, format_type, aba_ativa)
                     return JsonResponse({'status': 'success', 'script': script_text})
                 else:
                     return JsonResponse({
@@ -553,6 +664,7 @@ Instruções para o roteiro CURTO (Shorts/TikTok):
                     }, status=500)
                 data = r.json()
                 script_text = data['choices'][0]['message']['content']
+                script_text = process_hybrid_response(script_text, format_type, aba_ativa)
                 return JsonResponse({'status': 'success', 'script': script_text})
             except Exception as e:
                 return JsonResponse({

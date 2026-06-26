@@ -1347,8 +1347,15 @@
             loadingTextEl.innerText = loadingTexts[textIdx];
         }, 3000);
         
-        // Fetch script from API
-        const url = `{% url 'matches:match_video_script' match.id %}?format=${format}`;
+        // Detectar qual aba está aberta na tela
+        let activeTab = 'gols';
+        const activeContent = document.querySelector('.market-tab-content.active');
+        if (activeContent) {
+            activeTab = activeContent.id.replace('tab-', '');
+        }
+        
+        // Fetch script from API passando o formato e a aba
+        const url = `{% url 'matches:match_video_script' match.id %}?format=${format}&aba=${activeTab}`;
         fetch(url)
             .then(async res => {
                 const contentType = res.headers.get("content-type");
