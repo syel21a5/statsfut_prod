@@ -400,11 +400,13 @@ class MatchVideoScriptView(View):
 }'''
             },
             'escanteios': {
-                'contexto': f"3. ESCANTEIOS: Média Total: {round(corners.get('home', dict()).get('avg_total', 0) + corners.get('away', dict()).get('avg_total', 0), 1)}, Over 7.5: {corners.get('match_overs', dict()).get(7, 0)}%, Over 8.5: {corners.get('match_overs', dict()).get(8, 0)}%. Mais Cantos: Casa {corners.get('winner_corners', dict()).get('home', 0)}%, Fora {corners.get('winner_corners', dict()).get('away', 0)}%",
+                'contexto': f"3. ESCANTEIOS: Média Total: {round(corners.get('home', dict()).get('avg_total', 0) + corners.get('away', dict()).get('avg_total', 0), 1)}, Over 7.5: {corners.get('match_overs', dict()).get(7, 0)}%, Over 8.5: {corners.get('match_overs', dict()).get(8, 0)}%, Over 9.5: {corners.get('match_overs', dict()).get(9, 0)}%, Over 10.5: {corners.get('match_overs', dict()).get(10, 0)}%. Mais Cantos: Casa {corners.get('winner_corners', dict()).get('home', 0)}%, Fora {corners.get('winner_corners', dict()).get('away', 0)}%",
                 'json_keys': '''{
-  "escanteios_intro": "Frase curta de gancho para começar a falar de escanteios.",
+  "escanteios_intro": "Uma introdução robusta e engajadora voltada apenas para o mercado de escanteios, analisando o comportamento dos times pelas pontas (cerca de 40 a 50 palavras).",
   "escanteios_over_7_5": "Análise do over 7.5 cantos...",
   "escanteios_over_8_5": "Análise do over 8.5 cantos...",
+  "escanteios_over_9_5": "Análise do over 9.5 cantos (linha principal de jogo)...",
+  "escanteios_over_10_5": "Análise do over 10.5 cantos (cenário de alta pressão)...",
   "escanteios_base": "Análise da base do jogo somada (média de cantos)...",
   "escanteios_palpite": "Análise do melhor palpite de cantos...",
   "escanteios_mais_cantos": "Análise de quem fará mais escanteios..."
@@ -469,23 +471,31 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
 """
         else:
             prompt = f"""
-Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok.
-Escreva um roteiro de vídeo CURTO e direto sobre a aba {aba_ativa.upper()} (máximo de 60 segundos) para analisar:
+Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok/Reels.
+Sua missão é criar um roteiro de vídeo CURTO (máximo de 60 segundos) muito engajador sobre a aba {aba_ativa.upper()}.
+
+Devolva a análise em formato ESTRITAMENTE JSON. NENHUM COMENTÁRIO ADICIONAL.
 
 PARTIDA: {home_team} vs {away_team}
-ESTATÍSTICAS: {aba_config['contexto']}
+ESTATÍSTICAS DA ABA ({aba_ativa.upper()}): {aba_config['contexto']}
 
-Instruções para o roteiro CURTO:
-1. DIRETO AO PONTO: Comece com um gancho forte.
-2. LINGUAGEM: Casual, rápida.
-3. INSTRUÇÕES VISUAIS: Coloque tags breves como [EDICAO: Mostrar aba de {aba_ativa}].
-4. LOCUÇÃO LIMPA: No final, adicione a seção `=== TEXTO DE LOCUÇÃO LIMPO ===` com texto corrido.
+INSTRUÇÕES:
+1. Inicie com um gancho muito forte sobre as ESTATÍSTICAS (ex: "Sabia que esse jogo tem 90% de ocorrência de cantos?").
+2. REGRA DE OURO (COMPLIANCE): NUNCA mande o usuário apostar. NUNCA prometa lucro garantido. Seu tom DEVE ser ESTRITAMENTE ANALÍTICO E ESTATÍSTICO. O foco é a estatística, não a aposta financeira.
+3. Escolha APENAS as 2 estatísticas mais fortes/interessantes dessa aba para analisar.
+4. NUNCA crie cenas visuais ou tags. Retorne apenas a fala contínua dividida nas chaves solicitadas.
+
+Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
+{{
+  "gancho_intro": "Gancho rápido e explosivo de 5 a 10 segundos chamando atenção.",
+  "foco_1_tag": "Nome EXATO da estatística 1 (ex: Over 1.5, HT, Ambas).",
+  "foco_1_texto": "Análise super rápida e dinâmica da estatística foco 1...",
+  "foco_2_tag": "Nome EXATO da estatística 2...",
+  "foco_2_texto": "Análise super rápida da estatística foco 2 com fechamento."
+}}
 """
 
         def process_hybrid_response(text, format_type, aba_ativa):
-            if format_type != 'long':
-                return text
-                
             import json
             import random
             
@@ -496,6 +506,24 @@ Instruções para o roteiro CURTO:
                 def pick(d): return random.choice(d)
                 def lower_first(s): return s[0].lower() + s[1:] if s else ""
                 
+                if format_type == 'short':
+                    texto_limpo = f"{j.get('gancho_intro', '')} "
+                    texto_maq = f"[ABA: {aba_ativa}] {j.get('gancho_intro', '')} "
+                    for i in [1, 2]:
+                        tag = j.get(f'foco_{i}_tag', '')
+                        texto = j.get(f'foco_{i}_texto', '')
+                        if tag and texto:
+                            texto_limpo += f"{texto} "
+                            texto_maq += f"[FOCO: {tag}] {texto} [OFF] "
+                            
+                    final_script = (
+                        "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
+                        f"{texto_limpo}\n\n"
+                        "👇👇👇 TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt) 👇👇👇\n\n"
+                        f"{texto_maq}"
+                    )
+                    return final_script
+
                 texto_limpo = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
                 texto_maq = f"{j.get('introducao', '')}\n\n[ABA: {aba_ativa}] " if j.get('introducao') else f"[ABA: {aba_ativa}] "
                 
@@ -504,9 +532,9 @@ Instruções para o roteiro CURTO:
                     tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', 'BTTS', 'Vencer a Partida', 'Chance Dupla', 'HT']
                     words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
                 elif aba_ativa == 'escanteios':
-                    keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
-                    tags = ['Over 7.5', 'Over 8.5', 'Base do Jogo', 'Melhor Palpite', 'Mais Escanteios']
-                    words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
+                    keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_over_9_5', 'escanteios_over_10_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
+                    tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', 'Base do Jogo', 'Melhor Palpite', 'Mais Escanteios']
+                    words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Avançando', 'Chegando', 'Analisando'], ['Aprofundando', 'Olhando', 'Destacando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
                     texto_limpo += f"{j.get('escanteios_intro', '')} "
                     texto_maq += f"{j.get('escanteios_intro', '')} "
                 elif aba_ativa == 'cartoes':
@@ -5826,3 +5854,6 @@ def live_radar_partial(request, match_id):
         'pressure_ft': pressure_ft,
     }
     return render(request, 'members/partials/live_radar_modal.html', context)
+
+
+# ==============================================================

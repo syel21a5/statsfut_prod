@@ -1254,7 +1254,10 @@
     function switchMarketTab(tabId, btnElement) {
         // Remove active de todos os botões e oculta todos os conteúdos
         document.querySelectorAll('.market-tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.market-tab-content').forEach(content => content.classList.add('d-none'));
+        document.querySelectorAll('.market-tab-content').forEach(content => {
+            content.classList.add('d-none');
+            content.classList.remove('active');
+        });
         
         // Ativa o botão clicado
         if (btnElement) {

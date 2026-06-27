@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('search/', views.GlobalSearchView.as_view(), name='global_search'),
     
+    
     # Cache de 5 minutos foi removido das Views inteiras porque quebra o CSRF token do seletor de idioma.
     path('', views.HomeView.as_view(), name='home'),
     path('league/<int:pk>/', views.LeagueDetailView.as_view(), name='league_detail'),
