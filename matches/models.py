@@ -24,14 +24,11 @@ class Team(models.Model):
 
     @property
     def logo_url(self):
-        if not self.api_id:
-            return ""
-        api_id_str = str(self.api_id)
-        if api_id_str.startswith("sofa_"):
-            real_id = api_id_str.replace("sofa_", "")
-            return f"https://api.sofascore.app/api/v1/team/{real_id}/image"
-        else:
-            return f"https://media.api-sports.io/football/teams/{api_id_str}.png"
+        from django.utils.text import slugify
+        if self.api_id:
+            country_slug = slugify(self.league.country)
+            return f"/static/teams/{country_slug}/{self.api_id}.png"
+        return ""
 
     def get_stats(self, market="over25"):
         cache_key = f"team_stats_{self.id}_{market}"
