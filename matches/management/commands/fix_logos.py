@@ -102,7 +102,7 @@ class Command(BaseCommand):
             # Substituir hifens e pontos por espaço
             search_query = search_query.replace('-', ' ').replace('.', ' ')
             # Remover qualquer outro caracter que não seja alfanumérico ou espaço
-            search_name = re.sub(r'[^a-zA-Z0-9\s]', '', search_name)
+            search_name = re.sub(r'[^a-zA-Z0-9\s]', '', search_query)
             # Limpar espaços extras
             search_name = search_name.strip()
             
