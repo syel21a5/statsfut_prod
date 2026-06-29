@@ -459,7 +459,11 @@
     <!-- PLACAR E TIMES (COMPACTO) -->
     <div class="match-hero-minimal mb-4">
         <div class="team-mini">
+            {% if match.home_team.logo_url %}
+            <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;">
+            {% else %}
             <div class="t-logo">{{ match.home_team.name|slice:":1" }}</div>
+            {% endif %}
             <span class="t-name">{{ match.home_team.name }}</span>
         </div>
         <div class="score-mini">
@@ -472,7 +476,11 @@
             {% endif %}
         </div>
         <div class="team-mini">
+            {% if match.away_team.logo_url %}
+            <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;">
+            {% else %}
             <div class="t-logo away">{{ match.away_team.name|slice:":1" }}</div>
+            {% endif %}
             <span class="t-name">{{ match.away_team.name }}</span>
         </div>
     </div>

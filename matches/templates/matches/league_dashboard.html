@@ -392,6 +392,7 @@
                                                     <td class="text-start fw-bold text-white">
                                                         <div class="d-flex align-items-center">
                                                             <span class="badge bg-success me-1">H</span>
+                                                            <img src="{{ item.match.home_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
                                                             <span>{{ item.match.home_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -421,6 +422,7 @@
                                                     <td class="text-start fw-bold text-white">
                                                         <div class="d-flex align-items-center">
                                                             <span class="badge bg-danger me-1">A</span>
+                                                            <img src="{{ item.match.away_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
                                                             <span>{{ item.match.away_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -490,8 +492,13 @@
                                                             <span class="text-secondary small js-local-time">{{ item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
+                                                    <td class="text-start fw-bold text-white">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-success me-1">H</span>
+                                                            <img src="{{ item.match.home_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
+                                                            <span>{{ item.match.home_team.name }}</span>
+                                                        </div>
+                                                    </td>
                                                     <td
                                                         class="fw-bold {% if item.home.overall.ppg >= 2.0 %}text-success{% elif item.home.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.home.overall.ppg }}</td>
@@ -515,8 +522,13 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
-                                                    <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
+                                                    <td class="text-start fw-bold text-white">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-danger me-1">A</span>
+                                                            <img src="{{ item.match.away_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
+                                                            <span>{{ item.match.away_team.name }}</span>
+                                                        </div>
+                                                    </td>
                                                     <td
                                                         class="fw-bold {% if item.away.overall.ppg >= 2.0 %}text-success{% elif item.away.overall.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.away.overall.ppg }}</td>
@@ -583,8 +595,13 @@
                                                             <span class="text-secondary small">{{ item.match.date|date:"H:i" }}</span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-success me-1">H</span> {{ item.match.home_team.name }}</td>
+                                                    <td class="text-start fw-bold text-white">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-success me-1">H</span>
+                                                            <img src="{{ item.match.home_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
+                                                            <span>{{ item.match.home_team.name }}</span>
+                                                        </div>
+                                                    </td>
                                                     <td
                                                         class="fw-bold {% if item.home.last_8.ppg >= 2.0 %}text-success{% elif item.home.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.home.last_8.ppg }}</td>
@@ -608,8 +625,13 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="border-bottom border-secondary border-opacity-25">
-                                                    <td class="text-start fw-bold text-white"><span
-                                                            class="badge bg-danger me-1">A</span> {{ item.match.away_team.name }}</td>
+                                                    <td class="text-start fw-bold text-white">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-danger me-1">A</span>
+                                                            <img src="{{ item.match.away_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
+                                                            <span>{{ item.match.away_team.name }}</span>
+                                                        </div>
+                                                    </td>
                                                     <td
                                                         class="fw-bold {% if item.away.last_8.ppg >= 2.0 %}text-success{% elif item.away.last_8.ppg <= 1.0 %}text-danger{% else %}text-warning{% endif %}">
                                                         {{ item.away.last_8.ppg }}</td>
@@ -740,6 +762,7 @@
                                                 <td class="text-start fw-bold">
                                                     <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                         class="text-decoration-none text-white d-flex align-items-center">
+                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;">
                                                         <span>{{ row.team.name }}</span>
                                                     </a>
                                                 </td>
@@ -827,6 +850,7 @@
                                                 <td class="text-start fw-bold">
                                                     <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                         class="text-decoration-none text-white d-flex align-items-center">
+                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;">
                                                         <span>{{ row.team.name }}</span>
                                                     </a>
                                                 </td>

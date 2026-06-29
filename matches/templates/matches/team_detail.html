@@ -13,16 +13,21 @@
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="text-white fw-bold mb-0">
-                {{ team.name }}
-            </h2>
-            <p class="text-secondary mb-0 mt-1">
-                <span class="text-info">{{ league.country|country_en }}</span> <i
-                    class="fa-solid fa-chevron-right mx-2 small"></i>
-                <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i>
-                {% translate "Team Stats" %}
-            </p>
+        <div class="d-flex align-items-center">
+            {% if team.logo_url %}
+            <img src="{{ team.logo_url }}" alt="{{ team.name }}" class="img-fluid drop-shadow me-3" style="max-height: 80px; object-fit: contain;">
+            {% endif %}
+            <div>
+                <h2 class="text-white fw-bold mb-0">
+                    {{ team.name }}
+                </h2>
+                <p class="text-secondary mb-0 mt-1">
+                    <span class="text-info">{{ league.country|country_en }}</span> <i
+                        class="fa-solid fa-chevron-right mx-2 small"></i>
+                    <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i>
+                    {% translate "Team Stats" %}
+                </p>
+            </div>
         </div>
         <a href="{% url 'matches:league_goals' country_name=league.country|country_en|slugify league_name=league.name|slugify %}"
             class="btn btn-outline-secondary btn-sm">

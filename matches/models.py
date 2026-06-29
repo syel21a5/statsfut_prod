@@ -22,6 +22,14 @@ class Team(models.Model):
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na API")
     fd_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na Football-Data")
 
+    @property
+    def logo_url(self):
+        from django.utils.text import slugify
+        if self.api_id:
+            country_slug = slugify(self.league.country)
+            return f"/static/teams/{country_slug}/{self.api_id}.png"
+        return ""
+
     def get_stats(self, market="over25"):
         cache_key = f"team_stats_{self.id}_{market}"
         cached_val = cache.get(cache_key)

@@ -1084,7 +1084,9 @@ class LeagueDetailView(DetailView):
                     g = f"Grupo {g.split('Grupo')[-1].strip()}"
                 if g not in standings_by_group:
                     standings_by_group[g] = []
-                standings_by_group[g].append(st)
+                # Evita duplicidade de times no mesmo grupo (ex: fases diferentes com o mesmo nome)
+                if not any(existing_st.team_id == st.team_id for existing_st in standings_by_group[g]):
+                    standings_by_group[g].append(st)
             
             # Ordenação: Garante que a "Regular Season" venha primeiro
             if standings_by_group:
@@ -3441,7 +3443,8 @@ class LeagueGoalsView(TemplateView):
                     g = f"Grupo {g.split('Grupo')[-1].strip()}"
                 if g not in standings_by_group:
                     standings_by_group[g] = []
-                standings_by_group[g].append(st)
+                if not any(existing_st.team_id == st.team_id for existing_st in standings_by_group[g]):
+                    standings_by_group[g].append(st)
             
             # Ordenação: Garante que a "Regular Season" venha primeiro
             if standings_by_group:

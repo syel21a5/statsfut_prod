@@ -233,13 +233,8 @@
                                         {% for item in overview_tables.1.rows|slice:":10" %}
                                         <tr>
                                             <td class="text-start ps-3 fw-bold">
-                                                {% get_team_logo item.team as team_logo %}
-                                                {% if team_logo %}
-                                                <img src="{{ team_logo }}" alt="{{ item.team.name }}" class="me-2"
-                                                    style="width: 20px; height: 20px; object-fit: contain;">
-                                                {% elif item.team.logo %}
-                                                <img src="{{ item.team.logo }}" alt="{{ item.team.name }}" class="me-2"
-                                                    style="width: 20px; height: 20px; object-fit: contain;">
+                                                {% if item.team.logo_url %}
+                                                <img src="{{ item.team.logo_url }}" alt="{{ item.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
                                                 {% endif %}
                                                 {{ item.team.name }}
                                             </td>
@@ -313,6 +308,7 @@
                                     <td class="text-start ps-3 fw-medium">
                                         <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                             class="text-decoration-none text-white">
+                                            {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
                                             {{ row.team.name }}
                                         </a>
                                     </td>
@@ -417,6 +413,7 @@
                                     <td class="text-start ps-3 fw-medium">
                                         <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                             class="text-decoration-none text-white">
+                                            {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
                                             {{ row.team.name }}
                                         </a>
                                     </td>
@@ -478,6 +475,7 @@
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -537,6 +535,7 @@
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -596,6 +595,7 @@
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
@@ -655,6 +655,7 @@
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                     class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
                                                     {{ row.team.name }}
                                                 </a>
                                             </td>
