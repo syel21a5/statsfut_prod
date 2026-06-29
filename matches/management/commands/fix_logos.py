@@ -95,11 +95,16 @@ class Command(BaseCommand):
             static_path = os.path.join(static_dir, filename)
             staticfiles_path = os.path.join(staticfiles_dir, filename)
 
-            # CARA-CRACHÁ: Buscar o time pelo nome na API-Football
+            # CARA-CRACHÁ: Buscar o time pelo nome e PAÍS na API-Football
             search_name = team.name
+            api_country = team.league.country
+            if api_country == 'USA':
+                api_country = 'USA'
+            
             try:
                 search_url = f"{api_config['base_url']}/teams"
-                params = {'search': search_name}
+                # Adiciona o país para evitar que Remo (Brasil) ache Cremonese (Itália)
+                params = {'search': search_name, 'country': api_country}
                 resp = requests.get(search_url, headers=headers_api, params=params, timeout=10)
 
                 if resp.status_code != 200:
@@ -113,19 +118,38 @@ class Command(BaseCommand):
                 results = data.get('response', [])
 
                 if not results:
-                    # Tentar com nome mais curto (primeira palavra)
+                    # Tentar com nome mais curto (primeira palavra) sem o país restrito, ou com país restrito
                     short_name = search_name.split()[0] if ' ' in search_name else search_name
-                    params = {'search': short_name}
-                    resp = requests.get(search_url, headers=headers_api, params=params, timeout=10)
-                    if resp.status_code == 200:
-                        results = resp.json().get('response', [])
+                    if len(short_name) >= 3:
+                        params = {'search': short_name, 'country': api_country}
+                        resp = requests.get(search_url, headers=headers_api, params=params, timeout=10)
+                        if resp.status_code == 200:
+                            results = resp.json().get('response', [])
 
                 if results:
-                    # Pega o primeiro resultado (mais relevante)
-                    found_team = results[0]['team']
-                    found_id = found_team['id']
-                    found_name = found_team['name']
-                    logo_url = found_team.get('logo', '')
+                    best_match = None
+                    
+                    # 1. Tentar match exato
+                    for r in results:
+                        if r['team']['name'].lower() == search_name.lower():
+                            best_match = r['team']
+                            break
+                    
+                    # 2. Evitar times femininos (W) e base (U21, U19) se o original não tiver
+                    if not best_match:
+                        for r in results:
+                            fname = r['team']['name']
+                            if not (' W' in fname or ' U21' in fname or ' U19' in fname or ' U20' in fname or ' U23' in fname or fname.endswith(' II')):
+                                best_match = r['team']
+                                break
+                    
+                    # 3. Fallback para o primeiro
+                    if not best_match:
+                        best_match = results[0]['team']
+
+                    found_id = best_match['id']
+                    found_name = best_match['name']
+                    logo_url = best_match.get('logo', '')
 
                     if logo_url:
                         # Baixar a logo oficial
