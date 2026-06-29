@@ -27,7 +27,7 @@ class Team(models.Model):
         from django.utils.text import slugify
         if self.api_id:
             country_slug = slugify(self.league.country)
-            return f"/static/teams/{country_slug}/{self.api_id}.png"
+            return f"/static/teams/{country_slug}/{self.api_id}.png?v=2"
         return ""
 
     def get_stats(self, market="over25"):
