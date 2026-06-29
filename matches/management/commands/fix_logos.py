@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import shutil
 import requests
@@ -143,6 +144,7 @@ class Command(BaseCommand):
                 'Islandia': 'Iceland',
                 'Republica Tcheca': 'Czech Republic',
             }
+            api_country = team.league.country
             api_expected_country = country_map.get(api_country, api_country).lower()
 
             try:
