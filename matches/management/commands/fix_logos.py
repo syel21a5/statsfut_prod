@@ -48,6 +48,11 @@ class Command(BaseCommand):
             has_staticfiles = os.path.exists(staticfiles_path) and os.path.getsize(staticfiles_path) > 100
             has_static = os.path.exists(static_path) and os.path.getsize(static_path) > 100
 
+            # FORCE redownload se for um ID inválido que pode ter baixado logo errada na versão anterior
+            if api_id.startswith('ignored_') or api_id.startswith('sofa_'):
+                has_staticfiles = False
+                has_static = False
+
             if has_staticfiles:
                 already_ok += 1
             elif has_static:
