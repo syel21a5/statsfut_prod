@@ -355,7 +355,7 @@ def resolve_team(name, league):
     if name == "Athletic Club":
         country = league.country.lower()
         if country in ['brasil', 'brazil']:
-            name = "Athletic-MG"  # Or "Athletic Club MG", handled below
+            name = "Athletic"  # Matches Athletic-MG, Athletic Club, etc via icontains
         elif country in ['espanha', 'spain']:
             name = "Ath Bilbao"
 
