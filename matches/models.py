@@ -25,9 +25,19 @@ class Team(models.Model):
     @property
     def logo_url(self):
         from django.utils.text import slugify
-        if self.api_id:
-            country_slug = slugify(self.league.country)
-            return f"/static/teams/{country_slug}/{self.api_id}.png"
+        api_id_to_use = self.api_id
+        country_to_use = self.league.country if self.league else ""
+
+        if not api_id_to_use:
+            # Tenta pegar de outro time com mesmo nome na mesma liga/país primeiro, se não achar, pega qualquer um
+            duplicate = Team.objects.filter(name=self.name, api_id__isnull=False).first()
+            if duplicate:
+                api_id_to_use = duplicate.api_id
+                country_to_use = duplicate.league.country if duplicate.league else country_to_use
+
+        if api_id_to_use and country_to_use:
+            country_slug = slugify(country_to_use)
+            return f"/static/teams/{country_slug}/{api_id_to_use}.png"
         return ""
 
     def get_stats(self, market="over25"):

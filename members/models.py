@@ -43,6 +43,8 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     """Cria automaticamente um UserProfile quando um User é criado."""
+    if kwargs.get('raw', False):
+        return
     if created:
         UserProfile.objects.create(user=instance)
 
@@ -50,5 +52,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     """Salva o perfil quando o User é salvo."""
+    if kwargs.get('raw', False):
+        return
     if hasattr(instance, 'profile'):
         instance.profile.save()
