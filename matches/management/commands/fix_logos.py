@@ -95,16 +95,54 @@ class Command(BaseCommand):
             static_path = os.path.join(static_dir, filename)
             staticfiles_path = os.path.join(staticfiles_dir, filename)
 
-            # CARA-CRACHÁ: Buscar o time pelo nome e PAÍS na API-Football
+            # CARA-CRACHÁ: Buscar o time pelo nome na API-Football
             search_name = team.name
             api_country = team.league.country
-            if api_country == 'USA':
-                api_country = 'USA'
             
+            # Normalizar nome do país para comparar com a API (que é em inglês)
+            country_map = {
+                'Brasil': 'Brazil',
+                'Espanha': 'Spain',
+                'Inglaterra': 'England',
+                'Italia': 'Italy',
+                'Franca': 'France',
+                'Alemanha': 'Germany',
+                'Holanda': 'Netherlands',
+                'Portugal': 'Portugal',
+                'Argentina': 'Argentina',
+                'Equador': 'Ecuador',
+                'Colombia': 'Colombia',
+                'Uruguai': 'Uruguay',
+                'Paraguai': 'Paraguay',
+                'Chile': 'Chile',
+                'Peru': 'Peru',
+                'Mexico': 'Mexico',
+                'Estados Unidos': 'USA',
+                'USA': 'USA',
+                'Australia': 'Australia',
+                'Japao': 'Japan',
+                'Belgica': 'Belgium',
+                'Noruega': 'Norway',
+                'Suecia': 'Sweden',
+                'Suica': 'Switzerland',
+                'Austria': 'Austria',
+                'Grecia': 'Greece',
+                'Turquia': 'Turkey',
+                'Ucrania': 'Ukraine',
+                'Russia': 'Russia',
+                'Escocia': 'Scotland',
+                'Dinamarca': 'Denmark',
+                'Polonia': 'Poland',
+                'Finlandia': 'Finland',
+                'Islandia': 'Iceland',
+                'Republica Tcheca': 'Czech Republic',
+            }
+            api_expected_country = country_map.get(api_country, api_country).lower()
+
             try:
                 search_url = f"{api_config['base_url']}/teams"
-                # Adiciona o país para evitar que Remo (Brasil) ache Cremonese (Itália)
-                params = {'search': search_name, 'country': api_country}
+                # API não permite search + country juntos
+                params = {'search': search_name}
                 resp = requests.get(search_url, headers=headers_api, params=params, timeout=10)
 
                 if resp.status_code != 200:
@@ -115,13 +153,19 @@ class Command(BaseCommand):
                     continue
 
                 data = resp.json()
+                if 'errors' in data and data['errors']:
+                    self.stdout.write(self.style.ERROR(
+                        f"  ERRO API: {team.name} | {data['errors']}"))
+                    failed += 1
+                    time.sleep(1)
+                    continue
+
                 results = data.get('response', [])
 
                 if not results:
-                    # Tentar com nome mais curto (primeira palavra) sem o país restrito, ou com país restrito
                     short_name = search_name.split()[0] if ' ' in search_name else search_name
                     if len(short_name) >= 3:
-                        params = {'search': short_name, 'country': api_country}
+                        params = {'search': short_name}
                         resp = requests.get(search_url, headers=headers_api, params=params, timeout=10)
                         if resp.status_code == 200:
                             results = resp.json().get('response', [])
@@ -129,27 +173,54 @@ class Command(BaseCommand):
                 if results:
                     best_match = None
                     
-                    # 1. Tentar match exato
+                    # 1. Tentar match exato e do mesmo país
                     for r in results:
-                        if r['team']['name'].lower() == search_name.lower():
-                            best_match = r['team']
+                        team_data = r['team']
+                        t_name = team_data['name'].lower()
+                        t_country = (team_data.get('country') or '').lower()
+                        
+                        if t_name == search_name.lower() and (t_country == api_expected_country or api_expected_country in t_country or t_country in api_expected_country):
+                            best_match = team_data
                             break
                     
-                    # 2. Evitar times femininos (W) e base (U21, U19) se o original não tiver
+                    # 2. Se não achou exato+país, tentar apenas país correto (e fugir de times femininos/base)
                     if not best_match:
                         for r in results:
-                            fname = r['team']['name']
-                            if not (' W' in fname or ' U21' in fname or ' U19' in fname or ' U20' in fname or ' U23' in fname or fname.endswith(' II')):
-                                best_match = r['team']
+                            team_data = r['team']
+                            fname = team_data['name']
+                            t_country = (team_data.get('country') or '').lower()
+                            
+                            is_correct_country = (t_country == api_expected_country or api_expected_country in t_country or t_country in api_expected_country)
+                            is_base_or_women = (' W' in fname or ' U21' in fname or ' U19' in fname or ' U20' in fname or ' U23' in fname or fname.endswith(' II'))
+                            
+                            if is_correct_country and not is_base_or_women:
+                                best_match = team_data
                                 break
-                    
-                    # 3. Fallback para o primeiro
+
+                    # 3. Fallback: match exato de nome, independente de país (útil para times sem país na API)
                     if not best_match:
+                        for r in results:
+                            team_data = r['team']
+                            if team_data['name'].lower() == search_name.lower():
+                                best_match = team_data
+                                break
+
+                    # 4. Fallback final: o primeiro resultado que não seja base/feminino
+                    if not best_match:
+                        for r in results:
+                            team_data = r['team']
+                            fname = team_data['name']
+                            if not (' W' in fname or ' U21' in fname or ' U19' in fname or ' U20' in fname or ' U23' in fname or fname.endswith(' II')):
+                                best_match = team_data
+                                break
+
+                    if not best_match and results:
                         best_match = results[0]['team']
 
-                    found_id = best_match['id']
-                    found_name = best_match['name']
-                    logo_url = best_match.get('logo', '')
+                    if best_match:
+                        found_id = best_match['id']
+                        found_name = best_match['name']
+                        logo_url = best_match.get('logo', '')
 
                     if logo_url:
                         # Baixar a logo oficial
