@@ -2,6 +2,7 @@ import os
 import time
 import shutil
 import requests
+import unicodedata
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from django.conf import settings
@@ -96,8 +97,13 @@ class Command(BaseCommand):
             staticfiles_path = os.path.join(staticfiles_dir, filename)
 
             # CARA-CRACHÁ: Buscar o time pelo nome na API-Football
-            search_name = team.name
-            api_country = team.league.country
+            search_query = unicodedata.normalize('NFKD', team.name).encode('ASCII', 'ignore').decode('utf-8')
+            # Substituir hifens e pontos por espaço
+            search_query = search_query.replace('-', ' ').replace('.', ' ')
+            # Remover qualquer outro caracter que não seja alfanumérico ou espaço
+            search_query = re.sub(r'[^a-zA-Z0-9\s]', '', search_query)
+            # Limpar espaços extras
+            search_query = search_query.strip()
             
             # Normalizar nome do país para comparar com a API (que é em inglês)
             country_map = {
