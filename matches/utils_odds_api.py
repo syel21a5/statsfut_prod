@@ -57,6 +57,13 @@ ODDS_API_TEAM_MAPPINGS = {
     "Aldosivi": "Aldosivi",
     "Aldosivi Mar del Plata": "Aldosivi",
     "Independiente": "Independiente",
+    "Instituto Cordoba": "Instituto",
+    "Gimnasia M.": "Gimnasia Mendoza",
+    "Central Cordoba de Santiago": "Central Cordoba",
+    "Independ. Rivadavia": "Ind. Rivadavia",
+    "Belgrano Cordoba": "Belgrano",
+    "Atletico Tucuman": "Atl. Tucuman",
+    "Estudiantes de Rio Cuarto": "Estudiantes Rio Cuarto",
 
     # --- DENMARK ---
     "AGF": "Aarhus",
@@ -280,6 +287,8 @@ ODDS_API_TEAM_MAPPINGS = {
     "Young Boys": "Young Boys",
     "Sion": "Sion",
     "Thun": "Thun",
+    "Espanyol": "Espanol",
+    "Real Sociedad": "Sociedad",
     
     # --- BRASIL ---
     "Atletico Mineiro": "Atletico-MG",
@@ -317,7 +326,6 @@ ODDS_API_TEAM_MAPPINGS = {
     "Nautico Recife": "Nautico",
     "Vila Nova FC": "Vila Nova",
     "Fortaleza EC": "Fortaleza",
-    "Athletic Club": "Athletic Club",
     
     # --- CHILE ---
     "A. Italiano": "Audax Italiano",
@@ -343,6 +351,14 @@ def resolve_team(name, league):
     """
     Resolve nome do time usando mapeamento manual ou busca no banco.
     """
+    # Hardcoded fixes for name clashes across leagues
+    if name == "Athletic Club":
+        country = league.country.lower()
+        if country in ['brasil', 'brazil']:
+            name = "Athletic-MG"  # Or "Athletic Club MG", handled below
+        elif country in ['espanha', 'spain']:
+            name = "Ath Bilbao"
+
     # 1. Check manual mapping
     if name in ODDS_API_TEAM_MAPPINGS:
         mapped_name = ODDS_API_TEAM_MAPPINGS[name]
