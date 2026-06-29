@@ -9,7 +9,7 @@ from matches.models import Team
 
 
 class Command(BaseCommand):
-    help = 'Baixa logos faltantes e copia para staticfiles (rodar no servidor)'
+    help = 'Baixa TODAS as logos faltantes (inclusive ignored_) e copia para staticfiles'
 
     def add_arguments(self, parser):
         parser.add_argument('--league', type=str, help='Filtrar por nome da liga')
@@ -22,19 +22,16 @@ class Command(BaseCommand):
         dry_run = options.get('dry_run', False)
 
         teams = Team.objects.select_related('league').exclude(api_id__isnull=True).exclude(api_id='')
-        
-        # Filtra times com api_id "ignored_"
-        teams = [t for t in teams if not str(t.api_id).startswith('ignored_')]
 
         if league_filter:
-            teams = [t for t in teams if league_filter.lower() in t.league.name.lower()]
+            teams = teams.filter(league__name__icontains=league_filter)
         if country_filter:
-            teams = [t for t in teams if country_filter.lower() in t.league.country.lower()]
+            teams = teams.filter(league__country__icontains=country_filter)
 
         static_root = os.path.join(settings.BASE_DIR, 'static')
         staticfiles_root = os.path.join(settings.BASE_DIR, 'staticfiles')
 
-        self.stdout.write(f"\nTotal times (sem ignored_): {len(teams)}")
+        self.stdout.write(f"\nTotal times a verificar: {teams.count()}")
         if dry_run:
             self.stdout.write(self.style.WARNING("MODO DRY-RUN: nenhum arquivo será baixado"))
 
@@ -46,7 +43,6 @@ class Command(BaseCommand):
         copied = 0
         already_ok = 0
         failed = 0
-        zero_fixed = 0
 
         for team in teams:
             country_slug = slugify(team.league.country)
@@ -67,7 +63,6 @@ class Command(BaseCommand):
                 continue
 
             if has_static and not has_staticfiles:
-                # Arquivo existe em static mas não em staticfiles - só copiar
                 if not dry_run:
                     os.makedirs(staticfiles_dir, exist_ok=True)
                     shutil.copy2(static_path, staticfiles_path)
@@ -76,9 +71,15 @@ class Command(BaseCommand):
                     f"  COPIADO: {team.name} ({team.league.name}) → staticfiles"))
                 continue
 
-            # Arquivo não existe em nenhum lugar - precisa baixar
-            # Determinar URL de download com base no prefixo do api_id
-            if api_id.startswith('sofa_'):
+            # Determinar o ID real para download
+            # ignored_4503 → 4503 (ID numérico válido na API-Football)
+            # sofa_1997 → 1997 (ID do Sofascore)
+            # 144 → 144 (ID numérico da API-Football)
+            if api_id.startswith('ignored_'):
+                real_id = api_id.replace('ignored_', '')
+                # Tenta API-Football primeiro com o número real
+                url = f"https://media.api-sports.io/football/teams/{real_id}.png"
+            elif api_id.startswith('sofa_'):
                 real_id = api_id.replace('sofa_', '')
                 url = f"https://api.sofascore.app/api/v1/team/{real_id}/image"
             else:
@@ -95,6 +96,7 @@ class Command(BaseCommand):
                 if res.status_code == 200 and len(res.content) > 100:
                     os.makedirs(static_dir, exist_ok=True)
                     os.makedirs(staticfiles_dir, exist_ok=True)
+                    # Salva com o nome do api_id original (incluindo ignored_ ou sofa_)
                     with open(static_path, 'wb') as f:
                         f.write(res.content)
                     shutil.copy2(static_path, staticfiles_path)
@@ -102,9 +104,27 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.SUCCESS(
                         f"  BAIXADO: {team.name} ({team.league.name}) ← {url}"))
                 else:
-                    failed += 1
-                    self.stdout.write(self.style.ERROR(
-                        f"  FALHA: {team.name} ({team.league.name}) | Status {res.status_code} | {url}"))
+                    # Se falhou com Sofascore, tenta API-Football como fallback
+                    if api_id.startswith('sofa_'):
+                        fallback_url = f"https://media.api-sports.io/football/teams/{real_id}.png"
+                        res2 = requests.get(fallback_url, headers=headers, timeout=10)
+                        if res2.status_code == 200 and len(res2.content) > 100:
+                            os.makedirs(static_dir, exist_ok=True)
+                            os.makedirs(staticfiles_dir, exist_ok=True)
+                            with open(static_path, 'wb') as f:
+                                f.write(res2.content)
+                            shutil.copy2(static_path, staticfiles_path)
+                            downloaded += 1
+                            self.stdout.write(self.style.SUCCESS(
+                                f"  BAIXADO (fallback): {team.name} ({team.league.name}) ← {fallback_url}"))
+                        else:
+                            failed += 1
+                            self.stdout.write(self.style.ERROR(
+                                f"  FALHA: {team.name} ({team.league.name}) | {api_id} | Status {res.status_code}/{res2.status_code}"))
+                    else:
+                        failed += 1
+                        self.stdout.write(self.style.ERROR(
+                            f"  FALHA: {team.name} ({team.league.name}) | {api_id} | Status {res.status_code} | {url}"))
                 time.sleep(0.3)
             except Exception as e:
                 failed += 1
