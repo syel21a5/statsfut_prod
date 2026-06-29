@@ -25,7 +25,7 @@ class Team(models.Model):
     @property
     def logo_url(self):
         from django.utils.text import slugify
-        if self.api_id:
+        if self.api_id and not str(self.api_id).startswith('ignored_'):
             country_slug = slugify(self.league.country)
             return f"/static/teams/{country_slug}/{self.api_id}.png"
         return ""
