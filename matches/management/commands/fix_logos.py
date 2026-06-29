@@ -102,9 +102,9 @@ class Command(BaseCommand):
             # Substituir hifens e pontos por espaço
             search_query = search_query.replace('-', ' ').replace('.', ' ')
             # Remover qualquer outro caracter que não seja alfanumérico ou espaço
-            search_query = re.sub(r'[^a-zA-Z0-9\s]', '', search_query)
+            search_name = re.sub(r'[^a-zA-Z0-9\s]', '', search_name)
             # Limpar espaços extras
-            search_query = search_query.strip()
+            search_name = search_name.strip()
             
             # Normalizar nome do país para comparar com a API (que é em inglês)
             country_map = {
