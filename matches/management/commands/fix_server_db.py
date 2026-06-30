@@ -85,4 +85,25 @@ class Command(BaseCommand):
             else:
                 self.stdout.write("Não há Mirassol duplicado no Brasileirão. Tudo certo.")
 
+        # 4. Corrigir erro de mapeamento Athletico-PR vs Atletico Goianiense no Brasileirão
+        self.stdout.write("\n--- 4. Corrigindo API IDs de Athletico-PR e Atletico-GO ---")
+        if brasileirao:
+            wrong_goianiense = Team.objects.filter(league=brasileirao, api_id='134', name__icontains='Goianiense').first()
+            if wrong_goianiense:
+                wrong_goianiense.api_id = '144'
+                wrong_goianiense.save()
+                self.stdout.write(self.style.SUCCESS("Corrigido API ID 134 do Atletico Goianiense para 144."))
+            
+            correct_athletico = Team.objects.filter(league=brasileirao, name__icontains='Athletico-PR').first()
+            if correct_athletico:
+                if correct_athletico.api_id != '134':
+                    correct_athletico.api_id = '134'
+                    correct_athletico.save()
+                    self.stdout.write(self.style.SUCCESS("Atribuído API ID 134 para o Athletico-PR."))
+            
+            # Deletar jogos duplicados criados com o mapeamento errado (Mirassol x Athletico-PR que virou Atletico-GO)
+            deleted_count, _ = Match.objects.filter(api_id__in=['1492280', '1492477']).delete()
+            if deleted_count > 0:
+                self.stdout.write(self.style.SUCCESS(f"Deletados {deleted_count} jogos criados incorretamente (eles serão recriados/pareados corretamente na próxima sincronização)."))
+
         self.stdout.write(self.style.SUCCESS("\n=== Todas as correções foram finalizadas! ==="))
