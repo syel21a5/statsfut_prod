@@ -21,8 +21,24 @@ class Command(BaseCommand):
                     sa.delete()
                 else:
                     self.stdout.write(f"Movendo {sa.matches.count()} jogos da Serie A (ID {sa.id}) para o Brasileirão.")
+                    
+                    # Para cada time na Serie A duplicada, precisamos ver se já existe no Brasileirão
+                    # Se sim, transferimos os jogos. Se não, movemos o time.
+                    for team in sa.teams.all():
+                        br_team = Team.objects.filter(league=brasileirao, name__iexact=team.name).first()
+                        if br_team:
+                            # Time já existe no Brasileirão. Mover jogos e classificação para ele.
+                            Match.objects.filter(home_team=team).update(home_team=br_team)
+                            Match.objects.filter(away_team=team).update(away_team=br_team)
+                            LeagueStanding.objects.filter(team=team).update(team=br_team)
+                            team.delete()
+                        else:
+                            # Time não existe no Brasileirão. Apenas move a liga do time.
+                            team.league = brasileirao
+                            team.save()
+
+                    # Agora que os times estão arrumados, atualiza a liga dos jogos e classificações
                     sa.matches.update(league=brasileirao)
-                    sa.teams.update(league=brasileirao)
                     LeagueStanding.objects.filter(league=sa).update(league=brasileirao)
                     sa.delete()
         else:
