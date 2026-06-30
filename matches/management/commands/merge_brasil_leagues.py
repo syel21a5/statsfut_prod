@@ -32,8 +32,23 @@ class Command(BaseCommand):
                 existing_team = Team.objects.filter(name=team.name, league=brasileirao).first()
                 if existing_team:
                     self.stdout.write(f"Team {team.name} already in Brasileirão. Merging records...")
-                    Match.objects.filter(home_team=team).update(home_team=existing_team, league=brasileirao)
-                    Match.objects.filter(away_team=team).update(away_team=existing_team, league=brasileirao)
+                    
+                    # Safe Match transfer
+                    for match in Match.objects.filter(home_team=team):
+                        match.home_team = existing_team
+                        match.league = brasileirao
+                        try:
+                            match.save()
+                        except Exception:
+                            match.delete() # Duplicate already exists
+                            
+                    for match in Match.objects.filter(away_team=team):
+                        match.away_team = existing_team
+                        match.league = brasileirao
+                        try:
+                            match.save()
+                        except Exception:
+                            match.delete() # Duplicate already exists
                     
                     for standing in LeagueStanding.objects.filter(team=team):
                         if LeagueStanding.objects.filter(team=existing_team, season=standing.season).exists():
@@ -50,8 +65,14 @@ class Command(BaseCommand):
                     team.league = brasileirao
                     team.save()
 
-            # 2. Move remaining related objects
-            Match.objects.filter(league=serie_a).update(league=brasileirao)
+            # 2. Move remaining related objects safely
+            for match in Match.objects.filter(league=serie_a):
+                match.league = brasileirao
+                try:
+                    match.save()
+                except Exception:
+                    match.delete() # Delete if duplicate already exists
+                    
             LeagueStanding.objects.filter(league=serie_a).update(league=brasileirao)
             TeamGoalTiming.objects.filter(league=serie_a).update(league=brasileirao)
             
