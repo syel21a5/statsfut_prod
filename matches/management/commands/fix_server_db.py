@@ -131,4 +131,25 @@ class Command(BaseCommand):
             if deleted_count > 0:
                 self.stdout.write(self.style.SUCCESS(f"Deletados {deleted_count} jogos criados incorretamente (eles serão recriados/pareados corretamente na próxima sincronização)."))
 
+        # 5. Limpar jogos duplicados (SofaScore vs API-Sports)
+        self.stdout.write("\n--- 5. Limpando jogos duplicados do SofaScore ---")
+        sofa_matches = Match.objects.filter(api_id__startswith='sofa_')
+        deleted_sofa_count = 0
+        for sm in sofa_matches:
+            has_api_match = Match.objects.filter(
+                home_team=sm.home_team,
+                away_team=sm.away_team,
+                season=sm.season,
+                league=sm.league
+            ).exclude(api_id__startswith='sofa_').exists()
+            
+            if has_api_match:
+                sm.delete()
+                deleted_sofa_count += 1
+        
+        if deleted_sofa_count > 0:
+            self.stdout.write(self.style.SUCCESS(f"Deletados {deleted_sofa_count} jogos antigos do SofaScore que já possuíam versão atualizada da API."))
+        else:
+            self.stdout.write("Nenhum jogo duplicado do SofaScore encontrado.")
+
         self.stdout.write(self.style.SUCCESS("\n=== Todas as correções foram finalizadas! ==="))
