@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from matches.models import Match, Team, League
+from django.db import IntegrityError
 
 class Command(BaseCommand):
     help = 'Mescla jogos de times duplicados (ex: da Serie A) para os times oficiais do Brasileirao'
@@ -18,19 +19,34 @@ class Command(BaseCommand):
             duplicados = Team.objects.filter(name__iexact=time_oficial.name).exclude(league=brasileirao)
             
             for dup in duplicados:
-                # 1. Move os jogos como mandante
-                matches_home = Match.objects.filter(home_team=dup)
-                count_home = matches_home.count()
-                matches_home.update(home_team=time_oficial)
+                count_home_moved = 0
+                count_away_moved = 0
+                count_deleted = 0
+                
+                # 1. Move os jogos como mandante, um a um para tratar erros
+                for match in Match.objects.filter(home_team=dup):
+                    match.home_team = time_oficial
+                    try:
+                        match.save(update_fields=['home_team'])
+                        count_home_moved += 1
+                    except IntegrityError:
+                        # Jogo duplicado já existe para o time oficial! Deletamos a duplicata.
+                        match.delete()
+                        count_deleted += 1
                 
                 # 2. Move os jogos como visitante
-                matches_away = Match.objects.filter(away_team=dup)
-                count_away = matches_away.count()
-                matches_away.update(away_team=time_oficial)
+                for match in Match.objects.filter(away_team=dup):
+                    match.away_team = time_oficial
+                    try:
+                        match.save(update_fields=['away_team'])
+                        count_away_moved += 1
+                    except IntegrityError:
+                        match.delete()
+                        count_deleted += 1
                 
-                if count_home > 0 or count_away > 0:
+                if count_home_moved > 0 or count_away_moved > 0 or count_deleted > 0:
                     self.stdout.write(self.style.SUCCESS(
-                        f"✅ {time_oficial.name}: Movidos {count_home} jogos em casa e {count_away} fora da liga '{dup.league.name if dup.league else 'N/A'}' para o Brasileirão."
+                        f"✅ {time_oficial.name}: Movidos {count_home_moved} em casa, {count_away_moved} fora. {count_deleted} duplicatas deletadas."
                     ))
                 
                 # 3. Transfere o API ID se o oficial estiver sem, e o duplicado tiver
@@ -44,19 +60,28 @@ class Command(BaseCommand):
         athletico_falso = Team.objects.filter(league=brasileirao, name__iexact='Athletico').first()
         
         if athletico_pr and athletico_falso:
-            # Move os jogos
-            mh = Match.objects.filter(home_team=athletico_falso)
-            ch = mh.count()
-            mh.update(home_team=athletico_pr)
+            ch, ca, cd = 0, 0, 0
+            for match in Match.objects.filter(home_team=athletico_falso):
+                match.home_team = athletico_pr
+                try:
+                    match.save(update_fields=['home_team'])
+                    ch += 1
+                except IntegrityError:
+                    match.delete()
+                    cd += 1
+                    
+            for match in Match.objects.filter(away_team=athletico_falso):
+                match.away_team = athletico_pr
+                try:
+                    match.save(update_fields=['away_team'])
+                    ca += 1
+                except IntegrityError:
+                    match.delete()
+                    cd += 1
             
-            ma = Match.objects.filter(away_team=athletico_falso)
-            ca = ma.count()
-            ma.update(away_team=athletico_pr)
+            if ch > 0 or ca > 0 or cd > 0:
+                self.stdout.write(self.style.SUCCESS(f"✅ Movidos {ch} home, {ca} away do 'Athletico'. {cd} deletados."))
             
-            if ch > 0 or ca > 0:
-                self.stdout.write(self.style.SUCCESS(f"✅ Movidos {ch} home e {ca} away do 'Athletico' para 'Athletico-PR'"))
-            
-            # Deleta o falso
             athletico_falso.delete()
             self.stdout.write("🗑️ Time 'Athletico' deletado com sucesso.")
 
