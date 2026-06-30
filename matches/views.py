@@ -2300,7 +2300,11 @@ class TeamDetailView(DetailView):
                     break
 
         
-        qs = Team.objects.all()
+        from django.db import models
+        qs = Team.objects.annotate(
+            match_count=models.Count('home_matches') + models.Count('away_matches')
+        ).order_by('-match_count')
+        
         if league:
             qs = qs.filter(league=league)
         else:
