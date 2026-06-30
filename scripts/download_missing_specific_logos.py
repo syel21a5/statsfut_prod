@@ -41,22 +41,35 @@ def main():
     # 1. Athletic Club (Série B)
     athletic = Team.objects.filter(name__iexact='Athletic Club', league__name__icontains='Série B').first()
     if athletic:
-        athletic.api_id = 'sofa_508608'  # Padronizado com prefixo sofa_
+        athletic.api_id = 'sofa_342775'  # Athletic Club MG ID
         athletic.save()
-        print("Athletic Club Série B ID atualizado para sofa_508608.")
-        download_logo('508608', 'Brazil', 'sofa_508608')
+        print("Athletic Club Série B ID atualizado para sofa_342775.")
+        download_logo('342775', 'Brazil', 'sofa_342775')
     else:
         print("Athletic Club Série B não encontrado.")
 
     # 2. CSD Flandria (Argentina - Primera B)
     flandria = Team.objects.filter(name__iexact='CSD Flandria').first()
     if flandria:
-        flandria.api_id = 'sofa_4366'  # Padronizado com prefixo sofa_
+        flandria.api_id = 'sofa_112505'  # CSD Flandria real ID
         flandria.save()
-        print("CSD Flandria ID atualizado para sofa_4366.")
-        download_logo('4366', 'Argentina', 'sofa_4366')
+        print("CSD Flandria ID atualizado para sofa_112505.")
+        download_logo('112505', 'Argentina', 'sofa_112505')
     else:
         print("CSD Flandria não encontrado.")
+        
+    # 3. Santos (Brasileirão)
+    santos = Team.objects.filter(name__iexact='Santos', league__name__icontains='Série B').first()
+    if not santos:
+        santos = Team.objects.filter(name__iexact='Santos').first()
+        
+    if santos:
+        santos.api_id = 'sofa_1968'  # Santos FC ID
+        santos.save()
+        print("Santos ID atualizado para sofa_1968.")
+        download_logo('1968', 'Brazil', 'sofa_1968')
+    else:
+        print("Santos não encontrado.")
 
 if __name__ == '__main__':
     main()
