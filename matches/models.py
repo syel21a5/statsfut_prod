@@ -36,10 +36,6 @@ class Team(models.Model):
                 country_to_use = duplicate.league.country if duplicate.league else country_to_use
 
         if api_id_to_use and country_to_use:
-            # Se for um ID de histórico ("ignored_"), usa o escudo padrão
-            if str(api_id_to_use).startswith('ignored_'):
-                return "/static/images/default_shield.svg"
-                
             country_slug = slugify(country_to_use)
             return f"/static/teams/{country_slug}/{api_id_to_use}.png"
         return ""
