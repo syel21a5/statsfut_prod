@@ -150,7 +150,7 @@ class Command(BaseCommand):
                     ).first()
                 
                 if not match:
-                    # 3. Se não achou, CRIA o match novo com os times corretos
+                    # 3. Se não achou, prepara os times para criar ou buscar o match
                     home_team = Team.objects.filter(api_id=home_api_id).first()
                     away_team = Team.objects.filter(api_id=away_api_id).first()
                     
@@ -179,16 +179,24 @@ class Command(BaseCommand):
                     from django.utils.dateparse import parse_datetime
                     match_date = parse_datetime(f_date_str) if f_date_str else timezone.now()
                     
-                    match = Match.objects.create(
-                        league=db_league,
-                        season=db_season,
+                    # 4. Fallback final: tenta achar o match exato por time e data para evitar IntegrityError
+                    match = Match.objects.filter(
                         home_team=home_team,
                         away_team=away_team,
-                        date=match_date,
-                        api_id=f_id,
-                        round_name=round_name,
-                        status='Scheduled'
-                    )
+                        date=match_date
+                    ).first()
+                    
+                    if not match:
+                        match = Match.objects.create(
+                            league=db_league,
+                            season=db_season,
+                            home_team=home_team,
+                            away_team=away_team,
+                            date=match_date,
+                            api_id=f_id,
+                            round_name=round_name,
+                            status='Scheduled'
+                        )
 
                 if match:
                     matched_count += 1
