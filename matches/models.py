@@ -25,9 +25,6 @@ class Team(models.Model):
     @property
     def logo_url(self):
         from django.utils.text import slugify
-        import os
-        from django.conf import settings
-        
         api_id_to_use = self.api_id
         country_to_use = self.league.country if self.league else ""
 
@@ -44,14 +41,8 @@ class Team(models.Model):
                 return "/static/images/default_shield.svg"
                 
             country_slug = slugify(country_to_use)
-            relative_path = f"teams/{country_slug}/{api_id_to_use}.png"
-            full_path = os.path.join(settings.BASE_DIR, 'static', relative_path)
-            
-            # Se o arquivo existir no disco, retorna o caminho dele
-            if os.path.exists(full_path):
-                return f"/static/{relative_path}"
-                
-        return "/static/images/default_shield.svg"
+            return f"/static/teams/{country_slug}/{api_id_to_use}.png"
+        return ""
 
     def get_stats(self, market="over25"):
         cache_key = f"team_stats_{self.id}_{market}"
