@@ -29,7 +29,7 @@ LEAGUE_TEAM_WHITELISTS = {
         'Athletic Club', 'Goiás EC', 'Goiás',
         'AC Goianiense', 'Atlético-GO',
         'Ceará', 'Clube De Regatas Brasil',
-        'Botafogo FC SP', 'Londrina EC',
+        'Botafogo FC SP', 'Londrina EC', 'Botafogo SP', 'Botafogo-SP',
         'Avaí FC', 'Avaí', 'América FC', 'América-MG',
     ],
 }

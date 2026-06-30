@@ -23,9 +23,9 @@ LEAGUE_TEAM_BLACKLIST = {
 
 # Blacklist por NOME de time (fallback caso o api_id mude)
 LEAGUE_TEAM_NAME_BLACKLIST = {
-    '72': {'ath bilbao', 'athletic bilbao', 'athletic club', 'barcelona', 'atletico madrid',
+    '72': {'ath bilbao', 'athletic bilbao', 'barcelona', 'atletico madrid',
            'real madrid', 'sevilla', 'valencia', 'real betis', 'villarreal', 'real sociedad'},
-    '71': {'ath bilbao', 'athletic bilbao', 'athletic club', 'barcelona', 'atletico madrid',
+    '71': {'ath bilbao', 'athletic bilbao', 'barcelona', 'atletico madrid',
            'real madrid', 'sevilla', 'valencia', 'real betis', 'villarreal', 'real sociedad'},
 }
 
