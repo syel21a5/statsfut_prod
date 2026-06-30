@@ -30,7 +30,7 @@ class APIManager:
         'Primeira Liga': {'api_football': [94], 'football_data': [2017]},
         'Brasileirao': {'api_football': [71], 'football_data': [2013]},
         'Série B': {'api_football': [72], 'football_data': []},
-        'Série C': {'api_football': [74], 'football_data': []},
+        'Série C': {'api_football': [], 'football_data': []},
         'Copa do Brasil': {'api_football': [73], 'football_data': []},
         'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina
         'Primera Division': {'api_football': [265], 'football_data': []},    # Chile
