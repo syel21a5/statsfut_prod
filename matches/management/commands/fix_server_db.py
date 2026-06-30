@@ -106,9 +106,18 @@ class Command(BaseCommand):
         if brasileirao:
             wrong_goianiense = Team.objects.filter(league=brasileirao, api_id='134', name__icontains='Goianiense').first()
             if wrong_goianiense:
-                wrong_goianiense.api_id = '144'
-                wrong_goianiense.save()
-                self.stdout.write(self.style.SUCCESS("Corrigido API ID 134 do Atletico Goianiense para 144."))
+                # Procura se já existe o Atletico Goianiense correto (com ID 144)
+                correct_goianiense = Team.objects.filter(api_id='144').first()
+                if correct_goianiense:
+                    self.stdout.write(f"Mesclando {wrong_goianiense.name} com o verdadeiro Atletico-GO (ID 144)...")
+                    Match.objects.filter(home_team=wrong_goianiense).update(home_team=correct_goianiense)
+                    Match.objects.filter(away_team=wrong_goianiense).update(away_team=correct_goianiense)
+                    LeagueStanding.objects.filter(team=wrong_goianiense).update(team=correct_goianiense)
+                    wrong_goianiense.delete()
+                else:
+                    wrong_goianiense.api_id = '144'
+                    wrong_goianiense.save()
+                self.stdout.write(self.style.SUCCESS("Corrigido API ID 134 do Atletico Goianiense."))
             
             correct_athletico = Team.objects.filter(league=brasileirao, name__icontains='Athletico-PR').first()
             if correct_athletico:
