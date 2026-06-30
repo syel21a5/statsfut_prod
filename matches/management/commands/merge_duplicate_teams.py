@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from matches.models import Match, Team, League
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 
 class Command(BaseCommand):
     help = 'Mescla jogos de times duplicados (ex: da Serie A) para os times oficiais do Brasileirao'
@@ -51,9 +51,14 @@ class Command(BaseCommand):
                 
                 # 3. Transfere o API ID se o oficial estiver sem, e o duplicado tiver
                 if not time_oficial.api_id and dup.api_id:
-                    time_oficial.api_id = dup.api_id
+                    dup_api = dup.api_id
+                    # Precisamos limpar o do duplicado primeiro por causa da constraint UNIQUE
+                    dup.api_id = None
+                    dup.save(update_fields=['api_id'])
+                    
+                    time_oficial.api_id = dup_api
                     time_oficial.save(update_fields=['api_id'])
-                    self.stdout.write(f"  -> API ID {dup.api_id} copiado para o oficial.")
+                    self.stdout.write(f"  -> API ID {dup_api} copiado para o oficial.")
 
         # Tratamento especial para o "Athletico" (nome diferente)
         athletico_pr = Team.objects.filter(league=brasileirao, name__iexact='Athletico-PR').first()
