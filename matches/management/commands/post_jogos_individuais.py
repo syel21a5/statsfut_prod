@@ -184,8 +184,10 @@ REGRAS OBRIGATÓRIAS:
    - <h2>A Batalha Tática e Escalações Prováveis</h2>
    - <h2>Retrospecto e Estatísticas Recentes</h2>
    - <h2>Palpites e Tendências de Gols</h2>
-3. Inclua a seguinte frase com link no meio do texto exatamente como está:
-<p>Confira todas as <a href="https://statsfut.com/match/{match.id}/{t_home.lower().replace(' ', '-')}-vs-{t_away.lower().replace(' ', '-')}/" style="color: #2e7d32; font-weight: bold; text-decoration: underline;">estatísticas completas de {t_home} x {t_away} ao vivo no StatsFut</a>.</p>
+3. Em vez de um link de texto comum, OBRIGATORIAMENTE insira o seguinte BOTÃO HTML no meio do seu texto (de preferência no final do primeiro ou segundo tópico):
+<div style="text-align: center; margin: 30px 0;">
+  <a href="https://statsfut.com/match/{match.id}/{t_home.lower().replace(' ', '-')}-vs-{t_away.lower().replace(' ', '-')}/" style="display: inline-block; background-color: #2e7d32; color: white; padding: 15px 30px; text-decoration: none; font-size: 18px; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">📊 VER ESTATÍSTICAS COMPLETAS AO VIVO</a>
+</div>
 4. Sempre que você quiser destacar uma lista de pontos-chave, dicas ou palpites (em QUALQUER tópico), você OBRIGATORIAMENTE deve usar uma das 3 caixas elegantes abaixo para não ficar repetitivo. Escolha a que mais combina com o assunto:
 
 Modelo 1 (Azul - Ideal para Palpites e Análises Frias):
