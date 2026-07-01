@@ -186,7 +186,15 @@ REGRAS OBRIGATÓRIAS:
    - <h2>Palpites e Tendências de Gols</h2>
 3. Inclua a seguinte frase com link no meio do texto exatamente como está:
 <p>Confira todas as <a href="https://statsfut.com/match/{match.id}/{t_home.lower().replace(' ', '-')}-vs-{t_away.lower().replace(' ', '-')}/" style="color: #2e7d32; font-weight: bold; text-decoration: underline;">estatísticas completas de {t_home} x {t_away} ao vivo no StatsFut</a>.</p>
-4. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p> e <h2>.
+4. Dentro do tópico "Palpites e Tendências de Gols", você OBRIGATORIAMENTE deve criar uma caixa de destaque elegante usando EXATAMENTE este bloco HTML para listar seus palpites:
+<div style='background-color: #f8f9fa; border-left: 4px solid #3498db; padding: 15px; margin: 20px 0;'>
+  <h3 style='margin-top: 0; color: #2980b9; font-size: 1.1em;'>💡 Destaques da Análise:</h3>
+  <ul style='margin-bottom: 0;'>
+    <li><strong>[Palpite 1]:</strong> [Explicação]</li>
+    <li><strong>[Palpite 2]:</strong> [Explicação]</li>
+  </ul>
+</div>
+5. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2> e <div>.
 """
 
         deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
@@ -311,10 +319,9 @@ REGRAS OBRIGATÓRIAS:
         img_h = f'<img src="{logo_home}" width="24" height="24" style="object-fit: contain; vertical-align: middle; margin-right: 5px;" />' if logo_home else ""
         img_a = f'<img src="{logo_away}" width="24" height="24" style="object-fit: contain; vertical-align: middle; margin-left: 5px;" />' if logo_away else ""
 
-        # Estilização Elegante: Injetando CSS inline nos elementos gerados pela IA
-        styled_html = html_analysis.replace('<h2>', '<h2 style="color: #2c3e50; border-bottom: 2px solid #2e7d32; padding-bottom: 8px; margin-top: 35px; margin-bottom: 20px; font-size: 1.6em; font-weight: bold;">🎯 ')
-        styled_html = styled_html.replace('<p>', '<p style="font-size: 1.1em; line-height: 1.8; color: #334155; margin-bottom: 24px; text-align: justify;">')
-        styled_html = styled_html.replace('<ul>', '<ul style="margin-bottom: 24px; padding-left: 20px; font-size: 1.1em; line-height: 1.8; color: #334155;">')
+        # Estilização: Aplicando exatamente o modelo HTML enviado pelo usuário
+        styled_html = html_analysis.replace('<h2>', '<h2 style="color: #2c3e50; border-bottom: 2px solid #2e7d32; padding-bottom: 8px; margin-top: 30px;">🎯 ')
+        styled_html = styled_html.replace('<ul>', '<ul style="margin-bottom: 24px; padding-left: 20px;">')
 
         intro = f"""
         <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333;">
