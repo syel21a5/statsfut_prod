@@ -158,9 +158,11 @@ class Command(BaseCommand):
                     if not home_team:
                         home_team = Team.objects.filter(league=db_league, name__iexact=home_name).first()
                         if home_team:
-                            home_team.api_id = home_api_id
-                            home_team.save(update_fields=['api_id'])
-                            self.stdout.write(f"  🔄 Time atualizado: {home_name} (API ID: {home_api_id})")
+                            # Protege IDs manuais (como do SofaScore) de serem sobrescritos
+                            if not (home_team.api_id and str(home_team.api_id).startswith('sofa_')):
+                                home_team.api_id = home_api_id
+                                home_team.save(update_fields=['api_id'])
+                                self.stdout.write(f"  🔄 Time atualizado: {home_name} (API ID: {home_api_id})")
                         else:
                             home_team = Team.objects.create(name=home_name, api_id=home_api_id, league=db_league)
                             self.stdout.write(f"  🆕 Time criado: {home_name} (API ID: {home_api_id})")
@@ -168,9 +170,10 @@ class Command(BaseCommand):
                     if not away_team:
                         away_team = Team.objects.filter(league=db_league, name__iexact=away_name).first()
                         if away_team:
-                            away_team.api_id = away_api_id
-                            away_team.save(update_fields=['api_id'])
-                            self.stdout.write(f"  🔄 Time atualizado: {away_name} (API ID: {away_api_id})")
+                            if not (away_team.api_id and str(away_team.api_id).startswith('sofa_')):
+                                away_team.api_id = away_api_id
+                                away_team.save(update_fields=['api_id'])
+                                self.stdout.write(f"  🔄 Time atualizado: {away_name} (API ID: {away_api_id})")
                         else:
                             away_team = Team.objects.create(name=away_name, api_id=away_api_id, league=db_league)
                             self.stdout.write(f"  🆕 Time criado: {away_name} (API ID: {away_api_id})")

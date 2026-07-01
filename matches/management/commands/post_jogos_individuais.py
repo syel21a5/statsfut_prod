@@ -40,12 +40,11 @@ class Command(BaseCommand):
 
         self.stdout.write(f"Buscando jogos do Brasileirão para a data: {target_date}...")
 
-        # Buscar partidas
         matches = list(Match.objects.filter(
             date__date=target_date,
-            league__name__in=["Brasileirão Série A", "Brasileirão Série B", "Brasileirão Série C", "Série A", "Série B", "Série C"]
+            league__name__in=["Brasileirão Série A", "Brasileirão Série B", "Brasileirão Série C", "Série A", "Série B", "Série C", "Serie A", "Serie B", "Serie C"]
         ).filter(
-            league__country="Brasil"
+            league__country__in=["Brasil", "Brazil"]
         ).select_related("league", "home_team", "away_team"))
 
         if not matches:
