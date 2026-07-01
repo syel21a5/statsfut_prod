@@ -38,10 +38,11 @@ class Command(BaseCommand):
         else:
             target_date = (now_br + timedelta(days=options["days_ahead"])).date()
 
-        self.stdout.write(f"Buscando jogos do Brasileirão para a data: {target_date}...")
+        start_of_day = datetime.combine(target_date, datetime.min.time(), tzinfo=br_tz)
+        end_of_day = datetime.combine(target_date, datetime.max.time(), tzinfo=br_tz)
 
         matches = list(Match.objects.filter(
-            date__date=target_date,
+            date__range=(start_of_day, end_of_day),
             league__name__in=["Brasileirão Série A", "Brasileirão Série B", "Brasileirão Série C", "Série A", "Série B", "Série C", "Serie A", "Serie B", "Serie C"]
         ).filter(
             league__country__in=["Brasil", "Brazil"]
