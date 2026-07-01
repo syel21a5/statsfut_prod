@@ -132,7 +132,7 @@ class Command(BaseCommand):
     def get_blogger_service(self):
         """Gerencia o fluxo de token e retorna o cliente de serviço da API do Blogger."""
         scopes = ["https://www.googleapis.com/auth/blogger"]
-        token_path = os.path.join(settings.BASE_DIR, "token.json")
+        token_path = os.path.join(settings.BASE_DIR, "token_statsfutbrasil.json")
         secrets_path = os.path.join(settings.BASE_DIR, "client_secrets.json")
 
         if not os.path.exists(secrets_path):
