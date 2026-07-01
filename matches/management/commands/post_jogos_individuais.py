@@ -186,14 +186,27 @@ REGRAS OBRIGATÓRIAS:
    - <h2>Palpites e Tendências de Gols</h2>
 3. Inclua a seguinte frase com link no meio do texto exatamente como está:
 <p>Confira todas as <a href="https://statsfut.com/match/{match.id}/{t_home.lower().replace(' ', '-')}-vs-{t_away.lower().replace(' ', '-')}/" style="color: #2e7d32; font-weight: bold; text-decoration: underline;">estatísticas completas de {t_home} x {t_away} ao vivo no StatsFut</a>.</p>
-4. Dentro do tópico "Palpites e Tendências de Gols", você OBRIGATORIAMENTE deve criar uma caixa de destaque elegante usando EXATAMENTE este bloco HTML para listar seus palpites:
+4. Sempre que você quiser destacar uma lista de pontos-chave, dicas ou palpites (em QUALQUER tópico), você OBRIGATORIAMENTE deve usar uma das 3 caixas elegantes abaixo para não ficar repetitivo. Escolha a que mais combina com o assunto:
+
+Modelo 1 (Azul - Ideal para Palpites e Análises Frias):
 <div style='background-color: #f8f9fa; border-left: 4px solid #3498db; padding: 15px; margin: 20px 0;'>
-  <h3 style='margin-top: 0; color: #2980b9; font-size: 1.1em;'>💡 Destaques da Análise:</h3>
-  <ul style='margin-bottom: 0;'>
-    <li><strong>[Palpite 1]:</strong> [Explicação]</li>
-    <li><strong>[Palpite 2]:</strong> [Explicação]</li>
-  </ul>
+  <h3 style='margin-top: 0; color: #2980b9; font-size: 1.1em;'>💡 [SEU TÍTULO AQUI]:</h3>
+  <ul style='margin-bottom: 0;'><li><strong>[Destaque]:</strong> [Explicação]</li></ul>
 </div>
+
+Modelo 2 (Verde - Ideal para Pontos Fortes, Vantagens ou Táticas):
+<div style='background-color: #fafafa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin: 20px 0;'>
+  <h3 style='margin-top: 0; color: #2e7d32; font-size: 1.1em;'>📌 [SEU TÍTULO AQUI]:</h3>
+  <ul style='margin-bottom: 0;'><li><strong>[Destaque]:</strong> [Explicação]</li></ul>
+</div>
+
+Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquezas):
+<div style='background-color: #fff8e1; border-left: 6px solid #ffb300; padding: 15px; margin: 20px 0; border-radius: 4px;'>
+  <h3 style='margin-top: 0; color: #b78103; font-size: 1.1em;'>⚠️ [SEU TÍTULO AQUI]:</h3>
+  <ul style='margin-bottom: 0;'><li><strong>[Destaque]:</strong> [Explicação]</li></ul>
+</div>
+
+* ATENÇÃO: Use pelo menos 2 desses modelos diferentes de caixas ao longo do artigo!
 5. Destaque termos técnicos, nomes de jogadores importantes e conceitos-chave usando OBRIGATORIAMENTE a tag <strong> para facilitar a leitura dinâmica (exemplo: <strong>time decay</strong>).
 6. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2>, <strong> e <div>.
 """
