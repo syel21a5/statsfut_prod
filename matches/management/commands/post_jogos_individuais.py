@@ -157,41 +157,38 @@ class Command(BaseCommand):
         return build("blogger", "v3", credentials=creds)
 
     def generate_single_match_analysis(self, match):
-        gemini_api_key = os.getenv("GEMINI_API_KEY")
-        if not gemini_api_key:
-            return self.generate_static_fallback_single(match)
+        from matches.models import LeagueStanding
+        # Buscar posições na tabela
+        t_home = match.home_team.name
+        t_away = match.away_team.name
+        league_name = match.league.name
 
-        domain = "https://statsfut.com"
-        logo_home = f"{domain}{match.home_team.logo_url}" if match.home_team.logo_url else ""
-        logo_away = f"{domain}{match.away_team.logo_url}" if match.away_team.logo_url else ""
-        slug = slugify(f"{match.home_team.name}-vs-{match.away_team.name}")
-        match_url = f"{domain}/match/{match.id}/{slug}/"
+        home_st = LeagueStanding.objects.filter(league=match.league, team=match.home_team).first()
+        away_st = LeagueStanding.objects.filter(league=match.league, team=match.away_team).first()
+
+        st_info = ""
+        if home_st and away_st:
+            st_info = f"{t_home} está na posição {home_st.position} com {home_st.points} pontos. {t_away} está na posição {away_st.position} com {away_st.points} pontos."
 
         prompt = f"""
-Você é um especialista em SEO de futebol e analista esportivo brasileiro.
-Sua missão é escrever um artigo tático longo e riquíssimo em informações (cerca de 350 a 450 palavras) dedicado ÚNICA E EXCLUSIVAMENTE ao confronto: {match.home_team.name} vs {match.away_team.name} pela competição {match.league.name}.
+Você é um Especialista em Análise Tática de Futebol e Apostas Esportivas.
+Crie um 'Super Post' de no mínimo 600 palavras sobre o jogo {t_home} vs {t_away} pela competição {league_name}.
 
-INSTRUÇÕES CRÍTICAS DE DESIGN (Siga rigidamente):
+Contexto da Classificação:
+{st_info}
 
-1. Não coloque título H1 no texto. Comece logo com um parágrafo inicial forte e envolvente.
-
-2. Artigo Aprofundado (3 a 4 parágrafos):
-Escreva uma análise minuciosa sobre a importância histórica e o momento atual das equipes. Como elas vêm se comportando, qual a formação tática mais provável e a pressão sobre os treinadores. Use a tag <strong>.
-
-3. Ficha de Tendência (Card Premium):
-Insira este bloco de código HTML exatamente abaixo da sua análise em texto, preenchendo os dados entre colchetes:
-<div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 25px 0; background-color: #fafafa; font-family: sans-serif; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);">
-  <h3 style="margin-top:0; color: #2e7d32; font-size: 1.15em; font-weight: bold; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px;">📋 Ficha Técnica & Tendências</h3>
-  <p style="margin: 12px 0; line-height: 1.6;"><strong>🔥 Momento Atual:</strong> [Detalhe o momento e a forma.]</p>
-  <p style="margin: 12px 0; line-height: 1.6;"><strong>🧠 Cenário Tático:</strong> [Detalhe o impacto na tabela.]</p>
-  <p style="margin: 12px 0; line-height: 1.6;"><strong>⚽ Análise de Gols e Cantos:</strong> [Analise propensão de escanteios e gols.]</p>
-  <p style="margin: 12px 0; line-height: 1.6; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 15px;">
-    <strong>📊 Histórico Completo:</strong> Veja todos os confrontos diretos recentes nas <a href="{match_url}" style="color: #2e7d32; font-weight: bold; text-decoration: underline;">estatísticas completas de {match.home_team.name} x {match.away_team.name} no StatsFut</a>.
-  </p>
-</div>
-
-Retorne ESTRITAMENTE o código HTML gerado, sem blocos ```html.
+REGRAS OBRIGATÓRIAS:
+1. Escreva 4 parágrafos detalhados e aprofundados.
+2. Use OBRIGATORIAMENTE os seguintes intertítulos em formato HTML <h2>:
+   - <h2>Momento das Equipes e Importância do Jogo</h2>
+   - <h2>A Batalha Tática e Escalações Prováveis</h2>
+   - <h2>Retrospecto e Estatísticas Recentes</h2>
+   - <h2>Palpites e Tendências de Gols</h2>
+3. Inclua a seguinte frase com link no meio do texto exatamente como está:
+<p>Confira todas as <a href="https://statsfut.com/match/{match.id}/{t_home.lower().replace(' ', '-')}-vs-{t_away.lower().replace(' ', '-')}/" style="color: #2e7d32; font-weight: bold; text-decoration: underline;">estatísticas completas de {t_home} x {t_away} ao vivo no StatsFut</a>.</p>
+4. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p> e <h2>.
 """
+
         model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_api_key}"
         headers = {"Content-Type": "application/json"}
