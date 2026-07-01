@@ -210,7 +210,8 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
 
 * ATENÇÃO: Use pelo menos 2 desses modelos diferentes de caixas ao longo do artigo!
 5. PROIBIDO USAR MARKDOWN! Para negritos, use EXCLUSIVAMENTE a tag HTML <strong>. NUNCA use asteriscos (**) para destacar palavras.
-6. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2>, <strong> e <div>.
+6. OTIMIZAÇÃO DE SEO: Durante a escrita dos parágrafos, insira de forma natural palavras-chave relevantes (como "palpites de futebol", "prognósticos", "estatísticas ao vivo", "análise tática", "trading esportivo"). Escolha pelo menos 2 dessas palavras-chave ao longo do texto e transforme-as em links clicáveis apontando para o nosso site, usando este formato: <a href="https://statsfut.com" style="color: #2e7d32; text-decoration: underline;">sua palavra-chave aqui</a>.
+7. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2>, <strong>, <a> e <div>.
 """
 
         deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
