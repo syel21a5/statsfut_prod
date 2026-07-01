@@ -209,7 +209,7 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
 </div>
 
 * ATENÇÃO: Use pelo menos 2 desses modelos diferentes de caixas ao longo do artigo!
-5. Destaque termos técnicos, nomes de jogadores importantes e conceitos-chave usando OBRIGATORIAMENTE a tag <strong> para facilitar a leitura dinâmica (exemplo: <strong>time decay</strong>).
+5. PROIBIDO USAR MARKDOWN! Para negritos, use EXCLUSIVAMENTE a tag HTML <strong>. NUNCA use asteriscos (**) para destacar palavras.
 6. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2>, <strong> e <div>.
 """
 
@@ -338,9 +338,15 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
         # Estilização: Aplicando exatamente o modelo HTML enviado pelo usuário
         styled_html = html_analysis.replace('<h2>', '<h2 style="color: #2c3e50; border-bottom: 2px solid #2e7d32; padding-bottom: 8px; margin-top: 30px;">🎯 ')
         styled_html = styled_html.replace('<ul>', '<ul style="margin-bottom: 24px; padding-left: 20px;">')
+        
+        # Limpeza de segurança caso a IA use markdown acidentalmente
+        styled_html = styled_html.replace('**', '')
+
+        # Forçar justificação de texto
+        styled_html = styled_html.replace('<p>', '<p style="text-align: justify; margin-bottom: 20px;">')
 
         intro = f"""
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333;">
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333; text-align: justify;">
             <div style="margin-bottom: 25px; overflow: hidden;">
                 <img src="{image_url}" alt="Análise de {match.home_team.name} x {match.away_team.name}" style="float: right; width: 350px; max-width: 45%; height: auto; border-radius: 8px; margin-left: 20px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
                 <h1 style="color: #1e293b; font-size: 1.8em; margin-top: 0;">{img_h}{match.home_team.name} x {match.away_team.name}{img_a}</h1>
