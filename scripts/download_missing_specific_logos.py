@@ -44,7 +44,7 @@ def main():
         athletic.api_id = 'sofa_342775'  # Athletic Club MG ID
         athletic.save()
         print("Athletic Club Série B ID atualizado para sofa_342775.")
-        download_logo('342775', 'Brazil', 'sofa_342775')
+        download_logo('342775', 'Brasil', 'sofa_342775')
     else:
         print("Athletic Club Série B não encontrado.")
 
@@ -67,7 +67,7 @@ def main():
         santos.api_id = 'sofa_1968'  # Santos FC ID
         santos.save()
         print("Santos ID atualizado para sofa_1968.")
-        download_logo('1968', 'Brazil', 'sofa_1968')
+        download_logo('1968', 'Brasil', 'sofa_1968')
     else:
         print("Santos não encontrado.")
 
