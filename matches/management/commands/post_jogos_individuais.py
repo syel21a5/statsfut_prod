@@ -111,13 +111,16 @@ class Command(BaseCommand):
                 self.stdout.write(html_content[:500] + "...\n")
             else:
                 blog_id = "6808698508164581615"
+                meta_description = f"Análise completa e prognóstico para {t_home} x {t_away} pela {league_name}. Confira as estatísticas, retrospecto, táticas e palpites de futebol para o confronto."
+                
                 body = {
                     "kind": "blogger#post",
                     "blog": {"id": blog_id},
                     "title": title,
                     "content": html_content,
                     "labels": [league_name, "Análise Individual", "Estatísticas de Futebol", t_home, t_away],
-                    "published": publish_time_str
+                    "published": publish_time_str,
+                    "customMetaData": meta_description
                 }
 
                 try:
