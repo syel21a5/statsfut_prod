@@ -311,6 +311,11 @@ REGRAS OBRIGATÓRIAS:
         img_h = f'<img src="{logo_home}" width="24" height="24" style="object-fit: contain; vertical-align: middle; margin-right: 5px;" />' if logo_home else ""
         img_a = f'<img src="{logo_away}" width="24" height="24" style="object-fit: contain; vertical-align: middle; margin-left: 5px;" />' if logo_away else ""
 
+        # Estilização Elegante: Injetando CSS inline nos elementos gerados pela IA
+        styled_html = html_analysis.replace('<h2>', '<h2 style="color: #2c3e50; border-bottom: 2px solid #2e7d32; padding-bottom: 8px; margin-top: 35px; margin-bottom: 20px; font-size: 1.6em; font-weight: bold;">🎯 ')
+        styled_html = styled_html.replace('<p>', '<p style="font-size: 1.1em; line-height: 1.8; color: #334155; margin-bottom: 24px; text-align: justify;">')
+        styled_html = styled_html.replace('<ul>', '<ul style="margin-bottom: 24px; padding-left: 20px; font-size: 1.1em; line-height: 1.8; color: #334155;">')
+
         intro = f"""
         <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333;">
             <div style="margin-bottom: 25px; overflow: hidden;">
@@ -319,7 +324,7 @@ REGRAS OBRIGATÓRIAS:
                 <p>Neste dia <strong>{date_str}</strong>, as atenções se voltam para o aguardado duelo entre <strong>{match.home_team.name} e {match.away_team.name}</strong>, em partida válida pela disputa da <strong>{match.league.name}</strong>. Nossa equipe de inteligência e análise tática mergulhou fundo nos dados para reunir as estatísticas mais relevantes deste confronto específico, com o objetivo principal de ajudar você a entender todo o contexto técnico, físico e emocional que envolve ambas as equipes.</p>
                 <p>O futebol moderno exige leitura de jogo apurada. Por isso, utilizando nosso banco de dados em tempo real e nossos algoritmos matemáticos exclusivos, preparamos esta análise completa. Avaliamos minuciosamente o desempenho defensivo, a eficiência no ataque e o volume de escanteios (cantos) gerado pelas equipes ao longo do torneio.</p>
             </div>
-            {html_analysis}
+            {styled_html}
         """
 
         footer = f"""
