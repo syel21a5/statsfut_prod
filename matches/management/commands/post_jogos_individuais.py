@@ -194,7 +194,8 @@ REGRAS OBRIGATÓRIAS:
     <li><strong>[Palpite 2]:</strong> [Explicação]</li>
   </ul>
 </div>
-5. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2> e <div>.
+5. Destaque termos técnicos, nomes de jogadores importantes e conceitos-chave usando OBRIGATORIAMENTE a tag <strong> para facilitar a leitura dinâmica (exemplo: <strong>time decay</strong>).
+6. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p>, <h2>, <strong> e <div>.
 """
 
         deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
