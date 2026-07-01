@@ -351,12 +351,12 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
 
         intro = f"""
         <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333; text-align: justify;">
-            <div style="margin-bottom: 25px; overflow: hidden;">
-                <img src="{image_url}" alt="Análise de {match.home_team.name} x {match.away_team.name}" style="float: right; width: 350px; max-width: 45%; height: auto; border-radius: 8px; margin-left: 20px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
-                <h1 style="color: #1e293b; font-size: 1.8em; margin-top: 0;">{img_h}{match.home_team.name} x {match.away_team.name}{img_a}</h1>
-                <p>Neste dia {date_str}, as atenções se voltam para o aguardado duelo entre {match.home_team.name} e {match.away_team.name}, em partida válida pela disputa da {match.league.name}. Nossa equipe de inteligência e análise tática mergulhou fundo nos dados para reunir as estatísticas mais relevantes deste confronto específico, com o objetivo principal de ajudar você a entender todo o contexto técnico, físico e emocional que envolve ambas as equipes.</p>
-                <p>O futebol moderno exige leitura de jogo apurada. Por isso, utilizando nosso banco de dados em tempo real e nossos algoritmos matemáticos exclusivos, preparamos esta análise completa. Avaliamos minuciosamente o desempenho defensivo, a eficiência no ataque e o volume de escanteios (cantos) gerado pelas equipes ao longo do torneio.</p>
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h1 style="color: #1e293b; font-size: 1.8em; margin-top: 0; margin-bottom: 20px;">{img_h}{match.home_team.name} x {match.away_team.name}{img_a}</h1>
+                <img src="{image_url}" alt="Análise de {match.home_team.name} x {match.away_team.name}" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 0 auto;" />
             </div>
+            <p>Neste dia {date_str}, as atenções se voltam para o aguardado duelo entre {match.home_team.name} e {match.away_team.name}, em partida válida pela disputa da {match.league.name}. Nossa equipe de inteligência e análise tática mergulhou fundo nos dados para reunir as estatísticas mais relevantes deste confronto específico, com o objetivo principal de ajudar você a entender todo o contexto técnico, físico e emocional que envolve ambas as equipes.</p>
+            <p>O futebol moderno exige leitura de jogo apurada. Por isso, utilizando nosso banco de dados em tempo real e nossos algoritmos matemáticos exclusivos, preparamos esta análise completa. Avaliamos minuciosamente o desempenho defensivo, a eficiência no ataque e o volume de escanteios (cantos) gerado pelas equipes ao longo do torneio.</p>
             {styled_html}
         """
 
