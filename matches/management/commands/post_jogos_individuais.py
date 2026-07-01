@@ -172,7 +172,7 @@ class Command(BaseCommand):
 
         prompt = f"""
 Você é um Especialista em Análise Tática de Futebol e Apostas Esportivas.
-Crie um 'Super Post' de no mínimo 600 palavras sobre o jogo {t_home} vs {t_away} pela competição {league_name}.
+Crie um 'Super Post' longo de no mínimo 600 palavras sobre o jogo {t_home} vs {t_away} pela competição {league_name}.
 
 Contexto da Classificação:
 {st_info}
@@ -189,21 +189,30 @@ REGRAS OBRIGATÓRIAS:
 4. Não inclua introduções ou despedidas como 'Aqui está o post'. Devolva APENAS o HTML puro com <p> e <h2>.
 """
 
-        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_api_key}"
-        headers = {"Content-Type": "application/json"}
-        payload = {"contents": [{"parts": [{"text": prompt}]}]}
+        deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
+        url = "https://api.deepseek.com/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {deepseek_api_key}"
+        }
+        payload = {
+            "model": "deepseek-chat",
+            "messages": [
+                {"role": "system", "content": "Você é um Especialista em Análise Tática de Futebol."},
+                {"role": "user", "content": prompt}
+            ]
+        }
 
         try:
             r = requests.post(url, headers=headers, json=payload, timeout=60)
             if r.status_code == 200:
                 data = r.json()
-                html_text = data["candidates"][0]["content"]["parts"][0]["text"]
+                html_text = data["choices"][0]["message"]["content"]
                 return html_text.replace("```html", "").replace("```", "").strip()
             else:
-                self.stderr.write(f"Erro na API do Gemini: {r.text}")
+                self.stderr.write(f"Erro na API do DeepSeek: {r.text}")
         except Exception as e:
-            self.stderr.write(f"Erro ao conectar com o Gemini: {e}")
+            self.stderr.write(f"Erro ao conectar com o DeepSeek: {e}")
 
         return self.generate_static_fallback_single(match)
 
