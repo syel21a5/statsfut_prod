@@ -350,8 +350,7 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
         styled_html = styled_html.replace('<p>', '<p style="text-align: justify; margin-bottom: 20px;">')
 
         intro = f"""
-        <div style="clear: both; width: 100%; display: block;"></div>
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333; text-align: justify; width: 100%; box-sizing: border-box; display: block;">
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; font-size: 16px; color: #333; text-align: justify;">
             <div style="text-align: center; margin-bottom: 25px;">
                 <img src="{image_url}" alt="Análise de {match.home_team.name} x {match.away_team.name}" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 0 auto 20px auto; display: block;" />
                 <h1 style="color: #1e293b; font-size: 1.8em; margin-top: 0; margin-bottom: 20px;">{img_h}{match.home_team.name} x {match.away_team.name}{img_a}</h1>
