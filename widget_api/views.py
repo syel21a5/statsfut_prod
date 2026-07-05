@@ -2,13 +2,22 @@ from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from matches.models import LeagueStanding, League
 
+from django.db.models import Q
+
 @cache_page(60 * 15)  # Cache por 15 minutos (proteção do servidor)
 def widget_brasileirao_view(request):
     try:
-        # Busca a Série A do Brasil
-        league = League.objects.filter(country='Brazil', name__icontains='Serie A').first()
+        # Busca a Série A do Brasil com mais flexibilidade
+        league = League.objects.filter(
+            country='Brazil'
+        ).filter(
+            Q(name__icontains='Serie A') | Q(name__icontains='Série A') | Q(name__icontains='Brasileir') | Q(division=1)
+        ).first()
+        
         if not league:
-            return JsonResponse({'error': 'League not found'}, status=404)
+            # Para depuração: lista o que tem de Brasil
+            br_leagues = list(League.objects.filter(country='Brazil').values_list('name', flat=True)[:5])
+            return JsonResponse({'error': 'League not found', 'available_brazil_leagues': br_leagues}, status=404)
         
         # Pega a tabela da temporada mais recente, ordenado pela posição
         standings = LeagueStanding.objects.filter(league=league)\
