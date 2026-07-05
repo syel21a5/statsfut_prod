@@ -23,6 +23,7 @@ from core.views import custom_set_language
 # Rota de troca de idioma (sem prefixo, funciona de qualquer página)
 urlpatterns = [
     path('i18n/setlang/', custom_set_language, name='set_language'),
+    path('api/widgets/', include('widget_api.urls')),
 ]
 
 from django.conf import settings

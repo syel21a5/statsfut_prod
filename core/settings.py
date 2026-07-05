@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'matches',
     'members',
+    'corsheaders',
+    'widget_api',
 ]
 
 # Adiciona o video_maker apenas se o diretório existir (já que ele é ignorado no git)
@@ -70,6 +72,7 @@ LOGOUT_REDIRECT_URL = 'matches:home'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'core.middleware.ForceDefaultLanguageMiddleware',  # Força inglês para novos visitantes (ignora Accept-Language)
     'django.middleware.locale.LocaleMiddleware',  # Processa i18n URLs normalmente
@@ -322,3 +325,6 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-outline-success"
     }
 }
+
+# CORS para o Blogger API
+CORS_ALLOWED_ORIGINS = ['https://statsfutbrasil.blogspot.com', 'http://statsfutbrasil.blogspot.com']
