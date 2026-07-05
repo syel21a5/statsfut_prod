@@ -7,9 +7,9 @@ from django.db.models import Q
 @cache_page(60 * 15)  # Cache por 15 minutos (proteção do servidor)
 def widget_brasileirao_view(request):
     try:
-        # Busca a Série A do Brasil com mais flexibilidade
+        # Busca a Série A do Brasil com mais flexibilidade (aceita Brasil ou Brazil)
         league = League.objects.filter(
-            country='Brazil'
+            Q(country__icontains='Brazil') | Q(country__icontains='Brasil')
         ).filter(
             Q(name__icontains='Serie A') | Q(name__icontains='Série A') | Q(name__icontains='Brasileir') | Q(division=1)
         ).first()
