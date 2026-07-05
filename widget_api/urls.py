@@ -5,4 +5,5 @@ app_name = 'widget_api'
 
 urlpatterns = [
     path('standings/brasileirao/', views.widget_brasileirao_view, name='brasileirao_standings'),
+    path('standings/<slug:country>/<slug:league>/', views.widget_league_view, name='league_standings'),
 ]

@@ -48,3 +48,49 @@ def widget_brasileirao_view(request):
         
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+@cache_page(60 * 15)
+def widget_league_view(request, country, league):
+    try:
+        limit = int(request.GET.get('limit', 20))
+        country_clean = country.replace('-', ' ')
+        league_clean = league.replace('-', ' ')
+        
+        # Busca a liga pelo pais e nome
+        league_obj = League.objects.filter(
+            Q(country__icontains=country_clean) | Q(country__icontains=country_clean.replace('z', 's'))
+        ).filter(
+            Q(name__icontains=league_clean)
+        ).first()
+        
+        if not league_obj:
+            return JsonResponse({'error': 'League not found'}, status=404)
+            
+        standings = LeagueStanding.objects.filter(league=league_obj)\
+                                          .select_related('team')\
+                                          .order_by('-season__year', 'position')[:limit]
+        
+        data = []
+        for s in standings:
+            logo = s.team.logo_url
+            if logo and logo.startswith('/'):
+                logo = f"https://statsfut.com{logo}"
+                
+            data.append({
+                'position': s.position,
+                'team': s.team.name,
+                'logo_url': logo,
+                'points': s.points,
+                'played': s.played,
+                'won': s.won,
+                'drawn': s.drawn,
+                'lost': s.lost,
+                'goals_for': s.goals_for,
+                'goals_against': s.goals_against,
+            })
+            
+        return JsonResponse({'league': f"{league_obj.name} - {league_obj.country}", 'standings': data})
+        
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
