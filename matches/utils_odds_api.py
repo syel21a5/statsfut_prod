@@ -326,6 +326,9 @@ ODDS_API_TEAM_MAPPINGS = {
     "Nautico Recife": "Nautico",
     "Vila Nova FC": "Vila Nova",
     "Fortaleza EC": "Fortaleza",
+    "Guarani Campinas": "Guarani",
+    "Botafogo PB": "Botafogo-PB",
+    "Ypiranga-RS": "Ypiranga",
     
     # --- CHILE ---
     "A. Italiano": "Audax Italiano",
