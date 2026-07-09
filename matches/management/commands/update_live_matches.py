@@ -431,12 +431,22 @@ class Command(BaseCommand):
                 # Determina temporada (ano de término)
                 if match_date:
                     year = match_date.year
-                    # Se for entre Jan-Jul, é temporada do ano atual
-                    # Se for Ago-Dez, é temporada do ano seguinte
-                    if match_date.month >= 8:
-                        season_year = year + 1
-                    else:
+                    
+                    # Ligas que seguem o calendário anual (ano exato do jogo = temporada)
+                    annual_calendar_countries = [
+                        'Brasil', 'Argentina', 'Chile', 'Colombia', 'Equador', 
+                        'Paraguai', 'Peru', 'Uruguai', 'Estados Unidos', 'Japao', 
+                        'Suecia', 'Noruega', 'Finlandia', 'Islandia', 'Bolivia', 'Venezuela'
+                    ]
+                    
+                    if league_obj.country in annual_calendar_countries:
                         season_year = year
+                    else:
+                        # Regra Europeia: Agosto a Dezembro pertencem à temporada do ano seguinte
+                        if match_date.month >= 8:
+                            season_year = year + 1
+                        else:
+                            season_year = year
                 else:
                     season_year = datetime.now().year
                 
