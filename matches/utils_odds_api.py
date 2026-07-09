@@ -111,6 +111,27 @@ ODDS_API_TEAM_MAPPINGS = {
     "Tottenham Hotspur": "Tottenham",
     "Sheffield United": "Sheffield Utd",
     "Leicester City": "Leicester",
+    "Coventry": "Coventry City",
+
+    # --- SPAIN ---
+    "Atletico Madrid": "Ath Madrid",
+    "Atlético Madrid": "Ath Madrid",
+    "Real Betis": "Betis",
+    "Celta Vigo": "Celta",
+    
+    # --- FRANCE ---
+    "Paris Saint Germain": "Paris Saint-Germain FC",
+    "Paris SG": "Paris Saint-Germain FC",
+    "Estac Troyes": "Troyes",
+
+    # --- CZECH REPUBLIC ---
+    "Bohemians 1905": "Bohemians",
+    "FK Jablonec": "Jablonec",
+    "Slavia Praha": "Slavia Prague",
+    "Sparta Praha": "Sparta Prague",
+
+    # --- GERMANY ---
+    "SV Elversberg": "SV 07 Elversberg",
 
     # --- AUSTRIA ---
     # Mapeados para os nomes EXATOS encontrados no servidor (ID 44)
@@ -366,11 +387,15 @@ def resolve_team(name, league):
     if name in ODDS_API_TEAM_MAPPINGS:
         mapped_name = ODDS_API_TEAM_MAPPINGS[name]
         team = Team.objects.filter(name__iexact=mapped_name, league=league).first()
+        if not team:
+            team = Team.objects.filter(name__iexact=mapped_name).first()
         if team:
             return team
 
     # 2. Direct match
     team = Team.objects.filter(name__iexact=name, league=league).first()
+    if not team:
+        team = Team.objects.filter(name__iexact=name).first()
     if team:
         return team
         
@@ -383,6 +408,8 @@ def resolve_team(name, league):
     from .utils import normalize_team_name
     normalized = normalize_team_name(name)
     team = Team.objects.filter(name__iexact=normalized, league=league).first()
+    if not team:
+        team = Team.objects.filter(name__iexact=normalized).first()
     if team:
         return team
         
