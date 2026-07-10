@@ -53,16 +53,23 @@ class Command(BaseCommand):
             return
 
         season_year = timezone.now().year
-        db_season, _ = Season.objects.get_or_create(year=season_year)
 
         for league_data in target_leagues:
             api_league_id = league_data['api_id']
             db_league = league_data['db_obj']
             
-            self.stdout.write(f"\n--> Buscando Standings para: {db_league.name} (API ID: {api_league_id})")
+            european_leagues = [
+                'Premier League', 'La Liga', 'Serie A', 'Bundesliga', 'Ligue 1', 
+                'Eredivisie', 'Primeira Liga', 'Championship', 'Super League', 
+                'Premiership', 'Ekstraklasa', 'Superliga', 'Pro League', 'First League'
+            ]
+            league_season = (season_year - 1) if db_league.name in european_leagues else season_year
+            db_season, _ = Season.objects.get_or_create(year=league_season)
+            
+            self.stdout.write(f"\n--> Buscando Standings para: {db_league.name} (API ID: {api_league_id}) Temporada: {league_season}")
             
             url = f"{base_url}/standings"
-            params = {'league': api_league_id, 'season': season_year}
+            params = {'league': api_league_id, 'season': league_season}
             
             try:
                 resp = requests.get(url, headers=headers, params=params, timeout=10)

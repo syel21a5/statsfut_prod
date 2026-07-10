@@ -464,7 +464,7 @@ def get_flag_code(country_name):
     """
     Helper to map country names to Flag Icons (fi fi-xx).
     """
-    country_lower = country_name.lower()
+    country_lower = country_name.lower().replace('-', ' ')
     
     # Map common names to ISO codes or 'fi' codes
     mapping = {

@@ -37,7 +37,7 @@ class Command(BaseCommand):
             european_leagues = [
                 'Premier League', 'La Liga', 'Serie A', 'Bundesliga', 'Ligue 1', 
                 'Eredivisie', 'Primeira Liga', 'Championship', 'Super League', 
-                'Premiership', 'Ekstraklasa', 'Superliga', 'Pro League'
+                'Premiership', 'Ekstraklasa', 'Superliga', 'Pro League', 'First League'
             ]
             league_season = (season_year - 1) if league.name in european_leagues else season_year
             
