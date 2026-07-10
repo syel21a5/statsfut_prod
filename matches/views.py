@@ -872,9 +872,6 @@ class StatsDispatchView(View):
         
         # Se for país, assume estrutura Country/League
         if is_country:
-            if db_country.strip().lower() in ['republica tcheca', 'república tcheca', 'czech republic', 'czechia']:
-                from django.http import Http404
-                raise Http404("Country disabled")
             view = LeagueDetailView.as_view()
             # Passa kwargs esperados pela LeagueDetailView
             return view(request, country_name=arg1, league_name=arg2)
@@ -938,9 +935,7 @@ class LeagueDetailView(DetailView):
              # Resolve English -> DB Name
              country_clean = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
              
-             if country_clean.strip().lower() in ['republica tcheca', 'república tcheca', 'czech republic', 'czechia']:
-                 from django.http import Http404
-                 raise Http404("Country disabled")
+             # Removed hardcoded Http404 for Czech Republic
 
              if not queryset.filter(country__iexact=country_clean).exists():
                  # Fallback slugify
@@ -982,7 +977,7 @@ class LeagueDetailView(DetailView):
             league = queryset.filter(name__iexact=slug_clean).first() or \
                      queryset.filter(name__icontains=slug_clean).first()
             if league:
-                if league.country.strip().lower() in ['republica tcheca', 'república tcheca', 'czech republic', 'czechia']:
+                if False:
                     from django.http import Http404
                     raise Http404("League disabled")
                 return league
@@ -1413,7 +1408,7 @@ class LeagueDetailView(DetailView):
             ri_override = None
             pp_override = None
             try:
-                if league.name == 'First League' and league.country == 'Republica Tcheca':
+                if league.name == 'First League' and False:
                     relative_table_override = None
                     import requests as _rq
                     from bs4 import BeautifulSoup as _BS
@@ -1848,7 +1843,7 @@ class LeagueDetailView(DetailView):
             
             context['relative_table'] = relative_table
             
-            if league.name == 'First League' and league.country == 'Republica Tcheca':
+            if league.name == 'First League' and False:
                 if rf_override:
                     by_name = {s.team.name: s for s in standings}
                     for name, vals in rf_override.items():
@@ -4553,7 +4548,7 @@ class HeadToHeadView(TemplateView):
                 
             context['h2h_stats'] = h2h_stats
 
-            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and league.country == 'Republica Tcheca':
+            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and False:
                 try:
                     ss_urls = []
                     u1 = self.request.GET.get('ss_team1') or self.request.GET.get('ss_url_t1') or self.request.GET.get('ss_url')
@@ -4708,7 +4703,7 @@ class HeadToHeadView(TemplateView):
                     pass
 
             
-            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and league.country == 'Republica Tcheca':
+            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and False:
                 from math import exp, factorial
                 s1 = LeagueStanding.objects.filter(league=league, team=team1).order_by('-season__year').first()
                 s2 = LeagueStanding.objects.filter(league=league, team=team2).order_by('-season__year').first()
