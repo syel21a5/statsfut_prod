@@ -1606,7 +1606,7 @@ msgstr "Quantidade"
 #: .\matches\templates\matches\league_goals.html:214
 #: .\matches\templates\matches\league_goals.html:219
 msgid "Current Form (Last 8)"
-msgstr ""
+msgstr "Forma Recente (Últimos 8)"
 
 #: .\matches\templates\matches\league_goals.html:227
 #: .\matches\templates\matches\league_goals.html:295
@@ -2650,7 +2650,7 @@ msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:574
 msgid "Opponent"
-msgstr ""
+msgstr "Adversário"
 
 #: .\matches\templates\matches\team_detail.html:575
 msgid "Venue"
@@ -4413,3 +4413,44 @@ msgstr "%(team)s Mais Chutes"
 
 #~ msgid "Not 2-4 2H"
 #~ msgstr "Não 2-4 2T"
+
+
+msgid "Strength based on Opponent's Points Per Game (PPG) at the match venue."
+msgstr "* Força baseada nos Pontos Por Jogo (PPG) do adversário no local da partida."
+
+
+msgid "1st & 2nd Half"
+msgstr "1º & 2º Tempo"
+
+
+msgid "Second-Half Stats"
+msgstr "Estatísticas do 2º Tempo"
+
+
+msgid "Legend"
+msgstr "Legenda"
+
+
+msgid "Most common scorelines in the league, showing exact results, occurrence count, and overall percentage."
+msgstr "Placares mais comuns na liga, mostrando os resultados exatos, contagem de ocorrências e a porcentagem geral."
+
+
+msgid "Current form ranking showing games played (GP), points won (Pts), and form rank (Pos) over the last 8 matches."
+msgstr "Classificação de forma recente mostrando jogos disputados (GP), pontos conquistados (Pts) e a posição de forma (Pos) nos últimos 8 jogos."
+
+
+msgid "Both Teams to Score (BTS): number of matches and percentage where both teams scored at least one goal."
+msgstr "Ambas Marcam (BTS): número de partidas e porcentagem em que ambas as equipes marcaram pelo menos um gol."
+
+
+msgid "Clean Sheets (CS): number of matches and percentage where the team kept a clean sheet (conceded 0 goals)."
+msgstr "Jogos Sem Sofrer Gols (CS): número de partidas e porcentagem em que a equipe não sofreu gols (clean sheet)."
+
+
+msgid "Failed to Score (FTS): number of matches and percentage where the team failed to score any goals."
+msgstr "Falhou em Marcar (FTS): número de partidas e porcentagem em que a equipe não conseguiu marcar gols."
+
+
+msgid "Win to Nil (WTN): number of matches and percentage where the team won while keeping a clean sheet."
+msgstr "Venceu Sem Sofrer Gols (WTN): número de partidas e porcentagem em que a equipe venceu sem sofrer nenhum gol."
+

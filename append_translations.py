@@ -1,0 +1,10 @@
+with open('locale/pt_BR/LC_MESSAGES/django.po', 'a', encoding='utf-8') as f:
+    f.write('\n\nmsgid "Corners Performance Ranking"\nmsgstr "Ranking de Escanteios"\n')
+    f.write('\nmsgid "Cards & Discipline Ranking"\nmsgstr "Ranking de Cartões e Disciplina"\n')
+    f.write('\nmsgid "Shots per Match"\nmsgstr "Finalizações por Partida"\n')
+    f.write('\nmsgid "Goal Minutes Distribution"\nmsgstr "Distribuição de Gols por Minuto"\n')
+    f.write('\nmsgid "Ranking of teams with the most corners on average per match (For, Against and Total)."\nmsgstr "Ranking das equipes com mais escanteios em média por partida (A Favor, Contra e Total)."\n')
+    f.write('\nmsgid "Disciplinary ranking showing the teams with the most yellow and red cards per match."\nmsgstr "Ranking disciplinar mostrando as equipes com mais cartões amarelos e vermelhos por partida."\n')
+    f.write('\nmsgid "Ranking of teams with the highest average number of shots per match."\nmsgstr "Ranking das equipes com a maior média de finalizações por partida."\n')
+    f.write('\nmsgid "Distribution of goals scored across 15-minute periods of the match."\nmsgstr "Distribuição de gols marcados ao longo de períodos de 15 minutos da partida."\n')
+    f.write('\nmsgid "League top scorers for the current season, including penalty goals."\nmsgstr "Artilheiros da liga para a temporada atual, incluindo gols de pênalti."\n')

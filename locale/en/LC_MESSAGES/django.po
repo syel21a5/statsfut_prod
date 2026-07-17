@@ -1059,7 +1059,7 @@ msgstr ""
 #: .\matches\templates\matches\h2h_detail.html:1934
 #: .\matches\templates\matches\h2h_detail.html:1998
 msgid "Points per game"
-msgstr "Shots per Goal"
+msgstr ""
 
 #: .\matches\templates\matches\h2h_detail.html:1935
 #: .\matches\templates\matches\h2h_detail.html:1999
@@ -2645,7 +2645,7 @@ msgstr ""
 
 #: .\matches\templates\matches\team_detail.html:574
 msgid "Opponent"
-msgstr ""
+msgstr "Opponent"
 
 #: .\matches\templates\matches\team_detail.html:575
 msgid "Venue"
@@ -4457,3 +4457,15 @@ msgstr ""
 #~ "below 30%%). Match trending towards few goals, ideal for analyzing the "
 #~ "\"Under\" market.\n"
 #~ "                        "
+
+
+msgid "Strength based on Opponent's Points Per Game (PPG) at the match venue."
+msgstr "Strength based on Opponent's Points Per Game (PPG) at the match venue."
+
+
+msgid "1st & 2nd Half"
+msgstr "1st & 2nd Half"
+
+
+msgid "Second-Half Stats"
+msgstr "Second-Half Stats"

@@ -6,55 +6,116 @@
 {% block meta_description %}Deep goal analysis for {{ league.name }}: Over/Under 2.5, BTTS (Both Teams to Score), average goals per match and most common scores. Essential data for football analysts.{% endblock %}
 
 {% block content %}
+<style>
+    .premium-tabs {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+        gap: 0.5rem;
+    }
+    .premium-tabs .nav-link {
+        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid transparent;
+        border-radius: 8px 8px 0 0;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        transition: all 0.2s ease;
+        background: transparent;
+        margin-bottom: -2px;
+    }
+    .premium-tabs .nav-link:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.05) rgba(255, 255, 255, 0.05) transparent;
+    }
+    .premium-tabs .nav-link.active {
+        color: #fff !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.1) rgba(255, 255, 255, 0.1) transparent !important;
+        border-bottom: 2px solid #0d6efd !important;
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+    }
+</style>
 <script>
+    function switchSubTab(element, prefix, type) {
+        // 1. Get parent nav and deactivate all nav-links
+        const nav = element.closest('.nav');
+        nav.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            link.classList.add('text-secondary');
+        });
+        
+        // 2. Activate clicked element
+        element.classList.add('active');
+        element.classList.remove('text-secondary');
+        
+        // 3. Find the card container
+        const card = element.closest('.card');
+        
+        // 4. Hide all tbodies that are sub-tab-panes in this card
+        card.querySelectorAll('tbody.sub-tab-pane').forEach(tbody => {
+            tbody.classList.add('d-none');
+        });
+        
+        // 5. Show selected tbody
+        const targetTbody = card.querySelector(`#${prefix}-${type}-tbody`);
+        if (targetTbody) {
+            targetTbody.classList.remove('d-none');
+        }
+        
+        // 6. Update URL query params without reloading
+        const url = new URL(window.location);
+        let paramName = prefix + '_type';
+        if (prefix === 'match-goals') paramName = 'type';
+        else if (prefix === 'halftime') paramName = 'ht_type';
+        else if (prefix === 'second-half') paramName = 'sh_type';
+        url.searchParams.set(paramName, type);
+        window.history.pushState({}, '', url);
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         updateProgressBars();
+        
+        // Tab history sync
+        const tabEl = document.querySelectorAll('#leagueGoalsTabs button[data-bs-toggle="tab"]');
+        tabEl.forEach(el => {
+            el.addEventListener('shown.bs.tab', function (event) {
+                const tabId = event.target.id.replace('-tab', '');
+                const url = new URL(window.location);
+                url.searchParams.set('tab', tabId);
+                window.history.pushState({}, '', url);
+            });
+        });
     });
 
     function updateProgressBars() {
         const bars = document.querySelectorAll('.progress-bar[data-width]');
         bars.forEach(bar => {
-            // Small delay to trigger CSS transition
             setTimeout(() => {
                 bar.style.width = bar.getAttribute('data-width');
             }, 100);
         });
     }
 
-    // AJAX Load Stats
+    // Keep AJAX Load Stats function just in case other things use it
     function loadStats(event, element, containerId) {
         event.preventDefault();
         const url = element.getAttribute('href');
         const container = document.getElementById(containerId);
-
-        // Add loading state
         container.style.opacity = '0.6';
         container.style.pointerEvents = 'none';
-
         fetch(url)
             .then(response => response.text())
             .then(html => {
-                // Parse the response
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newContent = doc.getElementById(containerId).innerHTML;
-
-                // Update container
                 container.innerHTML = newContent;
-
-                // Initialize progress bars in the new content
                 updateProgressBars();
-
-                // Restore state
                 container.style.opacity = '1';
                 container.style.pointerEvents = 'auto';
-
-                // Update URL without reload
                 window.history.pushState({ path: url }, '', url);
             })
             .catch(err => {
                 console.error('Error loading stats:', err);
-                // Fallback to normal navigation
                 window.location.href = url;
             });
     }
@@ -83,6 +144,23 @@
         <!-- Main Content -->
         <div class="col-lg-9" id="stats-content">
 
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills premium-tabs mb-4" id="leagueGoalsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if active_tab == 'overview' or not active_tab %}active{% endif %}" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-pane" type="button" role="tab" aria-controls="overview-pane" aria-selected="{% if active_tab == 'overview' or not active_tab %}true{% else %}false{% endif %}">{% translate "Overview" %}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if active_tab == 'goals' %}active{% endif %}" id="goals-tab" data-bs-toggle="tab" data-bs-target="#goals-pane" type="button" role="tab" aria-controls="goals-pane" aria-selected="{% if active_tab == 'goals' %}true{% else %}false{% endif %}">{% translate "Match Goals" %}</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if active_tab == 'halftime' %}active{% endif %}" id="halftime-tab" data-bs-toggle="tab" data-bs-target="#halftime-pane" type="button" role="tab" aria-controls="halftime-pane" aria-selected="{% if active_tab == 'halftime' %}true{% else %}false{% endif %}">{% translate "1st & 2nd Half" %}</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="leagueGoalsTabsContent">
+                <!-- Tab 1: Overview -->
+                <div class="tab-pane fade {% if active_tab == 'overview' or not active_tab %}show active{% endif %}" id="overview-pane" role="tabpanel" aria-labelledby="overview-tab">
+
             <!-- League Summary Cards -->
             {% if league_stats %}
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
@@ -99,7 +177,7 @@
                             </div>
                             <div class="progress" style="height: 6px;">
                                 <div class="progress-bar bg-success" role="progressbar"
-                                    data-width="{{ league_stats.home_wins_pct }}%" style="width: 0;"></div>
+                                    style="width: {{ league_stats.home_wins_pct|floatformat:0 }}%;"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -109,7 +187,7 @@
                             </div>
                             <div class="progress" style="height: 6px;">
                                 <div class="progress-bar bg-warning" role="progressbar"
-                                    data-width="{{ league_stats.draws_pct }}%" style="width: 0;"></div>
+                                    style="width: {{ league_stats.draws_pct|floatformat:0 }}%;"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -119,7 +197,7 @@
                             </div>
                             <div class="progress" style="height: 6px;">
                                 <div class="progress-bar bg-danger" role="progressbar"
-                                    data-width="{{ league_stats.away_wins_pct }}%" style="width: 0;"></div>
+                                    style="width: {{ league_stats.away_wins_pct|floatformat:0 }}%;"></div>
                             </div>
                         </div>
                     </div>
@@ -197,15 +275,18 @@
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
                                                     <span>{{ item.pct|floatformat:1 }}%</span>
                                                     <div class="progress" style="width: 50px; height: 4px;">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            data-width="{{ item.pct }}%" style="width: 0;"></div>
-                                                    </div>
+                                                         <div class="progress-bar bg-info" role="progressbar"
+                                                             style="width: {{ item.pct }}%;"></div>
+                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Most common scorelines in the league, showing exact results, occurrence count, and overall percentage." %}</span>
                             </div>
                         </div>
                     </div>
@@ -247,198 +328,103 @@
                                 </table>
                             </div>
                             <div
-                                class="p-3 border-top border-secondary border-opacity-25 small text-center text-secondary">
-                                <span class="fst-italic">{% translate "Points earned in the last 8 matches" %}</span>
+                                class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Current form ranking showing games played (GP), points won (Pts), and form rank (Pos) over the last 8 matches." %}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Full Time Stats Block -->
-            <!-- Middle Ad Block -->
-            <div class="row my-4"><div class="col-12"><div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div></div></div>
-            
-            <div id="match-goals-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
-                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
-                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                        <h4 class="mb-0 fw-bold">Match {% translate "Goals Stats" %} <span
-                                class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 ms-2 rounded-pill">{{ stats_type|default:"Total"|title }}</span></h4>
-                        <nav class="nav nav-pills nav-sm">
-                            <a href="?type=total&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if stats_type == 'total' or not stats_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
-                            <a href="?type=last8&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if stats_type == 'last8' %}active{% else %}text-secondary{% endif %}">{% translate "Last 8" %}</a>
-                            <a href="?type=home&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if stats_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
-                            <a href="?type=away&ht_type={{ ht_stats_type|default:'total' }}&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if stats_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
-                        </nav>
+            <!-- New Row for Timing of Goals -->
+            <div class="row g-4 mb-4">
+                <!-- Timing of Goals -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i
+                                    class="fa-regular fa-clock me-2 text-warning"></i>{% translate "Timing of Goals" %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Period" %}</th>
+                                            <th>{% translate "Goals" %}</th>
+                                            <th class="text-end pe-3">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in timing_stats_list %}
+                                        <tr>
+                                            <td class="text-start ps-3 text-secondary">{{ item.period }}</td>
+                                            <td>{{ item.count }}</td>
+                                            <td class="text-end pe-3">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <span>{{ item.pct|floatformat:1 }}%</span>
+                                                    <div class="progress" style="width: 50px; height: 4px;">
+                                                         <div class="progress-bar bg-warning" role="progressbar"
+                                                             style="width: {{ item.pct }}%;"></div>
+                                                     </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Distribution of goals scored across 15-minute periods of the match." %}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body p-4">
-                    <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
-                        <table class="table table-dark table-hover mb-0 align-middle text-center"
-                            style="font-size: 0.9rem;">
-                            <thead class="bg-dark bg-opacity-50">
-                                <tr>
-                                    <th class="text-start ps-3" style="min-width: 150px;">{% translate "Team" %}</th>
-                                    <th>{% translate "GP" %}</th>
-                                    <th class="text-info">{% translate "Avg" %}</th>
-                                    <th>0.5+</th>
-                                    <th>1.5+</th>
-                                    <th>2.5+</th>
-                                    <th>3.5+</th>
-                                    <th>4.5+</th>
-                                    <th>5.5+</th>
-                                    <th class="text-warning">{% translate "BTS" %}</th>
-                                    <th>{% translate "CS" %}</th>
-                                    <th>{% translate "FTS" %}</th>
-                                    <th>{% translate "WTN" %}</th>
-                                    <th>{% translate "LTN" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for row in goal_stats_rows %}
-                                <tr>
-                                    <td class="text-start ps-3 fw-medium">
-                                        <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
-                                            class="text-decoration-none text-white">
-                                            {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
-                                            {{ row.team.name }}
-                                        </a>
-                                    </td>
-                                    <td class="text-secondary">{{ row.gp }}</td>
-                                    <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
-                                    <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
-                                    <td class="small fw-bold">{{ row.over25_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.over35_pct|floatformat:0 }}%</td>
-                                    <td class="small text-secondary">{{ row.over45_pct|floatformat:0 }}%</td>
-                                    <td class="small text-secondary">{{ row.over55_pct|floatformat:0 }}%</td>
-                                    <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
-                                </tr>
-                                {% endfor %}
 
-                                {% if league_avg_row %}
-                                <tr class="bg-secondary bg-opacity-10 fw-bold border-top border-secondary">
-                                    <td class="text-start ps-3 text-warning">{% translate "League Average" %}</td>
-                                    <td></td>
-                                    <td class="text-info">{{ league_avg_row.avg_total|floatformat:2 }}</td>
-                                    <td>{{ league_avg_row.over05_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.over15_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.over25_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.over35_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.over45_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.over55_pct|floatformat:0 }}%</td>
-                                    <td class="text-warning">{{ league_avg_row.bts_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.cs_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.fts_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.wtn_pct|floatformat:0 }}%</td>
-                                    <td>{{ league_avg_row.ltn_pct|floatformat:0 }}%</td>
-                                </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Legend -->
-                    <div
-                        class="mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-3 small text-secondary">
-                        <div class="d-flex flex-wrap gap-3">
-                                                            <span><strong class="text-white">{% translate "GP" %}:</strong> {% translate "Games Played" %}</span>
-                                                            <span><strong class="text-white">{% translate "Avg" %}:</strong> {% translate "Average Total Goals" %}</span>
-                                                            <span><strong class="text-white">{% translate "BTS" %}:</strong> {% translate "Both Teams Scored" %}</span>
-                                                            <span><strong class="text-white">{% translate "CS" %}:</strong> {% translate "Clean Sheets" %}</span>
-                                                            <span><strong class="text-white">{% translate "FTS" %}:</strong> {% translate "Failed to Score" %}</span>
-                                                            <span><strong class="text-white">{% translate "WTN" %}:</strong> {% translate "Win to Nil" %}</span>
-                                                            <span><strong class="text-white">{% translate "LTN" %}:</strong> {% translate "Lose to Nil" %}</span>
-                                                        </div>
+                <!-- Best Offence / Top Goalscoring Teams -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i
+                                    class="fa-solid fa-futbol me-2 text-info"></i>{% translate "Best Offences" %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th>{% translate "GP" %}</th>
+                                            <th class="text-info">{% translate "GF" %}</th>
+                                            <th class="text-end pe-3">{% translate "Rank" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in overview_tables.4.rows|slice:":6" %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if item.team.logo_url %}
+                                                <img src="{{ item.team.logo_url }}" alt="{{ item.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                {% endif %}
+                                                {{ item.team.name }}
+                                            </td>
+                                            <td>{{ item.gp }}</td>
+                                            <td class="fw-bold text-info">{{ item.val }}</td>
+                                            <td class="text-end pe-3">{{ forloop.counter }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Ranking of teams with the highest number of Goals For (GF) in the league." %}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Half-Time Stats Block -->
-            <div id="half-time-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
-                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
-                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                        <h4 class="mb-0 fw-bold">{% translate "Half-Time Stats" %} <span
-                                class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 ms-2 rounded-pill">{{ ht_stats_type|default:"Total"|title }}</span></h4>
-                        <nav class="nav nav-pills nav-sm">
-                            <a href="?type={{ stats_type|default:'total' }}&ht_type=total&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if ht_stats_type == 'total' or not ht_stats_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
-                            <a href="?type={{ stats_type|default:'total' }}&ht_type=home&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if ht_stats_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
-                            <a href="?type={{ stats_type|default:'total' }}&ht_type=away&bts_type={{ bts_type|default:'total' }}&cs_type={{ cs_type|default:'total' }}&fts_type={{ fts_type|default:'total' }}&wtn_type={{ wtn_type|default:'total' }}"
-                                onclick="loadStats(event, this, 'stats-content')"
-                                class="nav-link {% if ht_stats_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
-                        </nav>
-                    </div>
-                </div>
-                <div class="card-body p-4">
-                    <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
-                        <table class="table table-dark table-hover mb-0 align-middle text-center"
-                            style="font-size: 0.9rem;">
-                            <thead class="bg-dark bg-opacity-50">
-                                <tr>
-                                    <th class="text-start ps-3" style="min-width: 150px;">{% translate "Team" %}</th>
-                                    <th>{% translate "GP" %}</th>
-                                    <th class="text-info">{% translate "Avg" %}</th>
-                                    <th>0.5+</th>
-                                    <th>1.5+</th>
-                                    <th>2.5+</th>
-                                    <th class="text-secondary opacity-50">3.5+</th>
-                                    <th class="text-secondary opacity-50">4.5+</th>
-                                    <th class="text-secondary opacity-50">5.5+</th>
-                                    <th class="text-warning">{% translate "BTS" %}</th>
-                                    <th>{% translate "CS" %}</th>
-                                    <th>{% translate "FTS" %}</th>
-                                    <th>{% translate "WTN" %}</th>
-                                    <th>{% translate "LTN" %}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for row in ht_goal_stats_rows %}
-                                <tr>
-                                    <td class="text-start ps-3 fw-medium">
-                                        <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
-                                            class="text-decoration-none text-white">
-                                            {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
-                                            {{ row.team.name }}
-                                        </a>
-                                    </td>
-                                    <td class="text-secondary">{{ row.gp }}</td>
-                                    <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
-                                    <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
-                                    <td class="small text-secondary opacity-50">{{ row.over35_pct|floatformat:0 }}%</td>
-                                    <td class="small text-secondary opacity-50">{{ row.over45_pct|floatformat:0 }}%</td>
-                                    <td class="small text-secondary opacity-50">{{ row.over55_pct|floatformat:0 }}%</td>
-                                    <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
-                                    <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Other Stats Grid -->
+            <!-- Other Stats Grid (Moved to Overview) -->
             <div class="row g-4">
                 <!-- BTS Stats -->
                 <div class="col-md-6">
@@ -447,14 +433,11 @@
                             class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">{% translate "Both Teams to Score" %}</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=total&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'bts', 'total')"
                                     class="nav-link py-1 px-2 {% if bts_type == 'total' or not bts_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=home&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'bts', 'home')"
                                     class="nav-link py-1 px-2 {% if bts_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type=away&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'bts', 'away')"
                                     class="nav-link py-1 px-2 {% if bts_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
                             </nav>
                         </div>
@@ -469,8 +452,9 @@
                                             <th class="text-end pe-2">%</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for row in bts_rows|slice:":10" %}
+                                    <!-- Total Tbody -->
+                                    <tbody id="bts-total-tbody" class="sub-tab-pane {% if bts_type != 'total' and bts_type %}d-none{% endif %}">
+                                        {% for row in bts_rows.total|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -486,7 +470,59 @@
                                                     <div class="progress bg-secondary bg-opacity-25"
                                                         style="height: 6px; width: 60px;">
                                                         <div class="progress-bar bg-warning" role="progressbar"
-                                                            style="width: 0;" data-width="{{ row.bts_pct }}%"></div>
+                                                            style="width: {{ row.bts_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.bts_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Home Tbody -->
+                                    <tbody id="bts-home-tbody" class="sub-tab-pane {% if bts_type != 'home' %}d-none{% endif %}">
+                                        {% for row in bts_rows.home|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-warning">{{ row.bts }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: {{ row.bts_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.bts_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Away Tbody -->
+                                    <tbody id="bts-away-tbody" class="sub-tab-pane {% if bts_type != 'away' %}d-none{% endif %}">
+                                        {% for row in bts_rows.away|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-warning">{{ row.bts }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: {{ row.bts_pct|floatformat:0 }}%;"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.bts_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -495,6 +531,9 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Both Teams to Score (BTS): number of matches and percentage where both teams scored at least one goal." %}</span>
                             </div>
                         </div>
                     </div>
@@ -507,14 +546,11 @@
                             class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">{% translate "Clean Sheets" %}</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=total&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'cs', 'total')"
                                     class="nav-link py-1 px-2 {% if cs_type == 'total' or not cs_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=home&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'cs', 'home')"
                                     class="nav-link py-1 px-2 {% if cs_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type=away&fts_type={{ fts_type }}&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'cs', 'away')"
                                     class="nav-link py-1 px-2 {% if cs_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
                             </nav>
                         </div>
@@ -529,8 +565,9 @@
                                             <th class="text-end pe-2">%</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for row in cs_rows|slice:":10" %}
+                                    <!-- Total Tbody -->
+                                    <tbody id="cs-total-tbody" class="sub-tab-pane {% if cs_type != 'total' and cs_type %}d-none{% endif %}">
+                                        {% for row in cs_rows.total|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -546,7 +583,59 @@
                                                     <div class="progress bg-secondary bg-opacity-25"
                                                         style="height: 6px; width: 60px;">
                                                         <div class="progress-bar bg-success" role="progressbar"
-                                                            style="width: 0;" data-width="{{ row.cs_pct }}%"></div>
+                                                            style="width: {{ row.cs_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.cs_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Home Tbody -->
+                                    <tbody id="cs-home-tbody" class="sub-tab-pane {% if cs_type != 'home' %}d-none{% endif %}">
+                                        {% for row in cs_rows.home|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-success">{{ row.cs }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: {{ row.cs_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.cs_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Away Tbody -->
+                                    <tbody id="cs-away-tbody" class="sub-tab-pane {% if cs_type != 'away' %}d-none{% endif %}">
+                                        {% for row in cs_rows.away|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-success">{{ row.cs }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: {{ row.cs_pct|floatformat:0 }}%;"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.cs_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -555,6 +644,9 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Clean Sheets (CS): number of matches and percentage where the team kept a clean sheet (conceded 0 goals)." %}</span>
                             </div>
                         </div>
                     </div>
@@ -567,14 +659,11 @@
                             class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">{% translate "Failed to Score" %}</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=total&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'fts', 'total')"
                                     class="nav-link py-1 px-2 {% if fts_type == 'total' or not fts_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=home&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'fts', 'home')"
                                     class="nav-link py-1 px-2 {% if fts_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type=away&wtn_type={{ wtn_type }}"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'fts', 'away')"
                                     class="nav-link py-1 px-2 {% if fts_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
                             </nav>
                         </div>
@@ -589,8 +678,9 @@
                                             <th class="text-end pe-2">%</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for row in fts_rows|slice:":10" %}
+                                    <!-- Total Tbody -->
+                                    <tbody id="fts-total-tbody" class="sub-tab-pane {% if fts_type != 'total' and fts_type %}d-none{% endif %}">
+                                        {% for row in fts_rows.total|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -606,7 +696,59 @@
                                                     <div class="progress bg-secondary bg-opacity-25"
                                                         style="height: 6px; width: 60px;">
                                                         <div class="progress-bar bg-danger" role="progressbar"
-                                                            style="width: 0;" data-width="{{ row.fts_pct }}%"></div>
+                                                            style="width: {{ row.fts_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.fts_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Home Tbody -->
+                                    <tbody id="fts-home-tbody" class="sub-tab-pane {% if fts_type != 'home' %}d-none{% endif %}">
+                                        {% for row in fts_rows.home|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-danger">{{ row.fts }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-danger" role="progressbar"
+                                                            style="width: {{ row.fts_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.fts_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Away Tbody -->
+                                    <tbody id="fts-away-tbody" class="sub-tab-pane {% if fts_type != 'away' %}d-none{% endif %}">
+                                        {% for row in fts_rows.away|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-danger">{{ row.fts }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-danger" role="progressbar"
+                                                            style="width: {{ row.fts_pct|floatformat:0 }}%;"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.fts_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -615,6 +757,9 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Failed to Score (FTS): number of matches and percentage where the team failed to score any goals." %}</span>
                             </div>
                         </div>
                     </div>
@@ -627,14 +772,11 @@
                             class="card-header bg-transparent border-0 pt-3 px-3 pb-0 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">{% translate "Win to Nil" %}</h5>
                             <nav class="nav nav-pills nav-sm small">
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=total"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'wtn', 'total')"
                                     class="nav-link py-1 px-2 {% if wtn_type == 'total' or not wtn_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=home"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'wtn', 'home')"
                                     class="nav-link py-1 px-2 {% if wtn_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
-                                <a href="?type={{ stats_type }}&ht_type={{ ht_stats_type }}&bts_type={{ bts_type }}&cs_type={{ cs_type }}&fts_type={{ fts_type }}&wtn_type=away"
-                                    onclick="loadStats(event, this, 'stats-content')"
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'wtn', 'away')"
                                     class="nav-link py-1 px-2 {% if wtn_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
                             </nav>
                         </div>
@@ -649,8 +791,9 @@
                                             <th class="text-end pe-2">%</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for row in wtn_rows|slice:":10" %}
+                                    <!-- Total Tbody -->
+                                    <tbody id="wtn-total-tbody" class="sub-tab-pane {% if wtn_type != 'total' and wtn_type %}d-none{% endif %}">
+                                        {% for row in wtn_rows.total|slice:":10" %}
                                         <tr>
                                             <td class="ps-2 text-truncate" style="max-width: 120px;">
                                                 <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
@@ -666,7 +809,59 @@
                                                     <div class="progress bg-secondary bg-opacity-25"
                                                         style="height: 6px; width: 60px;">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 0;" data-width="{{ row.wtn_pct }}%"></div>
+                                                            style="width: {{ row.wtn_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.wtn_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Home Tbody -->
+                                    <tbody id="wtn-home-tbody" class="sub-tab-pane {% if wtn_type != 'home' %}d-none{% endif %}">
+                                        {% for row in wtn_rows.home|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-info">{{ row.wtn }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: {{ row.wtn_pct|floatformat:0 }}%;"></div>
+                                                    </div>
+                                                    <span class="small fw-bold">{{ row.wtn_pct|floatformat:0 }}%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <!-- Away Tbody -->
+                                    <tbody id="wtn-away-tbody" class="sub-tab-pane {% if wtn_type != 'away' %}d-none{% endif %}">
+                                        {% for row in wtn_rows.away|slice:":10" %}
+                                        <tr>
+                                            <td class="ps-2 text-truncate" style="max-width: 120px;">
+                                                <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                    class="text-white text-decoration-none">
+                                                    {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                    {{ row.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="text-center fw-bold text-info">{{ row.wtn }}</td>
+                                            <td class="text-center text-secondary">{{ row.gp }}</td>
+                                            <td class="text-end pe-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div class="progress bg-secondary bg-opacity-25"
+                                                        style="height: 6px; width: 60px;">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: {{ row.wtn_pct|floatformat:0 }}%;"></div>
                                                     </div>
                                                     <span class="small fw-bold">{{ row.wtn_pct|floatformat:0 }}%</span>
                                                 </div>
@@ -676,17 +871,575 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                                <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Win to Nil (WTN): number of matches and percentage where the team won while keeping a clean sheet." %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End of row g-4 -->
+            </div> <!-- End of Tab 1: Overview -->
+
+
+            <!-- Tab 2: Match Goals -->
+            <div class="tab-pane fade {% if active_tab == 'goals' %}show active{% endif %}" id="goals-pane" role="tabpanel" aria-labelledby="goals-tab">
+                
+                <div id="match-goals-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <h4 class="mb-0 fw-bold">Match {% translate "Goals Stats" %}</h4>
+                            <nav class="nav nav-pills nav-sm">
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'match-goals', 'total')"
+                                    class="nav-link {% if stats_type == 'total' or not stats_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'match-goals', 'last8')"
+                                    class="nav-link {% if stats_type == 'last8' %}active{% else %}text-secondary{% endif %}">{% translate "Last 8" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'match-goals', 'home')"
+                                    class="nav-link {% if stats_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'match-goals', 'away')"
+                                    class="nav-link {% if stats_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
+                            <table class="table table-dark table-hover mb-0 align-middle text-center"
+                                style="font-size: 0.9rem;">
+                                <thead class="bg-dark bg-opacity-50">
+                                    <tr>
+                                        <th class="text-start ps-3" style="min-width: 150px;">{% translate "Team" %}</th>
+                                        <th>{% translate "GP" %}</th>
+                                        <th class="text-info">{% translate "Avg" %}</th>
+                                        <th>0.5+</th>
+                                        <th>1.5+</th>
+                                        <th>2.5+</th>
+                                        <th>3.5+</th>
+                                        <th>4.5+</th>
+                                        <th>5.5+</th>
+                                        <th class="text-warning">{% translate "BTS" %}</th>
+                                        <th>{% translate "CS" %}</th>
+                                        <th>{% translate "FTS" %}</th>
+                                        <th>{% translate "WTN" %}</th>
+                                        <th>{% translate "LTN" %}</th>
+                                    </tr>
+                                </thead>
+                                
+                                <!-- Total Tbody -->
+                                <tbody id="match-goals-total-tbody" class="sub-tab-pane {% if stats_type != 'total' and stats_type %}d-none{% endif %}">
+                                    {% for row in goal_stats_rows.total %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over35_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over45_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over55_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Last8 Tbody -->
+                                <tbody id="match-goals-last8-tbody" class="sub-tab-pane {% if stats_type != 'last8' %}d-none{% endif %}">
+                                    {% for row in goal_stats_rows.last8 %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over35_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over45_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over55_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Home Tbody -->
+                                <tbody id="match-goals-home-tbody" class="sub-tab-pane {% if stats_type != 'home' %}d-none{% endif %}">
+                                    {% for row in goal_stats_rows.home %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over35_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over45_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over55_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Away Tbody -->
+                                <tbody id="match-goals-away-tbody" class="sub-tab-pane {% if stats_type != 'away' %}d-none{% endif %}">
+                                    {% for row in goal_stats_rows.away %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over35_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over45_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over55_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <tfoot>
+                                    {% if league_avg_row %}
+                                    <tr class="bg-secondary bg-opacity-10 fw-bold border-top border-secondary">
+                                        <td class="text-start ps-3 text-warning">{% translate "League Average" %}</td>
+                                        <td></td>
+                                        <td class="text-info">{{ league_avg_row.avg_total|floatformat:2 }}</td>
+                                        <td>{{ league_avg_row.over05_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.over15_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.over25_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.over35_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.over45_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.over55_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning">{{ league_avg_row.bts_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.cs_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.fts_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.wtn_pct|floatformat:0 }}%</td>
+                                        <td>{{ league_avg_row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endif %}
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Legend -->
+                        <div class="mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-3 small text-secondary">
+                            <div class="d-flex flex-wrap gap-3 align-items-center">
+                                <span class="text-info fw-bold me-2"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Legend" %}:</span>
+                                <span><strong class="text-white-50">GP:</strong> {% translate "Games Played" %}</span>
+                                <span><strong class="text-info">{% translate "Avg" %}:</strong> {% translate "Average Goals" %}</span>
+                                <span><strong class="text-warning">AM/BTS:</strong> {% translate "Both Teams to Score" %}</span>
+                                <span><strong class="text-success">SG/CS:</strong> {% translate "Clean Sheets" %}</span>
+                                <span><strong class="text-danger">FM/FTS:</strong> {% translate "Failed to Score" %}</span>
+                                <span><strong class="text-info">VSS/WTN:</strong> {% translate "Win to Nil" %}</span>
+                                <span><strong class="text-white-50">PSS/LTN:</strong> {% translate "Lose to Nil" %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div> <!-- End of Tab 2: Match Goals -->
+
+
+            <!-- Tab 3: 1st & 2nd Half -->
+            <div class="tab-pane fade {% if active_tab == 'halftime' %}show active{% endif %}" id="halftime-pane" role="tabpanel" aria-labelledby="halftime-tab">
+                
+                <!-- Half-Time Stats Block -->
+                <div id="half-time-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <h4 class="mb-0 fw-bold">{% translate "Half-Time Stats" %}</h4>
+                            <nav class="nav nav-pills nav-sm">
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'halftime', 'total')"
+                                    class="nav-link {% if ht_stats_type == 'total' or not ht_stats_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'halftime', 'last8')"
+                                    class="nav-link {% if ht_stats_type == 'last8' %}active{% else %}text-secondary{% endif %}">{% translate "Last 8" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'halftime', 'home')"
+                                    class="nav-link {% if ht_stats_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'halftime', 'away')"
+                                    class="nav-link {% if ht_stats_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
+                            <table class="table table-dark table-hover mb-0 align-middle text-center"
+                                style="font-size: 0.9rem;">
+                                <thead class="bg-dark bg-opacity-50">
+                                    <tr>
+                                        <th class="text-start ps-3" style="min-width: 150px;">{% translate "Team" %}</th>
+                                        <th>{% translate "GP" %}</th>
+                                        <th class="text-info">{% translate "Avg" %}</th>
+                                        <th>0.5+</th>
+                                        <th>1.5+</th>
+                                        <th>2.5+</th>
+                                        <th class="text-warning">{% translate "BTS" %}</th>
+                                        <th>{% translate "CS" %}</th>
+                                        <th>{% translate "FTS" %}</th>
+                                        <th>{% translate "WTN" %}</th>
+                                        <th>{% translate "LTN" %}</th>
+                                    </tr>
+                                </thead>
+                                
+                                <!-- Total Tbody -->
+                                <tbody id="halftime-total-tbody" class="sub-tab-pane {% if ht_stats_type != 'total' and ht_stats_type %}d-none{% endif %}">
+                                    {% for row in ht_goal_stats_rows.total %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Last8 Tbody -->
+                                <tbody id="halftime-last8-tbody" class="sub-tab-pane {% if ht_stats_type != 'last8' %}d-none{% endif %}">
+                                    {% for row in ht_goal_stats_rows.last8 %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Home Tbody -->
+                                <tbody id="halftime-home-tbody" class="sub-tab-pane {% if ht_stats_type != 'home' %}d-none{% endif %}">
+                                    {% for row in ht_goal_stats_rows.home %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Away Tbody -->
+                                <tbody id="halftime-away-tbody" class="sub-tab-pane {% if ht_stats_type != 'away' %}d-none{% endif %}">
+                                    {% for row in ht_goal_stats_rows.away %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <tfoot>
+                                    {% if ht_league_avg_row %}
+                                    <tr class="bg-secondary bg-opacity-10 fw-bold border-top border-secondary">
+                                        <td class="text-start ps-3 text-warning">{% translate "League Average" %}</td>
+                                        <td></td>
+                                        <td class="text-info">{{ ht_league_avg_row.avg_total|floatformat:2 }}</td>
+                                        <td>{{ ht_league_avg_row.over05_pct|floatformat:0 }}%</td>
+                                        <td>{{ ht_league_avg_row.over15_pct|floatformat:0 }}%</td>
+                                        <td>{{ ht_league_avg_row.over25_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning">{{ ht_league_avg_row.bts_pct|floatformat:0 }}%</td>
+                                        <td>{{ ht_league_avg_row.cs_pct|floatformat:0 }}%</td>
+                                        <td>{{ ht_league_avg_row.fts_pct|floatformat:0 }}%</td>
+                                        <td>{{ ht_league_avg_row.wtn_pct|floatformat:0 }}%</td>
+                                        <td>{{ ht_league_avg_row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endif %}
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Legend -->
+                        <div class="mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-3 small text-secondary">
+                            <div class="d-flex flex-wrap gap-3 align-items-center">
+                                <span class="text-info fw-bold me-2"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Legend" %}:</span>
+                                <span><strong class="text-white-50">GP:</strong> {% translate "Games Played" %}</span>
+                                <span><strong class="text-info">{% translate "Avg" %}:</strong> {% translate "Average Goals" %}</span>
+                                <span><strong class="text-warning">AM/BTS:</strong> {% translate "Both Teams to Score" %}</span>
+                                <span><strong class="text-success">SG/CS:</strong> {% translate "Clean Sheets" %}</span>
+                                <span><strong class="text-danger">FM/FTS:</strong> {% translate "Failed to Score" %}</span>
+                                <span><strong class="text-info">VSS/WTN:</strong> {% translate "Win to Nil" %}</span>
+                                <span><strong class="text-white-50">PSS/LTN:</strong> {% translate "Lose to Nil" %}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
+                <!-- Second-Half Stats Block -->
+                <div id="second-half-card" class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <h4 class="mb-0 fw-bold">{% translate "Second-Half Stats" %}</h4>
+                            <nav class="nav nav-pills nav-sm">
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'second-half', 'total')"
+                                    class="nav-link {% if sh_stats_type == 'total' or not sh_stats_type %}active{% else %}text-secondary{% endif %}">{% translate "Total" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'second-half', 'last8')"
+                                    class="nav-link {% if sh_stats_type == 'last8' %}active{% else %}text-secondary{% endif %}">{% translate "Last 8" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'second-half', 'home')"
+                                    class="nav-link {% if sh_stats_type == 'home' %}active{% else %}text-secondary{% endif %}">{% translate "Home" %}</a>
+                                <a href="javascript:void(0)" onclick="switchSubTab(this, 'second-half', 'away')"
+                                    class="nav-link {% if sh_stats_type == 'away' %}active{% else %}text-secondary{% endif %}">{% translate "Away" %}</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive rounded-3 border border-secondary border-opacity-25">
+                            <table class="table table-dark table-hover mb-0 align-middle text-center"
+                                style="font-size: 0.9rem;">
+                                <thead class="bg-dark bg-opacity-50">
+                                    <tr>
+                                        <th class="text-start ps-3" style="min-width: 150px;">{% translate "Team" %}</th>
+                                        <th>{% translate "GP" %}</th>
+                                        <th class="text-info">{% translate "Avg" %}</th>
+                                        <th>0.5+</th>
+                                        <th>1.5+</th>
+                                        <th>2.5+</th>
+                                        <th class="text-warning">{% translate "BTS" %}</th>
+                                        <th>{% translate "CS" %}</th>
+                                        <th>{% translate "FTS" %}</th>
+                                        <th>{% translate "WTN" %}</th>
+                                        <th>{% translate "LTN" %}</th>
+                                    </tr>
+                                </thead>
+                                
+                                <!-- Total Tbody -->
+                                <tbody id="second-half-total-tbody" class="sub-tab-pane {% if sh_stats_type != 'total' and sh_stats_type %}d-none{% endif %}">
+                                    {% for row in sh_goal_stats_rows.total %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Last8 Tbody -->
+                                <tbody id="second-half-last8-tbody" class="sub-tab-pane {% if sh_stats_type != 'last8' %}d-none{% endif %}">
+                                    {% for row in sh_goal_stats_rows.last8 %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Home Tbody -->
+                                <tbody id="second-half-home-tbody" class="sub-tab-pane {% if sh_stats_type != 'home' %}d-none{% endif %}">
+                                    {% for row in sh_goal_stats_rows.home %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <!-- Away Tbody -->
+                                <tbody id="second-half-away-tbody" class="sub-tab-pane {% if sh_stats_type != 'away' %}d-none{% endif %}">
+                                    {% for row in sh_goal_stats_rows.away %}
+                                    <tr>
+                                        <td class="text-start ps-3 fw-medium">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {% if row.team.logo_url %}<img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.gp }}</td>
+                                        <td class="fw-bold text-info">{{ row.avg_total|floatformat:2 }}</td>
+                                        <td class="small">{{ row.over05_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over15_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.over25_pct|floatformat:0 }}%</td>
+
+                                        <td class="text-warning fw-bold">{{ row.bts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.cs_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.fts_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.wtn_pct|floatformat:0 }}%</td>
+                                        <td class="small">{{ row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <tfoot>
+                                    {% if sh_league_avg_row %}
+                                    <tr class="bg-secondary bg-opacity-10 fw-bold border-top border-secondary">
+                                        <td class="text-start ps-3 text-warning">{% translate "League Average" %}</td>
+                                        <td></td>
+                                        <td class="text-info">{{ sh_league_avg_row.avg_total|floatformat:2 }}</td>
+                                        <td>{{ sh_league_avg_row.over05_pct|floatformat:0 }}%</td>
+                                        <td>{{ sh_league_avg_row.over15_pct|floatformat:0 }}%</td>
+                                        <td>{{ sh_league_avg_row.over25_pct|floatformat:0 }}%</td>
+                                        <td class="text-warning">{{ sh_league_avg_row.bts_pct|floatformat:0 }}%</td>
+                                        <td>{{ sh_league_avg_row.cs_pct|floatformat:0 }}%</td>
+                                        <td>{{ sh_league_avg_row.fts_pct|floatformat:0 }}%</td>
+                                        <td>{{ sh_league_avg_row.wtn_pct|floatformat:0 }}%</td>
+                                        <td>{{ sh_league_avg_row.ltn_pct|floatformat:0 }}%</td>
+                                    </tr>
+                                    {% endif %}
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <!-- Legend -->
+                        <div class="mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-3 small text-secondary">
+                            <div class="d-flex flex-wrap gap-3 align-items-center">
+                                <span class="text-info fw-bold me-2"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Legend" %}:</span>
+                                <span><strong class="text-white-50">GP:</strong> {% translate "Games Played" %}</span>
+                                <span><strong class="text-info">{% translate "Avg" %}:</strong> {% translate "Average Goals" %}</span>
+                                <span><strong class="text-warning">AM/BTS:</strong> {% translate "Both Teams to Score" %}</span>
+                                <span><strong class="text-success">SG/CS:</strong> {% translate "Clean Sheets" %}</span>
+                                <span><strong class="text-danger">FM/FTS:</strong> {% translate "Failed to Score" %}</span>
+                                <span><strong class="text-info">VSS/WTN:</strong> {% translate "Win to Nil" %}</span>
+                                <span><strong class="text-white-50">PSS/LTN:</strong> {% translate "Lose to Nil" %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End of Tab 3: 1st & 2nd Half -->
+        </div> <!-- End of tab-content -->
 
 
             <!-- SEO Text Card (Bottom) -->
             <div class="row mt-5 mb-2">
-                <div class="col-12">
-                    <div class="card border-0 text-white shadow-sm mb-4" style="background: #0b0f19; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px;">
                         <div class="card-header bg-transparent border-bottom border-white border-opacity-5 py-3">
                             <h5 class="mb-0 fw-bold text-info">
                                 <i class="fa-solid fa-chart-line me-2"></i>{% translate "Goals Analysis and Probabilities" %}: {{ league.name }}
@@ -709,10 +1462,8 @@
         <!-- Right Sidebar (Ads + Table) -->
         <div class="col-lg-3">
             <div class="sticky-top" style="top: 20px; z-index: 100;">
-
-
-
-
+                {% include 'matches/includes/sidebar_widgets.html' %}
+                <div class="ad-placeholder mt-3" data-ad-slot="7384735802" data-ad-format="vertical"></div>
             </div>
         </div>
 

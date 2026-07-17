@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static i18n %}
-{% load matches_extras %}
+{% load matches_extras cache %}
 
 {% block title %}{{ league.name }} Elite Stats - Corners, Cards & Goals | StatsFut{% endblock %}
 
@@ -73,219 +73,255 @@
     <!-- Middle Ad Block -->
     <div class="row my-4"><div class="col-12"><div class="ad-placeholder" data-ad-slot="1511520655" data-ad-format="auto"></div></div></div>
 
-    <!-- Main Grid -->
-    <div class="row g-4 mb-4">
-        <!-- LEFT COLUMN: Corners & Discipline -->
-        <div class="col-xl-6 col-lg-6 d-flex flex-column gap-4">
+    
             
-            <!-- {% translate "Corners Performance Ranking" %} -->
-            <div class="custom-card d-flex flex-column">
-                <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3 d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-flag text-info"></i> {% translate "Corners Performance Ranking" %}
-                    </h5>
-                    <span class="badge bg-slate-800 text-slate-400 small px-2.5 py-1" style="font-weight: 700;">{% translate "Avg per Match" %}</span>
+    <div class="row g-4">
+    <!-- Main Content -->
+    <div class="col-lg-9" id="stats-content">
+        {% cache 3600 league_detailed_stats league.id season.id %}
+            <div class="row g-4 mb-5">
+                <!-- Corners -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-flag me-2 text-info"></i>{% translate "Corners Performance Ranking" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th><i class="fa-solid fa-arrow-up-long text-success me-1"></i>{% translate "For" %}</th>
+                                            <th><i class="fa-solid fa-arrow-down-long text-danger me-1"></i>{% translate "Against" %}</th>
+                                            <th class="text-info pe-3">{% translate "Total" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in team_stats %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if s.team.logo_url %}
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                {% endif %}
+                                                <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
+                                                    {{ s.team.name }}
+                                                </a>
+                                            </td>
+                                            <td>{{ s.avg_corners_for }}</td>
+                                            <td>{{ s.avg_corners_against }}</td>
+                                            <td class="fw-bold text-info pe-3">{{ s.avg_corners_total }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Ranking of teams with the most corners on average per match (For, Against and Total)." %}</span>
+                    </div>
+                    </div>
                 </div>
-                <div class="card-body p-1 overflow-auto custom-scrollbar" style="max-height: 375px;">
-                    <div class="d-flex flex-column gap-1">
-                        {% for s in team_stats %}
-                        <div class="team-stat-card d-flex flex-column flex-sm-row justify-content-between align-items-sm-center px-3 py-2">
-                            <div class="d-flex align-items-center gap-3">
-                                {% if s.team.logo_url %}
-                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" style="width: 28px; height: 28px; object-fit: contain;">
-                                {% else %}
-                                <div class="team-initial-box-sm">
-                                    {{ s.team.name|slice:":1" }}
-                                </div>
-                                {% endif %}
-                                <div>
-                                    <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white fw-bold hover-primary" style="font-size: 0.88rem;">
-                                        {{ s.team.name }}
-                                    </a>
-                                    <span class="text-slate-500 d-block" style="font-size: 0.68rem;">{{ s.gp }} {% translate "matches" %}</span>
-                                </div>
-                            </div>
-                            <div class="d-flex gap-2 flex-wrap mt-2 mt-sm-0">
-                                <div class="stat-pill-badge-sm for-badge">
-                                    <span class="label"><i class="fa-solid fa-arrow-up-long text-success me-1"></i>{% translate "For" %}</span>
-                                    <span class="value">{{ s.avg_corners_for }}</span>
-                                </div>
-                                <div class="stat-pill-badge-sm against-badge">
-                                    <span class="label"><i class="fa-solid fa-arrow-down-long text-danger me-1"></i>{% translate "Ag" %}</span>
-                                    <span class="value">{{ s.avg_corners_against }}</span>
-                                </div>
-                                <div class="stat-pill-badge-sm total-badge">
-                                    <span class="label"><i class="fa-solid fa-flag text-info me-1"></i>{% translate "Tot" %}</span>
-                                    <span class="value">{{ s.avg_corners_total }}</span>
-                                </div>
+                
+                <!-- Cards -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-copy me-2 text-warning"></i>{% translate "Cards & Discipline Ranking" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th><i class="fa-solid fa-square text-warning me-1"></i>{% translate "Yellow" %}</th>
+                                            <th class="pe-3"><i class="fa-solid fa-square text-danger me-1"></i>{% translate "Red" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in team_stats|dictsortreversed:"avg_yellow" %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if s.team.logo_url %}
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                {% endif %}
+                                                <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
+                                                    {{ s.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="fw-bold text-warning">{{ s.avg_yellow }}</td>
+                                            <td class="fw-bold text-danger pe-3">{{ s.avg_red }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        {% empty %}
-                        <div class="text-center py-5 text-slate-400">
-                            <i class="fa-solid fa-circle-exclamation fs-3 mb-2 d-block text-warning"></i>
-                            {% translate "No corner data available yet. Processing matches..." %}
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Disciplinary ranking showing the teams with the most yellow and red cards per match." %}</span>
+                    </div>
+                    </div>
+                </div>
+        
+                <!-- Shots -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-crosshairs me-2 text-success"></i>{% translate "Shots per Match" %}</h6>
                         </div>
-                        {% endfor %}
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th class="text-success pe-3"><i class="fa-solid fa-bullseye me-1"></i>{% translate "Shots (Avg)" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in team_stats|dictsortreversed:"avg_shots" %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if s.team.logo_url %}
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                {% endif %}
+                                                <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
+                                                    {{ s.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="fw-bold text-success pe-3">{{ s.avg_shots }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="2" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Ranking of teams with the highest average number of shots per match." %}</span>
+                    </div>
+                    </div>
+                </div>
+        
+                <!-- Goal Timing -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-clock me-2 text-info"></i>{% translate "Goal Minutes Distribution" %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Period" %}</th>
+                                            <th>{% translate "Goals" %}</th>
+                                            <th class="text-end pe-3">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for t in timing_stats %}
+                                        <tr>
+                                            <td class="text-start ps-3 text-secondary">{{ t.period }}</td>
+                                            <td>{{ t.count }}</td>
+                                            <td class="text-end pe-3">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <span>{{ t.pct|floatformat:1 }}%</span>
+                                                    <div class="progress" style="width: 50px; height: 4px;">
+                                                         <div class="progress-bar bg-info" role="progressbar" style="width: {{ t.pct }}%;"></div>
+                                                     </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Distribution of goals scored across 15-minute periods of the match." %}</span>
+                    </div>
+                    </div>
+                </div>
+        
+                <!-- Top Scorers -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-fire me-2 text-warning"></i>{% translate "League Top Scorers" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Player" %}</th>
+                                            <th>{% translate "Team" %}</th>
+                                            <th class="text-end pe-3">{% translate "Goals" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for p in top_scorers %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">{{ p.player_name }}</td>
+                                            <td class="text-secondary" style="font-size: 0.75rem;">{{ p.team__name }}</td>
+                                            <td class="fw-bold text-warning text-end pe-3">
+                                                {{ p.goals_count }}
+                                                {% if p.penalties > 0 %}
+                                                <span class="text-secondary" style="font-size: 0.65rem;">({{ p.penalties }} Pen)</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "League top scorers for the current season, including penalty goals." %}</span>
+                    </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Disciplinary Cards -->
-            <div class="custom-card">
-                <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
-                    <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-copy text-warning"></i> {% translate "Cards Averages" %}
-                    </h5>
-                </div>
-                <div class="card-body p-1 overflow-auto custom-scrollbar" style="max-height: 375px;">
-                    <div class="d-flex flex-column gap-1">
-                        {% for s in team_stats|dictsortreversed:"avg_yellow" %}
-                        <div class="team-stat-card d-flex justify-content-between align-items-center px-3 py-2" style="background: rgba(17, 24, 39, 0.3);">
-                            <div class="d-flex align-items-center gap-3">
-                                {% if s.team.logo_url %}
-                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" style="width: 28px; height: 28px; object-fit: contain;">
-                                {% else %}
-                                <div class="team-initial-box-sm">
-                                    {{ s.team.name|slice:":1" }}
-                                </div>
-                                {% endif %}
-                                <span class="text-slate-200 fw-bold" style="font-size: 0.88rem;">{{ s.team.name }}</span>
-                            </div>
-                            
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="card-pill">
-                                    <span class="pill-label yellow-label">YEL</span>
-                                    <span class="pill-value yellow-value">{{ s.avg_yellow }}</span>
-                                </div>
-                                <div class="card-pill">
-                                    <span class="pill-label red-label">RED</span>
-                                    <span class="pill-value red-value">{{ s.avg_red }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- RIGHT COLUMN: Goals, Scorers & Shots -->
-        <div class="col-xl-6 col-lg-6 d-flex flex-column gap-4">
-            
-            <!-- Goal Timing Card -->
-            <div class="custom-card">
-                <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
-                    <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-clock text-info"></i> {% translate "Goal Minutes Distribution" %}
-                    </h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column gap-3.5">
-                        {% for t in timing_stats %}
-                        <div>
-                            <div class="d-flex justify-content-between text-white small mb-1.5">
-                                <span class="fw-bold">{{ t.period }}</span>
-                                <span class="text-slate-300">{{ t.count }} {% translate "goals" %} <span class="text-slate-500">•</span> <strong class="text-info">{{ t.pct }}%</strong></span>
-                            </div>
-                            <div class="progress custom-progress">
-                                <div class="progress-bar bg-info-gradient progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ t.pct }}%" aria-valuenow="{{ t.pct }}" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <div class="text-center py-5 text-slate-400">
-                            <i class="fa-solid fa-clock-rotate-left fs-3 mb-2 d-block text-slate-500"></i>
-                            {% translate "No goal minute data available." %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Scorers Card -->
-            <div class="custom-card d-flex flex-column">
-                <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
-                    <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-fire text-warning"></i> {% translate "League Top Scorers" %}
-                    </h5>
-                </div>
-                <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 375px;">
-                    <div class="list-group list-group-flush bg-transparent">
-                        {% for p in top_scorers %}
-                        <div class="list-group-item bg-transparent text-white border-bottom border-white border-opacity-5 d-flex justify-content-between align-items-center py-2 px-3 transition-row">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="team-initial-box-sm" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.25); color: #f59e0b;">
-                                    {{ p.player_name|slice:":1" }}
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <span class="fw-bold text-white" style="font-size: 0.88rem;">{{ p.player_name }}</span>
-                                    <span class="text-slate-400" style="font-size: 0.68rem;"><i class="fa-solid fa-shield-halved me-1 text-slate-500"></i> {{ p.team__name }}</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-primary-gradient text-white fw-black px-2 py-1 rounded-3" style="font-size: 0.78rem; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.35);">
-                                    {{ p.goals_count }} {% translate "Goals" %}
-                                </span>
-                                {% if p.penalties > 0 %}
-                                <span class="badge bg-slate-800 text-slate-300 border border-slate-700 px-2 py-1.5 rounded-3" style="font-size: 0.7rem;">
-                                    {{ p.penalties }} {% translate "Pen." %}
-                                </span>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% empty %}
-                        <div class="text-center py-5 text-slate-400">
-                            <i class="fa-solid fa-ranking-star fs-3 mb-2 d-block text-slate-500"></i>
-                            {% translate "No top scorer registered for the current season." %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Offensive Shots -->
-            <div class="custom-card">
-                <div class="card-header bg-transparent border-bottom border-white border-opacity-5 p-3">
-                    <h5 class="mb-0 text-white fw-bold d-flex align-items-center gap-2" style="font-size: 1.1rem;">
-                        <i class="fa-solid fa-bullseye text-danger"></i> {% translate "Offensive Shots (Avg)" %}
-                    </h5>
-                </div>
-                <div class="card-body p-1 overflow-auto custom-scrollbar" style="max-height: 375px;">
-                    <div class="d-flex flex-column gap-1">
-                        {% for s in team_stats|dictsortreversed:"avg_shots" %}
-                        <div class="team-stat-card d-flex justify-content-between align-items-center px-3 py-2" style="background: rgba(17, 24, 39, 0.3);">
-                            <div class="d-flex align-items-center gap-3">
-                                {% if s.team.logo_url %}
-                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" style="width: 28px; height: 28px; object-fit: contain;">
-                                {% else %}
-                                <div class="team-initial-box-sm" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #f87171;">
-                                    {{ s.team.name|slice:":1" }}
-                                </div>
-                                {% endif %}
-                                <span class="text-slate-200 fw-bold" style="font-size: 0.88rem;">{{ s.team.name }}</span>
-                            </div>
-                            
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="stat-pill-badge for-badge" style="border-color: rgba(239, 68, 68, 0.25);">
-                                    <span class="label" style="font-size: 0.75rem;"><i class="fa-solid fa-crosshairs text-danger me-1"></i> {% translate "Shots" %}</span>
-                                    <span class="value" style="background: rgba(239, 68, 68, 0.15); color: #f87171 !important;">{{ s.avg_shots }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
+        {% endcache %}
+    </div>
+    
+    <!-- Sidebar Placeholder -->
+    <div class="col-lg-3 d-none d-lg-block">
+        <div class="sticky-top" style="top: 20px; z-index: 100;">
+            <div class="ad-placeholder" data-ad-slot="7384735802" data-ad-format="vertical"></div>
         </div>
     </div>
-
-    <div class="row mb-4">
-        <div class="col-12">
-        </div>
-    </div>
-
+</div>
+    
     <!-- SEO Text Card (Bottom) -->
     <div class="row mt-5">
         <div class="col-12">
@@ -295,7 +331,7 @@
                         <i class="fa-solid fa-chart-line me-2"></i>{% translate "Detailed Statistics and Elite Analysis" %}: {{ league.name }}
                     </h5>
                 </div>
-                <div class="card-body p-4" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.8;">
+                <div class="card-body p-4 seo-card-body" style="font-size: 0.92rem;">
                     <p class="mb-3">
                         {% blocktranslate with league_name=league.name country=league.country year=season.year %}Advanced statistics and detailed analysis for the {{ league_name }} ({{ country }}) league, {{ year }} season. Explore in-depth information about corner averages, distribution of yellow and red cards per game, team discipline, volume of shots, and the exact moment goals happen throughout the 90 minutes.{% endblocktranslate %}
                     </p>

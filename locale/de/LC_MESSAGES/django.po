@@ -4774,3 +4774,44 @@ msgstr "%(team)s Mehr Schüsse"
 #~ "(Genauigkeit unter 30%%). Spiel mit Tendenz zu wenigen Toren, ideal um "
 #~ "den \"Under\"-Markt zu analysieren.\n"
 #~ "                        "
+
+
+msgid "Strength based on Opponent's Points Per Game (PPG) at the match venue."
+msgstr "* Stärke basierend auf den Punkten pro Spiel (PPG) des Gegners am Spielort."
+
+
+msgid "1st & 2nd Half"
+msgstr "1. & 2. Halbzeit"
+
+
+msgid "Second-Half Stats"
+msgstr "Statistiken der 2. Halbzeit"
+
+
+msgid "Legend"
+msgstr "Legende"
+
+
+msgid "Most common scorelines in the league, showing exact results, occurrence count, and overall percentage."
+msgstr "Die häufigsten Spielergebnisse in der Liga mit exakten Resultaten, Anzahl der Vorkommen und Gesamtprozentsatz."
+
+
+msgid "Current form ranking showing games played (GP), points won (Pts), and form rank (Pos) over the last 8 matches."
+msgstr "Aktuelle Formtabelle mit absolvierten Spielen (Sp), gewonnenen Punkten (Pkt) und der Formplatzierung (Pos) der letzten 8 Spiele."
+
+
+msgid "Both Teams to Score (BTS): number of matches and percentage where both teams scored at least one goal."
+msgstr "Beide Teams treffen (BTS): Anzahl der Spiele und Prozentsatz, in denen beide Teams mindestens ein Tor erzielt haben."
+
+
+msgid "Clean Sheets (CS): number of matches and percentage where the team kept a clean sheet (conceded 0 goals)."
+msgstr "Ohne Gegentor (CS): Anzahl der Spiele und Prozentsatz, in denen das Team kein Gegentor kassiert hat."
+
+
+msgid "Failed to Score (FTS): number of matches and percentage where the team failed to score any goals."
+msgstr "Ohne Torerfolg (FTS): Anzahl der Spiele und Prozentsatz, in denen das Team kein Tor erzielen konnte."
+
+
+msgid "Win to Nil (WTN): number of matches and percentage where the team won while keeping a clean sheet."
+msgstr "Sieg ohne Gegentor (WTN): Anzahl der Spiele und Prozentsatz, in denen das Team gewonnen und kein Gegentor kassiert hat."
+

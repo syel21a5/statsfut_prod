@@ -160,7 +160,7 @@
             
             <div class="matches-grid">
                 {% for match in league_data.matches %}
-                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="text-decoration-none text-inherit match-card-wrapper">
+                <a href="{% url 'matches:h2h_detail' country_name=match.league.country|slugify league_name=match.league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}" class="text-decoration-none text-inherit match-card-wrapper">
                     <div class="match-card glass-card p-2 px-3 rounded-4 border border-secondary position-relative overflow-hidden hover-effect" data-status="{{ match.status }}">
                         <div class="d-flex justify-content-between mb-2 small text-white">
                             <div class="fw-bold d-flex align-items-center gap-2">

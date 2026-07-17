@@ -1,0 +1,98 @@
+{% load i18n matches_extras %}
+<div class="table-responsive rounded-3 border border-secondary border-opacity-25">
+    <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small">
+        <thead>
+            <tr class="text-secondary small text-uppercase" style="background: rgba(255,255,255,0.05);">
+                <th class="text-start ps-3" style="min-width: 150px;">{% translate "Team" %}</th>
+                <th>GP</th>
+                <th class="text-info">{{ col_label }}</th>
+                <th>{% translate "Avg. min" %}</th>
+                <th>0-15</th>
+                <th>16-30</th>
+                <th>31-45</th>
+                <th>46-60</th>
+                <th>61-75</th>
+                <th>76-90</th>
+                <th style="min-width: 160px;">{% translate "1st Half vs 2nd Half" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team_row in rows %}
+            <tr>
+                <td class="text-start ps-3 fw-bold">
+                    <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=team_row.team.name|slugify %}" class="text-white text-decoration-none">
+                        {% if team_row.team.logo_url %}<img src="{{ team_row.team.logo_url }}" alt="{{ team_row.team.name }}" class="me-2" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                        {{ team_row.team.name }}
+                    </a>
+                </td>
+                <td class="text-secondary">{{ team_row.gp }}</td>
+                
+                {% if prefix == "ogs" %}
+                    <td class="fw-bold text-info">{{ team_row.sf }}</td>
+                    <td class="text-info fw-bold">{{ team_row.ogs_avg|floatformat:1 }}'</td>
+                    <td>{{ team_row.ogs_0_15 }}</td>
+                    <td>{{ team_row.ogs_16_30 }}</td>
+                    <td>{{ team_row.ogs_31_45 }}</td>
+                    <td>{{ team_row.ogs_46_60 }}</td>
+                    <td>{{ team_row.ogs_61_75 }}</td>
+                    <td>{{ team_row.ogs_76_90 }}</td>
+                    <td>
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <span class="small font-monospace text-secondary" style="width: 32px; text-align: right;">{{ team_row.ogs_1h_pct|floatformat:0 }}%</span>
+                            <div class="progress" style="height: 8px; width: 35px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ team_row.ogs_1h_pct }}%;"></div>
+                            </div>
+                            <div class="progress" style="height: 8px; width: 35px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ team_row.ogs_2h_pct }}%;"></div>
+                            </div>
+                            <span class="small font-monospace text-secondary" style="width: 32px; text-align: left;">{{ team_row.ogs_2h_pct|floatformat:0 }}%</span>
+                        </div>
+                    </td>
+                {% elif prefix == "ogc" %}
+                    <td class="fw-bold text-danger">{{ team_row.cf }}</td>
+                    <td class="text-danger fw-bold">{{ team_row.ogc_avg|floatformat:1 }}'</td>
+                    <td>{{ team_row.ogc_0_15 }}</td>
+                    <td>{{ team_row.ogc_16_30 }}</td>
+                    <td>{{ team_row.ogc_31_45 }}</td>
+                    <td>{{ team_row.ogc_46_60 }}</td>
+                    <td>{{ team_row.ogc_61_75 }}</td>
+                    <td>{{ team_row.ogc_76_90 }}</td>
+                    <td>
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <span class="small font-monospace text-secondary" style="width: 32px; text-align: right;">{{ team_row.ogc_1h_pct|floatformat:0 }}%</span>
+                            <div class="progress" style="height: 8px; width: 35px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ team_row.ogc_1h_pct }}%;"></div>
+                            </div>
+                            <div class="progress" style="height: 8px; width: 35px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ team_row.ogc_2h_pct }}%;"></div>
+                            </div>
+                            <span class="small font-monospace text-secondary" style="width: 32px; text-align: left;">{{ team_row.ogc_2h_pct|floatformat:0 }}%</span>
+                        </div>
+                    </td>
+                {% else %}
+                    <td class="fw-bold text-warning">{{ team_row.og }}</td>
+                    <td class="text-warning fw-bold">{{ team_row.og_avg|floatformat:1 }}'</td>
+                    <td>{{ team_row.og_0_15 }}</td>
+                    <td>{{ team_row.og_16_30 }}</td>
+                    <td>{{ team_row.og_31_45 }}</td>
+                    <td>{{ team_row.og_46_60 }}</td>
+                    <td>{{ team_row.og_61_75 }}</td>
+                    <td>{{ team_row.og_76_90 }}</td>
+                    <td>
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <span class="small font-monospace text-secondary" style="width: 32px; text-align: right;">{{ team_row.og_1h_pct|floatformat:0 }}%</span>
+                            <div class="progress" style="height: 8px; width: 35px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ team_row.og_1h_pct }}%;"></div>
+                            </div>
+                            <div class="progress" style="height: 8px; width: 35px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ team_row.og_2h_pct }}%;"></div>
+                            </div>
+                            <span class="small font-monospace text-secondary" style="width: 32px; text-align: left;">{{ team_row.og_2h_pct|floatformat:0 }}%</span>
+                        </div>
+                    </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

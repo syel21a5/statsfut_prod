@@ -2664,7 +2664,7 @@ msgstr "Próximos Oponentes (Dificultad)"
 
 #: .\matches\templates\matches\team_detail.html:574
 msgid "Opponent"
-msgstr "Rival"
+msgstr "Oponente"
 
 #: .\matches\templates\matches\team_detail.html:575
 msgid "Venue"
@@ -4768,3 +4768,44 @@ msgstr "%(team)s Más Tiros"
 #~ "(Precisión por debajo del 30%%). Partido con tendencia a pocos goles, "
 #~ "ideal para analizar el mercado de \"Under\".\n"
 #~ "                        "
+
+
+msgid "Strength based on Opponent's Points Per Game (PPG) at the match venue."
+msgstr "* Fuerza basada en los Puntos Por Partido (PPG) del oponente en la sede del encuentro."
+
+
+msgid "1st & 2nd Half"
+msgstr "1ª & 2ª Mitad"
+
+
+msgid "Second-Half Stats"
+msgstr "Estadísticas de la 2ª Mitad"
+
+
+msgid "Legend"
+msgstr "Leyenda"
+
+
+msgid "Most common scorelines in the league, showing exact results, occurrence count, and overall percentage."
+msgstr "Resultados más comunes en la liga, mostrando marcadores exactos, cantidad de ocurrencias y el porcentaje general."
+
+
+msgid "Current form ranking showing games played (GP), points won (Pts), and form rank (Pos) over the last 8 matches."
+msgstr "Clasificación de forma reciente mostrando partidos jugados (PJ), puntos ganados (Pts) y posición de forma (Pos) en los últimos 8 partidos."
+
+
+msgid "Both Teams to Score (BTS): number of matches and percentage where both teams scored at least one goal."
+msgstr "Ambos Equipos Marcan (BTS): número de partidos y porcentaje en los que ambos equipos marcaron al menos un gol."
+
+
+msgid "Clean Sheets (CS): number of matches and percentage where the team kept a clean sheet (conceded 0 goals)."
+msgstr "Porterías a Cero (CS): número de partidos y porcentaje en los que el equipo no concedió goles (valla invicta)."
+
+
+msgid "Failed to Score (FTS): number of matches and percentage where the team failed to score any goals."
+msgstr "Sin Marcar (FTS): número de partidos y porcentaje en los que el equipo no logró marcar ningún gol."
+
+
+msgid "Win to Nil (WTN): number of matches and percentage where the team won while keeping a clean sheet."
+msgstr "Ganar a Cero (WTN): número de partidos y porcentaje en los que el equipo ganó manteniendo su portería a cero."
+
