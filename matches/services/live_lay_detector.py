@@ -30,6 +30,16 @@ class LiveLayDetector:
             home_score = match.home_score or 0
             away_score = match.away_score or 0
             
+            elapsed = match.elapsed_time or 0
+            if match.status == 'HT':
+                elapsed = 45
+                
+            analyzer = MatchAnalyzer(match)
+            stats = analyzer.generate_full_report()
+            
+            if not stats or 'poisson' not in stats:
+                return
+            
             # Fase 0: RADAR INICIAL (0-0, Primeiros 15 minutos)
             if home_score == 0 and away_score == 0 and elapsed <= 15:
                 self._process_radar_phase(match, elapsed, stats)
