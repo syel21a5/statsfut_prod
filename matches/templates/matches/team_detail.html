@@ -185,8 +185,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="d-flex gap-1 justify-content-center">
-                                                            <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=team.name|slugify team2_name=m.opponent.name|slugify %}" class="btn btn-sm btn-outline-info py-1 px-1" style="font-size: 0.7rem;" title="Confronto H2H">H2H</a>
-                                                            <a href="{% url 'matches:match_detail_short' pk=m.id %}" class="btn btn-sm btn-success py-1 px-2 fw-bold" style="font-size: 0.75rem;"><i class="fa-solid fa-bolt me-1"></i>{% translate "Analyze" %}</a>
+                                                            <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=team.name|slugify team2_name=m.opponent.name|slugify %}" class="btn btn-sm btn-success py-1 px-2 fw-bold" style="font-size: 0.75rem;"><i class="fa-solid fa-bolt me-1"></i>{% translate "Analyze" %}</a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -238,14 +237,13 @@
                                                          <div class="d-flex gap-1 justify-content-center">
                                                              {% if m.home_team == team %}
                                                                  {% with opponent=m.away_team %}
-                                                                 <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=team.name|slugify team2_name=opponent.name|slugify %}" class="btn btn-xs btn-outline-info py-0 px-1" style="font-size: 0.7rem;">H2H</a>
+                                                                 <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=team.name|slugify team2_name=opponent.name|slugify %}" class="btn btn-xs btn-success py-0 px-2 fw-bold" style="font-size: 0.7rem;"><i class="fa-solid fa-bolt me-1"></i>{% translate "Analyze" %}</a>
                                                                  {% endwith %}
                                                              {% else %}
                                                                  {% with opponent=m.home_team %}
-                                                                 <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=team.name|slugify team2_name=opponent.name|slugify %}" class="btn btn-xs btn-outline-info py-0 px-1" style="font-size: 0.7rem;">H2H</a>
+                                                                 <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=team.name|slugify team2_name=opponent.name|slugify %}" class="btn btn-xs btn-success py-0 px-2 fw-bold" style="font-size: 0.7rem;"><i class="fa-solid fa-bolt me-1"></i>{% translate "Analyze" %}</a>
                                                                  {% endwith %}
                                                              {% endif %}
-                                                             <a href="{% url 'matches:match_detail_short' pk=m.id %}" class="btn btn-xs btn-success py-0 px-2 fw-bold" style="font-size: 0.7rem;"><i class="fa-solid fa-bolt me-1"></i>{% translate "Analyze" %}</a>
                                                          </div>
                                                     </td>
                                                 </tr>

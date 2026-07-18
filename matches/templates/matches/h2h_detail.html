@@ -146,29 +146,12 @@
                 .premium-tabs .nav-link.active { color: #fff !important; background: linear-gradient(135deg, #0ea5e9, #2563eb) !important; box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
             </style>
             <ul class="nav nav-pills premium-tabs mb-4" id="h2hTabs" role="tablist">
-                <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#frente" type="button" role="tab"><i class="fa-solid fa-handshake-angle me-2"></i>{% translate "Direct History" %}</button></li>
-                <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#comparacao" type="button" role="tab"><i class="fa-solid fa-scale-balanced me-2"></i>{% translate "Form and Statistics" %}</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#comparacao" type="button" role="tab"><i class="fa-solid fa-scale-balanced me-2"></i>{% translate "Form and Statistics" %}</button></li>
                 <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#avancadas" type="button" role="tab"><i class="fa-solid fa-chart-line me-2"></i>{% translate "Advanced Analysis" %}</button></li>
-            </ul>
-            <div class="tab-content" id="h2hTabsContent">
-                <div class="tab-pane fade show active" id="frente" role="tabpanel">
-            <!-- H2H SEO Dynamic Text -->
-            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3 text-info">
-                        <i class="fa-solid fa-circle-info me-2"></i>{% blocktranslate with t1=team1.name t2=team2.name %}H2H Analysis: {{ t1 }} vs {{ t2 }}{% endblocktranslate %}
-                    </h5>
-                    <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
-                        <div class="col-12">
-                            <p class="mb-0">
-                                {% blocktranslate with t1=team1.name t2=team2.name league_name=league.name count=h2h_stats.gp %}Complete head-to-head (H2H) history between <strong>{{ t1 }}</strong> and <strong>{{ t2 }}</strong> in the <strong>{{ league_name }}</strong>. Discover who has the advantage in win statistics, average goals, corners, and mathematical predictions for the upcoming matches. By analyzing the last {{ count }} encounters, it is possible to identify important trends for the Over/Under 2.5 goals and Both Teams to Score (BTTS) markets. Compare current performance (points per game, form, and unbeaten streaks) to base your sports analysis on real data.{% endblocktranslate %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </ul>            <div class="tab-content" id="h2hTabsContent">
+                <div class="tab-pane fade show active" id="comparacao" role="tabpanel">
 
-<div class="row g-4">
+            <div class="row g-4 mb-3">
                 <!-- Comparison Stats (Total) -->
                 <div class="col-lg-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
@@ -285,105 +268,13 @@
                     </div>
                 </div>
 
-                <!-- Detailed Explanation Footer for Season Stats -->
-                <div class="col-12 mt-0">
-                    <div class="text-secondary small d-flex align-items-start bg-white bg-opacity-10 p-3 rounded" style="font-size: 0.75rem;">
-                        <i class="fa-solid fa-circle-info text-info me-2 fs-6 mt-1"></i>
-                        <div>
-                            <strong class="text-light">{% translate "Season Averages" %}:</strong> {% translate "Overview of both teams' performance in the current season. The first table shows overall averages (all matches), while the second table analyzes specific performance (Team 1 at Home vs Team 2 Away)." %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-4 mb-4 mt-1">
-                <div class="col-12">
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
-                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
-                            <h5 class="mb-0 fw-bold text-uppercase small tracking-wide"><i class="fa-solid fa-clock-rotate-left text-info me-2"></i>{% translate "Recent H2H Matches" %}</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive custom-scrollbar" style="max-height: 400px; overflow-y: auto;">
-                                <table class="table table-dark table-hover mb-0 align-middle text-center small">
-                                    <thead class="sticky-top bg-dark">
-                                        <tr class="text-secondary text-uppercase">
-                                            <th class="ps-4 text-start">{% translate "Date" %}</th>
-                                            <th class="text-end">{% translate "Home" %}</th>
-                                            <th>{% translate "Score" %}</th>
-                                            <th class="text-start">{% translate "Away" %}</th>
-                                            <th class="pe-4 text-end">{% translate "Action" %}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                         {% for match in matches %}
-                                         <tr>
-                                             <td class="ps-4 text-start text-secondary">{{ match.date|date:"d M Y" }}</td>
-                                             
-                                             <td class="text-end align-middle {% if match.home_score > match.away_score %}fw-bold text-white{% else %}text-secondary{% endif %}">
-                                                 <div class="d-flex align-items-center justify-content-end gap-2">
-                                                     <span>{{ match.home_team.name }}</span>
-                                                     {% if match.home_team.logo_url %}<img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
-                                                 </div>
-                                             </td>
-                                             
-                                             <td class="text-center">
-                                                 <span class="badge bg-dark border border-secondary border-opacity-50 px-3 py-1 fs-6">
-                                                     {{ match.home_score }} - {{ match.away_score }}
-                                                 </span>
-                                             </td>
-                                             
-                                             <td class="text-start align-middle {% if match.away_score > match.home_score %}fw-bold text-white{% else %}text-secondary{% endif %}">
-                                                 <div class="d-flex align-items-center justify-content-start gap-2">
-                                                     {% if match.away_team.logo_url %}<img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" style="width: 20px; height: 20px; object-fit: contain;">{% endif %}
-                                                     <span>{{ match.away_team.name }}</span>
-                                                 </div>
-                                             </td>
-                                             
-                                             <td class="pe-4 text-end">
-                                                 <a href="{% url 'matches:match_detail_short' pk=match.id %}" class="btn btn-sm btn-success py-1 px-3 fw-bold" style="font-size: 0.75rem;"><i class="fa-solid fa-bolt me-1"></i>{% translate "Analyze" %}</a>
-                                             </td>
-                                         </tr>
-                                         {% empty %}
-                                         <tr>
-                                             <td colspan="5" class="text-center py-4 text-secondary">{% translate "No recent matches." %}</td>
-                                         </tr>
-                                         {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                </div>
-                <div class="tab-pane fade" id="comparacao" role="tabpanel">
-            <!-- MAIN GRID: Aligned Row-by-Row -->
-            
-            <!-- 1. Headers Row -->
-            <div class="row g-4 mb-3">
-                <div class="col-lg-6">
-                    <!-- Team Header -->
-                    <div
-                        class="bg-primary bg-opacity-25 text-white p-2 rounded mb-3 border border-primary border-opacity-25 d-flex justify-content-between align-items-center">
-                        <span class="fw-bold">{{ team1.name }}</span>
-                        <span class="small text-secondary">({% translate "this season" %})</span>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <!-- Team Header -->
-                    <div
-                        class="bg-danger bg-opacity-25 text-white p-2 rounded mb-3 border border-danger border-opacity-25 d-flex justify-content-between align-items-center">
-                        <span class="fw-bold">{{ team2.name }}</span>
-                        <span class="small text-secondary">({% translate "this season" %})</span>
-                    </div>
-                </div>
             </div>
 
             <!-- 2. Seasonal Match Statistics Row -->
             <div class="row g-4 mb-3">
                 <div class="col-lg-6">
-                    <!-- CONTAINER 1: Seasonal match statistics -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Seasonal match statistics" %}</h6>
                         </div>
@@ -456,15 +347,12 @@
                             </div>
                         </div>
                     
-                        <div class="card-footer bg-transparent border-top border-secondary border-opacity-25 py-2 text-secondary small" style="font-size: 0.75rem;">
-                            <i class="fa-solid fa-circle-question me-1 text-info"></i>
-                            {% translate "GP: Games Played | W: Wins | D: Draws | L: Losses. PPG: Points Per Game (Average points per match)." %}
-                        </div>
+
 </div>
                 </div>
                 <div class="col-lg-6">
-                    <!-- CONTAINER 1: Seasonal match statistics -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Seasonal match statistics" %}</h6>
                         </div>
@@ -537,10 +425,7 @@
                             </div>
                         </div>
                     
-                        <div class="card-footer bg-transparent border-top border-secondary border-opacity-25 py-2 text-secondary small" style="font-size: 0.75rem;">
-                            <i class="fa-solid fa-circle-question me-1 text-info"></i>
-                            {% translate "GP: Games Played | W: Wins | D: Draws | L: Losses. PPG: Points Per Game (Average points per match)." %}
-                        </div>
+
 </div>
                 </div>
             </div>
@@ -548,8 +433,8 @@
             <!-- 3. Relative Form Row -->
             <div class="row g-4 mb-3">
                 <div class="col-lg-6">
-                    <!-- CONTAINER 2: Relative form -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Relative form" %}</h6>
                         </div>
@@ -599,15 +484,12 @@
                             </div>
                         </div>
                     
-                        <div class="card-footer bg-transparent border-top border-secondary border-opacity-25 py-2 text-secondary small" style="font-size: 0.75rem;">
-                            <i class="fa-solid fa-circle-question me-1 text-info"></i>
-                            {% translate "Compares the overall season average against the last 8 matches. Green indicates improvement, red indicates decline." %}
-                        </div>
+
 </div>
                 </div>
                 <div class="col-lg-6">
-                    <!-- CONTAINER 2: Relative form -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Relative form" %}</h6>
                         </div>
@@ -657,10 +539,7 @@
                             </div>
                         </div>
                     
-                        <div class="card-footer bg-transparent border-top border-secondary border-opacity-25 py-2 text-secondary small" style="font-size: 0.75rem;">
-                            <i class="fa-solid fa-circle-question me-1 text-info"></i>
-                            {% translate "Compares the overall season average against the last 8 matches. Green indicates improvement, red indicates decline." %}
-                        </div>
+
 </div>
                 </div>
             </div>
@@ -668,8 +547,8 @@
             <!-- 4. Progression Row -->
             <div class="row g-4 mb-3">
                 <div class="col-lg-6">
-                    <!-- CONTAINER 3: Progression -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-body p-3">
                             <div class="text-secondary small mb-2 fw-bold">{% blocktranslate with name=team1.name %}{{ name }}'s progression (home & away){% endblocktranslate %}</div>
                             <div class="d-flex align-items-center"
@@ -719,8 +598,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <!-- CONTAINER 3: Progression -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-body p-3">
                             <div class="text-secondary small mb-2 fw-bold">{% blocktranslate with name=team2.name %}{{ name }}'s progression (home & away){% endblocktranslate %}</div>
                             <div class="d-flex align-items-center"
@@ -774,8 +653,8 @@
             <!-- 5. Results Row -->
             <div class="row g-4 mb-3">
                 <div class="col-lg-6">
-                    <!-- CONTAINER 4: Results -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Results" %}</h6>
                         </div>
@@ -857,8 +736,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <!-- CONTAINER 4: Results -->
-                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-3">
+                    <!-- CONTAINER -->
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
                             <h6 class="mb-0 fw-bold small text-uppercase">{% translate "Results" %}</h6>
                         </div>
@@ -942,7 +821,7 @@
             </div>
 
             <!-- Points Per Game (Remaining Matches Analysis) -->
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
@@ -1076,17 +955,7 @@
                 </div>
             </div>
             
-            <!-- Detailed Explanation Footer for Form and Season Stats -->
-            <div class="row">
-                <div class="col-12 mt-0">
-                    <div class="text-secondary small d-flex align-items-start bg-white bg-opacity-10 p-3 rounded" style="font-size: 0.75rem;">
-                        <i class="fa-solid fa-circle-info text-info me-2 fs-6 mt-1"></i>
-                        <div>
-                            <strong class="text-light">{% translate "Form & Statistics" %}:</strong> {% translate "Detailed performance of each team in the current season, separating results into Home and Away. The 'Relative Form' section analyzes their momentum based on recent matches and goal differences." %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
 
 
@@ -1098,7 +967,7 @@
 
 
             <!-- Direct Head-to-Head History -->
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
@@ -1224,12 +1093,30 @@
                 </div>
             </div>
 
+            <!-- H2H Premium CTA Banner (Summary Tab) -->
+            {% include 'matches/includes/h2h_premium_cta.html' %}
+            
+            <!-- H2H SEO Dynamic Text -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mt-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3 text-info">
+                        <i class="fa-solid fa-circle-info me-2"></i>{% blocktranslate with t1=team1.name t2=team2.name %}H2H Analysis: {{ t1 }} vs {{ t2 }}{% endblocktranslate %}
+                    </h5>
+                    <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
+                        <div class="col-12">
+                            <p class="mb-0">
+                                {% blocktranslate with t1=team1.name t2=team2.name league_name=league.name count=h2h_stats.gp %}Complete head-to-head (H2H) history between <strong>{{ t1 }}</strong> and <strong>{{ t2 }}</strong> in the <strong>{{ league_name }}</strong>. Discover who has the advantage in win statistics, average goals, corners, and mathematical predictions for the upcoming matches. By analyzing the last {{ count }} encounters, it is possible to identify important trends for the Over/Under 2.5 goals and Both Teams to Score (BTTS) markets. Compare current performance (points per game, form, and unbeaten streaks) to base your sports analysis on real data.{% endblocktranslate %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                 </div>
                 <div class="tab-pane fade" id="avancadas" role="tabpanel">
 
             <!-- Key Probabilities Ribbon -->
-            <div class="row mb-4">
+            <div class="row g-4 mb-3">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div class="card-body py-2 px-3">
@@ -1256,7 +1143,7 @@
             </div>
 
             <!-- NEW: Detailed Goals Analysis Grid -->
-            <div class="row mt-2">
+            <div class="row g-4 mb-3">
                 <!-- Over Goals Cards -->
                 {% for item in "over_05:Over 0.5,over_15:Over 1.5,over_25:Over 2.5,over_35:Over 3.5"|split:"," %}
                 {% with parts=item|split:":" %}
@@ -1294,7 +1181,7 @@
 
 
             {% if fallback_h2h %}
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div
@@ -1415,7 +1302,7 @@
             {% endif %}
 
             <!-- Historical Statistics & Comparison with Past Seasons -->
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <!-- Team 1 -->
                 <div class="col-md-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
@@ -1748,7 +1635,7 @@
             </div>
 
             <!-- Current Streaks & Sequences -->
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
@@ -2048,6 +1935,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <div class="card-footer bg-transparent border-top border-secondary border-opacity-25 py-3 text-secondary small" style="font-size: 0.75rem;">
                             <i class="fa-solid fa-circle-info text-info me-1"></i>
                             {% translate "Green values indicate positive streaks (e.g., consecutive wins, clean sheets), while red values indicate negative streaks (e.g., winless matches). A dash (-) means there is no active streak." %}
@@ -2057,7 +1945,7 @@
             </div>
 
             <!-- Comparison with league average -->
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <div class="col-12">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
                         <div
@@ -2193,6 +2081,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <div class="card-footer bg-transparent border-top border-secondary border-opacity-25 py-3 text-secondary small" style="font-size: 0.75rem;">
                             <i class="fa-solid fa-circle-info text-info me-1"></i>
                             {% translate "Compares the team's statistics with the average of all teams in the championship. Colored bars indicate whether the team is performing above (green) or below (red) the league average for that criterion." %}
@@ -2202,7 +2091,7 @@
             </div>
 
             <!-- First Goal, Leading & Trailing -->
-            <div class="row mt-4">
+            <div class="row g-4 mb-3">
                 <!-- Team 1 -->
                 <div class="col-md-6">
                     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
@@ -2494,7 +2383,7 @@
                     </div>
                 </div>
                 <!-- Detailed Explanation Footer for First Goal & Advanced Stats -->
-                <div class="col-12 mt-2">
+                <div class="col-12 mt-3">
                     <div class="card border-0 bg-white bg-opacity-10 text-secondary small shadow-sm">
                         <div class="card-body p-3 p-md-4" style="font-size: 0.8rem;">
                             <div class="d-flex align-items-center mb-3">
@@ -2522,40 +2411,7 @@
             </div>
 
                     <!-- PREMIUM CTA BANNER -->
-                    {% if next_match %}
-                    <div class="row mt-5 mb-2">
-                        <div class="col-12">
-                            <div class="card border-0 text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;">
-                                <!-- Glowing accent border -->
-                                <div class="position-absolute top-0 start-0 w-100" style="height: 4px; background: linear-gradient(90deg, #0ea5e9, #8b5cf6, #ec4899);"></div>
-                                
-                                <!-- Background pattern/glow -->
-                                <div class="position-absolute top-0 end-0 opacity-25" style="transform: translate(15%, -20%); pointer-events: none;">
-                                    <i class="fa-solid fa-microchip" style="font-size: 15rem; color: #8b5cf6; filter: blur(4px);"></i>
-                                </div>
-                                
-                                <div class="card-body p-4 p-md-5 position-relative z-index-1 d-flex flex-column flex-md-row align-items-center justify-content-between">
-                                    <div class="text-start mb-4 mb-md-0 pe-md-4">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span class="badge bg-danger text-uppercase fw-bold tracking-wide me-2 px-2 py-1" style="font-size: 0.7rem; letter-spacing: 1px;"><i class="fa-solid fa-crown me-1"></i>PRO</span>
-                                            <h3 class="fw-bold mb-0 text-white">Análise Algorítmica da Partida</h3>
-                                        </div>
-                                        <p class="text-secondary mb-0 fs-6">
-                                            O algoritmo da StatsFut já processou todos os dados de <strong class="text-light">{{ team1.name }}</strong> e <strong class="text-light">{{ team2.name }}</strong> para o próximo jogo. Desbloqueie as probabilidades matemáticas de <span class="text-info fw-bold">Over/Under</span>, <span class="text-warning fw-bold">Escanteios</span> e o <span class="text-success fw-bold">Palpite Principal</span>.
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="flex-shrink-0 text-center">
-                                        <a href="{% url 'matches:match_detail' pk=next_match.pk slug=next_match.slug %}" class="btn fw-bold px-5 py-3 rounded-pill shadow-lg d-inline-flex align-items-center justify-content-center" style="background: linear-gradient(90deg, #0ea5e9, #3b82f6); color: white; transition: all 0.3s; border: none; font-size: 1.1rem;">
-                                            <i class="fa-solid fa-unlock-keyhole me-2"></i>Acessar Análise
-                                        </a>
-                                        <div class="small text-secondary mt-2 fw-bold tracking-wide"><i class="fa-solid fa-chart-line text-warning me-1"></i>ANÁLISE ESTATÍSTICA AVANÇADA</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
+                    {% include 'matches/includes/h2h_premium_cta.html' %}
                 </div>
             </div>
         </div>
