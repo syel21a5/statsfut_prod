@@ -5140,7 +5140,7 @@ class HeadToHeadView(TemplateView):
             next_match = Match.objects.filter(
                 (models.Q(home_team=team1) & models.Q(away_team=team2)) |
                 (models.Q(home_team=team2) & models.Q(away_team=team1))
-            ).filter(status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC']).order_by('date').first()
+            ).filter(status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC', '1H', '2H', 'HT', 'In Progress', 'Live']).order_by('date').first()
             context['next_match'] = next_match
             
             # Calculate H2H Summary
