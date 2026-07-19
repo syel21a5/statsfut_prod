@@ -1348,26 +1348,21 @@
     ];
     let loadingTextInterval = null;
 
+    let currentFormat = 'short';
+
     function openVideoScriptModal(format = 'short') {
+        currentFormat = format;
         const modal = document.getElementById('videoScriptModal');
+        const form = document.getElementById('scriptForm');
         const loader = document.getElementById('scriptLoader');
         const textarea = document.getElementById('scriptTextarea');
         const btnCopy = document.getElementById('btnCopyScript');
-        const loadingTextEl = document.getElementById('scriptLoadingText');
         
         modal.classList.add('show');
-        loader.classList.remove('d-none');
+        form.classList.remove('d-none');
+        loader.classList.add('d-none');
         textarea.classList.add('d-none');
         btnCopy.classList.add('d-none');
-        
-        // Reset loading text
-        let textIdx = 0;
-        loadingTextEl.innerText = loadingTexts[0];
-        if (loadingTextInterval) clearInterval(loadingTextInterval);
-        loadingTextInterval = setInterval(() => {
-            textIdx = (textIdx + 1) % loadingTexts.length;
-            loadingTextEl.innerText = loadingTexts[textIdx];
-        }, 3000);
         
         // Detectar qual aba está aberta na tela
         let activeTab = 'gols';
@@ -1376,8 +1371,44 @@
             activeTab = activeContent.id.replace('tab-', '');
         }
         
-        // Fetch script from API passando o formato e a aba
-        const url = `{% url 'matches:match_video_script' match.id %}?format=${format}&aba=${activeTab}`;
+        // Marcar apenas o checkbox da aba ativa
+        document.querySelectorAll('#scriptForm input[type="checkbox"]').forEach(chk => {
+            chk.checked = (chk.value === activeTab);
+        });
+    }
+
+    function generateScriptFromSelection() {
+        const form = document.getElementById('scriptForm');
+        const loader = document.getElementById('scriptLoader');
+        const textarea = document.getElementById('scriptTextarea');
+        const btnCopy = document.getElementById('btnCopyScript');
+        const loadingTextEl = document.getElementById('scriptLoadingText');
+        
+        // Obter abas selecionadas
+        const selected = [];
+        document.querySelectorAll('#scriptForm input[type="checkbox"]:checked').forEach(chk => {
+            selected.push(chk.value);
+        });
+        
+        if (selected.length === 0) {
+            alert('{% translate "Por favor, selecione pelo menos uma aba para gerar o roteiro!" %}');
+            return;
+        }
+        
+        form.classList.add('d-none');
+        loader.classList.remove('d-none');
+        
+        // Reset loading text animation
+        let textIdx = 0;
+        loadingTextEl.innerText = loadingTexts[0];
+        if (loadingTextInterval) clearInterval(loadingTextInterval);
+        loadingTextInterval = setInterval(() => {
+            textIdx = (textIdx + 1) % loadingTexts.length;
+            loadingTextEl.innerText = loadingTexts[textIdx];
+        }, 3000);
+        
+        // Fetch script from API passando o formato e as abas selecionadas
+        const url = `{% url 'matches:match_video_script' match.id %}?format=${currentFormat}&aba=${selected.join(',')}`;
         fetch(url)
             .then(async res => {
                 const contentType = res.headers.get("content-type");
@@ -1450,7 +1481,34 @@
             <button class="video-script-close" onclick="closeVideoScriptModal()">&times;</button>
         </div>
         <div class="video-script-body" id="videoScriptBody">
-            <div class="script-loader" id="scriptLoader">
+            <div id="scriptForm" class="d-flex flex-column gap-3">
+                <p class="mb-0 text-light opacity-75 small">{% translate "Selecione quais abas estatísticas deseja incluir na locução do vídeo:" %}</p>
+                <div class="d-flex flex-column gap-2 p-3 rounded" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);">
+                    <label class="d-flex align-items-center gap-2 cursor-pointer mb-0 text-light small">
+                        <input type="checkbox" value="gols" style="width: 16px; height: 16px; accent-color: #8b5cf6;" checked> {% translate "Gols & Tempos" %}
+                    </label>
+                    <label class="d-flex align-items-center gap-2 cursor-pointer mb-0 text-light small">
+                        <input type="checkbox" value="escanteios" style="width: 16px; height: 16px; accent-color: #8b5cf6;"> {% translate "Escanteios" %}
+                    </label>
+                    <label class="d-flex align-items-center gap-2 cursor-pointer mb-0 text-light small">
+                        <input type="checkbox" value="cartoes" style="width: 16px; height: 16px; accent-color: #8b5cf6;"> {% translate "Cartões" %}
+                    </label>
+                    <label class="d-flex align-items-center gap-2 cursor-pointer mb-0 text-light small">
+                        <input type="checkbox" value="chutes" style="width: 16px; height: 16px; accent-color: #8b5cf6;"> {% translate "Chutes" %}
+                    </label>
+                    <label class="d-flex align-items-center gap-2 cursor-pointer mb-0 text-light small">
+                        <input type="checkbox" value="especiais" style="width: 16px; height: 16px; accent-color: #8b5cf6;"> {% translate "Especiais & Combos" %}
+                    </label>
+                    <label class="d-flex align-items-center gap-2 cursor-pointer mb-0 text-light small">
+                        <input type="checkbox" value="lays" style="width: 16px; height: 16px; accent-color: #8b5cf6;"> {% translate "Trade & Lays" %}
+                    </label>
+                </div>
+                <button class="btn-script-action btn-script-primary w-100 mt-2" onclick="generateScriptFromSelection()">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> {% translate "Gerar Roteiro" %}
+                </button>
+            </div>
+            
+            <div class="script-loader d-none" id="scriptLoader">
                 <div class="spinner-premium"></div>
                 <p id="scriptLoadingText" style="text-align: center; color: #94a3b8; font-weight: 600;">{% translate "Analisando histórico de confrontos..." %}</p>
             </div>

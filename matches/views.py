@@ -361,8 +361,11 @@ class MatchVideoScriptView(View):
             return JsonResponse({'status': 'error', 'message': f'Erro ao analisar partida: {str(e)}'}, status=500)
             
         format_type = request.GET.get('format', 'short')
-        aba_ativa = request.GET.get('aba', 'gols')
-        
+        aba_param = request.GET.get('aba', 'gols')
+        selected_abas = [a.strip().lower() for a in aba_param.split(',') if a.strip()]
+        if not selected_abas:
+            selected_abas = ['gols']
+            
         home_team = match.home_team.name
         away_team = match.away_team.name
         league = match.league.name
@@ -377,80 +380,93 @@ class MatchVideoScriptView(View):
         lay_bets = report.get('lay_bets', [])
         
         # Mapeamento de abas para as instruções da IA
-        # Formata o palpite de chance dupla para ser lido corretamente
         dc_bet = odds_probs.get('double_bet', '')
         if dc_bet == '12': dc_bet = 'um dois'
         elif dc_bet == '1X': dc_bet = 'um x'
         elif dc_bet == 'X2': dc_bet = 'x dois'
-
+        
         instrucoes_aba = {
             'gols': {
                 'contexto': f"1. GOLS: HT Goal: {goals.get('ht_goal', 0)}%, BTTS: {goals.get('btts', 0)}% | Over 1.5: {goals.get('over_15', 0)}%, 2.5: {goals.get('over_25', 0)}%, 3.5: {goals.get('over_35', 0)}%, 4.5: {goals.get('over_45', 0)}%\n" +
                             f"6. RESUMO: Vencedor Casa {odds_probs.get('home_win', 0)}%, Empate {odds_probs.get('draw', 0)}%, Fora {odds_probs.get('away_win', 0)}%. Palpite: {dc_bet}",
-                'json_keys': '''{
-  "introducao": "Texto de introdução da partida (somente se for o inicio do video).",
-  "gols_over_1_5": "Análise do over 1.5 gols baseada na %...",
-  "gols_over_2_5": "Análise do over 2.5 gols...",
-  "gols_over_3_5": "Análise do over 3.5 gols...",
-  "gols_over_4_5": "Análise do over 4.5 gols...",
-  "gols_btts": "Análise de ambas marcam...",
-  "gols_vencedor": "Análise do favorito a vencer a partida...",
-  "gols_chance_dupla": "Análise do palpite de chance dupla...",
-  "gols_ht": "Análise de gols no HT..."
-}'''
+                'keys_dict': {
+                    "gols_over_1_5": "Análise do over 1.5 gols baseada na %...",
+                    "gols_over_2_5": "Análise do over 2.5 gols...",
+                    "gols_over_3_5": "Análise do over 3.5 gols...",
+                    "gols_over_4_5": "Análise do over 4.5 gols...",
+                    "gols_btts": "Análise de ambas marcam...",
+                    "gols_vencedor": "Análise do favorito a vencer a partida...",
+                    "gols_chance_dupla": "Análise do palpite de chance dupla...",
+                    "gols_ht": "Análise de gols no HT..."
+                }
             },
             'escanteios': {
                 'contexto': f"3. ESCANTEIOS: Média Total: {round(corners.get('home', dict()).get('avg_total', 0) + corners.get('away', dict()).get('avg_total', 0), 1)}, Over 7.5: {corners.get('match_overs', dict()).get(7, 0)}%, Over 8.5: {corners.get('match_overs', dict()).get(8, 0)}%, Over 9.5: {corners.get('match_overs', dict()).get(9, 0)}%, Over 10.5: {corners.get('match_overs', dict()).get(10, 0)}%. Mais Cantos: Casa {corners.get('winner_corners', dict()).get('home', 0)}%, Fora {corners.get('winner_corners', dict()).get('away', 0)}%",
-                'json_keys': '''{
-  "escanteios_intro": "Uma introdução robusta e engajadora voltada apenas para o mercado de escanteios, analisando o comportamento dos times pelas pontas (cerca de 40 a 50 palavras).",
-  "escanteios_over_7_5": "Análise do over 7.5 cantos...",
-  "escanteios_over_8_5": "Análise do over 8.5 cantos...",
-  "escanteios_over_9_5": "Análise do over 9.5 cantos (linha principal de jogo)...",
-  "escanteios_over_10_5": "Análise do over 10.5 cantos (cenário de alta pressão)...",
-  "escanteios_base": "Análise da base do jogo somada (média de cantos)...",
-  "escanteios_palpite": "Análise do melhor palpite de cantos...",
-  "escanteios_mais_cantos": "Análise de quem fará mais escanteios..."
-}'''
+                'keys_dict': {
+                    "escanteios_intro": "Uma introdução robusta e engajadora voltada apenas para o mercado de escanteios, analisando o comportamento dos times pelas pontas (cerca de 40 a 50 palavras).",
+                    "escanteios_over_7_5": "Análise do over 7.5 cantos...",
+                    "escanteios_over_8_5": "Análise do over 8.5 cantos...",
+                    "escanteios_over_9_5": "Análise do over 9.5 cantos (linha principal de jogo)...",
+                    "escanteios_over_10_5": "Análise do over 10.5 cantos (cenário de alta pressão)...",
+                    "escanteios_base": "Análise da base do jogo somada (média de cantos)...",
+                    "escanteios_palpite": "Análise do melhor palpite de cantos...",
+                    "escanteios_mais_cantos": "Análise de quem fará mais escanteios..."
+                }
             },
             'cartoes': {
                 'contexto': f"4. CARTÕES: Over 3.5: {disciplinary.get('cards_totals_overs', dict()).get(3, 0)}%, 4.5: {disciplinary.get('cards_totals_overs', dict()).get(4, 0)}%. Mais Cartões: Casa {disciplinary.get('winner_cards', dict()).get('home', 0)}%, Empate {disciplinary.get('winner_cards', dict()).get('draw', 0)}%, Fora {disciplinary.get('winner_cards', dict()).get('away', 0)}%",
-                'json_keys': '''{
-  "cartoes_intro": "Frase curta de gancho para a disciplina/cartões.",
-  "cartoes_over_3_5": "Análise do over 3.5 cartões...",
-  "cartoes_over_4_5": "Análise do over 4.5...",
-  "cartoes_over_5_5": "Análise do over 5.5...",
-  "cartoes_mais_cartoes": "Análise de quem vai tomar mais cartões..."
-}'''
+                'keys_dict': {
+                    "cartoes_intro": "Frase curta de gancho para a disciplina/cartões.",
+                    "cartoes_over_3_5": "Análise do over 3.5 cartões...",
+                    "cartoes_over_4_5": "Análise do over 4.5...",
+                    "cartoes_over_5_5": "Análise do over 5.5...",
+                    "cartoes_mais_cartoes": "Análise de quem vai tomar mais cartões..."
+                }
             },
             'chutes': {
                 'contexto': f"2. CHUTES: Eficiência Casa: {efficiency.get('home', dict()).get('conversion_rate', 0)}%, Fora: {efficiency.get('away', dict()).get('conversion_rate', 0)}%",
-                'json_keys': '''{
-  "chutes_intro": "Frase curta de gancho sobre as finalizações.",
-  "chutes_ao_alvo": "Análise da eficiência de chutes dos times...",
-  "chutes_precisao": "Análise de como a precisão (conversão em gol) afeta o jogo..."
-}'''
+                'keys_dict': {
+                    "chutes_intro": "Frase curta de gancho sobre as finalizações.",
+                    "chutes_ao_alvo": "Análise da eficiência de chutes dos times...",
+                    "chutes_precisao": "Análise de como a precisão (conversão em gol) afeta o jogo..."
+                }
             },
             'especiais': {
                 'contexto': f"5. RESUMO E CHANCES: Vencedor Casa {odds_probs.get('home_win', 0)}%, Empate {odds_probs.get('draw', 0)}%. Palpite: {dc_bet}",
-                'json_keys': '''{
-  "especiais_intro": "Frase curta introduzindo mercados especiais.",
-  "especiais_vencedor_ambos": "Análise do vencedor + ambas marcam...",
-  "especiais_dupla_gols": "Análise de dupla chance + gols...",
-  "especiais_empate_anula": "Análise do mercado empate anula..."
-}'''
+                'keys_dict': {
+                    "especiais_intro": "Frase curta introduzindo mercados especiais.",
+                    "especiais_vencedor_ambos": "Análise do vencedor + ambas marcam...",
+                    "especiais_dupla_gols": "Análise de dupla chance + gols...",
+                    "especiais_empate_anula": "Análise do mercado empate anula..."
+                }
             },
             'lays': {
                 'contexto': f"LAYS: {lay_bets}",
-                'json_keys': '''{
-  "lays_intro": "Frase curta sobre fraudes ou lays...",
-  "lays_melhor_lay": "Análise das oportunidades de Lay Bets...",
-  "despedida": "Texto rápido de encerramento do vídeo."
-}'''
+                'keys_dict': {
+                    "lays_intro": "Frase curta sobre fraudes ou lays...",
+                    "lays_melhor_lay": "Análise das oportunidades de Lay Bets..."
+                }
             }
         }
         
-        # Pega as configs da aba solicitada
-        aba_config = instrucoes_aba.get(aba_ativa, instrucoes_aba['gols'])
+        # Concatena o contexto das abas selecionadas e mescla as chaves do JSON
+        combined_context = ""
+        combined_keys = {}
+        
+        if format_type == 'long':
+            combined_keys["introducao"] = "Texto de introdução da partida (somente se for o inicio do video)."
+            
+        for aba in selected_abas:
+            cfg = instrucoes_aba.get(aba)
+            if cfg:
+                combined_context += f"\n- ABA {aba.upper()} -\n{cfg['contexto']}\n"
+                for k, v in cfg['keys_dict'].items():
+                    combined_keys[k] = v
+                    
+        if format_type == 'long':
+            combined_keys["despedida"] = "Texto rápido de encerramento do vídeo."
+            
+        json_keys_prompt = json.dumps(combined_keys, indent=2, ensure_ascii=False)
         
         if format_type == 'long':
             prompt = f"""
@@ -460,42 +476,45 @@ Devolva a análise em formato ESTRITAMENTE JSON.
 PARTIDA: {home_team} vs {away_team}
 COMPETIÇÃO: {league} ({country})
 
-ESTATÍSTICAS DA ABA ({aba_ativa.upper()}):
-{aba_config['contexto']}
+ESTATÍSTICAS DAS ABAS SELECIONADAS:
+{combined_context}
 
 INSTRUÇÕES DE ESCRITA:
 Escreva a análise técnica e humana de CADA tópico de forma PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 35 e 50 palavras (para render de 15 a 20 segundos de áudio na locução final). Não seja muito breve! Desenvolva a ideia, explique o motivo da estatística e dê um pitaco tático. Cite números por extenso (ex: "cinquenta por cento"). NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e alongadas de análise.
 
 Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
-{aba_config['json_keys']}
+{json_keys_prompt}
 """
         else:
             prompt = f"""
 Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok/Reels.
-Sua missão é criar um roteiro de vídeo CURTO (máximo de 60 segundos) muito engajador sobre a aba {aba_ativa.upper()}.
+Sua missão é criar um roteiro de vídeo CURTO (máximo de 60 segundos) muito engajador sobre as estatísticas fornecidas.
 
 Devolva a análise em formato ESTRITAMENTE JSON. NENHUM COMENTÁRIO ADICIONAL.
 
 PARTIDA: {home_team} vs {away_team}
-ESTATÍSTICAS DA ABA ({aba_ativa.upper()}): {aba_config['contexto']}
+ESTATÍSTICAS DAS ABAS SELECIONADAS:
+{combined_context}
 
 INSTRUÇÕES:
 1. Inicie com um gancho muito forte sobre as ESTATÍSTICAS (ex: "Sabia que esse jogo tem 90% de ocorrência de cantos?").
 2. REGRA DE OURO (COMPLIANCE): NUNCA mande o usuário apostar. NUNCA prometa lucro garantido. Seu tom DEVE ser ESTRITAMENTE ANALÍTICO E ESTATÍSTICO. O foco é a estatística, não a aposta financeira.
-3. Escolha APENAS as 2 estatísticas mais fortes/interessantes dessa aba para analisar.
+3. Escolha APENAS as 2 estatísticas mais fortes/interessantes entre todas as abas fornecidas para analisar.
 4. NUNCA crie cenas visuais ou tags. Retorne apenas a fala contínua dividida nas chaves solicitadas.
 
 Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
 {{
   "gancho_intro": "Gancho rápido e explosivo de 5 a 10 segundos chamando atenção.",
+  "foco_1_aba": "Nome da aba da estatística 1 (gols, escanteios, cartoes, chutes, especiais, lays).",
   "foco_1_tag": "Nome EXATO da estatística 1 (ex: Over 1.5, HT, Ambas).",
   "foco_1_texto": "Análise super rápida e dinâmica da estatística foco 1...",
+  "foco_2_aba": "Nome da aba da estatística 2 (gols, escanteios, cartoes, chutes, especiais, lays).",
   "foco_2_tag": "Nome EXATO da estatística 2...",
   "foco_2_texto": "Análise super rápida da estatística foco 2 com fechamento."
 }}
 """
 
-        def process_hybrid_response(text, format_type, aba_ativa):
+        def process_hybrid_response(text, format_type, selected_abas):
             import json
             import random
             
@@ -507,14 +526,25 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 def lower_first(s): return s[0].lower() + s[1:] if s else ""
                 
                 if format_type == 'short':
+                    f1_aba = j.get('foco_1_aba', selected_abas[0]).lower().strip()
+                    f2_aba = j.get('foco_2_aba', selected_abas[0]).lower().strip()
+                    
                     texto_limpo = f"{j.get('gancho_intro', '')} "
-                    texto_maq = f"[ABA: {aba_ativa}] {j.get('gancho_intro', '')} "
-                    for i in [1, 2]:
-                        tag = j.get(f'foco_{i}_tag', '')
-                        texto = j.get(f'foco_{i}_texto', '')
-                        if tag and texto:
-                            texto_limpo += f"{texto} "
-                            texto_maq += f"[FOCO: {tag}] {texto} [OFF] "
+                    texto_maq = f"[ABA: {f1_aba}] {j.get('gancho_intro', '')} "
+                    
+                    # Foco 1
+                    tag1 = j.get('foco_1_tag', '')
+                    txt1 = j.get('foco_1_texto', '')
+                    if tag1 and txt1:
+                        texto_limpo += f"{txt1} "
+                        texto_maq += f"[FOCO: {tag1}] {txt1} [OFF] "
+                        
+                    # Foco 2
+                    tag2 = j.get('foco_2_tag', '')
+                    txt2 = j.get('foco_2_texto', '')
+                    if tag2 and txt2:
+                        texto_limpo += f"{txt2} "
+                        texto_maq += f"[ABA: {f2_aba}] [FOCO: {tag2}] {txt2} [OFF] "
                             
                     final_script = (
                         "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
@@ -524,51 +554,64 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     )
                     return final_script
 
+                # Processamento formato LONG
                 texto_limpo = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
-                texto_maq = f"{j.get('introducao', '')}\n\n[ABA: {aba_ativa}] " if j.get('introducao') else f"[ABA: {aba_ativa}] "
+                texto_maq = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
                 
-                if aba_ativa == 'gols':
-                    keys = ['gols_over_1_5', 'gols_over_2_5', 'gols_over_3_5', 'gols_over_4_5', 'gols_btts', 'gols_vencedor', 'gols_chance_dupla', 'gols_ht']
-                    tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', 'BTTS', 'Vencer a Partida', 'Chance Dupla', 'HT']
-                    words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
-                elif aba_ativa == 'escanteios':
-                    keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_over_9_5', 'escanteios_over_10_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
-                    tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', 'Base do Jogo', 'Melhor Palpite', 'Mais Escanteios']
-                    words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Avançando', 'Chegando', 'Analisando'], ['Aprofundando', 'Olhando', 'Destacando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
-                    texto_limpo += f"{j.get('escanteios_intro', '')} "
-                    texto_maq += f"{j.get('escanteios_intro', '')} "
-                elif aba_ativa == 'cartoes':
-                    keys = ['cartoes_over_3_5', 'cartoes_over_4_5', 'cartoes_over_5_5', 'cartoes_mais_cartoes']
-                    tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', 'Mais Cartões']
-                    words = [['Abrindo', 'Lançando', 'Trazendo'], ['Subindo', 'Elevando', 'Escalando'], ['Atingindo', 'Chegando', 'Alcançando'], ['Coroando', 'Completando', 'Despedindo']]
-                    texto_limpo += f"{j.get('cartoes_intro', '')} "
-                    texto_maq += f"{j.get('cartoes_intro', '')} "
-                elif aba_ativa == 'chutes':
-                    keys = ['chutes_ao_alvo', 'chutes_precisao']
-                    tags = ['Chutes ao Alvo', 'Precisão']
-                    words = [['Examinando', 'Conferindo', 'Checando'], ['Constatando', 'Mapeando', 'Identificando']]
-                    texto_limpo += f"{j.get('chutes_intro', '')} "
-                    texto_maq += f"{j.get('chutes_intro', '')} "
-                elif aba_ativa == 'especiais':
-                    keys = ['especiais_vencedor_ambos', 'especiais_dupla_gols', 'especiais_empate_anula']
-                    tags = ['Vencedor e Ambos Marcam', 'Dupla e Gols', 'Empate Anula']
-                    words = [['Inspecionando', 'Desvendando', 'Apurando'], ['Combinando', 'Juntando', 'Unindo'], ['Garantindo', 'Assegurando', 'Protegendo']]
-                    texto_limpo += f"{j.get('especiais_intro', '')} "
-                    texto_maq += f"{j.get('especiais_intro', '')} "
-                elif aba_ativa == 'lays':
-                    keys = ['lays_melhor_lay']
-                    tags = ['Melhor Lay']
-                    words = [['Investigando', 'Ponderando', 'Julgando']]
-                    texto_limpo += f"{j.get('lays_intro', '')} "
-                    texto_maq += f"{j.get('lays_intro', '')} "
-                
-                for i, (k, tag) in enumerate(zip(keys, tags)):
-                    val = lower_first(j.get(k, ''))
-                    if val:
-                        word = pick(words[i]) if i < len(words) else "Analisando"
-                        phrase = f"{word} o mercado de {tag}, {val}" if aba_ativa != 'gols' else f"{word} as estatísticas de {tag}, {val}"
-                        texto_limpo += f"{phrase} "
-                        texto_maq += f"[FOCO: {tag}] {phrase} [OFF] "
+                for aba in selected_abas:
+                    texto_maq += f"[ABA: {aba}] "
+                    
+                    if aba == 'gols':
+                        keys = ['gols_over_1_5', 'gols_over_2_5', 'gols_over_3_5', 'gols_over_4_5', 'gols_btts', 'gols_vencedor', 'gols_chance_dupla', 'gols_ht']
+                        tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', 'BTTS', 'Vencer a Partida', 'Chance Dupla', 'HT']
+                        words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
+                    elif aba == 'escanteios':
+                        keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_over_9_5', 'escanteios_over_10_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
+                        tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', 'Base do Jogo', 'Melhor Palpite', 'Mais Escanteios']
+                        words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Avançando', 'Chegando', 'Analisando'], ['Aprofundando', 'Olhando', 'Destacando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
+                        if j.get('escanteios_intro'):
+                            texto_limpo += f"{j.get('escanteios_intro', '')} "
+                            texto_maq += f"{j.get('escanteios_intro', '')} "
+                    elif aba == 'cartoes':
+                        keys = ['cartoes_over_3_5', 'cartoes_over_4_5', 'cartoes_over_5_5', 'cartoes_mais_cartoes']
+                        tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', 'Mais Cartões']
+                        words = [['Abrindo', 'Lançando', 'Trazendo'], ['Subindo', 'Elevando', 'Escalando'], ['Atingindo', 'Chegando', 'Alcançando'], ['Coroando', 'Completando', 'Despedindo']]
+                        if j.get('cartoes_intro'):
+                            texto_limpo += f"{j.get('cartoes_intro', '')} "
+                            texto_maq += f"{j.get('cartoes_intro', '')} "
+                    elif aba == 'chutes':
+                        keys = ['chutes_ao_alvo', 'chutes_precisao']
+                        tags = ['Chutes ao Alvo', 'Precisão']
+                        words = [['Examinando', 'Conferindo', 'Checando'], ['Constatando', 'Mapeando', 'Identificando']]
+                        if j.get('chutes_intro'):
+                            texto_limpo += f"{j.get('chutes_intro', '')} "
+                            texto_maq += f"{j.get('chutes_intro', '')} "
+                    elif aba == 'especiais':
+                        keys = ['especiais_vencedor_ambos', 'especiais_dupla_gols', 'especiais_empate_anula']
+                        tags = ['Vencedor e Ambos Marcam', 'Dupla e Gols', 'Empate Anula']
+                        words = [['Inspecionando', 'Desvendando', 'Apurando'], ['Combinando', 'Juntando', 'Unindo'], ['Garantindo', 'Assegurando', 'Protegendo']]
+                        if j.get('especiais_intro'):
+                            texto_limpo += f"{j.get('especiais_intro', '')} "
+                            texto_maq += f"{j.get('especiais_intro', '')} "
+                    elif aba == 'lays':
+                        keys = ['lays_melhor_lay']
+                        tags = ['Melhor Lay']
+                        words = [['Investigando', 'Ponderando', 'Julgando']]
+                        if j.get('lays_intro'):
+                            texto_limpo += f"{j.get('lays_intro', '')} "
+                            texto_maq += f"{j.get('lays_intro', '')} "
+                    else:
+                        continue
+                    
+                    for i, (k, tag) in enumerate(zip(keys, tags)):
+                        val = lower_first(j.get(k, ''))
+                        if val:
+                            word = pick(words[i]) if i < len(words) else "Analisando"
+                            phrase = f"{word} o mercado de {tag}, {val}" if aba != 'gols' else f"{word} as estatísticas de {tag}, {val}"
+                            texto_limpo += f"{phrase} "
+                            texto_maq += f"[FOCO: {tag}] {phrase} [OFF] "
+                            
+                    texto_maq += "\n\n"
                 
                 if j.get('despedida'):
                     texto_limpo += f"\n\n{j.get('despedida', '')}"
@@ -590,13 +633,11 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
         import os
         from dotenv import load_dotenv
         
-        # Recarrega o arquivo .env dinamicamente para não precisar reiniciar o servidor Django
         load_dotenv(override=True)
         
         deepseek_api_key = os.getenv('DEEPSEEK_API_KEY')
         gemini_api_key = os.getenv('GEMINI_API_KEY')
         
-        # 1. Prioridade Máxima: DeepSeek API
         if deepseek_api_key:
             url = "https://api.deepseek.com/chat/completions"
             headers = {
@@ -615,7 +656,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 if r.status_code == 200:
                     data = r.json()
                     script_text = data['choices'][0]['message']['content']
-                    script_text = process_hybrid_response(script_text, format_type, aba_ativa)
+                    script_text = process_hybrid_response(script_text, format_type, selected_abas)
                     return JsonResponse({'status': 'success', 'script': script_text})
                 else:
                     return JsonResponse({
@@ -645,7 +686,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 if r.status_code == 200:
                     data = r.json()
                     script_text = data['candidates'][0]['content']['parts'][0]['text']
-                    script_text = process_hybrid_response(script_text, format_type, aba_ativa)
+                    script_text = process_hybrid_response(script_text, format_type, selected_abas)
                     return JsonResponse({'status': 'success', 'script': script_text})
                 else:
                     return JsonResponse({
@@ -658,11 +699,10 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     'message': f'Erro ao conectar à API direta do Gemini: {str(e)}'
                 }, status=500)
                 
-        # 2. Tentar detectar se o proxy local de rotação está ativo
+        # 3. Tentar detectar se o proxy local de rotação está ativo
         proxy_host = None
         for host in ["127.0.0.1", "host.docker.internal"]:
             try:
-                # Faz um ping leve para ver se o proxy responde
                 r = requests.get(f"http://{host}:8089/v1/models", headers={"Authorization": "Bearer dummy"}, timeout=1.5)
                 if r.status_code == 200:
                     proxy_host = host
@@ -671,7 +711,6 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 continue
 
         if proxy_host:
-            # Usar o proxy local de rotação (formato OpenAI)
             url = f"http://{proxy_host}:8089/v1/chat/completions"
             headers = {
                 'Content-Type': 'application/json',
@@ -692,7 +731,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     }, status=500)
                 data = r.json()
                 script_text = data['choices'][0]['message']['content']
-                script_text = process_hybrid_response(script_text, format_type, aba_ativa)
+                script_text = process_hybrid_response(script_text, format_type, selected_abas)
                 return JsonResponse({'status': 'success', 'script': script_text})
             except Exception as e:
                 return JsonResponse({
