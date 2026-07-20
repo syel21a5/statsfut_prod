@@ -6556,11 +6556,18 @@ import random
 import string
 from django.core.cache import cache
 
+from django.conf import settings
+
 @method_decorator(csrf_exempt, name='dispatch')
 class KaggleUpdateUrlView(View):
     def get(self, request):
         # Ferramenta de debug para o VGR ver se a URL chegou no servidor
-        gradio_url = cache.get('kaggle_gradio_url')
+        url_file = os.path.join(settings.BASE_DIR, 'kaggle_url.txt')
+        gradio_url = None
+        if os.path.exists(url_file):
+            with open(url_file, 'r') as f:
+                gradio_url = f.read().strip()
+                
         if gradio_url:
             return JsonResponse({'status': 'online', 'url_salva_na_memoria': gradio_url})
         return JsonResponse({'status': 'offline', 'message': 'A memoria do servidor esta vazia.'})
@@ -6577,8 +6584,11 @@ class KaggleUpdateUrlView(View):
             if not share_url or secret != expected_secret:
                 return JsonResponse({'status': 'error', 'message': 'Não autorizado ou dados ausentes.'}, status=403)
             
-            # Salvar no cache por 24 horas (86400 segundos)
-            cache.set('kaggle_gradio_url', share_url, 86400)
+            # Salvar em arquivo físico para que todos os workers do gunicorn acessem
+            url_file = os.path.join(settings.BASE_DIR, 'kaggle_url.txt')
+            with open(url_file, 'w') as f:
+                f.write(share_url)
+                
             return JsonResponse({'status': 'success', 'message': 'URL do Kaggle atualizada com sucesso!'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
@@ -6588,8 +6598,16 @@ class KaggleUpdateUrlView(View):
 class KaggleGenerateVoiceView(View):
     def post(self, request, match_id):
         try:
-            # Pegar URL do cache ou fallback para env (útil para testes em localhost)
-            gradio_url = cache.get('kaggle_gradio_url') or os.getenv('KAGGLE_GRADIO_URL')
+            # Pegar URL do arquivo físico
+            url_file = os.path.join(settings.BASE_DIR, 'kaggle_url.txt')
+            gradio_url = None
+            if os.path.exists(url_file):
+                with open(url_file, 'r') as f:
+                    gradio_url = f.read().strip()
+            
+            # Fallback para env
+            gradio_url = gradio_url or os.getenv('KAGGLE_GRADIO_URL')
+            
             if not gradio_url:
                 return JsonResponse({
                     'status': 'error', 
