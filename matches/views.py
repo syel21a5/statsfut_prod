@@ -480,7 +480,12 @@ ESTATÍSTICAS DAS ABAS SELECIONADAS:
 {combined_context}
 
 INSTRUÇÕES DE ESCRITA:
-Escreva a análise técnica e humana de CADA tópico de forma PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 35 e 50 palavras (para render de 15 a 20 segundos de áudio na locução final). Não seja muito breve! Desenvolva a ideia, explique o motivo da estatística e dê um pitaco tático. Cite números por extenso (ex: "cinquenta por cento"). NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e alongadas de análise.
+Escreva a análise técnica e humana de CADA tópico de forma PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 35 e 50 palavras (para render de 15 a 20 segundos de áudio na locução final). Não seja muito breve! Desenvolva a ideia, explique o motivo da estatística e dê um pitaco tático. NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e alongadas de análise.
+
+REGRAS CRÍTICAS PARA LEITURA POR VOZ (TTS):
+1. NUNCA use abreviações ou siglas em nomes de times. Expanda TUDO. (Ex: "Atlético GO" vira "Atlético Goianiense", "América MG" vira "América Mineiro"). Ignore siglas como "FC" ou "AC".
+2. Para times ou ligas estrangeiras com nomes muito complexos de pronunciar, evite repeti-los; use substituições naturais como "o time da casa", "a equipe visitante", "nesta liga" ou "neste campeonato".
+3. Escreva todos os números e porcentagens completamente por extenso (ex: "sessenta por cento", "um vírgula cinco"). Não use símbolos matemáticos.
 
 Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
 {json_keys_prompt}
@@ -501,6 +506,11 @@ INSTRUÇÕES:
 2. REGRA DE OURO (COMPLIANCE): NUNCA mande o usuário apostar. NUNCA prometa lucro garantido. Seu tom DEVE ser ESTRITAMENTE ANALÍTICO E ESTATÍSTICO. O foco é a estatística, não a aposta financeira.
 3. Escolha APENAS as 2 estatísticas mais fortes/interessantes entre todas as abas fornecidas para analisar.
 4. NUNCA crie cenas visuais ou tags. Retorne apenas a fala contínua dividida nas chaves solicitadas.
+
+REGRAS CRÍTICAS PARA LEITURA POR VOZ (TTS):
+- NUNCA use abreviações em nomes de times. Expanda TUDO (ex: "Atlético GO" vira "Atlético Goianiense"). Ignore siglas "FC" ou "AC".
+- Para times/ligas gringos com nomes complexos, use "o time da casa", "a equipe visitante" ou "nesta liga" para a voz não travar.
+- Escreva números por extenso (ex: "um vírgula cinco").
 
 Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
 {{
