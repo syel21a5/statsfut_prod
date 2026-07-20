@@ -6578,12 +6578,12 @@ class KaggleUpdateUrlView(View):
 class KaggleGenerateVoiceView(View):
     def post(self, request, match_id):
         try:
-            # Pegar URL do cache
-            gradio_url = cache.get('kaggle_gradio_url')
+            # Pegar URL do cache ou fallback para env (útil para testes em localhost)
+            gradio_url = cache.get('kaggle_gradio_url') or os.getenv('KAGGLE_GRADIO_URL')
             if not gradio_url:
                 return JsonResponse({
                     'status': 'error', 
-                    'message': 'O servidor do Kaggle está offline. Ligue o notebook e certifique-se de que a URL está atualizada.'
+                    'message': 'O servidor do Kaggle está offline. Para testar localmente, adicione KAGGLE_GRADIO_URL=sua_url_do_gradio no seu arquivo .env, ou atualize a VPS de produção e teste diretamente no site statsfut.com.'
                 }, status=503)
                 
             data = json.loads(request.body)
