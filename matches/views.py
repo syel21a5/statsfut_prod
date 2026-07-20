@@ -6545,4 +6545,133 @@ def live_radar_partial(request, match_id):
     return render(request, 'members/partials/live_radar_modal.html', context)
 
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+import requests
+import os
+import random
+import string
+from django.core.cache import cache
+
+@method_decorator(csrf_exempt, name='dispatch')
+class KaggleUpdateUrlView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            share_url = data.get('share_url', '').strip()
+            secret = data.get('secret', '').strip()
+            
+            # Validar segredo
+            expected_secret = os.getenv('KAGGLE_SECRET_TOKEN', 'statsfut_secret_token_123')
+            
+            if not share_url or secret != expected_secret:
+                return JsonResponse({'status': 'error', 'message': 'Não autorizado ou dados ausentes.'}, status=403)
+            
+            # Salvar no cache por 24 horas (86400 segundos)
+            cache.set('kaggle_gradio_url', share_url, 86400)
+            return JsonResponse({'status': 'success', 'message': 'URL do Kaggle atualizada com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class KaggleGenerateVoiceView(View):
+    def post(self, request, match_id):
+        try:
+            # Pegar URL do cache
+            gradio_url = cache.get('kaggle_gradio_url')
+            if not gradio_url:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'O servidor do Kaggle está offline. Ligue o notebook e certifique-se de que a URL está atualizada.'
+                }, status=503)
+                
+            data = json.loads(request.body)
+            script_text = data.get('script', '').strip()
+            
+            if not script_text:
+                return JsonResponse({'status': 'error', 'message': 'Roteiro vazio.'}, status=400)
+                
+            # Limpar marcas da máquina [ABA], [FOCO] e [OFF] para o locutor não ler em voz alta
+            import re
+            texto_limpo = script_text.split("👇👇👇 TEXTO DA MÁQUINA")[0].replace("👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇", "")
+            texto_limpo = re.sub(r'\[ABA:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
+            texto_limpo = re.sub(r'\[FOCO:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
+            texto_limpo = re.sub(r'\[OFF\]', '', texto_limpo, flags=re.IGNORECASE)
+            texto_limpo = texto_limpo.replace('.5', ' ponto 5') # Garante a pronúncia do decimal
+            texto_limpo = texto_limpo.strip()
+
+            session_hash = "".join(random.choices(string.ascii_lowercase + string.digits, k=11))
+            
+            # Enviar para a API do Gradio no Kaggle
+            # fn_index é 0 para o nosso botão "GERAR ÁUDIO CLONADO"
+            payload = {
+                "data": [
+                    texto_limpo,
+                    "voz_padrao.mp3"  # O modelo já tem a voz_padrao.mp3 local baixada no Kaggle
+                ],
+                "fn_index": 0,
+                "session_hash": session_hash
+            }
+            
+            gradio_api = f"{gradio_url.rstrip('/')}/api/predict"
+            r = requests.post(gradio_api, json=payload, timeout=120)
+            
+            if r.status_code != 200:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': f'Kaggle retornou erro HTTP {r.status_code}: {r.text}'
+                }, status=502)
+                
+            res_data = r.json()
+            if not res_data.get('data') or not isinstance(res_data['data'], list):
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': f'Formato de resposta inesperado do Kaggle: {res_data}'
+                }, status=502)
+                
+            audio_info = res_data['data'][0]
+            if isinstance(audio_info, dict) and audio_info.get('url'):
+                audio_download_url = audio_info['url']
+            elif isinstance(audio_info, dict) and audio_info.get('path'):
+                audio_download_url = f"{gradio_url.rstrip('/')}/file={audio_info['path']}"
+            else:
+                audio_download_url = f"{gradio_url.rstrip('/')}/file={audio_info}"
+
+            # Baixar o arquivo MP3
+            audio_r = requests.get(audio_download_url, timeout=30)
+            if audio_r.status_code != 200:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': f'Não foi possível baixar o MP3 do Kaggle. HTTP {audio_r.status_code}'
+                }, status=502)
+                
+            # Salvar no diretório media/audios_locucao/
+            from django.conf import settings
+            media_dir = os.path.join(settings.MEDIA_ROOT, 'audios_locucao')
+            os.makedirs(media_dir, exist_ok=True)
+            
+            # Salvar MP3
+            file_name = f"match_{match_id}.mp3"
+            file_path = os.path.join(media_dir, file_name)
+            with open(file_path, 'wb') as f:
+                f.write(audio_r.content)
+                
+            # Salvar Script de texto original com tags
+            script_file_name = f"match_{match_id}.txt"
+            script_file_path = os.path.join(media_dir, script_file_name)
+            with open(script_file_path, 'w', encoding='utf-8') as f:
+                f.write(script_text)
+                
+            audio_public_url = f"{settings.MEDIA_URL}audios_locucao/{file_name}"
+            
+            return JsonResponse({
+                'status': 'success', 
+                'audio_url': audio_public_url
+            })
+            
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
 # ==============================================================
