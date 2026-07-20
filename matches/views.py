@@ -480,7 +480,7 @@ ESTATÍSTICAS DAS ABAS SELECIONADAS:
 {combined_context}
 
 INSTRUÇÕES DE ESCRITA:
-Escreva a análise técnica e humana de CADA tópico de forma PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 35 e 50 palavras (para render de 15 a 20 segundos de áudio na locução final). Não seja muito breve! Desenvolva a ideia, explique o motivo da estatística e dê um pitaco tático. NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e alongadas de análise.
+Escreva a análise técnica e humana de CADA tópico de forma EXTREMAMENTE PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 70 e 90 palavras (para render de 30 a 40 segundos de áudio na locução final). Para não ficar repetitivo ou dizer besteiras, agregue valor: explique o motivo da estatística, fale sobre a postura tática das equipes, cite o contexto do campeonato e crie uma narrativa real de jogo, mantendo a coerência. NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e densas de análise.
 
 REGRAS CRÍTICAS PARA LEITURA POR VOZ (TTS):
 1. NUNCA use abreviações ou siglas em nomes de times. Expanda TUDO. (Ex: "Atlético GO" vira "Atlético Goianiense", "América MG" vira "América Mineiro"). Ignore siglas como "FC" ou "AC".
