@@ -1449,7 +1449,11 @@
 
     function closeVideoScriptModalOnOutsideClick(event) {
         if (event.target.id === 'videoScriptModal') {
-            clo    function copyVideoScript() {
+            closeVideoScriptModal();
+        }
+    }
+
+    function copyVideoScript() {
         const textarea = document.getElementById('scriptTextarea');
         textarea.select();
         textarea.setSelectionRange(0, 99999);
