@@ -482,6 +482,9 @@ ESTATÍSTICAS DAS ABAS SELECIONADAS:
 INSTRUÇÕES DE ESCRITA:
 Escreva a análise técnica e humana de CADA tópico de forma EXTREMAMENTE PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 70 e 90 palavras (para render de 30 a 40 segundos de áudio na locução final). Para não ficar repetitivo ou dizer besteiras, agregue valor: explique o motivo da estatística, fale sobre a postura tática das equipes, cite o contexto do campeonato e crie uma narrativa real de jogo, mantendo a coerência. NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e densas de análise.
 
+REGRA DE OURO (COMPLIANCE E PROBABILIDADE):
+Futebol não tem certeza. NUNCA garanta resultados, nunca prometa lucro e nunca mande o usuário apostar. NUNCA use palavras que dão certeza absoluta como "vai acontecer", "certeza", "é garantido", "vai ter mais escanteios". Use SEMPRE termos de probabilidade como "há uma tendência", "a estatística indica", "é provável que", "o cenário sugere", "tem boas chances de".
+
 REGRAS CRÍTICAS PARA LEITURA POR VOZ (TTS):
 1. NUNCA use abreviações ou siglas em nomes de times. Expanda TUDO. (Ex: "Atlético GO" vira "Atlético Goianiense", "América MG" vira "América Mineiro"). Ignore siglas como "FC" ou "AC".
 2. Para times ou ligas estrangeiras com nomes muito complexos de pronunciar, evite repeti-los; use substituições naturais como "o time da casa", "a equipe visitante", "nesta liga" ou "neste campeonato".
@@ -503,7 +506,7 @@ ESTATÍSTICAS DAS ABAS SELECIONADAS:
 
 INSTRUÇÕES:
 1. Inicie com um gancho muito forte sobre as ESTATÍSTICAS (ex: "Sabia que esse jogo tem 90% de ocorrência de cantos?").
-2. REGRA DE OURO (COMPLIANCE): NUNCA mande o usuário apostar. NUNCA prometa lucro garantido. Seu tom DEVE ser ESTRITAMENTE ANALÍTICO E ESTATÍSTICO. O foco é a estatística, não a aposta financeira.
+2. REGRA DE OURO (COMPLIANCE E PROBABILIDADE): NUNCA mande apostar ou prometa lucro. NUNCA garanta resultados ou use palavras como "vai acontecer", "certeza", "garantido". Futebol é estatística. Use SEMPRE "a tendência indica", "é provável", "o cenário sugere". Seu tom DEVE ser ESTRITAMENTE ANALÍTICO.
 3. Escolha APENAS as 2 estatísticas mais fortes/interessantes entre todas as abas fornecidas para analisar.
 4. NUNCA crie cenas visuais ou tags. Retorne apenas a fala contínua dividida nas chaves solicitadas.
 
