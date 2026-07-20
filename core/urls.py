@@ -68,3 +68,8 @@ def serve_curated_image(request, filename_safe):
 urlpatterns += [
     path('imagens-blog/<str:filename_safe>', serve_curated_image),
 ]
+
+# ── Servir arquivos de mídia (audios, vídeos, etc.) via Django ──
+from django.conf.urls.static import static
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
