@@ -6562,7 +6562,7 @@ from django.conf import settings
 class KaggleUpdateUrlView(View):
     def get(self, request):
         # Ferramenta de debug para o VGR ver se a URL chegou no servidor
-        url_file = os.path.join(settings.BASE_DIR, 'kaggle_url.txt')
+        url_file = '/tmp/kaggle_url.txt'
         gradio_url = None
         if os.path.exists(url_file):
             with open(url_file, 'r') as f:
@@ -6585,7 +6585,7 @@ class KaggleUpdateUrlView(View):
                 return JsonResponse({'status': 'error', 'message': 'Não autorizado ou dados ausentes.'}, status=403)
             
             # Salvar em arquivo físico para que todos os workers do gunicorn acessem
-            url_file = os.path.join(settings.BASE_DIR, 'kaggle_url.txt')
+            url_file = '/tmp/kaggle_url.txt'
             with open(url_file, 'w') as f:
                 f.write(share_url)
                 
@@ -6599,7 +6599,7 @@ class KaggleGenerateVoiceView(View):
     def post(self, request, match_id):
         try:
             # Pegar URL do arquivo físico
-            url_file = os.path.join(settings.BASE_DIR, 'kaggle_url.txt')
+            url_file = '/tmp/kaggle_url.txt'
             gradio_url = None
             if os.path.exists(url_file):
                 with open(url_file, 'r') as f:
