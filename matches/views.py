@@ -6558,6 +6558,13 @@ from django.core.cache import cache
 
 @method_decorator(csrf_exempt, name='dispatch')
 class KaggleUpdateUrlView(View):
+    def get(self, request):
+        # Ferramenta de debug para o VGR ver se a URL chegou no servidor
+        gradio_url = cache.get('kaggle_gradio_url')
+        if gradio_url:
+            return JsonResponse({'status': 'online', 'url_salva_na_memoria': gradio_url})
+        return JsonResponse({'status': 'offline', 'message': 'A memoria do servidor esta vazia.'})
+
     def post(self, request):
         try:
             data = json.loads(request.body)
