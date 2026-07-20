@@ -15,6 +15,9 @@ from matches.utils import COUNTRY_REVERSE_TRANSLATIONS, get_flag_code
 from .api_manager import APIManager
 import json
 import unicodedata
+import random
+import string
+import requests
 
 
 FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
