@@ -70,6 +70,14 @@ urlpatterns += [
 ]
 
 # ── Servir arquivos de mídia (audios, vídeos, etc.) via Django ──
-from django.conf.urls.static import static
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+def serve_media_file(request, filepath):
+    """Serve arquivos da pasta media/ (audios gerados, etc.) em produção."""
+    full_path = os.path.join(settings.MEDIA_ROOT, filepath)
+    if os.path.exists(full_path) and os.path.isfile(full_path):
+        return FileResponse(open(full_path, 'rb'))
+    raise Http404("Arquivo de mídia não encontrado")
+
+urlpatterns += [
+    re_path(r'^media/(?P<filepath>.+)$', serve_media_file),
+]
 
