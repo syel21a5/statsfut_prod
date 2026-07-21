@@ -31,39 +31,55 @@ def load_deepseek_api_key():
                     return line.strip().split("DEEPSEEK_API_KEY=")[1].strip()
     return os.environ.get("DEEPSEEK_API_KEY")
 
-def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path):
+def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, json_path=None):
     import re
     import os
     import math
-    import imageio_ffmpeg
+    import json
     
-    # Injetar o FFmpeg que já vem com o MoviePy no PATH do Windows para o Whisper usá-lo
-    ffmpeg_dir = os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
-    os.environ["PATH"] += os.pathsep + ffmpeg_dir
+    # 1. Obter palavras e timestamps (via JSON do Kaggle ou fallback local Whisper)
+    audio_words = []
     
-    import whisper
+    if json_path and os.path.exists(json_path):
+        print(f"\n[MÁQUINA] [ACELERAÇÃO HÍBRIDA] Lendo cronograma pré-processado pela IA do Kaggle: {json_path}")
+        with open(json_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            audio_words = data.get("words", [])
+            if data.get("duration"):
+                audio_duration = data["duration"]
+    else:
+        # FALLBACK PARA WHISPER LOCAL
+        import imageio_ffmpeg
+        ffmpeg_dir = os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
+        os.environ["PATH"] += os.pathsep + ffmpeg_dir
+        import whisper
 
-    print("\n[MÁQUINA] Iniciando escuta com Inteligência Artificial (OpenAI Whisper)...")
-    
-    # 1. Carrega o modelo de IA no disco E: para poupar o disco C:
-    model_dir = "E:\\WHISPER_MODELS"
-    os.makedirs(model_dir, exist_ok=True)
-    
-    # O modelo "tiny" (aprox 75MB) é extremamente rápido e suficiente para alinhamento forçado
-    print(f"  - Carregando cérebro Whisper (Modelo: tiny) a partir de: {model_dir}")
-    model = whisper.load_model("tiny", download_root=model_dir)
-    
-    # O librosa falha miseravelmente ao medir a duração de MP3 em formato VBR (ex: gerado pelo gTTS)
-    # Vamos usar o próprio moviepy que já é importado embaixo para ter a duração matemática real do arquivo
-    from moviepy import AudioFileClip
-    temp_audio_clip = AudioFileClip(audio_path)
-    audio_duration = temp_audio_clip.duration
-    temp_audio_clip.close()
-    
-    print(f"  - Ouvindo o arquivo de áudio para capturar milissegundos exatos: {audio_path}")
-    # Transcreve ativando os carimbos de tempo em nível de palavra
-    result = model.transcribe(audio_path, word_timestamps=True, language="pt")
-    
+        print("\n[MÁQUINA] [MODO LENTO] Iniciando escuta com Inteligência Artificial (OpenAI Whisper) localmente...")
+        
+        model_dir = "E:\\WHISPER_MODELS"
+        os.makedirs(model_dir, exist_ok=True)
+        print(f"  - Carregando cérebro Whisper (Modelo: tiny) a partir de: {model_dir}")
+        model = whisper.load_model("tiny", download_root=model_dir)
+        
+        from moviepy import AudioFileClip
+        temp_audio_clip = AudioFileClip(audio_path)
+        audio_duration = temp_audio_clip.duration
+        temp_audio_clip.close()
+        
+        print(f"  - Ouvindo o arquivo de áudio para capturar milissegundos exatos: {audio_path}")
+        result = model.transcribe(audio_path, word_timestamps=True, language="pt")
+        
+        for segment in result['segments']:
+            for word in segment.get('words', []):
+                clean = re.sub(r'[^\w\s]', '', word['word'].lower().strip())
+                if clean:
+                    audio_words.append({
+                        "text": clean,
+                        "start": word['start'],
+                        "end": word['end']
+                    })
+        audio_duration = result['segments'][-1]['words'][-1]['end'] if result.get('segments') else audio_duration
+        
     print("\n[MÁQUINA] Cruzando os tempos do áudio com as tags do roteiro via Busca Direta de Foco...")
     
     # 1. Isolar apenas a parte do roteiro da máquina
@@ -78,21 +94,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path):
     roteiro_text = re.sub(r'👇.*?👇', '', roteiro_text)
     roteiro_text = roteiro_text.replace("TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt)", "")
     
-    # 2. Extrair o texto falado do Whisper com carimbos de tempo por caractere
-    audio_words = []
-    for segment in result['segments']:
-        for word in segment.get('words', []):
-            clean = re.sub(r'[^\w\s]', '', word['word'].lower().strip())
-            if clean:
-                audio_words.append({
-                    "text": clean,
-                    "start": word['start'],
-                    "end": word['end']
-                })
 
-    # Total duration of audio
-    audio_duration = result['segments'][-1]['words'][-1]['end'] if result.get('segments') else audio_duration
-    
     # 3. Limpar o roteiro e mapear onde as tags ocorrem
     tags = []
     for match in re.finditer(r'\[(.*?)\]', roteiro_text):
@@ -778,6 +780,7 @@ def main():
     parser.add_argument("--url", type=str, help="URL da partida no Statsfut")
     parser.add_argument("--audio", type=str, help="Caminho para o arquivo de áudio (.mp3)")
     parser.add_argument("--roteiro", type=str, help="Caminho para o arquivo de texto com o roteiro")
+    parser.add_argument("--json", type=str, help="Caminho para o cronograma JSON processado pelo Kaggle", default=None)
     
     args = parser.parse_args()
 
@@ -845,7 +848,7 @@ def main():
     deepseek_key = load_deepseek_api_key()
     timeline = None
     if roteiro_text:
-        timeline = analyze_script_timeline(deepseek_key, roteiro_text, audio_duration, audio_path)
+        timeline = analyze_script_timeline(deepseek_key, roteiro_text, audio_duration, audio_path, json_path=args.json)
 
     # Definir diretórios
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

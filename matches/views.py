@@ -6716,6 +6716,7 @@ class KaggleGenerateVoiceView(View):
                 r_result = requests.get(result_url, timeout=180, stream=True)
                 
                 audio_info = None
+                json_info = None
                 for line in r_result.iter_lines(decode_unicode=True):
                     if not line:
                         continue
@@ -6723,8 +6724,12 @@ class KaggleGenerateVoiceView(View):
                         import json as json_mod
                         try:
                             event_data = json_mod.loads(line[6:])
-                            # O resultado vem como uma lista em event_data
-                            if isinstance(event_data, list) and len(event_data) > 0:
+                            # O resultado agora vem como uma lista com DOIS itens: [audio, json]
+                            if isinstance(event_data, list) and len(event_data) >= 2:
+                                audio_info = event_data[0]
+                                json_info = event_data[1]
+                                break
+                            elif isinstance(event_data, list) and len(event_data) > 0:
                                 audio_info = event_data[0]
                                 break
                         except (json.JSONDecodeError, ValueError):
@@ -6744,6 +6749,16 @@ class KaggleGenerateVoiceView(View):
             else:
                 audio_download_url = f"{gradio_url.rstrip('/')}/file={audio_info}"
 
+            # ── Extrair URL de download do JSON ──
+            json_download_url = None
+            if json_info:
+                if isinstance(json_info, dict) and json_info.get('url'):
+                    json_download_url = json_info['url']
+                elif isinstance(json_info, dict) and json_info.get('path'):
+                    json_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={json_info['path']}"
+                else:
+                    json_download_url = f"{gradio_url.rstrip('/')}/file={json_info}"
+
             # Baixar o arquivo MP3
             audio_r = requests.get(audio_download_url, timeout=30)
             if audio_r.status_code != 200:
@@ -6752,7 +6767,6 @@ class KaggleGenerateVoiceView(View):
                     'message': f'Não foi possível baixar o MP3 do Kaggle. HTTP {audio_r.status_code}'
                 }, status=502)
                 
-            # Salvar no diretório media/audios_locucao/
             # Salvar no diretório media/audios_locucao/
             media_dir = os.path.join(settings.MEDIA_ROOT, 'audios_locucao')
             os.makedirs(media_dir, exist_ok=True)
@@ -6763,6 +6777,15 @@ class KaggleGenerateVoiceView(View):
             with open(file_path, 'wb') as f:
                 f.write(audio_r.content)
                 
+            # Salvar JSON se existir
+            if json_download_url:
+                json_r = requests.get(json_download_url, timeout=30)
+                if json_r.status_code == 200:
+                    json_file_name = f"match_{match_id}.json"
+                    json_file_path = os.path.join(media_dir, json_file_name)
+                    with open(json_file_path, 'wb') as f:
+                        f.write(json_r.content)
+                        
             # Salvar Script de texto original com tags
             script_file_name = f"match_{match_id}.txt"
             script_file_path = os.path.join(media_dir, script_file_name)
