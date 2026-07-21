@@ -6652,21 +6652,12 @@ class KaggleGenerateVoiceView(View):
                 except Exception:
                     pass
 
-            # Caso não tenha conseguido fazer o upload, tentamos usar o path estático que às vezes funciona
-            if not server_file_path:
-                server_file_path = "/tmp/gradio/803ac264c43772db6eaca51c1e3f2828c76647e9b52dc1a6e40be92cd57636d0/voz_padrao.mp3"
-
-            # Passo 1: Submeter o job
+            # Enviamos None para que o Kaggle use o fallback de buscar o arquivo "voz_padrao.mp3" local dele.
             call_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda"
             call_payload = {
                 "data": [
                     texto_limpo,
-                    {
-                        "path": server_file_path,
-                        "meta": {"_type": "gradio.FileData"},
-                        "orig_name": "voz_padrao.mp3",
-                        "mime_type": "audio/mp3"
-                    }
+                    None
                 ]
             }
             
