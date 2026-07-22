@@ -165,6 +165,14 @@ CACHES = {
         'OPTIONS': {
             'MAX_ENTRIES': 2000
         }
+    },
+    'async_tasks': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/statsfut_async_tasks',
+        'TIMEOUT': 3600,
+        'OPTIONS': {
+            'MAX_ENTRIES': 5000
+        }
     }
 }
 

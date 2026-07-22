@@ -766,7 +766,8 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
 
 class MatchVideoScriptStatusView(View):
     def get(self, request, task_id):
-        from django.core.cache import cache
+        from django.core.cache import caches
+        cache = caches['async_tasks']
         task_data = cache.get(f'match_script_task_{task_id}')
         if not task_data:
             return JsonResponse({'status': 'error', 'message': 'Tarefa não encontrada ou expirada.'}, status=404)
@@ -6566,7 +6567,8 @@ import requests
 import os
 import random
 import string
-from django.core.cache import cache
+from django.core.cache import caches
+cache = caches['async_tasks']
 
 from django.conf import settings
 
