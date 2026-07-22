@@ -1602,13 +1602,40 @@
         })
         .then(async res => {
             const data = await res.json();
-            if (res.status === 200 && data.status === 'success') {
+            if (res.status === 200 && data.status === 'processing' && data.task_id) {
+                // Iniciar Polling
+                btnVoice.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> {% translate "Processando Áudio Longo..." %}';
+                const taskId = data.task_id;
+                
+                const pollInterval = setInterval(async () => {
+                    try {
+                        const statusRes = await fetch(`/api/generate-match-audio/status/${taskId}/`);
+                        const statusData = await statusRes.json();
+                        
+                        if (statusData.status === 'success') {
+                            clearInterval(pollInterval);
+                            audioPlayer.src = statusData.audio_url;
+                            audioStatus.classList.remove('d-none');
+                            btnVoice.innerHTML = '<i class="fa-solid fa-check me-1"></i> {% translate "Concluído!" %}';
+                            btnVoice.style.background = '#10b981';
+                        } else if (statusData.status === 'error') {
+                            clearInterval(pollInterval);
+                            alert("Erro ao gerar voz: " + (statusData.message || "Erro desconhecido"));
+                            btnVoice.disabled = false;
+                            btnVoice.innerHTML = '<i class="fa-solid fa-microphone me-1"></i> {% translate "2. Gerar Áudio da Voz (Kaggle GPU)" %}';
+                        }
+                    } catch (e) {
+                        console.error("Erro no polling: ", e);
+                    }
+                }, 5000); // Checa a cada 5 segundos
+                
+            } else if (res.status === 200 && data.status === 'success') {
                 audioPlayer.src = data.audio_url;
                 audioStatus.classList.remove('d-none');
                 btnVoice.innerHTML = '<i class="fa-solid fa-check me-1"></i> {% translate "Concluído!" %}';
                 btnVoice.style.background = '#10b981';
             } else {
-                alert("Erro ao gerar voz: " + (data.message || "Erro desconhecido"));
+                alert("Erro ao iniciar geração de voz: " + (data.message || "Erro desconhecido"));
                 btnVoice.disabled = false;
                 btnVoice.innerHTML = '<i class="fa-solid fa-microphone me-1"></i> {% translate "2. Gerar Áudio da Voz (Kaggle GPU)" %}';
             }

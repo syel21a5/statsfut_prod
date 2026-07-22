@@ -63,4 +63,5 @@ urlpatterns = [
     # Novas rotas da Integração Paralela com o Kaggle GPU (Locução de Voz)
     path('api/update-voice-api/', views.KaggleUpdateUrlView.as_view(), name='kaggle_update_voice_api'),
     path('api/generate-match-audio/<int:match_id>/', views.KaggleGenerateVoiceView.as_view(), name='kaggle_generate_voice'),
+    path('api/generate-match-audio/status/<str:task_id>/', views.KaggleVoiceStatusView.as_view(), name='kaggle_voice_status'),
 ]

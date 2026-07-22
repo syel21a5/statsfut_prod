@@ -6594,24 +6594,175 @@ class KaggleUpdateUrlView(View):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
+import threading
+import uuid
+
+def _generate_voice_task(task_id, match_id, script_text, gradio_url):
+    try:
+        # Limpar marcas da máquina [ABA], [FOCO] e [OFF] para o locutor não ler em voz alta
+        import re
+        texto_limpo = script_text.split("👇👇👇 TEXTO DA MÁQUINA")[0].replace("👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇", "")
+        texto_limpo = re.sub(r'\[ABA:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
+        texto_limpo = re.sub(r'\[FOCO:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
+        texto_limpo = re.sub(r'\[OFF\]', '', texto_limpo, flags=re.IGNORECASE)
+        texto_limpo = texto_limpo.replace('.5', ' ponto 5') # Garante a pronúncia do decimal
+        texto_limpo = texto_limpo.strip()
+
+        session_hash = "".join(random.choices(string.ascii_lowercase + string.digits, k=11))
+        
+        # ── Gradio 6: usa /gradio_api/call/lambda (fluxo assíncrono com SSE) ──
+        upload_url = f"{gradio_url.rstrip('/')}/gradio_api/upload"
+        local_voice_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "video_maker", "voz_padrao.mp3")
+        
+        if not os.path.exists(local_voice_path):
+            local_voice_path = os.path.join(settings.MEDIA_ROOT, "voz_padrao.mp3")
+            
+        server_file_path = None
+        if os.path.exists(local_voice_path):
+            try:
+                with open(local_voice_path, 'rb') as f_voice:
+                    r_upload = requests.post(upload_url, files={'files': f_voice}, timeout=20)
+                if r_upload.status_code == 200:
+                    upload_res = r_upload.json()
+                    if isinstance(upload_res, list) and len(upload_res) > 0:
+                        server_file_path = upload_res[0]
+            except Exception:
+                pass
+
+        call_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda"
+        call_payload = {
+            "data": [
+                texto_limpo,
+                None
+            ]
+        }
+        
+        r_call = requests.post(call_url, json=call_payload, timeout=30)
+        
+        if r_call.status_code == 404:
+            payload = {
+                "data": [texto_limpo, "voz_padrao.mp3"],
+                "fn_index": 0,
+                "session_hash": session_hash
+            }
+            gradio_api = f"{gradio_url.rstrip('/')}/api/predict"
+            r = requests.post(gradio_api, json=payload, timeout=300)
+            
+            if r.status_code != 200:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Kaggle retornou erro HTTP {r.status_code}: {r.text[:200]}'}, 3600)
+                return
+                
+            res_data = r.json()
+            if not res_data.get('data') or not isinstance(res_data['data'], list):
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': 'Formato de resposta inesperado do Kaggle'}, 3600)
+                return
+                
+            audio_info = res_data['data'][0]
+            json_info = None
+        else:
+            if r_call.status_code != 200:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Kaggle rejeitou o pedido HTTP {r_call.status_code}: {r_call.text[:200]}'}, 3600)
+                return
+            
+            event_id = r_call.json().get('event_id')
+            if not event_id:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': 'Resposta sem event_id'}, 3600)
+                return
+            
+            result_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda/{event_id}"
+            r_result = requests.get(result_url, timeout=360, stream=True)
+            
+            audio_info = None
+            json_info = None
+            for line in r_result.iter_lines(decode_unicode=True):
+                if not line:
+                    continue
+                if line.startswith('data: '):
+                    import json as json_mod
+                    try:
+                        event_data = json_mod.loads(line[6:])
+                        if isinstance(event_data, list) and len(event_data) >= 2:
+                            audio_info = event_data[0]
+                            json_info = event_data[1]
+                            break
+                        elif isinstance(event_data, list) and len(event_data) > 0:
+                            audio_info = event_data[0]
+                            break
+                    except (json_mod.JSONDecodeError, ValueError):
+                        continue
+            
+            if audio_info is None:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': 'O Kaggle não retornou dados de áudio. O modelo pode ter falhado.'}, 3600)
+                return
+        
+        if isinstance(audio_info, dict) and audio_info.get('url'):
+            audio_download_url = audio_info['url']
+        elif isinstance(audio_info, dict) and audio_info.get('path'):
+            audio_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={audio_info['path']}"
+        else:
+            audio_download_url = f"{gradio_url.rstrip('/')}/file={audio_info}"
+
+        json_download_url = None
+        if json_info:
+            if isinstance(json_info, dict) and json_info.get('url'):
+                json_download_url = json_info['url']
+            elif isinstance(json_info, dict) and json_info.get('path'):
+                json_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={json_info['path']}"
+            else:
+                json_download_url = f"{gradio_url.rstrip('/')}/file={json_info}"
+
+        audio_r = requests.get(audio_download_url, timeout=60)
+        if audio_r.status_code != 200:
+            cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Não foi possível baixar o MP3 do Kaggle. HTTP {audio_r.status_code}'}, 3600)
+            return
+            
+        media_dir = os.path.join(settings.MEDIA_ROOT, 'audios_locucao')
+        os.makedirs(media_dir, exist_ok=True)
+        
+        file_name = f"match_{match_id}.mp3"
+        file_path = os.path.join(media_dir, file_name)
+        with open(file_path, 'wb') as f:
+            f.write(audio_r.content)
+            
+        if json_download_url:
+            json_r = requests.get(json_download_url, timeout=30)
+            if json_r.status_code == 200:
+                json_file_name = f"match_{match_id}.json"
+                json_file_path = os.path.join(media_dir, json_file_name)
+                with open(json_file_path, 'wb') as f:
+                    f.write(json_r.content)
+                    
+        script_file_name = f"match_{match_id}.txt"
+        script_file_path = os.path.join(media_dir, script_file_name)
+        with open(script_file_path, 'w', encoding='utf-8') as f:
+            f.write(script_text)
+            
+        audio_public_url = f"{settings.MEDIA_URL}audios_locucao/{file_name}"
+        
+        cache.set(f'kaggle_voice_task_{task_id}', {
+            'status': 'success',
+            'audio_url': audio_public_url
+        }, 3600)
+        
+    except Exception as e:
+        cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': str(e)}, 3600)
+
 @method_decorator(csrf_exempt, name='dispatch')
 class KaggleGenerateVoiceView(View):
     def post(self, request, match_id):
         try:
-            # Pegar URL do arquivo físico
             url_file = '/tmp/kaggle_url.txt'
             gradio_url = None
             if os.path.exists(url_file):
                 with open(url_file, 'r') as f:
                     gradio_url = f.read().strip()
             
-            # Fallback para env
             gradio_url = gradio_url or os.getenv('KAGGLE_GRADIO_URL')
             
             if not gradio_url:
                 return JsonResponse({
                     'status': 'error', 
-                    'message': 'O servidor do Kaggle está offline. Para testar localmente, adicione KAGGLE_GRADIO_URL=sua_url_do_gradio no seu arquivo .env, ou atualize a VPS de produção e teste diretamente no site statsfut.com.'
+                    'message': 'O servidor do Kaggle está offline.'
                 }, status=503)
                 
             data = json.loads(request.body)
@@ -6620,178 +6771,23 @@ class KaggleGenerateVoiceView(View):
             if not script_text:
                 return JsonResponse({'status': 'error', 'message': 'Roteiro vazio.'}, status=400)
                 
-            # Limpar marcas da máquina [ABA], [FOCO] e [OFF] para o locutor não ler em voz alta
-            import re
-            texto_limpo = script_text.split("👇👇👇 TEXTO DA MÁQUINA")[0].replace("👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇", "")
-            texto_limpo = re.sub(r'\[ABA:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
-            texto_limpo = re.sub(r'\[FOCO:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
-            texto_limpo = re.sub(r'\[OFF\]', '', texto_limpo, flags=re.IGNORECASE)
-            texto_limpo = texto_limpo.replace('.5', ' ponto 5') # Garante a pronúncia do decimal
-            texto_limpo = texto_limpo.strip()
-
-            session_hash = "".join(random.choices(string.ascii_lowercase + string.digits, k=11))
+            task_id = str(uuid.uuid4())
+            cache.set(f'kaggle_voice_task_{task_id}', {'status': 'processing'}, 3600)
             
-            # ── Gradio 6: usa /gradio_api/call/lambda (fluxo assíncrono com SSE) ──
-            # No Gradio 6, precisamos fazer o upload do arquivo de áudio de referência local primeiro
-            upload_url = f"{gradio_url.rstrip('/')}/gradio_api/upload"
-            local_voice_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "video_maker", "voz_padrao.mp3")
+            thread = threading.Thread(target=_generate_voice_task, args=(task_id, match_id, script_text, gradio_url))
+            thread.start()
             
-            # Se não achar local, tenta em outro diretório padrão
-            if not os.path.exists(local_voice_path):
-                local_voice_path = os.path.join(settings.MEDIA_ROOT, "voz_padrao.mp3")
-                
-            server_file_path = None
-            if os.path.exists(local_voice_path):
-                try:
-                    with open(local_voice_path, 'rb') as f_voice:
-                        r_upload = requests.post(upload_url, files={'files': f_voice}, timeout=20)
-                    if r_upload.status_code == 200:
-                        upload_res = r_upload.json()
-                        if isinstance(upload_res, list) and len(upload_res) > 0:
-                            server_file_path = upload_res[0]
-                except Exception:
-                    pass
-
-            # Enviamos None para que o Kaggle use o fallback de buscar o arquivo "voz_padrao.mp3" local dele.
-            call_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda"
-            call_payload = {
-                "data": [
-                    texto_limpo,
-                    None
-                ]
-            }
-            
-            r_call = requests.post(call_url, json=call_payload, timeout=30)
-            
-            if r_call.status_code == 404:
-                # Fallback para Gradio antigo (/api/predict)
-                payload = {
-                    "data": [texto_limpo, "voz_padrao.mp3"],
-                    "fn_index": 0,
-                    "session_hash": session_hash
-                }
-                gradio_api = f"{gradio_url.rstrip('/')}/api/predict"
-                r = requests.post(gradio_api, json=payload, timeout=120)
-                
-                if r.status_code != 200:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Kaggle retornou erro HTTP {r.status_code}: {r.text}'
-                    }, status=502)
-                    
-                res_data = r.json()
-                if not res_data.get('data') or not isinstance(res_data['data'], list):
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Formato de resposta inesperado do Kaggle: {res_data}'
-                    }, status=502)
-                    
-                audio_info = res_data['data'][0]
-            else:
-                # Gradio 6: fluxo call → event_id → SSE
-                if r_call.status_code != 200:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Kaggle rejeitou o pedido HTTP {r_call.status_code}: {r_call.text}'
-                    }, status=502)
-                
-                event_id = r_call.json().get('event_id')
-                if not event_id:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Resposta sem event_id: {r_call.text}'
-                    }, status=502)
-                
-                # Passo 2: Buscar o resultado via SSE (Server-Sent Events)
-                result_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda/{event_id}"
-                r_result = requests.get(result_url, timeout=180, stream=True)
-                
-                audio_info = None
-                json_info = None
-                for line in r_result.iter_lines(decode_unicode=True):
-                    if not line:
-                        continue
-                    if line.startswith('data: '):
-                        import json as json_mod
-                        try:
-                            event_data = json_mod.loads(line[6:])
-                            # O resultado agora vem como uma lista com DOIS itens: [audio, json]
-                            if isinstance(event_data, list) and len(event_data) >= 2:
-                                audio_info = event_data[0]
-                                json_info = event_data[1]
-                                break
-                            elif isinstance(event_data, list) and len(event_data) > 0:
-                                audio_info = event_data[0]
-                                break
-                        except (json.JSONDecodeError, ValueError):
-                            continue
-                
-                if audio_info is None:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': 'O Kaggle não retornou dados de áudio. O modelo pode ter falhado.'
-                    }, status=502)
-            
-            # ── Extrair URL de download do áudio ──
-            if isinstance(audio_info, dict) and audio_info.get('url'):
-                audio_download_url = audio_info['url']
-            elif isinstance(audio_info, dict) and audio_info.get('path'):
-                audio_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={audio_info['path']}"
-            else:
-                audio_download_url = f"{gradio_url.rstrip('/')}/file={audio_info}"
-
-            # ── Extrair URL de download do JSON ──
-            json_download_url = None
-            if json_info:
-                if isinstance(json_info, dict) and json_info.get('url'):
-                    json_download_url = json_info['url']
-                elif isinstance(json_info, dict) and json_info.get('path'):
-                    json_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={json_info['path']}"
-                else:
-                    json_download_url = f"{gradio_url.rstrip('/')}/file={json_info}"
-
-            # Baixar o arquivo MP3
-            audio_r = requests.get(audio_download_url, timeout=30)
-            if audio_r.status_code != 200:
-                return JsonResponse({
-                    'status': 'error', 
-                    'message': f'Não foi possível baixar o MP3 do Kaggle. HTTP {audio_r.status_code}'
-                }, status=502)
-                
-            # Salvar no diretório media/audios_locucao/
-            media_dir = os.path.join(settings.MEDIA_ROOT, 'audios_locucao')
-            os.makedirs(media_dir, exist_ok=True)
-            
-            # Salvar MP3
-            file_name = f"match_{match_id}.mp3"
-            file_path = os.path.join(media_dir, file_name)
-            with open(file_path, 'wb') as f:
-                f.write(audio_r.content)
-                
-            # Salvar JSON se existir
-            if json_download_url:
-                json_r = requests.get(json_download_url, timeout=30)
-                if json_r.status_code == 200:
-                    json_file_name = f"match_{match_id}.json"
-                    json_file_path = os.path.join(media_dir, json_file_name)
-                    with open(json_file_path, 'wb') as f:
-                        f.write(json_r.content)
-                        
-            # Salvar Script de texto original com tags
-            script_file_name = f"match_{match_id}.txt"
-            script_file_path = os.path.join(media_dir, script_file_name)
-            with open(script_file_path, 'w', encoding='utf-8') as f:
-                f.write(script_text)
-                
-            audio_public_url = f"{settings.MEDIA_URL}audios_locucao/{file_name}"
-            
-            return JsonResponse({
-                'status': 'success', 
-                'audio_url': audio_public_url
-            })
+            return JsonResponse({'status': 'processing', 'task_id': task_id})
             
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
+@method_decorator(csrf_exempt, name='dispatch')
+class KaggleVoiceStatusView(View):
+    def get(self, request, task_id):
+        task_data = cache.get(f'kaggle_voice_task_{task_id}')
+        if not task_data:
+            return JsonResponse({'status': 'error', 'message': 'Tarefa não encontrada ou expirada.'}, status=404)
+        return JsonResponse(task_data)
 
 # ==============================================================
