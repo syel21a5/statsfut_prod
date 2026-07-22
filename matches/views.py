@@ -469,6 +469,10 @@ class MatchVideoScriptView(View):
         if format_type == 'long':
             combined_keys["despedida"] = "Texto rápido de encerramento do vídeo."
             
+        combined_keys["titulo_video"] = "Um título muito chamativo e viral para YouTube/TikTok."
+        combined_keys["descricao_video"] = "Uma descrição otimizada para SEO contendo hashtags relevantes."
+        combined_keys["prompt_thumbnail"] = "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
+            
         json_keys_prompt = json.dumps(combined_keys, indent=2, ensure_ascii=False)
         
         if format_type == 'long':
@@ -526,7 +530,10 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
   "foco_1_texto": "Análise super rápida e dinâmica da estatística foco 1...",
   "foco_2_aba": "Nome da aba da estatística 2 (gols, escanteios, cartoes, chutes, especiais, lays).",
   "foco_2_tag": "Nome EXATO da estatística 2...",
-  "foco_2_texto": "Análise super rápida da estatística foco 2 com fechamento."
+  "foco_2_texto": "Análise super rápida da estatística foco 2 com fechamento.",
+  "titulo_video": "Um título muito chamativo e viral para YouTube/TikTok.",
+  "descricao_video": "Uma descrição otimizada para SEO contendo hashtags relevantes.",
+  "prompt_thumbnail": "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
 }}
 """
 
@@ -562,11 +569,19 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                         texto_limpo += f"{txt2} "
                         texto_maq += f"[ABA: {f2_aba}] [FOCO: {tag2}] {txt2} [OFF] "
                             
+                    metadata_section = (
+                        "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
+                        f"TÍTULO: {j.get('titulo_video', '')}\n\n"
+                        f"DESCRIÇÃO:\n{j.get('descricao_video', '')}\n\n"
+                        f"PROMPT THUMBNAIL (Midjourney/DALL-E):\n{j.get('prompt_thumbnail', '')}"
+                    )
+                            
                     final_script = (
                         "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
                         f"{texto_limpo}\n\n"
                         "👇👇👇 TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt) 👇👇👇\n\n"
-                        f"{texto_maq}"
+                        f"{texto_maq}\n\n"
+                        f"{metadata_section}"
                     )
                     return final_script
 
@@ -635,11 +650,19 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 
                 texto_limpo_audio = texto_limpo.replace('.5', ' ponto 5')
                 
+                metadata_section = (
+                    "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
+                    f"TÍTULO: {j.get('titulo_video', '')}\n\n"
+                    f"DESCRIÇÃO:\n{j.get('descricao_video', '')}\n\n"
+                    f"PROMPT THUMBNAIL (Midjourney/DALL-E):\n{j.get('prompt_thumbnail', '')}"
+                )
+                
                 final_script = (
                     "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
                     f"{texto_limpo_audio}\n\n"
                     "👇👇👇 TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt) 👇👇👇\n\n"
-                    f"{texto_maq}"
+                    f"{texto_maq}\n\n"
+                    f"{metadata_section}"
                 )
                 return final_script
             except Exception as e:
