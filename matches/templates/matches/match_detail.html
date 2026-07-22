@@ -1563,14 +1563,46 @@
                 }
             })
             .then(data => {
-                clearInterval(kaggleTextInterval);
-                loader.classList.add('d-none');
-                if (data.status === 'success') {
+                if (data.status === 'processing' && data.task_id) {
+                    // Iniciar Polling
+                    loadingTextEl.innerText = "Consultando a inteligência do DeepSeek v3 (Vídeo Longo)...";
+                    const taskId = data.task_id;
+                    
+                    const pollInterval = setInterval(async () => {
+                        try {
+                            const statusRes = await fetch(`/api/match-video-script/status/${taskId}/`);
+                            const statusData = await statusRes.json();
+                            
+                            if (statusData.status === 'success') {
+                                clearInterval(pollInterval);
+                                clearInterval(kaggleTextInterval);
+                                loader.classList.add('d-none');
+                                document.getElementById('kaggleScriptTextarea').value = statusData.script;
+                                scriptArea.classList.remove('d-none');
+                                scriptArea.classList.add('d-flex');
+                                btnCopy.classList.remove('d-none');
+                            } else if (statusData.status === 'error') {
+                                clearInterval(pollInterval);
+                                clearInterval(kaggleTextInterval);
+                                loader.classList.add('d-none');
+                                alert("Erro ao gerar roteiro longo: " + (statusData.message || "Erro desconhecido"));
+                                form.classList.remove('d-none');
+                            }
+                        } catch (e) {
+                            console.error("Erro no polling do roteiro: ", e);
+                        }
+                    }, 5000); // Checa a cada 5 segundos
+                    
+                } else if (data.status === 'success') {
+                    clearInterval(kaggleTextInterval);
+                    loader.classList.add('d-none');
                     document.getElementById('kaggleScriptTextarea').value = data.script;
                     scriptArea.classList.remove('d-none');
                     scriptArea.classList.add('d-flex');
                     btnCopy.classList.remove('d-none');
                 } else {
+                    clearInterval(kaggleTextInterval);
+                    loader.classList.add('d-none');
                     alert("Erro ao gerar roteiro: " + (data.message || "Erro desconhecido"));
                     form.classList.remove('d-none');
                 }

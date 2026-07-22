@@ -645,120 +645,132 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
             except Exception as e:
                 return f"👇👇👇 ERRO NO PARSER HÍBRIDO 👇👇👇\n\nErro: {str(e)}\n\nTexto Original da IA:\n{text}"
 
-        import requests
-        import os
-        from dotenv import load_dotenv
-        
-        load_dotenv(override=True)
-        
-        deepseek_api_key = os.getenv('DEEPSEEK_API_KEY')
-        gemini_api_key = os.getenv('GEMINI_API_KEY')
-        
-        if deepseek_api_key:
-            url = "https://api.deepseek.com/chat/completions"
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {deepseek_api_key}'
-            }
-            payload = {
-                "model": "deepseek-chat",
-                "temperature": 0.85,
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ]
-            }
+        def background_task(task_id, prompt, format_type, selected_abas):
             try:
-                r = requests.post(url, headers=headers, json=payload, timeout=90)
-                if r.status_code == 200:
-                    data = r.json()
-                    script_text = data['choices'][0]['message']['content']
-                    script_text = process_hybrid_response(script_text, format_type, selected_abas)
-                    return JsonResponse({'status': 'success', 'script': script_text})
-                else:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Erro na API do DeepSeek ({r.status_code}): {r.text}'
-                    }, status=500)
-            except Exception as e:
-                return JsonResponse({
-                    'status': 'error', 
-                    'message': f'Erro ao conectar à API do DeepSeek: {str(e)}'
-                }, status=500)
+                import requests
+                import os
+                from dotenv import load_dotenv
                 
-        # 2. Fallback: Gemini direto
-        if gemini_api_key:
-            model = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_api_key}"
-            headers = {'Content-Type': 'application/json'}
-            payload = {
-                "contents": [{
-                    "parts": [{
-                        "text": prompt
-                    }]
-                }]
-            }
-            try:
-                r = requests.post(url, headers=headers, json=payload, timeout=120)
-                if r.status_code == 200:
-                    data = r.json()
-                    script_text = data['candidates'][0]['content']['parts'][0]['text']
-                    script_text = process_hybrid_response(script_text, format_type, selected_abas)
-                    return JsonResponse({'status': 'success', 'script': script_text})
-                else:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Erro na API direta do Gemini ({r.status_code}): {r.text}'
-                    }, status=500)
-            except Exception as e:
-                return JsonResponse({
-                    'status': 'error', 
-                    'message': f'Erro ao conectar à API direta do Gemini: {str(e)}'
-                }, status=500)
+                load_dotenv(override=True)
                 
-        # 3. Tentar detectar se o proxy local de rotação está ativo
-        proxy_host = None
-        for host in ["127.0.0.1", "host.docker.internal"]:
-            try:
-                r = requests.get(f"http://{host}:8089/v1/models", headers={"Authorization": "Bearer dummy"}, timeout=1.5)
-                if r.status_code == 200:
-                    proxy_host = host
-                    break
-            except:
-                continue
+                deepseek_api_key = os.getenv('DEEPSEEK_API_KEY')
+                gemini_api_key = os.getenv('GEMINI_API_KEY')
+                
+                if deepseek_api_key:
+                    url = "https://api.deepseek.com/chat/completions"
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': f'Bearer {deepseek_api_key}'
+                    }
+                    payload = {
+                        "model": "deepseek-chat",
+                        "temperature": 0.85,
+                        "messages": [
+                            {"role": "user", "content": prompt}
+                        ]
+                    }
+                    try:
+                        r = requests.post(url, headers=headers, json=payload, timeout=240)
+                        if r.status_code == 200:
+                            data = r.json()
+                            script_text = data['choices'][0]['message']['content']
+                            script_text = process_hybrid_response(script_text, format_type, selected_abas)
+                            cache.set(f'match_script_task_{task_id}', {'status': 'success', 'script': script_text}, 3600)
+                            return
+                        else:
+                            cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro na API do DeepSeek ({r.status_code}): {r.text}'}, 3600)
+                            return
+                    except Exception as e:
+                        cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro ao conectar à API do DeepSeek: {str(e)}'}, 3600)
+                        return
+                        
+                # 2. Fallback: Gemini direto
+                if gemini_api_key:
+                    model = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_api_key}"
+                    headers = {'Content-Type': 'application/json'}
+                    payload = {
+                        "contents": [{
+                            "parts": [{
+                                "text": prompt
+                            }]
+                        }]
+                    }
+                    try:
+                        r = requests.post(url, headers=headers, json=payload, timeout=240)
+                        if r.status_code == 200:
+                            data = r.json()
+                            script_text = data['candidates'][0]['content']['parts'][0]['text']
+                            script_text = process_hybrid_response(script_text, format_type, selected_abas)
+                            cache.set(f'match_script_task_{task_id}', {'status': 'success', 'script': script_text}, 3600)
+                            return
+                        else:
+                            cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro na API direta do Gemini ({r.status_code}): {r.text}'}, 3600)
+                            return
+                    except Exception as e:
+                        cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro ao conectar à API direta do Gemini: {str(e)}'}, 3600)
+                        return
+                        
+                # 3. Tentar detectar se o proxy local de rotação está ativo
+                proxy_host = None
+                for host in ["127.0.0.1", "host.docker.internal"]:
+                    try:
+                        r = requests.get(f"http://{host}:8089/v1/models", headers={"Authorization": "Bearer dummy"}, timeout=1.5)
+                        if r.status_code == 200:
+                            proxy_host = host
+                            break
+                    except:
+                        continue
+        
+                if proxy_host:
+                    url = f"http://{proxy_host}:8089/v1/chat/completions"
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer dummy_key'
+                    }
+                    payload = {
+                        "model": "gemini-2.0-flash-lite",
+                        "messages": [
+                            {"role": "user", "content": prompt}
+                        ]
+                    }
+                    try:
+                        r = requests.post(url, headers=headers, json=payload, timeout=240)
+                        if r.status_code != 200:
+                            cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro no Proxy de Rotação ({r.status_code}): {r.text}'}, 3600)
+                            return
+                        data = r.json()
+                        script_text = data['choices'][0]['message']['content']
+                        script_text = process_hybrid_response(script_text, format_type, selected_abas)
+                        cache.set(f'match_script_task_{task_id}', {'status': 'success', 'script': script_text}, 3600)
+                        return
+                    except Exception as e:
+                        cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro ao comunicar com o Proxy de Rotação: {str(e)}'}, 3600)
+                        return
+                else:
+                    cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': 'Nenhuma API configurada.'}, 3600)
+                    return
+            except Exception as e:
+                cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': str(e)}, 3600)
 
-        if proxy_host:
-            url = f"http://{proxy_host}:8089/v1/chat/completions"
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer dummy_key'
-            }
-            payload = {
-                "model": "gemini-2.0-flash-lite",
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ]
-            }
-            try:
-                r = requests.post(url, headers=headers, json=payload, timeout=120)
-                if r.status_code != 200:
-                    return JsonResponse({
-                        'status': 'error', 
-                        'message': f'Erro no Proxy de Rotação ({r.status_code}): {r.text}'
-                    }, status=500)
-                data = r.json()
-                script_text = data['choices'][0]['message']['content']
-                script_text = process_hybrid_response(script_text, format_type, selected_abas)
-                return JsonResponse({'status': 'success', 'script': script_text})
-            except Exception as e:
-                return JsonResponse({
-                    'status': 'error', 
-                    'message': f'Erro ao comunicar com o Proxy de Rotação: {str(e)}'
-                }, status=500)
-        else:
-            return JsonResponse({
-                'status': 'error', 
-                'message': 'Nenhum Proxy de Rotação ativo na porta 8089 (certifique-se de executar START_GEMINI_PROXY.bat) E nenhuma chave GEMINI_API_KEY encontrada no arquivo .env local.'
-            }, status=400)
+        import uuid
+        import threading
+        
+        task_id = str(uuid.uuid4())
+        cache.set(f'match_script_task_{task_id}', {'status': 'processing'}, 3600)
+        
+        thread = threading.Thread(target=background_task, args=(task_id, prompt, format_type, selected_abas))
+        thread.start()
+        
+        return JsonResponse({'status': 'processing', 'task_id': task_id})
+
+class MatchVideoScriptStatusView(View):
+    def get(self, request, task_id):
+        from django.core.cache import cache
+        task_data = cache.get(f'match_script_task_{task_id}')
+        if not task_data:
+            return JsonResponse({'status': 'error', 'message': 'Tarefa não encontrada ou expirada.'}, status=404)
+        return JsonResponse(task_data)
 
 
 from django.utils.translation import gettext_lazy as _
