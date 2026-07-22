@@ -83,13 +83,15 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
     print("\n[MÁQUINA] Cruzando os tempos do áudio com as tags do roteiro via Busca Direta de Foco...")
     
     # 1. Isolar apenas a parte do roteiro da máquina
+    # 1. Isolar apenas a parte do roteiro da máquina
     machine_idx = roteiro_text.find("TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO")
+    if machine_idx == -1:
+        machine_idx = roteiro_text.find("TEXTO DA M")
+    if machine_idx == -1:
+        machine_idx = roteiro_text.find("ROTEIRO DA MÁQUINA")
+        
     if machine_idx != -1:
         roteiro_text = roteiro_text[machine_idx:]
-    else:
-        machine_idx = roteiro_text.find("ROTEIRO DA MÁQUINA")
-        if machine_idx != -1:
-            roteiro_text = roteiro_text[machine_idx:]
             
     roteiro_text = re.sub(r'👇.*?👇', '', roteiro_text)
     roteiro_text = roteiro_text.replace("TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt)", "")
