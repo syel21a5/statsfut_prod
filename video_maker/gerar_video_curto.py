@@ -97,6 +97,9 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
 
     # 3. Limpar o roteiro e mapear onde as tags ocorrem
     tags = []
+    sum_of_previous_tags_length = 0
+    clean_roteiro_text = re.sub(r'\[(.*?)\]', '', roteiro_text)
+
     for match in re.finditer(r'\[(.*?)\]', roteiro_text):
         tag_content = match.group(1).strip()
         tag_start = match.start()
@@ -112,7 +115,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
             # Pega as palavras imediatamente APÓS a tag no roteiro
             text_after = roteiro_text[tag_end:]
             full_words_after = text_after.split()[:25] # Pega até 25 palavras originais (com as pequenas) para cálculo de offset massivo
-            words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 1]
+            words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3]
             if words_after:
                 anchor_words = words_after[:12] # Guarda até 12 âncoras para segurança extrema!
         
@@ -130,8 +133,10 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
             "foco_text": foco_text,
             "anchor_words": anchor_words,
             "full_words_after": full_words_after,
-            "char_idx": tag_start
+            "char_idx": tag_start,
+            "clean_char_idx": tag_start - sum_of_previous_tags_length
         })
+        sum_of_previous_tags_length += (tag_end - tag_start)
 
     events = []
     
@@ -167,9 +172,9 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                 # Calcula o timestamp exato da troca usando as âncoras do Whisper
                 best_idx = -1
                 matched_word = ""
-                estimated_idx = int((t["char_idx"] / len(roteiro_text)) * len(audio_words))
-                window_start = max(search_start_idx, estimated_idx - 60)
-                window_end = min(len(audio_words), estimated_idx + 60)
+                estimated_idx = int((t["clean_char_idx"] / len(clean_roteiro_text)) * len(audio_words))
+                window_start = max(search_start_idx, estimated_idx - 250)
+                window_end = min(len(audio_words), estimated_idx + 250)
                 
                 if anchor_words:
                     for aw in anchor_words:
@@ -197,7 +202,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                     event_time = audio_words[start_idx]['start']
                     search_start_idx = best_idx + 1
                 else:
-                    event_time = (t["char_idx"] / len(roteiro_text)) * audio_duration
+                    event_time = (t["clean_char_idx"] / len(clean_roteiro_text)) * audio_duration
                 
                 events.append({
                     "tag_idx": i,
@@ -220,12 +225,12 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
             best_idx = -1
             matched_word = ""
             
-            # Estima o ponto do áudio baseado na posição do caractere no texto
-            estimated_idx = int((t["char_idx"] / len(roteiro_text)) * len(audio_words))
+            # Estima o ponto do áudio baseado na posição do caractere no texto limpo (sem tags)
+            estimated_idx = int((t["clean_char_idx"] / len(clean_roteiro_text)) * len(audio_words))
             
-            # Procura num raio de 60 palavras para trás e 60 palavras para frente
-            window_start = max(search_start_idx, estimated_idx - 60)
-            window_end = min(len(audio_words), estimated_idx + 60)
+            # Procura num raio de 250 palavras para trás e 250 palavras para frente (pois as tags inflam o texto)
+            window_start = max(search_start_idx, estimated_idx - 250)
+            window_end = min(len(audio_words), estimated_idx + 250)
             
             if anchor_words:
                 for aw in anchor_words:
@@ -256,7 +261,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                 event_time = audio_words[start_idx]['start']
                 search_start_idx = best_idx + 1
             else:
-                event_time = (t["char_idx"] / len(roteiro_text)) * audio_duration
+                event_time = (t["clean_char_idx"] / len(clean_roteiro_text)) * audio_duration
                 
             events.append({
                 "tag_idx": i,
