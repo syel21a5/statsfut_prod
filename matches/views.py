@@ -471,6 +471,7 @@ class MatchVideoScriptView(View):
             
         combined_keys["titulo_video"] = "Um título muito chamativo e viral para YouTube/TikTok."
         combined_keys["descricao_video"] = "Uma descrição otimizada para SEO contendo hashtags relevantes."
+        combined_keys["tags_video"] = "Uma lista de 15 palavras-chaves (tags) separadas por vírgula, focadas em YouTube SEO."
         combined_keys["prompt_thumbnail"] = "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
             
         json_keys_prompt = json.dumps(combined_keys, indent=2, ensure_ascii=False)
@@ -533,6 +534,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
   "foco_2_texto": "Análise super rápida da estatística foco 2 com fechamento.",
   "titulo_video": "Um título muito chamativo e viral para YouTube/TikTok.",
   "descricao_video": "Uma descrição otimizada para SEO contendo hashtags relevantes.",
+  "tags_video": "Uma lista de 15 palavras-chaves (tags) separadas por vírgula, focadas em YouTube SEO.",
   "prompt_thumbnail": "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
 }}
 """
@@ -573,6 +575,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                         "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
                         f"TÍTULO: {j.get('titulo_video', '')}\n\n"
                         f"DESCRIÇÃO:\n{j.get('descricao_video', '')}\n\n"
+                        f"TAGS PARA YOUTUBE:\n{j.get('tags_video', '')}\n\n"
                         f"PROMPT THUMBNAIL (Midjourney/DALL-E):\n{j.get('prompt_thumbnail', '')}"
                     )
                             
@@ -654,6 +657,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
                     f"TÍTULO: {j.get('titulo_video', '')}\n\n"
                     f"DESCRIÇÃO:\n{j.get('descricao_video', '')}\n\n"
+                    f"TAGS PARA YOUTUBE:\n{j.get('tags_video', '')}\n\n"
                     f"PROMPT THUMBNAIL (Midjourney/DALL-E):\n{j.get('prompt_thumbnail', '')}"
                 )
                 
