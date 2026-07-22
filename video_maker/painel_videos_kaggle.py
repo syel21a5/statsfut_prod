@@ -156,16 +156,17 @@ class VideoStudioKaggleApp(ctk.CTk):
         else:
             prod_base_url = "https://statsfut.com"
             
-        audio_remote_url = f"{prod_base_url}/api/dl-audio/match_{match_id}.mp3"
-        script_remote_url = f"{prod_base_url}/api/dl-audio/match_{match_id}.txt"
-        json_remote_url = f"{prod_base_url}/api/dl-audio/match_{match_id}.json"
         
         self.log(f"> Conectando ao servidor ({prod_base_url}) para baixar recursos...")
         
         try:
-            # Baixar Áudio
-            self.log(f"> Baixando locução: {audio_remote_url}")
-            r_audio = requests.get(audio_remote_url, timeout=15)
+            import time
+            ts = int(time.time())
+            
+            # 1. Baixar o Áudio
+            audio_remote_url = f"{prod_base_url}/media/audios_locucao/match_{match_id}.mp3?t={ts}"
+            self.log(f"> Baixando áudio principal: {audio_remote_url}")
+            r_audio = requests.get(audio_remote_url, timeout=30)
             if r_audio.status_code != 200:
                 self.log(f"[ERRO] O áudio do jogo ainda não foi gerado no site de produção!")
                 self.log(f"Acesse o jogo no site, clique em 'Vídeo Express (Kaggle)' e gere o áudio antes.")
@@ -175,8 +176,9 @@ class VideoStudioKaggleApp(ctk.CTk):
                 f.write(r_audio.content)
             self.log("✅ Áudio baixado com sucesso.")
             
-            # Baixar Script
-            self.log(f"> Baixando roteiro formatado: {script_remote_url}")
+            # 2. Baixar o Roteiro
+            script_remote_url = f"{prod_base_url}/media/audios_locucao/match_{match_id}.txt?t={ts}"
+            self.log(f"> Baixando roteiro: {script_remote_url}")
             r_script = requests.get(script_remote_url, timeout=15)
             if r_script.status_code != 200:
                 self.log(f"[ERRO] O arquivo de roteiro de máquina correspondente não foi achado no site.")
@@ -186,7 +188,8 @@ class VideoStudioKaggleApp(ctk.CTk):
                 f.write(r_script.text)
             self.log("✅ Roteiro de tags baixado com sucesso.")
             
-            # Baixar JSON (Cronograma Inteligente)
+            # 2.5 Baixar o JSON do Cronograma do Whisper
+            json_remote_url = f"{prod_base_url}/media/audios_locucao/temp/kaggle_timeline_{match_id}.json?t={ts}"
             self.log(f"> Baixando cronograma IA: {json_remote_url}")
             r_json = requests.get(json_remote_url, timeout=15)
             if r_json.status_code == 200:
