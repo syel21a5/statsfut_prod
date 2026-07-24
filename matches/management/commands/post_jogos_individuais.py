@@ -224,7 +224,7 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
             "Authorization": f"Bearer {deepseek_api_key}"
         }
         payload = {
-            "model": "deepseek-v4-pro",
+            "model": "deepseek-v4-flash",
             "messages": [
                 {"role": "system", "content": "Você é um Especialista em Análise Tática de Futebol."},
                 {"role": "user", "content": prompt}
