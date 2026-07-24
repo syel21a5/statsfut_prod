@@ -19,11 +19,13 @@
                 <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> {% blocktranslate with t1=team1.name t2=team2.name %}{{ t1 }} vs {{ t2 }}{% endblocktranslate %}
             </p>
         </div>
-        <a href="{% url 'matches:league_goals' country_name=league.country|country_en|slugify league_name=league.name|slugify %}"
+        <a href="{% url 'matches:country_league_stats' country_name=league.country|country_en|slugify league_name=league.name|slugify %}"
             class="btn btn-outline-info btn-sm">
             <i class="fa-solid fa-arrow-left me-1"></i> {% translate "Back to League" %}
         </a>
     </div>
+
+    {% include 'matches/includes/league_tabs.html' with active_tab='' is_h2h_page=True %}
 
 
     
@@ -138,10 +140,10 @@
             </div>
 
             <style>
-                .premium-tabs { background: rgba(255,255,255,0.05); padding: 6px; border-radius: 12px; display: inline-flex; gap: 5px; border: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; }
-                .premium-tabs .nav-link { color: #94a3b8 !important; border-radius: 8px !important; font-weight: 600; padding: 8px 16px; transition: all 0.3s; background: transparent !important; }
-                .premium-tabs .nav-link:hover { color: #fff !important; background: rgba(255,255,255,0.1) !important; }
-                .premium-tabs .nav-link.active { color: #fff !important; background: linear-gradient(135deg, #0ea5e9, #2563eb) !important; box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
+                .premium-tabs { background: rgba(255,255,255,0.03); padding: 6px; border-radius: 12px; display: inline-flex; gap: 5px; border: 1px solid rgba(255,255,255,0.08) !important; flex-wrap: wrap; backdrop-filter: blur(10px); }
+                .premium-tabs .nav-link { color: #94a3b8 !important; border-radius: 8px !important; font-weight: 600; padding: 8px 16px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: transparent !important; }
+                .premium-tabs .nav-link:hover { color: #fff !important; background: rgba(59, 130, 246, 0.08) !important; transform: translateY(-1px); }
+                .premium-tabs .nav-link.active { color: #fff !important; background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%) !important; box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4), 0 2px 8px rgba(0, 114, 255, 0.3); transform: translateY(-1px); }
             </style>
             <ul class="nav nav-pills premium-tabs mb-4" id="h2hTabs" role="tablist">
                 <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#comparacao" type="button" role="tab"><i class="fa-solid fa-scale-balanced me-2"></i>{% translate "Form and Statistics" %}</button></li>

@@ -8,30 +8,33 @@
 {% block content %}
 <style>
     .premium-tabs {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 6px;
+        border-radius: 12px;
+        display: inline-flex;
+        gap: 5px;
+        backdrop-filter: blur(10px);
     }
     .premium-tabs .nav-link {
-        color: rgba(255, 255, 255, 0.6);
-        border: 1px solid transparent;
-        border-radius: 8px 8px 0 0;
+        color: #94a3b8 !important;
+        border-radius: 8px !important;
         font-weight: 600;
-        padding: 0.75rem 1.25rem;
-        transition: all 0.2s ease;
-        background: transparent;
-        margin-bottom: -2px;
+        padding: 8px 16px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none !important;
+        background: transparent !important;
     }
     .premium-tabs .nav-link:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.03);
-        border-color: rgba(255, 255, 255, 0.05) rgba(255, 255, 255, 0.05) transparent;
+        color: #fff !important;
+        background: rgba(59, 130, 246, 0.08) !important;
+        transform: translateY(-1px);
     }
     .premium-tabs .nav-link.active {
         color: #fff !important;
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-color: rgba(255, 255, 255, 0.1) rgba(255, 255, 255, 0.1) transparent !important;
-        border-bottom: 2px solid #0d6efd !important;
-        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+        background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%) !important;
+        box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4), 0 2px 8px rgba(0, 114, 255, 0.3);
+        transform: translateY(-1px);
     }
 </style>
 <script>
@@ -131,13 +134,9 @@
             <i class="fa-solid fa-chart-pie text-info me-2"></i>
             {% translate "Goal Statistics" %} - {{ league.name }}
         </h2>
-        <div class="d-flex gap-2">
-            <a href="{% url 'matches:league_detailed' country_name=league.country|country_en|slugify league_name=league.name|slugify %}"
-                class="btn btn-outline-primary btn-sm">
-                <i class="fa-solid fa-bolt me-1"></i> {% translate "Elite Stats" %}
-            </a>
-        </div>
     </div>
+
+    {% include 'matches/includes/league_tabs.html' with active_tab='goals' %}
 
     
 <div class="row g-4">

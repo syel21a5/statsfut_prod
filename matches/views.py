@@ -363,6 +363,17 @@ class MatchVideoScriptView(View):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': f'Erro ao analisar partida: {str(e)}'}, status=500)
             
+        from django.utils import translation
+        lang_code = translation.get_language() or 'pt-br'
+        
+        language_instructions = ""
+        if lang_code.startswith('en'):
+            language_instructions = "IMPORTANT: Write the entire narration in FLUENT ENGLISH. Keep the control tags (like [ABA: gols]) in Portuguese exactly as requested, but the text inside [FOCO: ...] MUST match the English interface terms."
+        elif lang_code.startswith('es'):
+            language_instructions = "IMPORTANTE: Escribe toda la narración en ESPAÑOL FLUIDO. Mantén las etiquetas de control (como [ABA: gols]) en portugués exactamente como se solicitó, pero el texto dentro de [FOCO: ...] DEBE coincidir con los términos de la interfaz en español."
+        else:
+            language_instructions = "IMPORTANTE: Escreva a narração em PORTUGUÊS (PT-BR)."
+            
         format_type = request.GET.get('format', 'short')
         aba_param = request.GET.get('aba', 'gols')
         selected_abas = [a.strip().lower() for a in aba_param.split(',') if a.strip()]
@@ -481,6 +492,9 @@ class MatchVideoScriptView(View):
 Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas no YouTube.
 Devolva a análise em formato ESTRITAMENTE JSON.
 
+IDIOMA DO VÍDEO: {lang_code.upper()}
+{language_instructions}
+
 PARTIDA: {home_team} vs {away_team}
 COMPETIÇÃO: {league} ({country})
 
@@ -507,6 +521,9 @@ Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTo
 Sua missão é criar um roteiro de vídeo CURTO (máximo de 60 segundos) muito engajador sobre as estatísticas fornecidas.
 
 Devolva a análise em formato ESTRITAMENTE JSON. NENHUM COMENTÁRIO ADICIONAL.
+
+IDIOMA DO VÍDEO: {lang_code.upper()}
+{language_instructions}
 
 PARTIDA: {home_team} vs {away_team}
 ESTATÍSTICAS DAS ABAS SELECIONADAS:
@@ -592,45 +609,77 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 texto_limpo = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
                 texto_maq = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
                 
+                from django.utils.translation import gettext as _
+                
                 for aba in selected_abas:
                     texto_maq += f"[ABA: {aba}] "
                     
                     if aba == 'gols':
                         keys = ['gols_over_1_5', 'gols_over_2_5', 'gols_over_3_5', 'gols_over_4_5', 'gols_btts', 'gols_vencedor', 'gols_chance_dupla', 'gols_ht']
-                        tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', 'BTTS', 'Vencer a Partida', 'Chance Dupla', 'HT']
-                        words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
+                        tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', _('Ambas Equipes Marcam (BTTS)'), _('Vencer a Partida'), _('Chance Dupla'), _('Gol no 1º Tempo (HT)')]
+                        if lang_code.startswith('en'):
+                            words = [['Starting with', 'Beginning with', 'Looking first at'], ['Moving on to', 'Advancing to', 'Following with'], ['Analyzing', 'Proceeding with', 'Continuing with'], ['Getting into', 'Detailing', 'Exploring'], ['Looking at', 'Observing', 'Highlighting'], ['Regarding', 'Speaking of', 'Evaluating'], ['Noting', 'Checking', 'Pointing out'], ['Wrapping up', 'Closing with', 'Concluding with']]
+                        elif lang_code.startswith('es'):
+                            words = [['Comenzando con', 'Iniciando con', 'Partiendo con'], ['Pasando a', 'Avanzando a', 'Siguiendo con'], ['Analizando', 'Prosiguiendo con', 'Continuando con'], ['Llegando a', 'Detallando', 'Explorando'], ['Mirando', 'Observando', 'Destacando'], ['En cuanto a', 'Hablando de', 'Evaluando'], ['Notando', 'Verificando', 'Apuntando'], ['Finalizando', 'Cerrando', 'Concluyendo']]
+                        else:
+                            words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
                     elif aba == 'escanteios':
                         keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_over_9_5', 'escanteios_over_10_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
-                        tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', 'Base do Jogo', 'Melhor Palpite', 'Mais Escanteios']
-                        words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Avançando', 'Chegando', 'Analisando'], ['Aprofundando', 'Olhando', 'Destacando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
+                        tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', _('Média Total'), _('Mais Escanteios'), _('Mais Escanteios')]
+                        if lang_code.startswith('en'):
+                            words = [['Entering', 'Diving into', 'Exploring'], ['Proceeding with', 'Continuing with', 'Moving to'], ['Advancing to', 'Arriving at', 'Analyzing'], ['Going deeper into', 'Looking at', 'Highlighting'], ['Taking', 'Calculating', 'Adding up'], ['Focusing on', 'Aiming at', 'Filtering'], ['Wrapping up', 'Finishing with', 'Concluding']]
+                        elif lang_code.startswith('es'):
+                            words = [['Entrando en', 'Sumergiéndonos en', 'Explorando'], ['Prosiguiendo con', 'Continuando con', 'Caminando hacia'], ['Avanzando a', 'Llegando a', 'Analizando'], ['Profundizando en', 'Mirando', 'Destacando'], ['Tomando', 'Calculando', 'Sumando'], ['Enfocándonos en', 'Apuntando a', 'Filtrando'], ['Cerrando', 'Terminando', 'Rematando']]
+                        else:
+                            words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Avançando', 'Chegando', 'Analisando'], ['Aprofundando', 'Olhando', 'Destacando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
                         if j.get('escanteios_intro'):
                             texto_limpo += f"{j.get('escanteios_intro', '')} "
                             texto_maq += f"{j.get('escanteios_intro', '')} "
                     elif aba == 'cartoes':
                         keys = ['cartoes_over_3_5', 'cartoes_over_4_5', 'cartoes_over_5_5', 'cartoes_mais_cartoes']
-                        tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', 'Mais Cartões']
-                        words = [['Abrindo', 'Lançando', 'Trazendo'], ['Subindo', 'Elevando', 'Escalando'], ['Atingindo', 'Chegando', 'Alcançando'], ['Coroando', 'Completando', 'Despedindo']]
+                        tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', _('Mais Cartões')]
+                        if lang_code.startswith('en'):
+                            words = [['Opening', 'Introducing', 'Bringing'], ['Going up to', 'Elevating to', 'Climbing to'], ['Reaching', 'Arriving at', 'Achieving'], ['Crowning', 'Completing', 'Saying goodbye to']]
+                        elif lang_code.startswith('es'):
+                            words = [['Abriendo', 'Lanzando', 'Trayendo'], ['Subiendo a', 'Elevando a', 'Escalando a'], ['Alcanzando', 'Llegando a', 'Logrando'], ['Coronando', 'Completando', 'Despidiendo']]
+                        else:
+                            words = [['Abrindo', 'Lançando', 'Trazendo'], ['Subindo', 'Elevando', 'Escalando'], ['Atingindo', 'Chegando', 'Alcançando'], ['Coroando', 'Completando', 'Despedindo']]
                         if j.get('cartoes_intro'):
                             texto_limpo += f"{j.get('cartoes_intro', '')} "
                             texto_maq += f"{j.get('cartoes_intro', '')} "
                     elif aba == 'chutes':
                         keys = ['chutes_ao_alvo', 'chutes_precisao']
-                        tags = ['Chutes ao Alvo', 'Precisão']
-                        words = [['Examinando', 'Conferindo', 'Checando'], ['Constatando', 'Mapeando', 'Identificando']]
+                        tags = [_('Total Shots'), _('Precisão')]
+                        if lang_code.startswith('en'):
+                            words = [['Examining', 'Checking', 'Verifying'], ['Confirming', 'Mapping', 'Identifying']]
+                        elif lang_code.startswith('es'):
+                            words = [['Examinando', 'Comprobando', 'Chequeando'], ['Constatando', 'Mapeando', 'Identificando']]
+                        else:
+                            words = [['Examinando', 'Conferindo', 'Checando'], ['Constatando', 'Mapeando', 'Identificando']]
                         if j.get('chutes_intro'):
                             texto_limpo += f"{j.get('chutes_intro', '')} "
                             texto_maq += f"{j.get('chutes_intro', '')} "
                     elif aba == 'especiais':
                         keys = ['especiais_vencedor_ambos', 'especiais_dupla_gols', 'especiais_empate_anula']
-                        tags = ['Vencedor e Ambos Marcam', 'Dupla e Gols', 'Empate Anula']
-                        words = [['Inspecionando', 'Desvendando', 'Apurando'], ['Combinando', 'Juntando', 'Unindo'], ['Garantindo', 'Assegurando', 'Protegendo']]
+                        tags = [_('Vencedor + Ambos Marcam'), _('Chance Dupla + Faixa de Gols'), _('Empate Anula')]
+                        if lang_code.startswith('en'):
+                            words = [['Inspecting', 'Unveiling', 'Investigating'], ['Combining', 'Joining', 'Uniting'], ['Securing', 'Ensuring', 'Protecting']]
+                        elif lang_code.startswith('es'):
+                            words = [['Inspeccionando', 'Desvelando', 'Apurando'], ['Combinando', 'Juntando', 'Uniendo'], ['Garantizando', 'Asegurando', 'Protegiendo']]
+                        else:
+                            words = [['Inspecionando', 'Desvendando', 'Apurando'], ['Combinando', 'Juntando', 'Unindo'], ['Garantindo', 'Assegurando', 'Protegendo']]
                         if j.get('especiais_intro'):
                             texto_limpo += f"{j.get('especiais_intro', '')} "
                             texto_maq += f"{j.get('especiais_intro', '')} "
                     elif aba == 'lays':
                         keys = ['lays_melhor_lay']
                         tags = ['Melhor Lay']
-                        words = [['Investigando', 'Ponderando', 'Julgando']]
+                        if lang_code.startswith('en'):
+                            words = [['Investigating', 'Considering', 'Judging']]
+                        elif lang_code.startswith('es'):
+                            words = [['Investigando', 'Ponderando', 'Juzgando']]
+                        else:
+                            words = [['Investigando', 'Ponderando', 'Julgando']]
                         if j.get('lays_intro'):
                             texto_limpo += f"{j.get('lays_intro', '')} "
                             texto_maq += f"{j.get('lays_intro', '')} "
@@ -640,8 +689,15 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     for i, (k, tag) in enumerate(zip(keys, tags)):
                         val = lower_first(j.get(k, ''))
                         if val:
-                            word = pick(words[i]) if i < len(words) else "Analisando"
-                            phrase = f"{word} o mercado de {tag}, {val}" if aba != 'gols' else f"{word} as estatísticas de {tag}, {val}"
+                            if lang_code.startswith('en'):
+                                word = pick(words[i]) if i < len(words) else "Analyzing"
+                                phrase = f"{word} the {tag} market, {val}" if aba != 'gols' else f"{word} the {tag} stats, {val}"
+                            elif lang_code.startswith('es'):
+                                word = pick(words[i]) if i < len(words) else "Analizando"
+                                phrase = f"{word} el mercado de {tag}, {val}" if aba != 'gols' else f"{word} las estadísticas de {tag}, {val}"
+                            else:
+                                word = pick(words[i]) if i < len(words) else "Analisando"
+                                phrase = f"{word} o mercado de {tag}, {val}" if aba != 'gols' else f"{word} as estatísticas de {tag}, {val}"
                             texto_limpo += f"{phrase} "
                             texto_maq += f"[FOCO: {tag}] {phrase} [OFF] "
                             
@@ -4833,6 +4889,13 @@ class LeagueGoalsView(TemplateView):
 class LeagueDetailedStatsView(TemplateView):
     template_name = 'matches/league_detailed_stats.html'
 
+    def get(self, request, *args, **kwargs):
+        """Override get() to add HTTP-level caching headers and use Django cache."""
+        response = super().get(request, *args, **kwargs)
+        # Tell browser/proxy to cache for 5 minutes
+        response['Cache-Control'] = 'public, max-age=300'
+        return response
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         league_slug = self.kwargs.get('league_name')
@@ -4872,7 +4935,7 @@ class LeagueDetailedStatsView(TemplateView):
         
         if not league:
             return context
-
+        
         # 2. Localizar a Temporada Recente
         latest_season = Season.objects.filter(matches__league=league).order_by('-year').first()
         context['season'] = latest_season
@@ -4880,104 +4943,129 @@ class LeagueDetailedStatsView(TemplateView):
         if not latest_season:
             return context
 
-        # 3. Calcular Médias por Time
-        teams = Team.objects.filter(
-            Q(home_matches__league=league, home_matches__season=latest_season) |
-            Q(away_matches__league=league, away_matches__season=latest_season)
-        ).distinct()
-
-        # Otimização: Buscar todos os jogos relevantes da liga de uma vez para evitar N+1 queries
-        all_matches_for_stats = list(Match.objects.filter(
-            league=league, season=latest_season,
-            status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED'],
-            home_corners__isnull=False
-        ).select_related('home_team', 'away_team'))
-
-        team_stats = []
-        for team in teams:
-            # Filtro em memória Python (muito mais rápido que queries individuais)
-            matches = [m for m in all_matches_for_stats if m.home_team_id == team.id or m.away_team_id == team.id]
-
-            gp = len(matches)
-            if gp > 0:
-                corners_for = 0
-                corners_against = 0
-                yellow_for = 0
-                red_for = 0
-                shots_for = 0
-                
-                for m in matches:
-                    is_home = (m.home_team_id == team.id)
-                    corners_for += (m.home_corners or 0) if is_home else (m.away_corners or 0)
-                    corners_against += (m.away_corners or 0) if is_home else (m.home_corners or 0)
-                    yellow_for += (m.home_yellow or 0) if is_home else (m.away_yellow or 0)
-                    red_for += (m.home_red or 0) if is_home else (m.away_red or 0)
-                    shots_for += (m.home_shots or 0) if is_home else (m.away_shots or 0)
-
-                team_stats.append({
-                    'team': team,
-                    'gp': gp,
-                    'avg_corners_for': round(corners_for / gp, 2),
-                    'avg_corners_against': round(corners_against / gp, 2),
-                    'avg_corners_total': round((corners_for + corners_against) / gp, 2),
-                    'avg_yellow': round(yellow_for / gp, 2),
-                    'avg_red': round(red_for / gp, 2),
-                    'avg_shots': round(shots_for / gp, 1),
-                })
-
-        # Ordenar por maior média de escanteios totais por padrão
-        team_stats.sort(key=lambda x: x['avg_corners_total'], reverse=True)
-        context['team_stats'] = team_stats
+        from django.core.cache import cache as django_cache
         
-        # 4. Médias Gerais da Liga
-        if team_stats:
-            context['league_avg_corners'] = round(sum(s['avg_corners_total'] for s in team_stats) / len(team_stats), 2)
-            context['league_avg_yellow'] = round(sum(s['avg_yellow'] for s in team_stats) / len(team_stats), 2)
+        # Cache key based on league ID and season ID
+        cache_key = f'detailed_stats_data_{league.id}_{latest_season.id}'
+        cached_data = django_cache.get(cache_key)
         
-        # 5. Artilharia (Top Scorers)
-        from django.db.models import Count, Q
-        from matches.models import Goal
-        top_scorers_qs = Goal.objects.filter(
-            match__league=league,
-            match__season=latest_season
-        ).values('player_name', 'team__name').annotate(
-            goals_count=Count('id'),
-            penalties=Count('id', filter=Q(is_penalty=True))
-        ).order_by('-goals_count')[:8]
-        context['top_scorers'] = top_scorers_qs
+        if cached_data is None:
+            # 3. Calcular Médias por Time
+            # Otimização Suprema: Evitar a query Team.objects.filter(Q|Q) que demorava 9s+
+            # Em vez disso, puxamos todos os jogos primeiro (que é instantâneo)
+            all_matches_for_stats = list(Match.objects.filter(
+                league=league, season=latest_season,
+                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED'],
+                home_corners__isnull=False
+            ).select_related('home_team', 'away_team', 'home_team__league', 'away_team__league'))
 
-        # 6. Distribuição de Minutos dos Gols (Timing)
-        goals = Goal.objects.filter(
-            match__league=league,
-            match__season=latest_season
-        )
-        total_goals = goals.count()
-        timing_stats = {
-            '0_15': 0, '16_30': 0, '31_45': 0,
-            '46_60': 0, '61_75': 0, '76_90': 0
-        }
-        for g in goals:
-            m = g.minute
-            if m <= 15: timing_stats['0_15'] += 1
-            elif m <= 30: timing_stats['16_30'] += 1
-            elif m <= 45: timing_stats['31_45'] += 1
-            elif m <= 60: timing_stats['46_60'] += 1
-            elif m <= 75: timing_stats['61_75'] += 1
-            else: timing_stats['76_90'] += 1
+            # E coletamos os times unicamente direto da memória usando um set
+            teams_set = set()
+            for m in all_matches_for_stats:
+                teams_set.add(m.home_team)
+                teams_set.add(m.away_team)
+            teams = list(teams_set)
+
+            team_stats = []
+            for team in teams:
+                # Filtro em memória Python (muito mais rápido que queries individuais)
+                matches = [m for m in all_matches_for_stats if m.home_team_id == team.id or m.away_team_id == team.id]
+
+                gp = len(matches)
+                if gp > 0:
+                    corners_for = 0
+                    corners_against = 0
+                    yellow_for = 0
+                    red_for = 0
+                    shots_for = 0
+                    
+                    for m in matches:
+                        is_home = (m.home_team_id == team.id)
+                        corners_for += (m.home_corners or 0) if is_home else (m.away_corners or 0)
+                        corners_against += (m.away_corners or 0) if is_home else (m.home_corners or 0)
+                        yellow_for += (m.home_yellow or 0) if is_home else (m.away_yellow or 0)
+                        red_for += (m.home_red or 0) if is_home else (m.away_red or 0)
+                        shots_for += (m.home_shots or 0) if is_home else (m.away_shots or 0)
+
+                    team_stats.append({
+                        'team': team,
+                        'gp': gp,
+                        'avg_corners_for': round(corners_for / gp, 2),
+                        'avg_corners_against': round(corners_against / gp, 2),
+                        'avg_corners_total': round((corners_for + corners_against) / gp, 2),
+                        'avg_yellow': round(yellow_for / gp, 2),
+                        'avg_red': round(red_for / gp, 2),
+                        'avg_shots': round(shots_for / gp, 1),
+                    })
+
+            # Ordenar por maior média de escanteios totais por padrão
+            team_stats.sort(key=lambda x: x['avg_corners_total'], reverse=True)
             
-        timing_list = []
-        for period, count in timing_stats.items():
-            label = period.replace('_', '-') + "'"
-            if period == '76_90':
-                label = '76-90+'
-            timing_list.append({
-                'period': label,
-                'count': count,
-                'pct': round((count / total_goals) * 100, 1) if total_goals > 0 else 0
-            })
-        
-        context['timing_stats'] = timing_list
-        context['total_goals'] = total_goals
+            # 4. Médias Gerais da Liga
+            league_avg_corners = 0.0
+            league_avg_yellow = 0.0
+            if team_stats:
+                league_avg_corners = round(sum(s['avg_corners_total'] for s in team_stats) / len(team_stats), 2)
+                league_avg_yellow = round(sum(s['avg_yellow'] for s in team_stats) / len(team_stats), 2)
+            
+            # 5. Artilharia (Top Scorers)
+            from matches.models import Goal
+            top_scorers_qs = list(Goal.objects.filter(
+                match__league=league,
+                match__season=latest_season
+            ).values('player_name', 'team__name').annotate(
+                goals_count=Count('id'),
+                penalties=Count('id', filter=Q(is_penalty=True))
+            ).order_by('-goals_count')[:8])
+
+            # 6. Distribuição de Minutos dos Gols (Timing)
+            goals = list(Goal.objects.filter(
+                match__league=league,
+                match__season=latest_season
+            ).only('minute'))
+            total_goals = len(goals)
+            timing_stats = {
+                '0_15': 0, '16_30': 0, '31_45': 0,
+                '46_60': 0, '61_75': 0, '76_90': 0
+            }
+            for g in goals:
+                m = g.minute
+                if m <= 15: timing_stats['0_15'] += 1
+                elif m <= 30: timing_stats['16_30'] += 1
+                elif m <= 45: timing_stats['31_45'] += 1
+                elif m <= 60: timing_stats['46_60'] += 1
+                elif m <= 75: timing_stats['61_75'] += 1
+                else: timing_stats['76_90'] += 1
+                
+            timing_list = []
+            for period, count in timing_stats.items():
+                label = period.replace('_', '-') + "'"
+                if period == '76_90':
+                    label = '76-90+'
+                timing_list.append({
+                    'period': label,
+                    'count': count,
+                    'pct': round((count / total_goals) * 100, 1) if total_goals > 0 else 0
+                })
+            
+            cached_data = {
+                'team_stats': team_stats,
+                'league_avg_corners': league_avg_corners,
+                'league_avg_yellow': league_avg_yellow,
+                'top_scorers': top_scorers_qs,
+                'timing_stats': timing_list,
+                'total_goals': total_goals
+            }
+            
+            # Cache por 1 hora (3600 segundos)
+            django_cache.set(cache_key, cached_data, 3600)
+            
+        context['team_stats'] = cached_data['team_stats']
+        context['league_avg_corners'] = cached_data['league_avg_corners']
+        context['league_avg_yellow'] = cached_data['league_avg_yellow']
+        context['top_scorers'] = cached_data['top_scorers']
+        context['timing_stats'] = cached_data['timing_stats']
+        context['total_goals'] = cached_data['total_goals']
         
         return context
 

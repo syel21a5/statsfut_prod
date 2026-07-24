@@ -25,16 +25,6 @@
                     class="fa-solid fa-chevron-right mx-2 small"></i> {% translate "League Stats" %}
             </p>
         </div>
-        <div class="d-flex gap-2">
-            <a href="{% url 'matches:league_goals' country_name=league.country|country_en|slugify league_name=league.name|slugify %}" target="_blank"
-                class="btn btn-outline-info btn-sm">
-                <i class="fa-solid fa-chart-pie me-1"></i> {% translate "Goals Stats" %}
-            </a>
-            <a href="{% url 'matches:league_detailed' country_name=league.country|country_en|slugify league_name=league.name|slugify %}" target="_blank"
-                class="btn btn-outline-primary btn-sm">
-                <i class="fa-solid fa-bolt me-1"></i> {% translate "Elite Stats" %}
-            </a>
-        </div>
     </div>
 
     <!-- Top Ad Slot (injected via JS to avoid cache) -->
@@ -86,6 +76,8 @@
             </div>
         </div>
     </div>
+
+    {% include 'matches/includes/league_tabs.html' with active_tab='overview' %}
 
 
     <div class="row">
@@ -217,11 +209,7 @@
                                                     <th class="text-secondary fw-normal" title="{% translate "Goal Difference" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GD" %}</th>
                                                     <th class="fw-bold text-white bg-white bg-opacity-10 rounded" title="{% translate "Points" %}" data-bs-toggle="tooltip" style="font-size: 1rem; border: 1px solid rgba(255,255,255,0.1); cursor: help; border-bottom: 1px dashed #6c757d;">PTS</th>
                                                     <th class="text-secondary fw-normal" title="{% translate "Form (Last 5 Matches)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Form" %}</th>
-                                                    <th class="text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">PPG</th>
-                                                    <th class="text-secondary fw-normal" title="{% translate "Points Per Game in Last 8 Matches" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Last 8" %}</th>
-                                                    <th class="text-secondary fw-normal" title="{% translate "Clean Sheets (Games without conceding)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">CS</th>
-                                                    <th class="text-secondary fw-normal" title="{% translate "Scoring Rate (Games in which the team scored)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">SR</th>
-                                                    <th class="text-secondary fw-normal" title="{% translate "Maximum Possible Points" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">MPP</th>
+                                                    <th class="pe-3 text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">PPG</th>
                                                 {% endif %}
                                             </tr>
                                         </thead>
@@ -275,11 +263,7 @@
                                                             {% endfor %}
                                                         </div>
                                                     </td>
-                                                    <td class="text-white fw-medium">{{ row.ppg_season }}</td>
-                                                    <td class="fw-bold text-white">{{ row.ppg_8 }}</td>
-                                                    <td class="text-white">{{ row.clean_sheets }}</td>
-                                                    <td class="text-white">{{ row.scoring_rate }}</td>
-                                                    <td class="text-secondary">{{ row.max_possible_points }}</td>
+                                                    <td class="pe-3 text-white fw-medium">{{ row.ppg_season }}</td>
                                                 {% endif %}
                                             </tr>
                                             {% endfor %}
@@ -306,11 +290,7 @@
                                                 <th class="text-secondary fw-normal" title="{% translate "Goal Difference" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GD" %}</th>
                                                 <th class="fw-bold text-white bg-white bg-opacity-10 rounded" title="{% translate "Points" %}" data-bs-toggle="tooltip" style="font-size: 1rem; border: 1px solid rgba(255,255,255,0.1); cursor: help; border-bottom: 1px dashed #6c757d;">PTS</th>
                                                 <th class="text-secondary fw-normal" title="{% translate "Form (Last 5 Matches)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Form" %}</th>
-                                                <th class="text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">PPG</th>
-                                                <th class="text-secondary fw-normal" title="{% translate "Points Per Game in Last 8 Matches" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Last 8" %}</th>
-                                                <th class="text-secondary fw-normal" title="{% translate "Clean Sheets (Games without conceding)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">CS</th>
-                                                <th class="text-secondary fw-normal" title="{% translate "Scoring Rate (Games in which the team scored)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">SR</th>
-                                                <th class="text-secondary fw-normal" title="{% translate "Maximum Possible Points" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">MPP</th>
+                                                <th class="pe-3 text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">PPG</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -345,11 +325,7 @@
                                                         {% endfor %}
                                                     </div>
                                                 </td>
-                                                <td class="text-white fw-medium">{{ row.ppg_season }}</td>
-                                                <td class="fw-bold text-white">{{ row.ppg_8 }}</td>
-                                                <td class="text-white">{{ row.clean_sheets }}</td>
-                                                <td class="text-white">{{ row.scoring_rate }}</td>
-                                                <td class="text-secondary">{{ row.max_possible_points }}</td>
+                                                <td class="pe-3 text-white fw-medium">{{ row.ppg_season }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

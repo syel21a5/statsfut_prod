@@ -164,7 +164,7 @@ class VideoStudioKaggleApp(ctk.CTk):
             ts = int(time.time())
             
             # 1. Baixar o Áudio
-            audio_remote_url = f"{prod_base_url}/media/audios_locucao/match_{match_id}.mp3?t={ts}"
+            audio_remote_url = f"{prod_base_url}/api/dl-audio/match_{match_id}.mp3?t={ts}"
             self.log(f"> Baixando áudio principal: {audio_remote_url}")
             r_audio = requests.get(audio_remote_url, timeout=30)
             if r_audio.status_code != 200:
@@ -177,7 +177,7 @@ class VideoStudioKaggleApp(ctk.CTk):
             self.log("✅ Áudio baixado com sucesso.")
             
             # 2. Baixar o Roteiro
-            script_remote_url = f"{prod_base_url}/media/audios_locucao/match_{match_id}.txt?t={ts}"
+            script_remote_url = f"{prod_base_url}/api/dl-audio/match_{match_id}.txt?t={ts}"
             self.log(f"> Baixando roteiro: {script_remote_url}")
             r_script = requests.get(script_remote_url, timeout=15)
             if r_script.status_code != 200:
@@ -189,7 +189,7 @@ class VideoStudioKaggleApp(ctk.CTk):
             self.log("✅ Roteiro de tags baixado com sucesso.")
             
             # 2.5 Baixar o JSON do Cronograma do Whisper
-            json_remote_url = f"{prod_base_url}/media/audios_locucao/temp/kaggle_timeline_{match_id}.json?t={ts}"
+            json_remote_url = f"{prod_base_url}/api/dl-audio/match_{match_id}.json?t={ts}"
             self.log(f"> Baixando cronograma IA: {json_remote_url}")
             r_json = requests.get(json_remote_url, timeout=15)
             if r_json.status_code == 200:

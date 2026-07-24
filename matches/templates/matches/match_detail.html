@@ -1422,13 +1422,43 @@
                 }
             })
             .then(data => {
-                clearInterval(loadingTextInterval);
-                loader.classList.add('d-none');
-                if (data.status === 'success') {
+                if (data.status === 'processing' && data.task_id) {
+                    // Iniciar Polling
+                    const taskId = data.task_id;
+                    
+                    const pollInterval = setInterval(async () => {
+                        try {
+                            const statusRes = await fetch(`/api/match-video-script/status/${taskId}/`);
+                            const statusData = await statusRes.json();
+                            
+                            if (statusData.status === 'success') {
+                                clearInterval(pollInterval);
+                                clearInterval(loadingTextInterval);
+                                loader.classList.add('d-none');
+                                textarea.value = statusData.script;
+                                textarea.classList.remove('d-none');
+                                btnCopy.classList.remove('d-none');
+                            } else if (statusData.status === 'error') {
+                                clearInterval(pollInterval);
+                                clearInterval(loadingTextInterval);
+                                loader.classList.add('d-none');
+                                textarea.value = "{% translate 'Erro' %}: " + (statusData.message || "{% translate 'Erro desconhecido' %}");
+                                textarea.classList.remove('d-none');
+                            }
+                        } catch (e) {
+                            console.error("Erro no polling do roteiro: ", e);
+                        }
+                    }, 5000); // Checa a cada 5 segundos
+                    
+                } else if (data.status === 'success') {
+                    clearInterval(loadingTextInterval);
+                    loader.classList.add('d-none');
                     textarea.value = data.script;
                     textarea.classList.remove('d-none');
                     btnCopy.classList.remove('d-none');
                 } else {
+                    clearInterval(loadingTextInterval);
+                    loader.classList.add('d-none');
                     textarea.value = "{% translate 'Erro' %}: " + (data.message || "{% translate 'Erro desconhecido' %}");
                     textarea.classList.remove('d-none');
                 }
