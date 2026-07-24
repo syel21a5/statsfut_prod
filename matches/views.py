@@ -746,7 +746,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                         'Authorization': f'Bearer {deepseek_api_key}'
                     }
                     payload = {
-                        "model": "deepseek-chat",
+                        "model": "deepseek-v4-pro",
                         "temperature": 0.85,
                         "messages": [
                             {"role": "user", "content": prompt}
