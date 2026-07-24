@@ -132,8 +132,8 @@ msgstr ""
 
 #: core/templates/base.html:264
 msgid ""
-"StatsFut is the ultimate platform for football analysts, offering live score "
-"tracking, Both Teams to Score (BTTS) probabilities, Over/Under 2.5 goals "
+"StatsFut is the ultimate platform for football analysts, offering live score"
+" tracking, Both Teams to Score (BTTS) probabilities, Over/Under 2.5 goals "
 "trends, corner statistics, and detailed head-to-head (H2H) analysis. Find "
 "accurate football predictions today, algorithmic match analysis, and "
 "historical data for over 100 leagues worldwide (including Premier League, "
@@ -152,7 +152,8 @@ msgstr "All rights reserved. Professional statistics for analysts."
 msgid "About Us"
 msgstr "About Us"
 
-#: core/templates/base.html:282 matches/templates/matches/privacy_policy.html:4
+#: core/templates/base.html:282
+#: matches/templates/matches/privacy_policy.html:4
 #: matches/templates/matches/privacy_policy.html:11
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
@@ -169,12 +170,12 @@ msgstr "Contact Us"
 #: core/templates/base.html:301
 msgid ""
 "We use cookies to personalize content and ads, provide social media "
-"features, and analyze our traffic. By continuing to use our site, you accept "
-"our use of cookies."
+"features, and analyze our traffic. By continuing to use our site, you accept"
+" our use of cookies."
 msgstr ""
 "We use cookies to personalize content and ads, provide social media "
-"features, and analyze our traffic. By continuing to use our site, you accept "
-"our use of cookies."
+"features, and analyze our traffic. By continuing to use our site, you accept"
+" our use of cookies."
 
 #: core/templates/base.html:302
 msgid "Learn more"
@@ -277,8 +278,8 @@ msgstr ""
 msgid ""
 "%(home_team)s has a %(win_pct)s%% win rate playing at home (scoring an "
 "average of %(avg_gf)s goals). Their attack is considered %(home_atk)s and "
-"defense %(home_def)s. On the other hand, %(away_team)s as the away team wins "
-"%(away_win_pct)s%% of their matches, with an %(away_atk)s attack. "
+"defense %(home_def)s. On the other hand, %(away_team)s as the away team wins"
+" %(away_win_pct)s%% of their matches, with an %(away_atk)s attack. "
 "Statistically, this matchup has a %(over_15)s%% chance of hitting Over 1.5 "
 "and a %(btts)s%% chance of Both Teams to Score (BTTS)."
 msgstr ""
@@ -308,8 +309,8 @@ msgid ""
 "We use cutting-edge technologies to process thousands of events in real-"
 "time. Our platform integrates data from various global sources to provide a "
 "360º view of every league, team, and matchup. We focus on advanced metrics "
-"that go beyond the scoreline, such as goal probabilities, corner trends, and "
-"head-to-head (H2H) analysis."
+"that go beyond the scoreline, such as goal probabilities, corner trends, and"
+" head-to-head (H2H) analysis."
 msgstr ""
 
 #: matches/templates/matches/about_us.html:26
@@ -367,8 +368,8 @@ msgstr ""
 
 #: matches/templates/matches/contact.html:43
 msgid ""
-"We typically respond to all inquiries within 24-48 business hours. Thank you "
-"for your patience."
+"We typically respond to all inquiries within 24-48 business hours. Thank you"
+" for your patience."
 msgstr ""
 
 #: matches/templates/matches/h2h_detail.html:16
@@ -752,8 +753,8 @@ msgstr ""
 #: matches/templates/matches/h2h_detail.html:733
 #: matches/templates/matches/h2h_detail.html:816
 msgid ""
-"Recent matches. CS: Clean Sheet (did not concede), FTS: Failed To Score, HT: "
-"Half-Time score."
+"Recent matches. CS: Clean Sheet (did not concede), FTS: Failed To Score, HT:"
+" Half-Time score."
 msgstr ""
 
 #: matches/templates/matches/h2h_detail.html:828
@@ -877,8 +878,8 @@ msgid ""
 "who has the advantage in win statistics, average goals, corners, and "
 "mathematical predictions for the upcoming matches. By analyzing the last "
 "%(count)s encounters, it is possible to identify important trends for the "
-"Over/Under 2.5 goals and Both Teams to Score (BTTS) markets. Compare current "
-"performance (points per game, form, and unbeaten streaks) to base your "
+"Over/Under 2.5 goals and Both Teams to Score (BTTS) markets. Compare current"
+" performance (points per game, form, and unbeaten streaks) to base your "
 "sports analysis on real data."
 msgstr ""
 
@@ -1021,8 +1022,8 @@ msgstr ""
 msgid ""
 "This section compares the team's current performance (overall, home, and "
 "away) with their final performance in the previous season. Green values "
-"indicate improvement, while red values indicate a decline in Points Per Game "
-"(PPG)."
+"indicate improvement, while red values indicate a decline in Points Per Game"
+" (PPG)."
 msgstr ""
 
 #: matches/templates/matches/h2h_detail.html:1417
@@ -1039,8 +1040,8 @@ msgstr ""
 #: matches/templates/matches/h2h_detail.html:1464
 #: matches/templates/matches/h2h_detail.html:1629
 msgid ""
-"This table compares the team's current performance with their performance at "
-"the exact same stage in previous seasons. The 'Diff' column shows the "
+"This table compares the team's current performance with their performance at"
+" the exact same stage in previous seasons. The 'Diff' column shows the "
 "difference in points earned: green values indicate the team has more points "
 "this season, while red indicates fewer points compared to that past season."
 msgstr ""
@@ -1103,8 +1104,8 @@ msgstr ""
 #: matches/templates/matches/h2h_detail.html:1941
 msgid ""
 "Green values indicate positive streaks (e.g., consecutive wins, clean "
-"sheets), while red values indicate negative streaks (e.g., winless matches). "
-"A dash (-) means there is no active streak."
+"sheets), while red values indicate negative streaks (e.g., winless matches)."
+" A dash (-) means there is no active streak."
 msgstr ""
 
 #: matches/templates/matches/h2h_detail.html:1953
@@ -1938,9 +1939,10 @@ msgstr ""
 #: matches/templates/matches/league_dashboard.html:971
 #, python-format
 msgid ""
-"Follow the complete performance of the teams in the <strong>%(league_name)s</"
-"strong>. The standings table above is updated in real time after each match, "
-"providing the latest positions and points accumulated by the teams."
+"Follow the complete performance of the teams in the "
+"<strong>%(league_name)s</strong>. The standings table above is updated in "
+"real time after each match, providing the latest positions and points "
+"accumulated by the teams."
 msgstr ""
 
 #: matches/templates/matches/league_dashboard.html:976
@@ -1954,8 +1956,8 @@ msgstr ""
 
 #: matches/templates/matches/league_dashboard.html:981
 msgid ""
-"Analyze the progression of each team, the average points per game (PPG), and "
-"win rates to make the best projections. StatsFut is your ultimate platform "
+"Analyze the progression of each team, the average points per game (PPG), and"
+" win rates to make the best projections. StatsFut is your ultimate platform "
 "to follow world football with accurate data."
 msgstr ""
 
@@ -2170,8 +2172,8 @@ msgstr ""
 
 #: matches/templates/matches/league_goals.html:533
 msgid ""
-"Both Teams to Score (BTS): number of matches and percentage where both teams "
-"scored at least one goal."
+"Both Teams to Score (BTS): number of matches and percentage where both teams"
+" scored at least one goal."
 msgstr ""
 
 #: matches/templates/matches/league_goals.html:544
@@ -2299,8 +2301,8 @@ msgstr ""
 #, python-format
 msgid ""
 "Currently, the overall league average is <strong>%(avg_goals)s</strong> "
-"goals per match. About <strong>%(over25)s%%</strong> of the matches end with "
-"Over 2.5 goals and the Both Teams to Score (BTTS) market hits in "
+"goals per match. About <strong>%(over25)s%%</strong> of the matches end with"
+" Over 2.5 goals and the Both Teams to Score (BTTS) market hits in "
 "<strong>%(btts)s%%</strong> of the games. Use this advanced data to support "
 "your predictions."
 msgstr ""
@@ -2327,8 +2329,8 @@ msgid ""
 "Complete statistics, predictions, and detailed analysis for the match "
 "between <strong>%(home)s</strong> and <strong>%(away)s</strong>, valid for "
 "the <strong>%(league)s</strong>. Analyze the probabilities of Both Teams to "
-"Score (BTTS), Over 2.5 Goals, corners, cards, and head-to-head (H2H) history "
-"to support your data-driven sports analysis."
+"Score (BTTS), Over 2.5 Goals, corners, cards, and head-to-head (H2H) history"
+" to support your data-driven sports analysis."
 msgstr ""
 
 #: matches/templates/matches/match_detail.html:501
@@ -2397,15 +2399,15 @@ msgstr ""
 
 #: matches/templates/matches/match_detail.html:580
 msgid "Roteiro Curto (Shorts)"
-msgstr ""
+msgstr "Short Script (Shorts)"
 
 #: matches/templates/matches/match_detail.html:583
 msgid "Roteiro Longo (YouTube)"
-msgstr ""
+msgstr "Long Script (YouTube)"
 
 #: matches/templates/matches/match_detail.html:586
 msgid "Vídeo Express (Kaggle)"
-msgstr ""
+msgstr "Express Video (Kaggle)"
 
 #: matches/templates/matches/match_detail.html:597
 msgid "OVER/UNDER PROBABILITIES & TOP PICKS"
@@ -2432,11 +2434,11 @@ msgstr "Goals"
 #: matches/templates/matches/match_detail.html:629
 #: matches/templates/matches/match_detail.html:637
 msgid "Odd Justa"
-msgstr ""
+msgstr "Fair Odd"
 
 #: matches/templates/matches/match_detail.html:648 matches/views.py:619
 msgid "Ambas Equipes Marcam (BTTS)"
-msgstr ""
+msgstr "Both Teams to Score (BTTS)"
 
 #: matches/templates/matches/match_detail.html:651
 #: matches/templates/matches/match_detail.html:763
@@ -2450,19 +2452,19 @@ msgstr "Yes"
 #: matches/templates/matches/match_detail.html:775
 #: matches/templates/matches/match_detail.html:783
 msgid "Não"
-msgstr ""
+msgstr "No"
 
 #: matches/templates/matches/match_detail.html:667
 msgid "Recomendado"
-msgstr ""
+msgstr "Recommended"
 
 #: matches/templates/matches/match_detail.html:670
 msgid "Linha Principal (2.5)"
-msgstr ""
+msgstr "Main Line (2.5)"
 
 #: matches/templates/matches/match_detail.html:680 matches/views.py:619
 msgid "Vencer a Partida"
-msgstr ""
+msgstr "Win Match"
 
 #: matches/templates/matches/match_detail.html:685 matches/views.py:619
 #, fuzzy
@@ -2472,7 +2474,7 @@ msgstr "Double Chance + Goal Range"
 
 #: matches/templates/matches/match_detail.html:687
 msgid "Seguro"
-msgstr ""
+msgstr "Safe"
 
 #: matches/templates/matches/match_detail.html:690 matches/views.py:619
 #, fuzzy
@@ -2482,15 +2484,15 @@ msgstr "More goals in 1st Half"
 
 #: matches/templates/matches/match_detail.html:692
 msgid "Probabilidade"
-msgstr ""
+msgstr "Probability"
 
 #: matches/templates/matches/match_detail.html:695
 msgid "Marcar Primeiro"
-msgstr ""
+msgstr "Score First"
 
 #: matches/templates/matches/match_detail.html:715
 msgid "Margens & Metades"
-msgstr ""
+msgstr "Margins & Halves"
 
 #: matches/templates/matches/match_detail.html:716
 msgid "por 1 gol"
@@ -2518,7 +2520,7 @@ msgstr "Goalless Draw (0-0)"
 
 #: matches/templates/matches/match_detail.html:722
 msgid "Distribuição"
-msgstr ""
+msgstr "Distribution"
 
 #: matches/templates/matches/match_detail.html:723
 msgid "Mais gols no 1º Tempo"
@@ -2530,19 +2532,19 @@ msgstr "More goals in 2nd Half"
 
 #: matches/templates/matches/match_detail.html:729
 msgid "Faixas & HT/FT"
-msgstr ""
+msgstr "Ranges & HT/FT"
 
 #: matches/templates/matches/match_detail.html:733
 msgid "Faixa FT"
-msgstr ""
+msgstr "FT Range"
 
 #: matches/templates/matches/match_detail.html:734
 msgid "1 a 2 Gols"
-msgstr ""
+msgstr "1 to 2 Goals"
 
 #: matches/templates/matches/match_detail.html:735
 msgid "2 a 3 Gols"
-msgstr ""
+msgstr "2 to 3 Goals"
 
 #: matches/templates/matches/match_detail.html:744
 #, fuzzy
@@ -2586,7 +2588,7 @@ msgstr "ELITE CORNERS PROJECTION"
 
 #: matches/templates/matches/match_detail.html:873
 msgid "Base do Jogo"
-msgstr ""
+msgstr "Game Base"
 
 #: matches/templates/matches/match_detail.html:877
 msgid "Best Pick"
@@ -2594,7 +2596,7 @@ msgstr "Best Pick"
 
 #: matches/templates/matches/match_detail.html:885
 msgid "Probabilidades Over"
-msgstr ""
+msgstr "Over Probabilities"
 
 #: matches/templates/matches/match_detail.html:909
 #, fuzzy
@@ -2638,8 +2640,8 @@ msgstr ""
 #, python-format
 msgid ""
 "Game with a tendency for low lateral volume (Base %(base)s). Be cautious "
-"with Over bets; the \"Under\" market or specific corners by time may be more "
-"profitable."
+"with Over bets; the \"Under\" market or specific corners by time may be more"
+" profitable."
 msgstr ""
 
 # ============================================================
@@ -2666,7 +2668,7 @@ msgstr "per game"
 
 #: matches/templates/matches/match_detail.html:981
 msgid "Probabilidades Over Cartões"
-msgstr ""
+msgstr "Cards Over Probabilities"
 
 #: matches/templates/matches/match_detail.html:1005
 #, fuzzy
@@ -2701,8 +2703,8 @@ msgstr ""
 #: matches/templates/matches/match_detail.html:1034
 #, python-format
 msgid ""
-"Game with a tendency to be more fluid (only %(fouls)s fouls on average). The "
-"\"Under Cards\" or \"Less than 4.5\" market could be a good choice if the "
+"Game with a tendency to be more fluid (only %(fouls)s fouls on average). The"
+" \"Under Cards\" or \"Less than 4.5\" market could be a good choice if the "
 "referee is not strict."
 msgstr ""
 
@@ -2738,11 +2740,11 @@ msgstr "Shots on Target"
 #: matches/templates/matches/match_detail.html:1117
 #: matches/templates/matches/match_detail.html:1121
 msgid "Alvo"
-msgstr ""
+msgstr "Target"
 
 #: matches/templates/matches/match_detail.html:1130
 msgid "Match Winner (Chutes)"
-msgstr ""
+msgstr "Match Winner (Shots)"
 
 #: matches/templates/matches/match_detail.html:1131
 #: matches/templates/matches/match_detail.html:1132
@@ -2820,7 +2822,7 @@ msgstr ""
 
 #: matches/templates/matches/match_detail.html:1195
 msgid "Placar"
-msgstr ""
+msgstr "Scoreline"
 
 #: matches/templates/matches/match_detail.html:1196
 #, fuzzy
@@ -2846,42 +2848,42 @@ msgstr ""
 
 #: matches/templates/matches/match_detail.html:1347
 msgid "Analisando estatísticas do Statsfut..."
-msgstr ""
+msgstr "Analyzing Statsfut statistics..."
 
 #: matches/templates/matches/match_detail.html:1348
 msgid "Consultando a inteligência do DeepSeek v3..."
-msgstr ""
+msgstr "Consulting DeepSeek v3 intelligence..."
 
 #: matches/templates/matches/match_detail.html:1349
 msgid "Estruturando o roteiro de alta conversão..."
-msgstr ""
+msgstr "Structuring high-conversion script..."
 
 #: matches/templates/matches/match_detail.html:1350
 msgid "Finalizando ganchos e palpites de valor..."
-msgstr ""
+msgstr "Finalizing hooks and value predictions..."
 
 #: matches/templates/matches/match_detail.html:1397
 msgid "Por favor, selecione pelo menos uma aba para gerar o roteiro!"
-msgstr ""
+msgstr "Please select at least one tab to generate the script!"
 
 #: matches/templates/matches/match_detail.html:1445
 #: matches/templates/matches/match_detail.html:1462
 msgid "Erro"
-msgstr ""
+msgstr "Error"
 
 #: matches/templates/matches/match_detail.html:1445
 #: matches/templates/matches/match_detail.html:1462
 msgid "Erro desconhecido"
-msgstr ""
+msgstr "Unknown error"
 
 #: matches/templates/matches/match_detail.html:1469
 msgid "Erro na requisição"
-msgstr ""
+msgstr "Request error"
 
 #: matches/templates/matches/match_detail.html:1494
 #: matches/templates/matches/match_detail.html:1720
 msgid "Copiado!"
-msgstr ""
+msgstr "Copied!"
 
 #: matches/templates/matches/match_detail.html:1525
 #: matches/templates/matches/match_detail.html:1687
@@ -2889,79 +2891,80 @@ msgstr ""
 #: matches/templates/matches/match_detail.html:1708
 #: matches/templates/matches/match_detail.html:1848
 msgid "2. Gerar Áudio da Voz (Kaggle GPU)"
-msgstr ""
+msgstr "2. Generate Voice Audio (Kaggle GPU)"
 
 #: matches/templates/matches/match_detail.html:1566
 msgid "Por favor, selecione pelo menos uma aba!"
-msgstr ""
+msgstr "Please select at least one tab!"
 
 #: matches/templates/matches/match_detail.html:1655
 msgid "Clonando Voz no Kaggle GPU..."
-msgstr ""
+msgstr "Cloning Voice on Kaggle GPU..."
 
 #: matches/templates/matches/match_detail.html:1669
 msgid "Processando Áudio Longo..."
-msgstr ""
+msgstr "Processing Long Audio..."
 
 #: matches/templates/matches/match_detail.html:1681
 #: matches/templates/matches/match_detail.html:1697
 msgid "Concluído!"
-msgstr ""
+msgstr "Completed!"
 
 #: matches/templates/matches/match_detail.html:1739
 msgid "Roteiro de Vídeo IA"
-msgstr ""
+msgstr "AI Video Script"
 
 #: matches/templates/matches/match_detail.html:1744
 #: matches/templates/matches/match_detail.html:1805
 msgid "Selecione quais abas estatísticas deseja incluir na locução do vídeo:"
 msgstr ""
+"Select which statistical tabs you want to include in the video voiceover:"
 
 #: matches/templates/matches/match_detail.html:1766
 msgid "Gerar Roteiro"
-msgstr ""
+msgstr "Generate Script"
 
 #: matches/templates/matches/match_detail.html:1772
 msgid "Analisando histórico de confrontos..."
-msgstr ""
+msgstr "Analyzing head-to-head history..."
 
 #: matches/templates/matches/match_detail.html:1777
 #: matches/templates/matches/match_detail.html:1857
 msgid "Fechar"
-msgstr ""
+msgstr "Close"
 
 #: matches/templates/matches/match_detail.html:1779
 #: matches/templates/matches/match_detail.html:1851
 msgid "Copiar Roteiro"
-msgstr ""
+msgstr "Copy Script"
 
 #: matches/templates/matches/match_detail.html:1789
 msgid "Vídeo Express (Kaggle GPU)"
-msgstr ""
+msgstr "Express Video (Kaggle GPU)"
 
 #: matches/templates/matches/match_detail.html:1796
 msgid "Formato do Vídeo:"
-msgstr ""
+msgstr "Video Format:"
 
 #: matches/templates/matches/match_detail.html:1798
 msgid "Curto (TikTok)"
-msgstr ""
+msgstr "Short (TikTok)"
 
 #: matches/templates/matches/match_detail.html:1801
 msgid "Longo (YouTube)"
-msgstr ""
+msgstr "Long (YouTube)"
 
 #: matches/templates/matches/match_detail.html:1827
 msgid "1. Gerar Roteiro"
-msgstr ""
+msgstr "1. Generate Script"
 
 #: matches/templates/matches/match_detail.html:1834
 msgid "Consultando inteligência do DeepSeek..."
-msgstr ""
+msgstr "Consulting DeepSeek intelligence..."
 
 #: matches/templates/matches/match_detail.html:1842
 msgid "Áudio de voz gerado e salvo com sucesso!"
-msgstr ""
+msgstr "Voice audio generated and saved successfully!"
 
 #: matches/templates/matches/privacy_policy.html:13
 #: matches/templates/matches/terms_of_use.html:13
@@ -3146,8 +3149,8 @@ msgid ""
 "standings, with a total of <strong>%(pts)s</strong> points."
 msgstr ""
 "In the current season, the team occupies the <strong>%(pos)s</strong> "
-"position in the league table, summing up a total of <strong>%(pts)s</strong> "
-"points."
+"position in the league table, summing up a total of <strong>%(pts)s</strong>"
+" points."
 
 #: matches/templates/matches/team_detail.html:107
 #, python-format
@@ -3164,20 +3167,20 @@ msgstr ""
 #: matches/templates/matches/team_detail.html:116
 #, fuzzy, python-format
 #| msgid ""
-#| "Média de <strong>%(avg_gf)s</strong> gols marcados e <strong>%(avg_ga)s</"
-#| "strong> sofridos por partida."
+#| "Média de <strong>%(avg_gf)s</strong> gols marcados e "
+#| "<strong>%(avg_ga)s</strong> sofridos por partida."
 msgid ""
-"Average of <strong>%(avg_gf)s</strong> goals scored and <strong>%(avg_ga)s</"
-"strong> conceded per match."
+"Average of <strong>%(avg_gf)s</strong> goals scored and "
+"<strong>%(avg_ga)s</strong> conceded per match."
 msgstr ""
-"Average of <strong>%(avg_gf)s</strong> goals scored and <strong>%(avg_ga)s</"
-"strong> conceded per match."
+"Average of <strong>%(avg_gf)s</strong> goals scored and "
+"<strong>%(avg_ga)s</strong> conceded per match."
 
 #: matches/templates/matches/team_detail.html:120
 #, fuzzy, python-format
 #| msgid ""
-#| "Ambas as equipes marcaram (BTTS) em <strong>%(btts)s%%</strong> dos jogos "
-#| "do clube."
+#| "Ambas as equipes marcaram (BTTS) em <strong>%(btts)s%%</strong> dos jogos do"
+#| " clube."
 msgid ""
 "Both teams scored (BTTS) in <strong>%(btts)s%%</strong> of the club's "
 "matches."
@@ -3211,8 +3214,8 @@ msgstr ""
 
 #: matches/templates/matches/team_detail.html:259
 msgid ""
-"Track the upcoming matches schedule for this club including dates, home/away "
-"venues, and head-to-head (H2H) analysis statistics. This panel dynamically "
+"Track the upcoming matches schedule for this club including dates, home/away"
+" venues, and head-to-head (H2H) analysis statistics. This panel dynamically "
 "lists the next 10 fixtures for the current season, helping you analyze "
 "upcoming games and prepare your sports predictions."
 msgstr ""
@@ -3253,7 +3256,8 @@ msgstr ""
 
 #: matches/templates/matches/team_detail.html:333
 msgid "Strength based on Opponent's Points Per Game (PPG) at the match venue."
-msgstr "Strength based on Opponent's Points Per Game (PPG) at the match venue."
+msgstr ""
+"Strength based on Opponent's Points Per Game (PPG) at the match venue."
 
 #: matches/templates/matches/team_detail.html:388
 #, python-format
@@ -3500,8 +3504,8 @@ msgstr "matches"
 #: matches/templates/matches/team_detail.html:1216
 #, fuzzy, python-format
 #| msgid ""
-#| "O %(team_name)s jogará a próxima partida contra o <strong>%(opp)s</"
-#| "strong> no dia <strong>%(date)s</strong> pela <strong>%(league)s</strong>."
+#| "O %(team_name)s jogará a próxima partida contra o <strong>%(opp)s</strong> "
+#| "no dia <strong>%(date)s</strong> pela <strong>%(league)s</strong>."
 msgid ""
 "%(team_name)s will play the next match against <strong>%(opp)s</strong> on "
 "<strong>%(date)s</strong> for the <strong>%(league)s</strong>."
@@ -3516,21 +3520,22 @@ msgstr ""
 #: matches/templates/matches/team_detail.html:1226
 #, fuzzy, python-format
 #| msgid ""
-#| "O jogo anterior do %(team_name)s foi contra o <strong>%(opp)s</strong> "
-#| "pela <strong>%(league)s</strong>, terminando com o placar de "
+#| "O jogo anterior do %(team_name)s foi contra o <strong>%(opp)s</strong> pela "
+#| "<strong>%(league)s</strong>, terminando com o placar de "
 #| "<strong>%(score)s</strong>."
 msgid ""
 "The previous match of %(team_name)s was against <strong>%(opp)s</strong> in "
-"the <strong>%(league)s</strong>, ending with a score of <strong>%(score)s</"
-"strong>."
+"the <strong>%(league)s</strong>, ending with a score of "
+"<strong>%(score)s</strong>."
 msgstr ""
 "The previous match of %(team_name)s was against <strong>%(opp)s</strong> in "
-"<strong>%(league)s</strong>, ending with a score of <strong>%(score)s</"
-"strong>."
+"<strong>%(league)s</strong>, ending with a score of "
+"<strong>%(score)s</strong>."
 
 #: matches/templates/matches/team_detail.html:1228
 #, fuzzy, python-format
-#| msgid "O <strong>%(team_name)s</strong> saiu vencedor desse confronto."
+#| msgid ""
+#| "O <strong>%(team_name)s</strong> saiu vencedor desse confronto."
 msgid "<strong>%(team_name)s</strong> emerged victorious in this encounter."
 msgstr "<strong>%(team_name)s</strong> came out victorious in this clash."
 
@@ -3549,8 +3554,8 @@ msgstr ""
 #: matches/templates/matches/team_detail.html:1241
 #, python-format
 msgid ""
-"The performance and form graph of <strong>%(team_name)s</strong> is a unique "
-"StatsFut algorithm that we generate from the latest matches, goal "
+"The performance and form graph of <strong>%(team_name)s</strong> is a unique"
+" StatsFut algorithm that we generate from the latest matches, goal "
 "statistics, shots, and corners. It helps to understand the team's current "
 "trend and predict upcoming matchups."
 msgstr ""
@@ -3585,9 +3590,9 @@ msgstr ""
 #: matches/templates/matches/terms_of_use.html:23
 msgid ""
 "All content provided on StatsFut (statistics, analysis, charts) is for "
-"informational purposes only. The use of robots, scrapers, or other automated "
-"tools to extract data from the site without prior authorization is strictly "
-"prohibited."
+"informational purposes only. The use of robots, scrapers, or other automated"
+" tools to extract data from the site without prior authorization is strictly"
+" prohibited."
 msgstr ""
 
 #: matches/templates/matches/terms_of_use.html:27
@@ -3621,8 +3626,8 @@ msgstr ""
 #: matches/templates/matches/terms_of_use.html:38
 msgid ""
 "Our site may contain links to third-party websites (such as advertisers or "
-"partners). We have no control over the content or privacy practices of those "
-"sites and assume no responsibility for them."
+"partners). We have no control over the content or privacy practices of those"
+" sites and assume no responsibility for them."
 msgstr ""
 
 #: matches/templates/matches/terms_of_use.html:42
@@ -4228,8 +4233,8 @@ msgstr ""
 #: members/templates/members/premium_dashboard.html:2037
 msgid ""
 "Your Popular Plan gives full access to the Predictions Scanner. Upgrade to "
-"the VIP Plan for just R$ 18/month to unlock Ready Strategies (Bot Doubles/"
-"Triples)!"
+"the VIP Plan for just R$ 18/month to unlock Ready Strategies (Bot "
+"Doubles/Triples)!"
 msgstr ""
 
 #: members/templates/members/premium_dashboard.html:2039
@@ -4360,8 +4365,8 @@ msgstr ""
 
 #: members/templates/members/premium_dashboard.html:2349
 msgid ""
-"Full transparency! Track the results of strategies generated in the previous "
-"days."
+"Full transparency! Track the results of strategies generated in the previous"
+" days."
 msgstr ""
 
 #: members/templates/members/premium_dashboard.html:2361
@@ -5015,13 +5020,13 @@ msgstr ""
 #~ msgstr "valid for the"
 
 #~ msgid ""
-#~ "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, "
-#~ "cantos, cartões e histórico de confrontos diretos (H2H) para apoiar suas "
-#~ "análises e palpites esportivos baseados em dados."
+#~ "Analise as probabilidades de Ambas Marcam (BTTS), Mais de 2.5 Gols, cantos, "
+#~ "cartões e histórico de confrontos diretos (H2H) para apoiar suas análises e "
+#~ "palpites esportivos baseados em dados."
 #~ msgstr ""
 #~ "Analyze the probabilities of Both Teams to Score (BTTS), Over 2.5 Goals, "
-#~ "corners, cards, and head-to-head (H2H) history to support your data-"
-#~ "driven sports analysis and predictions."
+#~ "corners, cards, and head-to-head (H2H) history to support your data-driven "
+#~ "sports analysis and predictions."
 
 #~ msgid "Sobre o"
 #~ msgstr "About"
@@ -5036,21 +5041,21 @@ msgstr ""
 
 #, python-format
 #~ msgid ""
-#~ "No StatsFut, você acompanha os placares ao vivo do %(team_name)s, "
-#~ "resultados detalhados, estatísticas de posse de bola, gols, cartões, "
-#~ "escanteios, escalações e o calendário completo da temporada."
+#~ "No StatsFut, você acompanha os placares ao vivo do %(team_name)s, resultados"
+#~ " detalhados, estatísticas de posse de bola, gols, cartões, escanteios, "
+#~ "escalações e o calendário completo da temporada."
 #~ msgstr ""
-#~ "On StatsFut, you can follow live scores of %(team_name)s, detailed "
-#~ "results, ball possession statistics, goals, cards, corners, lineups, and "
-#~ "the full season schedule."
+#~ "On StatsFut, you can follow live scores of %(team_name)s, detailed results, "
+#~ "ball possession statistics, goals, cards, corners, lineups, and the full "
+#~ "season schedule."
 
 #~ msgid "Desempenho Geral"
 #~ msgstr "Overall Performance"
 
 #, python-format
 #~ msgid ""
-#~ "Placares ao vivo, jogadores, programação da temporada e resultados de "
-#~ "hoje do <strong>%(team_name)s</strong> estão disponíveis no StatsFut."
+#~ "Placares ao vivo, jogadores, programação da temporada e resultados de hoje "
+#~ "do <strong>%(team_name)s</strong> estão disponíveis no StatsFut."
 #~ msgstr ""
 #~ "Live scores, players, season schedule, and today's results for "
 #~ "<strong>%(team_name)s</strong> are available on StatsFut."
@@ -5073,9 +5078,9 @@ msgstr ""
 #, python-format
 #~ msgid ""
 #~ "O gráfico de desempenho e forma do <strong>%(team_name)s</strong> é um "
-#~ "algoritmo exclusivo do StatsFut que geramos a partir das últimas "
-#~ "partidas, estatísticas de gols, finalizações e escanteios. Ele ajuda a "
-#~ "entender a tendência atual da equipe e a projetar os próximos confrontos."
+#~ "algoritmo exclusivo do StatsFut que geramos a partir das últimas partidas, "
+#~ "estatísticas de gols, finalizações e escanteios. Ele ajuda a entender a "
+#~ "tendência atual da equipe e a projetar os próximos confrontos."
 #~ msgstr ""
 #~ "The performance and form chart of <strong>%(team_name)s</strong> is an "
 #~ "exclusive StatsFut algorithm that we generate from recent matches, goal "
@@ -5095,7 +5100,6 @@ msgstr ""
 #~ msgstr "Total Avg"
 
 #, fuzzy
-#~| msgid "Empate"
 #~ msgid "Lay Empate"
 #~ msgstr "Draw"
 
@@ -5222,45 +5226,31 @@ msgstr ""
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        Este jogo apresenta uma <strong>Base de %(base)s "
-#~ "cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em "
-#~ "%(prob)s%%, o cenário é ideal para buscar mercados de \"Mais de 8.5 ou "
-#~ "9.5\" cantos.\n"
+#~ "                        Este jogo apresenta uma <strong>Base de %(base)s cantos</strong>, indicando alto volume ofensivo. Com a Prob. Over 8.5 em %(prob)s%%, o cenário é ideal para buscar mercados de \"Mais de 8.5 ou 9.5\" cantos.\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        This match has a <strong>Base of %(base)s "
-#~ "corners</strong>, indicating high offensive volume. With the Over 8.5 "
-#~ "Prob. at %(prob)s%%, the scenario is ideal for targeting \"Over 8.5 or "
-#~ "9.5\" corners markets.\n"
+#~ "                        This match has a <strong>Base of %(base)s corners</strong>, indicating high offensive volume. With the Over 8.5 Prob. at %(prob)s%%, the scenario is ideal for targeting \"Over 8.5 or 9.5\" corners markets.\n"
 #~ "                        "
 
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        A base de %(base)s sugere um volume moderado. A "
-#~ "melhor estratégia aqui é buscar mercados de segurança como \"Over 7.5\" "
-#~ "ou esperar o \"Live\" para odds melhores.\n"
+#~ "                        A base de %(base)s sugere um volume moderado. A melhor estratégia aqui é buscar mercados de segurança como \"Over 7.5\" ou esperar o \"Live\" para odds melhores.\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        A base of %(base)s suggests moderate volume. The "
-#~ "best strategy here is to target safe markets like \"Over 7.5\" or wait "
-#~ "for \"Live\" for better odds.\n"
+#~ "                        A base of %(base)s suggests moderate volume. The best strategy here is to target safe markets like \"Over 7.5\" or wait for \"Live\" for better odds.\n"
 #~ "                        "
 
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        Jogo com tendência de baixo volume lateral (Base "
-#~ "%(base)s). Tenha cautela com apostas de Over; o mercado de \"Under\" ou "
-#~ "cantos específicos por tempo pode ser mais lucrativo.\n"
+#~ "                        Jogo com tendência de baixo volume lateral (Base %(base)s). Tenha cautela com apostas de Over; o mercado de \"Under\" ou cantos específicos por tempo pode ser mais lucrativo.\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        Match with low lateral volume trend (Base "
-#~ "%(base)s). Be cautious with Over bets; the \"Under\" market or time-"
-#~ "specific corners may be more profitable.\n"
+#~ "                        Match with low lateral volume trend (Base %(base)s). Be cautious with Over bets; the \"Under\" market or time-specific corners may be more profitable.\n"
 #~ "                        "
 
 # ============================================================
@@ -5269,29 +5259,21 @@ msgstr ""
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        Com uma média de <strong>%(fouls)s faltas</"
-#~ "strong>, esperamos um jogo tenso e com muitas paradas. A chance de "
-#~ "cartões (atualmente %(cards)s amarelos/jogo) é elevada.\n"
+#~ "                        Com uma média de <strong>%(fouls)s faltas</strong>, esperamos um jogo tenso e com muitas paradas. A chance de cartões (atualmente %(cards)s amarelos/jogo) é elevada.\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        With an average of <strong>%(fouls)s fouls</"
-#~ "strong>, we expect a tense match with many stoppages. The chance of cards "
-#~ "(currently %(cards)s yellows/game) is high.\n"
+#~ "                        With an average of <strong>%(fouls)s fouls</strong>, we expect a tense match with many stoppages. The chance of cards (currently %(cards)s yellows/game) is high.\n"
 #~ "                        "
 
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        Jogo com tendência a ser mais fluido (apenas "
-#~ "%(fouls)s faltas de média). O mercado de \"Under Cartões\" ou \"Menos de "
-#~ "4.5\" pode ser uma boa pedida se o juiz não for rigoroso.\n"
+#~ "                        Jogo com tendência a ser mais fluido (apenas %(fouls)s faltas de média). O mercado de \"Under Cartões\" ou \"Menos de 4.5\" pode ser uma boa pedida se o juiz não for rigoroso.\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        Match trending to be more fluid (only %(fouls)s "
-#~ "fouls on average). The \"Under Cards\" or \"Under 4.5\" market could be a "
-#~ "good pick if the referee is not strict.\n"
+#~ "                        Match trending to be more fluid (only %(fouls)s fouls on average). The \"Under Cards\" or \"Under 4.5\" market could be a good pick if the referee is not strict.\n"
 #~ "                        "
 
 # ============================================================
@@ -5300,40 +5282,28 @@ msgstr ""
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        Ambos os times possuem precisão acima de 30%% no "
-#~ "alvo. Isso é um sinal fortíssimo para o mercado de <strong>\"Ambas "
-#~ "Marcam: Sim\"</strong> ou \"Over 1.5/2.5 Gols\".\n"
+#~ "                        Ambos os times possuem precisão acima de 30%% no alvo. Isso é um sinal fortíssimo para o mercado de <strong>\"Ambas Marcam: Sim\"</strong> ou \"Over 1.5/2.5 Gols\".\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        Both teams have accuracy above 30%% on target. "
-#~ "This is a very strong signal for the <strong>\"Both Teams to Score: "
-#~ "Yes\"</strong> or \"Over 1.5/2.5 Goals\" market.\n"
+#~ "                        Both teams have accuracy above 30%% on target. This is a very strong signal for the <strong>\"Both Teams to Score: Yes\"</strong> or \"Over 1.5/2.5 Goals\" market.\n"
 #~ "                        "
 
 #~ msgid ""
 #~ "\n"
-#~ "                        Apenas um dos times está sendo letal nas "
-#~ "finalizações. Considere apostar no mercado de \"Gols do Time\" para "
-#~ "aquele com maior precisão.\n"
+#~ "                        Apenas um dos times está sendo letal nas finalizações. Considere apostar no mercado de \"Gols do Time\" para aquele com maior precisão.\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        Only one of the teams is being lethal in "
-#~ "finishing. Consider betting on the \"Team Goals\" market for the one with "
-#~ "higher accuracy.\n"
+#~ "                        Only one of the teams is being lethal in finishing. Consider betting on the \"Team Goals\" market for the one with higher accuracy.\n"
 #~ "                        "
 
 #, python-format
 #~ msgid ""
 #~ "\n"
-#~ "                        Ambas as equipes estão pecando na finalização "
-#~ "(Accuracy abaixo de 30%%). Jogo com tendência de poucos gols, ideal para "
-#~ "analisar o mercado de \"Under\".\n"
+#~ "                        Ambas as equipes estão pecando na finalização (Accuracy abaixo de 30%%). Jogo com tendência de poucos gols, ideal para analisar o mercado de \"Under\".\n"
 #~ "                        "
 #~ msgstr ""
 #~ "\n"
-#~ "                        Both teams are struggling in finishing (Accuracy "
-#~ "below 30%%). Match trending towards few goals, ideal for analyzing the "
-#~ "\"Under\" market.\n"
+#~ "                        Both teams are struggling in finishing (Accuracy below 30%%). Match trending towards few goals, ideal for analyzing the \"Under\" market.\n"
 #~ "                        "
