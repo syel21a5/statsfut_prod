@@ -1,3 +1,4 @@
+{% load i18n %}
                     <!-- PREMIUM CTA BANNER -->
                     {% with cta_match=next_match|default:matches.first %}
                     {% if cta_match %}
@@ -45,31 +46,31 @@
                                             </div>
 
                                             <div>
-                                                <h3 class="fw-bold mb-1 text-white" style="text-shadow: 0 2px 10px rgba(0,0,0,0.8);"><i class="fa-solid fa-microchip text-info me-2 opacity-75"></i>Análise Algorítmica</h3>
-                                                <p class="text-light mb-0 small" style="opacity: 0.85;">100% dos dados processados para <strong class="text-white">{{ team1.name }}</strong> vs <strong class="text-white">{{ team2.name }}</strong></p>
+                                                <h3 class="fw-bold mb-1 text-white" style="text-shadow: 0 2px 10px rgba(0,0,0,0.8);"><i class="fa-solid fa-microchip text-info me-2 opacity-75"></i>{% translate "Algorithmic Analysis" %}</h3>
+                                                <p class="text-light mb-0 small" style="opacity: 0.85;">{% translate "100% of data processed for" %} <strong class="text-white">{{ team1.name }}</strong> vs <strong class="text-white">{{ team2.name }}</strong></p>
                                             </div>
                                         </div>
                                         
                                         <!-- Premium Feature Pills -->
                                         <div class="d-flex flex-wrap gap-2 mt-3">
                                             <div class="bg-info bg-opacity-10 text-info px-3 py-1 rounded-3 small border border-info border-opacity-25 fw-bold" style="backdrop-filter: blur(5px);">
-                                                <i class="fa-solid fa-bullseye me-1"></i> Palpites Over/Under
+                                                <i class="fa-solid fa-bullseye me-1"></i> {% translate "Over/Under Predictions" %}
                                             </div>
                                             <div class="bg-warning bg-opacity-10 text-warning px-3 py-1 rounded-3 small border border-warning border-opacity-25 fw-bold" style="backdrop-filter: blur(5px);">
-                                                <i class="fa-solid fa-flag me-1"></i> Linhas de Escanteios
+                                                <i class="fa-solid fa-flag me-1"></i> {% translate "Corner Lines" %}
                                             </div>
                                             <div class="bg-success bg-opacity-10 text-success px-3 py-1 rounded-3 small border border-success border-opacity-25 fw-bold" style="backdrop-filter: blur(5px);">
-                                                <i class="fa-solid fa-microchip me-1"></i> Padrões Ocultos
+                                                <i class="fa-solid fa-microchip me-1"></i> {% translate "Hidden Patterns" %}
                                             </div>
                                         </div>
                                     </div>
                                     
                                     <div class="flex-shrink-0 text-center ms-md-4 d-flex flex-column align-items-center justify-content-center mt-3 mt-md-0">
                                         <a href="{% url 'matches:match_detail' pk=cta_match.pk slug=cta_match.slug %}" target="_blank" rel="noopener noreferrer" class="btn fw-bold px-5 py-3 rounded-pill d-inline-flex align-items-center justify-content-center shimmer-button" style="background: linear-gradient(90deg, #0ea5e9, #2563eb); color: white; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4); font-size: 1.15rem; letter-spacing: 0.5px;">
-                                            <i class="fa-solid fa-unlock-keyhole me-2"></i>Acessar Análise
+                                            <i class="fa-solid fa-unlock-keyhole me-2"></i>{% translate "Access Analysis" %}
                                         </a>
                                         <span class="badge bg-white bg-opacity-10 border border-white border-opacity-25 mt-3 px-3 py-2 text-light tracking-wide fw-bold shadow-sm" style="backdrop-filter: blur(5px); font-size: 0.7rem;">
-                                            <i class="fa-solid fa-chart-line text-info me-1"></i> ANÁLISE ESTATÍSTICA COMPLETA
+                                            <i class="fa-solid fa-chart-line text-info me-1"></i> {% translate "FULL STATISTICAL ANALYSIS" %}
                                         </span>
                                     </div>
                                 </div>
