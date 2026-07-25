@@ -9,6 +9,7 @@ import requests
 from playwright.sync_api import sync_playwright
 from moviepy import VideoFileClip, AudioFileClip
 import unicodedata
+import difflib
 
 def remove_accents(input_str):
     if not input_str:
@@ -200,15 +201,15 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                         score = 0
                         for aw in target_anchors:
                             for w in audio_chunk:
-                                if aw == w or (len(aw) > 3 and len(w) > 3 and (aw in w or w in aw)):
+                                if aw == w or difflib.SequenceMatcher(None, aw, w).ratio() >= 0.75:
                                     score += 1
                                     break
                         
-                        for chunk_idx, w in enumerate(audio_chunk[:4]):
-                            if target_anchors and (target_anchors[0] == w or (len(target_anchors[0]) > 3 and target_anchors[0] in w)):
+                        for idx, w in enumerate(audio_chunk[:4]):
+                            if target_anchors and (target_anchors[0] == w or difflib.SequenceMatcher(None, target_anchors[0], w).ratio() >= 0.75):
                                 score += 3
                                 break
-                            if len(target_anchors) > 1 and (target_anchors[1] == w or (len(target_anchors[1]) > 3 and target_anchors[1] in w)):
+                            if len(target_anchors) > 1 and (target_anchors[1] == w or difflib.SequenceMatcher(None, target_anchors[1], w).ratio() >= 0.75):
                                 score += 1.5
                                 break
                             
@@ -229,7 +230,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                     aw_offset = 0
                     for k, cw in enumerate(clean_full_words):
                         if not cw: continue
-                        if cw == matched_word or (len(matched_word) > 3 and matched_word in cw):
+                        if cw == matched_word or difflib.SequenceMatcher(None, matched_word, cw).ratio() >= 0.75:
                             aw_offset = k
                             break
                     start_idx = max(search_start_idx, best_idx - aw_offset)
@@ -282,16 +283,16 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                     score = 0
                     for aw in target_anchors:
                         for w in audio_chunk:
-                            if aw == w or (len(aw) > 3 and len(w) > 3 and (aw in w or w in aw)):
+                            if aw == w or difflib.SequenceMatcher(None, aw, w).ratio() >= 0.75:
                                 score += 1
                                 break
                     
                     # Bônus flexível se a primeira ou segunda âncora estiver no comecinho do chunk
-                    for chunk_idx, w in enumerate(audio_chunk[:4]):
-                        if target_anchors and (target_anchors[0] == w or (len(target_anchors[0]) > 3 and target_anchors[0] in w)):
+                    for idx, w in enumerate(audio_chunk[:4]):
+                        if target_anchors and (target_anchors[0] == w or difflib.SequenceMatcher(None, target_anchors[0], w).ratio() >= 0.75):
                             score += 3
                             break
-                        if len(target_anchors) > 1 and (target_anchors[1] == w or (len(target_anchors[1]) > 3 and target_anchors[1] in w)):
+                        if len(target_anchors) > 1 and (target_anchors[1] == w or difflib.SequenceMatcher(None, target_anchors[1], w).ratio() >= 0.75):
                             score += 1.5
                             break
                         
@@ -313,7 +314,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                 aw_offset = 0
                 for k, cw in enumerate(clean_full_words):
                     if not cw: continue
-                    if cw == matched_word or (len(matched_word) > 3 and matched_word in cw):
+                    if cw == matched_word or difflib.SequenceMatcher(None, matched_word, cw).ratio() >= 0.75:
                         aw_offset = k
                         break
                         
