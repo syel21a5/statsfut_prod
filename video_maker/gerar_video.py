@@ -8,6 +8,15 @@ import argparse
 import requests
 from playwright.sync_api import sync_playwright
 from moviepy import VideoFileClip, AudioFileClip
+import unicodedata
+
+def remove_accents(input_str):
+    if not input_str:
+        return ""
+    # Normalize string to NFD (Normalization Form Decomposition)
+    nfd_form = unicodedata.normalize('NFD', input_str)
+    # Remove all combining characters (accents)
+    return ''.join([c for c in nfd_form if not unicodedata.combining(c)])
 
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
@@ -121,8 +130,8 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
         text_after = text_after.replace('.5', ' ponto 5')
         full_words_after = text_after.split()[:25] # Pega até 25 palavras originais (com as pequenas)
         
-        stopwords = {'mercado', 'over', 'ponto', 'cinco', 'para', 'como', 'mais', 'menos', 'estatísticas', 'probabilidade', 'cento', 'isso', 'esse', 'essa', 'sugere', 'indica'}
-        words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3 and w not in stopwords]
+        stopwords = {'mercado', 'over', 'ponto', 'cinco', 'para', 'como', 'mais', 'menos', 'estatisticas', 'probabilidade', 'cento', 'isso', 'esse', 'essa', 'sugere', 'indica'}
+        words_after = [remove_accents(w) for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3 and remove_accents(w) not in stopwords]
         if words_after:
             anchor_words = words_after[:12] # Guarda até 12 âncoras exclusivas para segurança extrema!
                 
@@ -184,7 +193,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                         audio_chunk = []
                         for k in range(15):
                             if j + k < window_end:
-                                w_clean = re.sub(r'[^\w\s]', '', audio_words[j+k]['text'].lower())
+                                w_clean = re.sub(r'[^\w\s]', '', remove_accents(audio_words[j+k]['text'].lower()))
                                 if w_clean:
                                     audio_chunk.append(w_clean)
                         
@@ -216,7 +225,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                                 matched_word = target_anchors[0] if target_anchors else ""
                     
                 if best_idx != -1:
-                    clean_full_words = [re.sub(r'[^\w\s]', '', w.lower()) for w in full_words_after]
+                    clean_full_words = [re.sub(r'[^\w\s]', '', remove_accents(w.lower())) for w in full_words_after]
                     aw_offset = 0
                     for k, cw in enumerate(clean_full_words):
                         if not cw: continue
@@ -266,7 +275,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                     audio_chunk = []
                     for k in range(15): # 15 words window
                         if j + k < window_end:
-                            w_clean = re.sub(r'[^\w\s]', '', audio_words[j+k]['text'].lower())
+                            w_clean = re.sub(r'[^\w\s]', '', remove_accents(audio_words[j+k]['text'].lower()))
                             if w_clean:
                                 audio_chunk.append(w_clean)
                     
@@ -300,7 +309,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                         
             if best_idx != -1:
                 # Recuperar o offset real da palavra ancorada
-                clean_full_words = [re.sub(r'[^\w\s]', '', w.lower()) for w in full_words_after]
+                clean_full_words = [re.sub(r'[^\w\s]', '', remove_accents(w.lower())) for w in full_words_after]
                 aw_offset = 0
                 for k, cw in enumerate(clean_full_words):
                     if not cw: continue
