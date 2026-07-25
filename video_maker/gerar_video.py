@@ -120,9 +120,11 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
         # Substitui '.5' por ' ponto 5' para bater com o que a IA falou e o Whisper transcreveu
         text_after = text_after.replace('.5', ' ponto 5')
         full_words_after = text_after.split()[:25] # Pega até 25 palavras originais (com as pequenas)
-        words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3]
+        
+        stopwords = {'mercado', 'over', 'ponto', 'cinco', 'para', 'como', 'mais', 'menos', 'estatísticas', 'probabilidade', 'cento', 'isso', 'esse', 'essa', 'sugere', 'indica'}
+        words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3 and w not in stopwords]
         if words_after:
-            anchor_words = words_after[:12] # Guarda até 12 âncoras para segurança extrema!
+            anchor_words = words_after[:12] # Guarda até 12 âncoras exclusivas para segurança extrema!
                 
         tags.append({
             "content": tag_content,
@@ -174,19 +176,36 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                 window_end = min(len(audio_words), estimated_idx + 250)
                 
                 if anchor_words:
-                    for aw in anchor_words:
-                        closest_dist = float('inf')
-                        for j in range(window_start, window_end):
-                            w = audio_words[j]['text'].lower()
-                            if aw == w or (len(aw) > 3 and aw in w):
-                                dist = abs(j - estimated_idx)
-                                if dist < closest_dist:
-                                    closest_dist = dist
-                                    best_idx = j
-                                    matched_word = aw
-                        if best_idx != -1:
-                            break
-                
+                    best_score = 0
+                    best_dist = float('inf')
+                    target_anchors = anchor_words[:6]
+                    
+                    for j in range(window_start, window_end):
+                        audio_chunk = []
+                        for k in range(12):
+                            if j + k < window_end:
+                                w_clean = re.sub(r'[^\w\s]', '', audio_words[j+k]['text'].lower())
+                                if w_clean:
+                                    audio_chunk.append(w_clean)
+                        
+                        score = sum(1 for aw in target_anchors if aw in audio_chunk)
+                        
+                        first_w = audio_chunk[0] if audio_chunk else ""
+                        if target_anchors and (target_anchors[0] == first_w or (len(target_anchors[0]) > 3 and target_anchors[0] in first_w)):
+                            score += 0.5
+                            
+                        if score > best_score:
+                            best_score = score
+                            best_idx = j
+                            best_dist = abs(j - estimated_idx)
+                            matched_word = target_anchors[0] if target_anchors else ""
+                        elif score == best_score and score > 0:
+                            dist = abs(j - estimated_idx)
+                            if dist < best_dist:
+                                best_dist = dist
+                                best_idx = j
+                                matched_word = target_anchors[0] if target_anchors else ""
+                    
                 if best_idx != -1:
                     clean_full_words = [re.sub(r'[^\w\s]', '', w.lower()) for w in full_words_after]
                     aw_offset = 0
@@ -230,18 +249,36 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
             window_end = min(len(audio_words), estimated_idx + 250)
             
             if anchor_words:
-                for aw in anchor_words:
-                    closest_dist = float('inf')
-                    for j in range(window_start, window_end):
-                        w = audio_words[j]['text'].lower()
-                        if aw == w or (len(aw) > 3 and aw in w):
-                            dist = abs(j - estimated_idx)
-                            if dist < closest_dist:
-                                closest_dist = dist
-                                best_idx = j
-                                matched_word = aw
-                    if best_idx != -1:
-                        break # Achou uma das âncoras válidas!
+                best_score = 0
+                best_dist = float('inf')
+                target_anchors = anchor_words[:6] # Top 6 exclusive words
+                
+                for j in range(window_start, window_end):
+                    audio_chunk = []
+                    for k in range(12): # 12 words window
+                        if j + k < window_end:
+                            w_clean = re.sub(r'[^\w\s]', '', audio_words[j+k]['text'].lower())
+                            if w_clean:
+                                audio_chunk.append(w_clean)
+                    
+                    score = sum(1 for aw in target_anchors if aw in audio_chunk)
+                    
+                    # Bônus se a primeira palavra do chunk for a nossa primeira âncora
+                    first_w = audio_chunk[0] if audio_chunk else ""
+                    if target_anchors and (target_anchors[0] == first_w or (len(target_anchors[0]) > 3 and target_anchors[0] in first_w)):
+                        score += 0.5
+                        
+                    if score > best_score:
+                        best_score = score
+                        best_idx = j
+                        best_dist = abs(j - estimated_idx)
+                        matched_word = target_anchors[0] if target_anchors else ""
+                    elif score == best_score and score > 0:
+                        dist = abs(j - estimated_idx)
+                        if dist < best_dist:
+                            best_dist = dist
+                            best_idx = j
+                            matched_word = target_anchors[0] if target_anchors else ""
                         
             if best_idx != -1:
                 # Recuperar o offset real da palavra ancorada
