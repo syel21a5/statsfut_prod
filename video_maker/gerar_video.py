@@ -200,7 +200,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                         score = 0
                         for aw in target_anchors:
                             for w in audio_chunk:
-                                if aw == w or (len(aw) > 3 and (aw in w or w in aw)):
+                                if aw == w or (len(aw) > 3 and len(w) > 3 and (aw in w or w in aw)):
                                     score += 1
                                     break
                         
@@ -282,7 +282,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                     score = 0
                     for aw in target_anchors:
                         for w in audio_chunk:
-                            if aw == w or (len(aw) > 3 and (aw in w or w in aw)):
+                            if aw == w or (len(aw) > 3 and len(w) > 3 and (aw in w or w in aw)):
                                 score += 1
                                 break
                     
