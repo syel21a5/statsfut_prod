@@ -11,6 +11,17 @@ from moviepy import VideoFileClip, AudioFileClip
 import unicodedata
 import difflib
 
+def fix_encoding(text):
+    if not text: return ""
+    text = text.replace("Âº", "º")
+    text = text.replace("Ã£", "ã")
+    text = text.replace("Ã§", "ç")
+    text = text.replace("Ãµ", "õ")
+    text = text.replace("Ã©", "é")
+    text = text.replace("Ã¡", "á")
+    text = text.replace("Ã", "í")
+    return text
+
 def remove_accents(input_str):
     if not input_str:
         return ""
@@ -332,7 +343,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                 "selector": "", 
                 "tab": current_tab,
                 "description": foco_text,
-                "has_text": foco_text
+                "has_text": fix_encoding(foco_text)
             })
 
     # 4. Inserir os OFFs perfeitamente cronometrados ANTES do próximo Foco
