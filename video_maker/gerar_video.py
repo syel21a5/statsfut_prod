@@ -195,9 +195,13 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                                     score += 1
                                     break
                         
-                        first_w = audio_chunk[0] if audio_chunk else ""
-                        if target_anchors and (target_anchors[0] == first_w or (len(target_anchors[0]) > 3 and target_anchors[0] in first_w)):
-                            score += 2
+                        for chunk_idx, w in enumerate(audio_chunk[:4]):
+                            if target_anchors and (target_anchors[0] == w or (len(target_anchors[0]) > 3 and target_anchors[0] in w)):
+                                score += 3
+                                break
+                            if len(target_anchors) > 1 and (target_anchors[1] == w or (len(target_anchors[1]) > 3 and target_anchors[1] in w)):
+                                score += 1.5
+                                break
                             
                         if score > best_score:
                             best_score = score
@@ -273,10 +277,14 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                                 score += 1
                                 break
                     
-                    # Bônus enorme se a primeira palavra do chunk for a nossa primeira âncora
-                    first_w = audio_chunk[0] if audio_chunk else ""
-                    if target_anchors and (target_anchors[0] == first_w or (len(target_anchors[0]) > 3 and target_anchors[0] in first_w)):
-                        score += 2
+                    # Bônus flexível se a primeira ou segunda âncora estiver no comecinho do chunk
+                    for chunk_idx, w in enumerate(audio_chunk[:4]):
+                        if target_anchors and (target_anchors[0] == w or (len(target_anchors[0]) > 3 and target_anchors[0] in w)):
+                            score += 3
+                            break
+                        if len(target_anchors) > 1 and (target_anchors[1] == w or (len(target_anchors[1]) > 3 and target_anchors[1] in w)):
+                            score += 1.5
+                            break
                         
                     if score > best_score:
                         best_score = score
