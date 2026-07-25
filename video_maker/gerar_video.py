@@ -182,17 +182,22 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                     
                     for j in range(window_start, window_end):
                         audio_chunk = []
-                        for k in range(12):
+                        for k in range(15):
                             if j + k < window_end:
                                 w_clean = re.sub(r'[^\w\s]', '', audio_words[j+k]['text'].lower())
                                 if w_clean:
                                     audio_chunk.append(w_clean)
                         
-                        score = sum(1 for aw in target_anchors if aw in audio_chunk)
+                        score = 0
+                        for aw in target_anchors:
+                            for w in audio_chunk:
+                                if aw == w or (len(aw) > 3 and (aw in w or w in aw)):
+                                    score += 1
+                                    break
                         
                         first_w = audio_chunk[0] if audio_chunk else ""
                         if target_anchors and (target_anchors[0] == first_w or (len(target_anchors[0]) > 3 and target_anchors[0] in first_w)):
-                            score += 0.5
+                            score += 2
                             
                         if score > best_score:
                             best_score = score
@@ -255,18 +260,23 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
                 
                 for j in range(window_start, window_end):
                     audio_chunk = []
-                    for k in range(12): # 12 words window
+                    for k in range(15): # 15 words window
                         if j + k < window_end:
                             w_clean = re.sub(r'[^\w\s]', '', audio_words[j+k]['text'].lower())
                             if w_clean:
                                 audio_chunk.append(w_clean)
                     
-                    score = sum(1 for aw in target_anchors if aw in audio_chunk)
+                    score = 0
+                    for aw in target_anchors:
+                        for w in audio_chunk:
+                            if aw == w or (len(aw) > 3 and (aw in w or w in aw)):
+                                score += 1
+                                break
                     
-                    # Bônus se a primeira palavra do chunk for a nossa primeira âncora
+                    # Bônus enorme se a primeira palavra do chunk for a nossa primeira âncora
                     first_w = audio_chunk[0] if audio_chunk else ""
                     if target_anchors and (target_anchors[0] == first_w or (len(target_anchors[0]) > 3 and target_anchors[0] in first_w)):
-                        score += 0.5
+                        score += 2
                         
                     if score > best_score:
                         best_score = score
