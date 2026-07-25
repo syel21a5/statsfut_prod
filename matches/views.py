@@ -570,60 +570,83 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 def normalize_foco_tag(raw_tag):
                     """Map any AI-generated tag to the correct translated page tag."""
                     import re
-                    from django.utils.translation import gettext as _
                     t = raw_tag.lower().strip()
+                    
+                    # Language-specific tag mappings
+                    tag_map = {
+                        'ht': {'en': 'First Half Goal (HT)', 'es': 'Gol en el 1er Tiempo (HT)', 'de': 'Tor in der 1. Halbzeit (HT)', 'pt': 'Gol no 1º Tempo (HT)'},
+                        'btts': {'en': 'Both Teams to Score (BTTS)', 'es': 'Ambos Equipos Marcan (BTTS)', 'de': 'Beide Teams treffen (BTTS)', 'pt': 'Ambas Equipes Marcam (BTTS)'},
+                        'win': {'en': 'Win the Match', 'es': 'Ganar el Partido', 'de': 'Spielsieger', 'pt': 'Vencer a Partida'},
+                        'double': {'en': 'Double Chance', 'es': 'Doble Oportunidad', 'de': 'Doppelte Chance', 'pt': 'Chance Dupla'},
+                        'double_goals': {'en': 'Double Chance + Goals Range', 'es': 'Doble Oportunidad + Rango de Goles', 'de': 'Doppelte Chance + Torbereich', 'pt': 'Chance Dupla + Faixa de Gols'},
+                        'more_corners': {'en': 'More Corners', 'es': 'Más Córneres', 'de': 'Mehr Ecken', 'pt': 'Mais Escanteios'},
+                        'more_cards': {'en': 'More Cards', 'es': 'Más Tarjetas', 'de': 'Mehr Karten', 'pt': 'Mais Cartões'},
+                        'total_avg': {'en': 'Total Average', 'es': 'Promedio Total', 'de': 'Gesamtdurchschnitt', 'pt': 'Média Total'},
+                        'total_shots': {'en': 'Total Shots', 'es': 'Tiros Totales', 'de': 'Gesamtschüsse', 'pt': 'Total de Chutes'},
+                        'precision': {'en': 'Precision', 'es': 'Precisión', 'de': 'Genauigkeit', 'pt': 'Precisão'},
+                        'winner_both': {'en': 'Winner + Both Score', 'es': 'Ganador + Ambos Marcan', 'de': 'Sieger + Beide treffen', 'pt': 'Vencedor + Ambos Marcam'},
+                        'draw_no_bet': {'en': 'Draw No Bet', 'es': 'Empate Anula', 'de': 'Unentschieden keine Wette', 'pt': 'Empate Anula'},
+                    }
+                    
+                    def get_lang_key():
+                        if lang_code.startswith('en'): return 'en'
+                        if lang_code.startswith('es'): return 'es'
+                        if lang_code.startswith('de'): return 'de'
+                        return 'pt'
+                    
+                    lk = get_lang_key()
                     
                     # Over X.5 patterns - keep as-is (universal)
                     if re.match(r'over\s*\d+[\.,]\d+', t):
                         return raw_tag
                     
                     # HT / First Half / Primer Tiempo / 1º Tempo
-                    if any(x in t for x in ['ht goal', 'ht', 'first half', 'primer tiempo', '1º tempo', '1er tiempo', 'primeiro tempo', 'halbzeit']):
-                        return _('Gol no 1º Tempo (HT)')
+                    if any(x in t for x in ['ht goal', 'first half', 'primer tiempo', '1º tempo', '1er tiempo', 'primeiro tempo', 'halbzeit', 'mais gols no 1', 'gol no 1', 'gol en el 1']):
+                        return tag_map['ht'][lk]
                     
                     # BTTS / Both Teams to Score
-                    if any(x in t for x in ['btts', 'both teams', 'ambas equipes', 'ambos equipos', 'beide teams', 'ambas marcam']):
-                        return _('Ambas Equipes Marcam (BTTS)')
+                    if any(x in t for x in ['btts', 'both teams', 'ambas equipes', 'ambos equipos', 'beide teams', 'ambas marcam', 'ambos marcan']):
+                        return tag_map['btts'][lk]
+                    
+                    # Double Chance + Goals Range (check before plain Double Chance)
+                    if any(x in t for x in ['chance dupla + faixa', 'double chance + goal', 'doble chance + gol', 'doble oportunidad + gol', 'doble oportunidad + rango']):
+                        return tag_map['double_goals'][lk]
                     
                     # Win the Match
-                    if any(x in t for x in ['win the match', 'match winner', 'vencer a partida', 'ganar el partido', 'vencedor', 'spielsieger']):
-                        return _('Vencer a Partida')
+                    if any(x in t for x in ['win the match', 'match winner', 'vencer a partida', 'ganar el partido', 'vencedor', 'spielsieger', 'win match']):
+                        return tag_map['win'][lk]
                     
                     # Double Chance
                     if any(x in t for x in ['double chance', 'chance dupla', 'doble oportunidad', 'doble chance', 'doppelte chance']):
-                        return _('Chance Dupla')
+                        return tag_map['double'][lk]
                     
                     # More Corners
-                    if any(x in t for x in ['more corners', 'mais escanteios', 'más córners', 'más esquinas', 'mehr ecken', 'cantos']):
-                        return _('Mais Escanteios')
+                    if any(x in t for x in ['more corners', 'mais escanteios', 'mais cantos', 'más córners', 'más córneres', 'más esquinas', 'mehr ecken']):
+                        return tag_map['more_corners'][lk]
                     
                     # More Cards
-                    if any(x in t for x in ['more cards', 'mais cartões', 'más tarjetas', 'mehr karten', 'cartões', 'tarjetas', 'cards']):
-                        return _('Mais Cartões')
+                    if any(x in t for x in ['more cards', 'mais cartões', 'más tarjetas', 'mehr karten', 'cartões', 'tarjetas']):
+                        return tag_map['more_cards'][lk]
                     
-                    # Total Average
-                    if any(x in t for x in ['total average', 'média total', 'promedio total', 'gesamtdurchschnitt', 'average']):
-                        return _('Média Total')
+                    # Total Average / Média Total
+                    if any(x in t for x in ['total average', 'média total', 'promedio total', 'gesamtdurchschnitt', 'media total']):
+                        return tag_map['total_avg'][lk]
                     
                     # Total Shots
-                    if any(x in t for x in ['total shots', 'chutes totais', 'tiros totales', 'gesamtschüsse']):
-                        return _('Total Shots')
+                    if any(x in t for x in ['total shots', 'chutes totais', 'total de chutes', 'tiros totales', 'gesamtschüsse']):
+                        return tag_map['total_shots'][lk]
                     
                     # Precision
                     if any(x in t for x in ['precisão', 'precisión', 'precision', 'genauigkeit']):
-                        return _('Precisão')
+                        return tag_map['precision'][lk]
                     
                     # Winner + Both Score
                     if any(x in t for x in ['vencedor + ambos', 'winner + both', 'ganador + ambos']):
-                        return _('Vencedor + Ambos Marcam')
-                    
-                    # Double Chance + Goals Range
-                    if any(x in t for x in ['chance dupla + faixa', 'double chance + goal', 'doble chance + gol', 'doble oportunidad + gol']):
-                        return _('Chance Dupla + Faixa de Gols')
+                        return tag_map['winner_both'][lk]
                     
                     # Draw No Bet
                     if any(x in t for x in ['empate anula', 'draw no bet', 'empate nulo']):
-                        return _('Empate Anula')
+                        return tag_map['draw_no_bet'][lk]
                     
                     # If no match, return as-is
                     return raw_tag
@@ -670,14 +693,14 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 texto_limpo = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
                 texto_maq = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
                 
-                from django.utils.translation import gettext as _
+
                 
                 for aba in selected_abas:
                     texto_maq += f"[ABA: {aba}] "
                     
                     if aba == 'gols':
                         keys = ['gols_over_1_5', 'gols_over_2_5', 'gols_over_3_5', 'gols_over_4_5', 'gols_btts', 'gols_vencedor', 'gols_chance_dupla', 'gols_ht']
-                        tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', _('Ambas Equipes Marcam (BTTS)'), _('Vencer a Partida'), _('Chance Dupla'), _('Gol no 1º Tempo (HT)')]
+                        tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', normalize_foco_tag('Ambas Equipes Marcam (BTTS)'), normalize_foco_tag('Vencer a Partida'), normalize_foco_tag('Chance Dupla'), normalize_foco_tag('Gol no 1º Tempo (HT)')]
                         if lang_code.startswith('en'):
                             words = [['Starting with', 'Beginning with', 'Looking first at'], ['Moving on to', 'Advancing to', 'Following with'], ['Analyzing', 'Proceeding with', 'Continuing with'], ['Getting into', 'Detailing', 'Exploring'], ['Looking at', 'Observing', 'Highlighting'], ['Regarding', 'Speaking of', 'Evaluating'], ['Noting', 'Checking', 'Pointing out'], ['Wrapping up', 'Closing with', 'Concluding with']]
                         elif lang_code.startswith('es'):
@@ -686,7 +709,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                             words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
                     elif aba == 'escanteios':
                         keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_over_9_5', 'escanteios_over_10_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
-                        tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', _('Média Total'), _('Mais Escanteios'), _('Mais Escanteios')]
+                        tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', normalize_foco_tag('Média Total'), normalize_foco_tag('Mais Escanteios'), normalize_foco_tag('Mais Escanteios')]
                         if lang_code.startswith('en'):
                             words = [['Entering', 'Diving into', 'Exploring'], ['Proceeding with', 'Continuing with', 'Moving to'], ['Advancing to', 'Arriving at', 'Analyzing'], ['Going deeper into', 'Looking at', 'Highlighting'], ['Taking', 'Calculating', 'Adding up'], ['Focusing on', 'Aiming at', 'Filtering'], ['Wrapping up', 'Finishing with', 'Concluding']]
                         elif lang_code.startswith('es'):
@@ -698,7 +721,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                             texto_maq += f"{j.get('escanteios_intro', '')} "
                     elif aba == 'cartoes':
                         keys = ['cartoes_over_3_5', 'cartoes_over_4_5', 'cartoes_over_5_5', 'cartoes_mais_cartoes']
-                        tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', _('Mais Cartões')]
+                        tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', normalize_foco_tag('Mais Cartões')]
                         if lang_code.startswith('en'):
                             words = [['Opening', 'Introducing', 'Bringing'], ['Going up to', 'Elevating to', 'Climbing to'], ['Reaching', 'Arriving at', 'Achieving'], ['Crowning', 'Completing', 'Saying goodbye to']]
                         elif lang_code.startswith('es'):
@@ -710,7 +733,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                             texto_maq += f"{j.get('cartoes_intro', '')} "
                     elif aba == 'chutes':
                         keys = ['chutes_ao_alvo', 'chutes_precisao']
-                        tags = [_('Total Shots'), _('Precisão')]
+                        tags = [normalize_foco_tag('Total Shots'), normalize_foco_tag('Precisão')]
                         if lang_code.startswith('en'):
                             words = [['Examining', 'Checking', 'Verifying'], ['Confirming', 'Mapping', 'Identifying']]
                         elif lang_code.startswith('es'):
@@ -722,7 +745,7 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                             texto_maq += f"{j.get('chutes_intro', '')} "
                     elif aba == 'especiais':
                         keys = ['especiais_vencedor_ambos', 'especiais_dupla_gols', 'especiais_empate_anula']
-                        tags = [_('Vencedor + Ambos Marcam'), _('Chance Dupla + Faixa de Gols'), _('Empate Anula')]
+                        tags = [normalize_foco_tag('Vencedor + Ambos Marcam'), normalize_foco_tag('Chance Dupla + Faixa de Gols'), normalize_foco_tag('Empate Anula')]
                         if lang_code.startswith('en'):
                             words = [['Inspecting', 'Unveiling', 'Investigating'], ['Combining', 'Joining', 'Uniting'], ['Securing', 'Ensuring', 'Protecting']]
                         elif lang_code.startswith('es'):
