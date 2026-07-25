@@ -581,9 +581,9 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                         'double_goals': {'en': 'Double Chance + Goals Range', 'es': 'Doble Oportunidad + Rango de Goles', 'de': 'Doppelte Chance + Torbereich', 'pt': 'Chance Dupla + Faixa de Gols'},
                         'more_corners': {'en': 'More Corners', 'es': 'Más Córneres', 'de': 'Mehr Ecken', 'pt': 'Mais Escanteios'},
                         'more_cards': {'en': 'More Cards', 'es': 'Más Tarjetas', 'de': 'Mehr Karten', 'pt': 'Mais Cartões'},
-                        'total_avg': {'en': 'Total Average', 'es': 'Promedio Total', 'de': 'Gesamtdurchschnitt', 'pt': 'Média Total'},
-                        'total_shots': {'en': 'Total Shots', 'es': 'Tiros Totales', 'de': 'Gesamtschüsse', 'pt': 'Total de Chutes'},
-                        'precision': {'en': 'Precision', 'es': 'Precisión', 'de': 'Genauigkeit', 'pt': 'Precisão'},
+                        'total_avg': {'en': 'Game Base', 'es': 'Base del Partido', 'de': 'Spielbasis', 'pt': 'Base do Jogo'},
+                        'total_shots': {'en': 'Over 18.5', 'es': 'Over 18.5', 'de': 'Over 18.5', 'pt': 'Over 18.5'},
+                        'precision': {'en': 'Shot Accuracy', 'es': 'Precisión de Tiro', 'de': 'Schussgenauigkeit', 'pt': 'Precisão de Chute'},
                         'winner_both': {'en': 'Winner + Both Score', 'es': 'Ganador + Ambos Marcan', 'de': 'Sieger + Beide treffen', 'pt': 'Vencedor + Ambos Marcam'},
                         'draw_no_bet': {'en': 'Draw No Bet', 'es': 'Empate Anula', 'de': 'Unentschieden keine Wette', 'pt': 'Empate Anula'},
                     }
@@ -628,16 +628,16 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     if any(x in t for x in ['more cards', 'mais cartões', 'más tarjetas', 'mehr karten', 'cartões', 'tarjetas']):
                         return tag_map['more_cards'][lk]
                     
-                    # Total Average / Média Total
-                    if any(x in t for x in ['total average', 'média total', 'promedio total', 'gesamtdurchschnitt', 'media total']):
+                    # Total Average / Média Total / Base do Jogo
+                    if any(x in t for x in ['total average', 'média total', 'promedio total', 'gesamtdurchschnitt', 'media total', 'base do jogo', 'game base', 'base del partido', 'spielbasis']):
                         return tag_map['total_avg'][lk]
                     
-                    # Total Shots
-                    if any(x in t for x in ['total shots', 'chutes totais', 'total de chutes', 'tiros totales', 'gesamtschüsse']):
+                    # Total Shots / Over 18.5
+                    if any(x in t for x in ['total shots', 'chutes totais', 'total de chutes', 'tiros totales', 'gesamtschüsse', 'over 18']):
                         return tag_map['total_shots'][lk]
                     
-                    # Precision
-                    if any(x in t for x in ['precisão', 'precisión', 'precision', 'genauigkeit']):
+                    # Precision / Shot Accuracy
+                    if any(x in t for x in ['precisão', 'precisión', 'precision', 'genauigkeit', 'shot accuracy', 'precisão de chute', 'precisión de tiro', 'schussgenauigkeit']):
                         return tag_map['precision'][lk]
                     
                     # Winner + Both Score
