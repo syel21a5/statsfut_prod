@@ -567,6 +567,67 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                 def pick(d): return random.choice(d)
                 def lower_first(s): return s[0].lower() + s[1:] if s else ""
                 
+                def normalize_foco_tag(raw_tag):
+                    """Map any AI-generated tag to the correct translated page tag."""
+                    import re
+                    from django.utils.translation import gettext as _
+                    t = raw_tag.lower().strip()
+                    
+                    # Over X.5 patterns - keep as-is (universal)
+                    if re.match(r'over\s*\d+[\.,]\d+', t):
+                        return raw_tag
+                    
+                    # HT / First Half / Primer Tiempo / 1º Tempo
+                    if any(x in t for x in ['ht goal', 'ht', 'first half', 'primer tiempo', '1º tempo', '1er tiempo', 'primeiro tempo', 'halbzeit']):
+                        return _('Gol no 1º Tempo (HT)')
+                    
+                    # BTTS / Both Teams to Score
+                    if any(x in t for x in ['btts', 'both teams', 'ambas equipes', 'ambos equipos', 'beide teams', 'ambas marcam']):
+                        return _('Ambas Equipes Marcam (BTTS)')
+                    
+                    # Win the Match
+                    if any(x in t for x in ['win the match', 'match winner', 'vencer a partida', 'ganar el partido', 'vencedor', 'spielsieger']):
+                        return _('Vencer a Partida')
+                    
+                    # Double Chance
+                    if any(x in t for x in ['double chance', 'chance dupla', 'doble oportunidad', 'doble chance', 'doppelte chance']):
+                        return _('Chance Dupla')
+                    
+                    # More Corners
+                    if any(x in t for x in ['more corners', 'mais escanteios', 'más córners', 'más esquinas', 'mehr ecken', 'cantos']):
+                        return _('Mais Escanteios')
+                    
+                    # More Cards
+                    if any(x in t for x in ['more cards', 'mais cartões', 'más tarjetas', 'mehr karten', 'cartões', 'tarjetas', 'cards']):
+                        return _('Mais Cartões')
+                    
+                    # Total Average
+                    if any(x in t for x in ['total average', 'média total', 'promedio total', 'gesamtdurchschnitt', 'average']):
+                        return _('Média Total')
+                    
+                    # Total Shots
+                    if any(x in t for x in ['total shots', 'chutes totais', 'tiros totales', 'gesamtschüsse']):
+                        return _('Total Shots')
+                    
+                    # Precision
+                    if any(x in t for x in ['precisão', 'precisión', 'precision', 'genauigkeit']):
+                        return _('Precisão')
+                    
+                    # Winner + Both Score
+                    if any(x in t for x in ['vencedor + ambos', 'winner + both', 'ganador + ambos']):
+                        return _('Vencedor + Ambos Marcam')
+                    
+                    # Double Chance + Goals Range
+                    if any(x in t for x in ['chance dupla + faixa', 'double chance + goal', 'doble chance + gol', 'doble oportunidad + gol']):
+                        return _('Chance Dupla + Faixa de Gols')
+                    
+                    # Draw No Bet
+                    if any(x in t for x in ['empate anula', 'draw no bet', 'empate nulo']):
+                        return _('Empate Anula')
+                    
+                    # If no match, return as-is
+                    return raw_tag
+                
                 if format_type == 'short':
                     f1_aba = j.get('foco_1_aba', selected_abas[0]).lower().strip()
                     f2_aba = j.get('foco_2_aba', selected_abas[0]).lower().strip()
@@ -575,14 +636,14 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     texto_maq = f"[ABA: {f1_aba}] {j.get('gancho_intro', '')} "
                     
                     # Foco 1
-                    tag1 = j.get('foco_1_tag', '')
+                    tag1 = normalize_foco_tag(j.get('foco_1_tag', ''))
                     txt1 = j.get('foco_1_texto', '')
                     if tag1 and txt1:
                         texto_limpo += f"{txt1} "
                         texto_maq += f"[FOCO: {tag1}] {txt1} [OFF] "
                         
                     # Foco 2
-                    tag2 = j.get('foco_2_tag', '')
+                    tag2 = normalize_foco_tag(j.get('foco_2_tag', ''))
                     txt2 = j.get('foco_2_texto', '')
                     if tag2 and txt2:
                         texto_limpo += f"{txt2} "
