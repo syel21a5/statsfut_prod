@@ -114,20 +114,15 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
         
         if tag_content.upper().startswith('FOCO:'):
             foco_text = tag_content[5:].strip()
-            # Pega as palavras imediatamente APÓS a tag no roteiro
-            text_after = roteiro_text[tag_end:]
-            full_words_after = text_after.split()[:25] # Pega até 25 palavras originais (com as pequenas) para cálculo de offset massivo
-            words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3]
-            if words_after:
-                anchor_words = words_after[:12] # Guarda até 12 âncoras para segurança extrema!
-        
-        # Também extrai âncoras para tags [ABA:] para calcular o momento exato da troca de aba
-        if tag_content.upper().startswith('ABA:'):
-            text_after = roteiro_text[tag_end:]
-            full_words_after = text_after.split()[:25]
-            words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3]
-            if words_after:
-                anchor_words = words_after[:12]
+            
+        # Pega as palavras imediatamente APÓS a tag no roteiro (mesmo para [OFF] e [ABA:])
+        text_after = roteiro_text[tag_end:]
+        # Substitui '.5' por ' ponto 5' para bater com o que a IA falou e o Whisper transcreveu
+        text_after = text_after.replace('.5', ' ponto 5')
+        full_words_after = text_after.split()[:25] # Pega até 25 palavras originais (com as pequenas)
+        words_after = [w for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3]
+        if words_after:
+            anchor_words = words_after[:12] # Guarda até 12 âncoras para segurança extrema!
                 
         tags.append({
             "content": tag_content,
