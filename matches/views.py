@@ -730,6 +730,8 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
 
         def background_task(task_id, prompt, format_type, selected_abas):
             try:
+                from django.utils import translation
+                translation.activate(lang_code)
                 import requests
                 import os
                 from dotenv import load_dotenv
