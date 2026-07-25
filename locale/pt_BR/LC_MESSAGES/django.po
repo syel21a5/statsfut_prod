@@ -1,4 +1,4 @@
-﻿# StatsFut Português (Brasil) Translation
+# StatsFut Português (Brasil) Translation
 # Copyright (C) 2026 StatsFut
 msgid ""
 msgstr ""
