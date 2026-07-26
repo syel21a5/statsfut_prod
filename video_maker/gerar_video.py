@@ -58,24 +58,55 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
     import math
     import json
     
+    # Detect language from the script text
+    lang = "pt"
+    if "welcome to" in roteiro_text.lower() or "tactical breakdown" in roteiro_text.lower() or "goals" in roteiro_text.lower() or "corners" in roteiro_text.lower():
+        lang = "en"
+    elif "bienvenido" in roteiro_text.lower() or "análisis táctico" in roteiro_text.lower() or "goles" in roteiro_text.lower():
+        lang = "es"
+        
+    print(f"[MÁQUINA] Idioma detectado para o roteiro: {lang.upper()}")
+    
     # 1. Obter palavras e timestamps (via JSON do Kaggle ou fallback local Whisper)
     audio_words = []
+    use_kaggle = False
     
     if json_path and os.path.exists(json_path):
-        print(f"\n[MÁQUINA] [ACELERAÇÃO HÍBRIDA] Lendo cronograma pré-processado pela IA do Kaggle: {json_path}")
-        with open(json_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            audio_words = data.get("words", [])
-            if data.get("duration"):
-                audio_duration = data["duration"]
-    else:
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                words_sample = data.get("words", [])
+                
+                # Validar se o JSON do Kaggle bate com o idioma do roteiro
+                # Se o roteiro for inglês/espanhol mas o JSON tiver palavras muito comuns em português, descartamos
+                is_mismatch = False
+                if lang in ['en', 'es'] and len(words_sample) > 10:
+                    pt_markers = {'com', 'para', 'estatisticas', 'onde', 'mais', 'menos', 'gols', 'escanteios', 'chutes', 'equipes'}
+                    sample_texts = [re.sub(r'[^\w\s]', '', remove_accents(w.get('text', '').lower())) for w in words_sample[:50]]
+                    matches = pt_markers.intersection(set(sample_texts))
+                    if len(matches) >= 2: # Se achou marcas de português num roteiro gringo
+                        is_mismatch = True
+                        print(f"[MÁQUINA] [AVISO] Detectada incoerência de idioma no cronograma do Kaggle (JSON em PT, roteiro em {lang.upper()}).")
+                
+                if not is_mismatch:
+                    print(f"\n[MÁQUINA] [ACELERAÇÃO HÍBRIDA] Lendo cronograma pré-processado pela IA do Kaggle: {json_path}")
+                    audio_words = words_sample
+                    if data.get("duration"):
+                        audio_duration = data["duration"]
+                    use_kaggle = True
+                else:
+                    print("[MÁQUINA] Descartando cronograma do Kaggle e forçando processamento local para corrigir a sincronia.")
+        except Exception as e:
+            print(f"[MÁQUINA] Erro ao ler JSON do Kaggle: {e}. Usando fallback local.")
+            
+    if not use_kaggle:
         # FALLBACK PARA WHISPER LOCAL
         import imageio_ffmpeg
         ffmpeg_dir = os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
         os.environ["PATH"] += os.pathsep + ffmpeg_dir
         import whisper
 
-        print("\n[MÁQUINA] [MODO LENTO] Iniciando escuta com Inteligência Artificial (OpenAI Whisper) localmente...")
+        print(f"\n[MÁQUINA] [MODO LENTO] Iniciando escuta com Inteligência Artificial (OpenAI Whisper) localmente em {lang.upper()}...")
         
         model_dir = "E:\\WHISPER_MODELS"
         os.makedirs(model_dir, exist_ok=True)
@@ -88,7 +119,7 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
         temp_audio_clip.close()
         
         print(f"  - Ouvindo o arquivo de áudio para capturar milissegundos exatos: {audio_path}")
-        result = model.transcribe(audio_path, word_timestamps=True, language="pt")
+        result = model.transcribe(audio_path, word_timestamps=True, language=lang)
         
         for segment in result['segments']:
             for word in segment.get('words', []):
@@ -104,7 +135,6 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
     print("\n[MÁQUINA] Cruzando os tempos do áudio com as tags do roteiro via Busca Direta de Foco...")
     
     # 1. Isolar apenas a parte do roteiro da máquina
-    # 1. Isolar apenas a parte do roteiro da máquina
     machine_idx = roteiro_text.find("TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO")
     if machine_idx == -1:
         machine_idx = roteiro_text.find("TEXTO DA M")
@@ -117,7 +147,6 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
     roteiro_text = re.sub(r'👇.*?👇', '', roteiro_text)
     roteiro_text = roteiro_text.replace("TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt)", "")
     
-
     # 3. Limpar o roteiro e mapear onde as tags ocorrem
     tags = []
     sum_of_previous_tags_length = 0
@@ -136,13 +165,26 @@ def analyze_script_timeline(api_key, roteiro_text, audio_duration, audio_path, j
         if tag_content.upper().startswith('FOCO:'):
             foco_text = tag_content[5:].strip()
             
-        # Pega as palavras imediatamente APÓS a tag no roteiro (mesmo para [OFF] e [ABA:])
+        # Pega as palavras imediatamente APÓS a tag no roteiro
         text_after = roteiro_text[tag_end:]
-        # Substitui '.5' por ' ponto 5' para bater com o que a IA falou e o Whisper transcreveu
-        text_after = text_after.replace('.5', ' ponto 5')
-        full_words_after = text_after.split()[:25] # Pega até 25 palavras originais (com as pequenas)
         
-        stopwords = {'mercado', 'over', 'ponto', 'cinco', 'para', 'como', 'mais', 'menos', 'estatisticas', 'probabilidade', 'cento', 'isso', 'esse', 'essa', 'sugere', 'indica'}
+        # Substitui '.5' de acordo com o idioma para bater com a voz
+        if lang == 'en':
+            text_after = text_after.replace('.5', ' point 5')
+        elif lang == 'es':
+            text_after = text_after.replace('.5', ' punto 5')
+        else:
+            text_after = text_after.replace('.5', ' ponto 5')
+            
+        full_words_after = text_after.split()[:25]
+        
+        if lang == 'en':
+            stopwords = {'market', 'over', 'point', 'five', 'for', 'like', 'more', 'less', 'stats', 'probability', 'percent', 'this', 'that', 'suggests', 'indicates', 'the', 'and', 'with', 'goals'}
+        elif lang == 'es':
+            stopwords = {'mercado', 'over', 'punto', 'cinco', 'para', 'como', 'mas', 'menos', 'estadisticas', 'probabilidad', 'ciento', 'esto', 'ese', 'esa', 'sugiere', 'indica'}
+        else:
+            stopwords = {'mercado', 'over', 'ponto', 'cinco', 'para', 'como', 'mais', 'menos', 'estatisticas', 'probabilidade', 'cento', 'isso', 'esse', 'essa', 'sugere', 'indica'}
+            
         words_after = [remove_accents(w) for w in re.sub(r'[^\w\s]', '', text_after.lower()).split() if len(w) > 3 and remove_accents(w) not in stopwords]
         if words_after:
             anchor_words = words_after[:12] # Guarda até 12 âncoras exclusivas para segurança extrema!
