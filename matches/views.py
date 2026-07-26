@@ -368,11 +368,11 @@ class MatchVideoScriptView(View):
         
         language_instructions = ""
         if lang_code.startswith('en'):
-            language_instructions = "IMPORTANT: Write the entire narration in FLUENT ENGLISH. Keep the control tags (like [ABA: gols]) in Portuguese exactly as requested, but the text inside [FOCO: ...] MUST match the English interface terms."
+            language_instructions = "IMPORTANT: Write the entire narration and analysis in FLUENT ENGLISH. Do NOT include any bracketed control tags like [ABA: ...] or [FOCO: ...] inside the JSON values."
         elif lang_code.startswith('es'):
-            language_instructions = "IMPORTANTE: Escribe toda la narración en ESPAÑOL FLUIDO. Mantén las etiquetas de control (como [ABA: gols]) en portugués exactamente como se solicitó, pero el texto dentro de [FOCO: ...] DEBE coincidir con los términos de la interfaz en español."
+            language_instructions = "IMPORTANTE: Escribe toda la narración y el análisis en ESPAÑOL FLUIDO. No incluyas ninguna etiqueta de control entre corchetes como [ABA: ...] o [FOCO: ...] dentro de los valores del JSON."
         else:
-            language_instructions = "IMPORTANTE: Escreva a narração em PORTUGUÊS (PT-BR)."
+            language_instructions = "IMPORTANTE: Escreva a narração em PORTUGUÊS (PT-BR). Não inclua nenhuma etiqueta de controle como [ABA: ...] ou [FOCO: ...] dentro dos valores do JSON."
             
         format_type = request.GET.get('format', 'short')
         aba_param = request.GET.get('aba', 'gols')
@@ -480,10 +480,21 @@ class MatchVideoScriptView(View):
         if format_type == 'long':
             combined_keys["despedida"] = "Texto rápido de encerramento do vídeo."
             
-        combined_keys["titulo_video"] = "Um título muito chamativo e viral para YouTube/TikTok."
-        combined_keys["descricao_video"] = "Uma descrição otimizada para SEO contendo hashtags relevantes."
-        combined_keys["tags_video"] = "Uma lista de 15 palavras-chaves (tags) separadas por vírgula, focadas em YouTube SEO."
-        combined_keys["prompt_thumbnail"] = "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
+        if lang_code.startswith('en'):
+            combined_keys["titulo_video"] = "A very catchy and viral title for YouTube/TikTok IN ENGLISH."
+            combined_keys["descricao_video"] = "An SEO-optimized description containing relevant hashtags IN ENGLISH."
+            combined_keys["tags_video"] = "A list of 15 comma-separated keywords (tags) focused on YouTube SEO IN ENGLISH."
+            combined_keys["prompt_thumbnail"] = "A detailed English prompt for Midjourney/DALL-E to generate a catchy match thumbnail."
+        elif lang_code.startswith('es'):
+            combined_keys["titulo_video"] = "Un título muy llamativo y viral para YouTube/TikTok EN ESPAÑOL."
+            combined_keys["descricao_video"] = "Una descripción optimizada para SEO que contiene hashtags relevantes EN ESPAÑOL."
+            combined_keys["tags_video"] = "Una lista de 15 palabras clave separadas por comas enfocadas en YouTube SEO EN ESPAÑOL."
+            combined_keys["prompt_thumbnail"] = "Un prompt en inglés detallado para Midjourney/DALL-E."
+        else:
+            combined_keys["titulo_video"] = "Um título muito chamativo e viral para YouTube/TikTok."
+            combined_keys["descricao_video"] = "Uma descrição otimizada para SEO contendo hashtags relevantes."
+            combined_keys["tags_video"] = "Uma lista de 15 palavras-chaves (tags) separadas por vírgula, focadas em YouTube SEO."
+            combined_keys["prompt_thumbnail"] = "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
             
         json_keys_prompt = json.dumps(combined_keys, indent=2, ensure_ascii=False)
         
@@ -791,7 +802,12 @@ Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
                     texto_limpo += f"\n\n{j.get('despedida', '')}"
                     texto_maq += f"\n\n{j.get('despedida', '')}"
                 
-                texto_limpo_audio = texto_limpo.replace('.5', ' ponto 5')
+                if lang_code.startswith('en'):
+                    texto_limpo_audio = texto_limpo.replace('.5', ' point 5')
+                elif lang_code.startswith('es'):
+                    texto_limpo_audio = texto_limpo.replace('.5', ' punto 5')
+                else:
+                    texto_limpo_audio = texto_limpo.replace('.5', ' ponto 5')
                 
                 metadata_section = (
                     "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
