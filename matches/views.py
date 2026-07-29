@@ -6830,6 +6830,7 @@ class KaggleUpdateUrlView(View):
 
 import threading
 import uuid
+import time
 
 def _generate_voice_task(task_id, match_id, script_text, gradio_url):
     try:
@@ -6873,6 +6874,17 @@ def _generate_voice_task(task_id, match_id, script_text, gradio_url):
         
         r_call = requests.post(call_url, json=call_payload, timeout=30)
         
+        # Retry logic para 'No interface is running'
+        max_retries = 15
+        retries = 0
+        while retries < max_retries and r_call.status_code != 200 and "No interface is running" in r_call.text:
+            time.sleep(10)
+            retries += 1
+            try:
+                r_call = requests.post(call_url, json=call_payload, timeout=30)
+            except Exception:
+                pass
+        
         if r_call.status_code == 404:
             payload = {
                 "data": [texto_limpo, "voz_padrao.mp3"],
@@ -6881,6 +6893,16 @@ def _generate_voice_task(task_id, match_id, script_text, gradio_url):
             }
             gradio_api = f"{gradio_url.rstrip('/')}/api/predict"
             r = requests.post(gradio_api, json=payload, timeout=300)
+            
+            # Retry logic para api predict fallback
+            retries_fallback = 0
+            while retries_fallback < max_retries and r.status_code != 200 and "No interface is running" in r.text:
+                time.sleep(10)
+                retries_fallback += 1
+                try:
+                    r = requests.post(gradio_api, json=payload, timeout=300)
+                except Exception:
+                    pass
             
             if r.status_code != 200:
                 cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Kaggle retornou erro HTTP {r.status_code}: {r.text[:200]}'}, 3600)
