@@ -351,7 +351,10 @@ class MatchDetailView(DetailView):
 class MatchVideoScriptView(View):
     def get(self, request, pk):
         from django.conf import settings
-        if not settings.DEBUG and not (request.user.is_authenticated and request.user.is_staff):
+        secret_token = request.GET.get('secret', '')
+        
+        # O Passe VIP do OpenClaw (secret_token) permite acesso sem login de admin
+        if not settings.DEBUG and not (request.user.is_authenticated and request.user.is_staff) and secret_token != 'openclaw_token_3f9b2d8c1e7a4f5c9e2d1b8a7c3f6e5d':
             from django.http import Http404
             raise Http404("Página não encontrada")
             
@@ -6810,7 +6813,7 @@ class KaggleUpdateUrlView(View):
             secret = data.get('secret', '').strip()
             
             # Validar segredo
-            expected_secret = os.getenv('KAGGLE_SECRET_TOKEN', 'statsfut_secret_token_123')
+            expected_secret = os.getenv('KAGGLE_SECRET_TOKEN', 'openclaw_token_3f9b2d8c1e7a4f5c9e2d1b8a7c3f6e5d')
             
             if not share_url or secret != expected_secret:
                 return JsonResponse({'status': 'error', 'message': 'Não autorizado ou dados ausentes.'}, status=403)
