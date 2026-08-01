@@ -9,6 +9,19 @@
 {% block og_title %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}{% endblock %}
 {% block og_description %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}{% endblock %}
 
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsTeam",
+  "name": "{{ league.name }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "sport": "Soccer",
+  "memberOf": { "@type": "SportsOrganization", "name": "{{ league.country|country_en }}" }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 {% cache 300 league_dashboard_v17 league.id request.LANGUAGE_CODE request.user.is_authenticated request.user.profile.is_premium %}
 <div class="container-fluid py-4">
