@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <!-- Main Pages -->
     <url>
         <loc>{{ base_url }}/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="{{ base_url }}/" />
+        <xhtml:link rel="alternate" hreflang="pt-br" href="{{ base_url }}/pt-br/" />
+        <xhtml:link rel="alternate" hreflang="es" href="{{ base_url }}/es/" />
+        <xhtml:link rel="alternate" hreflang="de" href="{{ base_url }}/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="{{ base_url }}/" />
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -26,6 +32,11 @@
     {% for url in league_urls %}
     <url>
         <loc>{{ base_url }}{{ url }}</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="{{ base_url }}{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="pt-br" href="{{ base_url }}/pt-br{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="es" href="{{ base_url }}/es{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="de" href="{{ base_url }}/de{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="{{ base_url }}{{ url }}" />
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -44,6 +55,11 @@
     {% for url in match_urls %}
     <url>
         <loc>{{ base_url }}{{ url }}</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="{{ base_url }}{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="pt-br" href="{{ base_url }}/pt-br{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="es" href="{{ base_url }}/es{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="de" href="{{ base_url }}/de{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="{{ base_url }}{{ url }}" />
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
