@@ -2,8 +2,8 @@
 {% load static i18n %}
 {% load matches_extras team_tags %}
 
-{% block title %}{{ team1.name }} vs {{ team2.name }} - H2H Comparison & Stats | StatsFut{% endblock %}
-{% block meta_description %}Head-to-head statistics for {{ team1.name }} vs {{ team2.name }}: win rate, goals, corners, and historical results in {{ league.name }}. Deep analytics for betting and analysis.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ team1.name }} x {{ team2.name }} - Confronto Direto e Estatísticas | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ team1.name }} vs {{ team2.name }} - Enfrentamiento Directo y Estadísticas | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ team1.name }} gegen {{ team2.name }} - Direkter Vergleich & Statistiken | StatsFut{% else %}{{ team1.name }} vs {{ team2.name }} - H2H Comparison & Stats | StatsFut{% endif %}{% endblock %}
+{% block meta_description %}{% if request.LANGUAGE_CODE == 'pt-br' %}Estatísticas de confronto direto entre {{ team1.name }} e {{ team2.name }}: aproveitamento, gols, escanteios e histórico em {{ league.name }}. Análise aprofundada para apostas e estudos.{% elif request.LANGUAGE_CODE == 'es' %}Estadísticas de enfrentamiento directo entre {{ team1.name }} y {{ team2.name }}: rendimiento, goles, córneres e historial en {{ league.name }}. Análisis profundo para apuestas.{% elif request.LANGUAGE_CODE == 'de' %}Direkter Vergleich zwischen {{ team1.name }} und {{ team2.name }}: Siegquote, Tore, Ecken und historische Ergebnisse in {{ league.name }}. Tiefgehende Analysen für Wetten.{% else %}Head-to-head statistics for {{ team1.name }} vs {{ team2.name }}: win rate, goals, corners, and historical results in {{ league.name }}. Deep analytics for betting and analysis.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
