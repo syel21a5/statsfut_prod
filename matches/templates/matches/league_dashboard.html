@@ -30,7 +30,7 @@
         <div>
             <h2 class="text-white fw-bold mb-0">
                 <img src="{{ league.country|country_en|get_flag_url }}" alt="{{ league.country|country_en }}"
-                    style="height: 30px; margin-right: 10px;">
+                    style="height: 30px; margin-right: 10px;" loading="lazy" decoding="async" height="30">
                 {{ league.name }}
             </h2>
             <p class="text-secondary mb-0 mt-1">
@@ -237,7 +237,7 @@
                                                 <td class="text-start fw-bold">
                                                     <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                         class="text-decoration-none text-white d-flex align-items-center">
-                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;">
+                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;" loading="lazy" decoding="async">
                                                         <span>{{ row.team.name }}</span>
                                                     </a>
                                                 </td>
@@ -317,7 +317,7 @@
                                                 <td class="text-start fw-bold">
                                                     <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
                                                         class="text-decoration-none text-white d-flex align-items-center">
-                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;">
+                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;" loading="lazy" decoding="async">
                                                         <span>{{ row.team.name }}</span>
                                                     </a>
                                                 </td>
@@ -400,7 +400,7 @@
                                                     <div class="col-5 d-flex justify-content-end align-items-center pe-2">
                                                         <span class="text-end text-truncate me-2">{{ match.home_team.name }}</span>
                                                         {% if match.home_team.logo_url %}
-                                                            <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;">
+                                                            <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-2 text-center">
@@ -408,7 +408,7 @@
                                                     </div>
                                                     <div class="col-5 d-flex justify-content-start align-items-center ps-2">
                                                         {% if match.away_team.logo_url %}
-                                                            <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" class="me-2">
+                                                            <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" class="me-2" loading="lazy" decoding="async" width="20" height="20">
                                                         {% endif %}
                                                         <span class="text-start text-truncate">{{ match.away_team.name }}</span>
                                                     </div>
@@ -454,7 +454,7 @@
                                                     <div class="col-5 d-flex justify-content-end align-items-center pe-2">
                                                         <span class="text-end text-truncate me-2">{{ match.home_team.name }}</span>
                                                         {% if match.home_team.logo_url %}
-                                                            <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;">
+                                                            <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-2 text-center">
@@ -462,7 +462,7 @@
                                                     </div>
                                                     <div class="col-5 d-flex justify-content-start align-items-center ps-2">
                                                         {% if match.away_team.logo_url %}
-                                                            <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" class="me-2">
+                                                            <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" class="me-2" loading="lazy" decoding="async" width="20" height="20">
                                                         {% endif %}
                                                         <span class="text-start text-truncate">{{ match.away_team.name }}</span>
                                                     </div>
@@ -687,7 +687,7 @@
                                                     <td class="text-start fw-bold text-white">
                                                         <div class="d-flex align-items-center">
                                                             <span class="badge bg-success me-1">H</span>
-                                                            <img src="{{ item.match.home_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
+                                                            <img src="{{ item.match.home_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;" loading="lazy" decoding="async">
                                                             <span>{{ item.match.home_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -716,7 +716,7 @@
                                                     <td class="text-start fw-bold text-white">
                                                         <div class="d-flex align-items-center">
                                                             <span class="badge bg-danger me-1">A</span>
-                                                            <img src="{{ item.match.away_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;">
+                                                            <img src="{{ item.match.away_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;" loading="lazy" decoding="async">
                                                             <span>{{ item.match.away_team.name }}</span>
                                                         </div>
                                                     </td>

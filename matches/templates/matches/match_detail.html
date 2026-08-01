@@ -476,7 +476,7 @@
     <div class="match-hero-minimal mb-4">
         <div class="team-mini">
             {% if match.home_team.logo_url %}
-            <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;">
+            <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;" loading="lazy" decoding="async" height="70">
             {% else %}
             <div class="t-logo">{{ match.home_team.name|slice:":1" }}</div>
             {% endif %}
@@ -493,7 +493,7 @@
         </div>
         <div class="team-mini">
             {% if match.away_team.logo_url %}
-            <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;">
+            <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;" loading="lazy" decoding="async" height="70">
             {% else %}
             <div class="t-logo away">{{ match.away_team.name|slice:":1" }}</div>
             {% endif %}

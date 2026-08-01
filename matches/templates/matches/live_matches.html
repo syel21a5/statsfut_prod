@@ -48,7 +48,7 @@
             <div class="league-header sticky-top bg-dark border-bottom border-secondary border-opacity-25 py-2 px-3 d-flex align-items-center justify-content-between z-2 shadow-sm" style="top: 0;">
                 <div class="d-flex align-items-center gap-2">
                     {% if data.league.country %}
-                    <img src="{{ data.league.country|country_en|get_flag_url }}" alt="{{ data.league.country|country_en }}" class="rounded-1" style="height: 15px; width: auto;">
+                    <img src="{{ data.league.country|country_en|get_flag_url }}" alt="{{ data.league.country|country_en }}" class="rounded-1" style="height: 15px; width: auto;" loading="lazy" decoding="async" height="15">
                     {% endif %}
                     <span class="text-white fw-bold text-uppercase small tracking-wide">{{ league_name }}</span>
                 </div>

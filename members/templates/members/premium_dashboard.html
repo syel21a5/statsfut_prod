@@ -2614,7 +2614,7 @@
                         <!-- League Header -->
                         <div class="d-flex align-items-center mb-2 px-2">
                             {% if league_group.grouper.logo %}
-                                <img src="{{ league_group.grouper.logo }}" width="20" height="20" class="me-2 rounded-circle bg-white p-1" style="object-fit: contain;">
+                                <img src="{{ league_group.grouper.logo }}" width="20" height="20" class="me-2 rounded-circle bg-white p-1" style="object-fit: contain;" loading="lazy" decoding="async">
                             {% endif %}
                             <h6 class="text-white fw-bold mb-0 text-uppercase tracking-wider" style="letter-spacing: 0.5px; font-size: 0.8rem;">
                                 {{ league_group.grouper.country.name|default:league_group.grouper.country }} - {{ league_group.grouper.name }}

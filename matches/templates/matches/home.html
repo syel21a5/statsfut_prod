@@ -204,7 +204,7 @@
                             <div class="d-flex flex-column gap-2 flex-grow-1">
                                 <div class="team-name d-flex align-items-center gap-2">
                                     {% if match.home_team.logo_url %}
-                                    <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" style="width: 24px; height: 24px; object-fit: contain;">
+                                    <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" style="width: 24px; height: 24px; object-fit: contain;" width="24" height="24">
                                     {% else %}
                                     <div class="team-initial bg-primary bg-opacity-10 text-primary">{{ match.home_team.name|slice:":1" }}</div>
                                     {% endif %}
@@ -212,7 +212,7 @@
                                 </div>
                                 <div class="team-name d-flex align-items-center gap-2">
                                     {% if match.away_team.logo_url %}
-                                    <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" style="width: 24px; height: 24px; object-fit: contain;">
+                                    <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" style="width: 24px; height: 24px; object-fit: contain;" loading="lazy" decoding="async" width="24" height="24">
                                     {% else %}
                                     <div class="team-initial bg-accent bg-opacity-10 text-accent">{{ match.away_team.name|slice:":1" }}</div>
                                     {% endif %}

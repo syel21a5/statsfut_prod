@@ -14,7 +14,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center">
             {% if team.logo_url %}
-            <img src="{{ team.logo_url }}" alt="{{ team.name }}" class="img-fluid drop-shadow me-3" style="max-height: 80px; object-fit: contain;">
+            <img src="{{ team.logo_url }}" alt="{{ team.name }}" class="img-fluid drop-shadow me-3" style="max-height: 80px; object-fit: contain;" loading="lazy" decoding="async" height="80">
             {% endif %}
             <div>
                 <h2 class="text-white fw-bold mb-0">
@@ -162,9 +162,9 @@
                                                         <div class="d-flex align-items-center justify-content-end gap-2">
                                                             <span>{% if m.is_home %}{{ team.name }}{% else %}{{ m.opponent.name }}{% endif %}</span>
                                                             {% if m.is_home %}
-                                                                {% if team.logo_url %}<img src="{{ team.logo_url }}" alt="{{ team.name }}" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                                                                {% if team.logo_url %}<img src="{{ team.logo_url }}" alt="{{ team.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">{% endif %}
                                                             {% else %}
-                                                                {% if m.opponent.logo_url %}<img src="{{ m.opponent.logo_url }}" alt="{{ m.opponent.name }}" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                                                                {% if m.opponent.logo_url %}<img src="{{ m.opponent.logo_url }}" alt="{{ m.opponent.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">{% endif %}
                                                             {% endif %}
                                                         </div>
                                                     </td>
@@ -176,9 +176,9 @@
                                                     <td class="text-start align-middle {% if not m.is_home %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                                         <div class="d-flex align-items-center justify-content-start gap-2">
                                                             {% if not m.is_home %}
-                                                                {% if team.logo_url %}<img src="{{ team.logo_url }}" alt="{{ team.name }}" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                                                                {% if team.logo_url %}<img src="{{ team.logo_url }}" alt="{{ team.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">{% endif %}
                                                             {% else %}
-                                                                {% if m.opponent.logo_url %}<img src="{{ m.opponent.logo_url }}" alt="{{ m.opponent.name }}" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                                                                {% if m.opponent.logo_url %}<img src="{{ m.opponent.logo_url }}" alt="{{ m.opponent.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">{% endif %}
                                                             {% endif %}
                                                             <span>{% if not m.is_home %}{{ team.name }}{% else %}{{ m.opponent.name }}{% endif %}</span>
                                                         </div>
@@ -223,13 +223,13 @@
                                                     <td class="text-end align-middle {% if m.home_team == team %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                                         <div class="d-flex align-items-center justify-content-end gap-2">
                                                             <span>{{ m.home_team.name }}</span>
-                                                            {% if m.home_team.logo_url %}<img src="{{ m.home_team.logo_url }}" alt="{{ m.home_team.name }}" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                                                            {% if m.home_team.logo_url %}<img src="{{ m.home_team.logo_url }}" alt="{{ m.home_team.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">{% endif %}
                                                         </div>
                                                     </td>
                                                     <td class="text-secondary fw-bold">-</td>
                                                     <td class="text-start align-middle {% if m.away_team == team %}fw-bold text-white{% else %}text-secondary{% endif %}">
                                                         <div class="d-flex align-items-center justify-content-start gap-2">
-                                                            {% if m.away_team.logo_url %}<img src="{{ m.away_team.logo_url }}" alt="{{ m.away_team.name }}" style="width: 18px; height: 18px; object-fit: contain;">{% endif %}
+                                                            {% if m.away_team.logo_url %}<img src="{{ m.away_team.logo_url }}" alt="{{ m.away_team.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">{% endif %}
                                                             <span>{{ m.away_team.name }}</span>
                                                         </div>
                                                     </td>
@@ -290,10 +290,10 @@
                                                     <td class="text-start">
                                                         <div class="d-flex align-items-center gap-2">
                                                             {% if m.opponent.league.country != team.league.country %}
-                                                            <img src="{{ m.opponent.league.country|get_flag_url }}" alt="{{ m.opponent.league.country }}" style="height: 12px;">
+                                                            <img src="{{ m.opponent.league.country|get_flag_url }}" alt="{{ m.opponent.league.country }}" style="height: 12px;" loading="lazy" decoding="async" height="12">
                                                             {% endif %}
                                                             {% if m.opponent.logo_url %}
-                                                            <img src="{{ m.opponent.logo_url }}" alt="{{ m.opponent.name }}" style="width: 18px; height: 18px; object-fit: contain;">
+                                                            <img src="{{ m.opponent.logo_url }}" alt="{{ m.opponent.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">
                                                             {% endif %}
                                                             <span>{{ m.opponent.name }}</span>
                                                         </div>
@@ -363,7 +363,7 @@
                                                     <td class="text-start">
                                                         <div class="d-flex align-items-center gap-2">
                                                             {% if h.standing.team.logo_url %}
-                                                            <img src="{{ h.standing.team.logo_url }}" alt="{{ h.standing.team.name }}" style="width: 18px; height: 18px; object-fit: contain;">
+                                                            <img src="{{ h.standing.team.logo_url }}" alt="{{ h.standing.team.name }}" style="width: 18px; height: 18px; object-fit: contain;" loading="lazy" decoding="async" width="18" height="18">
                                                             {% endif %}
                                                             <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=h.standing.team.name|slugify %}" class="text-white text-decoration-none {% if h.standing.team == team %}fw-bold{% endif %}">
                                                                 {{ h.standing.team.name }}

@@ -98,7 +98,7 @@
                                         <tr>
                                             <td class="text-start ps-3 fw-bold">
                                                 {% if s.team.logo_url %}
-                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
                                                 {% endif %}
                                                 <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
                                                     {{ s.team.name }}
@@ -147,7 +147,7 @@
                                         <tr>
                                             <td class="text-start ps-3 fw-bold">
                                                 {% if s.team.logo_url %}
-                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
                                                 {% endif %}
                                                 <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
                                                     {{ s.team.name }}
@@ -194,7 +194,7 @@
                                         <tr>
                                             <td class="text-start ps-3 fw-bold">
                                                 {% if s.team.logo_url %}
-                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
                                                 {% endif %}
                                                 <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
                                                     {{ s.team.name }}
