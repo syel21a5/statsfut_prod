@@ -54,7 +54,7 @@
 {% endblock %}
 
 {% block content %}
-{% cache 300 league_dashboard_v17 league.id request.LANGUAGE_CODE request.user.is_authenticated request.user.profile.is_premium %}
+{% cache 300 league_dashboard_v18 league.id request.LANGUAGE_CODE is_country_hub request.user.is_authenticated request.user.profile.is_premium %}
 <div class="container-fluid py-4">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -72,6 +72,15 @@
     </div>
 
     <!-- Top Ad Slot (injected via JS to avoid cache) -->
+
+    {% if intro_text %}
+    <!-- Custom SEO Intro Text -->
+    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4 league-intro">
+        <div class="card-body p-4" style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.7;">
+            {{ intro_text|safe|linebreaks }}
+        </div>
+    </div>
+    {% endif %}
 
     <!-- SEO TEXT DYNAMIC GENERATION (SofaScore / SoccerStats Premium Style) -->
     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">

@@ -12,9 +12,27 @@ class League(models.Model):
     )
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID da Liga na API")
     fd_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID da Liga na Football-Data")
+    
+    # Conteúdo SEO (Introdução)
+    intro_en = models.TextField(blank=True, default='')
+    intro_pt = models.TextField(blank=True, default='')
+    intro_es = models.TextField(blank=True, default='')
+    intro_de = models.TextField(blank=True, default='')
 
     def __str__(self):
         return f"{self.name} ({self.country}) - Div {self.division}"
+
+class Country(models.Model):
+    name = models.CharField(max_length=100, unique=True, help_text="Nome em português ou padronizado, igual ao campo 'country' da Liga")
+    
+    # Conteúdo SEO (Introdução)
+    intro_en = models.TextField(blank=True, default='')
+    intro_pt = models.TextField(blank=True, default='')
+    intro_es = models.TextField(blank=True, default='')
+    intro_de = models.TextField(blank=True, default='')
+
+    def __str__(self):
+        return self.name
 
 class Team(models.Model):
     name = models.CharField(max_length=100)

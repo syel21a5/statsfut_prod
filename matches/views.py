@@ -1398,6 +1398,23 @@ class LeagueDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         league = self.object
         context['is_country_hub'] = getattr(self, 'is_country_hub', False)
+        
+        # Conteúdo introdutório de SEO (Missão 14)
+        lang = getattr(self.request, 'LANGUAGE_CODE', 'en')
+        if context['is_country_hub']:
+            from matches.models import Country
+            country_meta = Country.objects.filter(name__iexact=league.country).first()
+            if country_meta:
+                if lang == 'pt-br': context['intro_text'] = country_meta.intro_pt
+                elif lang == 'es': context['intro_text'] = country_meta.intro_es
+                elif lang == 'de': context['intro_text'] = country_meta.intro_de
+                else: context['intro_text'] = country_meta.intro_en
+        else:
+            if lang == 'pt-br': context['intro_text'] = league.intro_pt
+            elif lang == 'es': context['intro_text'] = league.intro_es
+            elif lang == 'de': context['intro_text'] = league.intro_de
+            else: context['intro_text'] = league.intro_en
+
         now = timezone.now()
         
         # Show Live matches and Scheduled matches that are not too old
