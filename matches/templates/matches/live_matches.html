@@ -3,6 +3,10 @@
 {% load matches_extras %}
 {% load flag_tags %}
 
+{% block header %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}Placar ao Vivo e Estatísticas{% elif request.LANGUAGE_CODE == 'es' %}Resultados en Vivo y Estadísticas{% elif request.LANGUAGE_CODE == 'de' %}Live-Ergebnisse & Statistiken{% else %}Live Scores & Statistics{% endif %}</h1>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid py-4">
     <!-- Header & Controls -->

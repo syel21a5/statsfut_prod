@@ -3,12 +3,16 @@
 
 {% block title %}{% translate "Privacy Policy" %} - StatsFut{% endblock %}
 
+{% block header %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}Política de Privacidade{% elif request.LANGUAGE_CODE == 'es' %}Política de Privacidad{% elif request.LANGUAGE_CODE == 'de' %}Datenschutzerklärung{% else %}Privacy Policy{% endif %}</h1>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-9">
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-lg p-4 p-md-5">
-                <h1 class="fw-bold mb-4 border-bottom border-secondary pb-3">{% translate "Privacy Policy" %}</h1>
+                <h2 class="fw-bold mb-4 border-bottom border-secondary pb-3">{% translate "Privacy Policy" %}</h2>
                 
                 <p class="text-secondary small">{% translate "Last Updated: May 12, 2026" %}</p>
 

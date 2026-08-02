@@ -3,6 +3,10 @@
 
 {% block title %}{% translate "Contact Us" %} - StatsFut{% endblock %}
 
+{% block header %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}Fale Conosco{% elif request.LANGUAGE_CODE == 'es' %}Contacto{% elif request.LANGUAGE_CODE == 'de' %}Kontakt{% else %}Contact Us{% endif %}</h1>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
