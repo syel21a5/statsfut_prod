@@ -1296,6 +1296,10 @@ class LeagueDetailView(DetailView):
         league_slug = self.kwargs.get('league_name') or self.kwargs.get('slug')
         country_slug = self.kwargs.get('country_name') # Para rota composta (país/liga)
         
+        # Aliases / Deduplicacao
+        if country_slug == 'brazil' and league_slug == 'serie-a':
+            league_slug = 'brasileirao'
+            
         # Base query
         queryset = League.objects.all()
 
