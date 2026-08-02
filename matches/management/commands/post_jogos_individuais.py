@@ -104,11 +104,38 @@ class Command(BaseCommand):
             if not html_analysis:
                 continue
 
-            html_content = self.assemble_single_html(match, html_analysis, target_date)
+            # Buscar posts relacionados
+            related_posts = []
+            blog_id = "6808698508164581615"
+            if options["test_run"]:
+                related_posts = [
+                    {"title": f"MOCK: Análise anterior de {t_home} pela {league_name}", "url": "https://statsfutbrasil.blogspot.com/mock-post-1"},
+                    {"title": f"MOCK: Prognóstico do jogo do {t_away}", "url": "https://statsfutbrasil.blogspot.com/mock-post-2"},
+                    {"title": f"MOCK: Estatísticas da rodada - {league_name}", "url": "https://statsfutbrasil.blogspot.com/mock-post-3"},
+                ]
+            else:
+                if blogger_service:
+                    try:
+                        posts_feed = blogger_service.posts().list(
+                            blogId=blog_id,
+                            labels=league_name,
+                            maxResults=3
+                        ).execute()
+                        items = posts_feed.get("items", [])
+                        for item in items:
+                            if item.get("url") and item.get("title"):
+                                related_posts.append({
+                                    "title": item["title"],
+                                    "url": item["url"]
+                                })
+                    except Exception as e:
+                        self.stderr.write(f"Erro ao buscar posts relacionados: {e}")
+
+            html_content = self.assemble_single_html(match, html_analysis, target_date, related_posts=related_posts)
 
             if options["test_run"]:
                 self.stdout.write(f"Publicação programada para: {publish_time_str}")
-                self.stdout.write(html_content[:500] + "...\n")
+                self.stdout.write(html_content + "\n")
             else:
                 blog_id = "6808698508164581615"
                 meta_description = f"Análise completa e prognóstico para {t_home} x {t_away} pela {league_name}. Confira as estatísticas, retrospecto, táticas e palpites de futebol para o confronto."
@@ -261,7 +288,7 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
         </div>
         """
 
-    def assemble_single_html(self, match, html_analysis, target_date):
+    def assemble_single_html(self, match, html_analysis, target_date, related_posts=None):
         date_str = target_date.strftime("%d/%m/%Y")
         banners = [
             "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVTkHNL4qdrvhkc9B_UZenCsze-m8bVCA1BOsa1tgWsSOOKBIGTMuMo7rw_FwcY4xHzVosQTX-f7iozW3OuaFwY7IzdPxp7eowhHFRaGyQ8fNfERG3J0kovbqG56_MplclwUAkGVUFqZ1KFyE4CmYTqm5_12gytEkZMRrPHOw08A5NI2CNqhtFlctEtCq7/s1344/img003.jpg",
@@ -336,8 +363,8 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
         logo_home = f"{domain}{match.home_team.logo_url}" if match.home_team.logo_url else ""
         logo_away = f"{domain}{match.away_team.logo_url}" if match.away_team.logo_url else ""
         
-        img_h = f'<img src="{logo_home}" width="24" height="24" style="object-fit: contain; vertical-align: middle; margin-right: 5px;" />' if logo_home else ""
-        img_a = f'<img src="{logo_away}" width="24" height="24" style="object-fit: contain; vertical-align: middle; margin-left: 5px;" />' if logo_away else ""
+        img_h = f'<img src="{logo_home}" width="24" height="24" alt="" style="object-fit: contain; vertical-align: middle; margin-right: 5px;" />' if logo_home else ""
+        img_a = f'<img src="{logo_away}" width="24" height="24" alt="" style="object-fit: contain; vertical-align: middle; margin-left: 5px;" />' if logo_away else ""
 
         # Estilização: Aplicando exatamente o modelo HTML enviado pelo usuário
         styled_html = html_analysis.replace('<h2>', '<h2 style="color: #2c3e50; border-bottom: 2px solid #2e7d32; padding-bottom: 8px; margin-top: 30px;">🎯 ')
@@ -360,7 +387,19 @@ Modelo 3 (Laranja/Amarelo - Ideal para Alertas, Tendências Críticas ou Fraquez
             {styled_html}
         """
 
+        leia_tambem_html = ""
+        if related_posts:
+            links_html = "\n".join([f'                  <li><a href="{p["url"]}">{p["title"]}</a></li>' for p in related_posts])
+            leia_tambem_html = f"""
+            <!-- leia-tambem -->
+            <h3>Leia também</h3>
+            <ul>
+{links_html}
+            </ul>
+            """
+
         footer = f"""
+            {leia_tambem_html}
             <hr style="border: 0; border-bottom: 1px solid #ddd; margin: 40px 0;"/>
             
             <div style='background-color: #fff8e1; border-left: 6px solid #ffb300; padding: 15px; margin: 25px 0; border-radius: 4px;'>
