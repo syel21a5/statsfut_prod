@@ -2417,6 +2417,24 @@
                     {% include 'matches/includes/h2h_premium_cta.html' %}
                 </div>
             </div>
+
+            <!-- SEO INTERNAL LINKING -->
+            <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mt-4 mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3 text-info" style="font-size: 1rem;">
+                        <i class="fa-solid fa-link me-2"></i>{% translate "Links Úteis" %}
+                    </h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=team1.name|slugify %}" class="btn btn-sm btn-outline-secondary text-white" style="border-radius: 20px; font-size: 0.85rem; border-color: rgba(255,255,255,0.2);">
+                            <i class="fa-solid fa-shield-halved me-1"></i> {{ team1.name }}
+                        </a>
+                        <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=team2.name|slugify %}" class="btn btn-sm btn-outline-secondary text-white" style="border-radius: 20px; font-size: 0.85rem; border-color: rgba(255,255,255,0.2);">
+                            <i class="fa-solid fa-shield-halved me-1"></i> {{ team2.name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- Right Sidebar (25% Width) for Ads -->
 

@@ -1272,6 +1272,22 @@
 
     {% endif %}
 
+    <!-- SEO INTERNAL LINKING -->
+    <div class="glass-panel mt-4 mb-4">
+        <div class="panel-header"><i class="fa-solid fa-link"></i> {% translate "Links Úteis" %}</div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'matches:h2h_detail' country_name=match.league.country|country_en|slugify league_name=match.league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}" class="btn btn-sm btn-outline-secondary" style="border-radius: 20px; font-size: 0.85rem; color: #cbd5e1; border-color: rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-people-arrows me-1"></i> {% translate "Confronto Direto" %}: {{ match.home_team.name }} vs {{ match.away_team.name }}
+            </a>
+            <a href="{% url 'matches:team_stats_full' country_name=match.league.country|country_en|slugify league_name=match.league.name|slugify team_name=match.home_team.name|slugify %}" class="btn btn-sm btn-outline-secondary" style="border-radius: 20px; font-size: 0.85rem; color: #cbd5e1; border-color: rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-shield-halved me-1"></i> {{ match.home_team.name }}
+            </a>
+            <a href="{% url 'matches:team_stats_full' country_name=match.league.country|country_en|slugify league_name=match.league.name|slugify team_name=match.away_team.name|slugify %}" class="btn btn-sm btn-outline-secondary" style="border-radius: 20px; font-size: 0.85rem; color: #cbd5e1; border-color: rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-shield-halved me-1"></i> {{ match.away_team.name }}
+            </a>
+        </div>
+    </div>
+
         </div>
         <!-- Sidebar Column (25% Width) -->
         <div class="col-lg-3">
