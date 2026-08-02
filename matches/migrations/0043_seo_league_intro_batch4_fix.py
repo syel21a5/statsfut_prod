@@ -22,7 +22,6 @@ def load_seo_texts(apps, schema_editor):
 
     found = None
     for league in League.objects.all():
-        # DB country is literally 'Czech-Republic' (already English)
         if slugify(league.country) == 'czech-republic' and slugify(league.name) == 'first-league':
             found = league
             break
