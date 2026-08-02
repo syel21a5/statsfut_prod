@@ -3,7 +3,7 @@ Team whitelists for each league to prevent API contamination
 """
 
 LEAGUE_TEAM_WHITELISTS = {
-    'Brasileirao': [
+    'Brasileirão Série A': [
         'Flamengo', 'Palmeiras', 'Atletico-MG', 'Athletico-PR', 'Fluminense',
         'Internacional', 'Sao Paulo', 'Santos', 'Corinthians', 'Gremio', 
         'Botafogo', 'Bahia', 'Fortaleza', 'Vasco', 'Cruzeiro',
@@ -15,7 +15,7 @@ LEAGUE_TEAM_WHITELISTS = {
         'Fortaleza EC', 'Criciúma EC', 'AC Goianiense', 'CR Vasco da Gama',
         'Mirassol FC', 'Chapecoense AF', 'Goiás EC', 'Sport Club do Recife',
     ],
-    'Série B': [
+    'Brasileirão Série B': [
         # 20 times oficiais da Série B 2026 (fonte: SofaScore)
         'Sao Bernardo', 'Vila Nova', 'Sport Recife', 'Fortaleza',
         'Novorizontino', 'Criciuma', 'Nautico', 'Juventude',

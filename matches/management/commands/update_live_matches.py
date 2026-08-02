@@ -106,9 +106,9 @@ class Command(BaseCommand):
             try:
                 # RESTRITIVO: Busca apenas as ligas que o usuário habilitou expressamente
                 enabled_leagues = [
-                    {'name': 'Brasileirao', 'country': 'Brasil'},
-                    {'name': 'Série B', 'country': 'Brasil'},
-                    {'name': 'Série C', 'country': 'Brasil'},
+                    {'name': 'Brasileirão Série A', 'country': 'Brasil'},
+                    {'name': 'Brasileirão Série B', 'country': 'Brasil'},
+                    {'name': 'Brasileirão Série C', 'country': 'Brasil'},
                     {'name': 'La Liga', 'country': 'Espanha'},
                     {'name': 'Premier League', 'country': 'Inglaterra'},
                     {'name': 'Serie A', 'country': 'Italia'},
@@ -322,8 +322,12 @@ class Command(BaseCommand):
                     'Bundesliga': {'name': 'Bundesliga', 'country': 'Alemanha'},
                     'Serie A': {'name': 'Serie A', 'country': 'Italia'},
                     'Ligue 1': {'name': 'Ligue 1', 'country': 'Franca'},
-                    'Campeonato Brasileiro Série A': {'name': 'Brasileirao', 'country': 'Brasil'},
-                    'Brasileirão Série A': {'name': 'Brasileirao', 'country': 'Brasil'},
+                    'Campeonato Brasileiro Série A': {'name': 'Brasileirão Série A', 'country': 'Brasil'},
+                    'Brasileirão Série A': {'name': 'Brasileirão Série A', 'country': 'Brasil'},
+                    'Serie B': {'name': 'Brasileirão Série B', 'country': 'Brasil'},
+                    'Série B': {'name': 'Brasileirão Série B', 'country': 'Brasil'},
+                    'Serie C': {'name': 'Brasileirão Série C', 'country': 'Brasil'},
+                    'Série C': {'name': 'Brasileirão Série C', 'country': 'Brasil'},
                     'Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'Jupiler Pro League': {'name': 'Pro League', 'country': 'Belgica'},
                     'First Division A': {'name': 'Pro League', 'country': 'Belgica'},
