@@ -18,16 +18,18 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("API-Football está DESATIVADA globalmente (APIManager.USE_API_FOOTBALL = False). Abortando."))
             return
 
-        api_key = os.getenv("API_FOOTBALL_BRASILEIRAO_KEY")
+        api_key = os.getenv("API_FOOTBALL_BRASILEIRAO_KEY") or os.getenv("API_FOOTBALL_KEY")
         if not api_key:
-            self.stdout.write(self.style.ERROR("API_FOOTBALL_BRASILEIRAO_KEY não configurada no .env"))
+            self.stdout.write(self.style.ERROR("API_FOOTBALL_BRASILEIRAO_KEY e API_FOOTBALL_KEY não configuradas no .env"))
             return
-
-        league = League.objects.filter(name="Brasileirão").first()
+            
+        league = (
+            League.objects.filter(name="Brasileirão Série A", country="Brasil").first()
+            or League.objects.filter(name="Brasileirão", country="Brasil").first()
+            or League.objects.filter(name__icontains="Brasileir", country="Brasil").first()
+        )
         if not league:
-            league = League.objects.filter(name__icontains="Brasileir").first()
-        if not league:
-            self.stdout.write(self.style.ERROR("Liga 'Brasileirão' não encontrada no banco"))
+            self.stdout.write(self.style.ERROR("Liga 'Brasileirão Série A' não encontrada no banco"))
             return
 
         # Define a temporada atual dinamicamente (ano atual)

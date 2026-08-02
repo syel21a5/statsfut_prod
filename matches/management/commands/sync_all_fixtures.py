@@ -36,7 +36,7 @@ class Command(BaseCommand):
             {'name': 'Bundesliga', 'country': 'Alemanha'},  # Not Austria!
             {'name': 'Serie A', 'country': 'Italia'},
             {'name': 'Ligue 1', 'country': 'Franca'},
-            {'name': 'Brasileirao', 'country': 'Brasil'},
+            {'name': 'Brasileirão Série A', 'country': 'Brasil'},
             {'name': 'Pro League', 'country': 'Belgica'},
         ]
         
