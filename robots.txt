@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /search/
+Disallow: /i18n/
 
 Sitemap: https://statsfut.com/sitemap.xml

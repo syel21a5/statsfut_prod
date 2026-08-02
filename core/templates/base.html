@@ -163,16 +163,16 @@
             <div class="d-flex align-items-center gap-3">
                 <!-- Language Switcher -->
                 <div class="language-switcher d-flex gap-3 me-2">
-                    <a href="{% url 'set_language' %}?language=pt-br&next={{ request.get_full_path }}" class="d-inline-block" title="Português">
+                    <a href="{% translated_url 'pt-br' %}" class="d-inline-block" title="Português">
                         <span class="fi fi-br" style="font-size: 1.1rem; border-radius: 2px;"></span>
                     </a>
-                    <a href="{% url 'set_language' %}?language=en&next={{ request.get_full_path }}" class="d-inline-block" title="English">
+                    <a href="{% translated_url 'en' %}" class="d-inline-block" title="English">
                         <span class="fi fi-us" style="font-size: 1.1rem; border-radius: 2px;"></span>
                     </a>
-                    <a href="{% url 'set_language' %}?language=es&next={{ request.get_full_path }}" class="d-inline-block" title="Español">
+                    <a href="{% translated_url 'es' %}" class="d-inline-block" title="Español">
                         <span class="fi fi-es" style="font-size: 1.1rem; border-radius: 2px;"></span>
                     </a>
-                    <a href="{% url 'set_language' %}?language=de&next={{ request.get_full_path }}" class="d-inline-block" title="Deutsch">
+                    <a href="{% translated_url 'de' %}" class="d-inline-block" title="Deutsch">
                         <span class="fi fi-de" style="font-size: 1.1rem; border-radius: 2px;"></span>
                     </a>
                 </div>
