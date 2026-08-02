@@ -28,6 +28,20 @@
         <priority>0.3</priority>
     </url>
 
+    <!-- Countries -->
+    {% for url in country_urls %}
+    <url>
+        <loc>{{ base_url }}{{ url }}</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="{{ base_url }}{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="pt-br" href="{{ base_url }}/pt-br{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="es" href="{{ base_url }}/es{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="de" href="{{ base_url }}/de{{ url }}" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="{{ base_url }}{{ url }}" />
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    {% endfor %}
+
     <!-- Leagues -->
     {% for url in league_urls %}
     <url>

@@ -98,21 +98,47 @@ class SitemapView(TemplateView):
         end_date = now + timedelta(days=7)
         matches = Match.objects.filter(date__range=(start_date, end_date)).select_related('home_team', 'away_team')[:1000]
         
+        country_urls = []
         league_urls = []
+        
+        # Track unique countries to generate country URLs
+        unique_countries = set()
+        
         for l in leagues:
             try:
                 country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
                 c_slug = slugify(country_en)
                 l_slug = slugify(l.name)
+                
+                unique_countries.add(c_slug)
+                
                 url = f"/stats/{c_slug}/{l_slug}/"
                 
                 # Validação de rota antes de emitir (Defesa Permanente)
                 match = resolve(url)
                 view = LeagueDetailView()
-                view.kwargs = match.kwargs
+                
+                # Mapeia kwargs caso a URL tenha sido capturada pelo StatsDispatchView (arg1, arg2)
+                kwargs = match.kwargs.copy()
+                if 'arg1' in kwargs and 'arg2' in kwargs:
+                    kwargs['country_name'] = kwargs.pop('arg1')
+                    kwargs['league_name'] = kwargs.pop('arg2')
+                
+                view.kwargs = kwargs
                 view.get_object() # Levanta Http404 se não existir
                 
                 league_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
+                
+        for c_slug in unique_countries:
+            try:
+                url = f"/stats/{c_slug}/"
+                match = resolve(url)
+                view = LeagueDetailView()
+                view.kwargs = match.kwargs
+                view.get_object()
+                country_urls.append(url)
             except (Resolver404, Http404, Exception):
                 continue
                 
@@ -128,7 +154,15 @@ class SitemapView(TemplateView):
                 # Validação de rota antes de emitir (Defesa Permanente)
                 match = resolve(url)
                 view = TeamDetailView()
-                view.kwargs = match.kwargs
+                
+                # Mapeia kwargs caso a URL tenha sido capturada pelo StatsDispatchView (arg1, arg2, mas teams é diferente, contudo precaução)
+                kwargs = match.kwargs.copy()
+                if 'arg1' in kwargs and 'arg2' in kwargs and 'arg3' in kwargs:
+                    kwargs['country_name'] = kwargs.pop('arg1')
+                    kwargs['league_name'] = kwargs.pop('arg2')
+                    kwargs['team_name'] = kwargs.pop('arg3')
+                    
+                view.kwargs = kwargs
                 view.get_object() # Levanta Http404 se não existir
                 
                 team_urls.append(url)
@@ -147,6 +181,7 @@ class SitemapView(TemplateView):
             except (Resolver404, Http404, Exception):
                 continue
             
+        context['country_urls'] = country_urls
         context['league_urls'] = league_urls
         context['team_urls'] = team_urls
         context['match_urls'] = match_urls
