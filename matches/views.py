@@ -84,6 +84,9 @@ class SitemapView(TemplateView):
         from matches.utils import COUNTRY_TRANSLATIONS
         from django.utils import timezone
         from datetime import timedelta
+        from django.utils.text import slugify
+        from django.urls import resolve, Resolver404
+        from django.http import Http404
         
         # Limit quantities for performance in large DBs, or use pagination
         leagues = League.objects.all()
@@ -97,20 +100,52 @@ class SitemapView(TemplateView):
         
         league_urls = []
         for l in leagues:
-            country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
-            league_urls.append(f"/stats/{slugify(country_en)}/{slugify(l.name)}/")
-            
+            try:
+                country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
+                c_slug = slugify(country_en)
+                l_slug = slugify(l.name)
+                url = f"/stats/{c_slug}/{l_slug}/"
+                
+                # Validação de rota antes de emitir (Defesa Permanente)
+                match = resolve(url)
+                view = LeagueDetailView()
+                view.kwargs = match.kwargs
+                view.get_object() # Levanta Http404 se não existir
+                
+                league_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
+                
         team_urls = []
         for t in teams:
             try:
                 country_en = COUNTRY_TRANSLATIONS.get(t.league.country, t.league.country)
-                team_urls.append(f"/stats/{slugify(country_en)}/{slugify(t.league.name)}/{slugify(t.name)}/")
-            except:
+                c_slug = slugify(country_en)
+                l_slug = slugify(t.league.name)
+                t_slug = slugify(t.name)
+                url = f"/stats/{c_slug}/{l_slug}/{t_slug}/"
+                
+                # Validação de rota antes de emitir (Defesa Permanente)
+                match = resolve(url)
+                view = TeamDetailView()
+                view.kwargs = match.kwargs
+                view.get_object() # Levanta Http404 se não existir
+                
+                team_urls.append(url)
+            except (Resolver404, Http404, Exception):
                 continue
                 
         match_urls = []
         for m in matches:
-            match_urls.append(f"/match/{m.id}/{m.slug}/")
+            try:
+                url = f"/match/{m.id}/{m.slug}/"
+                
+                # Validação de rota antes de emitir (Defesa Permanente)
+                match = resolve(url)
+                # Match urls go to MatchDetailView which might not exist in this file, check later if needed
+                match_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
             
         context['league_urls'] = league_urls
         context['team_urls'] = team_urls
@@ -2545,9 +2580,10 @@ class TeamDetailView(DetailView):
                 s_count=Count('standings')
             ).order_by('-team_count', '-s_count').first()
         
-        if not league and not country_slug: # Só tenta o fallback global se não tinha país definido
+        if not league:
             from django.utils.text import slugify
-            for l in League.objects.all():
+            fallback_qs = base_qs if country_slug and 'base_qs' in locals() else League.objects.all()
+            for l in fallback_qs:
                 if slugify(l.name) == slugify(league_slug):
                     league = l
                     break
