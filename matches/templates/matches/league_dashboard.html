@@ -4,10 +4,34 @@
 {% load flag_tags %}
 {% load tz cache l10n %}
 
-{% block title %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}{% endblock %}
-{% block meta_description %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}{% endblock %}
-{% block og_title %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}{% endblock %}
-{% block og_description %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}{% endblock %}
+{% block title %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }} - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }} - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }} - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.country|country_en }} - Statistics & Match Analysis | StatsFut{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}
+{% endif %}
+{% endblock %}
+{% block meta_description %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% endif %}
+{% endblock %}
+{% block og_title %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }} - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }} - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }} - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.country|country_en }} - Statistics & Match Analysis | StatsFut{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}
+{% endif %}
+{% endblock %}
+{% block og_description %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% endif %}
+{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -22,7 +46,11 @@
 </script>
 {% endblock %}
 {% block header %}
+{% if is_country_hub %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }} - Estatísticas e Análises{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }} - Estadísticas y Análisis{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }} - Statistiken & Analysen{% else %}{{ league.country|country_en }} - Statistics & Analysis{% endif %}</h1>
+{% else %}
 <h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} - Estatísticas e Análises{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} - Estadísticas y Análisis{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} - Statistiken & Analysen{% else %}{{ league.name }} - Statistics & Analysis{% endif %}</h1>
+{% endif %}
 {% endblock %}
 
 {% block content %}

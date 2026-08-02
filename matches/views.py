@@ -1172,6 +1172,7 @@ class LeagueDetailView(DetailView):
     context_object_name = 'league'
     
     def get_object(self):
+        self.is_country_hub = False
         # Se pk foi passado, usa comportamento padrão
         if 'pk' in self.kwargs:
             return super().get_object()
@@ -1253,6 +1254,7 @@ class LeagueDetailView(DetailView):
                 candidates = queryset.filter(country__iexact=slug_clean)
 
             if candidates.exists():
+                self.is_country_hub = True
                 # Prefer league with most standings; if tie/zero, prefer with most upcoming matches
                 league = candidates.annotate(s_count=models.Count('standings')).order_by('-s_count').first()
                 if league and league.standings.count() > 0:
@@ -1280,6 +1282,7 @@ class LeagueDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         league = self.object
+        context['is_country_hub'] = getattr(self, 'is_country_hub', False)
         now = timezone.now()
         
         # Show Live matches and Scheduled matches that are not too old
