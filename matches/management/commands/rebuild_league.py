@@ -29,10 +29,13 @@ class Command(BaseCommand):
         
         self.stdout.write(f"Buscando jogos de {league.name} a partir de {start_date} para exclusão...")
         matches = Match.objects.filter(league=league, date__gte=start_date)
+        
+        # NUNCA apagar jogos finalizados (preservar SEO)
+        matches = matches.exclude(status__in=['Finished', 'FT', 'AET', 'PEN'])
         count = matches.count()
         
         if count > 0:
-            self.stdout.write(f"Deletando {count} jogos...")
+            self.stdout.write(f"Deletando {count} jogos não finalizados...")
             matches.delete()
             self.stdout.write(self.style.SUCCESS("Jogos deletados."))
         else:

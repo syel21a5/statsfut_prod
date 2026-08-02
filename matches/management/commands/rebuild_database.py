@@ -14,12 +14,15 @@ class Command(BaseCommand):
         
         # 1. Apagar Tabelas e Jogos (Ordem importa por causa de FK)
         LeagueStanding.objects.all().delete()
-        Match.objects.all().delete()
+        
+        # NUNCA apagar o histórico de matches para preservar SEO (/match/<id>/)
+        # Apagamos apenas jogos não finalizados para limpar possíveis jogos cancelados/fantasmas
+        deleted_count, _ = Match.objects.exclude(status__in=['Finished', 'FT', 'AET', 'PEN']).delete()
         
         # Não apagamos Times (Team) para não perder referências, mas o normalize vai limpar duplicatas
         # Se quiser apagar times também: Team.objects.all().delete() (Cuidado com FKs de outros lugares)
         
-        self.stdout.write(self.style.SUCCESS("Jogos e classificações removidos."))
+        self.stdout.write(self.style.SUCCESS(f"Tabelas de classificação removidas. {deleted_count} jogos pendentes/futuros removidos (Histórico preservado!)."))
 
         # 2. Reimportar do CSV (Fonte Confiável) - Histórico Longo
         # Vamos pegar de 2021 até 2026 para garantir histórico recente robusto
