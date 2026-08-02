@@ -1206,6 +1206,51 @@ class LeagueDetailView(DetailView):
     template_name = 'matches/league_dashboard.html'
     context_object_name = 'league'
     
+    def get(self, request, *args, **kwargs):
+        from django.http import Http404, HttpResponsePermanentRedirect
+        from django.urls import reverse
+        from django.utils.text import slugify
+        from matches.utils import COUNTRY_TRANSLATIONS
+
+        try:
+            self.object = self.get_object()
+        except Http404:
+            raise
+
+        l = self.object
+        country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
+        c_slug = slugify(country_en)
+        l_slug = slugify(l.name)
+
+        if getattr(self, 'is_country_hub', False):
+            expected_slug = c_slug
+            url_slug = self.kwargs.get('slug') or self.kwargs.get('league_name')
+            if url_slug != expected_slug:
+                canonical_url = reverse('matches:country_stats', kwargs={'slug': expected_slug})
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+        else:
+            if 'country_name' in self.kwargs and 'league_name' in self.kwargs:
+                if self.kwargs.get('country_name') != c_slug or self.kwargs.get('league_name') != l_slug:
+                    canonical_url = reverse('matches:league_stats_full', kwargs={'country_name': c_slug, 'league_name': l_slug})
+                    qs = request.META.get('QUERY_STRING', '')
+                    if qs: canonical_url += f"?{qs}"
+                    return HttpResponsePermanentRedirect(canonical_url)
+            elif 'league_name' in self.kwargs or 'slug' in self.kwargs:
+                canonical_url = reverse('matches:league_stats_full', kwargs={'country_name': c_slug, 'league_name': l_slug})
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+            elif 'pk' in self.kwargs:
+                canonical_url = reverse('matches:league_stats_full', kwargs={'country_name': c_slug, 'league_name': l_slug})
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
     def get_object(self):
         self.is_country_hub = False
         # Se pk foi passado, usa comportamento padrão
@@ -2465,6 +2510,49 @@ class TeamDetailView(DetailView):
     model = Team
     template_name = 'matches/team_detail.html'
     context_object_name = 'team'
+
+    def get(self, request, *args, **kwargs):
+        from django.http import Http404, HttpResponsePermanentRedirect
+        from django.urls import reverse
+        from django.utils.text import slugify
+        from matches.utils import COUNTRY_TRANSLATIONS
+
+        try:
+            self.object = self.get_object()
+        except Http404:
+            raise
+
+        t = self.object
+        country_en = COUNTRY_TRANSLATIONS.get(t.league.country, t.league.country)
+        c_slug = slugify(country_en)
+        l_slug = slugify(t.league.name)
+        t_slug = slugify(t.name)
+
+        if 'team_name' in self.kwargs and 'league_name' in self.kwargs and 'country_name' in self.kwargs:
+            if (self.kwargs.get('country_name') != c_slug or 
+                self.kwargs.get('league_name') != l_slug or 
+                self.kwargs.get('team_name') != t_slug):
+                
+                canonical_url = reverse('matches:team_stats_full', kwargs={
+                    'country_name': c_slug,
+                    'league_name': l_slug,
+                    'team_name': t_slug
+                })
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+        else:
+            canonical_url = reverse('matches:team_stats_full', kwargs={
+                'country_name': c_slug,
+                'league_name': l_slug,
+                'team_name': t_slug
+            })
+            qs = request.META.get('QUERY_STRING', '')
+            if qs: canonical_url += f"?{qs}"
+            return HttpResponsePermanentRedirect(canonical_url)
+
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 
     def get_object(self):
         # 1. Se tiver PK na URL, busca direto pelo ID (mais seguro)
