@@ -11,10 +11,10 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="text-white fw-bold mb-0">
+            <h1 class="text-white fw-bold mb-0">
                 <i class="fa-solid fa-right-left text-info me-2"></i>
-                {% translate "Head-to-Head" %}
-            </h2>
+                {% if request.LANGUAGE_CODE == 'pt-br' %}{{ team1.name }} x {{ team2.name }} - Confronto Direto{% elif request.LANGUAGE_CODE == 'es' %}{{ team1.name }} vs {{ team2.name }} - Enfrentamiento Directo{% elif request.LANGUAGE_CODE == 'de' %}{{ team1.name }} gegen {{ team2.name }} - Direkter Vergleich{% else %}{{ team1.name }} vs {{ team2.name }} - Head to Head{% endif %}
+            </h1>
             <p class="text-secondary mb-0 mt-1">
                 <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> {% blocktranslate with t1=team1.name t2=team2.name %}{{ t1 }} vs {{ t2 }}{% endblocktranslate %}
             </p>

@@ -28,11 +28,11 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="text-white fw-bold mb-0">
+            <h1 class="text-white fw-bold mb-0">
                 <img src="{{ league.country|country_en|get_flag_url }}" alt="{{ league.country|country_en }}"
                     style="height: 30px; margin-right: 10px;" loading="lazy" decoding="async" height="30">
-                {{ league.name }}
-            </h2>
+                {% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} - Estatísticas e Análises{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} - Estadísticas y Análisis{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} - Statistiken & Analysen{% else %}{{ league.name }} - Statistics & Analysis{% endif %}
+            </h1>
             <p class="text-secondary mb-0 mt-1">
                 <span class="text-info">{{ league.country|country_en }}</span> <i
                     class="fa-solid fa-chevron-right mx-2 small"></i> {% translate "League Stats" %}
