@@ -4,6 +4,9 @@
 
 {% block title %}{% if request.LANGUAGE_CODE == 'pt-br' %}{{ team1.name }} x {{ team2.name }} - Confronto Direto e Estatísticas | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ team1.name }} vs {{ team2.name }} - Enfrentamiento Directo y Estadísticas | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ team1.name }} gegen {{ team2.name }} - Direkter Vergleich & Statistiken | StatsFut{% else %}{{ team1.name }} vs {{ team2.name }} - H2H Comparison & Stats | StatsFut{% endif %}{% endblock %}
 {% block meta_description %}{% if request.LANGUAGE_CODE == 'pt-br' %}Estatísticas de confronto direto entre {{ team1.name }} e {{ team2.name }}: aproveitamento, gols, escanteios e histórico em {{ league.name }}. Análise aprofundada para apostas e estudos.{% elif request.LANGUAGE_CODE == 'es' %}Estadísticas de enfrentamiento directo entre {{ team1.name }} y {{ team2.name }}: rendimiento, goles, córneres e historial en {{ league.name }}. Análisis profundo para apuestas.{% elif request.LANGUAGE_CODE == 'de' %}Direkter Vergleich zwischen {{ team1.name }} und {{ team2.name }}: Siegquote, Tore, Ecken und historische Ergebnisse in {{ league.name }}. Tiefgehende Analysen für Wetten.{% else %}Head-to-head statistics for {{ team1.name }} vs {{ team2.name }}: win rate, goals, corners, and historical results in {{ league.name }}. Deep analytics for betting and analysis.{% endif %}{% endblock %}
+{% block header %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ team1.name }} x {{ team2.name }} - Confronto Direto{% elif request.LANGUAGE_CODE == 'es' %}{{ team1.name }} vs {{ team2.name }} - Enfrentamiento Directo{% elif request.LANGUAGE_CODE == 'de' %}{{ team1.name }} gegen {{ team2.name }} - Direkter Vergleich{% else %}{{ team1.name }} vs {{ team2.name }} - Head to Head{% endif %}</h1>
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
@@ -11,10 +14,10 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="text-white fw-bold mb-0">
+            <h2 class="text-white fw-bold mb-0">
                 <i class="fa-solid fa-right-left text-info me-2"></i>
-                {% if request.LANGUAGE_CODE == 'pt-br' %}{{ team1.name }} x {{ team2.name }} - Confronto Direto{% elif request.LANGUAGE_CODE == 'es' %}{{ team1.name }} vs {{ team2.name }} - Enfrentamiento Directo{% elif request.LANGUAGE_CODE == 'de' %}{{ team1.name }} gegen {{ team2.name }} - Direkter Vergleich{% else %}{{ team1.name }} vs {{ team2.name }} - Head to Head{% endif %}
-            </h1>
+                {% translate "Head-to-Head" %}
+            </h2>
             <p class="text-secondary mb-0 mt-1">
                 <span class="text-info">{{ league.name }}</span> <i class="fa-solid fa-chevron-right mx-2 small"></i> {% blocktranslate with t1=team1.name t2=team2.name %}{{ t1 }} vs {{ t2 }}{% endblocktranslate %}
             </p>

@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block header %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ match.home_team.name }} x {{ match.away_team.name }}{% elif request.LANGUAGE_CODE == 'es' %}{{ match.home_team.name }} vs {{ match.away_team.name }}{% elif request.LANGUAGE_CODE == 'de' %}{{ match.home_team.name }} gegen {{ match.away_team.name }}{% else %}{{ match.home_team.name }} vs {{ match.away_team.name }}{% endif %}</h1>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
     /* TAB NAVIGATION PARA MERCADOS */
@@ -467,7 +468,6 @@
 
 {% block content %}
 <div class="container-fluid py-4">
-    <h1 class="d-none">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ match.home_team.name }} x {{ match.away_team.name }}{% elif request.LANGUAGE_CODE == 'es' %}{{ match.home_team.name }} vs {{ match.away_team.name }}{% elif request.LANGUAGE_CODE == 'de' %}{{ match.home_team.name }} gegen {{ match.away_team.name }}{% else %}{{ match.home_team.name }} vs {{ match.away_team.name }}{% endif %}</h1>
 
     <div class="row">
         <!-- Main Content Column (75% Width) -->
