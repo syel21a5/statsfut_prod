@@ -414,6 +414,24 @@ class MatchDetailView(DetailView):
             print(f"Error generating advanced stats: {e}")
             context['advanced_stats'] = None
             
+        # Módulos de retenção (Missão 21)
+        context['next_matches_home'] = Match.objects.filter(
+            Q(home_team=match.home_team) | Q(away_team=match.home_team),
+            date__gt=match.date
+        ).select_related('home_team', 'away_team', 'league').order_by('date')[:3]
+        
+        context['next_matches_away'] = Match.objects.filter(
+            Q(home_team=match.away_team) | Q(away_team=match.away_team),
+            date__gt=match.date
+        ).select_related('home_team', 'away_team', 'league').order_by('date')[:3]
+        
+        start_date = match.date - timedelta(days=3)
+        end_date = match.date + timedelta(days=3)
+        context['other_round_matches'] = Match.objects.filter(
+            league=match.league,
+            date__range=(start_date, end_date)
+        ).exclude(id=match.id).select_related('home_team', 'away_team', 'league').order_by('date')[:5]
+
         from django.conf import settings
         context['show_script_btn'] = settings.DEBUG or (self.request.user.is_authenticated and self.request.user.is_staff)
         return context

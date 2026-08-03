@@ -4455,7 +4455,7 @@ msgid ""
 "intelligence with over 80%% accuracy."
 msgstr ""
 "Doppel-, Dreifach- und Akkumulatoren werden automatisch basierend auf "
-"unserer Datenintelligenz mit einer Genauigkeit von über 80 % generiert."
+"unserer Datenintelligenz mit einer Genauigkeit von über 80 %% generiert."
 
 #: bakuplocal/0034_statsfut_backup_2026-07-21_13-23-29/members/templates/members/premium_dashboard.html:2081
 msgid "Doubles"
@@ -4617,7 +4617,7 @@ msgid ""
 msgstr ""
 "Abonnieren Sie den Premium-Plan für sofortigen Zugriff auf vorgefertigte "
 "Tickets (Doppel- und Dreifachtickets), die täglich von unserer KI generiert "
-"werden, mit Genauigkeitsraten von über 80 %!"
+"werden, mit Genauigkeitsraten von über 80 %%!"
 
 #: bakuplocal/0034_statsfut_backup_2026-07-21_13-23-29/members/templates/members/premium_dashboard.html:2503
 msgid "I Want to Be Premium Now!"
@@ -5849,3 +5849,9 @@ msgstr "VOLLSTÄNDIGE STATISTISCHE ANALYSE"
 #~ "\n"
 #~ "                        Beide Teams schwächeln beim Abschluss (Genauigkeit unter 30%%). Spiel mit Tendenz zu wenigen Toren, ideal um den \"Under\"-Markt zu analysieren.\n"
 #~ "                        "
+
+msgid "Next Matches"
+msgstr "Nächste Spiele"
+
+msgid "Other Round Matches"
+msgstr "Weitere Spiele der Runde"
