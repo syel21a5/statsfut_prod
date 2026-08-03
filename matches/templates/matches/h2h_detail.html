@@ -30,12 +30,12 @@
 
     {% include 'matches/includes/league_tabs.html' with active_tab='' is_h2h_page=True %}
 
-    <!-- PREMIUM CTA BANNER (topo - destaque para a análise completa da partida) -->
-    {% include 'matches/includes/h2h_premium_cta.html' %}
-
     
 <div class="row">
         <div class="col-lg-9">
+
+            <!-- PREMIUM CTA BANNER (topo da coluna principal - não empurra a sidebar/ads) -->
+            {% include 'matches/includes/h2h_premium_cta.html' %}
 
             <!-- Matchup Header Card -->
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
