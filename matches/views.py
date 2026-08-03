@@ -1,5 +1,7 @@
 # pyright: reportGeneralTypeIssues=false
 from django.views.generic import ListView, DetailView, TemplateView, View
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.text import slugify
@@ -75,6 +77,7 @@ class RobotsView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 60 * 6), name='dispatch')  # Cache 6h: sitemap gerado é caro (~2k queries)
 class SitemapView(TemplateView):
     template_name = "matches/sitemap.xml"
     content_type = "application/xml"
