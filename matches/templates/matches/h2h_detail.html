@@ -30,6 +30,8 @@
 
     {% include 'matches/includes/league_tabs.html' with active_tab='' is_h2h_page=True %}
 
+    <!-- PREMIUM CTA BANNER (topo - destaque para a análise completa da partida) -->
+    {% include 'matches/includes/h2h_premium_cta.html' %}
 
     
 <div class="row">
@@ -1096,9 +1098,6 @@
                 </div>
             </div>
 
-            <!-- H2H Premium CTA Banner (Summary Tab) -->
-            {% include 'matches/includes/h2h_premium_cta.html' %}
-            
             <!-- H2H SEO Dynamic Text -->
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mt-4">
                 <div class="card-body p-4">
@@ -2410,11 +2409,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-                    <!-- PREMIUM CTA BANNER -->
-                    {% include 'matches/includes/h2h_premium_cta.html' %}
                 </div>
             </div>
 
