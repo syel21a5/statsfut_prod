@@ -173,6 +173,15 @@ CACHES = {
         'OPTIONS': {
             'MAX_ENTRIES': 5000
         }
+    },
+    'sitemap': {
+        # Cache dedicado do sitemap.xml: isolado do cache.clear() do live_score_premium (cron de 1 min)
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/www/wwwroot/statsfut.com/var/cache/sitemap',
+        'TIMEOUT': 21600,  # 6h
+        'OPTIONS': {
+            'MAX_ENTRIES': 10
+        }
     }
 }
 

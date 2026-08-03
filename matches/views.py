@@ -77,7 +77,7 @@ class RobotsView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 60 * 6), name='dispatch')  # Cache 6h: sitemap gerado é caro (~2k queries)
+@method_decorator(cache_page(60 * 60 * 6, cache='sitemap'), name='dispatch')  # Cache 6h isolado (imune ao cache.clear() do live_score_premium)
 class SitemapView(TemplateView):
     template_name = "matches/sitemap.xml"
     content_type = "application/xml"
