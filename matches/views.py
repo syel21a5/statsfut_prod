@@ -1122,6 +1122,77 @@ class HomeView(ListView):
             
         context['grouped_matches'] = grouped_list
         
+        # Palpite do Dia (Missão 22)
+        try:
+            br_tz = ZoneInfo('America/Sao_Paulo')
+            now_br = timezone.now().astimezone(br_tz)
+            start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
+            end_of_tomorrow = start_of_day + timedelta(days=2)
+            
+            candidates = Match.objects.filter(
+                date__range=(start_of_day, end_of_tomorrow)
+            ).select_related('league', 'home_team', 'away_team')
+            
+            def get_league_priority(m):
+                name = m.league.name
+                if name == "Brasileirão Série A":
+                    return 0
+                elif name in ["Premier League", "La Liga", "Bundesliga", "Serie A", "Ligue 1"]:
+                    return 1
+                return 2
+                
+            if candidates.exists():
+                sorted_candidates = sorted(
+                    candidates,
+                    key=lambda m: (
+                        get_league_priority(m),
+                        -len(json.dumps(m.predictions_data) if m.predictions_data else ""),
+                        m.date
+                    )
+                )
+                match_of_the_day = sorted_candidates[0]
+                
+                from matches.services.advanced_stats import MatchAnalyzer
+                analyzer = MatchAnalyzer(match_of_the_day)
+                report = analyzer.generate_full_report()
+                
+                probs = report.get('odds_probs', {})
+                best_bet = probs.get('best_bet', '')
+                best_bet_prob = probs.get('best_bet_prob', 0)
+                
+                tip_text = ""
+                if best_bet == '1' and best_bet_prob >= 50:
+                    tip_text = _("Vitória do %(team)s") % {'team': match_of_the_day.home_team.name}
+                elif best_bet == '2' and best_bet_prob >= 50:
+                    tip_text = _("Vitória do %(team)s") % {'team': match_of_the_day.away_team.name}
+                else:
+                    goals = report.get('goals', {})
+                    if goals.get('over_25', 0) >= 60:
+                        tip_text = _("Mais de 2.5 Gols")
+                    elif goals.get('btts', 0) >= 60:
+                        tip_text = _("Ambas Marcam")
+                    elif goals.get('over_15', 0) >= 75:
+                        tip_text = _("Mais de 1.5 Gols")
+                    else:
+                        db_bet = probs.get('double_bet', '')
+                        if db_bet == '1X':
+                            tip_text = _("%(team)s ou Empate") % {'team': match_of_the_day.home_team.name}
+                        elif db_bet == 'X2':
+                            tip_text = _("%(team)s ou Empate") % {'team': match_of_the_day.away_team.name}
+                        else:
+                            tip_text = _("Dupla Chance 12")
+                
+                context['tip_of_the_day'] = {
+                    'match': match_of_the_day,
+                    'report': report,
+                    'tip_text': tip_text,
+                }
+            else:
+                context['tip_of_the_day'] = None
+        except Exception as e:
+            print(f"Error generating tip of the day: {e}")
+            context['tip_of_the_day'] = None
+        
         # Live matches for the rotating banner
         live_statuses = [
             '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 
