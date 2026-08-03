@@ -415,49 +415,6 @@ class MatchDetailView(DetailView):
             context['advanced_stats'] = None
         from django.conf import settings
         context['show_script_btn'] = settings.DEBUG or (self.request.user.is_authenticated and self.request.user.is_staff)
-
-        # --- MISSÃO 16: match page como HUB (descoberta + retenção) ---
-        from django.urls import reverse
-        from django.utils.text import slugify
-        from matches.utils import COUNTRY_TRANSLATIONS
-
-        now = timezone.now()
-        live_statuses = ['1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
-        scheduled_statuses = ['Scheduled', 'Not Started', 'TIMED', 'UTC']
-
-        # Outros jogos da mesma liga (próximos)
-        context['league_matches'] = (
-            Match.objects.filter(league=match.league)
-            .filter(models.Q(status__in=live_statuses) | models.Q(status__in=scheduled_statuses, date__gte=now - timedelta(hours=3)))
-            .exclude(pk=match.pk)
-            .select_related('home_team', 'away_team')
-            .order_by('date')[:6]
-        )
-
-        # Últimos jogos (finalizados) de cada time
-        def _recent_team_matches(team, limit=4):
-            return (
-                Match.objects.filter(models.Q(home_team=team) | models.Q(away_team=team), status__in=FINISHED_STATUSES)
-                .select_related('league', 'home_team', 'away_team')
-                .order_by('-date')[:limit]
-            )
-        context['home_team_recent'] = _recent_team_matches(match.home_team)
-        context['away_team_recent'] = _recent_team_matches(match.away_team)
-
-        # URLs de navegação (HUB)
-        country_en = COUNTRY_TRANSLATIONS.get(match.league.country, match.league.country)
-        context['league_url'] = reverse('matches:league_stats_full', kwargs={
-            'country_name': slugify(country_en),
-            'league_name': slugify(match.league.name),
-        })
-        context['h2h_url'] = reverse('matches:h2h_detail', kwargs={
-            'country_name': slugify(match.league.country),
-            'league_name': slugify(match.league.name),
-            'team1_name': slugify(match.home_team.name),
-            'team2_name': slugify(match.away_team.name),
-        })
-        context['home_team_url'] = reverse('matches:team_detail', kwargs={'pk': match.home_team.pk})
-        context['away_team_url'] = reverse('matches:team_detail', kwargs={'pk': match.away_team.pk})
         return context
 
 class MatchVideoScriptView(View):

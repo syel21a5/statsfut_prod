@@ -469,16 +469,6 @@
 {% block content %}
 <div class="container-fluid py-4">
 
-    <!-- MISSÃO 16: BREADCRUMB (navegação + SEO) -->
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb small mb-0">
-            <li class="breadcrumb-item"><a href="/" class="text-success text-decoration-none">{% translate "Home" %}</a></li>
-            <li class="breadcrumb-item"><a href="/stats/{{ match.league.country|country_en|slugify }}/" class="text-success text-decoration-none">{{ match.league.country|country_en }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ league_url }}" class="text-success text-decoration-none">{{ match.league.name }}</a></li>
-            <li class="breadcrumb-item active text-white-50" aria-current="page">{{ match.home_team.name }} vs {{ match.away_team.name }}</li>
-        </ol>
-    </nav>
-
     <div class="row">
         <!-- Main Content Column (75% Width) -->
         <div class="col-lg-9">
@@ -487,11 +477,11 @@
     <div class="match-hero-minimal mb-4">
         <div class="team-mini">
             {% if match.home_team.logo_url %}
-            <a href="{{ home_team_url }}"><img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;" loading="lazy" decoding="async" height="70"></a>
+            <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;" loading="lazy" decoding="async" height="70">
             {% else %}
-            <a href="{{ home_team_url }}" class="text-decoration-none"><div class="t-logo">{{ match.home_team.name|slice:":1" }}</div></a>
+            <div class="t-logo">{{ match.home_team.name|slice:":1" }}</div>
             {% endif %}
-            <a href="{{ home_team_url }}" class="text-decoration-none text-inherit"><span class="t-name">{{ match.home_team.name }}</span></a>
+            <span class="t-name">{{ match.home_team.name }}</span>
         </div>
         <div class="score-mini">
             {% if match.status == 'Scheduled' or match.home_score is None or match.away_score is None %}
@@ -504,11 +494,11 @@
         </div>
         <div class="team-mini">
             {% if match.away_team.logo_url %}
-            <a href="{{ away_team_url }}"><img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;" loading="lazy" decoding="async" height="70"></a>
+            <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" class="img-fluid drop-shadow mb-2" style="max-height: 70px; object-fit: contain;" loading="lazy" decoding="async" height="70">
             {% else %}
-            <a href="{{ away_team_url }}" class="text-decoration-none"><div class="t-logo away">{{ match.away_team.name|slice:":1" }}</div></a>
+            <div class="t-logo away">{{ match.away_team.name|slice:":1" }}</div>
             {% endif %}
-            <a href="{{ away_team_url }}" class="text-decoration-none text-inherit"><span class="t-name">{{ match.away_team.name }}</span></a>
+            <span class="t-name">{{ match.away_team.name }}</span>
         </div>
     </div>
     
@@ -517,16 +507,6 @@
         <p class="mb-0">
             {% blocktranslate with home=match.home_team.name away=match.away_team.name league=match.league.name %}Complete statistics, predictions, and detailed analysis for the match between <strong>{{ home }}</strong> and <strong>{{ away }}</strong>, valid for the <strong>{{ league }}</strong>. Analyze the probabilities of Both Teams to Score (BTTS), Over 2.5 Goals, corners, cards, and head-to-head (H2H) history to support your data-driven sports analysis.{% endblocktranslate %}
         </p>
-    </div>
-
-    <!-- MISSÃO 16: CTA DE NAVEGAÇÃO (H2H + LIGA) -->
-    <div class="d-flex flex-wrap gap-2 mb-4">
-        <a href="{{ h2h_url }}" class="btn btn-success fw-bold">
-            <i class="fa-solid fa-people-arrows me-1"></i>{% translate "Full Head-to-Head" %} <i class="fa-solid fa-arrow-right ms-1"></i>
-        </a>
-        <a href="{{ league_url }}" class="btn btn-outline-secondary fw-bold text-white">
-            <i class="fa-solid fa-trophy me-1"></i>{{ match.league.name }} <i class="fa-solid fa-arrow-right ms-1"></i>
-        </a>
     </div>
     
     <!-- MATCH REPORT (REAL DATA) -->
@@ -1307,41 +1287,6 @@
             </a>
         </div>
     </div>
-
-        </div>
-
-    <!-- MISSÃO 16: OUTROS JOGOS DA LIGA + ÚLTIMOS JOGOS DOS TIMES (retenção) -->
-    {% if league_matches or home_team_recent or away_team_recent %}
-    <div class="row g-4 mt-1">
-        {% if league_matches %}
-        <div class="col-md-6">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h2 class="h6 fw-bold text-white mb-0"><i class="fa-solid fa-calendar-week me-1 text-success"></i>{% translate "Other matches" %} · {{ match.league.name }}</h2>
-                <a href="{{ league_url }}" class="text-success small text-decoration-none fw-semibold">{% translate "View all" %} <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-            {% include 'matches/includes/match_card.html' with matches=league_matches %}
-        </div>
-        {% endif %}
-        {% if home_team_recent %}
-        <div class="col-md-6">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h2 class="h6 fw-bold text-white mb-0"><i class="fa-solid fa-clock-rotate-left me-1 text-info"></i>{% translate "Last matches" %} · {{ match.home_team.name }}</h2>
-                <a href="{{ home_team_url }}" class="text-info small text-decoration-none fw-semibold">{% translate "Team page" %} <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-            {% include 'matches/includes/match_card.html' with matches=home_team_recent %}
-        </div>
-        {% endif %}
-        {% if away_team_recent %}
-        <div class="col-md-6">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h2 class="h6 fw-bold text-white mb-0"><i class="fa-solid fa-clock-rotate-left me-1 text-info"></i>{% translate "Last matches" %} · {{ match.away_team.name }}</h2>
-                <a href="{{ away_team_url }}" class="text-info small text-decoration-none fw-semibold">{% translate "Team page" %} <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-            {% include 'matches/includes/match_card.html' with matches=away_team_recent %}
-        </div>
-        {% endif %}
-    </div>
-    {% endif %}
 
         </div>
         <!-- Sidebar Column (25% Width) -->
