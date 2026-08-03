@@ -5340,3 +5340,35 @@ msgstr "Próximos Jogos"
 
 msgid "Other Round Matches"
 msgstr "Outros Jogos da Rodada"
+
+msgid "Tip of the Day"
+msgstr "Palpite do Dia"
+
+msgid "Key Statistics"
+msgstr "Estatísticas-Chave"
+
+msgid "Form (Home/Away)"
+msgstr "Forma (Mandante/Visitante)"
+
+msgid "Prediction"
+msgstr "Palpite"
+
+#, python-format
+msgid "Vitória do %(team)s"
+msgstr "Vitória do %(team)s"
+
+msgid "Mais de 2.5 Gols"
+msgstr "Mais de 2.5 Gols"
+
+msgid "Ambas Marcam"
+msgstr "Ambas Marcam"
+
+msgid "Mais de 1.5 Gols"
+msgstr "Mais de 1.5 Gols"
+
+msgid "Dupla Chance 12"
+msgstr "Dupla Chance 12"
+
+#, python-format
+msgid "%(team)s ou Empate"
+msgstr "%(team)s ou Empate"
