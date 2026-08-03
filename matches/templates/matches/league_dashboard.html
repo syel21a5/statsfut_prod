@@ -454,8 +454,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-auto text-end ps-1">
-                                                <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}" class="btn btn-sm btn-success fw-bold text-nowrap" style="font-size: 0.7rem; padding: 4px 8px;" title="View Match Dashboard">
+                                            <div class="col-auto text-end ps-1 d-flex align-items-center gap-1">
+                                                <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}" class="btn btn-sm btn-outline-secondary text-nowrap" style="font-size: 0.7rem; padding: 4px 8px;" title="Head-to-Head"><i class="fa-solid fa-people-arrows"></i></a>
+                                                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="btn btn-sm btn-success fw-bold text-nowrap" style="font-size: 0.7rem; padding: 4px 8px;" title="Match Analysis">
                                                     {% translate "Analyze" %} <i class="fa-solid fa-arrow-right ms-1"></i>
                                                 </a>
                                             </div>
@@ -508,10 +509,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-auto text-end ps-1">
-                                                <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}"
-                                                    class="btn btn-sm btn-outline-secondary text-nowrap"
-                                                    style="font-size: 0.7rem; padding: 1px 5px;">stats</a>
+                                            <div class="col-auto text-end ps-1 d-flex align-items-center gap-1">
+                                                <a href="{% url 'matches:h2h_detail' country_name=league.country|country_en|slugify league_name=league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}" class="btn btn-sm btn-outline-secondary text-nowrap" style="font-size: 0.7rem; padding: 1px 5px;" title="Head-to-Head"><i class="fa-solid fa-people-arrows"></i></a>
+                                                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}"
+                                                    class="btn btn-sm btn-outline-success text-nowrap"
+                                                    style="font-size: 0.7rem; padding: 1px 5px;" title="Match Analysis">{% translate "match" %}</a>
                                             </div>
                                         </div>
                                     </div>

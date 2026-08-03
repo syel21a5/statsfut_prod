@@ -1,0 +1,37 @@
+{% load i18n %}
+{# MISSÃO 16: card de partida reutilizável — linka para a página de match (hub) #}
+{% for match in matches %}
+<a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="text-decoration-none text-inherit d-block mb-2 match-hub-link">
+    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm hover-effect rounded-3 overflow-hidden">
+        <div class="card-body p-2 px-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="badge bg-success bg-opacity-10 text-success fw-bold small">{{ match.league.name }}</span>
+                <span class="text-white-50 text-xs js-local-time" data-utc-datetime="{{ match.date|date:'c' }}">{{ match.date|date:"D d/m H:i" }}</span>
+            </div>
+            <div class="row align-items-center g-2">
+                <div class="col-5 d-flex justify-content-end align-items-center gap-2">
+                    <span class="text-end text-truncate fw-semibold small">{{ match.home_team.name }}</span>
+                    {% if match.home_team.logo_url %}
+                    <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" alt="{{ match.home_team.name }}" style="width: 22px; height: 22px; object-fit: contain;" loading="lazy" decoding="async" width="22" height="22">
+                    {% endif %}
+                </div>
+                <div class="col-2 text-center">
+                    {% if match.home_score is not None and match.away_score is not None %}
+                    <span class="badge bg-white bg-opacity-25 text-white fw-bold px-2 py-1 small">{{ match.home_score }} : {{ match.away_score }}</span>
+                    {% else %}
+                    <span class="text-white-50 small fw-bold">VS</span>
+                    {% endif %}
+                </div>
+                <div class="col-5 d-flex justify-content-start align-items-center gap-2">
+                    {% if match.away_team.logo_url %}
+                    <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" alt="{{ match.away_team.name }}" style="width: 22px; height: 22px; object-fit: contain;" loading="lazy" decoding="async" width="22" height="22">
+                    {% endif %}
+                    <span class="text-start text-truncate fw-semibold small">{{ match.away_team.name }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+{% empty %}
+<div class="text-secondary small py-2">{% translate "No matches available." %}</div>
+{% endfor %}

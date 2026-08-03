@@ -262,8 +262,9 @@
                                     {{ match.status }}
                                 {% endif %}
                             </div>
-                            <div class="text-xs text-white-50 fw-medium">
+                            <div class="text-xs text-white-50 fw-medium d-flex align-items-center gap-2">
                                 {{ match.round_name|default:"" }}
+                                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="text-success text-decoration-none" title="{% translate 'Full match analysis' %}"><i class="fa-solid fa-chart-line"></i></a>
                             </div>
                         </div>
 
