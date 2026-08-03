@@ -4418,7 +4418,7 @@ msgid ""
 "intelligence with over 80%% accuracy."
 msgstr ""
 "Duplas, Triplas e Acumuladores gerados automaticamente com base em nossa "
-"inteligência de dados com mais de 80% de precisão."
+"inteligência de dados com mais de 80%% de precisão."
 
 #: bakuplocal/0034_statsfut_backup_2026-07-21_13-23-29/members/templates/members/premium_dashboard.html:2081
 msgid "Doubles"
@@ -6107,3 +6107,6 @@ msgstr "Descubra quais times costumam atacar cedo marcando o Primeiro Gol do jog
 msgid "Whether a team is known for late drama in the final 15 minutes (76-90') or for blitzing opponents right after kick-off (0-15'), our advanced timing data reveals the true tactical rhythm of every squad in the <strong>%(league_name)s</strong>. Use these insights to master live betting and minute-specific goal markets."
 msgstr "Quer um time seja conhecido por fazer gols decisivos e dramas nos 15 minutos finais (76-90') ou por fazer uma blitz nos oponentes logo após o pontapé inicial (0-15'), nossos dados avançados de minutos revelam o verdadeiro ritmo tático de cada elenco no(a) <strong>%(league_name)s</strong>. Use esses insights para dominar as apostas ao vivo e mercados de gols por minuto."
 
+
+msgid "Other Round Matches"
+msgstr "Outros Jogos da Rodada"

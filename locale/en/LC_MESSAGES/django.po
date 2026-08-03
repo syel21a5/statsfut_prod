@@ -5555,3 +5555,9 @@ msgstr "FULL STATISTICAL ANALYSIS"
 #~ "\n"
 #~ "                        Both teams are struggling in finishing (Accuracy below 30%%). Match trending towards few goals, ideal for analyzing the \"Under\" market.\n"
 #~ "                        "
+
+msgid "Next Matches"
+msgstr "Next Matches"
+
+msgid "Other Round Matches"
+msgstr "Other Round Matches"

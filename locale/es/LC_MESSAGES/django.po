@@ -4453,7 +4453,7 @@ msgid ""
 "intelligence with over 80%% accuracy."
 msgstr ""
 "Dobles, triples y acumuladores generados automáticamente en función de "
-"nuestra inteligencia de datos con más del 80% de precisión."
+"nuestra inteligencia de datos con más del 80%% de precisión."
 
 #: bakuplocal/0034_statsfut_backup_2026-07-21_13-23-29/members/templates/members/premium_dashboard.html:2081
 msgid "Doubles"
@@ -4613,7 +4613,7 @@ msgid ""
 msgstr ""
 "Suscríbase al Plan Premium para obtener acceso instantáneo a boletos listos "
 "para usar (dobles y triples) generados diariamente por nuestra IA, ¡con "
-"tasas de precisión superiores al 80%!"
+"tasas de precisión superiores al 80%%!"
 
 #: bakuplocal/0034_statsfut_backup_2026-07-21_13-23-29/members/templates/members/premium_dashboard.html:2503
 msgid "I Want to Be Premium Now!"
@@ -5843,3 +5843,9 @@ msgstr "ANÁLISIS ESTADÍSTICO COMPLETO"
 #~ "\n"
 #~ "                        Ambos equipos están fallando en la definición (Precisión por debajo del 30%%). Partido con tendencia a pocos goles, ideal para analizar el mercado de \"Under\".\n"
 #~ "                        "
+
+msgid "Next Matches"
+msgstr "Próximos Partidos"
+
+msgid "Other Round Matches"
+msgstr "Otros Partidos de la Jornada"
