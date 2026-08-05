@@ -1045,9 +1045,6 @@ class HomeView(ListView):
     def get_queryset(self):
         filter_type = self.request.GET.get('filter', 'today')
         
-        # Jogos finalizados não aparecem mais nos cards (detectados pelo Tor/SofaScore)
-        finished_statuses = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
-        
         # Use Brazil timezone for day boundaries so matches at 21:00 BRT
         # (which is 00:00 UTC next day) are correctly attributed to the right day
         br_tz = ZoneInfo('America/Sao_Paulo')
@@ -1057,17 +1054,17 @@ class HomeView(ListView):
         if filter_type == 'tomorrow':
             start_date = start_of_day + timedelta(days=1)
             end_date = start_date + timedelta(days=1)
-            return Match.objects.filter(date__range=(start_date, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('date')
+            return Match.objects.filter(date__range=(start_date, end_date)).select_related('league', 'home_team', 'away_team').order_by('date')
             
         elif filter_type == 'next_round':
             # Próximos 14 dias para garantir
             start_date = start_of_day + timedelta(days=2)
             end_date = start_date + timedelta(days=14)
-            return Match.objects.filter(date__range=(start_date, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('date')
+            return Match.objects.filter(date__range=(start_date, end_date)).select_related('league', 'home_team', 'away_team').order_by('date')
             
         else: # today
             end_date = start_of_day + timedelta(days=1)
-            return Match.objects.filter(date__range=(start_of_day, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('status', 'date')
+            return Match.objects.filter(date__range=(start_of_day, end_date)).select_related('league', 'home_team', 'away_team').order_by('status', 'date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1118,8 +1115,6 @@ class HomeView(ListView):
             
             candidates = Match.objects.filter(
                 date__range=(start_of_day, end_of_tomorrow)
-            ).exclude(
-                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
             ).select_related('league', 'home_team', 'away_team')
             
             def get_league_priority(m):
