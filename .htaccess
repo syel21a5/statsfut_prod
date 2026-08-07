@@ -1,0 +1,11 @@
+# --- Protecao do site de TESTE (nao indexar, acesso com senha) ---
+AuthType Basic
+AuthName "Area restrita - Statsfut Teste"
+AuthUserFile /www/wwwroot/statsfut2.statsfut.com/.htpasswd
+Require valid-user
+
+Header set X-Robots-Tag "noindex, nofollow"
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+</IfModule>

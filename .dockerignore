@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.sql
+*.csv
+*.json
+*.log
+mysql_dump/
+deep_scrape_exports/
+csv_exports/
+historical_data/
+db.sqlite3
+.git/
+facebook_assets/
+bakuplocal/
+.env

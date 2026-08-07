@@ -1,0 +1,517 @@
+{% load static i18n matches_extras %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://ezoic.com">
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9Q2MX8RCT6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9Q2MX8RCT6');
+    </script>
+
+    <!-- Google AdSense (Visível para todos os usuários) -->
+    {% if ads_enabled %}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2087369649856188"
+         crossorigin="anonymous"></script>
+    {% endif %}
+
+    <!-- Ezoic Privacy Consent Scripts -->
+    {% if ads_enabled %}
+    <script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
+    <script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
+
+    <!-- Ezoic Main Integration Script -->
+    <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+    <script>
+        window.ezstandalone = window.ezstandalone || {};
+        ezstandalone.cmd = ezstandalone.cmd || [];
+    </script>
+    <script src="//ezoicanalytics.com/analytics.js"></script>
+    {% endif %}
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% translate "StatsFut | Football Analytics & Predictions" %}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{% translate "StatsFut - Advanced football statistics, pre-match analysis, Over/Under, BTTS and direct confrontations of the world's main leagues." %}{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://statsfut.com{{ request.path }}">
+    <link rel="alternate" hreflang="en" href="https://statsfut.com{% translated_url 'en' %}" />
+    <link rel="alternate" hreflang="pt-br" href="https://statsfut.com{% translated_url 'pt-br' %}" />
+    <link rel="alternate" hreflang="es" href="https://statsfut.com{% translated_url 'es' %}" />
+    <link rel="alternate" hreflang="de" href="https://statsfut.com{% translated_url 'de' %}" />
+    <link rel="alternate" hreflang="x-default" href="https://statsfut.com{% translated_url 'en' %}" />
+    <!-- Open Graph SEO Tags -->
+    <meta property="og:title" content="{% block og_title %}{% translate 'StatsFut | Football Analytics' %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% translate 'Advanced football statistics, predictions and analysis.' %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://statsfut.com{% static 'images/banners/banner1.png' %}{% endblock %}">
+    <meta property="og:url" content="https://statsfut.com{{ request.path }}">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main Style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/7.1.0/css/flag-icons.min.css">
+    
+    <style>
+        {% if not ads_enabled %}
+        /* Anúncios desativados (ADS_ENABLED=False) — esconde qualquer placeholder */
+        .ad-placeholder, .ad-slot, .ad-slot-inline, .ad-slot-leaderboard, .ad-slot-home, .ad-slot-league, .ad-slot-vertical, .ad-slot-rectangle {
+            display: none !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        {% endif %}
+        /* Esconde o bloco de anúncio se o AdSense não conseguir preencher (status="unfilled") */
+        ins.adsbygoogle[data-ad-status="unfilled"] {
+            display: none !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        div.ad-slot-inline:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+            display: none !important;
+            margin: 0 !important;
+            height: 0 !important;
+        }
+    </style>
+    {% block structured_data %}{% endblock %}
+</head>
+
+<body>
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>statsfut<span style="color:var(--primary)">.com</span></span>
+        </div>
+
+        <div class="menu-label">{% translate "Main" %}</div>
+        <a href="/" class="nav-link active">
+            <i class="fa-solid fa-house"></i> {% translate "Dashboard" %}
+        </a>
+
+        <!-- Live Page Link Removed
+        <a href="{% url 'matches:live_matches' %}" class="nav-link text-danger fw-bold">
+            <i class="fa-solid fa-circle-dot live-pulse"></i> {% translate "Live" %}
+        </a>
+        -->
+        <a href="{% url 'members:premium_dashboard' %}" class="nav-link premium-nav-link d-flex align-items-center">
+            <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+            <span class="ms-1">{% translate "Premium" %}</span>
+            <span class="badge ms-auto px-2 py-1 rounded-pill" style="background: linear-gradient(135deg, #f59e0b, #f97316); font-size: 0.6rem; color: #fff;">PRO</span>
+        </a>
+
+        <div class="menu-label">{% translate "Countries & Leagues" %}</div>
+        
+        <div class="accordion accordion-flush sidebar-accordion" id="accordionLeagues" style="max-height: 70vh; overflow-y: auto;">
+            {% for country in sidebar_countries %}
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="heading{{ country.slug }}">
+                    <button class="accordion-button collapsed bg-transparent text-white shadow-none px-3 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ country.slug }}" aria-expanded="false" aria-controls="collapse{{ country.slug }}">
+                        <span class="fi fi-{{ country.flag_code }} me-2"></span> {{ country.name }}
+                    </button>
+                </h2>
+                <div id="collapse{{ country.slug }}" class="accordion-collapse collapse" aria-labelledby="heading{{ country.slug }}" data-bs-parent="#accordionLeagues">
+                    <div class="accordion-body py-1 ps-4">
+                        {% for league in country.leagues %}
+                        <a href="{% url 'matches:country_league_stats' country.slug league.slug %}" class="nav-link-sub text-muted d-block py-1 text-decoration-none">{{ league.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Fallback if no leagues found in DB (e.g. during migration) -->
+            <div class="px-3 py-2 text-muted small">{% translate "Loading leagues..." %}</div>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Header Bar -->
+        <header class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25 gap-3">
+            
+            <!-- Mobile Menu Toggle & Brand -->
+            <div class="d-flex d-md-none align-items-center gap-2">
+                <button class="btn text-white shadow-none p-0" id="mobileMenuBtn" style="font-size: 1.5rem;">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="brand mb-0 ms-2" style="font-size: 1.25rem;">
+                    <i class="fa-solid fa-chart-simple text-primary"></i>
+                </div>
+            </div>
+
+            <!-- Global Search -->
+            <div class="position-relative flex-grow-1" style="max-width: 500px;">
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-end-0"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="global-search" class="form-control bg-dark border-secondary border-opacity-25 text-white shadow-none border-start-0" placeholder="{% translate 'Search teams, leagues...' %}" autocomplete="off">
+                    <span class="input-group-text bg-dark border-secondary border-opacity-25 text-secondary border-start-0 small" style="font-size: 0.75rem;">Ctrl+K</span>
+                </div>
+                <div id="search-results" class="list-group position-absolute mt-1 shadow-lg d-none w-100" style="z-index: 1050;"></div>
+            </div>
+
+            <!-- User / Date / Language -->
+            <div class="d-flex align-items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="language-switcher d-flex gap-3 me-2">
+                    <a href="{% translated_url 'pt-br' %}" class="d-inline-block" title="Português">
+                        <span class="fi fi-br" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                    <a href="{% translated_url 'en' %}" class="d-inline-block" title="English">
+                        <span class="fi fi-us" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                    <a href="{% translated_url 'es' %}" class="d-inline-block" title="Español">
+                        <span class="fi fi-es" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                    <a href="{% translated_url 'de' %}" class="d-inline-block" title="Deutsch">
+                        <span class="fi fi-de" style="font-size: 1.1rem; border-radius: 2px;"></span>
+                    </a>
+                </div>
+
+                <div class="date-badge d-none d-md-inline-block">
+                    <i class="fa-regular fa-clock me-1"></i> {% now "M d, Y, H:i" %}
+                </div>
+                <!-- User Auth Button -->
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-sm d-flex align-items-center gap-2 text-white shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="userDropdownBtn" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 10px; padding: 6px 14px;">
+                        <div class="d-flex align-items-center justify-content-center rounded-circle" style="width: 26px; height: 26px; background: linear-gradient(135deg, var(--primary), #6366f1); font-size: 0.7rem; font-weight: 700;">
+                            {{ user.username|first|upper }}
+                        </div>
+                        <span class="d-none d-md-inline small">{{ user.username }}</span>
+                        {% if user.profile.is_premium_active %}<i class="fa-solid fa-crown" style="color: #f59e0b; font-size: 0.65rem;"></i>{% endif %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" style="background: var(--bg-panel); border: 1px solid var(--border) !important; min-width: 200px;">
+                        <li><a class="dropdown-item text-white d-flex align-items-center gap-2 py-2" href="{% url 'members:profile' %}"><i class="fa-solid fa-user text-secondary"></i> {% translate "My Profile" %}</a></li>
+                        <li><a class="dropdown-item text-white d-flex align-items-center gap-2 py-2" href="{% url 'members:premium_dashboard' %}"><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> {% translate "Premium" %}</a></li>
+                        <li><hr class="dropdown-divider border-secondary border-opacity-25"></li>
+                        <li>
+                            <form method="post" action="{% url 'members:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2 py-2"><i class="fa-solid fa-right-from-bracket"></i> {% translate "Sign Out" %}</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'members:login' %}" class="btn btn-sm text-white d-flex align-items-center gap-2" id="headerLoginBtn" style="background: linear-gradient(135deg, var(--primary), #6366f1); border: none; border-radius: 10px; padding: 6px 14px;">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span class="d-none d-md-inline small">{% translate "Login" %}</span>
+                </a>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- Country Flags Navigation -->
+        <div class="d-flex flex-wrap gap-2 justify-content-center align-items-center p-3 mb-4 rounded shadow-sm" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            <a href="{% url 'matches:country_stats' 'argentina' %}" class="flag-btn" data-bs-toggle="tooltip" title="Argentina"><span class="fi fi-ar"></span></a>
+            <a href="{% url 'matches:country_stats' 'austria' %}" class="flag-btn" data-bs-toggle="tooltip" title="Austria"><span class="fi fi-at"></span></a>
+            <a href="{% url 'matches:country_stats' 'australia' %}" class="flag-btn" data-bs-toggle="tooltip" title="Australia"><span class="fi fi-au"></span></a>
+            <a href="{% url 'matches:country_stats' 'belgium' %}" class="flag-btn" data-bs-toggle="tooltip" title="Belgium"><span class="fi fi-be"></span></a>
+            <a href="{% url 'matches:country_stats' 'brazil' %}" class="flag-btn" data-bs-toggle="tooltip" title="Brazil"><span class="fi fi-br"></span></a>
+            <a href="{% url 'matches:country_stats' 'scotland' %}" class="flag-btn" data-bs-toggle="tooltip" title="Escocia"><span class="fi fi-gb-sct"></span></a>
+            <a href="{% url 'matches:country_stats' 'switzerland' %}" class="flag-btn" data-bs-toggle="tooltip" title="Switzerland"><span class="fi fi-ch"></span></a>
+            <a href="{% url 'matches:country_stats' 'chile' %}" class="flag-btn" data-bs-toggle="tooltip" title="Chile"><span class="fi fi-cl"></span></a>
+            <a href="{% url 'matches:country_stats' 'germany' %}" class="flag-btn" data-bs-toggle="tooltip" title="Germany"><span class="fi fi-de"></span></a>
+            <a href="{% url 'matches:country_stats' 'denmark' %}" class="flag-btn" data-bs-toggle="tooltip" title="Denmark"><span class="fi fi-dk"></span></a>
+            <a href="{% url 'matches:country_stats' 'ecuador' %}" class="flag-btn" data-bs-toggle="tooltip" title="Equador"><span class="fi fi-ec"></span></a>
+            <a href="{% url 'matches:country_stats' 'england' %}" class="flag-btn" data-bs-toggle="tooltip" title="England"><span class="fi fi-gb-eng"></span></a>
+            <a href="{% url 'matches:country_stats' 'spain' %}" class="flag-btn" data-bs-toggle="tooltip" title="Spain"><span class="fi fi-es"></span></a>
+            <a href="{% url 'matches:country_stats' 'finland' %}" class="flag-btn" data-bs-toggle="tooltip" title="Finland"><span class="fi fi-fi"></span></a>
+            <a href="{% url 'matches:country_stats' 'france' %}" class="flag-btn" data-bs-toggle="tooltip" title="France"><span class="fi fi-fr"></span></a>
+            <a href="{% url 'matches:country_stats' 'greece' %}" class="flag-btn" data-bs-toggle="tooltip" title="Greece"><span class="fi fi-gr"></span></a>
+            <a href="{% url 'matches:country_stats' 'iceland' %}" class="flag-btn" data-bs-toggle="tooltip" title="Iceland"><span class="fi fi-is"></span></a>
+            <a href="{% url 'matches:country_stats' 'netherlands' %}" class="flag-btn" data-bs-toggle="tooltip" title="Netherlands"><span class="fi fi-nl"></span></a>
+            <a href="{% url 'matches:country_stats' 'italy' %}" class="flag-btn" data-bs-toggle="tooltip" title="Italy"><span class="fi fi-it"></span></a>
+            <a href="{% url 'matches:country_stats' 'japan' %}" class="flag-btn" data-bs-toggle="tooltip" title="Japan"><span class="fi fi-jp"></span></a>
+            <a href="{% url 'matches:country_stats' 'mexico' %}" class="flag-btn" data-bs-toggle="tooltip" title="Mexico"><span class="fi fi-mx"></span></a>
+            <a href="{% url 'matches:country_stats' 'norway' %}" class="flag-btn" data-bs-toggle="tooltip" title="Norway"><span class="fi fi-no"></span></a>
+            <a href="{% url 'matches:country_stats' 'paraguay' %}" class="flag-btn" data-bs-toggle="tooltip" title="Paraguay"><span class="fi fi-py"></span></a>
+            <a href="{% url 'matches:country_stats' 'peru' %}" class="flag-btn" data-bs-toggle="tooltip" title="Peru"><span class="fi fi-pe"></span></a>
+            <a href="{% url 'matches:country_stats' 'poland' %}" class="flag-btn" data-bs-toggle="tooltip" title="Poland"><span class="fi fi-pl"></span></a>
+            <a href="{% url 'matches:country_stats' 'portugal' %}" class="flag-btn" data-bs-toggle="tooltip" title="Portugal"><span class="fi fi-pt"></span></a>
+            <a href="{% url 'matches:country_stats' 'russia' %}" class="flag-btn" data-bs-toggle="tooltip" title="Russia"><span class="fi fi-ru"></span></a>
+            <a href="{% url 'matches:country_stats' 'sweden' %}" class="flag-btn" data-bs-toggle="tooltip" title="Sweden"><span class="fi fi-se"></span></a>
+            <a href="{% url 'matches:country_stats' 'turkey' %}" class="flag-btn" data-bs-toggle="tooltip" title="Turkey"><span class="fi fi-tr"></span></a>
+            <a href="{% url 'matches:country_stats' 'ukraine' %}" class="flag-btn" data-bs-toggle="tooltip" title="Ukraine"><span class="fi fi-ua"></span></a>
+            <a href="{% url 'matches:country_stats' 'uruguay' %}" class="flag-btn" data-bs-toggle="tooltip" title="Uruguay"><span class="fi fi-uy"></span></a>
+            <a href="{% url 'matches:country_stats' 'usa' %}" class="flag-btn" data-bs-toggle="tooltip" title="USA"><span class="fi fi-us"></span></a>
+        </div>
+
+        <!-- Header Layout -->
+        <div class="row align-items-center mb-4">
+            <!-- Full Width: Page Title -->
+            <div class="col-12">
+                <div class="page-title">
+                    {% block header %}
+                    <h1 class="h3 mb-0 text-white">{% translate "Overview" %}</h1>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+
+        <!-- Footer -->
+        <footer class="mt-5 pt-5 pb-4 border-top border-secondary border-opacity-25">
+            <!-- SEO Text Block -->
+            <div class="row mb-4 d-none d-md-block">
+                <div class="col-12 text-secondary" style="font-size: 0.75rem; text-align: justify; opacity: 0.5;">
+                    <strong>{% translate "Advanced Football Statistics & Predictions" %}</strong> — 
+                    {% translate "StatsFut is the ultimate platform for football analysts, offering live score tracking, Both Teams to Score (BTTS) probabilities, Over/Under 2.5 goals trends, corner statistics, and detailed head-to-head (H2H) analysis. Find accurate football predictions today, algorithmic match analysis, and historical data for over 100 leagues worldwide (including Premier League, Brasileirão, La Liga, and Champions League). Boost your pre-match and in-play sports analysis with our data-driven edge." %}
+                </div>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <div class="brand mb-2" style="font-size: 1.1rem;">
+                        <i class="fa-solid fa-chart-simple text-primary"></i>
+                        <span class="text-white">statsfut<span style="color:var(--primary)">.com</span></span>
+                    </div>
+                    <p class="text-secondary small mb-0">&copy; 2026 StatsFut. {% translate "All rights reserved. Professional statistics for analysts." %}</p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav justify-content-center justify-content-md-end gap-3 small">
+                        <li class="nav-item">
+                            <a href="https://statsfutbrasil.blogspot.com/" target="_blank" class="nav-link p-0 text-secondary hover-white">{% translate "Blog" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:about_us' %}" class="nav-link p-0 text-secondary hover-white">{% translate "About Us" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:privacy_policy' %}" class="nav-link p-0 text-secondary hover-white">{% translate "Privacy Policy" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:terms_of_use' %}" class="nav-link p-0 text-secondary hover-white">{% translate "Terms of Use" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'matches:contact_us' %}" class="nav-link p-0 text-secondary hover-white">{% translate "Contact Us" %}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsentBanner" class="position-fixed bottom-0 start-0 w-100 bg-dark text-white p-3 shadow-lg d-none" style="z-index: 1060; border-top: 1px solid var(--primary);">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="small">
+                <i class="fa-solid fa-cookie-bite text-primary me-2"></i>
+                {% translate "We use cookies to personalize content and ads, provide social media features, and analyze our traffic. By continuing to use our site, you accept our use of cookies." %}
+                <a href="{% url 'matches:privacy_policy' %}" class="text-primary text-decoration-none">{% translate "Learn more" %}</a>
+            </div>
+            <button id="acceptCookiesBtn" class="btn btn-primary btn-sm px-4 fw-bold shadow-none" style="white-space: nowrap;">{% translate "Accept" %}</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('cookieConsentAccepted')) {
+                document.getElementById('cookieConsentBanner').classList.remove('d-none');
+            }
+            document.getElementById('acceptCookiesBtn').addEventListener('click', function() {
+                localStorage.setItem('cookieConsentAccepted', 'true');
+                document.getElementById('cookieConsentBanner').classList.add('d-none');
+            });
+        });
+    </script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        // Initialize Tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        // Global Search Logic
+        const searchInput = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+        let debounceTimer;
+        let activeIndex = -1; // Track active search result
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(debounceTimer);
+                const query = e.target.value.trim();
+                activeIndex = -1; // Reset active index on new input
+
+                if (query.length < 2) {
+                    searchResults.classList.add('d-none');
+                    searchResults.innerHTML = '';
+                    return;
+                }
+
+                debounceTimer = setTimeout(() => {
+                    fetch(`/search/?q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            searchResults.innerHTML = '';
+                            if (data.results.length > 0) {
+                                searchResults.classList.remove('d-none');
+                                data.results.forEach((result, index) => {
+                                    const item = document.createElement('a');
+                                    item.href = result.url;
+                                    item.className = 'list-group-item list-group-item-action bg-dark text-white border-secondary border-opacity-25 d-flex align-items-center gap-2 py-2 search-result-item';
+                                    item.dataset.index = index;
+                                    item.innerHTML = `
+                                        <div class="d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 rounded-circle" style="width: 30px; height: 30px;">
+                                            <i class="fa-solid ${result.icon} text-info small"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold" style="font-size: 0.9rem;">${result.name}</div>
+                                            <div class="text-secondary text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">${result.type}</div>
+                                        </div>
+                                    `;
+                                    // Add hover effect via JS to sync with keyboard nav
+                                    item.addEventListener('mouseenter', () => {
+                                        activeIndex = index;
+                                        updateActiveItem();
+                                    });
+                                    searchResults.appendChild(item);
+                                });
+                            } else {
+                                searchResults.classList.remove('d-none');
+                                searchResults.innerHTML = '<div class="list-group-item bg-dark text-secondary border-secondary border-opacity-25 small py-2">No results found</div>';
+                            }
+                        })
+                        .catch(err => console.error('Search error:', err));
+                }, 300);
+            });
+
+            // Handle keyboard navigation
+            searchInput.addEventListener('keydown', function(e) {
+                const items = searchResults.querySelectorAll('.search-result-item');
+                if (items.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    activeIndex = (activeIndex + 1) % items.length;
+                    updateActiveItem();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    activeIndex = (activeIndex - 1 + items.length) % items.length;
+                    updateActiveItem();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeIndex >= 0 && items[activeIndex]) {
+                        items[activeIndex].click();
+                    }
+                } else if (e.key === 'Escape') {
+                    searchResults.classList.add('d-none');
+                    searchInput.blur();
+                }
+            });
+
+            function updateActiveItem() {
+                const items = searchResults.querySelectorAll('.search-result-item');
+                items.forEach((item, index) => {
+                    if (index === activeIndex) {
+                        item.classList.add('active', 'bg-primary', 'bg-opacity-25');
+                        item.classList.remove('bg-dark');
+                    } else {
+                        item.classList.remove('active', 'bg-primary', 'bg-opacity-25');
+                        item.classList.add('bg-dark');
+                    }
+                });
+            }
+
+            // Close search when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.add('d-none');
+                }
+            });
+
+            // Keyboard shortcut (Ctrl/Cmd + K)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        }
+
+        // Mobile Sidebar Toggle Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        if (mobileMenuBtn && sidebar && sidebarOverlay) {
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('active');
+                document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+            }
+
+            mobileMenuBtn.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
+    </script>
+
+
+
+    <!-- Global Ad Injection (bypasses Django template cache) -->
+    {% if ads_enabled %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var placeholders = document.querySelectorAll('.ad-placeholder');
+        if (placeholders.length === 0) return;
+        placeholders.forEach(function(ph) {
+            var format = ph.getAttribute('data-ad-format') || 'auto';
+            var slot = ph.getAttribute('data-ad-slot') || '1511520655';
+            var layout = ph.getAttribute('data-ad-layout');
+
+            var wrapper = document.createElement('div');
+            wrapper.className = 'ad-slot-inline mb-4 overflow-hidden text-center mx-auto';
+            wrapper.style.maxWidth = '100%';
+
+            var ins = document.createElement('ins');
+            ins.className = 'adsbygoogle';
+            ins.style.display = 'block';
+            ins.style.textAlign = 'center';
+            ins.setAttribute('data-ad-format', format);
+            ins.setAttribute('data-ad-client', 'ca-pub-2087369649856188');
+            ins.setAttribute('data-ad-slot', slot);
+            if (layout) {
+                ins.setAttribute('data-ad-layout', layout);
+            }
+            ins.setAttribute('data-full-width-responsive', 'true');
+
+            wrapper.appendChild(ins);
+            ph.replaceWith(wrapper);
+
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch(e) {}
+        });
+    });
+    </script>
+    {% endif %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

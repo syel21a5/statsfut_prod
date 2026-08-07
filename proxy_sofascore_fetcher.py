@@ -1,0 +1,232 @@
+import json
+import time
+import argparse
+from curl_cffi import requests
+
+def fetch_api(session, url, sleep_time=0.7):
+    try:
+        time.sleep(sleep_time)  # Rate limiting otimizado
+        response = session.get(url, timeout=15)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Erro na API {url}: Status {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Exceção ao acessar {url}: {e}")
+        return None
+
+def fetch_seasons(session, tournament_id):
+    url = f"https://api.sofascore.com/api/v1/unique-tournament/{tournament_id}/seasons"
+    data = fetch_api(session, url)
+    if not data:
+        return []
+    seasons = data.get("seasons", [])
+    def to_int(v):
+        try:
+            return int(v)
+        except Exception:
+            return 0
+    seasons_sorted = sorted(seasons, key=lambda s: to_int(s.get("year")), reverse=True)
+    return seasons_sorted
+
+def main():
+    parser = argparse.ArgumentParser(description="Busca payloads do SofaScore de forma otimizada")
+    parser.add_argument('--tournament', type=int, required=True, help="ID do Torneio")
+    parser.add_argument('--season', type=int, required=False, help="ID da Temporada")
+    parser.add_argument('--list-seasons', action='store_true', help="Lista Season IDs")
+    parser.add_argument('--last-rounds', type=int, default=None, help="Limitar busca às últimas X rodadas (economiza muitos minutos)")
+    parser.add_argument('--force-fallback', action='store_true', help="Forçar uso do fallback paginado de eventos")
+    args = parser.parse_args()
+
+    session = requests.Session(impersonate="chrome120")
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Origin": "https://www.sofascore.com",
+        "Referer": "https://www.sofascore.com/"
+    })
+
+    if args.list_seasons:
+        seasons = fetch_seasons(session, args.tournament)
+        if not seasons: return
+        print(json.dumps(seasons, indent=2, ensure_ascii=False))
+        return
+
+    if not args.season:
+        raise SystemExit("Forneça --season ou --list-seasons.")
+
+    print(f"Raspagem OTIMIZADA para Torneio {args.tournament}, Temporada {args.season}...")
+
+    payload = {
+        "tournament_id": args.tournament,
+        "season_id": args.season,
+        "standings": None,
+        "rounds": []
+    }
+
+    # 1. Standings
+    standings_url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/standings/total"
+    standings_data = fetch_api(session, standings_url)
+    if standings_data:
+        payload['standings'] = standings_data
+
+    # 2. Torneios extras
+    tournaments_to_scrape = [(args.tournament, "Regular Season", True)]
+    if standings_data and 'standings' in standings_data:
+        for group in standings_data['standings']:
+            group_name = group.get('name', 'League')
+            sub_id = group.get('tournament', {}).get('id')
+            if sub_id and sub_id != args.tournament:
+                if not any(t[0] == sub_id for t in tournaments_to_scrape):
+                    tournaments_to_scrape.append((sub_id, group_name, False))
+
+    # 2b. Descobrir torneios extras via CupTrees (Playoffs/Mata-mata sem tabela tradicional)
+    cuptrees_url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/cuptrees"
+    cuptrees_data = fetch_api(session, cuptrees_url)
+    if cuptrees_data and "cupTrees" in cuptrees_data:
+        for tree in cuptrees_data["cupTrees"]:
+            sub_t = tree.get("tournament", {})
+            sub_id = sub_t.get("id")
+            sub_name = sub_t.get("name", "Playoffs")
+            if sub_id and sub_id != args.tournament:
+                if not any(t[0] == sub_id for t in tournaments_to_scrape):
+                    tournaments_to_scrape.append((sub_id, sub_name, False))
+
+    # 3. Rodadas
+    rounds_found = False
+    for t_id, label, is_unique in tournaments_to_scrape:
+        print(f"\n>>> Raspando {label}...")
+        prefix = "unique-tournament" if is_unique else "tournament"
+        rounds_url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/rounds"
+        rounds_data = fetch_api(session, rounds_url)
+        
+        rounds_fetched_count = 0
+        if rounds_data and 'rounds' in rounds_data:
+            rounds_found = True
+            all_rounds = rounds_data['rounds']
+            
+            # FILTRO DE RODADAS OTIMIZADO
+            if args.last_rounds:
+                all_rounds = all_rounds[-args.last_rounds:]
+                print(f"Filtrando apenas as últimas {len(all_rounds)} rodadas para economizar tempo.")
+
+            for round_info in all_rounds:
+                round_num = round_info['round']
+                print(f"Buscando {label} - Rodada {round_num}...")
+                events_url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/events/round/{round_num}"
+                events_data = fetch_api(session, events_url)
+                events_list = events_data.get('events', []) if events_data else []
+                if events_list:
+                    rounds_fetched_count += len(events_list)
+                    payload['rounds'].append({
+                        "round_label": label,
+                        "round_number": round_num,
+                        "events": events_list
+                    })
+
+        # Se não conseguimos buscar nenhum evento pelas rodadas normais (ex: playoffs sem endpoint de rodada ativa)
+        if rounds_fetched_count == 0:
+            print(f"⚠️ Sem eventos via /events/round/ para {label}. Tentando fallback paginado...")
+            all_events = []
+            
+            # Busca jogos passados (paginado)
+            for page in range(5):
+                url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/events/last/{page}"
+                data = fetch_api(session, url)
+                if not data or not data.get('events'):
+                    break
+                events = data['events']
+                all_events.extend(events)
+                print(f"  Página {page} (passados): {len(events)} eventos coletados")
+                if data.get('hasNextPage') == False:
+                    break
+            
+            # Busca jogos futuros (paginado)
+            for page in range(5):
+                url = f"https://api.sofascore.com/api/v1/{prefix}/{t_id}/season/{args.season}/events/next/{page}"
+                data = fetch_api(session, url)
+                if not data or not data.get('events'):
+                    break
+                events = data['events']
+                all_events.extend(events)
+                print(f"  Página {page} (futuros): {len(events)} eventos coletados")
+                if data.get('hasNextPage') == False:
+                    break
+            
+            if all_events:
+                # Agrupa eventos por rodada (roundInfo.round) se disponível, senão coloca na rodada original se mapeada
+                rounds_map = {}
+                for ev in all_events:
+                    r_num = ev.get('roundInfo', {}).get('round', 1) if ev.get('roundInfo') else 1
+                    if r_num not in rounds_map:
+                        rounds_map[r_num] = []
+                    rounds_map[r_num].append(ev)
+                
+                for r_num in sorted(rounds_map.keys()):
+                    payload['rounds'].append({
+                        "round_label": label,
+                        "round_number": r_num,
+                        "events": rounds_map[r_num]
+                    })
+                
+                print(f"✅ Fallback de {label} coletou {len(all_events)} eventos em {len(rounds_map)} rodada(s).")
+
+    # 4. FALLBACK: Se /rounds não funcionou para nenhum torneio,
+    # usa endpoints paginados /events/last/ e /events/next/ (comum em ligas de ano civil)
+    if not rounds_found or len(payload['rounds']) == 0 or args.force_fallback:
+        print(f"\n⚠️ Endpoint /rounds não disponível ou ignorado. Usando fallback via /events/last + /events/next...")
+        all_events = []
+        
+        # Busca jogos passados (paginado)
+        for page in range(25):  # Máximo 25 páginas para cobrir toda a temporada
+            url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/last/{page}"
+            data = fetch_api(session, url)
+            if not data or not data.get('events'):
+                break
+            events = data['events']
+            all_events.extend(events)
+            print(f"  Página {page} (passados): {len(events)} eventos coletados")
+            if data.get('hasNextPage') == False:
+                break
+        
+        # Busca jogos futuros (paginado)
+        for page in range(15):  # Máximo 15 páginas
+            url = f"https://api.sofascore.com/api/v1/unique-tournament/{args.tournament}/season/{args.season}/events/next/{page}"
+            data = fetch_api(session, url)
+            if not data or not data.get('events'):
+                break
+            events = data['events']
+            all_events.extend(events)
+            print(f"  Página {page} (futuros): {len(events)} eventos coletados")
+            if data.get('hasNextPage') == False:
+                break
+        if all_events:
+            # Agrupa eventos por rodada (roundInfo.round) se disponível, senão coloca tudo em uma "rodada"
+            rounds_map = {}
+            for ev in all_events:
+                round_num = ev.get('roundInfo', {}).get('round', 1) if ev.get('roundInfo') else 1
+                if round_num not in rounds_map:
+                    rounds_map[round_num] = []
+                rounds_map[round_num].append(ev)
+            
+            for round_num in sorted(rounds_map.keys()):
+                payload['rounds'].append({
+                    "round_label": "Regular Season",
+                    "round_number": round_num,
+                    "events": rounds_map[round_num]
+                })
+            
+            print(f"\n✅ Fallback coletou {len(all_events)} eventos em {len(rounds_map)} rodada(s).")
+
+    if len(payload['rounds']) == 0:
+        print("\n❌ ERRO: Nenhuma rodada coletada!")
+        import sys
+        sys.exit(1)
+
+    with open('payload.json', 'w', encoding='utf-8') as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    print(f"✅ Sucesso! {len(payload['rounds'])} rodadas salvas.")
+
+if __name__ == '__main__':
+    main()

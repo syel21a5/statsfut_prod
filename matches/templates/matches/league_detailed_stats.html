@@ -1,0 +1,607 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load matches_extras cache %}
+
+{% block title %}{{ league.name }} Elite Stats - Corners, Cards & Goals | StatsFut{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4" style="font-family: 'Outfit', sans-serif;">
+
+    
+    <!-- Header/Hero Section -->
+    
+<div class="row mb-4">
+        <div class="col-12">
+            <div class="custom-card hero-card p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-primary bg-opacity-20 text-primary d-flex align-items-center justify-content-center" style="width: 54px; height: 54px; border-radius: 14px; border: 1px solid rgba(99, 102, 241, 0.25);">
+                        <i class="fa-solid fa-bolt fs-4 text-info"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-white fw-black mb-0 tracking-tight" style="font-size: 1.7rem;">
+                            {% translate "Elite Statistics" %} <span class="text-indigo-400">—</span> {{ league.name }}
+                        </h2>
+                        <div class="d-flex align-items-center gap-2 mt-1.5">
+                            <span class="badge bg-indigo-950 text-indigo-300 border border-indigo-800 px-3 py-1.5" style="border-radius: 8px; font-weight: 700; font-size: 0.8rem;">
+                                <i class="fa-solid fa-calendar-days me-1.5"></i>{{ season.year }} {% translate "Season" %}
+                            </span>
+                            <span class="text-slate-400 small fw-medium">| {% translate "Advanced metrics per match across all teams" %}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metric Cards (Matching the sleek card pill designs) -->
+                <div class="d-flex gap-3 flex-wrap">
+                    <div class="custom-metric-card">
+                        <div class="metric-icon text-info bg-info bg-opacity-15 rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                            <i class="fa-solid fa-flag fs-6"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Corners (Avg)" %}</span>
+                            <span class="metric-value text-white fw-black fs-5" style="line-height: 1.1;">{{ league_avg_corners|default:"0" }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="custom-metric-card">
+                        <div class="metric-icon text-warning bg-warning bg-opacity-15 rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                            <i class="fa-solid fa-copy fs-6"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Yellows (Avg)" %}</span>
+                            <span class="metric-value text-white fw-black fs-5" style="line-height: 1.1;">{{ league_avg_yellow|default:"0" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="custom-metric-card">
+                        <div class="metric-icon text-success bg-success bg-opacity-15 rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                            <i class="fa-solid fa-circle-play fs-6"></i>
+                        </div>
+                        <div>
+                            <span class="metric-label d-block text-uppercase text-slate-400 fw-bold" style="font-size: 0.6rem; letter-spacing: 0.5px;">{% translate "Total Goals" %}</span>
+                            <span class="metric-value text-white fw-black fs-5" style="line-height: 1.1;">{{ total_goals|default:"0" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'matches/includes/league_tabs.html' with active_tab='elite' %}
+
+
+    
+            
+    <div class="row g-4">
+    <!-- Main Content -->
+    <div class="col-lg-9" id="stats-content">
+        {% cache 3600 league_detailed_stats league.id season.id %}
+            <div class="row g-4 mb-5">
+                <!-- Corners -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-flag me-2 text-info"></i>{% translate "Corners Performance Ranking" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th><i class="fa-solid fa-arrow-up-long text-success me-1"></i>{% translate "For" %}</th>
+                                            <th><i class="fa-solid fa-arrow-down-long text-danger me-1"></i>{% translate "Against" %}</th>
+                                            <th class="text-info pe-3">{% translate "Total" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in team_stats %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if s.team.logo_url %}
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
+                                                {% endif %}
+                                                <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
+                                                    {{ s.team.name }}
+                                                </a>
+                                            </td>
+                                            <td>{{ s.avg_corners_for }}</td>
+                                            <td>{{ s.avg_corners_against }}</td>
+                                            <td class="fw-bold text-info pe-3">{{ s.avg_corners_total }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Ranking of teams with the most corners on average per match (For, Against and Total)." %}</span>
+                    </div>
+                    </div>
+                </div>
+                
+                <!-- Cards -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-copy me-2 text-warning"></i>{% translate "Cards & Discipline Ranking" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th><i class="fa-solid fa-square text-warning me-1"></i>{% translate "Yellow" %}</th>
+                                            <th class="pe-3"><i class="fa-solid fa-square text-danger me-1"></i>{% translate "Red" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in team_stats|dictsortreversed:"avg_yellow" %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if s.team.logo_url %}
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
+                                                {% endif %}
+                                                <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
+                                                    {{ s.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="fw-bold text-warning">{{ s.avg_yellow }}</td>
+                                            <td class="fw-bold text-danger pe-3">{{ s.avg_red }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Disciplinary ranking showing the teams with the most yellow and red cards per match." %}</span>
+                    </div>
+                    </div>
+                </div>
+        
+                <!-- Shots -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-crosshairs me-2 text-success"></i>{% translate "Shots per Match" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Team" %}</th>
+                                            <th class="text-success pe-3"><i class="fa-solid fa-bullseye me-1"></i>{% translate "Shots (Avg)" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in team_stats|dictsortreversed:"avg_shots" %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">
+                                                {% if s.team.logo_url %}
+                                                <img src="{{ s.team.logo_url }}" alt="{{ s.team.name }}" class="me-2" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
+                                                {% endif %}
+                                                <a href="{% url 'matches:team_detail' s.team.id %}" class="text-decoration-none text-white hover-primary">
+                                                    {{ s.team.name }}
+                                                </a>
+                                            </td>
+                                            <td class="fw-bold text-success pe-3">{{ s.avg_shots }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="2" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Ranking of teams with the highest average number of shots per match." %}</span>
+                    </div>
+                    </div>
+                </div>
+        
+                <!-- Goal Timing -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-clock me-2 text-info"></i>{% translate "Goal Minutes Distribution" %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead>
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Period" %}</th>
+                                            <th>{% translate "Goals" %}</th>
+                                            <th class="text-end pe-3">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for t in timing_stats %}
+                                        <tr>
+                                            <td class="text-start ps-3 text-secondary">{{ t.period }}</td>
+                                            <td>{{ t.count }}</td>
+                                            <td class="text-end pe-3">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <span>{{ t.pct|floatformat:1 }}%</span>
+                                                    <div class="progress" style="width: 50px; height: 4px;">
+                                                         <div class="progress-bar bg-info" role="progressbar" style="width: {{ t.pct }}%;"></div>
+                                                     </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "Distribution of goals scored across 15-minute periods of the match." %}</span>
+                    </div>
+                    </div>
+                </div>
+        
+                <!-- Top Scorers -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold small text-uppercase"><i class="fa-solid fa-fire me-2 text-warning"></i>{% translate "League Top Scorers" %}</h6>
+                        </div>
+                        <div class="card-body p-0 overflow-auto custom-scrollbar" style="max-height: 400px;">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm mb-0 text-center small align-middle">
+                                    <thead style="position: sticky; top: 0; background: #1a1e29; z-index: 1;">
+                                        <tr class="text-secondary">
+                                            <th class="text-start ps-3">{% translate "Player" %}</th>
+                                            <th>{% translate "Team" %}</th>
+                                            <th class="text-end pe-3">{% translate "Goals" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for p in top_scorers %}
+                                        <tr>
+                                            <td class="text-start ps-3 fw-bold">{{ p.player_name }}</td>
+                                            <td class="text-secondary" style="font-size: 0.75rem;">{{ p.team__name }}</td>
+                                            <td class="fw-bold text-warning text-end pe-3">
+                                                {{ p.goals_count }}
+                                                {% if p.penalties > 0 %}
+                                                <span class="text-secondary" style="font-size: 0.65rem;">({{ p.penalties }} Pen)</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4 text-slate-400">
+                                                <i class="fa-solid fa-circle-exclamation mb-2 d-block"></i>
+                                                {% translate "No data available." %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="p-3 border-top border-secondary border-opacity-25 small text-secondary">
+                        <span class="fst-italic"><i class="fa-solid fa-circle-info me-1"></i> {% translate "League top scorers for the current season, including penalty goals." %}</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {% endcache %}
+    </div>
+    
+    <!-- Sidebar Placeholder -->
+    <div class="col-lg-3 d-none d-lg-block">
+        <div class="sticky-top" style="top: 20px; z-index: 100;">
+            {% include 'matches/includes/sidebar_widgets.html' %}
+            <div class="ad-placeholder mt-3" data-ad-slot="7384735802" data-ad-format="vertical"></div>
+        </div>
+    </div>
+</div>
+    
+    <!-- SEO Text Card (Bottom) -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-0 text-white shadow-sm mb-4" style="background: #0b0f19; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px;">
+                <div class="card-header bg-transparent border-bottom border-white border-opacity-5 py-3">
+                    <h5 class="mb-0 fw-bold text-info">
+                        <i class="fa-solid fa-chart-line me-2"></i>{% translate "Detailed Statistics and Elite Analysis" %}: {{ league.name }}
+                    </h5>
+                </div>
+                <div class="card-body p-4 seo-card-body" style="font-size: 0.92rem;">
+                    <p class="mb-3">
+                        {% blocktranslate with league_name=league.name country=league.country year=season.year %}Advanced statistics and detailed analysis for the {{ league_name }} ({{ country }}) league, {{ year }} season. Explore in-depth information about corner averages, distribution of yellow and red cards per game, team discipline, volume of shots, and the exact moment goals happen throughout the 90 minutes.{% endblocktranslate %}
+                    </p>
+                    {% if league_avg_corners or league_avg_yellow %}
+                    <p class="mb-0">
+                        {% blocktranslate with avg_corners=league_avg_corners|floatformat:2 avg_yellow=league_avg_yellow|floatformat:2 %}So far, the overall championship average records {{ avg_corners }} corners taken per match and a disciplinary average of {{ avg_yellow }} yellow cards received per game. This data provides a complete overview of the tactical behavior trends and game intensity of each team in the competition.{% endblocktranslate %}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<style>
+    /* Premium Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap');
+    
+    .tracking-tight { letter-spacing: -0.5px; }
+    .fw-extrabold { font-weight: 800; }
+    .fw-black { font-weight: 900; }
+    
+    .text-slate-300 { color: #cbd5e1; }
+    .text-slate-400 { color: #94a3b8; }
+    .text-slate-500 { color: #64748b; }
+    
+    /* Modern Custom Cards */
+    .custom-card {
+        background: #0b0f19;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .custom-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.55);
+        border-color: rgba(99, 102, 241, 0.25);
+    }
+    
+    .hero-card {
+        background: linear-gradient(135deg, #0e1424 0%, #0b0f1a 100%);
+        border: 1px solid rgba(99, 102, 241, 0.15);
+    }
+
+    /* Metric Cards - Sleek acrilic metric pills */
+    .custom-metric-card {
+        background: #0e1424;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 0.8rem 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: 180px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .custom-metric-card:hover {
+        border-color: rgba(99, 102, 241, 0.3);
+        background: #111a30;
+    }
+    
+    /* Dynamic Team Cards Layout */
+    .team-stat-card {
+        background: #0e1424;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .team-stat-card:hover {
+        background: #121b30;
+        border-color: rgba(99, 102, 241, 0.2);
+        transform: translateY(-1px);
+    }
+    
+    /* Team Initials placeholders */
+    .team-initial-box {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: 900;
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        color: #818cf8;
+        text-transform: uppercase;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Compact Team Initials (for dense table rows) */
+    .team-initial-box-sm {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 900;
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        color: #818cf8;
+        text-transform: uppercase;
+    }
+    
+    /* Pill Badges (replicates green/red/indigo match predictions exactly) */
+    .stat-pill-badge {
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+        overflow: hidden;
+        font-size: 0.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: #070a13;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .stat-pill-badge .label {
+        padding: 0.45rem 0.75rem;
+        color: #94a3b8;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
+    }
+    .stat-pill-badge .value {
+        padding: 0.45rem 0.75rem;
+        font-weight: 900;
+        color: #fff;
+        min-width: 45px;
+        text-align: center;
+    }
+
+    /* Compact Pill Badges (for dense table rows) */
+    .stat-pill-badge-sm {
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        overflow: hidden;
+        font-size: 0.72rem;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: #070a13;
+    }
+    .stat-pill-badge-sm .label {
+        padding: 0.3rem 0.5rem;
+        color: #94a3b8;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.58rem;
+        letter-spacing: 0.3px;
+    }
+    .stat-pill-badge-sm .value {
+        padding: 0.3rem 0.5rem;
+        font-weight: 900;
+        color: #fff;
+        min-width: 36px;
+        text-align: center;
+    }
+    
+    /* Pill badge colors mapping directly to green/red predictions in screenshot */
+    .for-badge {
+        border-color: rgba(16, 185, 129, 0.15);
+    }
+    .for-badge .value {
+        background: rgba(16, 185, 129, 0.12);
+        color: #34d399 !important;
+    }
+    
+    .against-badge {
+        border-color: rgba(239, 68, 68, 0.15);
+    }
+    .against-badge .value {
+        background: rgba(239, 68, 68, 0.12);
+        color: #f87171 !important;
+    }
+    
+    .total-badge {
+        border-color: rgba(99, 102, 241, 0.25);
+    }
+    .total-badge .value {
+        background: rgba(99, 102, 241, 0.2);
+        color: #818cf8 !important;
+        font-size: 0.85rem;
+        font-weight: 900;
+    }
+
+    /* Cards pills style (Yellow/Red compact cards) */
+    .card-pill {
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        overflow: hidden;
+        font-size: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: #070a13;
+    }
+    .card-pill .pill-label {
+        padding: 0.35rem 0.6rem;
+        font-weight: 700;
+        font-size: 0.6rem;
+    }
+    .card-pill .pill-value {
+        padding: 0.35rem 0.6rem;
+        font-weight: 900;
+        color: #fff;
+        min-width: 32px;
+        text-align: center;
+    }
+    .yellow-label { color: #eab308; }
+    .yellow-value { background: rgba(234, 179, 8, 0.15); color: #facc15 !important; }
+    
+    .red-label { color: #ef4444; }
+    .red-value { background: rgba(239, 68, 68, 0.15); color: #f87171 !important; }
+
+    /* Text Gradients */
+    .text-indigo-400 {
+        color: #818cf8 !important;
+    }
+    
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    }
+
+    .bg-info-gradient {
+        background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%);
+    }
+    
+    .hover-primary {
+        transition: color 0.2s ease;
+    }
+    .hover-primary:hover {
+        color: #818cf8 !important;
+    }
+
+    /* Progress Bars for Timing */
+    .custom-progress {
+        background: rgba(255, 255, 255, 0.04) !important;
+        height: 8px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    /* Scrollbars customization */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.01);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Timing transition */
+    .transition-row {
+        transition: background-color 0.2s ease;
+    }
+    .transition-row:hover {
+        background-color: rgba(255, 255, 255, 0.02) !important;
+    }
+    
+    .gap-3\.5 { gap: 0.875rem !important; }
+</style>
+{% endblock %}

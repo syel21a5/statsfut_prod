@@ -1,0 +1,9 @@
+* text=auto
+
+# Scripts shell devem ter quebra de linha LF (Unix) sempre
+*.sh text eol=lf
+*.py text eol=lf
+
+# Docker
+Dockerfile text eol=lf
+docker-compose*.yml text eol=lf

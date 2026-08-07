@@ -1,0 +1,7 @@
+Iniciando scraper da Austrália (SoccerStats)...
+Encontradas 201 linhas na tabela.
+Processing row: Fri 17 Oct | Cols len: 9
+Processing row: Fri 17 Oct | Cols len: 9
+Processing row: Sat 18 Oct | Cols len: 9
+Processing row: Sat 18 Oct | Cols len: 9
+Processing row: Sat 18 Oct | Cols len: 9

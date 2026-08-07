@@ -1,0 +1,2 @@
+﻿print("⚠️ OBSOLETO: Use update_pro_results e update_pro_odds via API-Football PRO.")
+# -*- coding: utf-8 -*-

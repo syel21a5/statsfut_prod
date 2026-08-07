@@ -1,0 +1,593 @@
+= Brasil | Brasileirao 2019
+
+# Date       Sat Apr/27 2019 - Sun Dec/8 2019 (225d)
+# Teams      20
+# Matches    382
+# Stages     Regular Season (382)
+
+
+
+
+» Sat Apr/27
+    19.00  São Paulo                 v Botafogo                  2-0
+    22.00  Chapecoense               v Internacional             2-0
+    22.00  Atlético Mineiro          v Avai                      2-1
+
+» Sun Apr/28
+    00.00  Flamengo                  v Cruzeiro                  3-1
+    14.00  Grêmio                    v Santos                    1-2
+    19.00  Ceara                     v CSA                       4-0
+    19.00  Bahia                     v Corinthians               3-2
+    19.00  Athletico                 v Vasco da Gama             4-1
+    22.00  Palmeiras                 v Fortaleza                 4-0
+    22.00  Fluminense                v Goias                     0-1
+
+» Wed May/1
+    19.00  Internacional             v Flamengo                  2-1
+    19.00  Corinthians               v Chapecoense               1-0
+    19.00  CSA                       v Palmeiras                 1-1
+    22.15  Cruzeiro                  v Ceara                     1-0
+    22.15  Avai                      v Grêmio                    1-1
+
+» Thu May/2
+    00.30  Vasco da Gama             v Atlético Mineiro          1-2
+    00.30  Goias                     v São Paulo                 1-2
+    00.30  Fortaleza                 v Athletico                 2-1
+    22.15  Santos                    v Fluminense                2-1
+    23.00  Botafogo                  v Bahia                     3-2
+
+» Sat May/4
+    22.00  Vasco da Gama             v Corinthians               1-1
+    22.00  Palmeiras                 v Internacional             1-0
+
+» Sun May/5
+    00.00  Ceara                     v Atlético Mineiro          1-2
+    14.00  Chapecoense               v Athletico                 1-1
+    19.00  São Paulo                 v Flamengo                  1-1
+    19.00  Cruzeiro                  v Goias                     2-1
+    19.00  CSA                       v Santos                    0-0
+    19.00  Botafogo                  v Fortaleza                 1-0
+    22.00  Grêmio                    v Fluminense                4-5
+    22.00  Bahia                     v Avai                      1-0
+
+» Sat May/11
+    19.00  Fluminense                v Botafogo                  0-1
+    22.00  Corinthians               v Grêmio                    0-0
+
+» Sun May/12
+    00.00  Goias                     v Ceara                     2-1
+    14.00  Flamengo                  v Chapecoense               2-1
+    19.00  Santos                    v Vasco da Gama             3-0
+    19.00  Internacional             v Cruzeiro                  3-1
+    19.00  Atlético Mineiro          v Palmeiras                 0-2
+    22.00  Fortaleza                 v São Paulo                 0-1
+    22.00  Avai                      v CSA                       0-0
+    22.00  Athletico                 v Bahia                     1-0
+
+» Sat May/18
+    21.00  Fluminense                v Cruzeiro                  4-1
+    22.00  Palmeiras                 v Santos                    4-0
+    22.00  Atlético Mineiro          v Flamengo                  2-1
+
+» Sun May/19
+    14.00  São Paulo                 v Bahia                     0-0
+    19.00  Internacional             v CSA                       2-0
+    19.00  Goias                     v Botafogo                  1-0
+    19.00  Chapecoense               v Fortaleza                 1-3
+    19.00  Athletico                 v Corinthians               0-2
+    22.00  Vasco da Gama             v Avai                      1-1
+    22.00  Ceara                     v Grêmio                    2-1
+
+» Sat May/25
+    19.00  Botafogo                  v Palmeiras                 0-1
+    22.00  Grêmio                    v Atlético Mineiro          1-0
+
+» Sun May/26
+    19.00  Santos                    v Internacional             0-0
+    19.00  Flamengo                  v Athletico                 3-2
+    22.00  Fortaleza                 v Vasco da Gama             1-1
+    22.00  Cruzeiro                  v Chapecoense               1-2
+    22.00  Corinthians               v São Paulo                 1-0
+    22.00  Bahia                     v Fluminense                3-2
+
+» Mon May/27
+    23.00  CSA                       v Goias                     1-0
+    23.00  Avai                      v Ceara                     1-2
+
+» Sat Jun/1
+    19.00  Flamengo                  v Fortaleza                 2-0
+    22.00  Bahia                     v Grêmio                    1-0
+
+» Sun Jun/2
+    00.00  Corinthians               v Goias                     None-None
+    14.00  Botafogo                  v Vasco da Gama             1-0
+    19.00  São Paulo                 v Cruzeiro                  1-1
+    19.00  Ceara                     v Santos                    0-1
+    19.00  Athletico                 v Fluminense                3-0
+    22.00  Internacional             v Avai                      2-0
+    22.00  Chapecoense               v Palmeiras                 1-2
+    22.00  Atlético Mineiro          v CSA                       4-0
+
+» Fri Jun/7
+    23.30  Vasco da Gama             v Internacional             2-1
+
+» Sat Jun/8
+    19.30  Palmeiras                 v Athletico                 1-0
+    22.00  Grêmio                    v Fortaleza                 1-0
+    22.00  Cruzeiro                  v Corinthians               0-0
+    22.30  Ceara                     v Bahia                     0-0
+
+» Sun Jun/9
+    00.00  Avai                      v São Paulo                 0-0
+    22.00  Santos                    v Atlético Mineiro          3-1
+    22.00  Fluminense                v Flamengo                  0-0
+    22.00  CSA                       v Botafogo                  1-2
+
+» Mon Jun/10
+    23.00  Goias                     v Chapecoense               3-1
+
+» Wed Jun/12
+    22.15  Botafogo                  v Grêmio                    0-1
+
+» Thu Jun/13
+    00.00  Fortaleza                 v Cruzeiro                  2-1
+    00.30  Santos                    v Corinthians               1-0
+    00.30  Internacional             v Bahia                     3-1
+    00.30  CSA                       v Flamengo                  0-2
+    22.15  Vasco da Gama             v Ceara                     1-0
+    23.00  Palmeiras                 v Avai                      2-0
+    23.00  Goias                     v Athletico                 2-1
+    23.00  Chapecoense               v Fluminense                1-1
+    23.00  Atlético Mineiro          v São Paulo                 1-1
+
+» Sat Jul/13
+    20.00  Grêmio                    v Vasco da Gama             2-1
+    20.00  Fortaleza                 v Avai                      2-0
+    22.00  São Paulo                 v Palmeiras                 1-1
+    22.00  Bahia                     v Santos                    0-1
+
+» Sun Jul/14
+    14.00  Flamengo                  v Goias                     6-1
+    19.00  Cruzeiro                  v Botafogo                  0-0
+    19.00  Corinthians               v CSA                       1-0
+    19.00  Athletico                 v Internacional             1-0
+    22.00  Chapecoense               v Atlético Mineiro          1-2
+
+» Mon Jul/15
+    23.00  Fluminense                v Ceara                     1-1
+
+» Sat Jul/20
+    14.00  Vasco da Gama             v Fluminense                2-1
+    20.00  Bahia                     v Cruzeiro                  0-0
+    22.00  Internacional             v Grêmio                    1-1
+    22.00  Ceara                     v Palmeiras                 2-0
+    22.00  CSA                       v Athletico                 0-4
+
+» Sun Jul/21
+    14.00  Botafogo                  v Santos                    0-1
+    19.00  Corinthians               v Flamengo                  1-1
+    19.00  Atlético Mineiro          v Fortaleza                 2-2
+    22.00  Avai                      v Goias                     0-0
+
+» Mon Jul/22
+    23.00  São Paulo                 v Chapecoense               4-0
+
+» Sat Jul/27
+    20.00  Palmeiras                 v Vasco da Gama             1-1
+    22.00  Internacional             v Ceara                     1-0
+    22.00  Fluminense                v São Paulo                 1-2
+    22.00  Cruzeiro                  v Athletico                 0-2
+
+» Sun Jul/28
+    14.00  Chapecoense               v Bahia                     0-0
+    19.00  Santos                    v Avai                      3-1
+    19.00  Flamengo                  v Botafogo                  3-2
+    22.00  Goias                     v Atlético Mineiro          0-0
+    22.00  Fortaleza                 v Corinthians               1-3
+
+» Mon Jul/29
+    23.00  CSA                       v Grêmio                    0-0
+
+» Sat Aug/3
+    20.00  Athletico                 v São Paulo                 None-None
+    22.00  Fluminense                v Internacional             2-1
+    22.00  Ceara                     v Fortaleza                 2-1
+
+» Sun Aug/4
+    14.00  Santos                    v Goias                     6-1
+    19.00  Bahia                     v Flamengo                  3-0
+    19.00  Avai                      v Botafogo                  0-2
+    22.00  Vasco da Gama             v CSA                       0-0
+    22.00  Corinthians               v Palmeiras                 1-1
+    22.00  Atlético Mineiro          v Cruzeiro                  2-0
+
+» Mon Aug/5
+    23.00  Grêmio                    v Chapecoense               3-3
+
+» Wed Aug/7
+    22.15  Corinthians               v Goias                     2-0
+
+» Sat Aug/10
+    20.00  São Paulo                 v Santos                    3-2
+    20.00  Ceara                     v Chapecoense               4-1
+    22.00  Flamengo                  v Grêmio                    3-1
+
+» Sun Aug/11
+    00.00  Atlético Mineiro          v Fluminense                2-1
+    14.00  Internacional             v Corinthians               0-0
+    19.00  Palmeiras                 v Bahia                     2-2
+    19.00  Botafogo                  v Athletico                 2-1
+    19.00  Avai                      v Cruzeiro                  2-2
+    22.00  Goias                     v Vasco da Gama             0-1
+
+» Mon Aug/12
+    23.00  CSA                       v Fortaleza                 0-2
+
+» Sat Aug/17
+    20.00  Fortaleza                 v Internacional             0-1
+    20.00  Corinthians               v Botafogo                  2-0
+    22.00  Vasco da Gama             v Flamengo                  1-4
+    22.00  Athletico                 v Atlético Mineiro          1-0
+
+» Sun Aug/18
+    00.00  Grêmio                    v Palmeiras                 1-1
+    19.00  São Paulo                 v Ceara                     1-0
+    19.00  Fluminense                v CSA                       0-1
+    19.00  Cruzeiro                  v Santos                    2-0
+    19.00  Bahia                     v Goias                     1-1
+    22.00  Chapecoense               v Avai                      1-0
+
+» Wed Aug/21
+    22.15  Athletico                 v São Paulo                 0-1
+
+» Sat Aug/24
+    14.00  Atlético Mineiro          v Bahia                     0-1
+    20.00  Grêmio                    v Athletico                 2-1
+
+» Sun Aug/25
+    19.00  Vasco da Gama             v São Paulo                 2-0
+    19.00  Santos                    v Fortaleza                 3-3
+    19.00  Goias                     v Internacional             2-1
+    22.00  Ceara                     v Flamengo                  0-3
+    22.00  CSA                       v Cruzeiro                  1-1
+    22.00  Avai                      v Corinthians               1-1
+
+» Mon Aug/26
+    23.00  Botafogo                  v Chapecoense               0-0
+
+» Sat Aug/31
+    14.00  São Paulo                 v Grêmio                    0-0
+    20.00  Bahia                     v CSA                       1-0
+    22.00  Chapecoense               v Santos                    0-1
+    22.00  Athletico                 v Ceara                     1-0
+
+» Sun Sep/1
+    00.00  Internacional             v Botafogo                  3-2
+    19.00  Fortaleza                 v Goias                     2-0
+    19.00  Flamengo                  v Palmeiras                 3-0
+    22.00  Cruzeiro                  v Vasco da Gama             1-0
+    22.00  Corinthians               v Atlético Mineiro          1-0
+
+» Mon Sep/2
+    23.00  Fluminense                v Avai                      0-1
+
+» Sat Sep/7
+    14.00  Vasco da Gama             v Bahia                     0-2
+    14.00  Corinthians               v Ceara                     2-2
+    20.00  Fortaleza                 v Fluminense                0-1
+    20.00  Avai                      v Flamengo                  0-3
+    22.00  Internacional             v São Paulo                 1-0
+
+» Sun Sep/8
+    00.00  Goias                     v Palmeiras                 1-2
+    14.00  Cruzeiro                  v Grêmio                    1-4
+    19.00  Santos                    v Athletico                 1-1
+    19.00  Botafogo                  v Atlético Mineiro          2-1
+    22.00  CSA                       v Chapecoense               2-0
+
+» Wed Sep/11
+    00.00  Palmeiras                 v Fluminense                3-0
+
+» Sat Sep/14
+    20.00  Flamengo                  v Santos                    1-0
+    22.00  Palmeiras                 v Cruzeiro                  1-0
+    22.00  Chapecoense               v Vasco da Gama             1-2
+
+» Sun Sep/15
+    00.00  Ceara                     v Botafogo                  0-0
+    14.00  Atlético Mineiro          v Internacional             1-3
+    14.00  Athletico                 v Avai                      0-1
+    19.00  Grêmio                    v Goias                     3-0
+    19.00  Fluminense                v Corinthians               1-0
+    19.00  Bahia                     v Fortaleza                 1-1
+    22.00  São Paulo                 v CSA                       1-1
+
+» Sat Sep/21
+    14.00  Botafogo                  v São Paulo                 1-2
+    20.00  Cruzeiro                  v Flamengo                  1-2
+    22.00  Corinthians               v Bahia                     2-1
+
+» Sun Sep/22
+    00.00  Santos                    v Grêmio                    0-3
+    14.00  Internacional             v Chapecoense               1-0
+    19.00  Vasco da Gama             v Athletico                 1-1
+    19.00  Fortaleza                 v Palmeiras                 0-1
+    19.00  CSA                       v Ceara                     1-0
+    22.00  Goias                     v Fluminense                3-0
+
+» Mon Sep/23
+    23.00  Avai                      v Atlético Mineiro          1-0
+
+» Wed Sep/25
+    22.30  Ceara                     v Cruzeiro                  0-0
+
+» Thu Sep/26
+    00.30  São Paulo                 v Goias                     0-1
+    00.30  Flamengo                  v Internacional             3-1
+    00.30  Bahia                     v Botafogo                  2-0
+    22.15  Palmeiras                 v CSA                       6-2
+    23.00  Grêmio                    v Avai                      6-1
+    23.00  Fluminense                v Santos                    1-1
+
+» Fri Sep/27
+    00.30  Athletico                 v Fortaleza                 4-1
+
+» Sat Sep/28
+    22.00  Flamengo                  v São Paulo                 0-0
+
+» Sun Sep/29
+    14.00  Corinthians               v Vasco da Gama             1-0
+    19.00  Santos                    v CSA                       2-0
+    19.00  Internacional             v Palmeiras                 1-1
+    19.00  Fluminense                v Grêmio                    2-1
+    22.00  Atlético Mineiro          v Ceara                     2-1
+    22.00  Athletico                 v Chapecoense               1-1
+
+» Mon Sep/30
+    23.00  Goias                     v Cruzeiro                  1-0
+    23.00  Fortaleza                 v Botafogo                  1-0
+    23.00  Avai                      v Bahia                     0-2
+
+» Wed Oct/2
+    22.15  Chapecoense               v Corinthians               0-1
+    22.15  Atlético Mineiro          v Vasco da Gama             1-2
+
+» Sat Oct/5
+    20.00  Vasco da Gama             v Santos                    0-1
+    20.00  São Paulo                 v Fortaleza                 2-1
+    22.00  Grêmio                    v Corinthians               0-0
+    22.00  Bahia                     v Athletico                 1-2
+
+» Sun Oct/6
+    00.00  Cruzeiro                  v Internacional             1-1
+    14.00  Chapecoense               v Flamengo                  0-1
+    19.00  Palmeiras                 v Atlético Mineiro          1-1
+    19.00  Ceara                     v Goias                     0-1
+    19.00  Botafogo                  v Fluminense                0-1
+    22.00  CSA                       v Avai                      3-1
+
+» Wed Oct/9
+    22.15  CSA                       v Internacional             1-0
+    22.15  Botafogo                  v Goias                     3-1
+    23.30  Fortaleza                 v Chapecoense               2-0
+
+» Thu Oct/10
+    00.00  Grêmio                    v Ceara                     2-1
+    00.00  Bahia                     v São Paulo                 0-0
+    00.30  Santos                    v Palmeiras                 2-0
+    00.30  Cruzeiro                  v Fluminense                0-0
+    22.15  Corinthians               v Athletico                 2-2
+    22.15  Avai                      v Vasco da Gama             0-0
+    23.00  Flamengo                  v Atlético Mineiro          3-1
+
+» Sat Oct/12
+    20.00  Goias                     v CSA                       1-0
+    22.00  Fluminense                v Bahia                     2-0
+
+» Sun Oct/13
+    00.00  Palmeiras                 v Botafogo                  1-0
+    19.00  Vasco da Gama             v Fortaleza                 1-0
+    19.00  Internacional             v Santos                    0-0
+    19.00  Ceara                     v Avai                      1-0
+    19.00  Athletico                 v Flamengo                  0-2
+    21.00  São Paulo                 v Corinthians               1-0
+    22.00  Chapecoense               v Cruzeiro                  1-1
+    22.00  Atlético Mineiro          v Grêmio                    1-4
+
+» Wed Oct/16
+    22.15  Grêmio                    v Bahia                     0-1
+    22.15  CSA                       v Atlético Mineiro          2-2
+    23.00  Fortaleza                 v Flamengo                  1-2
+
+» Thu Oct/17
+    00.00  Palmeiras                 v Chapecoense               1-0
+    00.00  Cruzeiro                  v São Paulo                 1-0
+    00.30  Vasco da Gama             v Botafogo                  2-1
+    00.30  Goias                     v Corinthians               2-2
+    22.15  Santos                    v Ceara                     2-1
+    22.15  Avai                      v Internacional             0-2
+
+» Fri Oct/18
+    00.00  Fluminense                v Athletico                 1-2
+
+» Sat Oct/19
+    20.00  Fortaleza                 v Grêmio                    2-1
+    22.00  Corinthians               v Cruzeiro                  1-2
+
+» Sun Oct/20
+    19.00  São Paulo                 v Avai                      1-0
+    19.00  Internacional             v Vasco da Gama             0-1
+    19.00  Atlético Mineiro          v Santos                    2-0
+    21.00  Flamengo                  v Fluminense                2-0
+    22.00  Chapecoense               v Goias                     2-2
+    22.00  Athletico                 v Palmeiras                 1-1
+
+» Mon Oct/21
+    22.30  Bahia                     v Ceara                     1-2
+    23.00  Botafogo                  v CSA                       2-1
+
+» Sat Oct/26
+    20.00  Corinthians               v Santos                    0-0
+    20.00  Ceara                     v Vasco da Gama             1-1
+    22.00  Bahia                     v Internacional             2-3
+    22.30  Fluminense                v Chapecoense               1-1
+
+» Sun Oct/27
+    00.00  Cruzeiro                  v Fortaleza                 1-1
+    19.00  São Paulo                 v Atlético Mineiro          2-0
+    19.00  Grêmio                    v Botafogo                  3-0
+    19.00  Athletico                 v Goias                     4-1
+    21.00  Avai                      v Palmeiras                 1-2
+    22.00  Flamengo                  v CSA                       1-0
+
+» Wed Oct/30
+    22.30  Palmeiras                 v São Paulo                 3-0
+    22.30  Avai                      v Fortaleza                 1-3
+    22.30  Atlético Mineiro          v Chapecoense               0-2
+
+» Thu Oct/31
+    00.30  Vasco da Gama             v Grêmio                    1-3
+    00.30  Ceara                     v Fluminense                2-0
+    00.30  CSA                       v Corinthians               2-1
+    22.15  Santos                    v Bahia                     1-0
+    23.00  Goias                     v Flamengo                  2-2
+
+» Fri Nov/1
+    00.30  Internacional             v Athletico                 1-1
+    00.30  Botafogo                  v Cruzeiro                  0-2
+
+» Sat Nov/2
+    20.00  Fortaleza                 v Atlético Mineiro          2-2
+    22.00  Palmeiras                 v Ceara                     1-0
+    22.00  Fluminense                v Vasco da Gama             0-0
+
+» Sun Nov/3
+    00.00  Chapecoense               v São Paulo                 0-3
+    19.00  Flamengo                  v Corinthians               4-1
+    21.00  Grêmio                    v Internacional             2-0
+    21.00  Athletico                 v CSA                       1-0
+    22.00  Santos                    v Botafogo                  4-1
+    22.00  Cruzeiro                  v Bahia                     1-1
+    22.30  Goias                     v Avai                      2-0
+
+» Wed Nov/6
+    22.30  Corinthians               v Fortaleza                 3-2
+    23.00  Atlético Mineiro          v Goias                     2-0
+
+» Thu Nov/7
+    00.00  Avai                      v Santos                    1-2
+    00.30  Vasco da Gama             v Palmeiras                 1-2
+    00.30  Bahia                     v Chapecoense               1-1
+    00.30  Athletico                 v Cruzeiro                  0-0
+    22.30  São Paulo                 v Fluminense                0-2
+    22.30  Ceara                     v Internacional             2-0
+    23.00  Botafogo                  v Flamengo                  0-1
+
+» Fri Nov/8
+    00.00  Grêmio                    v CSA                       2-1
+
+» Sat Nov/9
+    20.00  Goias                     v Santos                    0-3
+    22.00  Palmeiras                 v Corinthians               1-1
+
+» Sun Nov/10
+    19.00  São Paulo                 v Athletico                 0-1
+    19.00  Internacional             v Fluminense                2-1
+    19.00  Cruzeiro                  v Atlético Mineiro          0-0
+    21.00  Flamengo                  v Bahia                     3-1
+    22.00  Fortaleza                 v Ceara                     1-0
+    22.00  Chapecoense               v Grêmio                    0-1
+    22.00  CSA                       v Vasco da Gama             0-3
+
+» Mon Nov/11
+    23.00  Botafogo                  v Avai                      2-0
+
+» Thu Nov/14
+    00.30  Flamengo                  v Vasco da Gama             4-4
+
+» Sat Nov/16
+    20.00  Santos                    v São Paulo                 1-1
+    22.00  Fluminense                v Atlético Mineiro          1-1
+
+» Sun Nov/17
+    19.00  Grêmio                    v Flamengo                  0-1
+    19.00  Bahia                     v Palmeiras                 1-1
+    21.00  Corinthians               v Internacional             0-0
+    21.00  Chapecoense               v Ceara                     1-0
+    21.00  Athletico                 v Botafogo                  1-0
+    22.00  Fortaleza                 v CSA                       3-0
+
+» Mon Nov/18
+    22.30  Vasco da Gama             v Goias                     1-1
+    23.00  Cruzeiro                  v Avai                      0-0
+
+» Sun Nov/24
+    00.00  Santos                    v Cruzeiro                  4-1
+    19.00  Palmeiras                 v Grêmio                    1-2
+    19.00  Goias                     v Bahia                     4-3
+    19.00  Atlético Mineiro          v Athletico                 0-1
+    21.00  Botafogo                  v Corinthians               1-0
+    22.00  Internacional             v Fortaleza                 2-2
+    22.00  Ceara                     v São Paulo                 1-1
+    22.00  Avai                      v Chapecoense               0-1
+
+» Mon Nov/25
+    23.00  CSA                       v Fluminense                0-1
+
+» Wed Nov/27
+    22.30  Internacional             v Goias                     1-2
+    22.30  Chapecoense               v Botafogo                  0-1
+
+» Thu Nov/28
+    00.00  Bahia                     v Atlético Mineiro          1-1
+    00.30  Flamengo                  v Ceara                     4-1
+    00.30  Corinthians               v Avai                      3-0
+    00.30  Athletico                 v Grêmio                    2-0
+    22.30  Fluminense                v Palmeiras                 1-0
+    23.00  Fortaleza                 v Santos                    2-1
+    23.30  São Paulo                 v Vasco da Gama             1-0
+
+» Fri Nov/29
+    00.30  Cruzeiro                  v CSA                       0-1
+
+» Sat Nov/30
+    22.00  Ceara                     v Athletico                 1-1
+    22.00  Botafogo                  v Internacional             0-1
+
+» Sun Dec/1
+    19.00  Palmeiras                 v Flamengo                  1-3
+    19.00  Goias                     v Fortaleza                 1-2
+    19.00  Avai                      v Fluminense                1-1
+    21.00  CSA                       v Bahia                     1-2
+    21.00  Atlético Mineiro          v Corinthians               2-1
+    22.00  Santos                    v Chapecoense               2-0
+    22.00  Grêmio                    v São Paulo                 3-0
+
+» Mon Dec/2
+    23.00  Vasco da Gama             v Cruzeiro                  1-0
+
+» Wed Dec/4
+    22.00  Athletico                 v Santos                    1-0
+    22.30  Ceara                     v Corinthians               0-1
+    22.30  Atlético Mineiro          v Botafogo                  2-0
+
+» Thu Dec/5
+    00.00  Chapecoense               v CSA                       3-0
+    00.30  São Paulo                 v Internacional             2-1
+    00.30  Fluminense                v Fortaleza                 0-0
+    22.15  Palmeiras                 v Goias                     5-1
+    22.15  Grêmio                    v Cruzeiro                  2-0
+    22.15  Bahia                     v Vasco da Gama             1-1
+    23.00  Flamengo                  v Avai                      6-1
+
+» Sun Dec/8
+    19.00  Vasco da Gama             v Chapecoense               1-1
+    19.00  Santos                    v Flamengo                  4-0
+    19.00  Internacional             v Atlético Mineiro          2-1
+    19.00  Goias                     v Grêmio                    3-2
+    19.00  Fortaleza                 v Bahia                     2-1
+    19.00  Cruzeiro                  v Palmeiras                 0-2
+    19.00  Corinthians               v Fluminense                1-2
+    19.00  CSA                       v São Paulo                 1-2
+    19.00  Botafogo                  v Ceara                     1-1
+    19.00  Avai                      v Athletico                 0-0

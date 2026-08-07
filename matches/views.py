@@ -1,0 +1,7342 @@
+# pyright: reportGeneralTypeIssues=false
+from django.views.generic import ListView, DetailView, TemplateView, View
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from django.utils.text import slugify
+from django.http import JsonResponse
+from django.db.models import Q
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+from .models import Match, League, Team, Season, LeagueStanding, Goal
+from django.db import models
+from matches.utils import COUNTRY_REVERSE_TRANSLATIONS, get_flag_code
+
+
+from .api_manager import APIManager
+import json
+import unicodedata
+import random
+import string
+import requests
+
+
+FINISHED_STATUSES = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED']
+
+
+from django.http import HttpResponse
+
+
+class GlobalSearchView(View):
+    def get(self, request):
+        query = request.GET.get('q', '')
+        results = []
+        
+        from matches.utils import COUNTRY_TRANSLATIONS
+
+        if len(query) >= 2:
+            # Search Leagues
+            leagues = League.objects.filter(name__icontains=query)[:5]
+            for league in leagues:
+                country_en = COUNTRY_TRANSLATIONS.get(league.country, league.country)
+                # Use 3-segment URL: /stats/country/league/
+                url = f"/stats/{slugify(country_en)}/{slugify(league.name)}/"
+                
+                results.append({
+                    'type': 'League',
+                    'name': f"{league.name} ({country_en})",
+                    'url': url,
+                    'icon': 'fa-trophy'
+                })
+                
+            # Search Teams
+            teams = Team.objects.filter(name__icontains=query).select_related('league')[:5]
+            for team in teams:
+                country_en = COUNTRY_TRANSLATIONS.get(team.league.country, team.league.country)
+                # Use 3-segment URL: /stats/country/league/team/
+                url = f"/stats/{slugify(country_en)}/{slugify(team.league.name)}/{slugify(team.name)}/"
+                results.append({
+                    'type': 'Team',
+                    'name': f"{team.name} ({country_en})",
+                    'url': url,
+                    'icon': 'fa-shirt'
+                })
+                
+        return JsonResponse({'results': results})
+
+
+class RobotsView(TemplateView):
+    template_name = "matches/robots.txt"
+    content_type = "text/plain"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Dynamic base URL based on current request
+        context['base_url'] = self.request.build_absolute_uri('/')[:-1]
+        return context
+
+
+@method_decorator(cache_page(60 * 60 * 6, cache='sitemap'), name='dispatch')  # Cache 6h isolado (imune ao cache.clear() do live_score_premium)
+class SitemapView(TemplateView):
+    template_name = "matches/sitemap.xml"
+    content_type = "application/xml"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from matches.utils import COUNTRY_TRANSLATIONS
+        from django.utils import timezone
+        from datetime import timedelta
+        from django.utils.text import slugify
+        from django.urls import resolve, Resolver404
+        from django.http import Http404
+        
+        # Limit quantities for performance in large DBs, or use pagination
+        leagues = League.objects.all()
+        teams = Team.objects.all()[:1000] # Limit teams to avoid massive XML in dev
+        
+        # Matches: last 7 days and next 7 days
+        now = timezone.now()
+        start_date = now - timedelta(days=7)
+        end_date = now + timedelta(days=7)
+        matches = Match.objects.filter(date__range=(start_date, end_date)).select_related('home_team', 'away_team')[:1000]
+        
+        country_urls = []
+        league_urls = []
+        
+        # Track unique countries to generate country URLs
+        unique_countries = set()
+        
+        for l in leagues:
+            try:
+                country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
+                c_slug = slugify(country_en)
+                l_slug = slugify(l.name)
+                
+                unique_countries.add(c_slug)
+                
+                url = f"/stats/{c_slug}/{l_slug}/"
+                
+                # Validação de rota antes de emitir (Defesa Permanente)
+                match = resolve(url)
+                view = LeagueDetailView()
+                
+                # Mapeia kwargs caso a URL tenha sido capturada pelo StatsDispatchView (arg1, arg2)
+                kwargs = match.kwargs.copy()
+                if 'arg1' in kwargs and 'arg2' in kwargs:
+                    kwargs['country_name'] = kwargs.pop('arg1')
+                    kwargs['league_name'] = kwargs.pop('arg2')
+                
+                view.kwargs = kwargs
+                view.get_object() # Levanta Http404 se não existir
+                
+                league_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
+                
+        for c_slug in unique_countries:
+            try:
+                url = f"/stats/{c_slug}/"
+                match = resolve(url)
+                view = LeagueDetailView()
+                view.kwargs = match.kwargs
+                view.get_object()
+                country_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
+                
+        team_urls = []
+        for t in teams:
+            try:
+                country_en = COUNTRY_TRANSLATIONS.get(t.league.country, t.league.country)
+                c_slug = slugify(country_en)
+                l_slug = slugify(t.league.name)
+                t_slug = slugify(t.name)
+                url = f"/stats/{c_slug}/{l_slug}/{t_slug}/"
+                
+                # Validação de rota antes de emitir (Defesa Permanente)
+                match = resolve(url)
+                view = TeamDetailView()
+                
+                # Mapeia kwargs caso a URL tenha sido capturada pelo StatsDispatchView (arg1, arg2, mas teams é diferente, contudo precaução)
+                kwargs = match.kwargs.copy()
+                if 'arg1' in kwargs and 'arg2' in kwargs and 'arg3' in kwargs:
+                    kwargs['country_name'] = kwargs.pop('arg1')
+                    kwargs['league_name'] = kwargs.pop('arg2')
+                    kwargs['team_name'] = kwargs.pop('arg3')
+                    
+                view.kwargs = kwargs
+                view.get_object() # Levanta Http404 se não existir
+                
+                team_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
+                
+        match_urls = []
+        for m in matches:
+            try:
+                url = f"/match/{m.id}/{m.slug}/"
+                
+                # Validação de rota antes de emitir (Defesa Permanente)
+                match = resolve(url)
+                # Match urls go to MatchDetailView which might not exist in this file, check later if needed
+                match_urls.append(url)
+            except (Resolver404, Http404, Exception):
+                continue
+            
+        context['country_urls'] = country_urls
+        context['league_urls'] = league_urls
+        context['team_urls'] = team_urls
+        context['match_urls'] = match_urls
+        context['base_url'] = self.request.build_absolute_uri('/')[:-1]
+        return context
+
+class ContactView(TemplateView):
+    template_name = "matches/contact.html"
+
+def debug_leagues(request):
+    try:
+        from .models import League, Team, Match, Season, LeagueStanding
+        from django.conf import settings
+        import os
+        
+        # Helper to safely get DB info
+        db_settings = settings.DATABASES['default']
+        db_info = {
+            'ENGINE': db_settings.get('ENGINE'),
+            'NAME': db_settings.get('NAME'),
+            'USER': db_settings.get('USER'),
+            'HOST': db_settings.get('HOST'),
+            'PORT': db_settings.get('PORT'),
+        }
+
+        # Seeding Logic triggered by button
+        if request.method == "POST" and request.POST.get('action') == 'seed':
+            
+            # 1. Create Season
+            season_2025, _ = Season.objects.get_or_create(year=2025)
+
+            # 2. Create Leagues
+            premier, _ = League.objects.get_or_create(name="Premier League", country="Inglaterra")
+            brasileirao, _ = League.objects.get_or_create(name="Brasileirao", country="Brasil")
+            la_liga, _ = League.objects.get_or_create(name="La Liga", country="Espanha")
+            serie_a, _ = League.objects.get_or_create(name="Serie A", country="Italia")
+            bundesliga, _ = League.objects.get_or_create(name="Bundesliga", country="Alemanha")
+            ligue_1, _ = League.objects.get_or_create(name="Ligue 1", country="Franca")
+            
+            # Other European Leagues (Seed)
+            League.objects.get_or_create(name="Liga Profesional", country="Argentina")
+            League.objects.get_or_create(name="Bundesliga", country="Austria")
+            League.objects.get_or_create(name="A League", country="Australia")
+            League.objects.get_or_create(name="Pro League", country="Belgica")
+            League.objects.get_or_create(name="Super League", country="Suica")
+            League.objects.get_or_create(name="First League", country="Republica Tcheca")
+            League.objects.get_or_create(name="Superliga", country="Dinamarca")
+            League.objects.get_or_create(name="Veikkausliiga", country="Finlandia")
+            League.objects.get_or_create(name="Super League", country="Grecia")
+            League.objects.get_or_create(name="Eredivisie", country="Holanda")
+            League.objects.get_or_create(name="J1 League", country="Japao")
+            League.objects.get_or_create(name="Eliteserien", country="Noruega")
+            League.objects.get_or_create(name="Ekstraklasa", country="Polonia")
+            League.objects.get_or_create(name="Primeira Liga", country="Portugal")
+            League.objects.get_or_create(name="Premier League", country="Russia")
+            League.objects.get_or_create(name="Allsvenskan", country="Suecia")
+            League.objects.get_or_create(name="Super Lig", country="Turquia")
+            League.objects.get_or_create(name="Premier League", country="Ucrania")
+            
+            # 3. Create Teams
+            arsenal, _ = Team.objects.get_or_create(name="Arsenal", league=premier)
+            city, _ = Team.objects.get_or_create(name="Man City", league=premier)
+            liverpool, _ = Team.objects.get_or_create(name="Liverpool", league=premier)
+            palmeiras, _ = Team.objects.get_or_create(name="Palmeiras", league=brasileirao)
+            flamengo, _ = Team.objects.get_or_create(name="Flamengo", league=brasileirao)
+            
+            # 4. Create Matches (Future and Past)
+            now = timezone.now()
+            
+            # Future Match (Scheduled)
+            Match.objects.get_or_create(
+                league=premier, 
+                season=season_2025,
+                home_team=arsenal, 
+                away_team=city, 
+                defaults={'date': now + timedelta(days=2), 'status': 'Scheduled'}
+            )
+            
+            # Past Match (Finished)
+            m_past, created = Match.objects.get_or_create(
+                league=premier, 
+                season=season_2025,
+                home_team=liverpool, 
+                away_team=arsenal, 
+                defaults={
+                    'date': now - timedelta(days=5), 
+                    'status': 'Finished',
+                    'home_score': 2,
+                    'away_score': 1
+                }
+            )
+            
+            # 5. Create Standings (Table)
+            # Arsenal
+            LeagueStanding.objects.get_or_create(
+                league=premier,
+                season=season_2025,
+                team=arsenal,
+                defaults={
+                    'position': 2, 'played': 1, 'won': 0, 'drawn': 0, 'lost': 1,
+                    'goals_for': 1, 'goals_against': 2, 'points': 0
+                }
+            )
+            # Liverpool
+            LeagueStanding.objects.get_or_create(
+                league=premier,
+                season=season_2025,
+                team=liverpool,
+                defaults={
+                    'position': 1, 'played': 1, 'won': 1, 'drawn': 0, 'lost': 0,
+                    'goals_for': 2, 'goals_against': 1, 'points': 3
+                }
+            )
+
+            return HttpResponse("<h1>Dados Completos Semeados! (Ligas, Times, Jogos, Tabela)</h1><p><a href='/debug-leagues/'>Voltar</a></p>")
+
+        # Display Logic - INSPECTOR MODE
+        
+        # Counts
+        counts = {
+            'leagues': League.objects.count(),
+            'teams': Team.objects.count(),
+            'matches': Match.objects.count(),
+            'standings': LeagueStanding.objects.count(),
+            'seasons': Season.objects.count(),
+        }
+
+        # Samples
+        leagues = League.objects.all()[:20]
+        teams = Team.objects.all()[:20]
+        matches = Match.objects.all().order_by('-date')[:20]
+        standings = LeagueStanding.objects.all()[:20]
+
+        html = f"""
+        <style>
+            body {{ font-family: sans-serif; padding: 20px; line-height: 1.6; }}
+            h1, h2 {{ color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }}
+            .card {{ background: #f9f9f9; padding: 15px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px; }}
+            table {{ width: 100%; border-collapse: collapse; margin-top: 10px; }}
+            th, td {{ text-align: left; padding: 8px; border-bottom: 1px solid #ddd; }}
+            th {{ background-color: #f2f2f2; }}
+            .warning {{ color: red; font-weight: bold; }}
+            .success {{ color: green; font-weight: bold; }}
+        </style>
+        
+        <h1>🕵️ Database Inspector (Prova dos Nove)</h1>
+        
+        <div class="card">
+            <h2>🔌 Configuração de Conexão (settings.py)</h2>
+            <p>Verifique se estes dados batem com o banco onde você importou os dados reais:</p>
+            <ul>
+                <li><strong>ENGINE:</strong> {db_info['ENGINE']}</li>
+                <li><strong>NAME (Banco):</strong> {db_info['NAME']}</li>
+                <li><strong>USER:</strong> {db_info['USER']}</li>
+                <li><strong>HOST:</strong> {db_info['HOST']}</li>
+                <li><strong>PORT:</strong> {db_info['PORT']}</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📊 Estatísticas (Contagem de Registros)</h2>
+            <ul>
+                <li><strong>Ligas:</strong> {counts['leagues']}</li>
+                <li><strong>Times:</strong> {counts['teams']}</li>
+                <li><strong>Partidas (Matches):</strong> {counts['matches']}</li>
+                <li><strong>Tabela (Standings):</strong> {counts['standings']}</li>
+                <li><strong>Temporadas:</strong> {counts['seasons']}</li>
+            </ul>
+            { "<p class='warning'>⚠️ Se os números estiverem baixos (ex: < 10), o Django NÃO está vendo seus dados reais!</p>" if counts['matches'] < 10 else "<p class='success'>✅ Parece que temos muitos dados! O problema pode ser filtro (ano/season).</p>" }
+        </div>
+
+        <h2>Ligas (Primeiras 20)</h2>
+        <table>
+            <tr><th>ID</th><th>Nome</th><th>Slug (Calculado)</th></tr>
+            {''.join(f"<tr><td>{l.id}</td><td>{l.name} ({l.country})</td><td>{l.name.replace(' ', '-').lower()}</td></tr>" for l in leagues)}
+        </table>
+
+        <h2>Partidas Recentes (Primeiras 20)</h2>
+        <table>
+            <tr><th>Data</th><th>Casa</th><th>Fora</th><th>Placar</th><th>Status</th><th>Season</th></tr>
+            {''.join(f"<tr><td>{m.date}</td><td>{m.home_team}</td><td>{m.away_team}</td><td>{m.home_score}x{m.away_score}</td><td>{m.status}</td><td>{m.season}</td></tr>" for m in matches)}
+        </table>
+        
+        <div class="card">
+             <h3>🔧 Ferramentas</h3>
+            <form method="POST">
+                <input type="hidden" name="action" value="seed">
+                <input type="hidden" name="csrfmiddlewaretoken" value="">
+                <button type="submit" style="padding: 10px 20px; background: #666; color: white; font-size: 14px; cursor: pointer;">
+                    (Re)Criar Dados de Teste (Seed)
+                </button>
+                <small>Use apenas se o banco estiver vazio.</small>
+            </form>
+        </div>
+        """
+        
+        return HttpResponse(html)
+    except Exception as e:
+        import traceback
+        return HttpResponse(f"<h1>Erro Interno (500) - Detalhes:</h1><pre>{traceback.format_exc()}</pre>")
+
+from django.views.decorators.csrf import csrf_exempt
+from .services.advanced_stats import MatchAnalyzer
+
+@csrf_exempt
+def debug_leagues_wrapper(request):
+    return debug_leagues(request)
+
+
+
+
+class MatchDetailView(DetailView):
+    model = Match
+    template_name = 'matches/match_detail.html'
+    context_object_name = 'match'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        match = self.object
+        
+        # Evita consumir a cota da API em tempo real no site
+        if not match.predictions_data:
+            print(f"Match {match.id} acessado, mas sem predictions salvas no banco. Aguardando sincronização do script em background.")
+        
+        # Instantiate the advanced stats engine
+        try:
+            analyzer = MatchAnalyzer(match)
+            context['advanced_stats'] = analyzer.generate_full_report()
+        except Exception as e:
+            print(f"Error generating advanced stats: {e}")
+            context['advanced_stats'] = None
+        from django.conf import settings
+        context['show_script_btn'] = settings.DEBUG or (self.request.user.is_authenticated and self.request.user.is_staff)
+        return context
+
+class MatchVideoScriptView(View):
+    def get(self, request, pk):
+        from django.conf import settings
+        secret_token = request.GET.get('secret', '')
+        
+        # O Passe VIP do OpenClaw (secret_token) permite acesso sem login de admin
+        if not settings.DEBUG and not (request.user.is_authenticated and request.user.is_staff) and secret_token != 'openclaw_token_3f9b2d8c1e7a4f5c9e2d1b8a7c3f6e5d':
+            from django.http import Http404
+            raise Http404("Página não encontrada")
+            
+        match = get_object_or_404(Match, pk=pk)
+        
+        try:
+            analyzer = MatchAnalyzer(match)
+            report = analyzer.generate_full_report()
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f'Erro ao analisar partida: {str(e)}'}, status=500)
+            
+        from django.utils import translation
+        lang_code = translation.get_language() or 'pt-br'
+        
+        language_instructions = ""
+        if lang_code.startswith('en'):
+            language_instructions = "IMPORTANT: Write the entire narration and analysis in FLUENT ENGLISH. Do NOT include any bracketed control tags like [ABA: ...] or [FOCO: ...] inside the JSON values."
+        elif lang_code.startswith('es'):
+            language_instructions = "IMPORTANTE: Escribe toda la narración y el análisis en ESPAÑOL FLUIDO. No incluyas ninguna etiqueta de control entre corchetes como [ABA: ...] o [FOCO: ...] dentro de los valores del JSON."
+        else:
+            language_instructions = "IMPORTANTE: Escreva a narração em PORTUGUÊS (PT-BR). Não inclua nenhuma etiqueta de controle como [ABA: ...] ou [FOCO: ...] dentro dos valores do JSON."
+            
+        format_type = request.GET.get('format', 'short')
+        aba_param = request.GET.get('aba', 'gols')
+        selected_abas = [a.strip().lower() for a in aba_param.split(',') if a.strip()]
+        if not selected_abas:
+            selected_abas = ['gols']
+            
+        home_team = match.home_team.name
+        away_team = match.away_team.name
+        league = match.league.name
+        country = match.league.country
+        goals = report.get('goals', {})
+        corners = report.get('corners', {})
+        odds_probs = report.get('odds_probs', {})
+        strength = report.get('strength', {})
+        summary = report.get('summary', '')
+        disciplinary = report.get('disciplinary', {})
+        efficiency = report.get('efficiency', {})
+        lay_bets = report.get('lay_bets', [])
+        
+        # Mapeamento de abas para as instruções da IA
+        dc_bet = odds_probs.get('double_bet', '')
+        if dc_bet == '12': dc_bet = 'um dois'
+        elif dc_bet == '1X': dc_bet = 'um x'
+        elif dc_bet == 'X2': dc_bet = 'x dois'
+        
+        instrucoes_aba = {
+            'gols': {
+                'contexto': f"1. GOLS: HT Goal: {goals.get('ht_goal', 0)}%, BTTS: {goals.get('btts', 0)}% | Over 1.5: {goals.get('over_15', 0)}%, 2.5: {goals.get('over_25', 0)}%, 3.5: {goals.get('over_35', 0)}%, 4.5: {goals.get('over_45', 0)}%\n" +
+                            f"6. RESUMO: Vencedor Casa {odds_probs.get('home_win', 0)}%, Empate {odds_probs.get('draw', 0)}%, Fora {odds_probs.get('away_win', 0)}%. Palpite: {dc_bet}",
+                'keys_dict': {
+                    "gols_over_1_5": "Análise do over 1.5 gols baseada na %...",
+                    "gols_over_2_5": "Análise do over 2.5 gols...",
+                    "gols_over_3_5": "Análise do over 3.5 gols...",
+                    "gols_over_4_5": "Análise do over 4.5 gols...",
+                    "gols_btts": "Análise de ambas marcam...",
+                    "gols_vencedor": "Análise do favorito a vencer a partida...",
+                    "gols_chance_dupla": "Análise do palpite de chance dupla...",
+                    "gols_ht": "Análise de gols no HT..."
+                }
+            },
+            'escanteios': {
+                'contexto': f"3. ESCANTEIOS: Média Total: {round(corners.get('home', dict()).get('avg_total', 0) + corners.get('away', dict()).get('avg_total', 0), 1)}, Over 7.5: {corners.get('match_overs', dict()).get(7, 0)}%, Over 8.5: {corners.get('match_overs', dict()).get(8, 0)}%, Over 9.5: {corners.get('match_overs', dict()).get(9, 0)}%, Over 10.5: {corners.get('match_overs', dict()).get(10, 0)}%. Mais Cantos: Casa {corners.get('winner_corners', dict()).get('home', 0)}%, Fora {corners.get('winner_corners', dict()).get('away', 0)}%",
+                'keys_dict': {
+                    "escanteios_intro": "Uma introdução robusta e engajadora voltada apenas para o mercado de escanteios, analisando o comportamento dos times pelas pontas (cerca de 40 a 50 palavras).",
+                    "escanteios_over_7_5": "Análise do over 7.5 cantos...",
+                    "escanteios_over_8_5": "Análise do over 8.5 cantos...",
+                    "escanteios_over_9_5": "Análise do over 9.5 cantos (linha principal de jogo)...",
+                    "escanteios_over_10_5": "Análise do over 10.5 cantos (cenário de alta pressão)...",
+                    "escanteios_base": "Análise da base do jogo somada (média de cantos)...",
+                    "escanteios_palpite": "Análise do melhor palpite de cantos...",
+                    "escanteios_mais_cantos": "Análise de quem fará mais escanteios..."
+                }
+            },
+            'cartoes': {
+                'contexto': f"4. CARTÕES: Over 3.5: {disciplinary.get('cards_totals_overs', dict()).get(3, 0)}%, 4.5: {disciplinary.get('cards_totals_overs', dict()).get(4, 0)}%. Mais Cartões: Casa {disciplinary.get('winner_cards', dict()).get('home', 0)}%, Empate {disciplinary.get('winner_cards', dict()).get('draw', 0)}%, Fora {disciplinary.get('winner_cards', dict()).get('away', 0)}%",
+                'keys_dict': {
+                    "cartoes_intro": "Frase curta de gancho para a disciplina/cartões.",
+                    "cartoes_over_3_5": "Análise do over 3.5 cartões...",
+                    "cartoes_over_4_5": "Análise do over 4.5...",
+                    "cartoes_over_5_5": "Análise do over 5.5...",
+                    "cartoes_mais_cartoes": "Análise de quem vai tomar mais cartões..."
+                }
+            },
+            'chutes': {
+                'contexto': f"2. CHUTES: Eficiência Casa: {efficiency.get('home', dict()).get('conversion_rate', 0)}%, Fora: {efficiency.get('away', dict()).get('conversion_rate', 0)}%",
+                'keys_dict': {
+                    "chutes_intro": "Frase curta de gancho sobre as finalizações.",
+                    "chutes_ao_alvo": "Análise da eficiência de chutes dos times...",
+                    "chutes_precisao": "Análise de como a precisão (conversão em gol) afeta o jogo..."
+                }
+            },
+            'especiais': {
+                'contexto': f"5. RESUMO E CHANCES: Vencedor Casa {odds_probs.get('home_win', 0)}%, Empate {odds_probs.get('draw', 0)}%. Palpite: {dc_bet}",
+                'keys_dict': {
+                    "especiais_intro": "Frase curta introduzindo mercados especiais.",
+                    "especiais_vencedor_ambos": "Análise do vencedor + ambas marcam...",
+                    "especiais_dupla_gols": "Análise de dupla chance + gols...",
+                    "especiais_empate_anula": "Análise do mercado empate anula..."
+                }
+            },
+            'lays': {
+                'contexto': f"LAYS: {lay_bets}",
+                'keys_dict': {
+                    "lays_intro": "Frase curta sobre fraudes ou lays...",
+                    "lays_melhor_lay": "Análise das oportunidades de Lay Bets..."
+                }
+            }
+        }
+        
+        # Concatena o contexto das abas selecionadas e mescla as chaves do JSON
+        combined_context = ""
+        combined_keys = {}
+        
+        if format_type == 'long':
+            combined_keys["introducao"] = "Texto de introdução da partida (somente se for o inicio do video)."
+            
+        for aba in selected_abas:
+            cfg = instrucoes_aba.get(aba)
+            if cfg:
+                combined_context += f"\n- ABA {aba.upper()} -\n{cfg['contexto']}\n"
+                for k, v in cfg['keys_dict'].items():
+                    combined_keys[k] = v
+                    
+        if format_type == 'long':
+            combined_keys["despedida"] = "Texto rápido de encerramento do vídeo."
+            
+        if lang_code.startswith('en'):
+            combined_keys["titulo_video"] = "A very catchy and viral title for YouTube/TikTok IN ENGLISH."
+            combined_keys["descricao_video"] = "An SEO-optimized description containing relevant hashtags IN ENGLISH."
+            combined_keys["tags_video"] = "A list of 15 comma-separated keywords (tags) focused on YouTube SEO IN ENGLISH."
+            combined_keys["prompt_thumbnail"] = "A detailed English prompt for Midjourney/DALL-E to generate a catchy match thumbnail."
+        elif lang_code.startswith('es'):
+            combined_keys["titulo_video"] = "Un título muy llamativo y viral para YouTube/TikTok EN ESPAÑOL."
+            combined_keys["descricao_video"] = "Una descripción optimizada para SEO que contiene hashtags relevantes EN ESPAÑOL."
+            combined_keys["tags_video"] = "Una lista de 15 palabras clave separadas por comas enfocadas en YouTube SEO EN ESPAÑOL."
+            combined_keys["prompt_thumbnail"] = "Un prompt en inglés detallado para Midjourney/DALL-E."
+        else:
+            combined_keys["titulo_video"] = "Um título muito chamativo e viral para YouTube/TikTok."
+            combined_keys["descricao_video"] = "Uma descrição otimizada para SEO contendo hashtags relevantes."
+            combined_keys["tags_video"] = "Uma lista de 15 palavras-chaves (tags) separadas por vírgula, focadas em YouTube SEO."
+            combined_keys["prompt_thumbnail"] = "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
+            
+        json_keys_prompt = json.dumps(combined_keys, indent=2, ensure_ascii=False)
+        
+        if format_type == 'long':
+            prompt = f"""
+Você é um especialista em análise tática de futebol e criador de conteúdo de apostas esportivas no YouTube.
+Devolva a análise em formato ESTRITAMENTE JSON.
+
+IDIOMA DO VÍDEO: {lang_code.upper()}
+{language_instructions}
+
+PARTIDA: {home_team} vs {away_team}
+COMPETIÇÃO: {league} ({country})
+
+ESTATÍSTICAS DAS ABAS SELECIONADAS:
+{combined_context}
+
+INSTRUÇÕES DE ESCRITA:
+Escreva a análise técnica e humana de CADA tópico de forma EXTREMAMENTE PROFUNDA E DETALHADA. É OBRIGATÓRIO que cada análise de tópico tenha entre 70 e 90 palavras (para render de 30 a 40 segundos de áudio na locução final). Para não ficar repetitivo ou dizer besteiras, agregue valor: explique o motivo da estatística, fale sobre a postura tática das equipes, cite o contexto do campeonato e crie uma narrativa real de jogo, mantendo a coerência. NUNCA use palavras de transição como "Começando por...", pois o sistema cuidará disso. Devolva APENAS as frases cruas e densas de análise.
+
+REGRA DE OURO (COMPLIANCE E PROBABILIDADE):
+Futebol não tem certeza. NUNCA garanta resultados, nunca prometa lucro e nunca mande o usuário apostar. NUNCA use palavras que dão certeza absoluta como "vai acontecer", "certeza", "é garantido", "vai ter mais escanteios". Use SEMPRE termos de probabilidade como "há uma tendência", "a estatística indica", "é provável que", "o cenário sugere", "tem boas chances de".
+
+REGRAS CRÍTICAS PARA LEITURA POR VOZ (TTS):
+1. NUNCA use abreviações ou siglas em nomes de times. Expanda TUDO. (Ex: "Atlético GO" vira "Atlético Goianiense", "América MG" vira "América Mineiro"). Ignore siglas como "FC" ou "AC".
+2. Para times ou ligas estrangeiras com nomes muito complexos de pronunciar, evite repeti-los; use substituições naturais como "o time da casa", "a equipe visitante", "nesta liga" ou "neste campeonato".
+3. Escreva todos os números e porcentagens completamente por extenso (ex: "sessenta por cento", "um vírgula cinco"). Não use símbolos matemáticos.
+
+Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
+{json_keys_prompt}
+"""
+        else:
+            prompt = f"""
+Você é um criador de conteúdo de apostas esportivas de muito sucesso no TikTok/Reels.
+Sua missão é criar um roteiro de vídeo CURTO (máximo de 60 segundos) muito engajador sobre as estatísticas fornecidas.
+
+Devolva a análise em formato ESTRITAMENTE JSON. NENHUM COMENTÁRIO ADICIONAL.
+
+IDIOMA DO VÍDEO: {lang_code.upper()}
+{language_instructions}
+
+PARTIDA: {home_team} vs {away_team}
+ESTATÍSTICAS DAS ABAS SELECIONADAS:
+{combined_context}
+
+INSTRUÇÕES:
+1. Inicie com um gancho muito forte sobre as ESTATÍSTICAS (ex: "Sabia que esse jogo tem 90% de ocorrência de cantos?").
+2. REGRA DE OURO (COMPLIANCE E PROBABILIDADE): NUNCA mande apostar ou prometa lucro. NUNCA garanta resultados ou use palavras como "vai acontecer", "certeza", "garantido". Futebol é estatística. Use SEMPRE "a tendência indica", "é provável", "o cenário sugere". Seu tom DEVE ser ESTRITAMENTE ANALÍTICO.
+3. Escolha APENAS as 2 estatísticas mais fortes/interessantes entre todas as abas fornecidas para analisar.
+4. NUNCA crie cenas visuais ou tags. Retorne apenas a fala contínua dividida nas chaves solicitadas.
+
+REGRAS CRÍTICAS PARA LEITURA POR VOZ (TTS):
+- NUNCA use abreviações em nomes de times. Expanda TUDO (ex: "Atlético GO" vira "Atlético Goianiense"). Ignore siglas "FC" ou "AC".
+- Para times/ligas gringos com nomes complexos, use "o time da casa", "a equipe visitante" ou "nesta liga" para a voz não travar.
+- Escreva números por extenso (ex: "um vírgula cinco").
+
+Você DEVE retornar UM ÚNICO OBJETO JSON EXATAMENTE com as seguintes chaves:
+{{
+  "gancho_intro": "Gancho rápido e explosivo de 5 a 10 segundos chamando atenção.",
+  "foco_1_aba": "Nome da aba da estatística 1 (gols, escanteios, cartoes, chutes, especiais, lays).",
+  "foco_1_tag": "Nome EXATO da estatística 1 (ex: Over 1.5, HT, Ambas).",
+  "foco_1_texto": "Análise super rápida e dinâmica da estatística foco 1...",
+  "foco_2_aba": "Nome da aba da estatística 2 (gols, escanteios, cartoes, chutes, especiais, lays).",
+  "foco_2_tag": "Nome EXATO da estatística 2...",
+  "foco_2_texto": "Análise super rápida da estatística foco 2 com fechamento.",
+  "titulo_video": "Um título muito chamativo e viral para YouTube/TikTok.",
+  "descricao_video": "Uma descrição otimizada para SEO contendo hashtags relevantes.",
+  "tags_video": "Uma lista de 15 palavras-chaves (tags) separadas por vírgula, focadas em YouTube SEO.",
+  "prompt_thumbnail": "Um prompt em inglês detalhado para o Midjourney/DALL-E gerar uma thumbnail chamativa do jogo."
+}}
+"""
+
+        def process_hybrid_response(text, format_type, selected_abas):
+            import json
+            import random
+            
+            try:
+                clean_json = text.replace('```json', '').replace('```', '').strip()
+                j = json.loads(clean_json)
+                
+                def pick(d): return random.choice(d)
+                def lower_first(s): return s[0].lower() + s[1:] if s else ""
+                
+                def normalize_foco_tag(raw_tag):
+                    """Map any AI-generated tag to the correct translated page tag."""
+                    import re
+                    t = raw_tag.lower().strip()
+                    
+                    # Language-specific tag mappings
+                    tag_map = {
+                        'ht': {'en': 'First Half Goal (HT)', 'es': 'Gol en el 1er Tiempo (HT)', 'de': 'Tor in der 1. Halbzeit (HT)', 'pt': 'Gol no 1º Tempo (HT)'},
+                        'btts': {'en': 'Both Teams to Score (BTTS)', 'es': 'Ambos Equipos Marcan (BTTS)', 'de': 'Beide Teams treffen (BTTS)', 'pt': 'Ambas Equipes Marcam (BTTS)'},
+                        'win': {'en': 'Win the Match', 'es': 'Ganar el Partido', 'de': 'Spielsieger', 'pt': 'Vencer a Partida'},
+                        'double': {'en': 'Double Chance', 'es': 'Doble Oportunidad', 'de': 'Doppelte Chance', 'pt': 'Chance Dupla'},
+                        'double_goals': {'en': 'Double Chance + Goals Range', 'es': 'Doble Oportunidad + Rango de Goles', 'de': 'Doppelte Chance + Torbereich', 'pt': 'Chance Dupla + Faixa de Gols'},
+                        'more_corners': {'en': 'More Corners', 'es': 'Más Córneres', 'de': 'Mehr Ecken', 'pt': 'Mais Escanteios'},
+                        'more_cards': {'en': 'More Cards', 'es': 'Más Tarjetas', 'de': 'Mehr Karten', 'pt': 'Mais Cartões'},
+                        'total_avg': {'en': 'Game Base', 'es': 'Base del Partido', 'de': 'Spielbasis', 'pt': 'Base do Jogo'},
+                        'total_shots': {'en': 'Over 18.5', 'es': 'Over 18.5', 'de': 'Over 18.5', 'pt': 'Over 18.5'},
+                        'precision': {'en': 'Shot Accuracy', 'es': 'Precisión de Tiro', 'de': 'Schussgenauigkeit', 'pt': 'Precisão de Chute'},
+                        'winner_both': {'en': 'Winner + Both Score', 'es': 'Ganador + Ambos Marcan', 'de': 'Sieger + Beide treffen', 'pt': 'Vencedor + Ambos Marcam'},
+                        'draw_no_bet': {'en': 'Draw No Bet', 'es': 'Empate Anula', 'de': 'Unentschieden keine Wette', 'pt': 'Empate Anula'},
+                    }
+                    
+                    def get_lang_key():
+                        if lang_code.startswith('en'): return 'en'
+                        if lang_code.startswith('es'): return 'es'
+                        if lang_code.startswith('de'): return 'de'
+                        return 'pt'
+                    
+                    lk = get_lang_key()
+                    
+                    # Over X.5 patterns - keep as-is (universal)
+                    if re.match(r'over\s*\d+[\.,]\d+', t):
+                        return raw_tag
+                    
+                    # HT / First Half / Primer Tiempo / 1º Tempo
+                    if any(x in t for x in ['ht goal', 'first half', 'primer tiempo', '1º tempo', '1er tiempo', 'primeiro tempo', 'halbzeit', 'mais gols no 1', 'gol no 1', 'gol en el 1']):
+                        return tag_map['ht'][lk]
+                    
+                    # BTTS / Both Teams to Score
+                    if any(x in t for x in ['btts', 'both teams', 'ambas equipes', 'ambos equipos', 'beide teams', 'ambas marcam', 'ambos marcan']):
+                        return tag_map['btts'][lk]
+                    
+                    # Double Chance + Goals Range (check before plain Double Chance)
+                    if any(x in t for x in ['chance dupla + faixa', 'double chance + goal', 'doble chance + gol', 'doble oportunidad + gol', 'doble oportunidad + rango']):
+                        return tag_map['double_goals'][lk]
+                    
+                    # Win the Match
+                    if any(x in t for x in ['win the match', 'match winner', 'vencer a partida', 'ganar el partido', 'vencedor', 'spielsieger', 'win match']):
+                        return tag_map['win'][lk]
+                    
+                    # Double Chance
+                    if any(x in t for x in ['double chance', 'chance dupla', 'doble oportunidad', 'doble chance', 'doppelte chance']):
+                        return tag_map['double'][lk]
+                    
+                    # More Corners
+                    if any(x in t for x in ['more corners', 'mais escanteios', 'mais cantos', 'más córners', 'más córneres', 'más esquinas', 'mehr ecken']):
+                        return tag_map['more_corners'][lk]
+                    
+                    # More Cards
+                    if any(x in t for x in ['more cards', 'mais cartões', 'más tarjetas', 'mehr karten', 'cartões', 'tarjetas']):
+                        return tag_map['more_cards'][lk]
+                    
+                    # Total Average / Média Total / Base do Jogo
+                    if any(x in t for x in ['total average', 'média total', 'promedio total', 'gesamtdurchschnitt', 'media total', 'base do jogo', 'game base', 'base del partido', 'spielbasis']):
+                        return tag_map['total_avg'][lk]
+                    
+                    # Total Shots / Over 18.5
+                    if any(x in t for x in ['total shots', 'chutes totais', 'total de chutes', 'tiros totales', 'gesamtschüsse', 'over 18']):
+                        return tag_map['total_shots'][lk]
+                    
+                    # Precision / Shot Accuracy
+                    if any(x in t for x in ['precisão', 'precisión', 'precision', 'genauigkeit', 'shot accuracy', 'precisão de chute', 'precisión de tiro', 'schussgenauigkeit']):
+                        return tag_map['precision'][lk]
+                    
+                    # Winner + Both Score
+                    if any(x in t for x in ['vencedor + ambos', 'winner + both', 'ganador + ambos']):
+                        return tag_map['winner_both'][lk]
+                    
+                    # Draw No Bet
+                    if any(x in t for x in ['empate anula', 'draw no bet', 'empate nulo']):
+                        return tag_map['draw_no_bet'][lk]
+                    
+                    # If no match, return as-is
+                    return raw_tag
+                
+                if format_type == 'short':
+                    f1_aba = j.get('foco_1_aba', selected_abas[0]).lower().strip()
+                    f2_aba = j.get('foco_2_aba', selected_abas[0]).lower().strip()
+                    
+                    texto_limpo = f"{j.get('gancho_intro', '')} "
+                    texto_maq = f"[ABA: {f1_aba}] {j.get('gancho_intro', '')} "
+                    
+                    # Foco 1
+                    tag1 = normalize_foco_tag(j.get('foco_1_tag', ''))
+                    txt1 = j.get('foco_1_texto', '')
+                    if tag1 and txt1:
+                        texto_limpo += f"{txt1} "
+                        texto_maq += f"[FOCO: {tag1}] {txt1} [OFF] "
+                        
+                    # Foco 2
+                    tag2 = normalize_foco_tag(j.get('foco_2_tag', ''))
+                    txt2 = j.get('foco_2_texto', '')
+                    if tag2 and txt2:
+                        texto_limpo += f"{txt2} "
+                        texto_maq += f"[ABA: {f2_aba}] [FOCO: {tag2}] {txt2} [OFF] "
+                            
+                    metadata_section = (
+                        "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
+                        f"TÍTULO: {j.get('titulo_video', '')}\n\n"
+                        f"DESCRIÇÃO:\n{j.get('descricao_video', '')}\n\n"
+                        f"TAGS PARA YOUTUBE:\n{j.get('tags_video', '')}\n\n"
+                        f"PROMPT THUMBNAIL (Midjourney/DALL-E):\n{j.get('prompt_thumbnail', '')}"
+                    )
+                            
+                    final_script = (
+                        "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
+                        f"{texto_limpo}\n\n"
+                        "👇👇👇 TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt) 👇👇👇\n\n"
+                        f"{texto_maq}\n\n"
+                        f"{metadata_section}"
+                    )
+                    return final_script
+
+                # Processamento formato LONG
+                texto_limpo = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
+                texto_maq = f"{j.get('introducao', '')}\n\n" if j.get('introducao') else ""
+                
+
+                
+                for aba in selected_abas:
+                    texto_maq += f"[ABA: {aba}] "
+                    
+                    if aba == 'gols':
+                        keys = ['gols_over_1_5', 'gols_over_2_5', 'gols_over_3_5', 'gols_over_4_5', 'gols_btts', 'gols_vencedor', 'gols_chance_dupla', 'gols_ht']
+                        tags = ['Over 1.5', 'Over 2.5', 'Over 3.5', 'Over 4.5', normalize_foco_tag('Ambas Equipes Marcam (BTTS)'), normalize_foco_tag('Vencer a Partida'), normalize_foco_tag('Chance Dupla'), normalize_foco_tag('Gol no 1º Tempo (HT)')]
+                        if lang_code.startswith('en'):
+                            words = [['Starting with', 'Beginning with', 'Looking first at'], ['Moving on to', 'Advancing to', 'Following with'], ['Analyzing', 'Proceeding with', 'Continuing with'], ['Getting into', 'Detailing', 'Exploring'], ['Looking at', 'Observing', 'Highlighting'], ['Regarding', 'Speaking of', 'Evaluating'], ['Noting', 'Checking', 'Pointing out'], ['Wrapping up', 'Closing with', 'Concluding with']]
+                        elif lang_code.startswith('es'):
+                            words = [['Comenzando con', 'Iniciando con', 'Partiendo con'], ['Pasando a', 'Avanzando a', 'Siguiendo con'], ['Analizando', 'Prosiguiendo con', 'Continuando con'], ['Llegando a', 'Detallando', 'Explorando'], ['Mirando', 'Observando', 'Destacando'], ['En cuanto a', 'Hablando de', 'Evaluando'], ['Notando', 'Verificando', 'Apuntando'], ['Finalizando', 'Cerrando', 'Concluyendo']]
+                        else:
+                            words = [['Começando', 'Iniciando', 'Partindo'], ['Passando', 'Avançando', 'Seguindo'], ['Analisando', 'Prosseguindo', 'Continuando'], ['Chegando', 'Detalhando', 'Explorando'], ['Olhando', 'Observando', 'Destacando'], ['Quanto', 'Falando', 'Avaliando'], ['Notando', 'Verificando', 'Apontando'], ['Finalizando', 'Fechando', 'Concluindo']]
+                    elif aba == 'escanteios':
+                        keys = ['escanteios_over_7_5', 'escanteios_over_8_5', 'escanteios_over_9_5', 'escanteios_over_10_5', 'escanteios_base', 'escanteios_palpite', 'escanteios_mais_cantos']
+                        tags = ['Over 7.5', 'Over 8.5', 'Over 9.5', 'Over 10.5', normalize_foco_tag('Média Total'), normalize_foco_tag('Mais Escanteios'), normalize_foco_tag('Mais Escanteios')]
+                        if lang_code.startswith('en'):
+                            words = [['Entering', 'Diving into', 'Exploring'], ['Proceeding with', 'Continuing with', 'Moving to'], ['Advancing to', 'Arriving at', 'Analyzing'], ['Going deeper into', 'Looking at', 'Highlighting'], ['Taking', 'Calculating', 'Adding up'], ['Focusing on', 'Aiming at', 'Filtering'], ['Wrapping up', 'Finishing with', 'Concluding']]
+                        elif lang_code.startswith('es'):
+                            words = [['Entrando en', 'Sumergiéndonos en', 'Explorando'], ['Prosiguiendo con', 'Continuando con', 'Caminando hacia'], ['Avanzando a', 'Llegando a', 'Analizando'], ['Profundizando en', 'Mirando', 'Destacando'], ['Tomando', 'Calculando', 'Sumando'], ['Enfocándonos en', 'Apuntando a', 'Filtrando'], ['Cerrando', 'Terminando', 'Rematando']]
+                        else:
+                            words = [['Entrando', 'Mergulhando', 'Explorando'], ['Prosseguindo', 'Continuando', 'Caminhando'], ['Avançando', 'Chegando', 'Analisando'], ['Aprofundando', 'Olhando', 'Destacando'], ['Pegando', 'Calculando', 'Somando'], ['Focando', 'Mirando', 'Filtrando'], ['Encerrando', 'Terminando', 'Arrematando']]
+                        if j.get('escanteios_intro'):
+                            texto_limpo += f"{j.get('escanteios_intro', '')} "
+                            texto_maq += f"{j.get('escanteios_intro', '')} "
+                    elif aba == 'cartoes':
+                        keys = ['cartoes_over_3_5', 'cartoes_over_4_5', 'cartoes_over_5_5', 'cartoes_mais_cartoes']
+                        tags = ['Over 3.5', 'Over 4.5', 'Over 5.5', normalize_foco_tag('Mais Cartões')]
+                        if lang_code.startswith('en'):
+                            words = [['Opening', 'Introducing', 'Bringing'], ['Going up to', 'Elevating to', 'Climbing to'], ['Reaching', 'Arriving at', 'Achieving'], ['Crowning', 'Completing', 'Saying goodbye to']]
+                        elif lang_code.startswith('es'):
+                            words = [['Abriendo', 'Lanzando', 'Trayendo'], ['Subiendo a', 'Elevando a', 'Escalando a'], ['Alcanzando', 'Llegando a', 'Logrando'], ['Coronando', 'Completando', 'Despidiendo']]
+                        else:
+                            words = [['Abrindo', 'Lançando', 'Trazendo'], ['Subindo', 'Elevando', 'Escalando'], ['Atingindo', 'Chegando', 'Alcançando'], ['Coroando', 'Completando', 'Despedindo']]
+                        if j.get('cartoes_intro'):
+                            texto_limpo += f"{j.get('cartoes_intro', '')} "
+                            texto_maq += f"{j.get('cartoes_intro', '')} "
+                    elif aba == 'chutes':
+                        keys = ['chutes_ao_alvo', 'chutes_precisao']
+                        tags = [normalize_foco_tag('Total Shots'), normalize_foco_tag('Precisão')]
+                        if lang_code.startswith('en'):
+                            words = [['Examining', 'Checking', 'Verifying'], ['Confirming', 'Mapping', 'Identifying']]
+                        elif lang_code.startswith('es'):
+                            words = [['Examinando', 'Comprobando', 'Chequeando'], ['Constatando', 'Mapeando', 'Identificando']]
+                        else:
+                            words = [['Examinando', 'Conferindo', 'Checando'], ['Constatando', 'Mapeando', 'Identificando']]
+                        if j.get('chutes_intro'):
+                            texto_limpo += f"{j.get('chutes_intro', '')} "
+                            texto_maq += f"{j.get('chutes_intro', '')} "
+                    elif aba == 'especiais':
+                        keys = ['especiais_vencedor_ambos', 'especiais_dupla_gols', 'especiais_empate_anula']
+                        tags = [normalize_foco_tag('Vencedor + Ambos Marcam'), normalize_foco_tag('Chance Dupla + Faixa de Gols'), normalize_foco_tag('Empate Anula')]
+                        if lang_code.startswith('en'):
+                            words = [['Inspecting', 'Unveiling', 'Investigating'], ['Combining', 'Joining', 'Uniting'], ['Securing', 'Ensuring', 'Protecting']]
+                        elif lang_code.startswith('es'):
+                            words = [['Inspeccionando', 'Desvelando', 'Apurando'], ['Combinando', 'Juntando', 'Uniendo'], ['Garantizando', 'Asegurando', 'Protegiendo']]
+                        else:
+                            words = [['Inspecionando', 'Desvendando', 'Apurando'], ['Combinando', 'Juntando', 'Unindo'], ['Garantindo', 'Assegurando', 'Protegendo']]
+                        if j.get('especiais_intro'):
+                            texto_limpo += f"{j.get('especiais_intro', '')} "
+                            texto_maq += f"{j.get('especiais_intro', '')} "
+                    elif aba == 'lays':
+                        keys = ['lays_melhor_lay']
+                        tags = ['Melhor Lay']
+                        if lang_code.startswith('en'):
+                            words = [['Investigating', 'Considering', 'Judging']]
+                        elif lang_code.startswith('es'):
+                            words = [['Investigando', 'Ponderando', 'Juzgando']]
+                        else:
+                            words = [['Investigando', 'Ponderando', 'Julgando']]
+                        if j.get('lays_intro'):
+                            texto_limpo += f"{j.get('lays_intro', '')} "
+                            texto_maq += f"{j.get('lays_intro', '')} "
+                    else:
+                        continue
+                    
+                    for i, (k, tag) in enumerate(zip(keys, tags)):
+                        val = lower_first(j.get(k, ''))
+                        if val:
+                            if lang_code.startswith('en'):
+                                word = pick(words[i]) if i < len(words) else "Analyzing"
+                                phrase = f"{word} the {tag} market, {val}" if aba != 'gols' else f"{word} the {tag} stats, {val}"
+                            elif lang_code.startswith('es'):
+                                word = pick(words[i]) if i < len(words) else "Analizando"
+                                phrase = f"{word} el mercado de {tag}, {val}" if aba != 'gols' else f"{word} las estadísticas de {tag}, {val}"
+                            else:
+                                word = pick(words[i]) if i < len(words) else "Analisando"
+                                phrase = f"{word} o mercado de {tag}, {val}" if aba != 'gols' else f"{word} as estatísticas de {tag}, {val}"
+                            texto_limpo += f"{phrase} "
+                            texto_maq += f"[FOCO: {tag}] {phrase} [OFF] "
+                            
+                    texto_maq += "\n\n"
+                
+                if j.get('despedida'):
+                    texto_limpo += f"\n\n{j.get('despedida', '')}"
+                    texto_maq += f"\n\n{j.get('despedida', '')}"
+                
+                if lang_code.startswith('en'):
+                    texto_limpo_audio = texto_limpo.replace('.5', ' point 5')
+                elif lang_code.startswith('es'):
+                    texto_limpo_audio = texto_limpo.replace('.5', ' punto 5')
+                else:
+                    texto_limpo_audio = texto_limpo.replace('.5', ' ponto 5')
+                
+                metadata_section = (
+                    "👇👇👇 METADADOS DO VÍDEO (TÍTULO, DESCRIÇÃO E THUMBNAIL) 👇👇👇\n\n"
+                    f"TÍTULO: {j.get('titulo_video', '')}\n\n"
+                    f"DESCRIÇÃO:\n{j.get('descricao_video', '')}\n\n"
+                    f"TAGS PARA YOUTUBE:\n{j.get('tags_video', '')}\n\n"
+                    f"PROMPT THUMBNAIL (Midjourney/DALL-E):\n{j.get('prompt_thumbnail', '')}"
+                )
+                
+                final_script = (
+                    "👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇\n\n"
+                    f"{texto_limpo_audio}\n\n"
+                    "👇👇👇 TEXTO DA MÁQUINA (COPIE TUDO AQUI ABAIXO E COLE NO ARQUIVO roteiro.txt) 👇👇👇\n\n"
+                    f"{texto_maq}\n\n"
+                    f"{metadata_section}"
+                )
+                return final_script
+            except Exception as e:
+                return f"👇👇👇 ERRO NO PARSER HÍBRIDO 👇👇👇\n\nErro: {str(e)}\n\nTexto Original da IA:\n{text}"
+
+        def background_task(task_id, prompt, format_type, selected_abas):
+            try:
+                from django.utils import translation
+                translation.activate(lang_code)
+                import requests
+                import os
+                from dotenv import load_dotenv
+                
+                load_dotenv(override=True)
+                
+                deepseek_api_key = os.getenv('DEEPSEEK_API_KEY')
+                gemini_api_key = os.getenv('GEMINI_API_KEY')
+                
+                if deepseek_api_key:
+                    url = "https://api.deepseek.com/chat/completions"
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': f'Bearer {deepseek_api_key}'
+                    }
+                    payload = {
+                        "model": "deepseek-v4-flash",
+                        "temperature": 0.85,
+                        "messages": [
+                            {"role": "user", "content": prompt}
+                        ]
+                    }
+                    try:
+                        r = requests.post(url, headers=headers, json=payload, timeout=240)
+                        if r.status_code == 200:
+                            data = r.json()
+                            script_text = data['choices'][0]['message']['content']
+                            script_text = process_hybrid_response(script_text, format_type, selected_abas)
+                            cache.set(f'match_script_task_{task_id}', {'status': 'success', 'script': script_text}, 3600)
+                            return
+                        else:
+                            cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro na API do DeepSeek ({r.status_code}): {r.text}'}, 3600)
+                            return
+                    except Exception as e:
+                        cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro ao conectar à API do DeepSeek: {str(e)}'}, 3600)
+                        return
+                        
+                # 2. Fallback: Gemini direto
+                if gemini_api_key:
+                    model = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={gemini_api_key}"
+                    headers = {'Content-Type': 'application/json'}
+                    payload = {
+                        "contents": [{
+                            "parts": [{
+                                "text": prompt
+                            }]
+                        }]
+                    }
+                    try:
+                        r = requests.post(url, headers=headers, json=payload, timeout=240)
+                        if r.status_code == 200:
+                            data = r.json()
+                            script_text = data['candidates'][0]['content']['parts'][0]['text']
+                            script_text = process_hybrid_response(script_text, format_type, selected_abas)
+                            cache.set(f'match_script_task_{task_id}', {'status': 'success', 'script': script_text}, 3600)
+                            return
+                        else:
+                            cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro na API direta do Gemini ({r.status_code}): {r.text}'}, 3600)
+                            return
+                    except Exception as e:
+                        cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro ao conectar à API direta do Gemini: {str(e)}'}, 3600)
+                        return
+                        
+                # 3. Tentar detectar se o proxy local de rotação está ativo
+                proxy_host = None
+                for host in ["127.0.0.1", "host.docker.internal"]:
+                    try:
+                        r = requests.get(f"http://{host}:8089/v1/models", headers={"Authorization": "Bearer dummy"}, timeout=1.5)
+                        if r.status_code == 200:
+                            proxy_host = host
+                            break
+                    except:
+                        continue
+        
+                if proxy_host:
+                    url = f"http://{proxy_host}:8089/v1/chat/completions"
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer dummy_key'
+                    }
+                    payload = {
+                        "model": "gemini-2.0-flash-lite",
+                        "messages": [
+                            {"role": "user", "content": prompt}
+                        ]
+                    }
+                    try:
+                        r = requests.post(url, headers=headers, json=payload, timeout=240)
+                        if r.status_code != 200:
+                            cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro no Proxy de Rotação ({r.status_code}): {r.text}'}, 3600)
+                            return
+                        data = r.json()
+                        script_text = data['choices'][0]['message']['content']
+                        script_text = process_hybrid_response(script_text, format_type, selected_abas)
+                        cache.set(f'match_script_task_{task_id}', {'status': 'success', 'script': script_text}, 3600)
+                        return
+                    except Exception as e:
+                        cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': f'Erro ao comunicar com o Proxy de Rotação: {str(e)}'}, 3600)
+                        return
+                else:
+                    cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': 'Nenhuma API configurada.'}, 3600)
+                    return
+            except Exception as e:
+                cache.set(f'match_script_task_{task_id}', {'status': 'error', 'message': str(e)}, 3600)
+
+        import uuid
+        import threading
+        
+        task_id = str(uuid.uuid4())
+        cache.set(f'match_script_task_{task_id}', {'status': 'processing'}, 3600)
+        
+        thread = threading.Thread(target=background_task, args=(task_id, prompt, format_type, selected_abas))
+        thread.start()
+        
+        return JsonResponse({'status': 'processing', 'task_id': task_id})
+
+class MatchVideoScriptStatusView(View):
+    def get(self, request, task_id):
+        from django.core.cache import caches
+        cache = caches['async_tasks']
+        task_data = cache.get(f'match_script_task_{task_id}')
+        if not task_data:
+            return JsonResponse({'status': 'error', 'message': 'Tarefa não encontrada ou expirada.'}, status=404)
+        return JsonResponse(task_data)
+
+
+from django.utils.translation import gettext_lazy as _
+
+class HomeView(ListView):
+
+    model = Match
+    template_name = 'matches/home.html'
+    context_object_name = 'matches'
+    
+    def get_queryset(self):
+        filter_type = self.request.GET.get('filter', 'today')
+        
+        # Jogos finalizados não aparecem mais nos cards (detectados pelo Tor/SofaScore)
+        finished_statuses = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED', 'Postponed', 'PST', 'AWD', 'CANC']
+        
+        # Use Brazil timezone for day boundaries so matches at 21:00 BRT
+        # (which is 00:00 UTC next day) are correctly attributed to the right day
+        br_tz = ZoneInfo('America/Sao_Paulo')
+        now_br = timezone.now().astimezone(br_tz)
+        start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
+        
+        if filter_type == 'tomorrow':
+            start_date = start_of_day + timedelta(days=1)
+            end_date = start_date + timedelta(days=1)
+            return Match.objects.filter(date__range=(start_date, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('date')
+            
+        elif filter_type == 'next_round':
+            # Próximos 14 dias para garantir
+            start_date = start_of_day + timedelta(days=2)
+            end_date = start_date + timedelta(days=14)
+            return Match.objects.filter(date__range=(start_date, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('date')
+            
+        else: # today
+            end_date = start_of_day + timedelta(days=1)
+            return Match.objects.filter(date__range=(start_of_day, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('status', 'date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matches = context['matches']
+        filter_type = self.request.GET.get('filter', 'today')
+        context['current_filter'] = filter_type
+        
+        # Jogo ao vivo não pode ficar em cache de 5min (placar/minuto/estatísticas mudam)
+        # → quando há Live, o timeout do cache vira 0 (regenera a cada request).
+        live_statuses = ['Live', 'LIVE', '1H', '2H', 'HT', 'IN_PLAY', 'In Play']
+        context['has_live_matches'] = any(m.status in live_statuses for m in matches)
+        context['cache_timeout'] = 0 if context['has_live_matches'] else 60
+        
+        # Group matches by Country -> League
+        grouped = {}
+        for m in matches:
+            country = m.league.country
+            league_name = m.league.name
+            if country not in grouped:
+                grouped[country] = {}
+            if league_name not in grouped[country]:
+                grouped[country][league_name] = []
+            grouped[country][league_name].append(m)
+            
+        # Convert to a sorted list of countries for the template
+        # Sort logic: Brazil first, then alphabetical
+        sorted_countries = sorted(grouped.keys(), key=lambda x: (x != 'Brasil', x))
+        
+        grouped_list = []
+        for country in sorted_countries:
+            leagues = []
+            for league_name, league_matches in grouped[country].items():
+                leagues.append({
+                    'name': league_name,
+                    'matches': league_matches,
+                    'league_obj': league_matches[0].league
+                })
+            # Sort leagues by name
+            leagues.sort(key=lambda x: x['name'])
+            grouped_list.append({
+                'country': country,
+                'flag_code': get_flag_code(country),
+                'leagues': leagues
+            })
+            
+        context['grouped_matches'] = grouped_list
+        
+        # Palpite do Dia (Missão 22)
+        try:
+            br_tz = ZoneInfo('America/Sao_Paulo')
+            now_br = timezone.now().astimezone(br_tz)
+            start_of_day = now_br.replace(hour=0, minute=0, second=0, microsecond=0)
+            end_of_tomorrow = start_of_day + timedelta(days=2)
+            
+            candidates = Match.objects.filter(
+                date__range=(start_of_day, end_of_tomorrow)
+            ).exclude(
+                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED', 'Postponed', 'PST', 'AWD', 'CANC']
+            ).select_related('league', 'home_team', 'away_team')
+            
+            def get_league_priority(m):
+                name = m.league.name
+                if name == "Brasileirão Série A":
+                    return 0
+                elif name in ["Premier League", "La Liga", "Bundesliga", "Serie A", "Ligue 1"]:
+                    return 1
+                return 2
+                
+            if candidates.exists():
+                sorted_candidates = sorted(
+                    candidates,
+                    key=lambda m: (
+                        get_league_priority(m),
+                        -len(json.dumps(m.predictions_data) if m.predictions_data else ""),
+                        m.date
+                    )
+                )
+                match_of_the_day = sorted_candidates[0]
+                
+                from matches.services.advanced_stats import MatchAnalyzer
+                analyzer = MatchAnalyzer(match_of_the_day)
+                report = analyzer.generate_full_report()
+                
+                probs = report.get('odds_probs', {})
+                best_bet = probs.get('best_bet', '')
+                best_bet_prob = probs.get('best_bet_prob', 0)
+                
+                tip_text = ""
+                if best_bet == '1' and best_bet_prob >= 50:
+                    tip_text = _("Vitória do %(team)s") % {'team': match_of_the_day.home_team.name}
+                elif best_bet == '2' and best_bet_prob >= 50:
+                    tip_text = _("Vitória do %(team)s") % {'team': match_of_the_day.away_team.name}
+                else:
+                    goals = report.get('goals', {})
+                    if goals.get('over_25', 0) >= 60:
+                        tip_text = _("Mais de 2.5 Gols")
+                    elif goals.get('btts', 0) >= 60:
+                        tip_text = _("Ambas Marcam")
+                    elif goals.get('over_15', 0) >= 75:
+                        tip_text = _("Mais de 1.5 Gols")
+                    else:
+                        db_bet = probs.get('double_bet', '')
+                        if db_bet == '1X':
+                            tip_text = _("%(team)s ou Empate") % {'team': match_of_the_day.home_team.name}
+                        elif db_bet == 'X2':
+                            tip_text = _("%(team)s ou Empate") % {'team': match_of_the_day.away_team.name}
+                        else:
+                            tip_text = _("Dupla Chance 12")
+                
+                context['tip_of_the_day'] = {
+                    'match': match_of_the_day,
+                    'report': report,
+                    'tip_text': tip_text,
+                }
+            else:
+                context['tip_of_the_day'] = None
+        except Exception as e:
+            print(f"Error generating tip of the day: {e}")
+            context['tip_of_the_day'] = None
+        
+        # Live matches for the rotating banner
+        live_statuses = [
+            '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 
+            'INT', 'SUSP', 'BREAK', 'PEN_LIVE'
+        ]
+        context['live_matches'] = Match.objects.filter(
+            status__in=live_statuses,
+            league__standings__isnull=False
+        ).select_related('league', 'home_team', 'away_team').distinct()[:5]
+        
+        if filter_type == 'tomorrow':
+            context['page_title'] = _("Tomorrow's Matches")
+        elif filter_type == 'next_round':
+            context['page_title'] = _('Next Round')
+        else:
+            context['page_title'] = _("Today's Matches")
+            
+        return context
+
+class LiveMatchesView(ListView):
+    model = Match
+    template_name = 'matches/live_matches.html'
+    context_object_name = 'matches'
+
+    def get_queryset(self):
+        # Todos os status que indicam jogo ao vivo
+        live_statuses = [
+            '1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 
+            'INT', 'SUSP', 'BREAK', 'PEN_LIVE', 'Live', 'In Play', 'IN PLAY'
+        ]
+        return Match.objects.filter(
+            status__in=live_statuses,
+            league__standings__isnull=False
+        ).select_related('league', 'home_team', 'away_team').distinct().order_by('league__name', 'date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matches = context['matches']
+        
+        # Agrupar por Liga
+        grouped_matches = {}
+        for match in matches:
+            league_name = match.league.name
+            if league_name not in grouped_matches:
+                grouped_matches[league_name] = {'league': match.league, 'matches': []}
+            grouped_matches[league_name]['matches'].append(match)
+            
+        context['grouped_matches'] = grouped_matches
+        context['page_title'] = _('Live Matches')
+        return context
+
+class StatsDispatchView(View):
+    """
+    Dispatcher para rotas ambíguas /stats/<arg1>/<arg2>/
+    Pode ser:
+    1. /stats/Country/League/ -> LeagueDetailView
+    2. /stats/League/Team/ -> TeamDetailView
+    """
+    def get(self, request, arg1=None, arg2=None, **kwargs):
+        # Fallback para pegar argumentos nomeados se arg1/arg2 não vierem posicionais
+        if not arg1:
+            arg1 = kwargs.get('country_name') or kwargs.get('league_name')
+        
+        if not arg2:
+            # Se temos country_name, arg2 é league_name
+            if kwargs.get('country_name'):
+                arg2 = kwargs.get('league_name')
+            # Se temos league_name (e não country_name), arg2 é team_name
+            elif kwargs.get('league_name'):
+                arg2 = kwargs.get('team_name')
+
+        if not arg1 or not arg2:
+             from django.http import Http404
+             raise Http404("Invalid URL arguments")
+
+        slug1 = arg1.replace('-', ' ')
+        slug2 = arg2.replace('-', ' ')
+
+        # 1. Tenta identificar se arg1 é um PAÍS
+        # Check Reverse Translation first (English -> DB Name)
+        db_country = COUNTRY_REVERSE_TRANSLATIONS.get(slug1.lower(), slug1)
+        
+        is_country = League.objects.filter(country__iexact=db_country).exists()
+        
+        # Fallback: Slugify Match (robust against accents/formatting)
+        if not is_country:
+            from django.utils.text import slugify
+            for l in League.objects.values('country').distinct():
+                if slugify(l['country']) == slugify(arg1):
+                    is_country = True
+                    break
+        
+        # Se for país, assume estrutura Country/League
+        if is_country:
+            view = LeagueDetailView.as_view()
+            # Passa kwargs esperados pela LeagueDetailView
+            return view(request, country_name=arg1, league_name=arg2)
+
+        # 2. Se não for país, assume que é LIGA e arg2 é TIME
+        # Verifica se existe liga com esse nome
+        is_league = League.objects.filter(models.Q(name__icontains=slug1) | models.Q(name__iexact=arg1)).exists()
+        
+        # Fallback Slugify for League
+        if not is_league:
+            from django.utils.text import slugify
+            for l in League.objects.all():
+                if slugify(l.name) == slugify(arg1):
+                    is_league = True
+                    break
+
+        if is_league:
+            view = TeamDetailView.as_view()
+            # Passa kwargs esperados pela TeamDetailView
+            return view(request, league_name=arg1, team_name=arg2)
+            
+        # 3. Se nenhum match óbvio, tenta fallback agressivo
+        # Tenta achar o time arg2 em qualquer liga que pareça arg1
+        league = League.objects.filter(name__icontains=slug1).first()
+        if league:
+             team = Team.objects.filter(league=league, name__icontains=slug2).exists()
+             if team:
+                 view = TeamDetailView.as_view()
+                 return view(request, league_name=arg1, team_name=arg2)
+        
+        # 4. Última tentativa: talvez arg1 seja país e arg2 seja liga, mas o check 'is_country' falhou por case/formatação?
+        # Deixa o LeagueDetailView tentar resolver ou dar 404
+        view = LeagueDetailView.as_view()
+        return view(request, country_name=arg1, league_name=arg2)
+
+
+
+
+class LeagueDetailView(DetailView):
+    model = League
+    template_name = 'matches/league_dashboard.html'
+    context_object_name = 'league'
+    
+    def get(self, request, *args, **kwargs):
+        from django.http import Http404, HttpResponsePermanentRedirect
+        from django.urls import reverse
+        from django.utils.text import slugify
+        from matches.utils import COUNTRY_TRANSLATIONS
+
+        try:
+            self.object = self.get_object()
+        except Http404:
+            raise
+
+        l = self.object
+        country_en = COUNTRY_TRANSLATIONS.get(l.country, l.country)
+        c_slug = slugify(country_en)
+        l_slug = slugify(l.name)
+
+        if getattr(self, 'is_country_hub', False):
+            expected_slug = c_slug
+            url_slug = self.kwargs.get('slug') or self.kwargs.get('league_name')
+            if url_slug != expected_slug:
+                canonical_url = reverse('matches:country_stats', kwargs={'slug': expected_slug})
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+        else:
+            if 'country_name' in self.kwargs and 'league_name' in self.kwargs:
+                if self.kwargs.get('country_name') != c_slug or self.kwargs.get('league_name') != l_slug:
+                    canonical_url = reverse('matches:league_stats_full', kwargs={'country_name': c_slug, 'league_name': l_slug})
+                    qs = request.META.get('QUERY_STRING', '')
+                    if qs: canonical_url += f"?{qs}"
+                    return HttpResponsePermanentRedirect(canonical_url)
+            elif 'league_name' in self.kwargs or 'slug' in self.kwargs:
+                canonical_url = reverse('matches:league_stats_full', kwargs={'country_name': c_slug, 'league_name': l_slug})
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+            elif 'pk' in self.kwargs:
+                canonical_url = reverse('matches:league_stats_full', kwargs={'country_name': c_slug, 'league_name': l_slug})
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def get_object(self):
+        self.is_country_hub = False
+        # Se pk foi passado, usa comportamento padrão
+        if 'pk' in self.kwargs:
+            return super().get_object()
+            
+        # Parâmetros da URL
+        league_slug = self.kwargs.get('league_name') or self.kwargs.get('slug')
+        country_slug = self.kwargs.get('country_name') # Para rota composta (país/liga)
+        
+        # Aliases / Deduplicacao
+        if country_slug == 'brazil' and league_slug == 'serie-a':
+            league_slug = 'brasileirao'
+            
+        # Base query
+        queryset = League.objects.all()
+
+        # CASO 1: Rota com País e Liga explícitos (ex: /stats/brazil/brasileirao/)
+        if country_slug and league_slug:
+             # Tenta filtrar por país (com fallback)
+             country_clean = country_slug.replace('-', ' ')
+             
+             # Resolve English -> DB Name
+             country_clean = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+             
+             # Removed hardcoded Http404 for Czech Republic
+
+             if not queryset.filter(country__iexact=country_clean).exists():
+                 # Fallback slugify
+                 from django.utils.text import slugify
+                 target_country = None
+                 for c in queryset.values_list('country', flat=True).distinct():
+                     if slugify(c) == country_slug:
+                         target_country = c
+                         break
+                 if target_country:
+                     queryset = queryset.filter(country=target_country)
+                 else:
+                     queryset = queryset.none()
+             else:
+                 queryset = queryset.filter(country__iexact=country_clean)
+
+             name_query = league_slug.replace('-', ' ')
+             league = queryset.filter(name__iexact=name_query).first() or \
+                      queryset.filter(name__icontains=name_query).first()
+            
+             # Fallback League Slugify
+             if not league:
+                 from django.utils.text import slugify
+                 for l in queryset:
+                     if slugify(l.name) == league_slug:
+                         league = l
+                         break
+
+             if league:
+                 return league
+             from django.http import Http404
+             raise Http404(f"League '{league_slug}' not found in {country_slug}")
+
+        # CASO 2: Rota genérica com um slug (ex: /stats/brazil/ OU /stats/premier-league/)
+        if league_slug:
+            slug_clean = league_slug.replace('-', ' ')
+            
+            # 2.1 Tenta achar LIGA primeiro
+            league = queryset.filter(name__iexact=slug_clean).first() or \
+                     queryset.filter(name__icontains=slug_clean).first()
+            if league:
+                if False:
+                    from django.http import Http404
+                    raise Http404("League disabled")
+                return league
+                
+            # 2.2 Se não achou liga, tenta achar PAÍS e retorna a primeira liga dele
+            # Tenta tradução reversa primeiro (English Slug -> Portuguese DB Name)
+            # Ex: 'czech-republic' -> 'republica tcheca'
+            
+            # Normaliza o slug: substitui hifens por espaços para buscar no dicionário
+            # Ex: 'czech-republic' vira 'czech republic', que bate com a chave do dicionário
+            clean_name = slug_clean.replace('-', ' ')
+            db_country_name = COUNTRY_REVERSE_TRANSLATIONS.get(clean_name.lower())
+            
+            if db_country_name:
+                candidates = queryset.filter(country__iexact=db_country_name)
+            else:
+                candidates = queryset.filter(country__iexact=slug_clean)
+
+            if candidates.exists():
+                self.is_country_hub = True
+                # Prefer league with most standings; if tie/zero, prefer with most upcoming matches
+                league = candidates.annotate(s_count=models.Count('standings')).order_by('-s_count').first()
+                if league and league.standings.count() > 0:
+                    return league
+                # Fallback by upcoming scheduled matches in next 30 days
+                now = timezone.now()
+                future = now + timedelta(days=30)
+                candidates_with_counts = []
+                for l in candidates:
+                    cnt = Match.objects.filter(
+                        league=l,
+                        date__gte=now,
+                        date__lte=future,
+                        status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC']
+                    ).count()
+                    candidates_with_counts.append((cnt, l))
+                if candidates_with_counts:
+                    candidates_with_counts.sort(key=lambda x: x[0], reverse=True)
+                    return candidates_with_counts[0][1]
+                
+        # Fallback
+        from django.http import Http404
+        raise Http404(f"No league or country found matching: {league_slug}")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        league = self.object
+        context['is_country_hub'] = getattr(self, 'is_country_hub', False)
+        
+        # Conteúdo introdutório de SEO (Missão 14)
+        lang = getattr(self.request, 'LANGUAGE_CODE', 'en')
+        if context['is_country_hub']:
+            from matches.models import Country
+            country_meta = Country.objects.filter(name__iexact=league.country).first()
+            if country_meta:
+                if lang == 'pt-br': context['intro_text'] = country_meta.intro_pt
+                elif lang == 'es': context['intro_text'] = country_meta.intro_es
+                elif lang == 'de': context['intro_text'] = country_meta.intro_de
+                else: context['intro_text'] = country_meta.intro_en
+        else:
+            if lang == 'pt-br': context['intro_text'] = league.intro_pt
+            elif lang == 'es': context['intro_text'] = league.intro_es
+            elif lang == 'de': context['intro_text'] = league.intro_de
+            else: context['intro_text'] = league.intro_en
+
+        now = timezone.now()
+        
+        # Show Live matches and Scheduled matches that are not too old
+        live_statuses = ['1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
+        scheduled_statuses = ['Scheduled', 'Not Started', 'TIMED', 'UTC']
+        grace_cutoff = now - timedelta(hours=3)
+        
+        upcoming_matches_qs = Match.objects.filter(
+            league=league
+        ).filter(
+            models.Q(status__in=live_statuses) |
+            models.Q(status__in=scheduled_statuses, date__gte=grace_cutoff)
+        ).select_related('home_team', 'away_team').order_by('date')[:15]
+        context['upcoming_matches'] = upcoming_matches_qs
+        
+        # Include all statuses that indicate a finished match
+        # REMOVED date__lte=now to avoid timezone issues hiding finished matches
+        finished_matches = Match.objects.filter(
+            league=league,
+            status__in=FINISHED_STATUSES
+        ).select_related('home_team', 'away_team').order_by('-date')[:15]
+        context['finished_matches'] = finished_matches
+        context['latest_results'] = finished_matches
+        
+        # --- NEW: Standing Groups Logic ---
+        latest_season_standing = league.standings.order_by('-season__year').first()
+        latest_season = latest_season_standing.season if latest_season_standing else None
+        
+        # Fallback: Tenta pegar a temporada do último jogo apenas se não houver NENHUMA tabela de classificação
+        if not latest_season:
+            last_match = Match.objects.filter(
+                league=league, 
+                season__isnull=False
+            ).select_related('season').order_by('-season__year', '-date').first()
+            if last_match:
+                latest_season = last_match.season
+        
+        context['latest_season'] = latest_season
+        context['season'] = latest_season
+
+        if latest_season:
+            # Agrupa por fase (Regular Season, Championship Round, etc.)
+            all_standings_qs = league.standings.filter(season=latest_season).select_related('team').order_by('group_name', 'position')
+            
+            from collections import OrderedDict
+            standings_by_group = OrderedDict()
+            for st in all_standings_qs:
+                g = (st.group_name or 'Regular Season').strip()
+                if 'Group' in g:
+                    g = f"Group {g.split('Group')[-1].strip()}"
+                elif 'Grupo' in g:
+                    g = f"Grupo {g.split('Grupo')[-1].strip()}"
+                if g not in standings_by_group:
+                    standings_by_group[g] = []
+                # Evita duplicidade de times no mesmo grupo (ex: fases diferentes com o mesmo nome)
+                if not any(existing_st.team_id == st.team_id for existing_st in standings_by_group[g]):
+                    standings_by_group[g].append(st)
+            
+            # Ordenação: Garante que a "Regular Season" venha primeiro
+            if standings_by_group:
+                ordered = OrderedDict()
+                reg_key = None
+                for key in standings_by_group.keys():
+                    if 'regular' in key.lower() or 'season' in key.lower():
+                        reg_key = key
+                        break
+                if reg_key:
+                    ordered[reg_key] = standings_by_group.pop(reg_key)
+                ordered.update(standings_by_group)
+                standings_by_group = ordered
+            
+            # Context variables para o template
+            first_group_key = next(iter(standings_by_group), None)
+            standings = standings_by_group.get(first_group_key, [])
+            has_multiple_groups = len(standings_by_group) > 1
+            
+            context['standings'] = standings
+            context['standings_by_group'] = standings_by_group
+            context['has_multiple_groups'] = has_multiple_groups
+            # -----------------------------------
+
+            all_matches = Match.objects.filter(
+                league=league,
+                season=latest_season,
+                status__in=FINISHED_STATUSES,
+                home_score__isnull=False,
+                away_score__isnull=False,
+            ).select_related('home_team', 'away_team')
+
+            # Initialize data structures for Home/Away tables
+            from datetime import datetime
+            epoch = timezone.make_aware(datetime(1900, 1, 1))
+            team_stats = {} # Key: team_id, Value: {home_stats, away_stats}
+
+            # Pre-calculate PPG for all teams for Relative Performance calculation
+            team_ppg_map = {}
+            all_standings_flat = [s for group_list in standings_by_group.values() for s in group_list]
+            for s in all_standings_flat:
+                if s.played > 0:
+                    team_ppg_map[s.team.id] = s.points / s.played
+                else:
+                    team_ppg_map[s.team.id] = 0.0
+
+            for standing in all_standings_flat:
+                team_id = standing.team.id
+                team_stats[team_id] = {
+                   'team': standing.team,
+                   'team_slug': standing.team.name.replace(' ', '-'),
+                   'league_slug': league.name.replace(' ', '-'),
+                   'home': {'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0},
+                   'away': {'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0},
+                   'form': [] 
+                }
+                # Calculate Goal Diff for main table
+                standing.goal_diff = standing.goals_for - standing.goals_against
+                
+                # --- NEW: Slugify names for custom URLs ---
+                standing.team_slug = standing.team.name.replace(' ', '-')
+                standing.league_slug = league.name.replace(' ', '-') # Assuming league object is available
+
+                # Calculate Form (Last 5 for main table, Last 8 for Form tab)
+                team_matches = [m for m in all_matches if m.home_team_id == team_id or m.away_team_id == team_id]
+                # Sort by date/id descending - handle missing dates safely with compatible epoch
+                team_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                
+                # Last 5 for Main Table
+                # --- NEW: POPULATE TEAM STATS (Home/Away Tables) ---
+                t_stats = team_stats[team_id]
+                for m in team_matches:
+                    home_score = m.home_score or 0
+                    away_score = m.away_score or 0
+                    
+                    if m.home_team_id == team_id:
+                        s = t_stats['home']
+                        s['gp'] += 1
+                        s['gf'] += home_score
+                        s['ga'] += away_score
+                        if home_score > away_score: s['w'] += 1; s['pts'] += 3
+                        elif home_score == away_score: s['d'] += 1; s['pts'] += 1
+                        else: s['l'] += 1
+                    else:
+                        s = t_stats['away']
+                        s['gp'] += 1
+                        s['gf'] += away_score
+                        s['ga'] += home_score
+                        if away_score > home_score: s['w'] += 1; s['pts'] += 3
+                        elif away_score == home_score: s['d'] += 1; s['pts'] += 1
+                        else: s['l'] += 1
+
+                # Form (Last 5)
+                form_5 = []
+                form_details = []
+                for m in team_matches[:5]:
+                    # Determine if team was home or away
+                    is_home = m.home_team_id == team_id
+                    opponent = m.away_team if is_home else m.home_team
+                    team_score = m.home_score if m.home_score is not None else 0
+                    opp_score = m.away_score if m.away_score is not None else 0
+                    if not is_home:
+                        team_score, opp_score = opp_score, team_score
+                    
+                    # Determine result
+                    if team_score > opp_score:
+                        result = 'W'
+                    elif team_score == opp_score:
+                        result = 'D'
+                    else:
+                        result = 'L'
+                        
+                    form_5.append(result)
+                    
+                    # Tooltip details
+                    form_details.append({
+                        'date': m.date.strftime('%d/%m/%Y') if m.date else 'N/A',
+                        'opponent': opponent.name,
+                        'score': f"{team_score}-{opp_score}",
+                        'result': result,
+                        'is_home': is_home
+                    })
+                
+                standing.form_history = form_5
+                standing.form_details = form_details  # NEW
+
+                # Last 8 for Relative Form Tab
+                form_8 = []
+                pts_8 = 0
+                for m in team_matches[:8]:
+                    result = ''
+                    h_score = m.home_score if m.home_score is not None else 0
+                    a_score = m.away_score if m.away_score is not None else 0
+                    
+                    if m.home_team_id == team_id:
+                        if h_score > a_score: result = 'W'; pts_8 += 3
+                        elif h_score == a_score: result = 'D'; pts_8 += 1
+                        else: result = 'L'
+                    else:
+                        if a_score > h_score: result = 'W'; pts_8 += 3
+                        elif a_score == h_score: result = 'D'; pts_8 += 1
+                        else: result = 'L'
+                    form_8.append(result)
+                
+                standing.form_8 = form_8
+                standing.pts_8 = pts_8
+                standing.ppg_8 = round(pts_8 / 8, 2) if len(team_matches) >= 8 else round(pts_8 / len(team_matches), 2) if team_matches else 0
+                standing.ppg_season = round(standing.points / standing.played, 2) if standing.played > 0 else 0
+                standing.ppg_diff = round(standing.ppg_8 - standing.ppg_season, 2)
+                
+                # Relative Form Percentage ((PPG8 - PPG_Season) / PPG_Season)
+                if standing.ppg_season > 0:
+                    standing.relative_form_pct = round(((standing.ppg_8 - standing.ppg_season) / standing.ppg_season) * 100, 0)
+                    standing.relative_form_pct = int(standing.relative_form_pct)
+                    # Bar width: 1% = 1.5px approx? Or just pass absolute value for flexible JS/CSS use.
+                    # Let's pass a calc valid for 'px' usage.
+                    # Using factor 2.0: 10% = 20px. 40% = 80px. 90% = 180px.
+                    # Maybe cap at 100px?
+                    standing.relative_form_bar_width = min(abs(standing.relative_form_pct) * 2, 120) 
+                else:
+                    standing.relative_form_pct = 0
+                    standing.relative_form_bar_width = 0
+                
+                # Relative Performance metrics (SoccerStats style)
+                # Points Performance Index = Team PPG x Opponents PPG
+                
+                opponents_ppg_sum = 0
+                opponents_count = 0
+                
+                for m in team_matches:
+                    opp_id = m.away_team_id if m.home_team_id == team_id else m.home_team_id
+                    if opp_id in team_ppg_map:
+                        opponents_ppg_sum += team_ppg_map[opp_id]
+                        opponents_count += 1
+                
+                standing.opponents_ppg = round(opponents_ppg_sum / opponents_count, 2) if opponents_count > 0 else 0
+                standing.performance_index = round(standing.ppg_season * standing.opponents_ppg, 2)
+                # Calulca a porcentagem para a barra (máximo 4.0 = 100%)
+                standing.perf_width_pct = min(round((standing.performance_index / 4.0) * 100, 1), 100) if standing.performance_index > 0 else 0
+
+                # --- Run-in Analysis Logic ---
+                # Get all matches for this team (including scheduled)
+                team_all_matches = Match.objects.filter(
+                    league=league,
+                ).filter(models.Q(home_team_id=team_id) | models.Q(away_team_id=team_id)).select_related('home_team', 'away_team')
+
+                played_opp_ppg_sum = 0
+                played_count = 0
+                remaining_opp_ppg_sum = 0
+                remaining_count = 0
+                
+                # Sort upcoming by date/id
+                upcoming_scheduled = []
+                
+                for m in team_all_matches:
+                    opp_id = m.away_team_id if m.home_team_id == team_id else m.home_team_id
+                    opp_ppg = team_ppg_map.get(opp_id, 0.0)
+                    
+                    if m.status in FINISHED_STATUSES:
+                        played_opp_ppg_sum += opp_ppg
+                        played_count += 1
+                    elif m.status in ['Scheduled', 'Not Started', 'TIMED', 'UTC', 'Not started']:
+                        remaining_opp_ppg_sum += opp_ppg
+                        remaining_count += 1
+                        upcoming_scheduled.append({'match': m, 'opp_ppg': opp_ppg})
+
+                # Opponents Played PPG
+                standing.opp_played_ppg = round(played_opp_ppg_sum / played_count, 2) if played_count > 0 else 0
+                
+                # Opponents Remaining PPG
+                standing.opp_remaining_ppg = round(remaining_opp_ppg_sum / remaining_count, 2) if remaining_count > 0 else 0
+                standing.runin_width_pct = min(round((standing.opp_remaining_ppg / 3.0) * 100, 1), 100) if standing.opp_remaining_ppg > 0 else 0
+                
+                # Played vs Remaining (%)
+                if standing.opp_remaining_ppg > 0:
+                    diff_pct = (standing.opp_played_ppg / standing.opp_remaining_ppg - 1) * 100
+                    standing.runin_diff_pct = round(diff_pct, 1)
+                else:
+                    standing.runin_diff_pct = 0
+                
+                # Next 4 Opponents average - use datetime-compatible epoch for sorting
+                upcoming_scheduled.sort(key=lambda x: (x['match'].date if x['match'].date else epoch, x['match'].id))
+                next_4 = upcoming_scheduled[:4]
+                next_4_sum = sum(item['opp_ppg'] for item in next_4)
+                standing.next_4_ppg = round(next_4_sum / len(next_4), 2) if next_4 else 0
+
+                # --- Projected Points Logic ---
+                # Ratio = Opponents Remaining PPG / Opponents Played PPG
+                if standing.opp_played_ppg > 0:
+                    standing.proj_ratio = round(standing.opp_remaining_ppg / standing.opp_played_ppg, 2)
+                else:
+                    standing.proj_ratio = 1.0
+                
+                # pPPG = Team PPG x Ratio
+                standing.proj_ppg = round(standing.ppg_season * standing.proj_ratio, 2)
+                
+                # Games Remaining
+                # Dinâmico por liga
+                total_games = 38
+                if league.country == "Austria": total_games = 32
+                elif league.name == "Ligue 1": total_games = 34
+                elif league.country == "Alemanha": total_games = 34
+                elif league.name == "Eredivisie": total_games = 34
+                elif league.country == "Portugal": total_games = 34
+                
+                standing.games_remaining = max(0, total_games - standing.played)
+                
+                # Projected Points = pPPG x Games Remaining
+                standing.proj_points = round(standing.proj_ppg * standing.games_remaining, 2)
+                
+                # Projected Total = Current Points + Projected Points
+                standing.proj_total = round(float(standing.points) + float(standing.proj_points), 2)
+
+                # --- Additional Stats for Main Table ---
+                # Clean Sheets (CS): matches where GA = 0
+                clean_sheets = sum(1 for m in team_matches if (
+                    (m.home_team_id == team_id and m.away_score == 0) or
+                    (m.away_team_id == team_id and m.home_score == 0)
+                ))
+                standing.clean_sheets = clean_sheets
+                
+                # Scoring Rate (SR): percentage of matches where team scored
+                matches_scored = sum(1 for m in team_matches if (
+                    (m.home_team_id == team_id and m.home_score is not None and m.home_score > 0) or
+                    (m.away_team_id == team_id and m.away_score is not None and m.away_score > 0)
+                ))
+                standing.scoring_rate = f"{round((matches_scored / len(team_matches) * 100) if team_matches else 0)}%"
+                
+                # Maximum Possible Points (MPP)
+                standing.max_possible_points = standing.points + (38 - standing.played) * 3
+
+
+            # Calculate table averages
+            total_teams = len(standings)
+            if total_teams > 0:
+                context['avg_played'] = sum(s.played for s in standings) / total_teams
+                context['avg_won'] = sum(s.won for s in standings) / total_teams
+                context['avg_drawn'] = sum(s.drawn for s in standings) / total_teams
+                context['avg_lost'] = sum(s.lost for s in standings) / total_teams
+                context['avg_gf'] = sum(s.goals_for for s in standings) / total_teams
+                context['avg_ga'] = sum(s.goals_against for s in standings) / total_teams
+                context['avg_gd'] = sum(s.goal_diff for s in standings) / total_teams
+                context['avg_pts'] = sum(s.points for s in standings) / total_teams
+                context['avg_ppg'] = sum(s.ppg_season for s in standings) / total_teams
+                context['avg_ppg8'] = sum(s.ppg_8 for s in standings) / total_teams
+                context['avg_cs'] = sum(s.clean_sheets for s in standings) / total_teams * 100 / context['avg_played'] if context['avg_played'] > 0 else 0
+                total_sr = sum(int(s.scoring_rate.rstrip('%')) for s in standings)
+                context['avg_sr'] = total_sr / total_teams if total_teams > 0 else 0
+
+
+
+
+            # Prepare sorted lists for context
+            home_table = []
+            away_table = []
+            for tid, data in team_stats.items():
+                # Add calculated properties
+                h = data['home']
+                h['team'] = data['team']
+                h['team_slug'] = data['team_slug']
+                h['league_slug'] = data['league_slug']
+                h['gd'] = h['gf'] - h['ga']
+                h['ppg'] = round(h['pts'] / h['gp'], 2) if h['gp'] > 0 else 0
+                home_table.append(h)
+
+                a = data['away']
+                a['team'] = data['team']
+                a['team_slug'] = data['team_slug']
+                a['league_slug'] = data['league_slug']
+                a['gd'] = a['gf'] - a['ga']
+                a['ppg'] = round(a['pts'] / a['gp'], 2) if a['gp'] > 0 else 0
+                away_table.append(a)
+
+            # Sort tables (Pts desc, GD desc, GF desc)
+            home_table.sort(key=lambda x: (x['pts'], x['gd'], x['gf']), reverse=True)
+            away_table.sort(key=lambda x: (x['pts'], x['gd'], x['gf']), reverse=True)
+
+            # Add rank
+            for i, row in enumerate(home_table, 1): row['position'] = i
+            for i, row in enumerate(away_table, 1): row['position'] = i
+
+            rf_override = None
+            rp_override = None
+            ri_override = None
+            pp_override = None
+            try:
+                if league.name == 'First League' and False:
+                    relative_table_override = None
+                    import requests as _rq
+                    from bs4 import BeautifulSoup as _BS
+                    import pandas as _pd
+                    def _to_int(s):
+                        try:
+                            s = str(s).strip().replace('+', '').replace('–', '-').replace('—', '-').replace('−', '-')
+                            s = ''.join(ch for ch in s if ch.isdigit() or ch in {'-', '+'})
+                            if s in {'', '-'}: return None
+                            return int(s)
+                        except: 
+                            return None
+                    def _parse_table_el(tbl):
+                        rows2 = []
+                        for tr in tbl.find_all('tr'):
+                            cells = [c.get_text(strip=True) for c in tr.find_all(['td','th'])]
+                            if len(cells) < 8: 
+                                continue
+                            # Expect: [#, Team, GP, W, D, L, GF, GA, GD, Pts, ...]
+                            try:
+                                team_name = cells[1]
+                                gp = _to_int(cells[2]); w = _to_int(cells[3]); d = _to_int(cells[4]); l = _to_int(cells[5])
+                                gf = _to_int(cells[6]); ga = _to_int(cells[7])
+                                # GD may be cells[8], Pts cells[9]
+                                pts = None
+                                if len(cells) > 9:
+                                    pts = _to_int(cells[9])
+                                if pts is None and len(cells) > 8:
+                                    pts = _to_int(cells[8])
+                                if gp is None or w is None or d is None or l is None or gf is None or ga is None or pts is None:
+                                    continue
+                                team = Team.objects.filter(name=team_name, league=league).first()
+                                if not team:
+                                    team = Team.objects.create(name=team_name, league=league)
+                                item = {
+                                    'team': team,
+                                    'team_slug': team.name.lower().replace(' ', '-'),
+                                    'league_slug': league.name.lower().replace(' ', '-'),
+                                    'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga,
+                                    'gd': (gf - ga), 'pts': pts, 'ppg': round(pts/gp, 2) if gp else 0
+                                }
+                                rows2.append(item)
+                            except:
+                                continue
+                        rows2 = [r for r in rows2 if r['gp'] is not None and 0 <= r['gp'] <= 60]
+                        rows2.sort(key=lambda x:(x['pts'], x['gd'], x['gf']), reverse=True)
+                        for i, it in enumerate(rows2, 1): it['position'] = i
+                        return rows2
+                    def _extract_rows(df):
+                        out = []
+                        for _, r in df.iterrows():
+                            cells = [str(x).strip() for x in r.values.tolist()]
+                            t_idx = None
+                            for i, c in enumerate(cells):
+                                if c and any(ch.isalpha() for ch in c) and c.lower() not in {'team','teams','#','average','avg'}:
+                                    t_idx = i
+                                    break
+                            if t_idx is None: 
+                                continue
+                            nums = []
+                            for c in cells[t_idx+1:]:
+                                v = _to_int(c)
+                                if v is not None: nums.append(v)
+                            if len(nums) < 8: 
+                                continue
+                            gp,w,d,l,gf,ga = nums[0],nums[1],nums[2],nums[3],nums[4],nums[5]
+                            pts = nums[7] if len(nums) >= 8 else nums[6]
+                            if not (0 <= gp <= 60 and 0 <= w <= 60 and 0 <= d <= 60 and 0 <= l <= 60): 
+                                continue
+                            out.append((cells[t_idx], gp, w, d, l, gf, ga, pts))
+                        return out
+                    url = "https://www.soccerstats.com/latest.asp?league=czechrepublic"
+                    r = _rq.get(url, headers={"User-Agent":"Mozilla/5.0"}, timeout=15)
+                    if r.status_code == 200:
+                        soup = _BS(r.text, 'html.parser')
+                        home_el = None
+                        away_el = None
+                        for node in soup.find_all(text=True):
+                            if isinstance(node, str):
+                                t = node.strip().lower()
+                                if t == 'home table' and home_el is None:
+                                    home_el = node.parent.find_next('table')
+                                elif t == 'away table' and away_el is None:
+                                    away_el = node.parent.find_next('table')
+                            if home_el is not None and away_el is not None:
+                                break
+                        parsed_home = _parse_table_el(home_el) if home_el else []
+                        parsed_away = _parse_table_el(away_el) if away_el else []
+                        if parsed_home and parsed_away:
+                            home_table = parsed_home
+                            away_table = parsed_away
+                        else:
+                            tables = _pd.read_html(r.text)
+                            home_away_candidates = []
+                            for t in tables:
+                                rows = _extract_rows(t)
+                                if not rows or len(rows) < 8:
+                                    continue
+                                avg_gp = sum(r[1] for r in rows) / len(rows)
+                                if 9 <= avg_gp <= 13:
+                                    home_away_candidates.append(rows)
+                            if len(home_away_candidates) >= 2:
+                                def _build(rows):
+                                    rows2 = []
+                                    for team_name, gp, w, d, l, gf, ga, pts in rows:
+                                        team = Team.objects.filter(name=team_name, league=league).first()
+                                        if not team:
+                                            team = Team.objects.create(name=team_name, league=league)
+                                        item = {
+                                            'team': team,
+                                            'team_slug': team.name.lower().replace(' ', '-'),
+                                            'league_slug': league.name.lower().replace(' ', '-'),
+                                            'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga,
+                                            'gd': gf - ga, 'pts': pts, 'ppg': round(pts/gp, 2) if gp else 0
+                                        }
+                                        rows2.append(item)
+                                    rows2.sort(key=lambda x:(x['pts'], x['gd'], x['gf']), reverse=True)
+                                    for i, it in enumerate(rows2, 1): it['position'] = i
+                                    return rows2
+                                built1 = _build(home_away_candidates[0])
+                                built2 = _build(home_away_candidates[1])
+                                home_table = built1
+                                away_table = built2
+                            home_idx = {r['team']: r for r in home_table}
+                            away_idx = {r['team']: r for r in away_table}
+                            rel_rows = []
+                            for t in set(home_idx.keys()) & set(away_idx.keys()):
+                                h = home_idx[t]
+                                a = away_idx[t]
+                                total_pts = h['pts'] + a['pts']
+                                total_gp = h['gp'] + a['gp']
+                                total_ppg = (total_pts / total_gp) if total_gp > 0 else 0
+                                ppg_home = h['ppg']
+                                ppg_away = a['ppg']
+                                rel_rows.append({
+                                    'team': h['team'],
+                                    'team_slug': h['team_slug'],
+                                    'league_slug': h['league_slug'],
+                                    'gph': h['gp'],
+                                    'gpa': a['gp'],
+                                    'pts': total_pts,
+                                    'ppg_home': ppg_home,
+                                    'ppg_away': ppg_away,
+                                    'ppg_diff': round(ppg_home - ppg_away, 2),
+                                    'home_rel': round(((ppg_home - total_ppg)/total_ppg * 100), 1) if total_ppg > 0 else 0,
+                                    'away_rel': round(((ppg_away - total_ppg)/total_ppg * 100), 1) if total_ppg > 0 else 0,
+                                    'bar_width': min(int(abs(ppg_home - ppg_away) * 40), 100),
+                                    'ppg_diff_abs': abs(round(ppg_home - ppg_away, 2))
+                                })
+                            rel_rows.sort(key=lambda x: (x['pts'], x['ppg_diff']), reverse=True)
+                            for i, r in enumerate(rel_rows, 1):
+                                r['position'] = i
+                            relative_table_override = rel_rows
+                        
+                        def _clean_float(s):
+                            try:
+                                s = str(s).strip().replace(',', '.')
+                                keep = ''.join(ch for ch in s if (ch.isdigit() or ch in {'.','-','+'}))
+                                if keep in {'', '-', '+', '.', '+.', '-.'}: return None
+                                return float(keep)
+                            except:
+                                return None
+                        def _table_has_keywords(tbl, keywords):
+                            txt = []
+                            for th in tbl.find_all('th'):
+                                txt.append(th.get_text(' ', strip=True))
+                            # Also sample first 3 rows for context
+                            for tr in tbl.find_all('tr')[:3]:
+                                txt.extend(td.get_text(' ', strip=True) for td in tr.find_all(['td','th']))
+                            blob = ' '.join(txt).lower()
+                            return all(k in blob for k in keywords)
+                        def _find_table_by_keywords(keyword_sets):
+                            tables = soup.find_all('table')
+                            for kws in keyword_sets:
+                                for tbl in tables:
+                                    try:
+                                        if _table_has_keywords(tbl, kws):
+                                            return tbl
+                                    except Exception:
+                                        continue
+                            return None
+                        def _find_table_by_label(labels):
+                            for node in soup.find_all(text=True):
+                                try:
+                                    t = node.strip().lower()
+                                except:
+                                    continue
+                                for lbl in labels:
+                                    if lbl.lower() in t:
+                                        el = node.parent.find_next('table')
+                                        if el:
+                                            return el
+                            return None
+                        def _is_runin_table(tbl):
+                            txt = []
+                            for th in tbl.find_all('th'):
+                                txt.append(th.get_text(' ', strip=True).lower())
+                            blob = ' '.join(txt)
+                            bad = ['run-in', 'remaining', 'next 4', 'played']
+                            return any(b in blob for b in bad)
+                        def _parse_rows_float(tbl, min_cols=4):
+                            out = []
+                            if not tbl: return out
+                            for tr in tbl.find_all('tr'):
+                                tds = tr.find_all(['td','th'])
+                                cells = [td.get_text(strip=True) for td in tds]
+                                if len(cells) < min_cols: 
+                                    continue
+                                name = None
+                                name_idx = None
+                                for c in cells:
+                                    if c and any(ch.isalpha() for ch in c):
+                                        if c.lower() in {'team', 'teams', '#', 'avg', 'average'}:
+                                            continue
+                                        name = c
+                                        name_idx = cells.index(c)
+                                        break
+                                if not name:
+                                    continue
+                                nums = []
+                                # Considere apenas o que vem DEPOIS do nome do time (evita pegar posição/rank)
+                                for c in cells[name_idx+1:]:
+                                    if c == name: 
+                                        continue
+                                    v = _clean_float(c)
+                                    if v is not None:
+                                        nums.append(v)
+                                if not nums:
+                                    continue
+                                out.append((name, nums))
+                            return out
+                        rf_tbl = _find_table_by_keywords([
+                            ['relative form','last 8','all'],
+                            ['relative form','points per game'],
+                        ])
+                        # Prefer exact “Points Performance Index” label if present
+                        rp_tbl = _find_table_by_label([
+                            'Points Performance Index',
+                            'Relative Performance'
+                        ])
+                        if rp_tbl is None:
+                            rp_tbl = _find_table_by_keywords([
+                            ['relative performance','opponents ppg'],
+                            ['points performance index','opponents ppg'],
+                        ])
+                        if rp_tbl is not None and _is_runin_table(rp_tbl):
+                            rp_tbl = None
+                            for tbl in soup.find_all('table'):
+                                if _table_has_keywords(tbl, ['opponents ppg']) and not _is_runin_table(tbl):
+                                    rp_tbl = tbl
+                                    break
+                        ri_tbl = _find_table_by_keywords([
+                            ['run-in','opponents played ppg','opponents remaining ppg'],
+                            ['run-in','remaining ppg'],
+                        ])
+                        pp_tbl = _find_table_by_keywords([
+                            ['projected points','ratio','pppg'],
+                            ['projected points','projected ppg','ratio'],
+                        ])
+                        rf_rows = _parse_rows_float(rf_tbl)
+                        rp_rows = _parse_rows_float(rp_tbl)
+                        ri_rows = _parse_rows_float(ri_tbl)
+                        pp_rows = _parse_rows_float(pp_tbl)
+                        rf_map = {}
+                        for name, nums in rf_rows:
+                            # Heurística: PPGs estão tipicamente <= 3.0; pegar dois primeiros nessa faixa
+                            ppg_values = [x for x in nums if 0 <= x <= 3.5]
+                            if len(ppg_values) >= 2:
+                                last8_ppg = ppg_values[0]
+                                season_ppg = ppg_values[1]
+                                rf_map[name] = {'ppg_season': round(season_ppg,2), 'ppg_8': round(last8_ppg,2), 'ppg_diff': round(last8_ppg - season_ppg,2)}
+                        rp_map = {}
+                        for name, nums in rp_rows:
+                            # Esperado: Team PPG, Opp PPG, Index
+                            # Filtrar valores plausíveis
+                            clean = [x for x in nums if -0.5 <= x <= 5.0]
+                            if len(clean) >= 3:
+                                team_ppg = clean[0]
+                                opp_ppg = clean[1]
+                                idx = team_ppg * opp_ppg
+                                rp_map[name] = {'opponents_ppg': round(opp_ppg,2), 'performance_index': round(idx,2), 'ppg_season': round(team_ppg,2)}
+                        ri_map = {}
+                        for name, nums in ri_rows:
+                            # Esperado: Team PPG, Opp played PPG, Opp remaining PPG, Diff%, Next4 PPG
+                            # Pegamos os dois primeiros PPGs >0 e <=3.5 após o primeiro valor (team ppg)
+                            ppgs = [x for x in nums if 0 <= x <= 3.5]
+                            played_ppg = ppgs[1] if len(ppgs) > 1 else None
+                            remain_ppg = ppgs[2] if len(ppgs) > 2 else None
+                            # Diff% é um valor percentual; vamos buscar um número fora da faixa ppg (ex.: abs>3.5) mais próximo
+                            diff_candidates = [x for x in nums if abs(x) > 3.5 and abs(x) < 200]
+                            diff_pct = diff_candidates[0] if diff_candidates else 0
+                            next4 = ppgs[3] if len(ppgs) > 3 else None
+                            ri_map[name] = {
+                                'opp_played_ppg': round(played_ppg,2) if played_ppg is not None else 0,
+                                'opp_remaining_ppg': round(remain_ppg,2) if remain_ppg is not None else 0,
+                                'runin_diff_pct': round(diff_pct,1) if diff_pct is not None else 0,
+                                'next_4_ppg': round(next4,2) if next4 is not None else None
+                            }
+                        pp_map = {}
+                        for name, nums in pp_rows:
+                            # Esperado: ... Ratio, pPPG, Total (além de GP/Pts/GR etc.)
+                            # Heurística: capturar primeiro valor de razão (0.3..1.5), depois pPPG (0..3.5), depois total (>=20)
+                            ratio = None; proj_ppg = None; total = None
+                            for x in nums:
+                                if ratio is None and 0.3 <= x <= 1.5:
+                                    ratio = x; continue
+                                if proj_ppg is None and 0 <= x <= 3.5:
+                                    proj_ppg = x; continue
+                            # Para TOTAL, use o último número grande (evita confundir com GP/Pts no início)
+                            for x in reversed(nums):
+                                if x >= 20:
+                                    total = x
+                                    break
+                            if ratio is not None and proj_ppg is not None and total is not None:
+                                pp_map[name] = {
+                                    'proj_ratio': round(ratio,2),
+                                    'proj_ppg': round(proj_ppg,2),
+                                    'proj_total': round(total,0)
+                                }
+                        rf_override = rf_map if rf_map else None
+                        rp_override = rp_map if rp_map else None
+                        ri_override = ri_map if ri_map else None
+                        pp_override = pp_map if pp_map else None
+            except:
+                pass
+
+            # --- LEAGUE WIDE STATS (New Cards) ---
+            total_matches_played = len(all_matches)
+            if total_matches_played > 0:
+                total_goals = sum((m.home_score or 0) + (m.away_score or 0) for m in all_matches)
+                btts_count = sum(1 for m in all_matches if (m.home_score or 0) > 0 and (m.away_score or 0) > 0)
+                over15_count = sum(1 for m in all_matches if ((m.home_score or 0) + (m.away_score or 0)) > 1.5)
+                over25_count = sum(1 for m in all_matches if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                home_wins = sum(1 for m in all_matches if (m.home_score or 0) > (m.away_score or 0))
+                draws = sum(1 for m in all_matches if (m.home_score or 0) == (m.away_score or 0))
+                away_wins = sum(1 for m in all_matches if (m.away_score or 0) > (m.home_score or 0))
+                
+                context['league_stats'] = {
+                    'avg_goals_match': round(total_goals / total_matches_played, 2),
+                    'btts_pct': round((btts_count / total_matches_played) * 100, 1),
+                    'over15_pct': round((over15_count / total_matches_played) * 100, 1),
+                    'over25_pct': round((over25_count / total_matches_played) * 100, 1),
+                    'home_win_pct': round((home_wins / total_matches_played) * 100, 1),
+                    'draw_pct': round((draws / total_matches_played) * 100, 1),
+                    'away_win_pct': round((away_wins / total_matches_played) * 100, 1),
+                }
+                
+                # Common Scores
+                from collections import Counter
+                scores = [f"{m.home_score}-{m.away_score}" for m in all_matches]
+                common_scores = Counter(scores).most_common(5)
+                context['common_scores'] = [{'score': s, 'count': c, 'pct': round(c/total_matches_played*100, 1)} for s, c in common_scores]
+            else:
+                context['league_stats'] = {}
+                context['common_scores'] = []
+
+            # Prepare sorted versions of all_standings_flat for the analytics cards
+            context['standings_by_form'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'ppg_diff', 0), reverse=True)
+            context['standings_by_perf'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'performance_index', 0), reverse=True)
+            context['standings_by_runin'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'opp_remaining_ppg', 0), reverse=True)
+            context['standings_by_proj'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'proj_total', 0), reverse=True)
+
+            context['standings'] = standings
+            context['home_table'] = home_table
+            context['away_table'] = away_table
+            
+            # --- PRE-MATCH ANALYSIS STATS ---
+            pre_match_data = []
+            for m in upcoming_matches_qs:
+                h_stats = calculate_team_season_stats(m.home_team, league, latest_season)
+                a_stats = calculate_team_season_stats(m.away_team, league, latest_season)
+                if h_stats and a_stats:
+                    pre_match_data.append({
+                        'match': m,
+                        'home': h_stats,
+                        'away': a_stats
+                    })
+            context['pre_match_analysis'] = pre_match_data
+            
+            # Relative Home/Away Performance Table
+            relative_table = []
+            if 'relative_table_override' in locals() and relative_table_override:
+                relative_table = relative_table_override
+            else:
+                for tid, data in team_stats.items():
+                    row = {}
+                    row['team'] = data['team']
+                    row['team_slug'] = data['team_slug']
+                    row['league_slug'] = data['league_slug']
+                    
+                    h = data['home']
+                    a = data['away']
+                    
+                    # Relative Home Performance
+                    total_pts = h['pts'] + a['pts']
+                    total_gp = h['gp'] + a['gp']
+                    total_ppg = total_pts / total_gp if total_gp > 0 else 0
+                    
+                    h_ppg = h['ppg']
+                    h_rel = ((h_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
+                    row['home_rel'] = round(h_rel, 1)
+                    
+                    # Relative Away Performance
+                    a_ppg = a['ppg']
+                    a_rel = ((a_ppg - total_ppg) / total_ppg * 100) if total_ppg > 0 else 0
+                    row['away_rel'] = round(a_rel, 1)
+
+                    # PPG Difference (Home vs Away)
+                    ppg_home = round(h['pts'] / h['gp'], 2) if h['gp'] > 0 else 0
+                    ppg_away = round(a['pts'] / a['gp'], 2) if a['gp'] > 0 else 0
+                    
+                    row['ppg_home'] = ppg_home
+                    row['ppg_away'] = ppg_away
+                    row['ppg_diff'] = round(ppg_home - ppg_away, 2)
+                    row['ppg_diff_abs'] = abs(row['ppg_diff'])
+                    
+                    # Stats needed for relative table display
+                    row['gph'] = h['gp']
+                    row['gpa'] = a['gp']
+                    row['pts'] = total_pts
+                    
+                    # Bar width
+                    row['bar_width'] = min(int(abs(row['ppg_diff']) * 40), 100)
+                    
+                    relative_table.append(row)
+                
+                # Sort by Points (desc), then PPG Difference (desc)
+                relative_table.sort(key=lambda x: (x['pts'], x['ppg_diff']), reverse=True)
+                
+                # Add Rank
+                for i, row in enumerate(relative_table, 1): row['position'] = i
+            
+            context['relative_table'] = relative_table
+            
+            if league.name == 'First League' and False:
+                if rf_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in rf_override.items():
+                        s = by_name.get(name)
+                        if not s: 
+                            continue
+                        s.ppg_season = vals['ppg_season']
+                        s.ppg_8 = vals['ppg_8']
+                        s.ppg_diff = round(vals['ppg_8'] - vals['ppg_season'], 2)
+                        s.relative_form_bar_width = min(abs(s.ppg_diff) * 40, 120)
+                if rp_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in rp_override.items():
+                        s = by_name.get(name)
+                        if not s: 
+                            continue
+                        s.opponents_ppg = vals['opponents_ppg']
+                        s.performance_index = vals['performance_index']
+                        s.perf_width_pct = min(round((s.performance_index / 4.0) * 100, 1), 100) if s.performance_index > 0 else 0
+                        s.ppg_season = vals.get('ppg_season', getattr(s, 'ppg_season', 0))
+                if ri_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in ri_override.items():
+                        s = by_name.get(name)
+                        if not s: 
+                            continue
+                        s.opp_played_ppg = vals['opp_played_ppg']
+                        s.opp_remaining_ppg = vals['opp_remaining_ppg']
+                        s.runin_diff_pct = vals['runin_diff_pct']
+                        s.next_4_ppg = vals.get('next_4_ppg', getattr(s, 'next_4_ppg', 0))
+                if pp_override:
+                    by_name = {s.team.name: s for s in standings}
+                    for name, vals in pp_override.items():
+                        s = by_name.get(name)
+                        if not s:
+                            continue
+                        s.proj_ratio = vals['proj_ratio']
+                        s.proj_ppg = vals['proj_ppg']
+                        s.proj_total = vals['proj_total']
+
+            # Group upcoming matches and calculate stats for each team (for Standings table)
+            for standing in standings:
+                team_id = standing.team.id
+                team_matches = [m for m in upcoming_matches_qs if m.home_team_id == team_id or m.away_team_id == team_id][:5]
+                standing.upcoming_matches = team_matches
+                standing.empty_slots = range(5 - len(team_matches))
+                
+                # Projected points (current PPG * remaining games in 38-game season)
+                remaining_games = 38 - standing.played
+                projected_additional = standing.ppg_season * remaining_games
+                standing.projected_total = round(standing.points + projected_additional, 0)
+            
+            # Prepare Statistics Tab Data (Upcoming Matches)
+            stats_entries = []
+            for match in upcoming_matches_qs:
+                home_id = match.home_team_id
+                away_id = match.away_team_id
+                
+                # Default stats if missing
+                default_stats = {'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0}
+                
+                h_stats = team_stats[home_id]['home'] if home_id in team_stats else default_stats.copy()
+                a_stats = team_stats[away_id]['away'] if away_id in team_stats else default_stats.copy()
+                
+                # PPG % (Base is 3 points)
+                h_ppg = h_stats['pts'] / h_stats['gp'] if h_stats['gp'] > 0 else 0
+                a_ppg = a_stats['pts'] / a_stats['gp'] if a_stats['gp'] > 0 else 0
+                
+                # WDL Distribution (Bar widths)
+                h_gp = h_stats['gp'] if h_stats['gp'] > 0 else 1
+                a_gp = a_stats['gp'] if a_stats['gp'] > 0 else 1
+                
+                h_w_pct = (h_stats['w'] / h_gp) * 100
+                h_d_pct = (h_stats['d'] / h_gp) * 100
+                h_l_pct = (h_stats['l'] / h_gp) * 100
+                
+                a_w_pct = (a_stats['w'] / a_gp) * 100
+                a_d_pct = (a_stats['d'] / a_gp) * 100
+                a_l_pct = (a_stats['l'] / a_gp) * 100
+                
+                # Goal Averages
+                h_gf_avg = h_stats['gf'] / h_gp
+                h_ga_avg = h_stats['ga'] / h_gp
+                a_gf_avg = a_stats['gf'] / a_gp
+                a_ga_avg = a_stats['ga'] / a_gp
+                
+                h_tg_avg = h_gf_avg + h_ga_avg
+                a_tg_avg = a_gf_avg + a_ga_avg
+                
+                # Last 4 Form (From form_history, take last 4)
+                # Note: form_history in context is Last 5 overall. We need Last 4 Home/Away specifically? 
+                # The image says "Last 4" but subtab is "Home/Away". 
+                # Assuming Last 4 Home matches for Home team, Last 4 Away matches for Away team.
+                # We need to fetch specific form for H/A? view already calculated 'all_matches'.
+                
+                # Recalculate H/A specific form
+                h_matches = [m for m in all_matches if m.home_team_id == home_id]
+                h_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                h_form_4 = []
+                for m in h_matches[:4]:
+                    if m.home_score is None or m.away_score is None:
+                        h_form_4.append('-')
+                    elif m.home_score > m.away_score: h_form_4.append('W')
+                    elif m.home_score == m.away_score: h_form_4.append('D')
+                    else: h_form_4.append('L')
+                    
+                a_matches = [m for m in all_matches if m.away_team_id == away_id]
+                a_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                a_form_4 = []
+                for m in a_matches[:4]:
+                    if m.home_score is None or m.away_score is None:
+                        a_form_4.append('-')
+                    elif m.away_score > m.home_score: a_form_4.append('W')
+                    elif m.away_score == m.home_score: a_form_4.append('D')
+                    else: a_form_4.append('L')
+                        
+                entry = {
+                    'match': match,
+                    'home_team': match.home_team,
+                    'away_team': match.away_team,
+                    'h_ppg_pct': int((h_ppg / 3) * 100),
+                    'a_ppg_pct': int((a_ppg / 3) * 100),
+                    'h_wdl': {'w': h_w_pct, 'd': h_d_pct, 'l': h_l_pct},
+                    'a_wdl': {'w': a_w_pct, 'd': a_d_pct, 'l': a_l_pct},
+                    'h_goals': {'gf': round(h_gf_avg, 2), 'ga': round(h_ga_avg, 2), 'tg': round(h_tg_avg, 2)},
+                    'a_goals': {'gf': round(a_gf_avg, 2), 'ga': round(a_ga_avg, 2), 'tg': round(a_tg_avg, 2)},
+                    'h_over_25': 0, # Placeholder
+                    'a_over_25': 0, # Placeholder
+                    'h_last_4': h_form_4,
+                    'a_last_4': a_form_4
+                }
+                
+                # Calculate Over 2.5 %
+                h_over_count = sum(1 for m in h_matches if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                entry['h_over_25'] = int((h_over_count / len(h_matches) * 100)) if h_matches else 0
+                
+                a_over_count = sum(1 for m in a_matches if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                entry['a_over_25'] = int((a_over_count / len(a_matches) * 100)) if a_matches else 0
+                
+                stats_entries.append(entry)
+
+            # Prepare Statistics Tab Data (Overall)
+            stats_entries_overall = []
+            
+            # Map standings by team_id for easier access
+            standings_map = {s.team.id: s for s in standings}
+            
+            for match in upcoming_matches_qs:
+                home_id = match.home_team_id
+                away_id = match.away_team_id
+                
+                # Default standing if missing (should use empty object-like struct)
+                # But we can just use 0 values if not found.
+                
+                h_standing = standings_map.get(home_id)
+                a_standing = standings_map.get(away_id)
+                
+                # Helper to get stats safely
+                def get_safe_stats(standing):
+                    if not standing:
+                        return {'ppg': 0, 'w_pct': 0, 'd_pct': 0, 'l_pct': 0, 'gf_avg': 0, 'ga_avg': 0, 'tg_avg': 0}
+                    gp = standing.played if standing.played > 0 else 1
+                    return {
+                        'ppg': standing.ppg_season,
+                        'w_pct': (standing.won / gp) * 100,
+                        'd_pct': (standing.drawn / gp) * 100,
+                        'l_pct': (standing.lost / gp) * 100,
+                        'gf_avg': standing.goals_for / gp,
+                        'ga_avg': standing.goals_against / gp,
+                        'tg_avg': (standing.goals_for + standing.goals_against) / gp
+                    }
+
+                h_s = get_safe_stats(h_standing)
+                a_s = get_safe_stats(a_standing)
+                
+                # Last 4 Form (Overall)
+                h_matches_all = [m for m in all_matches if m.home_team_id == home_id or m.away_team_id == home_id]
+                h_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                h_form_4 = []
+                for m in h_matches_all[:4]:
+                    is_home = m.home_team_id == home_id
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
+                    
+                    if team_score > opp_score: h_form_4.append('W')
+                    elif team_score == opp_score: h_form_4.append('D')
+                    else: h_form_4.append('L')
+                    
+                a_matches_all = [m for m in all_matches if m.home_team_id == away_id or m.away_team_id == away_id]
+                a_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                a_form_4 = []
+                for m in a_matches_all[:4]:
+                    is_home = m.home_team_id == away_id
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
+                    
+                    if team_score > opp_score: a_form_4.append('W')
+                    elif team_score == opp_score: a_form_4.append('D')
+                    else: a_form_4.append('L')
+
+                # Calculate Over 2.5 % (Overall)
+                h_over_count = sum(1 for m in h_matches_all if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                h_over_pct = int((h_over_count / len(h_matches_all) * 100)) if h_matches_all else 0
+                
+                a_over_count = sum(1 for m in a_matches_all if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                a_over_pct = int((a_over_count / len(a_matches_all) * 100)) if a_matches_all else 0
+
+                entry = {
+                    'match': match,
+                    'home_team': match.home_team,
+                    'away_team': match.away_team,
+                    'h_ppg_pct': int((h_s['ppg'] / 3) * 100),
+                    'a_ppg_pct': int((a_s['ppg'] / 3) * 100),
+                    'h_wdl': {'w': h_s['w_pct'], 'd': h_s['d_pct'], 'l': h_s['l_pct']},
+                    'a_wdl': {'w': a_s['w_pct'], 'd': a_s['d_pct'], 'l': a_s['l_pct']},
+                    'h_goals': {'gf': round(h_s['gf_avg'], 2), 'ga': round(h_s['ga_avg'], 2), 'tg': round(h_s['tg_avg'], 2)},
+                    'a_goals': {'gf': round(a_s['gf_avg'], 2), 'ga': round(a_s['ga_avg'], 2), 'tg': round(a_s['tg_avg'], 2)},
+                    'h_over_25': h_over_pct,
+                    'a_over_25': a_over_pct,
+                    'h_last_4': h_form_4,
+                    'a_last_4': a_form_4
+                }
+                stats_entries_overall.append(entry)
+
+            # Prepare Statistics Tab Data (Last 8 Matches)
+            stats_entries_last8 = []
+            
+            for match in upcoming_matches_qs:
+                home_id = match.home_team_id
+                away_id = match.away_team_id
+                
+                # Get last 8 matches for each team
+                h_matches_all = [m for m in all_matches if m.home_team_id == home_id or m.away_team_id == home_id]
+                h_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                h_last8 = h_matches_all[:8]
+                
+                a_matches_all = [m for m in all_matches if m.home_team_id == away_id or m.away_team_id == away_id]
+                a_matches_all.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
+                a_last8 = a_matches_all[:8]
+                
+                def calc_last8_stats(matches, team_id):
+                    gp = len(matches)
+                    if gp == 0:
+                        return {'ppg': 0, 'w_pct': 0, 'd_pct': 0, 'l_pct': 0, 'gf_avg': 0, 'ga_avg': 0, 'tg_avg': 0}
+                    
+                    pts = 0; w = 0; d = 0; l = 0; gf = 0; ga = 0
+                    for m in matches:
+                        is_home = m.home_team_id == team_id
+                        team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                        opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
+                        
+                        gf += team_score
+                        ga += opp_score
+                        
+                        if team_score > opp_score: w += 1; pts += 3
+                        elif team_score == opp_score: d +=1; pts += 1
+                        else: l += 1
+                        
+                    return {
+                        'ppg': pts / gp,
+                        'w_pct': (w / gp) * 100,
+                        'd_pct': (d / gp) * 100,
+                        'l_pct': (l / gp) * 100,
+                        'gf_avg': gf / gp,
+                        'ga_avg': ga / gp,
+                        'tg_avg': (gf + ga) / gp
+                    }
+                
+                h_s = calc_last8_stats(h_last8, home_id)
+                a_s = calc_last8_stats(a_last8, away_id)
+                
+                # Form (Last 4 of the Last 8 - effectively Last 4 overall)
+                h_form_4 = []
+                for m in h_last8[:4]:
+                    is_home = m.home_team_id == home_id
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
+                    if team_score > opp_score: h_form_4.append('W')
+                    elif team_score == opp_score: h_form_4.append('D')
+                    else: h_form_4.append('L')
+                    
+                a_form_4 = []
+                for m in a_last8[:4]:
+                    is_home = m.home_team_id == away_id
+                    team_score = (m.home_score or 0) if is_home else (m.away_score or 0)
+                    opp_score = (m.away_score or 0) if is_home else (m.home_score or 0)
+                    if team_score > opp_score: a_form_4.append('W')
+                    elif team_score == opp_score: a_form_4.append('D')
+                    else: a_form_4.append('L')
+                
+                # Over 2.5 % (in Last 8)
+                h_over_count = sum(1 for m in h_last8 if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                h_over_pct = int((h_over_count / len(h_last8) * 100)) if h_last8 else 0
+                
+                a_over_count = sum(1 for m in a_last8 if ((m.home_score or 0) + (m.away_score or 0)) > 2.5)
+                a_over_pct = int((a_over_count / len(a_last8) * 100)) if a_last8 else 0
+
+                entry = {
+                    'match': match,
+                    'home_team': match.home_team,
+                    'away_team': match.away_team,
+                    'h_ppg_pct': int((h_s['ppg'] / 3) * 100),
+                    'a_ppg_pct': int((a_s['ppg'] / 3) * 100),
+                    'h_wdl': {'w': h_s['w_pct'], 'd': h_s['d_pct'], 'l': h_s['l_pct']},
+                    'a_wdl': {'w': a_s['w_pct'], 'd': a_s['d_pct'], 'l': a_s['l_pct']},
+                    'h_goals': {'gf': round(h_s['gf_avg'], 2), 'ga': round(h_s['ga_avg'], 2), 'tg': round(h_s['tg_avg'], 2)},
+                    'a_goals': {'gf': round(a_s['gf_avg'], 2), 'ga': round(a_s['ga_avg'], 2), 'tg': round(a_s['tg_avg'], 2)},
+                    'h_over_25': h_over_pct,
+                    'a_over_25': a_over_pct,
+                    'h_last_4': h_form_4,
+                    'a_last_4': a_form_4
+                }
+                stats_entries_last8.append(entry)
+            
+            context['stats_entries'] = stats_entries
+            context['stats_entries_overall'] = stats_entries_overall
+            context['stats_entries_last8'] = stats_entries_last8
+            context['upcoming_matches'] = upcoming_matches_qs
+        else:
+            context['standings'] = []
+            context['home_table'] = []
+            context['away_table'] = []
+            context['upcoming_matches'] = []
+            
+        return context
+
+
+
+class TeamDetailView(DetailView):
+    model = Team
+    template_name = 'matches/team_detail.html'
+    context_object_name = 'team'
+
+    def get(self, request, *args, **kwargs):
+        from django.http import Http404, HttpResponsePermanentRedirect
+        from django.urls import reverse
+        from django.utils.text import slugify
+        from matches.utils import COUNTRY_TRANSLATIONS
+
+        try:
+            self.object = self.get_object()
+        except Http404:
+            raise
+
+        t = self.object
+        country_en = COUNTRY_TRANSLATIONS.get(t.league.country, t.league.country)
+        c_slug = slugify(country_en)
+        l_slug = slugify(t.league.name)
+        t_slug = slugify(t.name)
+
+        if 'team_name' in self.kwargs and 'league_name' in self.kwargs and 'country_name' in self.kwargs:
+            if (self.kwargs.get('country_name') != c_slug or 
+                self.kwargs.get('league_name') != l_slug or 
+                self.kwargs.get('team_name') != t_slug):
+                
+                canonical_url = reverse('matches:team_stats_full', kwargs={
+                    'country_name': c_slug,
+                    'league_name': l_slug,
+                    'team_name': t_slug
+                })
+                qs = request.META.get('QUERY_STRING', '')
+                if qs: canonical_url += f"?{qs}"
+                return HttpResponsePermanentRedirect(canonical_url)
+        else:
+            canonical_url = reverse('matches:team_stats_full', kwargs={
+                'country_name': c_slug,
+                'league_name': l_slug,
+                'team_name': t_slug
+            })
+            qs = request.META.get('QUERY_STRING', '')
+            if qs: canonical_url += f"?{qs}"
+            return HttpResponsePermanentRedirect(canonical_url)
+
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def get_object(self):
+        # 1. Se tiver PK na URL, busca direto pelo ID (mais seguro)
+        pk = self.kwargs.get('pk')
+        if pk:
+            from django.shortcuts import get_object_or_404
+            return get_object_or_404(Team, pk=pk)
+
+        # 2. Captura os parâmetros da URL (Slugs)
+        league_slug = self.kwargs.get('league_name')
+        team_slug = self.kwargs.get('team_name')
+        
+        if not league_slug or not team_slug:
+            from django.http import Http404
+            raise Http404("Team not found")
+
+        # Converte slugs para busca aproximada (ex: premier-league -> Premier League)
+        league_name_query = league_slug.replace('-', ' ')
+        team_name_query = team_slug.replace('-', ' ')
+        team_key = team_name_query.strip().lower()
+        
+        name_map = {
+            'la liga': {
+                'barcelona': 'Barcelona',
+                'real madrid': 'Real Madrid',
+                'atletico madrid': 'Ath Madrid',
+                'atlético madrid': 'Ath Madrid',
+                'athletic bilbao': 'Ath Bilbao',
+                'real sociedad': 'Sociedad',
+                'espanyol': 'Espanol',
+                'sevilla': 'Sevilla',
+                'villarreal': 'Villarreal',
+                'betis': 'Betis',
+                'celta vigo': 'Celta',
+                'alaves': 'Alaves',
+                'mallorca': 'Mallorca',
+                'osasuna': 'Osasuna',
+                'getafe': 'Getafe',
+                'granada': 'Granada',
+                'valencia': 'Valencia',
+                'rayo vallecano': 'Rayo Vallecano',
+                'las palmas': 'Las Palmas',
+            },
+            'serie a': {
+                'juventus': 'Juventus',
+                'inter': 'Inter',
+                'internazionale': 'Inter',
+                'ac milan': 'Milan',
+                'milan': 'Milan',
+                'as roma': 'Roma',
+                'roma': 'Roma',
+                'napoli': 'Napoli',
+                'lazio': 'Lazio',
+                'atalanta': 'Atalanta',
+                'fiorentina': 'Fiorentina',
+                'bologna': 'Bologna',
+                'torino': 'Torino',
+                'udinese': 'Udinese',
+                'sassuolo': 'Sassuolo',
+                'lecce': 'Lecce',
+                'empoli': 'Empoli',
+                'genoa': 'Genoa',
+                'monza': 'Monza',
+                'cagliari': 'Cagliari',
+                'verona': 'Verona',
+                'hellas verona': 'Verona',
+            },
+            'pro-league': {
+                'standard lige': 'Standard Liège',
+                'standard-lige': 'Standard Liège',
+            }
+        }
+        
+        league_key = league_name_query.strip().lower()
+        if league_key in name_map and team_key in name_map[league_key]:
+            team_name_query = name_map[league_key][team_key]
+        
+        # 1. Resolve League First (Robust com desambiguação)
+        country_slug = self.kwargs.get('country_name')
+        leagues_qs = League.objects.all()
+
+        if country_slug:
+            country_clean = country_slug.replace('-', ' ')
+            from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+            db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+            leagues_qs = leagues_qs.filter(country__iexact=db_country)
+            
+            # Fallback for country if iexact fails
+            if not leagues_qs.exists():
+                from django.utils.text import slugify
+                target_country = None
+                for c in League.objects.values_list('country', flat=True).distinct():
+                    if slugify(c) == country_slug:
+                        target_country = c
+                        break
+                if target_country:
+                    leagues_qs = League.objects.filter(country=target_country)
+                else:
+                    leagues_qs = League.objects.none()
+
+        leagues_qs = leagues_qs.filter(name__iexact=league_name_query)
+        if not leagues_qs.exists():
+            # Tenta novamente sem o filtro de nome exato se falhou, mas mantém o filtro de país se existia
+            base_qs = League.objects.filter(country__iexact=db_country) if country_slug else League.objects.all()
+            leagues_qs = base_qs.filter(name__icontains=league_name_query)
+        
+        league = None
+        if leagues_qs.exists():
+            # Prioriza liga com mais times; empate quebra por ter standings
+            from django.db.models import Count
+            league = leagues_qs.annotate(
+                team_count=Count('teams'),
+                s_count=Count('standings')
+            ).order_by('-team_count', '-s_count').first()
+        
+        if not league:
+            from django.utils.text import slugify
+            fallback_qs = base_qs if country_slug and 'base_qs' in locals() else League.objects.all()
+            for l in fallback_qs:
+                if slugify(l.name) == slugify(league_slug):
+                    league = l
+                    break
+
+        
+        from django.db import models
+        qs = Team.objects.annotate(
+            match_count=models.Count('home_matches') + models.Count('away_matches')
+        ).order_by('-match_count')
+        
+        if league:
+            qs = qs.filter(league=league)
+        else:
+            qs = qs.filter(league__name__icontains=league_name_query)
+
+        # 2. Resolve Team
+        team = qs.filter(name__iexact=team_name_query).first()
+        
+        if not team:
+             team = qs.filter(name__icontains=team_name_query).first()
+             
+        if not team:
+             from django.utils.text import slugify
+             for t in qs:
+                 if slugify(t.name) == slugify(team_slug):
+                     team = t
+                     break
+         
+        if not team:
+             team = Team.objects.filter(name__iexact=team_name_query).first() or \
+                    Team.objects.filter(name__icontains=team_name_query).first()
+             if team:
+                 league = team.league
+
+        if team:
+            return team
+            
+        from django.http import Http404
+        raise Http404(f"Team '{team_slug}' not found in '{league_slug}'")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        team = self.object
+        league = team.league
+        
+        # Latest Season
+        latest_season = Season.objects.filter(standings__league=league).order_by('-year').distinct().first()
+        
+        # League Standing
+        standing = LeagueStanding.objects.filter(
+            league=league, season=latest_season, team=team
+        ).first()
+        
+        context['standing'] = standing
+        context['league'] = league
+
+        # --- Comparison with Past Seasons Logic ---
+        past_seasons_data = []
+        past_seasons = Season.objects.none()  # Initialize to avoid UnboundLocalError
+        if standing:
+            current_gp = standing.played
+            current_pts = standing.points
+            
+            # Get past seasons (exclude current)
+            past_seasons = Season.objects.filter(standings__league=league).exclude(id=latest_season.id).distinct().order_by('-year')
+            
+            for s_obj in past_seasons:
+                # Get matches for this season involving the team
+                season_matches = Match.objects.filter(
+                    league=league,
+                    season=s_obj,
+                    status__in=FINISHED_STATUSES
+                ).filter(
+                    models.Q(home_team=team) | models.Q(away_team=team)
+                ).order_by('date')
+                
+                # Take the first 'current_gp' matches
+                matches_subset = season_matches[:current_gp]
+                gp = len(matches_subset)
+                
+                # Only include if there's at least one match to compare, 
+                # though strictly we might want exactly 'current_gp'. 
+                # We'll show what we have.
+                if gp > 0:
+                    w = 0; d = 0; l = 0; gf = 0; ga = 0; pts = 0
+                    
+                    for m in matches_subset:
+                        is_home = m.home_team == team
+                        my_score = m.home_score if is_home else m.away_score
+                        opp_score = m.away_score if is_home else m.home_score
+                        
+                        # Handle potential None values safely
+                        if my_score is None: my_score = 0
+                        if opp_score is None: opp_score = 0
+                        
+                        gf += my_score
+                        ga += opp_score
+                        
+                        if my_score > opp_score:
+                            w += 1
+                            pts += 3
+                        elif my_score == opp_score:
+                            d += 1
+                            pts += 1
+                        else:
+                            l += 1
+                    
+                    # Comparison: Difference between CURRENT Pts and PAST Pts
+                    # Example: Current 49, Past 51 -> Diff is -2. 
+                    # Correct logic: Current - Past.
+                    diff = current_pts - pts
+                    
+                    past_seasons_data.append({
+                        'season_year': s_obj.year,
+                        'gp': gp,
+                        'w': w, 'd': d, 'l': l,
+                        'gf': gf, 'ga': ga, 'pts': pts,
+                        'diff': diff,
+                        'is_partial': gp < current_gp
+                    })
+        
+        context['past_seasons_data'] = past_seasons_data
+        context['current_gp_comparison'] = current_gp if standing else 0
+
+        
+        # All Matches
+        all_matches = Match.objects.filter(
+             league=league, season=latest_season
+         ).filter(
+             models.Q(home_team=team) | models.Q(away_team=team)
+         ).order_by('date').prefetch_related('goals')
+         
+        played_matches = [m for m in all_matches if m.status in FINISHED_STATUSES and m.home_score is not None]
+        
+        # --- Stats Containers ---
+        # Structure: 'home', 'away', 'total'
+        cats = ['home', 'away', 'total']
+        
+        # Basic Stats
+        stats = {c: {
+            'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0,
+            'win_margins': {}, 'loss_margins': {}, # Dicts to count margins
+            'ht_w': 0, 'ht_d': 0, 'ht_l': 0,
+            'corners_for_list': [], 'corners_against_list': [],
+            'min_scored_first_list': [], 'min_conceded_first_list': []
+        } for c in cats}
+        
+        # Goal Rates (Over/Under)
+        thresholds = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5]
+        ht_thresholds = [0.5, 1.5, 2.5]
+        goal_stats = {
+            'scored': {c: {t: 0 for t in thresholds} for c in cats},
+            'conceded': {c: {t: 0 for t in thresholds} for c in cats},
+            'match_total': {c: {t: 0 for t in thresholds} for c in cats},
+            'ht_match_total': {c: {t: 0 for t in ht_thresholds} for c in cats}
+        }
+        
+        # Special Rates
+        rates = {c: {
+            'cs': 0, 'fts': 0, 'bts': 0,
+            'wtn': 0, 'ltn': 0,
+            'scored_first': 0, 'conceded_first': 0,
+            'score_1h': 0, 'score_2h': 0, 'score_both': 0,
+            'concede_1h': 0, 'concede_2h': 0, 'concede_both': 0
+        } for c in cats}
+        
+        # Total Goals Distribution (exact goals)
+        total_goals_dist = {c: {i: 0 for i in range(6)} for c in cats} # 0, 1, 2, 3, 4, 5+
+        
+        # Timing of Goals (0-15, 16-30, 31-45, 46-60, 61-75, 76-90+)
+        timing_stats = {
+            'scored': {c: [0]*6 for c in cats},
+            'conceded': {c: [0]*6 for c in cats}
+        }
+        
+        # HT/FT Matrix (Home/Away/Total)
+        # Structure: 3x3 matrix [HT_W, HT_D, HT_L] x [FT_W, FT_D, FT_L]
+        # Indices: 0=W, 1=D, 2=L
+        ht_ft_matrix = {c: [[0]*3 for _ in range(3)] for c in cats}
+        
+        # Goal Types (Simplified)
+        goal_types = {
+            'scored': {c: {'penalty': 0, 'own_goal': 0, 'regular': 0} for c in cats},
+            'conceded': {c: {'penalty': 0, 'own_goal': 0, 'regular': 0} for c in cats}
+        }
+        
+        # Card Stats
+        card_stats = {
+            'yellow': {c: 0 for c in cats},
+            'red': {c: 0 for c in cats}
+        }
+
+        matches_data = [] # List for display
+        chart_data = {'labels': [], 'values': [], 'results': [], 'gf': [], 'ga': []}
+        chart_val = 0
+        
+        for m in played_matches:
+            is_home = m.home_team == team
+            cat = 'home' if is_home else 'away'
+            
+            gf = (m.home_score if is_home else m.away_score) or 0
+            ga = (m.away_score if is_home else m.home_score) or 0
+            
+            # HT Scores (Assume None=0 if missing, though typically present)
+            ht_gf = (m.ht_home_score if is_home else m.ht_away_score) or 0
+            ht_ga = (m.ht_away_score if is_home else m.ht_home_score) or 0
+            
+            # 2nd Half Scores
+            ft_gf_2h = gf - ht_gf
+            ft_ga_2h = ga - ht_ga
+            
+            match_total = gf + ga
+            result = 'W' if gf > ga else ('D' if gf == ga else 'L')
+            opponent = m.away_team if is_home else m.home_team
+            
+            # --- Update Basic Stats ---
+            for k in [cat, 'total']:
+                s = stats[k]
+                s['gp'] += 1
+                s['gf'] += gf
+                s['ga'] += ga
+                if result == 'W': s['w'] += 1; s['pts'] += 3
+                elif result == 'D': s['d'] += 1; s['pts'] += 1
+                else: s['l'] += 1
+                
+                # Rates
+                r = rates[k]
+                if ga == 0: r['cs'] += 1
+                if gf == 0: r['fts'] += 1
+                if gf > 0 and ga > 0: r['bts'] += 1
+                
+                if result == 'W' and ga == 0: r['wtn'] += 1
+                if result == 'L' and gf == 0: r['ltn'] += 1
+                
+                # First goal tracking (Using actual goal data if available)
+                match_goals = list(m.goals.all())
+                first_goal = None
+                if match_goals:
+                    # Sort by minute
+                    match_goals.sort(key=lambda x: x.minute)
+                    first_goal = match_goals[0]
+                    
+                    if first_goal.team == team:
+                        r['scored_first'] += 1
+                        s['min_scored_first_list'].append(first_goal.minute)
+                    else:
+                        r['conceded_first'] += 1
+                        s['min_conceded_first_list'].append(first_goal.minute)
+                else:
+                    # Fallback approximation if goal details are missing
+                    if gf > 0:
+                        if gf > ga or (gf == ga and gf > 0):
+                            r['scored_first'] += 1
+                            s['min_scored_first_list'].append(30)
+                    if ga > 0:
+                        if ga > gf or (ga == gf and ga > 0):
+                            r['conceded_first'] += 1
+                            s['min_conceded_first_list'].append(35)
+                
+                if ht_gf > 0: r['score_1h'] += 1
+                if ft_gf_2h > 0: r['score_2h'] += 1
+                if ht_gf > 0 and ft_gf_2h > 0: r['score_both'] += 1
+                
+                if ht_ga > 0: r['concede_1h'] += 1
+                if ft_ga_2h > 0: r['concede_2h'] += 1
+                if ht_ga > 0 and ft_ga_2h > 0: r['concede_both'] += 1
+
+                # Goal Thresholds
+                gs = goal_stats['scored'][k]
+                gc = goal_stats['conceded'][k]
+                gm = goal_stats['match_total'][k]
+                ght = goal_stats['ht_match_total'][k]
+                
+                for t in thresholds:
+                    if gf > t: gs[t] += 1
+                    if ga > t: gc[t] += 1
+                    if match_total > t: gm[t] += 1
+                
+                ht_match_total = ht_gf + ht_ga
+                for t in ht_thresholds:
+                    if ht_match_total > t: ght[t] += 1
+                    
+                # Exact Goals Dist
+                tg_idx = match_total if match_total < 5 else 5
+                total_goals_dist[k][tg_idx] += 1
+                
+                # Update Margins
+                margin = abs(gf - ga)
+                if result == 'W':
+                    s['win_margins'][margin] = s['win_margins'].get(margin, 0) + 1
+                elif result == 'L':
+                    s['loss_margins'][margin] = s['loss_margins'].get(margin, 0) + 1
+                    
+                if ht_gf > ht_ga: s['ht_w'] += 1
+                elif ht_gf == ht_ga: s['ht_d'] += 1
+                else: s['ht_l'] += 1
+                
+                # --- HT/FT Matrix Logic ---
+                # HT Index: 0=W, 1=D, 2=L
+                if ht_gf > ht_ga: ht_idx = 0
+                elif ht_gf == ht_ga: ht_idx = 1
+                else: ht_idx = 2
+                
+                # FT Index: 0=W, 1=D, 2=L
+                if gf > ga: ft_idx = 0
+                elif gf == ga: ft_idx = 1
+                else: ft_idx = 2
+                
+                ht_ft_matrix[k][ht_idx][ft_idx] += 1
+                
+                # --- Timing & Goal Types ---
+                if match_goals:
+                    for g in match_goals:
+                        # Determine if this goal belongs to the current team (for 'scored') or opponent (for 'conceded')
+                        # Note: 'team' is the Team object for this view.
+                        is_scored_by_us = (g.team == team)
+                        
+                        # Minute Segment
+                        minute = max(1, g.minute)
+                        t_idx = min((minute - 1) // 15, 5)
+                        
+                        # Type
+                        g_type = 'regular'
+                        if g.is_penalty: g_type = 'penalty'
+                        elif g.is_own_goal: g_type = 'own_goal'
+                        
+                        if is_scored_by_us:
+                            timing_stats['scored'][k][t_idx] += 1
+                            goal_types['scored'][k][g_type] += 1
+                        else:
+                            timing_stats['conceded'][k][t_idx] += 1
+                            goal_types['conceded'][k][g_type] += 1
+                else:
+                    # Fallback if no goal details but we have score
+                    # We can't do accurate timing or types, so we skip or assume 'regular'
+                    # For now, let's just skip to avoid bad data
+                    pass
+
+                # Card Stats Update
+                if m.home_yellow is not None: # Assume if yellow is present, others are likely present or 0
+                    my_yellow = (m.home_yellow if is_home else m.away_yellow) or 0
+                    my_red = (m.home_red if is_home else m.away_red) or 0
+                    card_stats['yellow'][k] += my_yellow
+                    card_stats['red'][k] += my_red
+
+                if m.home_corners is not None and m.away_corners is not None:
+                    my_corners = m.home_corners if is_home else m.away_corners
+                    opp_corners = m.away_corners if is_home else m.home_corners
+                    s['corners_for_list'].append(my_corners)
+                    s['corners_against_list'].append(opp_corners)
+
+            # --- Match List Item ---
+            matches_data.append({
+                'id': m.id,
+                'slug': m.slug,
+                'date': m.date,
+                'opponent': opponent,
+                'is_home': is_home,
+                'score': f"{m.home_score}-{m.away_score}",
+                'ht_score': f"{m.ht_home_score}-{m.ht_away_score}" if m.ht_home_score is not None else "-",
+                'result': result,
+                'result_class': 'ss-green' if result == 'W' else ('ss-red' if result == 'L' else 'ss-orange'),
+                'total_goals': match_total,
+                'over_25': match_total > 2.5,
+                'cs': ga == 0,
+                'fts': gf == 0,
+                'bts': gf > 0 and ga > 0
+            })
+            
+            # --- Chart Data ---
+            chart_change = 3 if result == 'W' else (1 if result == 'D' else 0)
+            chart_val += chart_change
+            chart_data['labels'].append(m.date.strftime('%d %b') if m.date else f"R{m.round_name or '?'}")
+            chart_data['values'].append(chart_val)
+            chart_data['results'].append(result)
+            chart_data['gf'].append(gf)
+            chart_data['ga'].append(-ga) # Negative for conceded
+
+
+        # --- Helper for Percentages ---
+        def calc_pct(val, gp):
+            return round((val / gp) * 100) if gp > 0 else 0
+            
+
+
+        # Post-process Stats Dictionary
+        for k in cats:
+            gp = stats[k]['gp']
+            stats[k]['ppg'] = round(stats[k]['pts'] / gp, 2) if gp > 0 else 0
+            
+            # Points Share
+            total_pts = stats['total']['pts']
+            stats[k]['points_pct_share'] = calc_pct(stats[k]['pts'], total_pts)
+
+            stats[k]['avg_gf'] = round(stats[k]['gf'] / gp, 2) if gp > 0 else 0
+            stats[k]['avg_ga'] = round(stats[k]['ga'] / gp, 2) if gp > 0 else 0
+            stats[k]['win_pct'] = calc_pct(stats[k]['w'], gp)
+            stats[k]['draw_pct'] = calc_pct(stats[k]['d'], gp)
+            stats[k]['loss_pct'] = calc_pct(stats[k]['l'], gp)
+            stats[k]['avg_total_goals'] = round(stats[k]['avg_gf'] + stats[k]['avg_ga'], 2)
+            
+            # Rates %
+            for rk in list(rates[k].keys()):
+                rates[k][rk + '_pct'] = calc_pct(rates[k][rk], gp)
+            
+            # Explicit Scoring/Conceding Rates (Complement of FTS/CS)
+            rates[k]['scoring_rate_pct'] = 100 - rates[k]['fts_pct']
+            rates[k]['conceding_rate_pct'] = 100 - rates[k]['cs_pct']
+            
+            # Average minute scored/conceded first
+            if stats[k]['min_scored_first_list']:
+                stats[k]['avg_min_scored_first'] = sum(stats[k]['min_scored_first_list']) / len(stats[k]['min_scored_first_list'])
+            else:
+                stats[k]['avg_min_scored_first'] = 0
+                
+            if stats[k]['min_conceded_first_list']:
+                stats[k]['avg_min_conceded_first'] = sum(stats[k]['min_conceded_first_list']) / len(stats[k]['min_conceded_first_list'])
+            else:
+                stats[k]['avg_min_conceded_first'] = 0
+            
+            # Goal Rates %
+            for type_ in ['scored', 'conceded', 'match_total']:
+                for t in thresholds:
+                    goal_stats[type_][k][f"{t}_pct"] = calc_pct(goal_stats[type_][k][t], gp)
+            
+            # HT %
+            for t in ht_thresholds:
+                goal_stats['ht_match_total'][k][f"{t}_pct"] = calc_pct(goal_stats['ht_match_total'][k][t], gp)
+            
+            # Goals Dist %
+            for i in range(6):
+                total_goals_dist[k][f"{i}_pct"] = calc_pct(total_goals_dist[k][i], gp)
+                
+            # Margins %
+            # (Calculated in context generally, but percentages can be done here if needed)
+
+        # --- Post-Loop aggregated stats ---
+        
+        # Helper for Margin aggregation
+        def get_margin_counts(data):
+            return {
+                1: data.get(1, 0),
+                2: data.get(2, 0),
+                3: data.get(3, 0),
+                4: sum(v for k, v in data.items() if k >= 4)
+            }
+        
+        margin_stats = {
+            'wins': {
+                'home': get_margin_counts(stats['home']['win_margins']),
+                'away': get_margin_counts(stats['away']['win_margins']),
+                'total': get_margin_counts(stats['total']['win_margins'])
+            },
+            'defeats': {
+                'home': get_margin_counts(stats['home']['loss_margins']),
+                'away': get_margin_counts(stats['away']['loss_margins']),
+                'total': get_margin_counts(stats['total']['loss_margins'])
+            }
+        }
+        
+        # HT Results Percentages
+        ht_stats = {
+            'leading': {'home': stats['home']['ht_w'], 'away': stats['away']['ht_w'], 'total': stats['total']['ht_w']},
+            'drawing': {'home': stats['home']['ht_d'], 'away': stats['away']['ht_d'], 'total': stats['total']['ht_d']},
+            'losing': {'home': stats['home']['ht_l'], 'away': stats['away']['ht_l'], 'total': stats['total']['ht_l']},
+        }
+        for res in ht_stats:
+            for c in cats:
+                gp = stats[c]['gp']
+                ht_stats[res][f"{c}_pct"] = calc_pct(ht_stats[res][c], gp)
+        
+        # Card Averages
+        card_avgs = {
+            'yellow': {c: 0 for c in cats},
+            'red': {c: 0 for c in cats}
+        }
+        for c in cats:
+            gp = stats[c]['gp']
+            if gp > 0:
+                card_avgs['yellow'][c] = round(card_stats['yellow'][c] / gp, 2)
+                card_avgs['red'][c] = round(card_stats['red'][c] / gp, 2)
+
+        # Corner Stats Percentages & Avgs
+        corner_thresholds = [2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5, 12.5, 13.5, 14.5, 15.5]
+        corner_data = {
+            'for': {c: {'avg': 0, 'thresholds': {t: 0 for t in corner_thresholds}} for c in cats},
+            'against': {c: {'avg': 0, 'thresholds': {t: 0 for t in corner_thresholds}} for c in cats},
+            'total': {c: {'avg': 0, 'thresholds': {t: 0 for t in corner_thresholds}} for c in cats}
+        }
+        
+        for c in cats:
+            gp = stats[c]['gp']
+            corners_for = stats[c]['corners_for_list']
+            corners_against = stats[c]['corners_against_list']
+            valid_gp = len(corners_for)
+            if gp > 0 and valid_gp > 0:
+                total_corners = [x + y for x, y in zip(corners_for, corners_against)]
+                corner_data['for'][c]['avg'] = round(sum(corners_for) / valid_gp, 2)
+                for t in corner_thresholds:
+                    count = sum(1 for x in corners_for if x > t)
+                    corner_data['for'][c]['thresholds'][t] = calc_pct(count, valid_gp)
+                corner_data['against'][c]['avg'] = round(sum(corners_against) / valid_gp, 2)
+                for t in corner_thresholds:
+                    count = sum(1 for x in corners_against if x > t)
+                    corner_data['against'][c]['thresholds'][t] = calc_pct(count, valid_gp)
+                corner_data['total'][c]['avg'] = round(sum(total_corners) / valid_gp, 2)
+                for t in corner_thresholds:
+                    count = sum(1 for x in total_corners if x > t)
+                    corner_data['total'][c]['thresholds'][t] = calc_pct(count, valid_gp)
+        
+        context['margin_stats'] = margin_stats
+        context['timing_stats'] = timing_stats
+        context['ht_ft_matrix'] = ht_ft_matrix
+        context['goal_types'] = goal_types
+        context['card_stats'] = card_stats
+        context['card_avgs'] = card_avgs
+        context['ht_stats'] = ht_stats
+        context['corner_data'] = corner_data
+        context['corner_thresholds'] = corner_thresholds
+
+        context['stats'] = stats
+        context['rates'] = rates
+        context['goal_stats'] = goal_stats
+        context['total_goals_dist'] = total_goals_dist
+        context['thresholds'] = thresholds
+        context['ht_thresholds'] = ht_thresholds
+        # Últimos 20 jogos apenas (recorte da lista, em ordem do mais recente para o mais antigo)
+        context['matches_list'] = matches_data[-20:][::-1]
+        
+        # Upcoming Matches
+        upcoming_matches = Match.objects.filter(
+            league=league,
+            season=latest_season,
+            status='Scheduled'
+        ).filter(
+            models.Q(home_team=team) | models.Q(away_team=team)
+        ).order_by('date')[:10] # Next 10 matches
+        context['upcoming_matches'] = upcoming_matches
+
+        context['chart_data_json'] = json.dumps(chart_data)
+
+        # --- League Averages for Descriptive Text ---
+        league_matches = Match.objects.filter(league=league, season=latest_season, status__in=FINISHED_STATUSES, home_score__isnull=False)
+        league_gp = league_matches.count()
+        league_over25 = league_matches.annotate(total_g=models.F('home_score') + models.F('away_score')).filter(total_g__gt=2.5).count()
+        league_over25_pct = round((league_over25 / league_gp) * 100) if league_gp > 0 else 0
+        context['league_over25_pct'] = league_over25_pct
+        
+        # --- Relative Form ---
+        # (Simplified reuse of existing logic or derived from played_matches)
+        # Included in stats['total'] vs Last 8
+        last_8 = played_matches[-8:]
+        l8_pts = sum([3 if (m.home_team==team and m.home_score>m.away_score) or (m.away_team==team and m.away_score>m.home_score) else (1 if m.home_score==m.away_score else 0) for m in last_8])
+        l8_gf = sum([(m.home_score if m.home_team==team else m.away_score) for m in last_8])
+        l8_ga = sum([(m.away_score if m.home_team==team else m.home_score) for m in last_8])
+        l8_gp = len(last_8)
+        
+        l8_ppg = round(l8_pts / l8_gp, 2) if l8_gp > 0 else 0
+        l8_avg_gf = round(l8_gf / l8_gp, 2) if l8_gp > 0 else 0
+        l8_avg_ga = round(l8_ga / l8_gp, 2) if l8_gp > 0 else 0
+        
+        season_ppg = stats['total']['ppg']
+        season_avg_gf = stats['total']['avg_gf']
+        season_avg_ga = stats['total']['avg_ga']
+        
+        def calc_diff(l8, season):
+            if season == 0: return 0
+            return round(((l8 - season) / season) * 100, 1)
+
+        context['relative_form'] = {
+            'ppg': {'all': season_ppg, 'l8': l8_ppg, 'diff': calc_diff(l8_ppg, season_ppg)},
+            'avg_gf': {'all': season_avg_gf, 'l8': l8_avg_gf, 'diff': calc_diff(l8_avg_gf, season_avg_gf)},
+            'avg_ga': {'all': season_avg_ga, 'l8': l8_avg_ga, 'diff': calc_diff(l8_avg_ga, season_avg_ga)},
+        }
+
+        # --- League Averages for Comparison Box ---
+        # Get all teams in the league for this season
+        all_league_standings = LeagueStanding.objects.filter(
+            league=league,
+            season=latest_season
+        ).select_related('team')
+        
+        # Get all matches in the league for this season
+        all_league_matches = Match.objects.filter(
+            league=league,
+            season=latest_season,
+            status__in=FINISHED_STATUSES,
+            home_score__isnull=False
+        ).select_related('home_team', 'away_team')
+        
+        # Calculate league averages for each category (total, home, away)
+        league_avg = {c: {
+            'ppg': 0, 'win_pct': 0, 'draw_pct': 0, 'loss_pct': 0,
+            'avg_gf': 0, 'avg_ga': 0, 'cs_pct': 0, 'fts_pct': 0,
+            'wtn_pct': 0, 'ltn_pct': 0, 'scored_first_pct': 0, 'conceded_first_pct': 0,
+            'avg_min_scored_first': 0, 'avg_min_conceded_first': 0
+        } for c in cats}
+        
+        # Calculate stats for each team in the league
+        team_count = all_league_standings.count()
+        if team_count > 0:
+            for standing in all_league_standings:
+                league_team = standing.team
+                team_matches = [m for m in all_league_matches if m.home_team == league_team or m.away_team == league_team]
+                
+                # Stats by category
+                team_stats_calc = {c: {
+                    'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0,
+                    'cs': 0, 'fts': 0, 'wtn': 0, 'ltn': 0, 'scored_first': 0, 'conceded_first': 0,
+                    'min_scored_first': [], 'min_conceded_first': []
+                } for c in cats}
+                
+                for m in team_matches:
+                    is_home = m.home_team == league_team
+                    cat = 'home' if is_home else 'away'
+                    
+                    gf = (m.home_score if is_home else m.away_score) or 0
+                    ga = (m.away_score if is_home else m.home_score) or 0
+                    result = 'W' if gf > ga else ('D' if gf == ga else 'L')
+                    
+                    for k in [cat, 'total']:
+                        s = team_stats_calc[k]
+                        s['gp'] += 1
+                        s['gf'] += gf
+                        s['ga'] += ga
+                        if result == 'W': s['w'] += 1; s['pts'] += 3
+                        elif result == 'D': s['d'] += 1; s['pts'] += 1
+                        else: s['l'] += 1
+                        
+                        # Special rates
+                        if ga == 0: s['cs'] += 1
+                        if gf == 0: s['fts'] += 1
+                        if result == 'W' and ga == 0: s['wtn'] += 1
+                        if result == 'L' and gf == 0: s['ltn'] += 1
+                        
+                        # First goal tracking (simplified - we'll use approximations)
+                        # For now, assume team scored first if they won or drew and scored
+                        if gf > 0:
+                            if gf > ga or (gf == ga and gf > 0):
+                                s['scored_first'] += 1
+                                s['min_scored_first'].append(30)  # Approximate average
+                        if ga > 0:
+                            if ga > gf or (ga == gf and ga > 0):
+                                s['conceded_first'] += 1
+                                s['min_conceded_first'].append(35)  # Approximate average
+                
+                # Add to league averages
+                for c in cats:
+                    s = team_stats_calc[c]
+                    gp = s['gp']
+                    if gp > 0:
+                        league_avg[c]['ppg'] += s['pts'] / gp
+                        league_avg[c]['win_pct'] += (s['w'] / gp) * 100
+                        league_avg[c]['draw_pct'] += (s['d'] / gp) * 100
+                        league_avg[c]['loss_pct'] += (s['l'] / gp) * 100
+                        league_avg[c]['avg_gf'] += s['gf'] / gp
+                        league_avg[c]['avg_ga'] += s['ga'] / gp
+                        league_avg[c]['cs_pct'] += (s['cs'] / gp) * 100
+                        league_avg[c]['fts_pct'] += (s['fts'] / gp) * 100
+                        league_avg[c]['wtn_pct'] += (s['wtn'] / gp) * 100
+                        league_avg[c]['ltn_pct'] += (s['ltn'] / gp) * 100
+                        league_avg[c]['scored_first_pct'] += (s['scored_first'] / gp) * 100
+                        league_avg[c]['conceded_first_pct'] += (s['conceded_first'] / gp) * 100
+                        if s['min_scored_first']:
+                            league_avg[c]['avg_min_scored_first'] += sum(s['min_scored_first']) / len(s['min_scored_first'])
+                        if s['min_conceded_first']:
+                            league_avg[c]['avg_min_conceded_first'] += sum(s['min_conceded_first']) / len(s['min_conceded_first'])
+            
+            # Calculate final averages
+            for c in cats:
+                for key in league_avg[c]:
+                    if team_count > 0:
+                        league_avg[c][key] = round(league_avg[c][key] / team_count, 2)
+                    else:
+                        league_avg[c][key] = 0
+        
+        context['league_avg'] = league_avg
+
+        # --- Player Stats (Top Scorers) ---
+        from .models import Player
+        from django.db.models import Count
+        
+        # Get goals for this team in this season
+        # Filter matches first to get IDs
+        match_ids = [m.id for m in all_matches]
+        
+        top_scorers = Goal.objects.filter(
+            team=team,
+            match__id__in=match_ids
+        ).values('player_name').annotate(total=Count('id')).order_by('-total')[:15]
+        
+        # For each scorer, get home/away split (a bit expensive with loop queries but ok for 15 rows)
+        players_data = []
+        # PPG Calculation
+        def calc_ppg(w, d, gp):
+            if gp == 0: return 0
+            return round(((w * 3) + d) / gp, 2)
+        
+        stats['home']['ppg'] = calc_ppg(stats['home']['w'], stats['home']['d'], stats['home']['gp'])
+        stats['away']['ppg'] = calc_ppg(stats['away']['w'], stats['away']['d'], stats['away']['gp'])
+        stats['total']['ppg'] = calc_ppg(stats['total']['w'], stats['total']['d'], stats['total']['gp'])
+
+        # W/D/L Percentages for segmented bars
+        for c in cats:
+            gp = stats[c]['gp']
+            if gp > 0:
+                stats[c]['w_pct'] = (stats[c]['w'] / gp) * 100
+                stats[c]['d_pct'] = (stats[c]['d'] / gp) * 100
+                stats[c]['l_pct'] = (stats[c]['l'] / gp) * 100
+            else:
+                stats[c]['w_pct'] = stats[c]['d_pct'] = stats[c]['l_pct'] = 0
+
+        total_team_goals = stats['total']['gf']
+        
+        for p in top_scorers:
+            name = p['player_name']
+            total = p['total']
+            
+            # Simple hack: count home/away via Python filtering of specific goal objects?
+            # Better: separate aggregation. But for now, let's keep it simple.
+            # We can run a second query for home goals.
+            home_goals = Goal.objects.filter(team=team, match__id__in=match_ids, player_name=name, match__home_team=team).count()
+            away_goals = total - home_goals
+            
+            # Get Last Goal Date
+            last_goal = Goal.objects.filter(team=team, match__id__in=match_ids, player_name=name).select_related('match').order_by('-match__date').first()
+            last_goal_date = last_goal.match.date if last_goal and last_goal.match.date else None
+            
+            # Get Player Details (Age, Nationality)
+            player_obj = Player.objects.filter(team=team, name__iexact=name).first()
+            age = player_obj.age if player_obj else "-"
+            nationality = player_obj.nationality if player_obj else None
+
+            players_data.append({
+                'name': name,
+                'total': total,
+                'home': home_goals,
+                'away': away_goals,
+                'last_date': last_goal_date,
+                'age': age,
+                'nationality': nationality,
+                'pct': round((total / total_team_goals * 100)) if total_team_goals > 0 else 0
+            })
+            
+        context['top_scorers'] = players_data
+        context['squad'] = team.players.all().order_by('name')
+        
+        # --- League Standings (Results Table) ---
+        standings_qs = LeagueStanding.objects.filter(
+            league=league,
+            season=latest_season
+        ).select_related('team').order_by('position')[:20]
+        
+        # Prepare h2h data for the standings table
+        h2h_map = {}
+        # We use all_matches which is already filtered for just our team and already selected above
+        for m in all_matches:
+            if m.home_team == team:
+                h2h_map.setdefault(m.away_team_id, {})['home'] = m
+            else:
+                h2h_map.setdefault(m.home_team_id, {})['away'] = m
+        
+        league_h2h = []
+        for st in standings_qs:
+            opp_id = st.team_id
+            m_h = h2h_map.get(opp_id, {}).get('home')
+            m_a = h2h_map.get(opp_id, {}).get('away')
+            
+            def format_h2h(m, is_home):
+                if not m: return {'score': '-', 'bg': ''}
+                if m.home_score is None: 
+                    return {'score': m.date.strftime('%d %b'), 'bg': ''}
+                
+                # Check result from our team's view
+                if is_home:
+                    won = m.home_score > m.away_score
+                    lost = m.home_score < m.away_score
+                else:
+                    won = m.away_score > m.home_score
+                    lost = m.away_score < m.home_score
+                
+                bg = 'bg-success' if won else ('bg-danger' if lost else 'bg-warning text-dark')
+                return {'score': f"{m.home_score}:{m.away_score}", 'bg': bg}
+
+            # Determine best match for H2H link (most recent)
+            matches_pair = [m for m in [m_h, m_a] if m]
+            matches_pair.sort(key=lambda x: x.date, reverse=True)
+            last_match = matches_pair[0] if matches_pair else None
+
+            league_h2h.append({
+                'standing': st,
+                'home': format_h2h(m_h, True),
+                'away': format_h2h(m_a, False),
+                'match_link': {'id': last_match.id, 'slug': last_match.slug} if last_match else None
+            })
+
+        context['league_h2h'] = league_h2h
+        context['thresholds'] = thresholds
+        context['cats'] = cats
+
+        # --- NEW: Current Streaks ---
+        context['streaks'] = self.calculate_streaks(all_matches, team)
+
+        # Helper to calculate stats for a given season and matches
+        def calc_historical(matches_qs, t):
+            stats = {'pld': 0, 'pts': 0, 'gf': 0, 'ga': 0, 'w': 0, 'd': 0, 'l': 0, 'cs': 0, 'fts': 0}
+            if not matches_qs: return stats
+            stats['pld'] = len(matches_qs)
+            for m in matches_qs:
+                is_home = m.home_team == t
+                my_score = m.home_score if is_home else m.away_score
+                opp_score = m.away_score if is_home else m.home_score
+                
+                if my_score is None or opp_score is None: continue # Skip played but no score? (status check done in filter)
+                
+                stats['gf'] += my_score
+                stats['ga'] += opp_score
+                
+                if my_score > opp_score: 
+                    stats['w'] += 1
+                    stats['pts'] += 3
+                elif my_score == opp_score: 
+                    stats['d'] += 1
+                    stats['pts'] += 1
+                else: 
+                    stats['l'] += 1
+                    
+                if opp_score == 0: stats['cs'] += 1
+                if my_score == 0: stats['fts'] += 1
+            
+            # Averages/Percents
+            if stats['pld'] > 0:
+                stats['avg_pts'] = stats['pts'] / stats['pld']
+                stats['avg_gf'] = stats['gf'] / stats['pld']
+                stats['avg_ga'] = stats['ga'] / stats['pld']
+                stats['w_pct'] = int((stats['w'] / stats['pld']) * 100)
+                stats['d_pct'] = int((stats['d'] / stats['pld']) * 100)
+                stats['l_pct'] = int((stats['l'] / stats['pld']) * 100)
+                stats['cs_pct'] = int((stats['cs'] / stats['pld']) * 100)
+                stats['fts_pct'] = int((stats['fts'] / stats['pld']) * 100)
+            return stats
+
+        # Current Season Stats (ALWAYS CALCULATED)
+        current_stats = {
+            'overall': calc_historical(all_matches, team),
+            'home': calc_historical([m for m in all_matches if m.home_team == team], team),
+            'away': calc_historical([m for m in all_matches if m.away_team == team], team)
+        }
+        
+        # Historical Statistics (Current vs Prev Season)
+        previous_stats = None
+        season_name = f"{latest_season.year-1}/{latest_season.year}" if latest_season else "-"
+        prev_season_name = "-"
+
+        if past_seasons:
+            prev_season = past_seasons[0] # Assuming ordered by -year
+            
+            # Previous Season Stats
+            prev_matches = Match.objects.filter(
+                models.Q(home_team=team) | models.Q(away_team=team),
+                season=prev_season,
+                status__in=FINISHED_STATUSES
+            )
+            previous_stats = {
+                'overall': calc_historical(prev_matches, team),
+                'home': calc_historical([m for m in prev_matches if m.home_team == team], team),
+                'away': calc_historical([m for m in prev_matches if m.away_team == team], team)
+            }
+            prev_season_name = f"{prev_season.year-1}/{prev_season.year}"
+            
+            context['historical_stats'] = {
+                'current': current_stats,
+                'previous': previous_stats,
+                'season_name': season_name,
+                'prev_season_name': prev_season_name
+            }
+
+        upcoming_matches = Match.objects.filter(
+            models.Q(home_team=team) | models.Q(away_team=team),
+            league=league,
+            season=latest_season,
+            status='Scheduled',
+            date__gte=datetime.now()
+        ).order_by('date')
+        
+        run_in_data = []
+        sum_opp_ppg_home = 0
+        sum_opp_ppg_away = 0
+        remaining_home = 0
+        remaining_away = 0
+
+        # Helper to get opponent PPG (using current season stats)
+        # We need a robust way to get opponent stats. 
+        # Ideally, we'd have a helper method or cache. 
+        # For now, let's just calc it on the fly or use a simplified approach.
+        # IMPROVEMENT: Use the 'current_stats' logic but for opponent.
+        
+        def get_team_ppg(t, is_home_venue):
+             # Calculate opponent stats for specific venue
+            opp_matches = Match.objects.filter(season=latest_season, status__in=FINISHED_STATUSES)
+            if is_home_venue:
+                opp_matches = opp_matches.filter(home_team=t)
+                pts = 0
+                pld = 0
+                for om in opp_matches:
+                    pld += 1
+                    if om.home_score is None or om.away_score is None:
+                        continue
+                    if om.home_score > om.away_score: pts += 3
+                    elif om.home_score == om.away_score: pts += 1
+                return round(pts / pld, 2) if pld > 0 else 0
+            else:
+                opp_matches = opp_matches.filter(away_team=t)
+                pts = 0
+                pld = 0
+                for om in opp_matches:
+                    pld += 1
+                    if om.home_score is None or om.away_score is None:
+                        continue
+                    if om.away_score > om.home_score: pts += 3
+                    elif om.away_score == om.home_score: pts += 1
+                return round(pts / pld, 2) if pld > 0 else 0
+
+        for m in upcoming_matches:
+            is_home = m.home_team == team
+            opponent = m.away_team if is_home else m.home_team
+            
+            # Context: Stats for US
+            my_stats = current_stats['home'] if is_home else current_stats['away']
+            my_ppg = my_stats.get('avg_pts', 0)
+            
+            # Context: Stats for OPPONENT
+            # If we are Home, Opponent is Away. We want Opponent's Away PPG.
+            opp_venue_is_home = not is_home
+            opp_ppg = get_team_ppg(opponent, opp_venue_is_home)
+            
+            # For table columns
+            if is_home:
+                col_home_ppg = f"{my_ppg:.2f}"
+                col_away_ppg = f"{opp_ppg:.2f}"
+                remaining_home += 1
+                sum_opp_ppg_home += opp_ppg
+            else:
+                col_home_ppg = f"{opp_ppg:.2f}"
+                col_away_ppg = f"{my_ppg:.2f}"
+                remaining_away += 1
+                sum_opp_ppg_away += opp_ppg
+
+            run_in_data.append({
+                'match': m,
+                'is_home': is_home,
+                'opponent': opponent,
+                'col_home_ppg': col_home_ppg,
+                'col_away_ppg': col_away_ppg,
+                'opp_strength_pct': min(100, int((opp_ppg / 3.0) * 100))
+            })
+
+        avg_opp_ppg_home = round(sum_opp_ppg_home / remaining_home, 2) if remaining_home > 0 else 0
+        avg_opp_ppg_away = round(sum_opp_ppg_away / remaining_away, 2) if remaining_away > 0 else 0
+        avg_total_opp_ppg = round((sum_opp_ppg_home + sum_opp_ppg_away) / (remaining_home + remaining_away), 2) if (remaining_home + remaining_away) > 0 else 0
+
+        context['run_in'] = {
+            'matches': run_in_data,
+            'avg_opp_ppg_home': avg_opp_ppg_home,
+            'avg_opp_ppg_away': avg_opp_ppg_away,
+            'avg_total_opp_ppg': avg_total_opp_ppg,
+            'analysis': "Analysis placeholder..." # We can elaborate this later or use the template logic
+        }
+
+        # Calculate streaks
+        context['streaks'] = self.calculate_streaks(all_matches, team)
+
+        return context
+
+    def calculate_streaks(self, all_matches_qs, team):
+        # We need finished matches sorted by date (most recent LAST) to iterate backwards easily
+        # or most recent FIRST. Let's ensure order.
+        # all_matches_qs is ordered by 'date' (asc)
+        
+        matches = [m for m in all_matches_qs if m.status in FINISHED_STATUSES and m.home_score is not None]
+        
+        # Helper to get streaks
+        def get_seq(match_list, condition_func):
+            count = 0
+            # Iterate backwards (newest to oldest)
+            for m in reversed(match_list):
+                if condition_func(m):
+                    count += 1
+                else:
+                    break
+            return count
+
+        home_matches = [m for m in matches if m.home_team == team]
+        away_matches = [m for m in matches if m.away_team == team]
+        
+        categories = {'total': matches, 'home': home_matches, 'away': away_matches}
+        result = {}
+
+        for cat, m_list in categories.items():
+            # Define conditions
+            # Helper for scores to handle None
+            def scores(m):
+                h = m.home_score if m.home_score is not None else 0
+                a = m.away_score if m.away_score is not None else 0
+                return (h, a)
+
+            is_win = lambda m: (m.home_team == team and scores(m)[0] > scores(m)[1]) or \
+                               (m.away_team == team and scores(m)[1] > scores(m)[0])
+            
+            is_draw = lambda m: scores(m)[0] == scores(m)[1]
+            
+            is_loss = lambda m: (m.home_team == team and scores(m)[0] < scores(m)[1]) or \
+                                (m.away_team == team and scores(m)[1] < scores(m)[0])
+            
+            # No Win (Draw or Loss) -> NOT Win
+            is_no_win = lambda m: not is_win(m)
+            
+            # No Draw -> Win or Loss
+            is_no_draw = lambda m: not is_draw(m)
+            
+            # No Defeat -> Win or Draw
+            is_no_defeat = lambda m: not is_loss(m)
+            
+            # 1 goal or more (Scored)
+            scored_1plus = lambda m: (scores(m)[0] if m.home_team == team else scores(m)[1]) >= 1
+            
+            # 1 goal conceded or more
+            conceded_1plus = lambda m: (scores(m)[1] if m.home_team == team else scores(m)[0]) >= 1
+            
+            # No goal scored (0)
+            no_goal_scored = lambda m: (scores(m)[0] if m.home_team == team else scores(m)[1]) == 0
+            
+            # No goal conceded (Clean Sheet)
+            no_goal_conceded = lambda m: (scores(m)[1] if m.home_team == team else scores(m)[0]) == 0
+            
+            # GF+GA over 2.5
+            over_25 = lambda m: sum(scores(m)) > 2.5
+            
+            # GF+GA under 2.5
+            under_25 = lambda m: sum(scores(m)) < 2.5
+            
+            # Scored at least twice
+            scored_2plus = lambda m: (scores(m)[0] if m.home_team == team else scores(m)[1]) >= 2
+
+            result[cat] = {
+                'win': get_seq(m_list, is_win),
+                'draw': get_seq(m_list, is_draw),
+                'loss': get_seq(m_list, is_loss),
+                'no_win': get_seq(m_list, is_no_win),
+                'no_draw': get_seq(m_list, is_no_draw),
+                'no_defeat': get_seq(m_list, is_no_defeat),
+                'scored_1plus': get_seq(m_list, scored_1plus),
+                'conceded_1plus': get_seq(m_list, conceded_1plus),
+                'no_goal_scored': get_seq(m_list, no_goal_scored),
+                'no_goal_conceded': get_seq(m_list, no_goal_conceded),
+                'over_25': get_seq(m_list, over_25),
+                'under_25': get_seq(m_list, under_25),
+                'scored_2plus': get_seq(m_list, scored_2plus),
+            }
+            
+        return result
+
+
+
+
+class LeagueGoalsView(TemplateView):
+    template_name = 'matches/league_goals.html'
+
+    def get(self, request, *args, **kwargs):
+        """Override get() to add HTTP-level caching headers and use Django cache."""
+        response = super().get(request, *args, **kwargs)
+        # Tell browser/proxy to cache for 5 minutes
+        response['Cache-Control'] = 'public, max-age=300'
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        league_slug = self.kwargs.get('league_name')
+        stats_type = self.request.GET.get('type', 'total')
+        ht_stats_type = self.request.GET.get('ht_type', 'total')
+        bts_type = self.request.GET.get('bts_type', 'total')
+        cs_type = self.request.GET.get('cs_type', 'total')
+        fts_type = self.request.GET.get('fts_type', 'total')
+        wtn_type = self.request.GET.get('wtn_type', 'total')
+        
+        active_tab = self.request.GET.get('tab', 'overview')
+        sh_stats_type = self.request.GET.get('sh_type', 'total')
+        
+        context['stats_type'] = stats_type
+        context['ht_stats_type'] = ht_stats_type
+        context['sh_stats_type'] = sh_stats_type
+        context['bts_type'] = bts_type
+        context['cs_type'] = cs_type
+        context['fts_type'] = fts_type
+        context['wtn_type'] = wtn_type
+        context['active_tab'] = active_tab
+        
+        # Get League
+        name_query = league_slug.replace('-', ' ')
+        
+        # New Logic: Prioritize League with Data (Standings)
+        # annotations allow us to count related objects
+        from django.db.models import Count, Q
+        
+        candidates = League.objects.filter(
+            Q(name__iexact=name_query) | Q(name__iexact=league_slug)
+        ).annotate(s_count=Count('standings')).order_by('-s_count')
+
+        if not candidates.exists():
+             candidates = League.objects.filter(name__icontains=name_query).annotate(s_count=Count('standings')).order_by('-s_count')
+        
+        # Fallback Slugify
+        if not candidates.exists():
+            from django.utils.text import slugify
+            for l in League.objects.all():
+                if slugify(l.name) == league_slug:
+                     candidates = League.objects.filter(id=l.id).annotate(s_count=Count('standings'))
+                     break
+
+        country_slug = self.kwargs.get('country_name')
+        if country_slug:
+             country_clean = country_slug.replace('-', ' ')
+             from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+             db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+             
+             filtered_candidates = candidates.filter(country__iexact=db_country)
+             if filtered_candidates.exists():
+                 candidates = filtered_candidates
+             else:
+                 from django.utils.text import slugify
+                 for c in candidates:
+                     if slugify(c.country) == country_slug:
+                          candidates = League.objects.filter(id=c.id)
+                          break
+
+        league = candidates.first()
+        
+        context['league'] = league
+        if not league:
+            return context
+
+        # Get Latest Season
+        latest_season = Season.objects.filter(standings__league=league).order_by('-year').first()
+        if not latest_season:
+            latest_season = Season.objects.filter(matches__league=league).order_by('-year').first()
+        if not latest_season:
+            latest_season = Season.objects.order_by('-year').first()
+            
+        context['season'] = latest_season
+
+        # Get Standings - Agrupados por fase (Regular Season, Championship Round, etc.)
+        if latest_season:
+            all_standings = LeagueStanding.objects.filter(
+                league=league,
+                season=latest_season
+            ).select_related('team').order_by('group_name', 'position')
+            
+            # Organiza por grupo para o template
+            from collections import OrderedDict
+            standings_by_group = OrderedDict()
+            for st in all_standings:
+                # Remove espaços extras que podem bugar o agrupamento
+                g = (st.group_name or 'Regular Season').strip()
+                if 'Group' in g:
+                    g = f"Group {g.split('Group')[-1].strip()}"
+                elif 'Grupo' in g:
+                    g = f"Grupo {g.split('Grupo')[-1].strip()}"
+                if g not in standings_by_group:
+                    standings_by_group[g] = []
+                if not any(existing_st.team_id == st.team_id for existing_st in standings_by_group[g]):
+                    standings_by_group[g].append(st)
+            
+            # Ordenação: Garante que a "Regular Season" venha primeiro
+            if standings_by_group:
+                ordered = OrderedDict()
+                # Procura por Regular Season ou similar
+                reg_key = None
+                for key in standings_by_group.keys():
+                    if 'regular' in key.lower() or 'season' in key.lower():
+                        reg_key = key
+                        break
+                
+                if reg_key:
+                    ordered[reg_key] = standings_by_group.pop(reg_key)
+                
+                # Adiciona os demais (Championship, etc.)
+                ordered.update(standings_by_group)
+                standings_by_group = ordered
+            
+            # Pega o primeiro grupo para exibir por padrão
+            first_group_key = next(iter(standings_by_group), None)
+            standings = standings_by_group.get(first_group_key, [])
+            has_multiple_groups = len(standings_by_group) > 1
+        else:
+            standings = LeagueStanding.objects.none()
+            standings_by_group = {}
+            has_multiple_groups = False
+
+        context['standings'] = standings
+        context['standings_by_group'] = standings_by_group
+        context['has_multiple_groups'] = has_multiple_groups
+
+        # Get all finished matches ordered by date - with Django cache for performance
+        from django.core.cache import cache as django_cache
+        season_id = latest_season.id if latest_season else 0
+        cache_key = f'goals_team_matches_{league.id}_{season_id}'
+        team_matches = django_cache.get(cache_key)
+
+        if team_matches is None:
+            if latest_season:
+                _matches_qs = Match.objects.filter(
+                    league=league,
+                    season=latest_season,
+                    status__in=FINISHED_STATUSES
+                ).select_related('home_team', 'away_team').order_by('date')
+            else:
+                _matches_qs = Match.objects.filter(
+                    league=league,
+                    status__in=FINISHED_STATUSES
+                ).select_related('home_team', 'away_team').order_by('date')
+
+            # Organize matches by team - store as list of (match, side) tuples
+            team_matches = {}
+            for m in _matches_qs:
+                h_id = m.home_team.id
+                a_id = m.away_team.id
+                if h_id not in team_matches:
+                    team_matches[h_id] = {'team': m.home_team, 'matches': []}
+                if a_id not in team_matches:
+                    team_matches[a_id] = {'team': m.away_team, 'matches': []}
+                team_matches[h_id]['matches'].append((m, 'home'))
+                team_matches[a_id]['matches'].append((m, 'away'))
+
+            # Cache for 10 minutes (600 seconds)
+            django_cache.set(cache_key, team_matches, 600)
+
+
+
+        # Helper to init stats
+        def init_stats():
+            return {
+                'gp': 0, 'gf': 0, 'ga': 0, 'total_goals': 0,
+                'over05': 0, 'over15': 0, 'over25': 0, 'over35': 0, 'over45': 0, 'over55': 0,
+                'bts': 0, 'cs': 0, 'fts': 0, 'wtn': 0, 'ltn': 0
+            }
+
+        # 1. Define ranking containers
+        # We need 12 lists
+        rank_points = []
+        rank_form8 = []
+        rank_home = []
+        rank_away = []
+        
+        rank_offence = []
+        rank_defence = []
+        rank_offence8 = []
+        rank_defence8 = []
+        
+        rank_offence_home = []
+        rank_defence_home = []
+        rank_offence_away = []
+        rank_defence_away = []
+        
+        # Helper to calc simple stats for a list of matches
+        def calc_mini_stats(match_list, side_filter=None):
+            # side_filter: 'home', 'away', or None (all)
+            stats = {'gp': 0, 'pts': 0, 'gf': 0, 'ga': 0}
+            for m, side in match_list:
+                if side_filter and side != side_filter:
+                    continue
+                
+                is_home = (side == 'home')
+                my_score = m.home_score if is_home else m.away_score
+                opp_score = m.away_score if is_home else m.home_score
+                
+                if my_score is None: my_score = 0
+                if opp_score is None: opp_score = 0
+                
+                stats['gp'] += 1
+                stats['gf'] += my_score
+                stats['ga'] += opp_score
+                
+                if my_score > opp_score:
+                    stats['pts'] += 3
+                elif my_score == opp_score:
+                    stats['pts'] += 1
+            return stats
+
+        for t_id, data in team_matches.items():
+            team = data['team']
+            matches = data['matches'] # Sorted by date ascending
+            
+            # Re-sort matches by date descending for "last 8" slicing
+            matches_desc = sorted(matches, key=lambda x: x[0].date if x[0].date else datetime.min, reverse=True)
+            
+            # 1. Points (All matches)
+            s = calc_mini_stats(matches)
+            if s['gp'] > 0:
+                rank_points.append({'team': team, 'gp': s['gp'], 'val': s['pts']})
+            
+            # 2. Form (Last 8)
+            s = calc_mini_stats(matches_desc[:8])
+            if s['gp'] > 0:
+                rank_form8.append({'team': team, 'gp': s['gp'], 'val': s['pts']})
+                
+            # 3. Home
+            s = calc_mini_stats(matches, 'home')
+            if s['gp'] > 0:
+                rank_home.append({'team': team, 'gp': s['gp'], 'val': s['pts']})
+                
+            # 4. Away
+            s = calc_mini_stats(matches, 'away')
+            if s['gp'] > 0:
+                rank_away.append({'team': team, 'gp': s['gp'], 'val': s['pts']})
+            
+            # 5. Offence (All)
+            s = calc_mini_stats(matches)
+            if s['gp'] > 0:
+                rank_offence.append({'team': team, 'gp': s['gp'], 'val': s['gf']})
+                
+            # 6. Defence (All)
+            if s['gp'] > 0:
+                rank_defence.append({'team': team, 'gp': s['gp'], 'val': s['ga']})
+                
+            # 7. Offence (Last 8)
+            s = calc_mini_stats(matches_desc[:8])
+            if s['gp'] > 0:
+                rank_offence8.append({'team': team, 'gp': s['gp'], 'val': s['gf']})
+                
+            # 8. Defence (Last 8)
+            if s['gp'] > 0:
+                rank_defence8.append({'team': team, 'gp': s['gp'], 'val': s['ga']})
+                
+            # 9. Offence (Home)
+            s = calc_mini_stats(matches, 'home')
+            if s['gp'] > 0:
+                rank_offence_home.append({'team': team, 'gp': s['gp'], 'val': s['gf']})
+            
+            # 10. Defence (Home)
+            if s['gp'] > 0:
+                rank_defence_home.append({'team': team, 'gp': s['gp'], 'val': s['ga']})
+                
+            # 11. Offence (Away)
+            s = calc_mini_stats(matches, 'away')
+            if s['gp'] > 0:
+                rank_offence_away.append({'team': team, 'gp': s['gp'], 'val': s['gf']})
+                
+            # 12. Defence (Away)
+            if s['gp'] > 0:
+                rank_defence_away.append({'team': team, 'gp': s['gp'], 'val': s['ga']})
+
+        # Sorting
+        # Descending for Points, GF
+        # Ascending for GA (Defence)
+        
+        rank_points.sort(key=lambda x: x['val'], reverse=True)
+        rank_form8.sort(key=lambda x: x['val'], reverse=True)
+        rank_home.sort(key=lambda x: x['val'], reverse=True)
+        rank_away.sort(key=lambda x: x['val'], reverse=True)
+        
+        rank_offence.sort(key=lambda x: x['val'], reverse=True)
+        rank_defence.sort(key=lambda x: x['val']) # Low is good
+        
+        rank_offence8.sort(key=lambda x: x['val'], reverse=True)
+        rank_defence8.sort(key=lambda x: x['val'])
+        
+        rank_offence_home.sort(key=lambda x: x['val'], reverse=True)
+        rank_defence_home.sort(key=lambda x: x['val'])
+        
+        rank_offence_away.sort(key=lambda x: x['val'], reverse=True)
+        rank_defence_away.sort(key=lambda x: x['val'])
+        
+        # Group into overview tables for template iteration
+        overview_tables = [
+            {'title': 'Points', 'rows': rank_points, 'col_label': 'pts', 'col_key': 'val', 'header_color': '#333'},
+            {'title': 'Form (last 8)', 'rows': rank_form8, 'col_label': 'pts', 'col_key': 'val', 'header_color': '#333'},
+            {'title': 'Home', 'rows': rank_home, 'col_label': 'pts', 'col_key': 'val', 'header_color': '#333'},
+            {'title': 'Away', 'rows': rank_away, 'col_label': 'pts', 'col_key': 'val', 'header_color': '#333'},
+            {'title': 'Offence', 'rows': rank_offence, 'col_label': 'GF', 'col_key': 'val', 'header_color': '#1e40af'},
+            {'title': 'Defence', 'rows': rank_defence, 'col_label': 'GA', 'col_key': 'val', 'header_color': '#dc2626'},
+            
+            {'title': 'Offence (last 8)', 'rows': rank_offence8, 'col_label': 'GF', 'col_key': 'val', 'header_color': '#1e40af'},
+            {'title': 'Defence (last 8)', 'rows': rank_defence8, 'col_label': 'GA', 'col_key': 'val', 'header_color': '#dc2626'},
+            {'title': 'Offence (home)', 'rows': rank_offence_home, 'col_label': 'GF', 'col_key': 'val', 'header_color': '#1e40af'},
+            {'title': 'Defence (home)', 'rows': rank_defence_home, 'col_label': 'GA', 'col_key': 'val', 'header_color': '#dc2626'},
+            {'title': 'Offence (away)', 'rows': rank_offence_away, 'col_label': 'GF', 'col_key': 'val', 'header_color': '#1e40af'},
+            {'title': 'Defence (away)', 'rows': rank_defence_away, 'col_label': 'GA', 'col_key': 'val', 'header_color': '#dc2626'},
+        ]
+        context['overview_tables'] = overview_tables
+
+        # Aggregate Stats per Team
+        rows = {'total': [], 'home': [], 'away': [], 'last8': []}
+        ht_rows = {'total': [], 'home': [], 'away': [], 'last8': []}
+        sh_rows = {'total': [], 'home': [], 'away': [], 'last8': []}
+        bts_rows = {'total': [], 'home': [], 'away': []}
+        cs_rows = {'total': [], 'home': [], 'away': []}
+        fts_rows = {'total': [], 'home': [], 'away': []}
+        wtn_rows = {'total': [], 'home': [], 'away': []}
+        league_totals = init_stats()
+        ht_league_totals = init_stats()
+        sh_league_totals = init_stats()
+
+        for t_id, data in team_matches.items():
+            team = data['team']
+            all_matches = data['matches']
+            
+            # Helper to process logic into total/home/away stats
+            def process_stats(matches_list, process_func):
+                s_dict = {'total': init_stats(), 'home': init_stats(), 'away': init_stats()}
+                for m, side in matches_list:
+                    process_func(m, side, s_dict['total'])
+                    process_func(m, side, s_dict[side])
+                return s_dict
+
+            # --- Full Time Stats Calculation ---
+            def ft_proc(m, side, target_dict):
+                is_home = (side == 'home')
+                my_score = m.home_score if is_home else m.away_score
+                opp_score = m.away_score if is_home else m.home_score
+                if my_score is None: my_score = 0
+                if opp_score is None: opp_score = 0
+                
+                total_g = my_score + opp_score
+                bts_val = (my_score > 0 and opp_score > 0)
+                
+                target_dict['gp'] += 1
+                target_dict['gf'] += my_score
+                target_dict['ga'] += opp_score
+                target_dict['total_goals'] += total_g
+                if total_g > 0.5: target_dict['over05'] += 1
+                if total_g > 1.5: target_dict['over15'] += 1
+                if total_g > 2.5: target_dict['over25'] += 1
+                if total_g > 3.5: target_dict['over35'] += 1
+                if total_g > 4.5: target_dict['over45'] += 1
+                if total_g > 5.5: target_dict['over55'] += 1
+                if bts_val: target_dict['bts'] += 1
+                if opp_score == 0: target_dict['cs'] += 1
+                if my_score == 0: target_dict['fts'] += 1
+                if my_score > opp_score and opp_score == 0: target_dict['wtn'] += 1
+                if my_score < opp_score and my_score == 0: target_dict['ltn'] += 1
+
+            ft_s_dict = process_stats(all_matches, ft_proc)
+            ft_s_dict_last8 = process_stats(all_matches[-8:], ft_proc)
+            ft_s_dict['last8'] = ft_s_dict_last8['total']
+
+            # --- Half Time Stats Calculation ---
+            def ht_proc(m, side, target_dict):
+                is_home = (side == 'home')
+                ht_my = m.ht_home_score if is_home else m.ht_away_score
+                ht_opp = m.ht_away_score if is_home else m.ht_home_score
+                if ht_my is None: ht_my = 0
+                if ht_opp is None: ht_opp = 0
+                ht_total = ht_my + ht_opp
+                ht_bts = (ht_my > 0 and ht_opp > 0)
+
+                target_dict['gp'] += 1
+                target_dict['gf'] += ht_my
+                target_dict['ga'] += ht_opp
+                target_dict['total_goals'] += ht_total
+                if ht_total > 0.5: target_dict['over05'] += 1
+                if ht_total > 1.5: target_dict['over15'] += 1
+                if ht_total > 2.5: target_dict['over25'] += 1
+                if ht_total > 3.5: target_dict['over35'] += 1
+                if ht_total > 4.5: target_dict['over45'] += 1
+                if ht_total > 5.5: target_dict['over55'] += 1
+                if ht_bts: target_dict['bts'] += 1
+                if ht_opp == 0: target_dict['cs'] += 1
+                if ht_my == 0: target_dict['fts'] += 1
+                if ht_my > ht_opp and ht_opp == 0: target_dict['wtn'] += 1
+                if ht_my < ht_opp and ht_my == 0: target_dict['ltn'] += 1
+                
+            ht_s_dict = process_stats(all_matches, ht_proc)
+            ht_s_dict_last8 = process_stats(all_matches[-8:], ht_proc)
+            ht_s_dict['last8'] = ht_s_dict_last8['total']
+
+            # --- Second Half Stats Calculation ---
+            def sh_proc(m, side, target_dict):
+                is_home = (side == 'home')
+                my_score = m.home_score if is_home else m.away_score
+                opp_score = m.away_score if is_home else m.home_score
+                ht_my = m.ht_home_score if is_home else m.ht_away_score
+                ht_opp = m.ht_away_score if is_home else m.ht_home_score
+                if my_score is None: my_score = 0
+                if opp_score is None: opp_score = 0
+                if ht_my is None: ht_my = 0
+                if ht_opp is None: ht_opp = 0
+                
+                sh_my = my_score - ht_my
+                sh_opp = opp_score - ht_opp
+                sh_total = sh_my + sh_opp
+                sh_bts = (sh_my > 0 and sh_opp > 0)
+
+                target_dict['gp'] += 1
+                target_dict['gf'] += sh_my
+                target_dict['ga'] += sh_opp
+                target_dict['total_goals'] += sh_total
+                if sh_total > 0.5: target_dict['over05'] += 1
+                if sh_total > 1.5: target_dict['over15'] += 1
+                if sh_total > 2.5: target_dict['over25'] += 1
+                if sh_total > 3.5: target_dict['over35'] += 1
+                if sh_total > 4.5: target_dict['over45'] += 1
+                if sh_total > 5.5: target_dict['over55'] += 1
+                if sh_bts: target_dict['bts'] += 1
+                if sh_opp == 0: target_dict['cs'] += 1
+                if sh_my == 0: target_dict['fts'] += 1
+                if sh_my > sh_opp and sh_opp == 0: target_dict['wtn'] += 1
+                if sh_my < sh_opp and sh_my == 0: target_dict['ltn'] += 1
+
+            sh_s_dict = process_stats(all_matches, sh_proc)
+            sh_s_dict_last8 = process_stats(all_matches[-8:], sh_proc)
+            sh_s_dict['last8'] = sh_s_dict_last8['total']
+
+            # --- BTS Stats Calculation ---
+            def bts_proc(m, side, target_dict):
+                 is_home = (side == 'home')
+                 my_score = m.home_score if is_home else m.away_score
+                 opp_score = m.away_score if is_home else m.home_score
+                 if my_score is None: my_score = 0
+                 if opp_score is None: opp_score = 0
+                 if my_score > 0 and opp_score > 0: target_dict['bts'] += 1
+                 target_dict['gp'] += 1
+            bts_s_dict = process_stats(all_matches, bts_proc)
+
+            # --- CS Stats Calculation ---
+            def cs_proc(m, side, target_dict):
+                 is_home = (side == 'home')
+                 opp_score = m.away_score if is_home else m.home_score
+                 if opp_score is None: opp_score = 0
+                 if opp_score == 0: target_dict['cs'] += 1
+                 target_dict['gp'] += 1
+            cs_s_dict = process_stats(all_matches, cs_proc)
+
+            # --- FTS Stats Calculation ---
+            def fts_proc(m, side, target_dict):
+                 is_home = (side == 'home')
+                 my_score = m.home_score if is_home else m.away_score
+                 if my_score is None: my_score = 0
+                 if my_score == 0: target_dict['fts'] += 1
+                 target_dict['gp'] += 1
+            fts_s_dict = process_stats(all_matches, fts_proc)
+
+            # --- WTN (Scored in Both Halves) Calculation ---
+            def wtn_proc(m, side, target_dict):
+                 is_home = (side == 'home')
+                 my_score = m.home_score if is_home else m.away_score
+                 if my_score is None: my_score = 0
+                 my_ht_score = m.ht_home_score if is_home else m.ht_away_score
+                 if my_ht_score is None: my_ht_score = 0
+                 my_2h_score = my_score - my_ht_score
+                 if my_ht_score > 0 and my_2h_score > 0: target_dict['wtn'] += 1
+                 target_dict['gp'] += 1
+            wtn_s_dict = process_stats(all_matches, wtn_proc)
+            
+            # Helper to create row dict
+            def make_row(team_obj, stats_dict):
+                g_played = stats_dict['gp']
+                if g_played == 0: return None
+                return {
+                    'team': team_obj,
+                    'gp': g_played,
+                    'avg_total': stats_dict['total_goals'] / g_played,
+                    'over05_pct': (stats_dict['over05'] / g_played) * 100,
+                    'over15_pct': (stats_dict['over15'] / g_played) * 100,
+                    'over25_pct': (stats_dict['over25'] / g_played) * 100,
+                    'over35_pct': (stats_dict['over35'] / g_played) * 100,
+                    'over45_pct': (stats_dict['over45'] / g_played) * 100,
+                    'over55_pct': (stats_dict['over55'] / g_played) * 100,
+                    'bts_pct': (stats_dict['bts'] / g_played) * 100,
+                    'cs_pct': (stats_dict['cs'] / g_played) * 100,
+                    'fts_pct': (stats_dict['fts'] / g_played) * 100,
+                    'wtn_pct': (stats_dict['wtn'] / g_played) * 100,
+                    'ltn_pct': (stats_dict['ltn'] / g_played) * 100,
+                }
+            for loc in ['total', 'home', 'away']:
+                r = make_row(team, ft_s_dict[loc])
+                if r: rows[loc].append(r)
+                
+                ht_r = make_row(team, ht_s_dict[loc])
+                if ht_r: ht_rows[loc].append(ht_r)
+                
+                sh_r = make_row(team, sh_s_dict[loc])
+                if sh_r: sh_rows[loc].append(sh_r)
+                
+                if bts_s_dict[loc]['gp'] > 0:
+                    bts_rows[loc].append({
+                        'team': team, 'gp': bts_s_dict[loc]['gp'], 'bts': bts_s_dict[loc]['bts'], 
+                        'bts_pct': (bts_s_dict[loc]['bts'] / bts_s_dict[loc]['gp']) * 100
+                    })
+                if cs_s_dict[loc]['gp'] > 0:
+                    cs_rows[loc].append({
+                        'team': team, 'gp': cs_s_dict[loc]['gp'], 'cs': cs_s_dict[loc]['cs'], 
+                        'cs_pct': (cs_s_dict[loc]['cs'] / cs_s_dict[loc]['gp']) * 100
+                    })
+                if fts_s_dict[loc]['gp'] > 0:
+                    fts_rows[loc].append({
+                        'team': team, 'gp': fts_s_dict[loc]['gp'], 'fts': fts_s_dict[loc]['fts'], 
+                        'fts_pct': (fts_s_dict[loc]['fts'] / fts_s_dict[loc]['gp']) * 100
+                    })
+                if wtn_s_dict[loc]['gp'] > 0:
+                    wtn_rows[loc].append({
+                        'team': team, 'gp': wtn_s_dict[loc]['gp'], 'wtn': wtn_s_dict[loc]['wtn'], 
+                        'wtn_pct': (wtn_s_dict[loc]['wtn'] / wtn_s_dict[loc]['gp']) * 100
+                    })
+
+            # Process last8 rows
+            r_last8 = make_row(team, ft_s_dict['last8'])
+            if r_last8: rows['last8'].append(r_last8)
+            
+            ht_r_last8 = make_row(team, ht_s_dict['last8'])
+            if ht_r_last8: ht_rows['last8'].append(ht_r_last8)
+
+            sh_r_last8 = make_row(team, sh_s_dict['last8'])
+            if sh_r_last8: sh_rows['last8'].append(sh_r_last8)
+
+            # League Totals Accumulation (just use total for league average)
+            for k in league_totals:
+                league_totals[k] += ft_s_dict['total'][k]
+                ht_league_totals[k] += ht_s_dict['total'][k]
+                sh_league_totals[k] += sh_s_dict['total'][k]
+
+        # Sort by Avg Total Goals Descending
+        for loc in ['total', 'home', 'away', 'last8']:
+            rows[loc].sort(key=lambda x: x['avg_total'], reverse=True)
+            ht_rows[loc].sort(key=lambda x: x['avg_total'], reverse=True)
+            sh_rows[loc].sort(key=lambda x: x['avg_total'], reverse=True)
+            
+        for loc in ['total', 'home', 'away']:
+            bts_rows[loc].sort(key=lambda x: x['bts'], reverse=True)
+            cs_rows[loc].sort(key=lambda x: x['cs'], reverse=True)
+            fts_rows[loc].sort(key=lambda x: x['fts'], reverse=True)
+            wtn_rows[loc].sort(key=lambda x: x['wtn'], reverse=True)
+        
+        # Calculate League Average Row
+        def make_league_avg(totals_dict):
+            lg_gp = totals_dict['gp']
+            if lg_gp > 0:
+                return {
+                    'team_name': 'League average',
+                    'gp': lg_gp, 
+                    'avg_total': totals_dict['total_goals'] / lg_gp,
+                    'over05_pct': (totals_dict['over05'] / lg_gp) * 100,
+                    'over15_pct': (totals_dict['over15'] / lg_gp) * 100,
+                    'over25_pct': (totals_dict['over25'] / lg_gp) * 100,
+                    'over35_pct': (totals_dict['over35'] / lg_gp) * 100,
+                    'over45_pct': (totals_dict['over45'] / lg_gp) * 100,
+                    'over55_pct': (totals_dict['over55'] / lg_gp) * 100,
+                    'bts_pct': (totals_dict['bts'] / lg_gp) * 100,
+                    'cs_pct': (totals_dict['cs'] / lg_gp) * 100,
+                    'fts_pct': (totals_dict['fts'] / lg_gp) * 100,
+                    'wtn_pct': (totals_dict['wtn'] / lg_gp) * 100,
+                    'ltn_pct': (totals_dict['ltn'] / lg_gp) * 100,
+                }
+            return {}
+
+        # Pass the entire dictionaries to the template so it can render all tabs at once
+        context['goal_stats_rows'] = rows
+        context['league_avg_row'] = make_league_avg(league_totals)
+        
+        context['ht_goal_stats_rows'] = ht_rows
+        context['ht_league_avg_row'] = make_league_avg(ht_league_totals)
+        
+        context['sh_goal_stats_rows'] = sh_rows
+        context['sh_league_avg_row'] = make_league_avg(sh_league_totals)
+        
+        context['bts_rows'] = bts_rows
+        context['cs_rows'] = cs_rows
+        context['fts_rows'] = fts_rows
+        context['wtn_rows'] = wtn_rows
+        # --- General League Stats (for the new container) ---
+        # Re-fetch all_matches as a queryset to ensure it's not a list of tuples
+        all_matches_qs = Match.objects.filter(
+            league=league,
+            season=latest_season,
+            status__in=FINISHED_STATUSES
+        ).prefetch_related('goals', 'home_team', 'away_team')
+        total_matches_played = all_matches_qs.count()
+        total_season_matches = 380 # Assuming a standard 20-team league
+        
+        home_wins = 0
+        away_wins = 0
+        draws = 0
+        total_goals = 0
+        over_1_5 = 0
+        over_2_5 = 0
+        over_3_5 = 0
+        btts_yes = 0
+        home_goals_total = 0
+        away_goals_total = 0
+        no_goal_scored = 0
+
+        # First Goal Stats
+        home_scored_first = 0
+        away_scored_first = 0
+        home_first_goal_mins = []
+        away_first_goal_mins = []
+
+        # New: Correct Score & Timing
+        correct_score_counts = {}
+        timing_counts = {
+            '0-15': 0, '16-30': 0, '31-45': 0,
+            '46-60': 0, '61-75': 0, '76-90+': 0
+        }
+
+        for m in all_matches_qs:
+            if m.home_score is not None and m.away_score is not None:
+                total_goals += m.home_score + m.away_score
+                home_goals_total += m.home_score
+                away_goals_total += m.away_score
+
+                # Correct Score
+                score_str = f"{m.home_score}-{m.away_score}"
+                correct_score_counts[score_str] = correct_score_counts.get(score_str, 0) + 1
+
+                if m.home_score == 0 and m.away_score == 0:
+                    no_goal_scored += 1
+
+                # Determine who scored first & Timing
+                match_goals = list(m.goals.all())
+                # Sort by minute just in case, though usually insertion order or Meta ordering handles it
+                # Assuming Meta ordering might not be set for minute, let's sort
+                match_goals.sort(key=lambda g: g.minute)
+                
+                for g in match_goals:
+                    # Timing
+                    minute = g.minute
+                    if minute <= 15: timing_counts['0-15'] += 1
+                    elif minute <= 30: timing_counts['16-30'] += 1
+                    elif minute <= 45: timing_counts['31-45'] += 1
+                    elif minute <= 60: timing_counts['46-60'] += 1
+                    elif minute <= 75: timing_counts['61-75'] += 1
+                    else: timing_counts['76-90+'] += 1
+
+                if match_goals:
+                    first_goal = match_goals[0]
+                    # Check if home or away team scored first
+                    if first_goal.team_id == m.home_team_id:
+                        home_scored_first += 1
+                        home_first_goal_mins.append(first_goal.minute)
+                    elif first_goal.team_id == m.away_team_id:
+                        away_scored_first += 1
+                        away_first_goal_mins.append(first_goal.minute)
+
+                if m.home_score is not None and m.away_score is not None:
+                    if m.home_score > m.away_score:
+                        home_wins += 1
+                    elif m.away_score > m.home_score:
+                        away_wins += 1
+                    else:
+                        draws += 1
+
+                    if (m.home_score + m.away_score) > 1.5:
+                        over_1_5 += 1
+                    if (m.home_score + m.away_score) > 2.5:
+                        over_2_5 += 1
+                    if (m.home_score + m.away_score) > 3.5:
+                        over_3_5 += 1
+                    
+                    if m.home_score > 0 and m.away_score > 0:
+                        btts_yes += 1
+
+        # Calculate Averages for First Goal Minutes
+        avg_home_first_min = sum(home_first_goal_mins) / len(home_first_goal_mins) if home_first_goal_mins else 0
+        avg_away_first_min = sum(away_first_goal_mins) / len(away_first_goal_mins) if away_first_goal_mins else 0
+
+        # Process Correct Score Stats
+        sorted_scores = sorted(correct_score_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        correct_score_stats = []
+        for score, count in sorted_scores:
+            correct_score_stats.append({
+                'score': score,
+                'count': count,
+                'pct': (count / total_matches_played) * 100 if total_matches_played > 0 else 0
+            })
+        context['correct_score_stats'] = correct_score_stats
+
+        # Process Timing Stats
+        total_goals_timing = sum(timing_counts.values())
+        timing_stats_list = []
+        for period in ['0-15', '16-30', '31-45', '46-60', '61-75', '76-90+']:
+            count = timing_counts.get(period, 0)
+            timing_stats_list.append({
+                'period': period,
+                'count': count,
+                'pct': (count / total_goals_timing) * 100 if total_goals_timing > 0 else 0
+            })
+        context['timing_stats_list'] = timing_stats_list
+        context['has_goal_timing_data'] = total_goals_timing > 0
+
+        # Prepare context data
+        if total_matches_played > 0:
+            context['league_stats'] = {
+                'matches_played': total_matches_played,
+                'total_season_matches': total_season_matches,
+                'matches_played_pct': (total_matches_played / total_season_matches) * 100 if total_season_matches > 0 else 0,
+                'home_wins_pct': (home_wins / total_matches_played) * 100,
+                'draws_pct': (draws / total_matches_played) * 100,
+                'away_wins_pct': (away_wins / total_matches_played) * 100,
+                'total_goals': total_goals,
+                'goals_per_match': total_goals / total_matches_played,
+                'over_1_5_pct': (over_1_5 / total_matches_played) * 100,
+                'over_2_5_pct': (over_2_5 / total_matches_played) * 100,
+                'over_3_5_pct': (over_3_5 / total_matches_played) * 100,
+                'btts_pct': (btts_yes / total_matches_played) * 100,
+                'no_goal_scored_pct': (no_goal_scored / total_matches_played) * 100,
+                'home_goals_per_match': home_goals_total / total_matches_played,
+                'away_goals_per_match': away_goals_total / total_matches_played,
+                
+                # First Goal Stats
+                'home_scored_first_pct': (home_scored_first / total_matches_played) * 100,
+                'away_scored_first_pct': (away_scored_first / total_matches_played) * 100,
+                'avg_home_first_min': avg_home_first_min,
+                'avg_away_first_min': avg_away_first_min,
+            }
+        else:
+            # Default empty state
+            context['league_stats'] = {
+                'matches_played': 0, 'total_season_matches': total_season_matches, 'matches_played_pct': 0,
+                'home_wins_pct': 0, 'draws_pct': 0, 'away_wins_pct': 0, 'total_goals': 0,
+                'goals_per_match': 0, 'over_1_5_pct': 0, 'over_2_5_pct': 0, 'over_3_5_pct': 0,
+                'btts_pct': 0, 'no_goal_scored_pct': 0, 'home_goals_per_match': 0, 'away_goals_per_match': 0,
+                'home_scored_first_pct': 0, 'away_scored_first_pct': 0, 'avg_home_first_min': 0, 'avg_away_first_min': 0,
+            }
+
+        # --- Segments Table Logic ---
+        segments_data = []
+        if standings:
+            max_pts = standings[0].points
+            if max_pts > 0:
+                step = max_pts / 5.0
+                # Initialize 5 segments (0: Lowest/5th, 4: Highest/1st)
+                # Display order will be 5th -> 1st (Low -> High)
+                segments = [{'teams': [], 'min': i*step, 'max': (i+1)*step, 'rank': 5-i} for i in range(5)]
+                
+                for standing in standings:
+                    p = standing.points
+                    idx = int(p / step)
+                    if idx >= 5: idx = 4 # Cap at max
+                    # If points exactly 0? int(0) = 0. Correct.
+                    # If points close to boundary? 9.99 / 10 = 0. 10.0 / 10 = 1.
+                    # Boundary check: strict inequality?
+                    # The standard: [0, step), [step, 2step)... [4step, 5step]
+                    # int() behaves like floor.
+                    # 50/10 = 5. -> index 4.
+                    # 49/10 = 4.9 -> index 4.
+                    # 40/10 = 4. -> index 4.
+                    # 39/10 = 3.9 -> index 3.
+                    # So range is [40, 50]. [30, 40).
+                    # Actually typically segments are inclusive of upper bound if it's the max.
+                    # But int() logic puts 40 into index 4 (1st segment).
+                    # 39 into index 3 (2nd segment).
+                    # So 1st Segment is [40, 50].
+                    # 2nd Segment is [30, 40).
+                    # This seems correct.
+                    
+                    segments[idx]['teams'].append(standing)
+                
+                context['segments_table'] = segments
+                context['max_pts'] = max_pts
+
+        # --- Advanced Goal Timing (Timing/Times) ---
+        # 1. Initialize timing helper structures
+        match_goals_averages = {
+            '1st': [], '2nd': [], '3rd': [], '4th': [], 'any': []
+        }
+        early_scoring = {
+            'any_matches': 0, 'any_goals_16_90': 0,
+            'no_goal_15m_matches': 0, 'no_goal_15m_goals_16_90': 0,
+            'goal_15m_matches': 0, 'goal_15m_goals_16_90': 0
+        }
+        
+        # Segment Indexes helpers
+        def get_15m_idx(m_val):
+            return min(max(0, (m_val - 1) // 15), 5)
+        def get_10m_idx(m_val):
+            return min(max(0, (m_val - 1) // 10), 8)
+
+        # Team lists and maps initialization
+        team_timing = {}
+        for t_id, data in team_matches.items():
+            team_timing[t_id] = {
+                'team': data['team'],
+                'gp': len(data['matches']),
+                # 15m segment splits: [0-15, 16-30, 31-45, 46-60, 61-75, 76-90+]
+                'scored_15m': {'total': [0]*6, 'home': [0]*6, 'away': [0]*6},
+                'conceded_15m': {'total': [0]*6, 'home': [0]*6, 'away': [0]*6},
+                # 10m segment splits: [0-10, 11-20, 21-30, 31-40, 41-50, 51-60, 61-70, 71-80, 81-90+]
+                'scored_10m': {'total': [0]*9, 'home': [0]*9, 'away': [0]*9},
+                'conceded_10m': {'total': [0]*9, 'home': [0]*9, 'away': [0]*9},
+                # Metades (by half)
+                'scored_1st': {'total': 0, 'home': 0, 'away': 0},
+                'scored_2nd': {'total': 0, 'home': 0, 'away': 0},
+                'conceded_1st': {'total': 0, 'home': 0, 'away': 0},
+                'conceded_2nd': {'total': 0, 'home': 0, 'away': 0},
+                'scored_minutes': {'total': [], 'home': [], 'away': []},
+                'conceded_minutes': {'total': [], 'home': [], 'away': []},
+                # Standings by Halves: { '1h': { 'total': {w, d, l, gf, ga, pts}, ... }, '2h': ... }
+                'standings_1h': {
+                    'total': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'gp':0},
+                    'home': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'gp':0},
+                    'away': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'gp':0}
+                },
+                'standings_2h': {
+                    'total': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'gp':0},
+                    'home': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'gp':0},
+                    'away': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'gp':0}
+                },
+                # Special Records: leading_ht, trailing_ht, scored_first, conceded_first
+                'records': {
+                    'leading_ht': {
+                        'total': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'home': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'away': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0}
+                    },
+                    'trailing_ht': {
+                        'total': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'home': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'away': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0}
+                    },
+                    'scored_first': {
+                        'total': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'home': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'away': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0}
+                    },
+                    'conceded_first': {
+                        'total': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'home': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0},
+                        'away': {'w':0, 'd':0, 'l':0, 'gf':0, 'ga':0, 'pts':0, 'matches':0}
+                    }
+                },
+                # HT/FT combinations frequency: 1/1, 1/X, 1/2, X/1, X/X, X/2, 2/1, 2/X, 2/2
+                'htft_outcomes': {
+                    'total': {}, 'home': {}, 'away': {}
+                },
+                # First Goal stats
+                'first_goal': {
+                    'scored_first': {'total':0, 'home':0, 'away':0},
+                    'no_goal': {'total':0, 'home':0, 'away':0},
+                    'conceded_first': {'total':0, 'home':0, 'away':0},
+                    # OGS details
+                    'ogs_minutes': {'total':[], 'home':[], 'away':[]},
+                    'ogs_15m': {'total':[0]*6, 'home':[0]*6, 'away':[0]*6},
+                    # OGC details
+                    'ogc_minutes': {'total':[], 'home':[], 'away':[]},
+                    'ogc_15m': {'total':[0]*6, 'home':[0]*6, 'away':[0]*6},
+                    # OG details
+                    'og_minutes': {'total':[], 'home':[], 'away':[]},
+                    'og_15m': {'total':[0]*6, 'home':[0]*6, 'away':[0]*6},
+                }
+            }
+            # Pre-populate HT/FT combinations
+            for loc_k in ['total', 'home', 'away']:
+                for HT in ['1', 'X', '2']:
+                    for FT in ['1', 'X', '2']:
+                        team_timing[t_id]['htft_outcomes'][loc_k][f"{HT}/{FT}"] = 0
+
+        # Calculations
+        for m in all_matches_qs:
+            match_goals = list(m.goals.all())
+            match_goals.sort(key=lambda g: g.minute)
+            
+            # --- Early Scoring ---
+            early_scoring['any_matches'] += 1
+            has_early_goal = False
+            goals_16_90 = 0
+            
+            # 1. Match averages calculations
+            for idx, g in enumerate(match_goals):
+                min_val = g.minute
+                cap_min = min(min_val, 90)
+                
+                if idx == 0: match_goals_averages['1st'].append(cap_min)
+                elif idx == 1: match_goals_averages['2nd'].append(cap_min)
+                elif idx == 2: match_goals_averages['3rd'].append(cap_min)
+                elif idx == 3: match_goals_averages['4th'].append(cap_min)
+                match_goals_averages['any'].append(cap_min)
+                
+                if min_val <= 15:
+                    has_early_goal = True
+                else:
+                    goals_16_90 += 1
+            
+            early_scoring['any_goals_16_90'] += goals_16_90
+            if has_early_goal:
+                early_scoring['goal_15m_matches'] += 1
+                early_scoring['goal_15m_goals_16_90'] += goals_16_90
+            else:
+                early_scoring['no_goal_15m_matches'] += 1
+                early_scoring['no_goal_15m_goals_16_90'] += goals_16_90
+
+            # 2. Team specifics Calculations
+            h_id = m.home_team_id
+            a_id = m.away_team_id
+            
+            if h_id not in team_timing or a_id not in team_timing:
+                continue
+                
+            ht_home = m.ht_home_score or 0
+            ht_away = m.ht_away_score or 0
+            ft_home = m.home_score or 0
+            ft_away = m.away_score or 0
+            
+            # 2a. Metade / Halves standings accumulator helper
+            def apply_standings_half(t_id, side, gf, ga):
+                for l_key in ['total', side]:
+                    team_timing[t_id]['standings_1h'][l_key]['gp'] += 1
+                    team_timing[t_id]['standings_1h'][l_key]['gf'] += gf
+                    team_timing[t_id]['standings_1h'][l_key]['ga'] += ga
+                    if gf > ga:
+                        team_timing[t_id]['standings_1h'][l_key]['w'] += 1
+                        team_timing[t_id]['standings_1h'][l_key]['pts'] += 3
+                    elif gf == ga:
+                        team_timing[t_id]['standings_1h'][l_key]['d'] += 1
+                        team_timing[t_id]['standings_1h'][l_key]['pts'] += 1
+                    else:
+                        team_timing[t_id]['standings_1h'][l_key]['l'] += 1
+            
+            def apply_standings_2h(t_id, side, gf, ga):
+                for l_key in ['total', side]:
+                    team_timing[t_id]['standings_2h'][l_key]['gp'] += 1
+                    team_timing[t_id]['standings_2h'][l_key]['gf'] += gf
+                    team_timing[t_id]['standings_2h'][l_key]['ga'] += ga
+                    if gf > ga:
+                        team_timing[t_id]['standings_2h'][l_key]['w'] += 1
+                        team_timing[t_id]['standings_2h'][l_key]['pts'] += 3
+                    elif gf == ga:
+                        team_timing[t_id]['standings_2h'][l_key]['d'] += 1
+                        team_timing[t_id]['standings_2h'][l_key]['pts'] += 1
+                    else:
+                        team_timing[t_id]['standings_2h'][l_key]['l'] += 1
+
+            apply_standings_half(h_id, 'home', ht_home, ht_away)
+            apply_standings_half(a_id, 'away', ht_away, ht_home)
+            
+            apply_standings_2h(h_id, 'home', ft_home - ht_home, ft_away - ht_away)
+            apply_standings_2h(a_id, 'away', ft_away - ht_away, ft_home - ht_home)
+
+            # 2b. HT/FT Outcomes
+            ht_res = '1' if ht_home > ht_away else ('2' if ht_home < ht_away else 'X')
+            ft_res = '1' if ft_home > ft_away else ('2' if ft_home < ft_away else 'X')
+            outcome_str = f"{ht_res}/{ft_res}"
+            
+            team_timing[h_id]['htft_outcomes']['total'][outcome_str] += 1
+            team_timing[h_id]['htft_outcomes']['home'][outcome_str] += 1
+            
+            # Map away perspective of outcomes (swap 1 and 2)
+            def swap_htft(s):
+                mapping = {'1': '2', '2': '1', 'X': 'X'}
+                p_ht, p_ft = s.split('/')
+                return f"{mapping[p_ht]}/{mapping[p_ft]}"
+            
+            team_timing[a_id]['htft_outcomes']['total'][swap_htft(outcome_str)] += 1
+            team_timing[a_id]['htft_outcomes']['away'][swap_htft(outcome_str)] += 1
+
+            # 2c. Special HT records (HT lead/trailing)
+            def apply_record(t_id, rec_key, side, gf_full, ga_full):
+                # Outcomes full time (GF, GA, W/D/L)
+                for l_key in ['total', side]:
+                    rec = team_timing[t_id]['records'][rec_key][l_key]
+                    rec['matches'] += 1
+                    rec['gf'] += gf_full
+                    rec['ga'] += ga_full
+                    if gf_full > ga_full:
+                        rec['w'] += 1
+                        rec['pts'] += 3
+                    elif gf_full == ga_full:
+                        rec['d'] += 1
+                        rec['pts'] += 1
+                    else:
+                        rec['l'] += 1
+            
+            if ht_home > ht_away:
+                apply_record(h_id, 'leading_ht', 'home', ft_home, ft_away)
+                apply_record(a_id, 'trailing_ht', 'away', ft_away, ft_home)
+            elif ht_home < ht_away:
+                apply_record(a_id, 'leading_ht', 'away', ft_away, ft_home)
+                apply_record(h_id, 'trailing_ht', 'home', ft_home, ft_away)
+
+            # 2d. First goal details (OGS/OGC/OG) & scored/conceded first records
+            if match_goals:
+                first_g = match_goals[0]
+                fg_min = min(first_g.minute, 90)
+                fg_idx_15 = get_15m_idx(fg_min)
+                
+                # Overall Match first goal (OG)
+                team_timing[h_id]['first_goal']['og_minutes']['total'].append(fg_min)
+                team_timing[h_id]['first_goal']['og_minutes']['home'].append(fg_min)
+                team_timing[h_id]['first_goal']['og_15m']['total'][fg_idx_15] += 1
+                team_timing[h_id]['first_goal']['og_15m']['home'][fg_idx_15] += 1
+                
+                team_timing[a_id]['first_goal']['og_minutes']['total'].append(fg_min)
+                team_timing[a_id]['first_goal']['og_minutes']['away'].append(fg_min)
+                team_timing[a_id]['first_goal']['og_15m']['total'][fg_idx_15] += 1
+                team_timing[a_id]['first_goal']['og_15m']['away'][fg_idx_15] += 1
+
+                if first_g.team_id == h_id:
+                    # Home scored first, Away conceded first
+                    for l_k in ['total', 'home']:
+                        team_timing[h_id]['first_goal']['scored_first'][l_k] += 1
+                        team_timing[h_id]['first_goal']['ogs_minutes'][l_k].append(fg_min)
+                        team_timing[h_id]['first_goal']['ogs_15m'][l_k][fg_idx_15] += 1
+                        
+                    for l_k in ['total', 'away']:
+                        team_timing[a_id]['first_goal']['conceded_first'][l_k] += 1
+                        team_timing[a_id]['first_goal']['ogc_minutes'][l_k].append(fg_min)
+                        team_timing[a_id]['first_goal']['ogc_15m'][l_k][fg_idx_15] += 1
+
+                    apply_record(h_id, 'scored_first', 'home', ft_home, ft_away)
+                    apply_record(a_id, 'conceded_first', 'away', ft_away, ft_home)
+                else:
+                    # Away scored first, Home conceded first
+                    for l_k in ['total', 'away']:
+                        team_timing[a_id]['first_goal']['scored_first'][l_k] += 1
+                        team_timing[a_id]['first_goal']['ogs_minutes'][l_k].append(fg_min)
+                        team_timing[a_id]['first_goal']['ogs_15m'][l_k][fg_idx_15] += 1
+                        
+                    for l_k in ['total', 'home']:
+                        team_timing[h_id]['first_goal']['conceded_first'][l_k] += 1
+                        team_timing[h_id]['first_goal']['ogc_minutes'][l_k].append(fg_min)
+                        team_timing[h_id]['first_goal']['ogc_15m'][l_k][fg_idx_15] += 1
+
+                    apply_record(a_id, 'scored_first', 'away', ft_away, ft_home)
+                    apply_record(h_id, 'conceded_first', 'home', ft_home, ft_away)
+            else:
+                # 0-0 Draw
+                for l_k in ['total', 'home']:
+                    team_timing[h_id]['first_goal']['no_goal'][l_k] += 1
+                for l_k in ['total', 'away']:
+                    team_timing[a_id]['first_goal']['no_goal'][l_k] += 1
+
+            # 2e. Scored / Conceded by minute intervals (10m & 15m splits)
+            for g in match_goals:
+                g_min = g.minute
+                cap_min = min(g_min, 90)
+                idx_15 = get_15m_idx(g_min)
+                idx_10 = get_10m_idx(g_min)
+                
+                is_home_g = (g.team_id == h_id)
+                scorer = h_id if is_home_g else a_id
+                conceder = a_id if is_home_g else h_id
+                scorer_side = 'home' if is_home_g else 'away'
+                conceder_side = 'away' if is_home_g else 'home'
+                
+                # Scorer timing details
+                team_timing[scorer]['scored_minutes']['total'].append(cap_min)
+                team_timing[scorer]['scored_minutes'][scorer_side].append(cap_min)
+                team_timing[scorer]['scored_15m']['total'][idx_15] += 1
+                team_timing[scorer]['scored_15m'][scorer_side][idx_15] += 1
+                team_timing[scorer]['scored_10m']['total'][idx_10] += 1
+                team_timing[scorer]['scored_10m'][scorer_side][idx_10] += 1
+                if g_min <= 45:
+                    team_timing[scorer]['scored_1st']['total'] += 1
+                    team_timing[scorer]['scored_1st'][scorer_side] += 1
+                else:
+                    team_timing[scorer]['scored_2nd']['total'] += 1
+                    team_timing[scorer]['scored_2nd'][scorer_side] += 1
+                    
+                # Conceder timing details
+                team_timing[conceder]['conceded_minutes']['total'].append(cap_min)
+                team_timing[conceder]['conceded_minutes'][conceder_side].append(cap_min)
+                team_timing[conceder]['conceded_15m']['total'][idx_15] += 1
+                team_timing[conceder]['conceded_15m'][conceder_side][idx_15] += 1
+                team_timing[conceder]['conceded_10m']['total'][idx_10] += 1
+                team_timing[conceder]['conceded_10m'][conceder_side][idx_10] += 1
+                if g_min <= 45:
+                    team_timing[conceder]['conceded_1st']['total'] += 1
+                    team_timing[conceder]['conceded_1st'][conceder_side] += 1
+                else:
+                    team_timing[conceder]['conceded_2nd']['total'] += 1
+                    team_timing[conceder]['conceded_2nd'][conceder_side] += 1
+
+        # Format and structure the arrays for frontend
+        team_timing_15m = {'total': [], 'home': [], 'away': []}
+        team_timing_10m = {'total': [], 'home': [], 'away': []}
+        team_goals_half = []  # Goals by Half
+        team_standings_1h = {'total': [], 'home': [], 'away': []}
+        team_standings_2h = {'total': [], 'home': [], 'away': []}
+        team_records = {
+            'leading_ht': {'total': [], 'home': [], 'away': []},
+            'trailing_ht': {'total': [], 'home': [], 'away': []},
+            'scored_first': {'total': [], 'home': [], 'away': []},
+            'conceded_first': {'total': [], 'home': [], 'away': []}
+        }
+        team_htft = {'total': [], 'home': [], 'away': []}
+        team_first_goal_stats = {'total': [], 'home': [], 'away': []}
+
+        # Average first goal league-wide helpers
+        league_timing_segments = []
+        timing_total_goals = len(match_goals_averages['any'])
+        first_half_goals = sum(1 for m_m in match_goals_averages['any'] if m_m <= 45)
+        second_half_goals = timing_total_goals - first_half_goals
+
+        league_match_averages = [
+            {'event': '1st goal', 'avg_time': int(sum(match_goals_averages['1st'])/len(match_goals_averages['1st'])) if match_goals_averages['1st'] else 0, 'count': len(match_goals_averages['1st']), 'pct': (len(match_goals_averages['1st'])/total_matches_played)*100 if total_matches_played else 0},
+            {'event': '2nd goal', 'avg_time': int(sum(match_goals_averages['2nd'])/len(match_goals_averages['2nd'])) if match_goals_averages['2nd'] else 0, 'count': len(match_goals_averages['2nd']), 'pct': (len(match_goals_averages['2nd'])/total_matches_played)*100 if total_matches_played else 0},
+            {'event': '3rd goal', 'avg_time': int(sum(match_goals_averages['3rd'])/len(match_goals_averages['3rd'])) if match_goals_averages['3rd'] else 0, 'count': len(match_goals_averages['3rd']), 'pct': (len(match_goals_averages['3rd'])/total_matches_played)*100 if total_matches_played else 0},
+            {'event': '4th goal', 'avg_time': int(sum(match_goals_averages['4th'])/len(match_goals_averages['4th'])) if match_goals_averages['4th'] else 0, 'count': len(match_goals_averages['4th']), 'pct': (len(match_goals_averages['4th'])/total_matches_played)*100 if total_matches_played else 0},
+            {'event': 'Any goal', 'avg_time': int(sum(match_goals_averages['any'])/len(match_goals_averages['any'])) if match_goals_averages['any'] else 0, 'count': len(match_goals_averages['any']), 'pct': (len(match_goals_averages['any'])/total_matches_played)*100 if total_matches_played else 0},
+        ]
+        
+        early_scoring_output = {
+            'any_matches': early_scoring['any_matches'],
+            'any_goals_16_90': early_scoring['any_goals_16_90'],
+            'any_avg_16_90': early_scoring['any_goals_16_90'] / early_scoring['any_matches'] if early_scoring['any_matches'] else 0,
+            
+            'no_goal_15m_matches': early_scoring['no_goal_15m_matches'],
+            'no_goal_15m_goals_16_90': early_scoring['no_goal_15m_goals_16_90'],
+            'no_goal_15m_avg_16_90': early_scoring['no_goal_15m_goals_16_90'] / early_scoring['no_goal_15m_matches'] if early_scoring['no_goal_15m_matches'] else 0,
+            
+            'goal_15m_matches': early_scoring['goal_15m_matches'],
+            'goal_15m_goals_16_90': early_scoring['goal_15m_goals_16_90'],
+            'goal_15m_avg_16_90': early_scoring['goal_15m_goals_16_90'] / early_scoring['goal_15m_matches'] if early_scoring['goal_15m_matches'] else 0
+        }
+
+        # Build list maps for splits
+        for t_id, t_stats in team_timing.items():
+            team_obj = t_stats['team']
+            
+            # Goals by half team level:
+            total_scored_overall = t_stats['scored_1st']['total'] + t_stats['scored_2nd']['total']
+            team_goals_half.append({
+                'team': team_obj,
+                'scored': total_scored_overall,
+                'first_half_pct': (t_stats['scored_1st']['total'] / total_scored_overall * 100) if total_scored_overall else 0,
+                'second_half_pct': (t_stats['scored_2nd']['total'] / total_scored_overall * 100) if total_scored_overall else 0,
+                'avg_minute': int(sum(t_stats['scored_minutes']['total']) / len(t_stats['scored_minutes']['total'])) if t_stats['scored_minutes']['total'] else 0
+            })
+
+            # Standings loop
+            for l_k in ['total', 'home', 'away']:
+                # 1H standings list
+                st1 = t_stats['standings_1h'][l_k]
+                team_standings_1h[l_k].append({
+                    'team': team_obj,
+                    'gp': st1['gp'], 'w': st1['w'], 'd': st1['d'], 'l': st1['l'],
+                    'gf': st1['gf'], 'ga': st1['ga'], 'gd': st1['gf'] - st1['ga'],
+                    'pts': st1['pts']
+                })
+                # 2H standings list
+                st2 = t_stats['standings_2h'][l_k]
+                team_standings_2h[l_k].append({
+                    'team': team_obj,
+                    'gp': st2['gp'], 'w': st2['w'], 'd': st2['d'], 'l': st2['l'],
+                    'gf': st2['gf'], 'ga': st2['ga'], 'gd': st2['gf'] - st2['ga'],
+                    'pts': st2['pts']
+                })
+
+                # Special records list
+                for rec_key in ['leading_ht', 'trailing_ht', 'scored_first', 'conceded_first']:
+                    rec = t_stats['records'][rec_key][l_k]
+                    gp_rec = len(team_matches[t_id]['matches']) if l_k == 'total' else sum(1 for m_l in team_matches[t_id]['matches'] if m_l[1] == l_k)
+                    pct = (rec['matches'] / gp_rec * 100) if gp_rec else 0
+                    ppg = (rec['pts'] / rec['matches']) if rec['matches'] else 0
+                    team_records[rec_key][l_k].append({
+                        'team': team_obj,
+                        'count': rec['matches'],
+                        'gp': gp_rec,
+                        'matches_desc': f"{rec['matches']} de {gp_rec}",
+                        'pct': pct,
+                        'w': rec['w'], 'd': rec['d'], 'l': rec['l'],
+                        'gf': rec['gf'],
+                        'ga': rec['ga'],
+                        'goals_desc': f"{rec['gf']} - {rec['ga']}",
+                        'pts': rec['pts'],
+                        'ppg': ppg
+                    })
+
+                # HT/FT Outcomes outcomes mapping for team
+                total_htft_matches = sum(t_stats['htft_outcomes'][l_k].values())
+                htft_list = []
+                for comb, cnt in t_stats['htft_outcomes'][l_k].items():
+                    htft_list.append({
+                        'outcome': comb, 'count': cnt,
+                        'pct': (cnt / total_htft_matches * 100) if total_htft_matches else 0
+                    })
+                # Let's map it flat to columns inside template
+                team_htft[l_k].append({
+                    'team': team_obj,
+                    'gp': total_htft_matches,
+                    'outcomes': t_stats['htft_outcomes'][l_k]  # Pass raw dict mapping comb -> count
+                })
+
+                # First Goal stats
+                fg = t_stats['first_goal']
+                total_fg_matches = fg['scored_first'][l_k] + fg['no_goal'][l_k] + fg['conceded_first'][l_k]
+                
+                # Marcou Primeiro (OGS)
+                ogs_cnt = fg['scored_first'][l_k]
+                ogs_avg = int(sum(fg['ogs_minutes'][l_k]) / len(fg['ogs_minutes'][l_k])) if fg['ogs_minutes'][l_k] else 0
+                ogs_1h_cnt = sum(1 for m_m in fg['ogs_minutes'][l_k] if m_m <= 45)
+                ogs_2h_cnt = ogs_cnt - ogs_1h_cnt
+                
+                # Sofreu Primeiro (OGC)
+                ogc_cnt = fg['conceded_first'][l_k]
+                ogc_avg = int(sum(fg['ogc_minutes'][l_k]) / len(fg['ogc_minutes'][l_k])) if fg['ogc_minutes'][l_k] else 0
+                ogc_1h_cnt = sum(1 for m_m in fg['ogc_minutes'][l_k] if m_m <= 45)
+                ogc_2h_cnt = ogc_cnt - ogc_1h_cnt
+                
+                # Primeiro Gol do Jogo (OG)
+                og_cnt = len(fg['og_minutes'][l_k])
+                og_avg = int(sum(fg['og_minutes'][l_k]) / len(fg['og_minutes'][l_k])) if fg['og_minutes'][l_k] else 0
+                og_1h_cnt = sum(1 for m_m in fg['og_minutes'][l_k] if m_m <= 45)
+                og_2h_cnt = og_cnt - og_1h_cnt
+
+                team_first_goal_stats[l_k].append({
+                    'team': team_obj,
+                    'gp': total_fg_matches,
+                    # Overall rates for triple progress bar
+                    'sf': fg['scored_first'][l_k],
+                    'sf_pct': (fg['scored_first'][l_k] / total_fg_matches * 100) if total_fg_matches else 0,
+                    'ng': fg['no_goal'][l_k],
+                    'ng_pct': (fg['no_goal'][l_k] / total_fg_matches * 100) if total_fg_matches else 0,
+                    'cf': fg['conceded_first'][l_k],
+                    'cf_pct': (fg['conceded_first'][l_k] / total_fg_matches * 100) if total_fg_matches else 0,
+                    
+                    # OGS splits
+                    'ogs_count': ogs_cnt,
+                    'ogs_avg': ogs_avg if ogs_cnt else '-',
+                    'ogs_15m': fg['ogs_15m'][l_k],
+                    'ogs_0_15': fg['ogs_15m'][l_k][0], 'ogs_16_30': fg['ogs_15m'][l_k][1], 'ogs_31_45': fg['ogs_15m'][l_k][2],
+                    'ogs_46_60': fg['ogs_15m'][l_k][3], 'ogs_61_75': fg['ogs_15m'][l_k][4], 'ogs_76_90': fg['ogs_15m'][l_k][5],
+                    'ogs_1h_pct': (ogs_1h_cnt / ogs_cnt * 100) if ogs_cnt else 0,
+                    'ogs_2h_pct': (ogs_2h_cnt / ogs_cnt * 100) if ogs_cnt else 0,
+                    
+                    # OGC splits
+                    'ogc_count': ogc_cnt,
+                    'ogc_avg': ogc_avg if ogc_cnt else '-',
+                    'ogc_15m': fg['ogc_15m'][l_k],
+                    'ogc_0_15': fg['ogc_15m'][l_k][0], 'ogc_16_30': fg['ogc_15m'][l_k][1], 'ogc_31_45': fg['ogc_15m'][l_k][2],
+                    'ogc_46_60': fg['ogc_15m'][l_k][3], 'ogc_61_75': fg['ogc_15m'][l_k][4], 'ogc_76_90': fg['ogc_15m'][l_k][5],
+                    'ogc_1h_pct': (ogc_1h_cnt / ogc_cnt * 100) if ogc_cnt else 0,
+                    'ogc_2h_pct': (ogc_2h_cnt / ogc_cnt * 100) if ogc_cnt else 0,
+                    
+                    # OG splits
+                    'og': og_cnt,
+                    'og_count': og_cnt,
+                    'og_avg': og_avg if og_cnt else '-',
+                    'og_15m': fg['og_15m'][l_k],
+                    'og_0_15': fg['og_15m'][l_k][0], 'og_16_30': fg['og_15m'][l_k][1], 'og_31_45': fg['og_15m'][l_k][2],
+                    'og_46_60': fg['og_15m'][l_k][3], 'og_61_75': fg['og_15m'][l_k][4], 'og_76_90': fg['og_15m'][l_k][5],
+                    'og_1h_pct': (og_1h_cnt / og_cnt * 100) if og_cnt else 0,
+                    'og_2h_pct': (og_2h_cnt / og_cnt * 100) if og_cnt else 0,
+                })
+
+                # --- 15m Segment exact scored/conceded splits ---
+                scored_15 = t_stats['scored_15m'][l_k]
+                conceded_15 = t_stats['conceded_15m'][l_k]
+                avg_scored_15 = int(sum(t_stats['scored_minutes'][l_k]) / len(t_stats['scored_minutes'][l_k])) if t_stats['scored_minutes'][l_k] else 0
+                avg_conceded_15 = int(sum(t_stats['conceded_minutes'][l_k]) / len(t_stats['conceded_minutes'][l_k])) if t_stats['conceded_minutes'][l_k] else 0
+                
+                # Identify segment with maximum difference for bolding
+                max_diff_15 = -1
+                max_diff_15_idx = -1
+                for idx in range(6):
+                    diff = abs(scored_15[idx] - conceded_15[idx])
+                    if diff > max_diff_15:
+                        max_diff_15 = diff
+                        max_diff_15_idx = idx
+
+                # Build row structure for 15m segments
+                segments_15 = []
+                for idx in range(6):
+                    segments_15.append({
+                        'val': f"{scored_15[idx]}-{conceded_15[idx]}",
+                        'diff': scored_15[idx] - conceded_15[idx],
+                        'is_bold': (idx == max_diff_15_idx)
+                    })
+
+                team_timing_15m[l_k].append({
+                    'team': team_obj,
+                    'gp': gp_rec,
+                    'segments': segments_15,
+                    'avg_scored': f"{avg_scored_15} min." if avg_scored_15 else '-',
+                    'avg_conceded': f"{avg_conceded_15} min." if avg_conceded_15 else '-',
+                    'first_half': f"{t_stats['scored_1st'][l_k]}-{t_stats['conceded_1st'][l_k]}",
+                    'second_half': f"{t_stats['scored_2nd'][l_k]}-{t_stats['conceded_2nd'][l_k]}"
+                })
+
+                # --- 10m Segment exact scored/conceded splits ---
+                scored_10 = t_stats['scored_10m'][l_k]
+                conceded_10 = t_stats['conceded_10m'][l_k]
+                
+                # Identify segment with maximum difference for bolding
+                max_diff_10 = -1
+                max_diff_10_idx = -1
+                for idx in range(9):
+                    diff = abs(scored_10[idx] - conceded_10[idx])
+                    if diff > max_diff_10:
+                        max_diff_10 = diff
+                        max_diff_10_idx = idx
+
+                # Build row structure for 10m segments
+                segments_10 = []
+                for idx in range(9):
+                    segments_10.append({
+                        'val': f"{scored_10[idx]}-{conceded_10[idx]}",
+                        'diff': scored_10[idx] - conceded_10[idx],
+                        'is_bold': (idx == max_diff_10_idx)
+                    })
+
+                team_timing_10m[l_k].append({
+                    'team': team_obj,
+                    'gp': gp_rec,
+                    'segments': segments_10,
+                    'avg_scored': f"{avg_scored_15} min." if avg_scored_15 else '-',
+                    'avg_conceded': f"{avg_conceded_15} min." if avg_conceded_15 else '-',
+                    'first_half': f"{t_stats['scored_1st'][l_k]}-{t_stats['conceded_1st'][l_k]}",
+                    'second_half': f"{t_stats['scored_2nd'][l_k]}-{t_stats['conceded_2nd'][l_k]}"
+                })
+
+        # Sort all lists
+        team_goals_half.sort(key=lambda x: x['scored'], reverse=True)
+        for l_k in ['total', 'home', 'away']:
+            team_timing_15m[l_k].sort(key=lambda x: x['team'].name)
+            team_timing_10m[l_k].sort(key=lambda x: x['team'].name)
+            
+            # Sort standings by Pts desc, then GD desc, then GF desc
+            team_standings_1h[l_k].sort(key=lambda x: (x['pts'], x['gd'], x['gf']), reverse=True)
+            team_standings_2h[l_k].sort(key=lambda x: (x['pts'], x['gd'], x['gf']), reverse=True)
+            
+            # Sort special records by PPG descending, then matches descending
+            team_records['leading_ht'][l_k].sort(key=lambda x: x['ppg'], reverse=True)
+            team_records['trailing_ht'][l_k].sort(key=lambda x: x['ppg'], reverse=True)
+            team_records['scored_first'][l_k].sort(key=lambda x: x['ppg'], reverse=True)
+            team_records['conceded_first'][l_k].sort(key=lambda x: x['ppg'], reverse=True)
+            
+            # Sort outcomes and first goal stats alphabetically by team name
+            team_htft[l_k].sort(key=lambda x: x['team'].name)
+            team_first_goal_stats[l_k].sort(key=lambda x: x['team'].name)
+
+        # Context updates
+        context['league_half_goals'] = {
+            'first_half_count': first_half_goals,
+            'first_half_pct': (first_half_goals / timing_total_goals) * 100 if timing_total_goals else 0,
+            'second_half_count': second_half_goals,
+            'second_half_pct': (second_half_goals / timing_total_goals) * 100 if timing_total_goals else 0,
+        }
+        context['league_match_averages'] = league_match_averages
+        context['early_scoring_output'] = early_scoring_output
+        
+        # Pass timing variables to timing templates
+        context['team_timing_15m'] = team_timing_15m
+        context['team_timing_10m'] = team_timing_10m
+        context['team_goals_half'] = team_goals_half
+        context['team_standings_1h'] = team_standings_1h
+        context['team_standings_2h'] = team_standings_2h
+        context['team_records'] = team_records
+        context['team_htft'] = team_htft
+        context['team_first_goal_stats'] = team_first_goal_stats
+        
+        return context
+
+class LeagueDetailedStatsView(TemplateView):
+    template_name = 'matches/league_detailed_stats.html'
+
+    def get(self, request, *args, **kwargs):
+        """Override get() to add HTTP-level caching headers and use Django cache."""
+        response = super().get(request, *args, **kwargs)
+        # Tell browser/proxy to cache for 5 minutes
+        response['Cache-Control'] = 'public, max-age=300'
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        league_slug = self.kwargs.get('league_name')
+        country_slug = self.kwargs.get('country_name', '').replace('-', ' ')
+        
+        # 1. Localizar a Liga (considerando país e nome)
+        from django.db.models import Avg, Sum, Q, Count
+        from django.utils.text import slugify
+        name_query = league_slug.replace('-', ' ')
+        
+        # Busca por nome da liga
+        candidates = League.objects.filter(
+            Q(name__iexact=name_query) | Q(name__iexact=league_slug) | Q(name__icontains=name_query) | Q(name__icontains=league_slug)
+        )
+        
+        # Fallback Slugify para Liga
+        if not candidates.exists():
+            for l in League.objects.all():
+                if slugify(l.name) == league_slug:
+                    candidates = League.objects.filter(id=l.id)
+                    break
+        
+        if country_slug:
+            db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_slug.lower(), country_slug)
+            filtered_league = candidates.filter(Q(country__iexact=db_country) | Q(country__icontains=db_country) | Q(country__icontains=country_slug))
+            if not filtered_league.exists():
+                # Fallback slugify para país
+                for c in candidates:
+                    if slugify(c.country) == country_slug:
+                        filtered_league = League.objects.filter(id=c.id)
+                        break
+            if filtered_league.exists():
+                candidates = filtered_league
+            
+        league = candidates.first()
+        context['league'] = league
+        
+        if not league:
+            return context
+        
+        # 2. Localizar a Temporada Recente
+        latest_season = Season.objects.filter(matches__league=league).order_by('-year').first()
+        context['season'] = latest_season
+        
+        if not latest_season:
+            return context
+
+        from django.core.cache import cache as django_cache
+        
+        # Cache key based on league ID and season ID
+        cache_key = f'detailed_stats_data_{league.id}_{latest_season.id}'
+        cached_data = django_cache.get(cache_key)
+        
+        if cached_data is None:
+            # 3. Calcular Médias por Time
+            # Otimização Suprema: Evitar a query Team.objects.filter(Q|Q) que demorava 9s+
+            # Em vez disso, puxamos todos os jogos primeiro (que é instantâneo)
+            all_matches_for_stats = list(Match.objects.filter(
+                league=league, season=latest_season,
+                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED'],
+                home_corners__isnull=False
+            ).select_related('home_team', 'away_team', 'home_team__league', 'away_team__league'))
+
+            # E coletamos os times unicamente direto da memória usando um set
+            teams_set = set()
+            for m in all_matches_for_stats:
+                teams_set.add(m.home_team)
+                teams_set.add(m.away_team)
+            teams = list(teams_set)
+
+            team_stats = []
+            for team in teams:
+                # Filtro em memória Python (muito mais rápido que queries individuais)
+                matches = [m for m in all_matches_for_stats if m.home_team_id == team.id or m.away_team_id == team.id]
+
+                gp = len(matches)
+                if gp > 0:
+                    corners_for = 0
+                    corners_against = 0
+                    yellow_for = 0
+                    red_for = 0
+                    shots_for = 0
+                    
+                    for m in matches:
+                        is_home = (m.home_team_id == team.id)
+                        corners_for += (m.home_corners or 0) if is_home else (m.away_corners or 0)
+                        corners_against += (m.away_corners or 0) if is_home else (m.home_corners or 0)
+                        yellow_for += (m.home_yellow or 0) if is_home else (m.away_yellow or 0)
+                        red_for += (m.home_red or 0) if is_home else (m.away_red or 0)
+                        shots_for += (m.home_shots or 0) if is_home else (m.away_shots or 0)
+
+                    team_stats.append({
+                        'team': team,
+                        'gp': gp,
+                        'avg_corners_for': round(corners_for / gp, 2),
+                        'avg_corners_against': round(corners_against / gp, 2),
+                        'avg_corners_total': round((corners_for + corners_against) / gp, 2),
+                        'avg_yellow': round(yellow_for / gp, 2),
+                        'avg_red': round(red_for / gp, 2),
+                        'avg_shots': round(shots_for / gp, 1),
+                    })
+
+            # Ordenar por maior média de escanteios totais por padrão
+            team_stats.sort(key=lambda x: x['avg_corners_total'], reverse=True)
+            
+            # 4. Médias Gerais da Liga
+            league_avg_corners = 0.0
+            league_avg_yellow = 0.0
+            if team_stats:
+                league_avg_corners = round(sum(s['avg_corners_total'] for s in team_stats) / len(team_stats), 2)
+                league_avg_yellow = round(sum(s['avg_yellow'] for s in team_stats) / len(team_stats), 2)
+            
+            # 5. Artilharia (Top Scorers)
+            from matches.models import Goal
+            top_scorers_qs = list(Goal.objects.filter(
+                match__league=league,
+                match__season=latest_season
+            ).values('player_name', 'team__name').annotate(
+                goals_count=Count('id'),
+                penalties=Count('id', filter=Q(is_penalty=True))
+            ).order_by('-goals_count')[:8])
+
+            # 6. Distribuição de Minutos dos Gols (Timing)
+            goals = list(Goal.objects.filter(
+                match__league=league,
+                match__season=latest_season
+            ).only('minute'))
+            total_goals = len(goals)
+            timing_stats = {
+                '0_15': 0, '16_30': 0, '31_45': 0,
+                '46_60': 0, '61_75': 0, '76_90': 0
+            }
+            for g in goals:
+                m = g.minute
+                if m <= 15: timing_stats['0_15'] += 1
+                elif m <= 30: timing_stats['16_30'] += 1
+                elif m <= 45: timing_stats['31_45'] += 1
+                elif m <= 60: timing_stats['46_60'] += 1
+                elif m <= 75: timing_stats['61_75'] += 1
+                else: timing_stats['76_90'] += 1
+                
+            timing_list = []
+            for period, count in timing_stats.items():
+                label = period.replace('_', '-') + "'"
+                if period == '76_90':
+                    label = '76-90+'
+                timing_list.append({
+                    'period': label,
+                    'count': count,
+                    'pct': round((count / total_goals) * 100, 1) if total_goals > 0 else 0
+                })
+            
+            cached_data = {
+                'team_stats': team_stats,
+                'league_avg_corners': league_avg_corners,
+                'league_avg_yellow': league_avg_yellow,
+                'top_scorers': top_scorers_qs,
+                'timing_stats': timing_list,
+                'total_goals': total_goals
+            }
+            
+            # Cache por 1 hora (3600 segundos)
+            django_cache.set(cache_key, cached_data, 3600)
+            
+        context['team_stats'] = cached_data['team_stats']
+        context['league_avg_corners'] = cached_data['league_avg_corners']
+        context['league_avg_yellow'] = cached_data['league_avg_yellow']
+        context['top_scorers'] = cached_data['top_scorers']
+        context['timing_stats'] = cached_data['timing_stats']
+        context['total_goals'] = cached_data['total_goals']
+        
+        return context
+
+def calculate_team_season_stats(team, league, season):
+    """
+    Helper to calculate comprehensive stats for a team in a season.
+    Returns a dict with 'home', 'away', 'total' and 'last_8' stats.
+    """
+    if not team or not league or not season:
+        return None
+
+    all_matches = Match.objects.filter(
+        league=league, season=season
+    ).filter(
+        models.Q(home_team=team) | models.Q(away_team=team)
+    ).order_by('date').prefetch_related('goals')
+    
+    played_matches = [m for m in all_matches if m.status in FINISHED_STATUSES and m.home_score is not None]
+    
+    cats = ['home', 'away', 'total']
+    stats = {c: {
+        'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0,
+        'ppg': 0.0, 'avg_gf': 0.0, 'avg_ga': 0.0,
+        'cs': 0, 'fts': 0, 'bts': 0,
+        'over_05': 0, 'over_15': 0, 'over_25': 0, 'over_35': 0,
+        'over_05_pct': 0, 'over_15_pct': 0, 'over_25_pct': 0, 'over_35_pct': 0,
+        'cs_pct': 0, 'fts_pct': 0, 'bts_pct': 0, 'win_pct': 0,
+        'form': []
+    } for c in cats}
+
+    # Last 8 Matches (for Relative Form)
+    last_8_matches = played_matches[-8:] if len(played_matches) >= 8 else played_matches
+    stats['last_8'] = {
+        'gp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0, 'pts': 0,
+        'ppg': 0.0, 'avg_gf': 0.0, 'avg_ga': 0.0,
+        'cs': 0, 'fts': 0, 'bts': 0,
+        'over_05': 0, 'over_15': 0, 'over_25': 0, 'over_35': 0,
+        'over_05_pct': 0, 'over_15_pct': 0, 'over_25_pct': 0, 'over_35_pct': 0,
+        'cs_pct': 0, 'fts_pct': 0, 'bts_pct': 0, 'win_pct': 0,
+        'form': []
+    }
+
+    def process_match(m, container, is_last_8=False):
+        is_home = m.home_team == team
+        # If looking at home/away specific stats, skip if not matching
+        # But 'container' is a specific dict passed in.
+        # We need to handle category selection outside.
+        pass
+
+    # Process All Matches
+    for m in played_matches:
+        is_home = m.home_team == team
+        cat = 'home' if is_home else 'away'
+        
+        gf = (m.home_score if is_home else m.away_score) or 0
+        ga = (m.away_score if is_home else m.home_score) or 0
+        result = 'W' if gf > ga else ('D' if gf == ga else 'L')
+        match_total = gf + ga
+        
+        # Update Home/Away and Total
+        for k in [cat, 'total']:
+            s = stats[k]
+            s['gp'] += 1
+            s['gf'] += gf
+            s['ga'] += ga
+            if result == 'W': s['w'] += 1; s['pts'] += 3
+            elif result == 'D': s['d'] += 1; s['pts'] += 1
+            else: s['l'] += 1
+            
+            s['form'].append(result)
+            
+            if ga == 0: s['cs'] += 1
+            if gf == 0: s['fts'] += 1
+            if gf > 0 and ga > 0: s['bts'] += 1
+            
+            if match_total > 0.5: s['over_05'] += 1
+            if match_total > 1.5: s['over_15'] += 1
+            if match_total > 2.5: s['over_25'] += 1
+            if match_total > 3.5: s['over_35'] += 1
+
+    # Process Last 8
+    for m in last_8_matches:
+        is_home = m.home_team == team
+        gf = (m.home_score if is_home else m.away_score) or 0
+        ga = (m.away_score if is_home else m.home_score) or 0
+        result = 'W' if gf > ga else ('D' if gf == ga else 'L')
+        match_total = gf + ga
+        
+        s = stats['last_8']
+        s['gp'] += 1
+        s['gf'] += gf
+        s['ga'] += ga
+        if result == 'W': s['w'] += 1; s['pts'] += 3
+        elif result == 'D': s['d'] += 1; s['pts'] += 1
+        else: s['l'] += 1
+        
+        s['form'].append(result)
+        if ga == 0: s['cs'] += 1
+        if gf == 0: s['fts'] += 1
+        if gf > 0 and ga > 0: s['bts'] += 1
+        
+        if match_total > 0.5: s['over_05'] += 1
+        if match_total > 1.5: s['over_15'] += 1
+        if match_total > 2.5: s['over_25'] += 1
+        if match_total > 3.5: s['over_35'] += 1
+
+    # Calculate Averages
+    for k, s in stats.items():
+        if s['gp'] > 0:
+            s['ppg'] = round(s['pts'] / s['gp'], 2)
+            s['ppg_pct'] = int((s['ppg'] / 3.0) * 100)
+            s['avg_gf'] = round(s['gf'] / s['gp'], 2)
+            s['avg_ga'] = round(s['ga'] / s['gp'], 2)
+            
+            # Aliases e cálculos adicionais para compatibilidade com o template league_dashboard.html
+            s['w_pct'] = int((s['w'] / s['gp']) * 100)
+            s['d_pct'] = int((s['d'] / s['gp']) * 100)
+            s['l_pct'] = int((s['l'] / s['gp']) * 100)
+            s['gf_avg'] = s['avg_gf']
+            s['ga_avg'] = s['avg_ga']
+            s['tg_avg'] = round(s['avg_gf'] + s['avg_ga'], 2)
+            
+            if 'over_25' in s:
+                s['over_05_pct'] = int((s['over_05'] / s['gp']) * 100)
+                s['over_15_pct'] = int((s['over_15'] / s['gp']) * 100)
+                s['over_25_pct'] = int((s['over_25'] / s['gp']) * 100)
+                s['over_35_pct'] = int((s['over_35'] / s['gp']) * 100)
+                s['cs_pct'] = int((s['cs'] / s['gp']) * 100)
+                s['fts_pct'] = int((s['fts'] / s['gp']) * 100)
+                s['bts_pct'] = int((s['bts'] / s['gp']) * 100)
+                s['win_pct'] = int((s['w'] / s['gp']) * 100)
+
+    # Relative Form Diffs (Last 8 vs Season Total)
+    total = stats['total']
+    l8 = stats['last_8']
+    if total['gp'] > 0 and l8['gp'] > 0:
+        stats['diff'] = {
+            'ppg': round(((l8['ppg'] - total['ppg']) / total['ppg']) * 100, 1) if total['ppg'] > 0 else 0,
+            'avg_gf': round(((l8['avg_gf'] - total['avg_gf']) / total['avg_gf']) * 100, 1) if total['avg_gf'] > 0 else 0,
+            'avg_ga': round(((l8['avg_ga'] - total['avg_ga']) / total['avg_ga']) * 100, 1) if total['avg_ga'] > 0 else 0,
+        }
+    
+    # Progression Data (for graph)
+    # 2 for Win, 0 for Draw, -1 for Loss
+    progression = []
+    current_val = 0
+    for res in total['form']:
+        val = 2 if res == 'W' else (0 if res == 'D' else -1)
+        current_val += val
+        progression.append(current_val)
+    stats['progression'] = progression
+
+    return stats
+
+
+class HeadToHeadView(TemplateView):
+    template_name = 'matches/h2h_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        league_slug = self.kwargs.get('league_name')
+        team1_slug = self.kwargs.get('team1_name')
+        team2_slug = self.kwargs.get('team2_name')
+
+        # Helper to find team by slug/name
+        def get_league(slug, country_slug=None):
+            if not slug: return None
+            name = slug.replace('-', ' ')
+            
+            # Robust Selection: Prioritize League with Data (Standings)
+            from django.db.models import Count, Q
+            candidates = League.objects.filter(
+                Q(name__iexact=name) | Q(name__iexact=slug)
+            ).annotate(s_count=Count('standings')).order_by('-s_count')
+            if not candidates.exists():
+                 candidates = League.objects.filter(name__icontains=name).annotate(s_count=Count('standings')).order_by('-s_count')
+                 
+            # Fallback Slugify
+            if not candidates.exists():
+                from django.utils.text import slugify
+                for l in League.objects.all():
+                    if slugify(l.name) == slug:
+                         candidates = League.objects.filter(id=l.id).annotate(s_count=Count('standings'))
+                         break
+                         break
+
+            if country_slug:
+                 country_clean = country_slug.replace('-', ' ')
+                 from matches.utils import COUNTRY_REVERSE_TRANSLATIONS
+                 db_country = COUNTRY_REVERSE_TRANSLATIONS.get(country_clean.lower(), country_clean)
+                 
+                 filtered_candidates = candidates.filter(country__iexact=db_country)
+                 if filtered_candidates.exists():
+                     candidates = filtered_candidates
+                 else:
+                     from django.utils.text import slugify
+                     for c in candidates:
+                         if slugify(c.country) == country_slug:
+                              candidates = League.objects.filter(id=c.id)
+                              break
+            
+            return candidates.first()
+
+        def get_team(slug, league=None):
+            if not slug: return None
+            name = slug.replace('-', ' ')
+            
+            # 1. Try finding in the specific league first
+            if league:
+                t = Team.objects.filter(league=league, name__iexact=name).first()
+                if not t:
+                    t = Team.objects.filter(league=league, name__icontains=name).first()
+                
+                # Robust Slug Fallback (Matches TeamDetailView logic)
+                if not t:
+                    from django.utils.text import slugify
+                    for team_obj in Team.objects.filter(league=league):
+                        if slugify(team_obj.name) == slug:
+                            return team_obj
+                
+                if t: return t
+            
+            # 2. Global Fallback
+            t = Team.objects.filter(name__iexact=name).first()
+            if not t:
+                t = Team.objects.filter(name__icontains=name).first()
+            
+            if not t:
+                from django.utils.text import slugify
+                # Limit global search to avoid performance issues if possible, 
+                # but for H2H we need to find the team.
+                for team_obj in Team.objects.all()[:1000]: # Safety limit for global scan
+                    if slugify(team_obj.name) == slug:
+                        return team_obj
+            return t
+
+        country_slug = self.kwargs.get('country_name')
+        league = get_league(league_slug, country_slug)
+        team1 = get_team(team1_slug, league)
+        team2 = get_team(team2_slug, league)
+
+        context['league'] = league
+        context['team1'] = team1
+        context['team2'] = team2
+
+        if team1 and team2:
+            # Direct Matches
+            matches = Match.objects.filter(
+                (models.Q(home_team=team1) & models.Q(away_team=team2)) |
+                (models.Q(home_team=team2) & models.Q(away_team=team1))
+            ).filter(status__in=FINISHED_STATUSES).order_by('-date')
+            context['matches'] = matches
+            
+            # Upcoming Match (for CTA to full analysis)
+            next_match = Match.objects.filter(
+                (models.Q(home_team=team1) & models.Q(away_team=team2)) |
+                (models.Q(home_team=team2) & models.Q(away_team=team1))
+            ).filter(status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC', '1H', '2H', 'HT', 'In Progress', 'Live']).order_by('date').first()
+            context['next_match'] = next_match
+
+            # AMBIENTE DE TESTE: jogo AO VIVO entre os dois times (Live Radar na sidebar)
+            live_match = Match.objects.filter(
+                (models.Q(home_team=team1) & models.Q(away_team=team2)) |
+                (models.Q(home_team=team2) & models.Q(away_team=team1))
+            ).filter(status__in=['Live', 'LIVE', '1H', '2H', 'HT', 'Halftime', 'IN_PLAY']).order_by('-id').first()
+            context['live_match'] = live_match
+            
+            # Calculate H2H Summary
+            h2h_stats = {
+                'gp': 0, 't1_wins': 0, 't2_wins': 0, 'draws': 0,
+                't1_goals': 0, 't2_goals': 0,
+                't1_win_pct': 0, 't2_win_pct': 0, 'draw_pct': 0, 'avg_goals': 0.0
+            }
+            
+            for m in matches:
+                h2h_stats['gp'] += 1
+                
+                # Determine scores relative to Team 1
+                if m.home_team == team1:
+                    s1 = m.home_score
+                    s2 = m.away_score
+                else:
+                    s1 = m.away_score
+                    s2 = m.home_score
+                    
+                if s1 is None: s1 = 0
+                if s2 is None: s2 = 0
+                
+                h2h_stats['t1_goals'] += s1
+                h2h_stats['t2_goals'] += s2
+                
+                if s1 > s2: h2h_stats['t1_wins'] += 1
+                elif s2 > s1: h2h_stats['t2_wins'] += 1
+                else: h2h_stats['draws'] += 1
+            
+            if h2h_stats['gp'] > 0:
+                h2h_stats['t1_win_pct'] = int((h2h_stats['t1_wins'] / h2h_stats['gp']) * 100)
+                h2h_stats['t2_win_pct'] = int((h2h_stats['t2_wins'] / h2h_stats['gp']) * 100)
+                h2h_stats['draw_pct'] = int((h2h_stats['draws'] / h2h_stats['gp']) * 100)
+                h2h_stats['avg_goals'] = round((h2h_stats['t1_goals'] + h2h_stats['t2_goals']) / h2h_stats['gp'], 2)
+                
+            context['h2h_stats'] = h2h_stats
+
+            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and False:
+                try:
+                    ss_urls = []
+                    u1 = self.request.GET.get('ss_team1') or self.request.GET.get('ss_url_t1') or self.request.GET.get('ss_url')
+                    u2 = self.request.GET.get('ss_team2') or self.request.GET.get('ss_url_t2')
+                    if u1: ss_urls.append(u1)
+                    if u2: ss_urls.append(u2)
+                    if ss_urls:
+                        import requests as _rq
+                        import pandas as _pd
+                        from io import StringIO as _SIO
+                        season_guess = Season.objects.order_by('-year').first()
+                        if not season_guess:
+                            from django.utils import timezone as _tz
+                            season_guess, _ = Season.objects.get_or_create(year=_tz.now().year)
+                        def _process_df(df):
+                            if df.shape[1] < 3: 
+                                return 0
+                            saved = 0
+                            for idx, row in df.iterrows():
+                                try:
+                                    vals = [str(x).strip() for x in row.values.tolist()]
+                                    if len(vals) < 3: 
+                                        continue
+                                    score_idx = None
+                                    for i, v in enumerate(vals):
+                                        vv = v.replace('–', '-').replace('—', '-').replace('−', '-')
+                                        if vv and ((':' in vv) or ('-' in vv)):
+                                            p = vv.replace(' ', '')
+                                            if ':' in p:
+                                                parts = p.split(':')
+                                            else:
+                                                parts = p.split('-')
+                                            if len(parts) == 2 and all(part.isdigit() for part in parts):
+                                                score_idx = i
+                                                break
+                                    if score_idx is None:
+                                        continue
+                                    raw_score_val = vals[score_idx]
+                                    score_val = raw_score_val.replace('–', '-').replace(':', '-')
+                                    home_name = None
+                                    for i in range(score_idx - 1, -1, -1):
+                                        c = vals[i]
+                                        if c and c.lower() not in {'vs','v'}:
+                                            home_name = c
+                                            break
+                                    away_name = None
+                                    for i in range(score_idx + 1, len(vals)):
+                                        c = vals[i]
+                                        if c:
+                                            away_name = c
+                                            break
+                                    if not home_name or not away_name:
+                                        continue
+                                    names = {home_name.lower(): home_name, away_name.lower(): away_name}
+                                    def _same(a, b):
+                                        return a.strip().lower() == b.strip().lower()
+                                    if not ((_same(home_name, team1.name) and _same(away_name, team2.name)) or (_same(home_name, team2.name) and _same(away_name, team1.name))):
+                                        continue
+                                    try:
+                                        ps = score_val.split('-')
+                                        h_s = int(ps[0]); a_s = int(ps[1]); status = 'Finished'
+                                    except:
+                                        continue
+                                    dt = None
+                                    for i in range(0, score_idx):
+                                        cand = vals[i]
+                                        if len(cand.split()) >= 3:
+                                            try:
+                                                base = cand.split()[:3]
+                                                from datetime import datetime as _dt
+                                                base_dt = _dt.strptime(" ".join(base), "%a %d %b")
+                                                y = season_guess.year - 1 if base_dt.month >= 8 else season_guess.year
+                                                from django.utils import timezone as _tz
+                                                dt = _tz.make_aware(_dt(y, base_dt.month, base_dt.day))
+                                                break
+                                            except:
+                                                continue
+                                    if _same(home_name, team1.name):
+                                        h = team1; a = team2
+                                    elif _same(home_name, team2.name):
+                                        h = team2; a = team1
+                                    else:
+                                        continue
+                                    m_kwargs = {
+                                        'league': league,
+                                        'season': season_guess,
+                                        'home_team': h,
+                                        'away_team': a,
+                                        'home_score': h_s,
+                                        'away_score': a_s,
+                                        'status': status
+                                    }
+                                    if dt:
+                                        m_kwargs['date'] = dt
+                                    # Build unsaved Match instance to feed the template without touching DB
+                                    tmp_match = Match(**m_kwargs)
+                                    scraped.append(tmp_match)
+                                except Exception:
+                                    continue
+                            return len(scraped)
+                        scraped_matches = []
+                        for u in ss_urls:
+                            try:
+                                r = _rq.get(u, headers={"User-Agent":"Mozilla/5.0"}, timeout=15)
+                                if r.status_code != 200: 
+                                    continue
+                                try:
+                                    dfs = _pd.read_html(_SIO(r.text))
+                                except ValueError:
+                                    dfs = []
+                                for df in dfs:
+                                    scraped = []
+                                    def _assign_scraped(lst): 
+                                        nonlocal scraped
+                                        scraped = lst
+                                        return len(lst)
+                                    # Localize scraped list inside parser
+                                    scraped = []
+                                    # Rebind scraped name used in _process_df
+                                    locals()['scraped'] = scraped
+                                    _process_df(df)
+                                    scraped_matches.extend(scraped)
+                            except Exception:
+                                continue
+                        if scraped_matches:
+                            # Sort newest first if dates exist
+                            scraped_matches.sort(key=lambda x: (x.date if getattr(x, 'date', None) else timezone.now()), reverse=True)
+                            context['matches'] = scraped_matches
+                            h2h_stats = {
+                                'gp': 0, 't1_wins': 0, 't2_wins': 0, 'draws': 0,
+                                't1_goals': 0, 't2_goals': 0,
+                                't1_win_pct': 0, 't2_win_pct': 0, 'draw_pct': 0, 'avg_goals': 0.0
+                            }
+                            for m in scraped_matches:
+                                h2h_stats['gp'] += 1
+                                if m.home_team == team1:
+                                    s1 = m.home_score; s2 = m.away_score
+                                else:
+                                    s1 = m.away_score; s2 = m.home_score
+                                s1 = s1 or 0; s2 = s2 or 0
+                                h2h_stats['t1_goals'] += s1; h2h_stats['t2_goals'] += s2
+                                if s1 > s2: h2h_stats['t1_wins'] += 1
+                                elif s2 > s1: h2h_stats['t2_wins'] += 1
+                                else: h2h_stats['draws'] += 1
+                            if h2h_stats['gp'] > 0:
+                                h2h_stats['t1_win_pct'] = int((h2h_stats['t1_wins'] / h2h_stats['gp']) * 100)
+                                h2h_stats['t2_win_pct'] = int((h2h_stats['t2_wins'] / h2h_stats['gp']) * 100)
+                                h2h_stats['draw_pct'] = int((h2h_stats['draws'] / h2h_stats['gp']) * 100)
+                                h2h_stats['avg_goals'] = round((h2h_stats['t1_goals'] + h2h_stats['t2_goals']) / h2h_stats['gp'], 2)
+                            context['h2h_stats'] = h2h_stats
+                except Exception:
+                    pass
+
+            
+            if h2h_stats['gp'] == 0 and league and league.name == 'First League' and False:
+                from math import exp, factorial
+                s1 = LeagueStanding.objects.filter(league=league, team=team1).order_by('-season__year').first()
+                s2 = LeagueStanding.objects.filter(league=league, team=team2).order_by('-season__year').first()
+                if s1 and s2:
+                    def per_game(g, p): 
+                        return round((g / p), 3) if p and g is not None else 0.0
+                    t1_ppg = round((s1.points / s1.played), 2) if s1.played else 0.0
+                    t2_ppg = round((s2.points / s2.played), 2) if s2.played else 0.0
+                    t1_gfpg = per_game(s1.goals_for, s1.played)
+                    t1_gapg = per_game(s1.goals_against, s1.played)
+                    t2_gfpg = per_game(s2.goals_for, s2.played)
+                    t2_gapg = per_game(s2.goals_against, s2.played)
+                    qs = LeagueStanding.objects.filter(league=league)
+                    lg_gf = sum(ls.goals_for for ls in qs)
+                    lg_gp = sum(ls.played for ls in qs)
+                    lg_avg_goals = per_game(lg_gf, lg_gp)
+                    lam_home = max((t1_gfpg + t2_gapg) / 2.0, 0.01)
+                    lam_away = max((t2_gfpg + t1_gapg) / 2.0, 0.01)
+                    def pois(k, lam):
+                        return (lam**k) * exp(-lam) / factorial(k)
+                    max_g = 6
+                    mat = []
+                    for i in range(0, max_g+1):
+                        for j in range(0, max_g+1):
+                            p = pois(i, lam_home) * pois(j, lam_away)
+                            mat.append((i, j, p))
+                    p_home = sum(p for i, j, p in mat if i > j)
+                    p_draw = sum(p for i, j, p in mat if i == j)
+                    p_away = sum(p for i, j, p in mat if i < j)
+                    over_05 = sum(p for i, j, p in mat if (i + j) > 0)
+                    over_15 = sum(p for i, j, p in mat if (i + j) > 1)
+                    over_25 = sum(p for i, j, p in mat if (i + j) > 2)
+                    over_35 = sum(p for i, j, p in mat if (i + j) > 3)
+                    btts = sum(p for i, j, p in mat if (i >= 1 and j >= 1))
+                    mat.sort(key=lambda x: x[2], reverse=True)
+                    top_scores = [{'home': i, 'away': j, 'prob': round(p*100, 1)} for i, j, p in mat[:5]]
+                    context['fallback_h2h'] = {
+                        't1': {'ppg': t1_ppg, 'gfpg': round(t1_gfpg,2), 'gapg': round(t1_gapg,2)},
+                        't2': {'ppg': t2_ppg, 'gfpg': round(t2_gfpg,2), 'gapg': round(t2_gapg,2)},
+                        'league_avg_goals': round(lg_avg_goals,2),
+                        'probs': {'home': round(p_home*100,1), 'draw': round(p_draw*100,1), 'away': round(p_away*100,1)},
+                        'totals': {
+                            'over_05': round(over_05*100,1),
+                            'over_15': round(over_15*100,1),
+                            'over_25': round(over_25*100,1),
+                            'over_35': round(over_35*100,1),
+                            'btts': round(btts*100,1)
+                        },
+                        'top_scores': top_scores
+                    }
+            # Latest Season for stats
+            # Prefer seasons with matches for this league
+            latest_season = Season.objects.filter(matches__league=league).distinct().order_by('-year').first()
+            if not latest_season:
+                latest_season = Season.objects.filter(standings__league=league).order_by('-year').first()
+            if not latest_season:
+                latest_season = Season.objects.filter(standings__league=league).order_by('-year').first()
+            
+            context['season'] = latest_season
+            context['latest_season'] = latest_season
+            
+            if latest_season:
+                context['t1_stats'] = calculate_team_season_stats(team1, league, latest_season)
+                context['t2_stats'] = calculate_team_season_stats(team2, league, latest_season)
+            else:
+                def calc_team_stats_no_season(team, lg):
+                    ms = Match.objects.filter(
+                        league=lg,
+                        status__in=FINISHED_STATUSES
+                    ).filter(
+                        models.Q(home_team=team) | models.Q(away_team=team)
+                    ).order_by('date')
+                    
+                    def calc_stats(match_qs, filter_type='all'):
+                        lst = list(match_qs)
+                        gp = 0; w = 0; d = 0; l = 0; gf = 0; ga = 0; pts = 0
+                        cs = 0; fts = 0; bts = 0
+                        over_05 = 0; over_15 = 0; over_25 = 0; over_35 = 0
+
+                        for m in lst:
+                            is_home = (m.home_team_id == team.id)
+                            if filter_type == 'home' and not is_home: 
+                                continue
+                            if filter_type == 'away' and is_home: 
+                                continue
+                            team_score = m.home_score if is_home else m.away_score
+                            opp_score = m.away_score if is_home else m.home_score
+                            team_score = team_score or 0
+                            opp_score = opp_score or 0
+                            
+                            total_g = team_score + opp_score
+
+                            gp += 1
+                            gf += team_score
+                            ga += opp_score
+                            if team_score > opp_score: 
+                                w += 1; pts += 3
+                            elif team_score == opp_score: 
+                                d += 1; pts += 1
+                            else: 
+                                l += 1
+                            
+                            if opp_score == 0: cs += 1
+                            if team_score == 0: fts += 1
+                            if team_score > 0 and opp_score > 0: bts += 1
+                            
+                            if total_g > 0.5: over_05 += 1
+                            if total_g > 1.5: over_15 += 1
+                            if total_g > 2.5: over_25 += 1
+                            if total_g > 3.5: over_35 += 1
+
+                        ppg = round(pts / gp, 2) if gp > 0 else 0.0
+                        avg_gf = round(gf / gp, 2) if gp > 0 else 0.0
+                        avg_ga = round(ga / gp, 2) if gp > 0 else 0.0
+                        
+                        return {
+                            'gp': gp, 'w': w, 'd': d, 'l': l, 'gf': gf, 'ga': ga, 'pts': pts, 'ppg': ppg,
+                            'avg_gf': avg_gf, 'avg_ga': avg_ga,
+                            'cs': cs, 'fts': fts, 'bts': bts,
+                            'over_05': over_05, 'over_15': over_15, 'over_25': over_25, 'over_35': over_35,
+                            'over_05_pct': int((over_05 / gp) * 100) if gp > 0 else 0,
+                            'over_15_pct': int((over_15 / gp) * 100) if gp > 0 else 0,
+                            'over_25_pct': int((over_25 / gp) * 100) if gp > 0 else 0,
+                            'over_35_pct': int((over_35 / gp) * 100) if gp > 0 else 0,
+                            'cs_pct': int((cs / gp) * 100) if gp > 0 else 0,
+                            'fts_pct': int((fts / gp) * 100) if gp > 0 else 0,
+                            'bts_pct': int((bts / gp) * 100) if gp > 0 else 0,
+                            'win_pct': int((w / gp) * 100) if gp > 0 else 0,
+                        }
+                    
+                    overall = calc_stats(ms)
+                    home = calc_stats(ms, 'home')
+                    away = calc_stats(ms, 'away')
+                    desc = sorted(ms, key=lambda x: (x.date if x.date else timezone.now(), x.id), reverse=True)
+                    last_8 = calc_stats(desc[:8])
+                    return {'overall': overall, 'home': home, 'away': away, 'last_8': last_8, 'total': overall}
+                
+                context['t1_stats'] = calc_team_stats_no_season(team1, league)
+                context['t2_stats'] = calc_team_stats_no_season(team2, league)
+                
+            # Standings Positions
+            s1 = LeagueStanding.objects.filter(league=league, season=latest_season, team=team1).first()
+            s2 = LeagueStanding.objects.filter(league=league, season=latest_season, team=team2).first()
+            context['t1_standing'] = s1
+            context['t2_standing'] = s2
+            
+            # Full Match Lists (Played)
+            def get_matches(team, status='Finished'):
+                if latest_season:
+                    qs = Match.objects.filter(
+                        league=league, season=latest_season
+                    ).filter(
+                        models.Q(home_team=team) | models.Q(away_team=team)
+                    )
+                else:
+                    qs = Match.objects.filter(
+                        league=league
+                    ).filter(
+                        models.Q(home_team=team) | models.Q(away_team=team)
+                    )
+                if status == 'Finished':
+                    # Reverse order for played matches (newest first)
+                    return list(qs.filter(status__in=FINISHED_STATUSES).order_by('-date'))
+                else:
+                    return qs.filter(status='Scheduled').order_by('date')
+            
+            context['t1_matches'] = get_matches(team1, 'Finished')
+            context['t2_matches'] = get_matches(team2, 'Finished')
+            
+            # Helper to calculate PPG for a team at a specific venue
+            def get_venue_ppg(team, venue):
+                # venue: 'home' or 'away'
+                if venue == 'home':
+                    ms = Match.objects.filter(league=league, season=latest_season, home_team=team, status__in=FINISHED_STATUSES)
+                    pts = 0
+                    for m in ms:
+                        if m.home_score is None or m.away_score is None:
+                            continue  # jogo sem placar (não conta)
+                        if m.home_score > m.away_score: pts += 3
+                        elif m.home_score == m.away_score: pts += 1
+                    return round(pts / ms.count(), 2) if ms.exists() else 0.0
+                else:
+                    ms = Match.objects.filter(league=league, season=latest_season, away_team=team, status__in=FINISHED_STATUSES)
+                    pts = 0
+                    for m in ms:
+                        if m.home_score is None or m.away_score is None:
+                            continue  # jogo sem placar (não conta)
+                        if m.away_score > m.home_score: pts += 3
+                        elif m.away_score == m.home_score: pts += 1
+                    return round(pts / ms.count(), 2) if ms.exists() else 0.0
+
+            # Fixtures (Run-in) with Analysis
+            def process_fixtures(team):
+                fixtures = get_matches(team, 'Scheduled')
+                processed = []
+                opp_ppg_sum = 0
+                count = 0
+                
+                for m in fixtures:
+                    is_home = m.home_team == team
+                    opponent = m.away_team if is_home else m.home_team
+                    
+                    # We want Opponent's PPG at the venue they will play
+                    # If Team is Home, Opponent is Away -> Get Opponent Away PPG
+                    # If Team is Away, Opponent is Home -> Get Opponent Home PPG
+                    opp_venue = 'away' if is_home else 'home'
+                    opp_ppg = get_venue_ppg(opponent, opp_venue)
+                    
+                    # Also get Team's PPG at this venue for comparison? 
+                    # Or just display Opponent PPG as requested.
+                    # The image shows "Home", "Away", "Opponent". 
+                    # Usually: Team Home PPG (if home), Team Away PPG (if away) vs Opponent PPG.
+                    
+                    my_venue = 'home' if is_home else 'away'
+                    my_ppg = get_venue_ppg(team, my_venue)
+                    
+                    opp_ppg_sum += opp_ppg
+                    count += 1
+                    
+                    processed.append({
+                        'match': m,
+                        'is_home': is_home,
+                        'opponent': opponent,
+                        'my_ppg': my_ppg,
+                        'opp_ppg': opp_ppg,
+                        'bar_width': min(int((opp_ppg / 3.0) * 100), 100)
+                    })
+                
+                avg_opp_ppg = round(opp_ppg_sum / count, 2) if count > 0 else 0
+                return processed, avg_opp_ppg
+
+            t1_fixt_data, t1_avg_opp = process_fixtures(team1)
+            t2_fixt_data, t2_avg_opp = process_fixtures(team2)
+
+            context['t1_fixtures'] = t1_fixt_data
+            context['t2_fixtures'] = t2_fixt_data
+            context['t1_avg_opp_ppg'] = t1_avg_opp
+            context['t2_avg_opp_ppg'] = t2_avg_opp
+
+            # --- Historical Statistics & Comparison ---
+            def get_previous_season_stats(team, lg, current_yr):
+                try:
+                    # current_yr is int (e.g., 2026)
+                    prev_yr = current_yr - 1
+                    # Try finding by match league first
+                    prev_season = Season.objects.filter(matches__league=lg, year=prev_yr).distinct().first()
+                    if not prev_season:
+                        prev_season = Season.objects.filter(standings__league=lg, year=prev_yr).first()
+                    
+                    if not prev_season:
+                         # Fallback: Just get previous by ID/order
+                         prev_season = Season.objects.filter(matches__league=lg, year__lt=current_yr).distinct().order_by('-year').first()
+                    
+                    if prev_season:
+                        return calculate_team_season_stats(team, lg, prev_season), prev_season
+                except Exception as e:
+                    print(f"Error getting prev stats: {e}")
+                    pass
+                return None, None
+
+            if latest_season:
+                t1_prev_stats, t1_prev_season = get_previous_season_stats(team1, league, latest_season.year)
+                t2_prev_stats, t2_prev_season = get_previous_season_stats(team2, league, latest_season.year)
+                
+                context['t1_prev_stats'] = t1_prev_stats
+                context['t1_prev_season'] = t1_prev_season
+                context['t2_prev_stats'] = t2_prev_stats
+                context['t2_prev_season'] = t2_prev_season
+                
+                # Comparison with Past Seasons (Fixed GP)
+                def get_past_records(team, lg, limit_gp, current_pts=None):
+                    if limit_gp <= 0: return []
+                    
+                    records = []
+                    # Get all seasons for this team in this league (via matches or standings)
+                    match_season_ids = Match.objects.filter(league=lg, home_team=team).values_list('season_id', flat=True).distinct()
+                    standing_season_ids = LeagueStanding.objects.filter(league=lg, team=team).values_list('season_id', flat=True).distinct()
+                    season_ids = set(list(match_season_ids) + list(standing_season_ids))
+                    seasons = Season.objects.filter(id__in=season_ids).order_by('-year')
+                    
+                    for s in seasons:
+                        # Skip current if we want only past? Or include all.
+                        # Image shows current at top, then others.
+                        
+                        matches = Match.objects.filter(
+                            league=lg, season=s
+                        ).filter(
+                            models.Q(home_team=team) | models.Q(away_team=team)
+                        ).filter(status__in=FINISHED_STATUSES).order_by('date')[:limit_gp]
+                        
+                        # Must have exactly limit_gp matches? 
+                        # Image says "after 24 matches". If a season had fewer, maybe skip or show what exists.
+                        # Usually we only show if count == limit_gp.
+                        
+                        matches_list = list(matches)
+                        if len(matches_list) < limit_gp:
+                            # Special case: Current season might have exactly limit_gp. 
+                            # Past seasons usually have more.
+                            # If past season had fewer (relegated/promoted/short season), skip.
+                            if s != latest_season: continue
+                        
+                        # Calculate Stats
+                        w = 0; d = 0; l = 0; gf = 0; ga = 0; pts = 0
+                        for m in matches_list:
+                            is_home = m.home_team == team
+                            my_score = m.home_score if is_home else m.away_score
+                            opp_score = m.away_score if is_home else m.home_score
+                            if my_score is None: my_score = 0
+                            if opp_score is None: opp_score = 0
+                            
+                            gf += my_score
+                            ga += opp_score
+                            if my_score > opp_score: w += 1; pts += 3
+                            elif my_score == opp_score: d += 1; pts += 1
+                            else: l += 1
+                        
+                        diff = None
+                        if current_pts is not None and s != latest_season:
+                            diff = current_pts - pts
+
+                        records.append({
+                            'season': s,
+                            'gp': len(matches_list),
+                            'w': w, 'd': d, 'l': l,
+                            'gf': gf, 'ga': ga, 'pts': pts,
+                            'diff': diff
+                        })
+                        
+                    return records
+
+                # Current GP
+                t1_gp = context['t1_stats']['total']['gp']
+                t2_gp = context['t2_stats']['total']['gp']
+                
+                t1_current_pts = context['t1_stats']['total']['pts']
+                t2_current_pts = context['t2_stats']['total']['pts']
+
+                context['t1_past_records'] = get_past_records(team1, league, t1_gp, t1_current_pts)
+                context['t2_past_records'] = get_past_records(team2, league, t2_gp, t2_current_pts)
+
+                # --- Current Streaks Calculation ---
+                def calculate_streaks(team, lg, season):
+                    # Get matches for this season, finished, ordered by date desc
+                    all_matches = Match.objects.filter(
+                        league=lg, season=season, status__in=FINISHED_STATUSES
+                    ).filter(
+                        models.Q(home_team=team) | models.Q(away_team=team)
+                    ).order_by('-date')
+
+                    # Helper to check streaks
+                    def get_seq(matches_subset):
+                        # Initialize streaks
+                        s = {
+                            'wins': 0, 'draws': 0, 'defeats': 0,
+                            'no_win': 0, 'no_draw': 0, 'no_defeat': 0,
+                            'score_1plus': 0, 'concede_1plus': 0,
+                            'no_score': 0, 'no_concede': 0,
+                            'over_25': 0, 'under_25': 0,
+                            'score_2plus': 0
+                        }
+                        
+                        # Flags to stop counting when streak breaks
+                        active = {k: True for k in s.keys()}
+                        
+                        for m in matches_subset:
+                            is_home = m.home_team == team
+                            my_score = m.home_score if is_home else m.away_score
+                            opp_score = m.away_score if is_home else m.home_score
+                            if my_score is None: my_score = 0
+                            if opp_score is None: opp_score = 0
+                            total_goals = my_score + opp_score
+                            
+                            # Wins
+                            if active['wins']:
+                                if my_score > opp_score: s['wins'] += 1
+                                else: active['wins'] = False
+                            
+                            # Draws
+                            if active['draws']:
+                                if my_score == opp_score: s['draws'] += 1
+                                else: active['draws'] = False
+                            
+                            # Defeats
+                            if active['defeats']:
+                                if my_score < opp_score: s['defeats'] += 1
+                                else: active['defeats'] = False
+                                
+                            # No Win (Draw or Defeat)
+                            if active['no_win']:
+                                if my_score <= opp_score: s['no_win'] += 1
+                                else: active['no_win'] = False
+                            
+                            # No Draw (Win or Defeat)
+                            if active['no_draw']:
+                                if my_score != opp_score: s['no_draw'] += 1
+                                else: active['no_draw'] = False
+                            
+                            # No Defeat (Win or Draw)
+                            if active['no_defeat']:
+                                if my_score >= opp_score: s['no_defeat'] += 1
+                                else: active['no_defeat'] = False
+                            
+                            # 1 goal scored or more
+                            if active['score_1plus']:
+                                if my_score >= 1: s['score_1plus'] += 1
+                                else: active['score_1plus'] = False
+                            
+                            # 1 goal conceded or more
+                            if active['concede_1plus']:
+                                if opp_score >= 1: s['concede_1plus'] += 1
+                                else: active['concede_1plus'] = False
+                            
+                            # No goal scored
+                            if active['no_score']:
+                                if my_score == 0: s['no_score'] += 1
+                                else: active['no_score'] = False
+                            
+                            # No goal conceded (Clean Sheet)
+                            if active['no_concede']:
+                                if opp_score == 0: s['no_concede'] += 1
+                                else: active['no_concede'] = False
+                                
+                            # GF+GA over 2.5
+                            if active['over_25']:
+                                if total_goals > 2.5: s['over_25'] += 1
+                                else: active['over_25'] = False
+                            
+                            # GF+GA under 2.5
+                            if active['under_25']:
+                                if total_goals < 2.5: s['under_25'] += 1
+                                else: active['under_25'] = False
+                            
+                            # Scored at least twice
+                            if active['score_2plus']:
+                                if my_score >= 2: s['score_2plus'] += 1
+                                else: active['score_2plus'] = False
+                                
+                            # Optimization: if all active are False, break
+                            if not any(active.values()):
+                                break
+                                
+                        return s
+
+                    # Filter subsets
+                    matches_home = [m for m in all_matches if m.home_team == team]
+                    matches_away = [m for m in all_matches if m.away_team == team]
+                    
+                    return {
+                        'total': get_seq(all_matches),
+                        'home': get_seq(matches_home),
+                        'away': get_seq(matches_away)
+                    }
+
+                context['t1_streaks'] = calculate_streaks(team1, league, latest_season)
+                context['t2_streaks'] = calculate_streaks(team2, league, latest_season)
+
+                # --- League Comparison Calculation ---
+                def calculate_league_avg(lg, season):
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES)
+                    total_matches = matches.count()
+                    if total_matches == 0: return {}
+                    
+                    total_goals = 0
+                    wins = 0
+                    draws = 0
+                    clean_sheets = 0
+                    failed_to_score = 0
+                    won_to_nil = 0
+                    lost_to_nil = 0
+                    both_teams_scored = 0
+                    over_15 = 0
+                    over_25 = 0
+                    over_35 = 0
+                    
+                    # New accumulators for advanced stats
+                    sum_minute_scored_first = 0
+                    count_scored_first = 0
+                    
+                    leads_taken = 0
+                    leads_defended = 0 # Won after scoring first
+                    
+                    deficits_faced = 0
+                    deficits_overcome = 0 # Avoided defeat (W or D) after conceding first
+                    
+                    points_scored_first = 0
+                    points_conceded_first = 0
+                    
+                    total_minutes_leading = 0
+                    total_minutes_level = 0
+                    # Trailing time is symmetric to Leading time in league context
+                    
+                    for m in matches:
+                        h_score = m.home_score or 0
+                        a_score = m.away_score or 0
+                        match_goals = h_score + a_score
+                        total_goals += match_goals
+                        
+                        if h_score > a_score: wins += 1
+                        elif a_score > h_score: wins += 1
+                        else: draws += 1
+                        
+                        if a_score == 0: clean_sheets += 1
+                        if h_score == 0: clean_sheets += 1
+                        if h_score == 0: failed_to_score += 1
+                        if a_score == 0: failed_to_score += 1
+                        if h_score > 0 and a_score == 0: won_to_nil += 1
+                        if a_score > 0 and h_score == 0: won_to_nil += 1
+                        if h_score == 0 and a_score > 0: lost_to_nil += 1
+                        if a_score == 0 and h_score > 0: lost_to_nil += 1
+                        if h_score > 0 and a_score > 0: both_teams_scored += 1
+                        if match_goals > 1.5: over_15 += 1
+                        if match_goals > 2.5: over_25 += 1
+                        if match_goals > 3.5: over_35 += 1
+                        
+                        # Advanced stats from goals
+                        goals = list(m.goals.all().order_by('minute'))
+                        
+                        # Time Leading/Level
+                        # We can approximate or calculate exactly. Let's calculate exactly.
+                        current_h_score = 0
+                        current_a_score = 0
+                        last_minute = 0
+                        # state: 0 level, 1 home leads, -1 away leads
+                        current_state = 0 
+                        
+                        for g in goals:
+                            minute = min(g.minute, 90)
+                            duration = max(0, minute - last_minute)
+                            
+                            if current_state == 0: total_minutes_level += (duration * 2) # Both teams level
+                            elif current_state == 1: total_minutes_leading += duration # Home leads (so Away trails)
+                            else: total_minutes_leading += duration # Away leads (so Home trails)
+                            
+                            if g.team == m.home_team: current_h_score += 1
+                            else: current_a_score += 1
+                            
+                            if current_h_score > current_a_score: current_state = 1
+                            elif current_a_score > current_h_score: current_state = -1
+                            else: current_state = 0
+                            last_minute = minute
+                            
+                        # Remaining time
+                        duration = max(0, 90 - last_minute)
+                        if current_state == 0: total_minutes_level += (duration * 2)
+                        else: total_minutes_leading += duration
+                        
+                        # First Goal Analysis
+                        if goals:
+                            first_goal = goals[0]
+                            sum_minute_scored_first += (first_goal.minute * 2) # Count for both Scored First and Conceded First avg
+                            count_scored_first += 2 # One team scored, one conceded
+                            
+                            # Who scored first?
+                            scorer_is_home = (first_goal.team == m.home_team)
+                            
+                            # Home Perspective
+                            if scorer_is_home:
+                                leads_taken += 1
+                                if h_score > a_score: 
+                                    leads_defended += 1
+                                    points_scored_first += 3
+                                elif h_score == a_score:
+                                    points_scored_first += 1
+                                    
+                                # Away Perspective (Conceded first)
+                                deficits_faced += 1
+                                if a_score >= h_score: deficits_overcome += 1
+                                if a_score > h_score: points_conceded_first += 3
+                                elif a_score == h_score: points_conceded_first += 1
+                            else:
+                                # Away scored first
+                                leads_taken += 1 # Away took lead
+                                if a_score > h_score: 
+                                    leads_defended += 1
+                                    points_scored_first += 3
+                                elif a_score == h_score:
+                                    points_scored_first += 1
+                                    
+                                # Home Perspective (Conceded first)
+                                deficits_faced += 1
+                                if h_score >= a_score: deficits_overcome += 1
+                                if h_score > a_score: points_conceded_first += 3
+                                elif h_score == a_score: points_conceded_first += 1
+
+                    n_matches = total_matches
+                    n_team_games = total_matches * 2
+                    avg = {}
+                    
+                    avg['ppg'] = ((wins * 3) + (draws * 2)) / n_team_games
+                    avg['win_pct'] = (wins / n_team_games) * 100
+                    avg['draw_pct'] = ((draws * 2) / n_team_games) * 100
+                    avg['defeat_pct'] = (wins / n_team_games) * 100
+                    avg['gf_pg'] = total_goals / n_team_games
+                    avg['ga_pg'] = total_goals / n_team_games
+                    avg['clean_sheet_pct'] = (clean_sheets / n_team_games) * 100
+                    avg['failed_to_score_pct'] = (failed_to_score / n_team_games) * 100
+                    avg['won_to_nil_pct'] = (won_to_nil / n_team_games) * 100
+                    avg['lost_to_nil_pct'] = (lost_to_nil / n_team_games) * 100
+                    avg['total_goals_pg'] = total_goals / n_matches
+                    avg['btts_pct'] = (both_teams_scored / n_matches) * 100
+                    avg['over_15_pct'] = (over_15 / n_matches) * 100
+                    avg['over_25_pct'] = (over_25 / n_matches) * 100
+                    avg['over_35_pct'] = (over_35 / n_matches) * 100
+                    
+                    # New League Averages
+                    avg['team_scored_first_pct'] = (leads_taken / n_team_games) * 100
+                    avg['opponent_scored_first_pct'] = (deficits_faced / n_team_games) * 100
+                    
+                    if leads_taken > 0:
+                        avg['avg_minute_scored_first'] = sum_minute_scored_first / count_scored_first # Symmetric
+                        avg['avg_minute_conceded_first'] = avg['avg_minute_scored_first']
+                        avg['lead_defending_rate'] = (leads_defended / leads_taken) * 100
+                        avg['ppg_scored_first'] = points_scored_first / leads_taken
+                    else:
+                        avg['avg_minute_scored_first'] = 0
+                        avg['avg_minute_conceded_first'] = 0
+                        avg['lead_defending_rate'] = 0
+                        avg['ppg_scored_first'] = 0
+                        
+                    if deficits_faced > 0:
+                        avg['equalizing_rate'] = (deficits_overcome / deficits_faced) * 100
+                        avg['ppg_conceded_first'] = points_conceded_first / deficits_faced
+                    else:
+                        avg['equalizing_rate'] = 0
+                        avg['ppg_conceded_first'] = 0
+                        
+                    # Time percentages
+                    total_minutes = n_matches * 90
+                    # total_minutes_leading contains total duration one team was leading.
+                    # Since it's symmetric, Avg Time Leading per team = total_minutes_leading / n_team_games ?
+                    # No. In a 90 min match, if Home leads 30, Away leads 0, Level 60.
+                    # Home: 30L, 0T, 60Lv. Away: 0L, 30T, 60Lv.
+                    # Sum Leading = 30. Sum Trailing = 30. Sum Level = 120.
+                    # Avg Leading = 30 / 2 = 15.
+                    # total_minutes_leading accumulated `duration` whenever state != 0.
+                    # So it already sums (Home Leading + Away Leading).
+                    avg['time_leading_pct'] = ((total_minutes_leading / 2) / (n_matches * 90)) * 100 # Per team
+                    avg['time_trailing_pct'] = avg['time_leading_pct']
+                    avg['time_level_pct'] = ((total_minutes_level / 2) / (n_matches * 90)) * 100 # Per team
+                    
+                    return avg
+
+                def calculate_team_comparison(team, lg, season, league_avg):
+
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team))
+                    n_matches = matches.count()
+                    if n_matches == 0: return []
+                    
+                    stats = {k: 0 for k in league_avg.keys()}
+                    points, wins, draws, defeats = 0, 0, 0, 0
+                    gf, ga = 0, 0
+                    clean_sheets, failed_to_score = 0, 0
+                    won_to_nil, lost_to_nil = 0, 0
+                    btts, over_15, over_25, over_35 = 0, 0, 0, 0
+                    
+                    minutes_scored_first, minutes_conceded_first = [], []
+                    scored_first_count, conceded_first_count = 0, 0
+                    won_when_scored_first, pts_when_scored_first = 0, 0
+                    pts_when_conceded_first, avoid_defeat_when_conceded_first = 0, 0
+                    
+                    for m in matches:
+                        is_home = m.home_team == team
+                        my_score = m.home_score if is_home else m.away_score
+                        opp_score = m.away_score if is_home else m.home_score
+                        if my_score is None: my_score = 0
+                        if opp_score is None: opp_score = 0
+                        match_goals = my_score + opp_score
+                        
+                        gf += my_score; ga += opp_score
+                        if my_score > opp_score: wins += 1; points += 3
+                        elif my_score == opp_score: draws += 1; points += 1
+                        else: defeats += 1
+                        
+                        if opp_score == 0: clean_sheets += 1
+                        if my_score == 0: failed_to_score += 1
+                        if my_score > 0 and opp_score == 0: won_to_nil += 1
+                        if my_score == 0 and opp_score > 0: lost_to_nil += 1
+                        if my_score > 0 and opp_score > 0: btts += 1
+                        if match_goals > 1.5: over_15 += 1
+                        if match_goals > 2.5: over_25 += 1
+                        if match_goals > 3.5: over_35 += 1
+                        
+                        goals = m.goals.all().order_by('minute')
+                        if goals.exists():
+                            first_goal = goals.first()
+                            if first_goal.team == team:
+                                scored_first_count += 1
+                                minutes_scored_first.append(first_goal.minute)
+                                if my_score > opp_score: won_when_scored_first += 1; pts_when_scored_first += 3
+                                elif my_score == opp_score: pts_when_scored_first += 1
+                            else:
+                                conceded_first_count += 1
+                                minutes_conceded_first.append(first_goal.minute)
+                                if my_score >= opp_score: avoid_defeat_when_conceded_first += 1
+                                if my_score > opp_score: pts_when_conceded_first += 3
+                                elif my_score == opp_score: pts_when_conceded_first += 1
+
+                    stats['ppg'] = points / n_matches
+                    stats['win_pct'] = (wins / n_matches) * 100
+                    stats['draw_pct'] = (draws / n_matches) * 100
+                    stats['defeat_pct'] = (defeats / n_matches) * 100
+                    stats['gf_pg'] = gf / n_matches
+                    stats['ga_pg'] = ga / n_matches
+                    stats['clean_sheet_pct'] = (clean_sheets / n_matches) * 100
+                    stats['failed_to_score_pct'] = (failed_to_score / n_matches) * 100
+                    stats['won_to_nil_pct'] = (won_to_nil / n_matches) * 100
+                    stats['lost_to_nil_pct'] = (lost_to_nil / n_matches) * 100
+                    stats['total_goals_pg'] = (gf + ga) / n_matches
+                    stats['btts_pct'] = (btts / n_matches) * 100
+                    stats['over_15_pct'] = (over_15 / n_matches) * 100
+                    stats['over_25_pct'] = (over_25 / n_matches) * 100
+                    stats['over_35_pct'] = (over_35 / n_matches) * 100
+                    
+                    if n_matches > 0:
+                        stats['team_scored_first_pct'] = (scored_first_count / n_matches) * 100
+                        stats['opponent_scored_first_pct'] = (conceded_first_count / n_matches) * 100
+                    if scored_first_count > 0:
+                        stats['avg_minute_scored_first'] = sum(minutes_scored_first) / len(minutes_scored_first)
+                        stats['lead_defending_rate'] = (won_when_scored_first / scored_first_count) * 100
+                        stats['ppg_scored_first'] = pts_when_scored_first / scored_first_count
+                    if conceded_first_count > 0:
+                        stats['avg_minute_conceded_first'] = sum(minutes_conceded_first) / len(minutes_conceded_first)
+                        stats['equalizing_rate'] = (avoid_defeat_when_conceded_first / conceded_first_count) * 100
+                        stats['ppg_conceded_first'] = pts_when_conceded_first / conceded_first_count
+                        
+                    output = []
+                    def add_row(label, key, type='higher_better', is_pct=False, decimals=0):
+                        t_val = stats.get(key, 0)
+                        l_val = league_avg.get(key, 0)
+                        is_good = (t_val >= l_val) if type == 'higher_better' else (t_val <= l_val)
+                        ref = 100
+                        if 'ppg' in key: ref = 3
+                        elif 'pg' in key and 'ppg' not in key: ref = 4
+                        elif 'minute' in key: ref = 90
+                        
+                        status_class = 'good' if is_good else 'bad'
+                        if type == 'neutral': status_class = 'neutral'
+
+                        output.append({
+                            'label': label,
+                            'team_val': t_val,
+                            'league_val': l_val,
+                            'is_good': is_good,
+                            'type': type,
+                            'is_pct': is_pct,
+                            'decimals': decimals,
+                            'team_width': min((t_val / ref) * 100, 100),
+                            'league_width': min((l_val / ref) * 100, 100),
+                            'status_class': status_class
+                        })
+
+                    add_row('Points per game', 'ppg', decimals=2)
+                    add_row('% Wins', 'win_pct', is_pct=True)
+                    add_row('% Draws', 'draw_pct', is_pct=True, type='neutral')
+                    add_row('% Defeats', 'defeat_pct', type='lower_better', is_pct=True)
+                    add_row('Goals scored per game', 'gf_pg', decimals=2)
+                    add_row('Goals conceded per game', 'ga_pg', type='lower_better', decimals=2)
+                    add_row('% Clean sheets', 'clean_sheet_pct', is_pct=True)
+                    add_row('% Failed To Score', 'failed_to_score_pct', type='lower_better', is_pct=True)
+                    add_row('% Won To Nil', 'won_to_nil_pct', is_pct=True)
+                    add_row('% Lost To Nil', 'lost_to_nil_pct', type='lower_better', is_pct=True)
+                    add_row('% Team scored first', 'team_scored_first_pct', is_pct=True)
+                    add_row('% Opponent scored first', 'opponent_scored_first_pct', type='lower_better', is_pct=True)
+                    add_row('Average minute scored first', 'avg_minute_scored_first', type='lower_better')
+                    add_row('Average minute conceded first', 'avg_minute_conceded_first', type='higher_better')
+                    add_row('Lead-defending rate', 'lead_defending_rate', is_pct=True)
+                    add_row('Equalizing rate', 'equalizing_rate', is_pct=True)
+                    add_row('% Time leading', 'time_leading_pct', is_pct=True)
+                    add_row('% Time level in goals', 'time_level_pct', is_pct=True)
+                    add_row('% Time trailing', 'time_trailing_pct', type='lower_better', is_pct=True)
+                    add_row('PPG when scored first', 'ppg_scored_first', decimals=2)
+                    add_row('PPG when conceded first', 'ppg_conceded_first', decimals=2)
+                    add_row('Total goals per game', 'total_goals_pg', decimals=2)
+                    add_row('% over 1.5 goals', 'over_15_pct', is_pct=True)
+                    add_row('% over 2.5 goals', 'over_25_pct', is_pct=True)
+                    add_row('% over 3.5 goals', 'over_35_pct', is_pct=True)
+                    add_row('% both teams scored', 'btts_pct', is_pct=True)
+                    return output
+
+                def calculate_leading_trailing_stats(team, lg, season):
+                    matches = Match.objects.filter(
+                        models.Q(home_team=team) | models.Q(away_team=team),
+                        league=lg, 
+                        season=season, 
+                        status__in=FINISHED_STATUSES
+                    )
+                    
+                    n_matches = matches.count()
+                    if n_matches == 0:
+                        return None
+                
+                    stats = {
+                        'matches_played': n_matches,
+                        'team_scored_first': 0,
+                        'opponent_scored_first': 0,
+                        'scored_first_w': 0, 'scored_first_d': 0, 'scored_first_l': 0,
+                        'conceded_first_w': 0, 'conceded_first_d': 0, 'conceded_first_l': 0,
+                        'leading_at_ht': 0,
+                        'opponent_leading_at_ht': 0,
+                        'minutes_leading': 0,
+                        'minutes_level': 0,
+                        'minutes_trailing': 0,
+                        'goals_giving_lead': 0,
+                        'equalizer_goals_conceded': 0,
+                        'goals_giving_lead_to_opponent': 0,
+                        'equalizer_goals_scored': 0,
+                        'non_crucial_scored': 0,
+                        'non_crucial_conceded': 0,
+                        'sum_minute_scored_first': 0,
+                        'sum_minute_conceded_first': 0,
+                        'avg_minute_scored_first': 0,
+                        'avg_minute_conceded_first': 0,
+                    }
+                
+                    for m in matches:
+                        is_home = (m.home_team == team)
+                        team_score = m.home_score if is_home else m.away_score
+                        opp_score = m.away_score if is_home else m.home_score
+                        
+                        if team_score is None or opp_score is None: continue
+
+                        if team_score > opp_score: result = 'W'
+                        elif team_score == opp_score: result = 'D'
+                        else: result = 'L'
+                        
+                        # HT Stats
+                        if m.ht_home_score is not None and m.ht_away_score is not None:
+                            ht_team = m.ht_home_score if is_home else m.ht_away_score
+                            ht_opp = m.ht_away_score if is_home else m.ht_home_score
+                            if ht_team > ht_opp:
+                                stats['leading_at_ht'] += 1
+                            elif ht_opp > ht_team:
+                                stats['opponent_leading_at_ht'] += 1
+                
+                        # Goals analysis
+                        goals = list(m.goals.all().order_by('minute'))
+                        
+                        # Opening Goal
+                        if goals:
+                            first_goal = goals[0]
+                            if first_goal.team == team:
+                                stats['team_scored_first'] += 1
+                                stats['sum_minute_scored_first'] += first_goal.minute
+                                if result == 'W': stats['scored_first_w'] += 1
+                                elif result == 'D': stats['scored_first_d'] += 1
+                                else: stats['scored_first_l'] += 1
+                            else:
+                                stats['opponent_scored_first'] += 1
+                                stats['sum_minute_conceded_first'] += first_goal.minute
+                                if result == 'W': stats['conceded_first_w'] += 1
+                                elif result == 'D': stats['conceded_first_d'] += 1
+                                else: stats['conceded_first_l'] += 1
+                        
+                        # Minute-by-minute & Goal types
+                        current_team_score = 0
+                        current_opp_score = 0
+                        last_minute = 0
+                        current_state = 0 # 0: Level, 1: Leading, -1: Trailing
+                        
+                        for g in goals:
+                            minute = min(g.minute, 90)
+                            duration = max(0, minute - last_minute)
+                            
+                            if current_state == 0:
+                                stats['minutes_level'] += duration
+                            elif current_state == 1:
+                                stats['minutes_leading'] += duration
+                            else:
+                                stats['minutes_trailing'] += duration
+                            
+                            prev_diff = current_team_score - current_opp_score
+                            
+                            if g.team == team:
+                                current_team_score += 1
+                            else:
+                                current_opp_score += 1
+                                
+                            new_diff = current_team_score - current_opp_score
+                            
+                            # Analyze Goal Type
+                            if g.team == team:
+                                if prev_diff == 0: stats['goals_giving_lead'] += 1
+                                elif prev_diff == -1: stats['equalizer_goals_scored'] += 1
+                                else: stats['non_crucial_scored'] += 1
+                            else:
+                                if prev_diff == 0: stats['goals_giving_lead_to_opponent'] += 1
+                                elif prev_diff == 1: stats['equalizer_goals_conceded'] += 1
+                                else: stats['non_crucial_conceded'] += 1
+                            
+                            if new_diff > 0: current_state = 1
+                            elif new_diff < 0: current_state = -1
+                            else: current_state = 0
+                            
+                            last_minute = minute
+                        
+                        duration = max(0, 90 - last_minute)
+                        if current_state == 0: stats['minutes_level'] += duration
+                        elif current_state == 1: stats['minutes_leading'] += duration
+                        else: stats['minutes_trailing'] += duration
+                
+                    # Averages
+                    stats['avg_minutes_leading'] = stats['minutes_leading'] / n_matches
+                    stats['avg_minutes_level'] = stats['minutes_level'] / n_matches
+                    stats['avg_minutes_trailing'] = stats['minutes_trailing'] / n_matches
+                    
+                    # Percentages
+                    stats['pct_leading'] = (stats['avg_minutes_leading'] / 90) * 100
+                    stats['pct_level'] = (stats['avg_minutes_level'] / 90) * 100
+                    stats['pct_trailing'] = (stats['avg_minutes_trailing'] / 90) * 100
+                    
+                    stats['pct_scored_first'] = (stats['team_scored_first'] / n_matches) * 100
+                    stats['pct_opp_scored_first'] = (stats['opponent_scored_first'] / n_matches) * 100
+                    
+                    stats['pct_leading_ht'] = (stats['leading_at_ht'] / n_matches) * 100
+                    stats['pct_opp_leading_ht'] = (stats['opponent_leading_at_ht'] / n_matches) * 100
+                    
+                    if stats['team_scored_first'] > 0:
+                        stats['avg_minute_scored_first'] = stats['sum_minute_scored_first'] / stats['team_scored_first']
+                    
+                    if stats['opponent_scored_first'] > 0:
+                        stats['avg_minute_conceded_first'] = stats['sum_minute_conceded_first'] / stats['opponent_scored_first']
+
+                    # Rates
+                    if stats['goals_giving_lead'] > 0:
+                        stats['lead_defending_rate'] = 100 - ((stats['equalizer_goals_conceded'] / stats['goals_giving_lead']) * 100)
+                    else:
+                        stats['lead_defending_rate'] = 0
+                        
+                    if stats['goals_giving_lead_to_opponent'] > 0:
+                        stats['equalizing_rate'] = (stats['equalizer_goals_scored'] / stats['goals_giving_lead_to_opponent']) * 100
+                    else:
+                        stats['equalizing_rate'] = 0
+                        
+                    return stats
+
+                context['t1_leading_trailing_stats'] = calculate_leading_trailing_stats(team1, league, latest_season)
+                context['t2_leading_trailing_stats'] = calculate_leading_trailing_stats(team2, league, latest_season)
+
+                # --- League Comparison Calculation ---
+                def calculate_league_avg(lg, season):
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES)
+                    total_matches = matches.count()
+                    if total_matches == 0: return {}
+                    
+                    total_goals = 0
+                    wins = 0
+                    draws = 0
+                    clean_sheets = 0
+                    failed_to_score = 0
+                    won_to_nil = 0
+                    lost_to_nil = 0
+                    both_teams_scored = 0
+                    over_15 = 0
+                    over_25 = 0
+                    over_35 = 0
+                    
+                    for m in matches:
+                        h_score = m.home_score or 0
+                        a_score = m.away_score or 0
+                        match_goals = h_score + a_score
+                        total_goals += match_goals
+                        
+                        if h_score > a_score: wins += 1
+                        elif a_score > h_score: wins += 1
+                        else: draws += 1
+                        
+                        if a_score == 0: clean_sheets += 1
+                        if h_score == 0: clean_sheets += 1
+                        if h_score == 0: failed_to_score += 1
+                        if a_score == 0: failed_to_score += 1
+                        if h_score > 0 and a_score == 0: won_to_nil += 1
+                        if a_score > 0 and h_score == 0: won_to_nil += 1
+                        if h_score == 0 and a_score > 0: lost_to_nil += 1
+                        if a_score == 0 and h_score > 0: lost_to_nil += 1
+                        if h_score > 0 and a_score > 0: both_teams_scored += 1
+                        if match_goals > 1.5: over_15 += 1
+                        if match_goals > 2.5: over_25 += 1
+                        if match_goals > 3.5: over_35 += 1
+
+                    n_matches = total_matches
+                    n_team_games = total_matches * 2
+                    avg = {}
+                    
+                    avg['ppg'] = ((wins * 3) + (draws * 2)) / n_team_games
+                    avg['win_pct'] = (wins / n_team_games) * 100
+                    avg['draw_pct'] = ((draws * 2) / n_team_games) * 100
+                    avg['defeat_pct'] = (wins / n_team_games) * 100
+                    avg['gf_pg'] = total_goals / n_team_games
+                    avg['ga_pg'] = total_goals / n_team_games
+                    avg['clean_sheet_pct'] = (clean_sheets / n_team_games) * 100
+                    avg['failed_to_score_pct'] = (failed_to_score / n_team_games) * 100
+                    avg['won_to_nil_pct'] = (won_to_nil / n_team_games) * 100
+                    avg['lost_to_nil_pct'] = (lost_to_nil / n_team_games) * 100
+                    avg['total_goals_pg'] = total_goals / n_matches
+                    avg['btts_pct'] = (both_teams_scored / n_matches) * 100
+                    avg['over_15_pct'] = (over_15 / n_matches) * 100
+                    avg['over_25_pct'] = (over_25 / n_matches) * 100
+                    avg['over_35_pct'] = (over_35 / n_matches) * 100
+                    return avg
+
+                def calculate_team_comparison(team, lg, season, league_avg):
+                    # Get leading/trailing stats first for complex metrics
+                    lt_stats = calculate_leading_trailing_stats(team, lg, season)
+                    
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team))
+                    n_matches = matches.count()
+                    if n_matches == 0: return []
+                    
+                    stats = {k: 0 for k in league_avg.keys()}
+                    points, wins, draws, defeats = 0, 0, 0, 0
+                    gf, ga = 0, 0
+                    clean_sheets, failed_to_score = 0, 0
+                    won_to_nil, lost_to_nil = 0, 0
+                    btts, over_15, over_25, over_35 = 0, 0, 0, 0
+                    
+                    # We use lt_stats for these, so no need to accumulate them manually in the loop
+                    # But we keep the loop for other stats
+                    
+                    for m in matches:
+                        is_home = m.home_team == team
+                        my_score = m.home_score if is_home else m.away_score
+                        opp_score = m.away_score if is_home else m.home_score
+                        if my_score is None: my_score = 0
+                        if opp_score is None: opp_score = 0
+                        match_goals = my_score + opp_score
+                        
+                        gf += my_score; ga += opp_score
+                        if my_score > opp_score: wins += 1; points += 3
+                        elif my_score == opp_score: draws += 1; points += 1
+                        else: defeats += 1
+                        
+                        if opp_score == 0: clean_sheets += 1
+                        if my_score == 0: failed_to_score += 1
+                        if my_score > 0 and opp_score == 0: won_to_nil += 1
+                        if my_score == 0 and opp_score > 0: lost_to_nil += 1
+                        if my_score > 0 and opp_score > 0: btts += 1
+                        if match_goals > 1.5: over_15 += 1
+                        if match_goals > 2.5: over_25 += 1
+                        if match_goals > 3.5: over_35 += 1
+                        
+                    stats['ppg'] = points / n_matches
+                    stats['win_pct'] = (wins / n_matches) * 100
+                    stats['draw_pct'] = (draws / n_matches) * 100
+                    stats['defeat_pct'] = (defeats / n_matches) * 100
+                    stats['gf_pg'] = gf / n_matches
+                    stats['ga_pg'] = ga / n_matches
+                    stats['clean_sheet_pct'] = (clean_sheets / n_matches) * 100
+                    stats['failed_to_score_pct'] = (failed_to_score / n_matches) * 100
+                    stats['won_to_nil_pct'] = (won_to_nil / n_matches) * 100
+                    stats['lost_to_nil_pct'] = (lost_to_nil / n_matches) * 100
+                    stats['total_goals_pg'] = (gf + ga) / n_matches
+                    stats['btts_pct'] = (btts / n_matches) * 100
+                    stats['over_15_pct'] = (over_15 / n_matches) * 100
+                    stats['over_25_pct'] = (over_25 / n_matches) * 100
+                    stats['over_35_pct'] = (over_35 / n_matches) * 100
+                    
+                    # Populate from lt_stats
+                    if lt_stats:
+                        stats['team_scored_first_pct'] = lt_stats['pct_scored_first']
+                        stats['opponent_scored_first_pct'] = lt_stats['pct_opp_scored_first']
+                        stats['avg_minute_scored_first'] = lt_stats['avg_minute_scored_first']
+                        stats['avg_minute_conceded_first'] = lt_stats['avg_minute_conceded_first']
+                        stats['lead_defending_rate'] = lt_stats['lead_defending_rate']
+                        stats['equalizing_rate'] = lt_stats['equalizing_rate']
+                        stats['time_leading_pct'] = lt_stats['pct_leading']
+                        stats['time_level_pct'] = lt_stats['pct_level']
+                        stats['time_trailing_pct'] = lt_stats['pct_trailing']
+                        
+                        if lt_stats['team_scored_first'] > 0:
+                            pts = (lt_stats['scored_first_w'] * 3) + (lt_stats['scored_first_d'] * 1)
+                            stats['ppg_scored_first'] = pts / lt_stats['team_scored_first']
+                        
+                        if lt_stats['opponent_scored_first'] > 0:
+                            pts = (lt_stats['conceded_first_w'] * 3) + (lt_stats['conceded_first_d'] * 1)
+                            stats['ppg_conceded_first'] = pts / lt_stats['opponent_scored_first']
+                        
+                    output = []
+                    def add_row(label, key, type='higher_better', is_pct=False, decimals=0):
+                        t_val = stats.get(key, 0)
+                        l_val = league_avg.get(key, 0)
+                        is_good = (t_val >= l_val) if type == 'higher_better' else (t_val <= l_val)
+                        ref = 100
+                        if 'ppg' in key: ref = 3
+                        elif 'pg' in key and 'ppg' not in key: ref = 4
+                        elif 'minute' in key: ref = 90
+                        
+                        status_class = 'good' if is_good else 'bad'
+                        if type == 'neutral': status_class = 'neutral'
+                        
+                        output.append({
+                            'label': label,
+                            'team_val': t_val,
+                            'league_val': l_val,
+                            'is_good': is_good,
+                            'type': type,
+                            'is_pct': is_pct,
+                            'decimals': decimals,
+                            'team_width': min((t_val / ref) * 100, 100),
+                            'league_width': min((l_val / ref) * 100, 100),
+                            'status_class': status_class
+                        })
+
+                    add_row('Points per game', 'ppg', decimals=2)
+                    add_row('% Wins', 'win_pct', is_pct=True)
+                    add_row('% Draws', 'draw_pct', is_pct=True, type='neutral')
+                    add_row('% Defeats', 'defeat_pct', type='lower_better', is_pct=True)
+                    add_row('Goals scored per game', 'gf_pg', decimals=2)
+                    add_row('Goals conceded per game', 'ga_pg', type='lower_better', decimals=2)
+                    add_row('% Clean sheets', 'clean_sheet_pct', is_pct=True)
+                    add_row('% Failed To Score', 'failed_to_score_pct', type='lower_better', is_pct=True)
+                    add_row('% Won To Nil', 'won_to_nil_pct', is_pct=True)
+                    add_row('% Lost To Nil', 'lost_to_nil_pct', type='lower_better', is_pct=True)
+                    add_row('% Team scored first', 'team_scored_first_pct', is_pct=True)
+                    add_row('% Opponent scored first', 'opponent_scored_first_pct', type='lower_better', is_pct=True)
+                    add_row('Average minute scored first', 'avg_minute_scored_first', type='lower_better')
+                    add_row('Average minute conceded first', 'avg_minute_conceded_first', type='higher_better')
+                    add_row('Lead-defending rate', 'lead_defending_rate', is_pct=True)
+                    add_row('Equalizing rate', 'equalizing_rate', is_pct=True)
+                    add_row('% Time leading', 'time_leading_pct', is_pct=True)
+                    add_row('% Time level in goals', 'time_level_pct', is_pct=True)
+                    add_row('% Time trailing', 'time_trailing_pct', type='lower_better', is_pct=True)
+                    add_row('PPG when scored first', 'ppg_scored_first', decimals=2)
+                    add_row('PPG when conceded first', 'ppg_conceded_first', decimals=2)
+                    add_row('Total goals per game', 'total_goals_pg', decimals=2)
+                    add_row('% over 1.5 goals', 'over_15_pct', is_pct=True)
+                    add_row('% over 2.5 goals', 'over_25_pct', is_pct=True)
+                    add_row('% over 3.5 goals', 'over_35_pct', is_pct=True)
+                    add_row('% both teams scored', 'btts_pct', is_pct=True)
+                    return output
+
+                league_avg_stats = calculate_league_avg(league, latest_season)
+                context['t1_league_comparison'] = calculate_team_comparison(team1, league, latest_season, league_avg_stats)
+                context['t2_league_comparison'] = calculate_team_comparison(team2, league, latest_season, league_avg_stats)
+
+        else:
+            context['matches'] = []
+
+        return context
+
+from django.shortcuts import get_object_or_404, render
+from matches.services.live_radar import LiveRadarService
+from django.contrib.auth.decorators import login_required
+
+# AMBIENTE DE TESTE: radar publico (pagina H2H e publica) — sem login
+def live_radar_partial(request, match_id):
+    match = get_object_or_404(Match, pk=match_id)
+    
+    pressure_5 = LiveRadarService.calculate_pressure(match, window_minutes=5)
+    pressure_10 = LiveRadarService.calculate_pressure(match, window_minutes=10)
+    pressure_15 = LiveRadarService.calculate_pressure(match, window_minutes=15)
+    pressure_ft = LiveRadarService.calculate_pressure(match, window_minutes=120)  # Effectively total match
+    
+    context = {
+        'match': match,
+        'pressure_5': pressure_5,
+        'pressure_10': pressure_10,
+        'pressure_15': pressure_15,
+        'pressure_ft': pressure_ft,
+        'pressure_windows': [
+            ('Últimos 5 Minutos', pressure_5),
+            ('Últimos 10 Minutos', pressure_10),
+            ('Últimos 15 Minutos', pressure_15),
+            ('Jogo Todo (FT)', pressure_ft),
+        ],
+    }
+    return render(request, 'members/partials/live_radar_modal.html', context)
+
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+import requests
+import os
+import random
+import string
+from django.core.cache import caches
+cache = caches['async_tasks']
+
+from django.conf import settings
+
+@method_decorator(csrf_exempt, name='dispatch')
+class KaggleUpdateUrlView(View):
+    def get(self, request):
+        # Ferramenta de debug para o VGR ver se a URL chegou no servidor
+        url_file = '/tmp/kaggle_url.txt'
+        gradio_url = None
+        if os.path.exists(url_file):
+            with open(url_file, 'r') as f:
+                gradio_url = f.read().strip()
+                
+        if gradio_url:
+            return JsonResponse({'status': 'online', 'url_salva_na_memoria': gradio_url})
+        return JsonResponse({'status': 'offline', 'message': 'A memoria do servidor esta vazia.'})
+
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            share_url = data.get('share_url', '').strip()
+            secret = data.get('secret', '').strip()
+            
+            # Validar segredo
+            expected_secret = os.getenv('KAGGLE_SECRET_TOKEN', 'openclaw_token_3f9b2d8c1e7a4f5c9e2d1b8a7c3f6e5d')
+            
+            if not share_url or secret != expected_secret:
+                return JsonResponse({'status': 'error', 'message': 'Não autorizado ou dados ausentes.'}, status=403)
+            
+            # Salvar em arquivo físico para que todos os workers do gunicorn acessem
+            url_file = '/tmp/kaggle_url.txt'
+            with open(url_file, 'w') as f:
+                f.write(share_url)
+                
+            return JsonResponse({'status': 'success', 'message': 'URL do Kaggle atualizada com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
+import threading
+import uuid
+import time
+
+def _generate_voice_task(task_id, match_id, script_text, gradio_url):
+    try:
+        # Limpar marcas da máquina [ABA], [FOCO] e [OFF] para o locutor não ler em voz alta
+        import re
+        texto_limpo = script_text.split("👇👇👇 TEXTO DA MÁQUINA")[0].replace("👇👇👇 TEXTO DO ÁUDIO (COPIE TUDO AQUI ABAIXO E COLE NO ELEVENLABS) 👇👇👇", "")
+        texto_limpo = re.sub(r'\[ABA:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
+        texto_limpo = re.sub(r'\[FOCO:.*?\]', '', texto_limpo, flags=re.IGNORECASE)
+        texto_limpo = re.sub(r'\[OFF\]', '', texto_limpo, flags=re.IGNORECASE)
+        texto_limpo = texto_limpo.replace('.5', ' ponto 5') # Garante a pronúncia do decimal
+        texto_limpo = texto_limpo.strip()
+
+        session_hash = "".join(random.choices(string.ascii_lowercase + string.digits, k=11))
+        
+        # ── Gradio 6: usa /gradio_api/call/lambda (fluxo assíncrono com SSE) ──
+        upload_url = f"{gradio_url.rstrip('/')}/gradio_api/upload"
+        local_voice_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "video_maker", "voz_padrao.mp3")
+        
+        if not os.path.exists(local_voice_path):
+            local_voice_path = os.path.join(settings.MEDIA_ROOT, "voz_padrao.mp3")
+            
+        server_file_path = None
+        if os.path.exists(local_voice_path):
+            try:
+                with open(local_voice_path, 'rb') as f_voice:
+                    r_upload = requests.post(upload_url, files={'files': f_voice}, timeout=20)
+                if r_upload.status_code == 200:
+                    upload_res = r_upload.json()
+                    if isinstance(upload_res, list) and len(upload_res) > 0:
+                        server_file_path = upload_res[0]
+            except Exception:
+                pass
+
+        call_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda"
+        call_payload = {
+            "data": [
+                texto_limpo,
+                None
+            ]
+        }
+        
+        r_call = requests.post(call_url, json=call_payload, timeout=30)
+        
+        # Retry logic para 'No interface is running'
+        max_retries = 15
+        retries = 0
+        while retries < max_retries and r_call.status_code != 200 and "No interface is running" in r_call.text:
+            time.sleep(10)
+            retries += 1
+            try:
+                r_call = requests.post(call_url, json=call_payload, timeout=30)
+            except Exception:
+                pass
+        
+        if r_call.status_code == 404:
+            payload = {
+                "data": [texto_limpo, "voz_padrao.mp3"],
+                "fn_index": 0,
+                "session_hash": session_hash
+            }
+            gradio_api = f"{gradio_url.rstrip('/')}/api/predict"
+            r = requests.post(gradio_api, json=payload, timeout=300)
+            
+            # Retry logic para api predict fallback
+            retries_fallback = 0
+            while retries_fallback < max_retries and r.status_code != 200 and "No interface is running" in r.text:
+                time.sleep(10)
+                retries_fallback += 1
+                try:
+                    r = requests.post(gradio_api, json=payload, timeout=300)
+                except Exception:
+                    pass
+            
+            if r.status_code != 200:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Kaggle retornou erro HTTP {r.status_code}: {r.text[:200]}'}, 3600)
+                return
+                
+            res_data = r.json()
+            if not res_data.get('data') or not isinstance(res_data['data'], list):
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': 'Formato de resposta inesperado do Kaggle'}, 3600)
+                return
+                
+            audio_info = res_data['data'][0]
+            json_info = None
+        else:
+            if r_call.status_code != 200:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Kaggle rejeitou o pedido HTTP {r_call.status_code}: {r_call.text[:200]}'}, 3600)
+                return
+            
+            event_id = r_call.json().get('event_id')
+            if not event_id:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': 'Resposta sem event_id'}, 3600)
+                return
+            
+            result_url = f"{gradio_url.rstrip('/')}/gradio_api/call/lambda/{event_id}"
+            r_result = requests.get(result_url, timeout=360, stream=True)
+            
+            audio_info = None
+            json_info = None
+            for line in r_result.iter_lines(decode_unicode=True):
+                if not line:
+                    continue
+                if line.startswith('data: '):
+                    import json as json_mod
+                    try:
+                        event_data = json_mod.loads(line[6:])
+                        if isinstance(event_data, list) and len(event_data) >= 2:
+                            audio_info = event_data[0]
+                            json_info = event_data[1]
+                            break
+                        elif isinstance(event_data, list) and len(event_data) > 0:
+                            audio_info = event_data[0]
+                            break
+                    except (json_mod.JSONDecodeError, ValueError):
+                        continue
+            
+            if audio_info is None:
+                cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': 'O Kaggle não retornou dados de áudio. O modelo pode ter falhado.'}, 3600)
+                return
+        
+        if isinstance(audio_info, dict) and audio_info.get('url'):
+            audio_download_url = audio_info['url']
+        elif isinstance(audio_info, dict) and audio_info.get('path'):
+            audio_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={audio_info['path']}"
+        else:
+            audio_download_url = f"{gradio_url.rstrip('/')}/file={audio_info}"
+
+        json_download_url = None
+        if json_info:
+            if isinstance(json_info, dict) and json_info.get('url'):
+                json_download_url = json_info['url']
+            elif isinstance(json_info, dict) and json_info.get('path'):
+                json_download_url = f"{gradio_url.rstrip('/')}/gradio_api/file={json_info['path']}"
+            else:
+                json_download_url = f"{gradio_url.rstrip('/')}/file={json_info}"
+
+        audio_r = requests.get(audio_download_url, timeout=60)
+        if audio_r.status_code != 200:
+            cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': f'Não foi possível baixar o MP3 do Kaggle. HTTP {audio_r.status_code}'}, 3600)
+            return
+            
+        media_dir = os.path.join(settings.MEDIA_ROOT, 'audios_locucao')
+        os.makedirs(media_dir, exist_ok=True)
+        
+        file_name = f"match_{match_id}.mp3"
+        file_path = os.path.join(media_dir, file_name)
+        with open(file_path, 'wb') as f:
+            f.write(audio_r.content)
+            
+        if json_download_url:
+            json_r = requests.get(json_download_url, timeout=30)
+            if json_r.status_code == 200:
+                json_file_name = f"match_{match_id}.json"
+                json_file_path = os.path.join(media_dir, json_file_name)
+                with open(json_file_path, 'wb') as f:
+                    f.write(json_r.content)
+                    
+        script_file_name = f"match_{match_id}.txt"
+        script_file_path = os.path.join(media_dir, script_file_name)
+        with open(script_file_path, 'w', encoding='utf-8') as f:
+            f.write(script_text)
+            
+        audio_public_url = f"{settings.MEDIA_URL}audios_locucao/{file_name}"
+        
+        cache.set(f'kaggle_voice_task_{task_id}', {
+            'status': 'success',
+            'audio_url': audio_public_url
+        }, 3600)
+        
+    except Exception as e:
+        cache.set(f'kaggle_voice_task_{task_id}', {'status': 'error', 'message': str(e)}, 3600)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class KaggleGenerateVoiceView(View):
+    def post(self, request, match_id):
+        try:
+            url_file = '/tmp/kaggle_url.txt'
+            gradio_url = None
+            if os.path.exists(url_file):
+                with open(url_file, 'r') as f:
+                    gradio_url = f.read().strip()
+            
+            gradio_url = gradio_url or os.getenv('KAGGLE_GRADIO_URL')
+            
+            if not gradio_url:
+                return JsonResponse({
+                    'status': 'error', 
+                    'message': 'O servidor do Kaggle está offline.'
+                }, status=503)
+                
+            data = json.loads(request.body)
+            script_text = data.get('script', '').strip()
+            
+            if not script_text:
+                return JsonResponse({'status': 'error', 'message': 'Roteiro vazio.'}, status=400)
+                
+            task_id = str(uuid.uuid4())
+            cache.set(f'kaggle_voice_task_{task_id}', {'status': 'processing'}, 3600)
+            
+            thread = threading.Thread(target=_generate_voice_task, args=(task_id, match_id, script_text, gradio_url))
+            thread.start()
+            
+            return JsonResponse({'status': 'processing', 'task_id': task_id})
+            
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class KaggleVoiceStatusView(View):
+    def get(self, request, task_id):
+        task_data = cache.get(f'kaggle_voice_task_{task_id}')
+        if not task_data:
+            return JsonResponse({'status': 'error', 'message': 'Tarefa não encontrada ou expirada.'}, status=404)
+        return JsonResponse(task_data)
+
+# ==============================================================

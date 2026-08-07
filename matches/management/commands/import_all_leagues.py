@@ -1,0 +1,71 @@
+import os
+import json
+from django.core.management.base import BaseCommand  # type: ignore
+from django.core.management import call_command  # type: ignore
+from matches.models import League
+
+class Command(BaseCommand):
+    help = "Importa automaticamente todos os payloads JSON encontrados na raiz para suas respectivas ligas."
+
+    def handle(self, *args, **options):
+        # Mapeamento de arquivos para nomes de ligas/países conhecidos
+        mapping = {
+            'payload_argentina.json': {'name': 'Liga Profesional', 'country': 'Argentina'},
+            'payload_brasil.json': {'name': 'Brasileirão', 'country': 'Brasil'},
+            'payload_austria.json': {'name': 'Bundesliga', 'country': 'Austria'},
+            'payload_suica.json': {'name': 'Super League', 'country': 'Suica'},
+            'payload_alemanha.json': {'name': 'Bundesliga', 'country': 'Alemanha'},
+            'payload_franca.json': {'name': 'Ligue 1', 'country': 'Franca'},
+            'payload_belgica.json': {'name': 'Pro League', 'country': 'Belgica'},
+            'payload_australia.json': {'name': 'A-League Men', 'country': 'Australia'},
+            'payload_dinamarca.json': {'name': 'Superliga', 'country': 'Dinamarca'},
+            'payload_inglaterra.json': {'name': 'Premier League', 'country': 'Inglaterra'},
+            'payload_espanha.json': {'name': 'La Liga', 'country': 'Espanha'},
+            'payload_finlandia.json': {'name': 'Veikkausliiga', 'country': 'Finlandia'},
+            'payload_grecia.json': {'name': 'Super League', 'country': 'Grecia'},
+            'payload_holanda.json': {'name': 'Eredivisie', 'country': 'Holanda'},
+            'payload_italia.json': {'name': 'Serie A', 'country': 'Italia'},
+            'payload_japao.json': {'name': 'J1 League', 'country': 'Japao'},
+            'payload_noruega.json': {'name': 'Eliteserien', 'country': 'Noruega'},
+            'payload_polonia.json': {'name': 'Ekstraklasa', 'country': 'Polonia'},
+            'payload_portugal.json': {'name': 'Primeira Liga', 'country': 'Portugal'},
+            'payload_russia.json': {'name': 'Premier Liga', 'country': 'Russia'},
+            'payload_suecia.json': {'name': 'Allsvenskan', 'country': 'Suecia'},
+            'payload_turquia.json': {'name': 'Süper Lig', 'country': 'Turquia'},
+            'payload_ucrania.json': {'name': 'Premier League', 'country': 'Ucrania'},
+            'payload_chile.json': {'name': 'Primera Division', 'country': 'Chile'},
+            'payload_mexico.json': {'name': 'Liga MX', 'country': 'Mexico'},
+            'payload_estados unidos.json': {'name': 'MLS', 'country': 'Estados Unidos'},
+            'payload_colombia.json': {'name': 'Primera A', 'country': 'Colombia'},
+            'payload_uruguai.json': {'name': 'Primera Division', 'country': 'Uruguai'},
+            'payload_paraguai.json': {'name': 'Primera Division', 'country': 'Paraguai'},
+            'payload_islandia.json': {'name': 'Besta deild karla', 'country': 'Islandia'},
+            'payload_equador.json': {'name': 'Liga Pro', 'country': 'Equador'},
+            'payload_peru.json': {'name': 'Liga 1', 'country': 'Peru'},
+            'payload_escocia.json': {'name': 'Premiership', 'country': 'Escocia'},
+            'payload_libertadores.json': {'name': 'Copa Libertadores', 'country': 'America do Sul'},
+            'payload_sulamericana.json': {'name': 'Copa Sul-Americana', 'country': 'America do Sul'},
+        }
+
+        self.stdout.write("🔍 Iniciando busca de payloads na raiz...")
+
+        for filename, info in mapping.items():
+            if os.path.exists(filename):
+                self.stdout.write(self.style.SUCCESS(f"found: {filename}"))  # type: ignore
+                try:
+                    league = League.objects.filter(name__iexact=info['name'], country__iexact=info['country']).first()  # type: ignore
+                    if not league:
+                        # Tenta busca mais flexível
+                        league = League.objects.filter(name__icontains=info['name'], country__icontains=info['country']).first()  # type: ignore
+                    
+                    if league:
+                        self.stdout.write(f"-> Importando {filename} para a liga {league.name} (ID: {league.id})")
+                        call_command('import_sofascore_payload', file=filename, league_id=league.id)
+                    else:
+                        self.stdout.write(self.style.WARNING(f"-> Ignorado: Liga {info['name']} ({info['country']}) nao encontrada no banco."))  # type: ignore
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(f"-> Erro ao importar {filename}: {e}"))  # type: ignore
+            else:
+                self.stdout.write(self.style.NOTICE(f"skip: {filename} (arquivo nao encontrado)"))  # type: ignore
+
+        self.stdout.write(self.style.SUCCESS("✅ Processo de importação em massa concluído!"))  # type: ignore

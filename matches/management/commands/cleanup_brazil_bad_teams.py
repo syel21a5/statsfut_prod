@@ -1,0 +1,198 @@
+
+from django.core.management.base import BaseCommand
+from django.db import connection, DatabaseError
+from django.db.models import Q
+from matches.models import League, Team, Match, LeagueStanding
+
+class Command(BaseCommand):
+    help = 'Cleans up duplicate/bad teams for Brazil'
+
+    def handle(self, *args, **kwargs):
+        country = "Brasil"
+        leagues = League.objects.filter(country=country)
+        if not leagues.exists():
+            self.stdout.write(self.style.ERROR("No Brazil leagues found"))
+            return
+
+        # Map Bad Name -> Canonical Name
+        merges = {
+            "Ath Bilbao": "Athletic Club",
+            "Mirassol FC": "Mirassol",
+            "Chapecoense AF": "Chapecoense",
+            "CA Mineiro": "Atletico-MG",
+            "CA Paranaense": "Athletico-PR",
+            "Coritiba FBC": "Coritiba",
+            "Clube do Remo": "Remo",
+            "RB Bragantino": "Bragantino",
+            "Red Bull Bragantino": "Bragantino",
+            "Sport Club do Recife": "Sport Recife",
+            "CR Vasco da Gama": "Vasco",
+            "Botafogo FR": "Botafogo",
+            "Grêmio FBPA": "Gremio",
+            "EC Bahia": "Bahia",
+            "EC Vitória": "Vitoria",
+            "Cuiabá EC": "Cuiaba",
+            "Fortaleza EC": "Fortaleza",
+            "Criciúma EC": "Criciuma",
+            "AC Goianiense": "Atletico-GO",
+            "Goiás EC": "Goias",
+            "América FC": "America-MG",
+            "America Mineiro": "America-MG",
+            "Avaí FC": "Avai",
+            "Guarani FC": "Guarani",
+            "Ponte Preta": "Ponte Preta",
+            "Vila Nova FC": "Vila Nova",
+            "Gremio Novorizontino": "Novorizontino",
+            "Grêmio Novorizontino": "Novorizontino",
+            "Clube De Regatas Brasil": "CRB",
+            "Clube de Regatas Brasil": "CRB",
+            "Ituano FC": "Ituano",
+            "Botafogo FC SP": "Botafogo-SP",
+            "Operário Ferroviário": "Operario",
+            "Operario-PR": "Operario",
+            "Amazonas FC": "Amazonas",
+            "Paysandu SC": "Paysandu",
+            "Brusque FC": "Brusque",
+            "São Bernardo FC": "Sao Bernardo",
+            "Volta Redonda FC": "Volta Redonda",
+            "Nautico Recife": "Nautico",
+            "Náutico": "Nautico",
+            "Ferroviária": "Ferroviaria",
+            "Ypiranga FC": "Ypiranga",
+            "Londrina EC": "Londrina",
+        }
+
+        for league in leagues:
+            self.stdout.write(self.style.SUCCESS(f"Processing league: {league.name} ({league.id})"))
+            for bad_name, good_name in merges.items():
+                self.merge_teams(league, bad_name, good_name)
+
+            # Remover times lixo como "MATCHES"
+            garbage_names = ["MATCHES", "Matches", "Match"]
+            for gname in garbage_names:
+                bad_team = Team.objects.filter(name__iexact=gname, league=league).first()
+                if not bad_team:
+                    continue
+                self.stdout.write(self.style.WARNING(f"Deleting garbage team {bad_team.name} ({bad_team.id}) and its matches"))
+                Match.objects.filter(Q(home_team=bad_team) | Q(away_team=bad_team)).delete()
+                try:
+                    bad_team.delete()
+                except DatabaseError as e:
+                    msg = str(e)
+                    if (
+                        "matches_teamgoaltiming" in msg
+                        or "doesn't exist" in msg
+                        or "does not exist" in msg
+                    ):
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"Direct delete failed due to missing table. Forcing raw delete of team {bad_team.id}."
+                            )
+                        )
+                        with connection.cursor() as cursor:
+                            cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+                    elif "matches_leaguestanding" in msg or "FOREIGN KEY (`team_id`) REFERENCES `matches_team`" in msg:
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"Delete blocked by LeagueStanding FK for team {bad_team.id}. Deleting standings and retrying raw delete."
+                            )
+                        )
+                        LeagueStanding.objects.filter(team_id=bad_team.id).delete()
+                        with connection.cursor() as cursor:
+                            cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+                    else:
+                        raise
+
+    def merge_teams(self, league, bad_name, good_name):
+        # We search exactly for the bad name
+        bad_team = Team.objects.filter(name__iexact=bad_name, league=league).first()
+        if not bad_team:
+            return
+
+        # Find Canonical Team
+        good_team = Team.objects.filter(name__iexact=good_name, league=league).first()
+        
+        if not good_team:
+            # If the canonical team doesn't exist, we just RENAME the bad team
+            self.stdout.write(f"Renaming {bad_team.name} ({bad_team.id}) to {good_name}")
+            bad_team.name = good_name
+            bad_team.save(update_fields=['name'])
+            return
+
+        if bad_team.id == good_team.id:
+            return
+
+        self.stdout.write(f"Merging {bad_team.name} ({bad_team.id}) -> {good_team.name} ({good_team.id})")
+
+        # Move Home Matches
+        home_matches = Match.objects.filter(home_team=bad_team)
+        for m in home_matches:
+            # Check if match already exists for good_team (avoid duplicates)
+            exists = Match.objects.filter(
+                league=league,
+                season=m.season,
+                home_team=good_team,
+                away_team=m.away_team, # Note: away_team might also be bad, but we handle one side at a time
+                date=m.date
+            ).exists()
+            
+            if exists:
+                self.stdout.write(f"  Deleting duplicate match {m}")
+                m.delete()
+            else:
+                self.stdout.write(f"  Moving match {m} to {good_team.name}")
+                m.home_team = good_team
+                m.save()
+
+        # Move Away Matches
+        away_matches = Match.objects.filter(away_team=bad_team)
+        for m in away_matches:
+            exists = Match.objects.filter(
+                league=league,
+                season=m.season,
+                home_team=m.home_team,
+                away_team=good_team,
+                date=m.date
+            ).exists()
+            
+            if exists:
+                self.stdout.write(f"  Deleting duplicate match {m}")
+                m.delete()
+            else:
+                self.stdout.write(f"  Moving match {m} to {good_team.name}")
+                m.away_team = good_team
+                m.save()
+
+        # Remove standings (e.g. CA Mineiro) that ainda apontam para o bad_team
+        LeagueStanding.objects.filter(team=bad_team).delete()
+
+        # Delete Bad Team
+        self.stdout.write(f"Deleting team {bad_team.name}")
+        try:
+            bad_team.delete()
+        except DatabaseError as e:
+            msg = str(e)
+            if (
+                "matches_teamgoaltiming" in msg
+                or "doesn't exist" in msg
+                or "does not exist" in msg
+            ):
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Direct delete failed due to missing table. Forcing raw delete of team {bad_team.id}."
+                    )
+                )
+                with connection.cursor() as cursor:
+                    cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+            elif "matches_leaguestanding" in msg or "FOREIGN KEY (`team_id`) REFERENCES `matches_team`" in msg:
+                # Se ainda existir algum standing órfão, apaga e tenta de novo
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Delete blocked by LeagueStanding FK for team {bad_team.id}. Deleting standings and retrying raw delete."
+                    )
+                )
+                LeagueStanding.objects.filter(team_id=bad_team.id).delete()
+                with connection.cursor() as cursor:
+                    cursor.execute("DELETE FROM matches_team WHERE id = %s", [bad_team.id])
+            else:
+                raise

@@ -1,0 +1,106 @@
+{% load i18n matches_extras %}
+<div class="league-navigation-wrapper mb-4 {% if is_h2h_page %}h2h-mode-wrapper{% endif %}">
+    <ul class="nav nav-pills nav-fill custom-premium-tabs {% if is_h2h_page %}h2h-mode-tabs{% endif %}">
+        <li class="nav-item">
+            <a class="nav-link text-uppercase fw-bold py-3 {% if active_tab == 'overview' %}active{% else %}text-secondary{% endif %}"
+               href="{% url 'matches:country_league_stats' country_name=league.country|country_en|slugify league_name=league.name|slugify %}">
+                <i class="fa-solid fa-chart-simple me-2 nav-icon-overview"></i> {% translate "Overview" %}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-uppercase fw-bold py-3 {% if active_tab == 'goals' %}active{% else %}text-secondary{% endif %}"
+               href="{% url 'matches:league_goals' country_name=league.country|country_en|slugify league_name=league.name|slugify %}">
+                <i class="fa-solid fa-chart-pie me-2 nav-icon-goals"></i> {% translate "Goals Stats" %}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-uppercase fw-bold py-3 {% if active_tab == 'elite' %}active{% else %}text-secondary{% endif %}"
+               href="{% url 'matches:league_detailed' country_name=league.country|country_en|slugify league_name=league.name|slugify %}">
+                <i class="fa-solid fa-bolt me-2 nav-icon-elite"></i> {% translate "Elite Stats" %}
+            </a>
+        </li>
+    </ul>
+</div>
+
+<style>
+    .league-navigation-wrapper {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 6px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    }
+    
+    .custom-premium-tabs {
+        border-radius: 12px;
+        border: none !important;
+        gap: 6px;
+    }
+    
+    .custom-premium-tabs .nav-link {
+        color: #94a3b8 !important;
+        font-size: 0.85rem;
+        letter-spacing: 0.8px;
+        border-radius: 10px !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none !important;
+        background: transparent !important;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Decorative Colored Icons for attention when inactive */
+    .custom-premium-tabs .nav-link .nav-icon-overview { color: #3b82f6; transition: transform 0.3s ease; }
+    .custom-premium-tabs .nav-link .nav-icon-goals { color: #06b6d4; transition: transform 0.3s ease; }
+    .custom-premium-tabs .nav-link .nav-icon-elite { color: #f59e0b; transition: transform 0.3s ease; }
+    
+    /* Hover effects */
+    .custom-premium-tabs .nav-link:hover {
+        color: #f8fafc !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        transform: translateY(-1px);
+    }
+    
+    /* Icon animation on hover */
+    .custom-premium-tabs .nav-link:hover .nav-icon-overview { transform: scale(1.2); }
+    .custom-premium-tabs .nav-link:hover .nav-icon-goals { transform: rotate(15deg) scale(1.2); }
+    .custom-premium-tabs .nav-link:hover .nav-icon-elite { transform: translateY(-2px) scale(1.2); }
+    
+    /* Unified Premium Blue Active Tab */
+    .custom-premium-tabs .nav-link.active {
+        color: #ffffff !important;
+        font-weight: 800;
+        transform: translateY(-1px);
+        background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%) !important;
+        box-shadow: 0 0 15px rgba(0, 198, 255, 0.4), 0 4px 15px rgba(0, 114, 255, 0.3);
+    }
+    
+    /* Active icons stay white inside the gradient */
+    .custom-premium-tabs .nav-link.active i { color: #ffffff !important; }
+    
+    /* Micro-animation indicator */
+    .custom-premium-tabs .nav-link::after {
+        content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px;
+        background: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; transform: translateX(-50%);
+    }
+    .custom-premium-tabs .nav-link.active::after { width: 30%; }
+
+    /* H2H Specific Styles - Only active on the H2H page */
+    .h2h-mode-wrapper {
+        background: linear-gradient(135deg, rgba(0, 114, 255, 0.1) 0%, rgba(0, 198, 255, 0.05) 100%);
+        border: 1px solid rgba(0, 198, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 20px rgba(0, 198, 255, 0.1);
+    }
+    .h2h-mode-tabs .nav-link {
+        color: #e2e8f0 !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    .h2h-mode-tabs .nav-link:hover {
+        background: rgba(0, 198, 255, 0.15) !important;
+        border-color: rgba(0, 198, 255, 0.3) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 15px rgba(0, 198, 255, 0.2);
+    }
+</style>

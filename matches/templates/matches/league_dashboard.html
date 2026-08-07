@@ -1,0 +1,1086 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load matches_extras team_tags %}
+{% load flag_tags %}
+{% load tz cache l10n %}
+
+{% block title %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }} - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }} - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }} - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.country|country_en }} - Statistics & Match Analysis | StatsFut{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}
+{% endif %}
+{% endblock %}
+{% block meta_description %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% endif %}
+{% endblock %}
+{% block og_title %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }} - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }} - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }} - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.country|country_en }} - Statistics & Match Analysis | StatsFut{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} ({{ league.country|country_en }}) - Estatísticas e Análise de Confrontos | StatsFut{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} ({{ league.country|country_en }}) - Estadísticas y Análisis de Enfrentamientos | StatsFut{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} ({{ league.country|country_en }}) - Statistiken & Spielanalysen | StatsFut{% else %}{{ league.name }} ({{ league.country|country_en }}) - Statistics & Match Analysis | StatsFut{% endif %}
+{% endif %}
+{% endblock %}
+{% block og_description %}
+{% if is_country_hub %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} {{ league.country|country_en }}: estatísticas, classificação, resultados, próximos jogos e análise Over/Under & BTTS. Atualizado diariamente com dados ao vivo.{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} {{ league.country|country_en }}: estadísticas, clasificación, resultados, próximos partidos y análisis Over/Under y BTTS. Actualizado a diario con datos en vivo.{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} {{ league.country|country_en }}: Statistiken, Tabelle, Ergebnisse, kommende Spiele und Over/Under- & BTTS-Analysen. Täglich aktualisiert mit Live-Daten.{% else %}{{ league.name }} {{ league.country|country_en }} statistics: standings, results, upcoming matches, Over/Under & BTTS analysis. Updated daily with live data.{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsTeam",
+  "name": "{{ league.name }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "sport": "Soccer",
+  "memberOf": { "@type": "SportsOrganization", "name": "{{ league.country|country_en }}" }
+}
+</script>
+{% endblock %}
+{% block header %}
+{% if is_country_hub %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.country|country_en }} - Estatísticas e Análises{% elif request.LANGUAGE_CODE == 'es' %}{{ league.country|country_en }} - Estadísticas y Análisis{% elif request.LANGUAGE_CODE == 'de' %}{{ league.country|country_en }} - Statistiken & Analysen{% else %}{{ league.country|country_en }} - Statistics & Analysis{% endif %}</h1>
+{% else %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}{{ league.name }} - Estatísticas e Análises{% elif request.LANGUAGE_CODE == 'es' %}{{ league.name }} - Estadísticas y Análisis{% elif request.LANGUAGE_CODE == 'de' %}{{ league.name }} - Statistiken & Analysen{% else %}{{ league.name }} - Statistics & Analysis{% endif %}</h1>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% cache 300 league_dashboard_v18 league.id request.LANGUAGE_CODE is_country_hub request.user.is_authenticated request.user.profile.is_premium %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white fw-bold mb-0">
+                <img src="{{ league.country|country_en|get_flag_url }}" alt="{{ league.country|country_en }}"
+                    style="height: 30px; margin-right: 10px;" loading="lazy" decoding="async" height="30">
+                {{ league.name }}
+            </h2>
+            <p class="text-secondary mb-0 mt-1">
+                <span class="text-info">{{ league.country|country_en }}</span> <i
+                    class="fa-solid fa-chevron-right mx-2 small"></i> {% translate "League Stats" %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Top Ad Slot (injected via JS to avoid cache) -->
+
+    {% if intro_text %}
+    <!-- Custom SEO Intro Text -->
+    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4 league-intro">
+        <div class="card-body p-4" style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.7;">
+            {{ intro_text|safe|linebreaks }}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- SEO TEXT DYNAMIC GENERATION (SofaScore / SoccerStats Premium Style) -->
+    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h5 class="fw-bold mb-3 text-info">
+                <i class="fa-solid fa-circle-info me-2"></i>{% translate "About" %} {{ league.name }}
+            </h5>
+            
+<div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
+                <div class="col-md-6">
+                    <p class="mb-2">
+                        {% blocktranslate with league_name=league.name country=league.country|country_en %}The <strong>{{ league_name }}</strong> is the main professional football league in <strong>{{ country }}</strong>.{% endblocktranslate %}
+                        {% if standings %}
+                            {% with leader=standings.0.team.name %}
+                                {% blocktranslate with leader=leader %}Currently, the competition leader is <strong>{{ leader }}</strong>, leading the league table this season.{% endblocktranslate %}
+                            {% endwith %}
+                        {% endif %}
+                    </p>
+                    <p class="mb-0">
+                        {% blocktranslate %}StatsFut tracks live football scores, detailed statistics, standings, and performance analysis for all rounds of the competition.{% endblocktranslate %}
+                    </p>
+                </div>
+                <div class="col-md-6 border-start border-secondary border-opacity-25 ps-md-4">
+                    <h6 class="fw-bold text-white mb-2 small text-uppercase">{% translate "Season Statistical Analysis" %}</h6>
+                    <ul class="list-unstyled mb-0 small">
+                        {% if league_stats %}
+                            <li class="mb-2">
+                                <i class="fa-solid fa-chart-line text-success me-2"></i>
+                                {% blocktranslate with avg_goals=league_stats.avg_goals_match %}The average goals per match in the league is <strong>{{ avg_goals }}</strong> goals.{% endblocktranslate %}
+                            </li>
+                            <li class="mb-2">
+                                <i class="fa-solid fa-percent text-warning me-2"></i>
+                                {% blocktranslate with over25=league_stats.over25_pct btts=league_stats.btts_pct %}About <strong>{{ over25 }}%</strong> of matches ended with over 2.5 goals, and in <strong>{{ btts }}%</strong> of the games both teams scored (BTTS).{% endblocktranslate %}
+                            </li>
+                        {% endif %}
+                        {% if common_scores %}
+                            <li class="mb-0">
+                                <i class="fa-regular fa-futbol text-info me-2"></i>
+                                {% with most_common=common_scores.0 %}
+                                    {% blocktranslate with score=most_common.score pct=most_common.pct %}The most common result recorded this season is the score of <strong>{{ score }}</strong>, occurring in <strong>{{ pct }}%</strong> of all matches played.{% endblocktranslate %}
+                                {% endwith %}
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'matches/includes/league_tabs.html' with active_tab='overview' %}
+
+
+    <div class="row">
+        <!-- Main Content Column (75% Width) -->
+        <div class="col-lg-9">
+
+
+
+            
+                  <!-- League Averages Summary -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Avg PPG" %}</h6>
+                            <h3 class="fw-bold mb-0">{{ avg_ppg|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Avg Goals/Team" %}</h6>
+                            <h3 class="fw-bold mb-0 text-info">{{ avg_gf|floatformat:1 }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Clean Sheets %" %}</h6>
+                            <h3 class="fw-bold mb-0 text-success">{{ avg_cs|floatformat:1 }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Scoring Rate" %}</h6>
+                            <h3 class="fw-bold mb-0 text-warning">{{ avg_sr|floatformat:1 }}%</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- Goals & Outcomes (New Section) -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Over 1.5 Goals" %}</h6>
+                            <h3 class="fw-bold mb-0 text-info">{{ league_stats.over15_pct }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Over 2.5 Goals" %}</h6>
+                            <h3 class="fw-bold mb-0 text-primary">{{ league_stats.over25_pct }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "BTTS" %}</h6>
+                            <h3 class="fw-bold mb-0 text-warning">{{ league_stats.btts_pct }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-body py-3 text-center">
+                            <h6 class="text-secondary text-uppercase small mb-1">{% translate "Avg Match Goals" %}</h6>
+                            <h3 class="fw-bold mb-0">{{ league_stats.avg_goals_match }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- Main League Table (com sub-abas dinâmicas por fase) -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <h5 class="mb-0 fw-bold">{% translate "League Table" %}</h5>
+                            {% if has_multiple_groups %}
+                            <div class="d-flex flex-wrap gap-2" id="standings-tab-btns">
+                                {% for group_name, group_rows in standings_by_group.items %}
+                                {% with tab_id=group_name|slugify %}
+                                <button
+                                    class="btn btn-sm {% if forloop.first %}btn-light text-dark{% else %}btn-outline-secondary text-white{% endif %} standings-tab-btn fw-semibold"
+                                    data-target="standings-tab-{{ tab_id }}"
+                                    style="font-size:0.8rem;">
+                                    {% if group_name == "Promedios" %}Averages{% else %}{{ group_name }}{% endif %}
+                                </button>
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if has_multiple_groups %}
+                            {% for group_name, group_rows in standings_by_group.items %}
+                            {% with tab_id=group_name|slugify %}
+                            <div id="standings-tab-{{ tab_id }}" class="standings-tab-panel {% if not forloop.first %}d-none{% endif %}">
+                            {% endwith %}
+                                <div class="table-responsive">
+                                    <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                        style="font-size: 0.9rem;">
+                                        <thead>
+                                            <tr class="text-secondary text-uppercase">
+                                                <th class="ps-3 text-start">{% translate "#" %}</th>
+                                                <th class="text-start">{% translate "Team" %}</th>
+                                                {% if "Promedios" in group_name %}
+                                                    <th class="text-success">P</th>
+                                                    <th>{{ latest_season.year|add:-2 }}</th>
+                                                    <th>{{ latest_season.year|add:-1 }}</th>
+                                                    <th>{{ latest_season.year }}</th>
+                                                    <th>{% translate "Last 5" %}</th>
+                                                    <th class="fw-bold text-white">PTS</th>
+                                                    <th>PPG</th>
+                                                {% else %}
+                                                    <th class="text-secondary fw-normal" title="{% translate "Games Played" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GP" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Wins" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "W" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Draws" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "D" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Losses" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "L" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Goals For" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GF" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Goals Against" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GA" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Goal Difference" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GD" %}</th>
+                                                    <th class="fw-bold text-white bg-white bg-opacity-10 rounded" title="{% translate "Points" %}" data-bs-toggle="tooltip" style="font-size: 1rem; border: 1px solid rgba(255,255,255,0.1); cursor: help; border-bottom: 1px dashed #6c757d;">PTS</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Form (Last 5 Matches)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Form" %}</th>
+                                                    <th class="pe-3 text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">PPG</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in group_rows %}
+                                            <tr>
+                                                <td class="ps-3 text-start">
+                                                    <span
+                                                        class="badge {% if "Promedios" in group_name or "Averages" in group_name %}{% if forloop.revcounter <= 2 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %}{% else %}{% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %}{% endif %} rounded-pill"
+                                                        style="width: 25px;">{{ row.position }}</span>
+                                                </td>
+                                                <td class="text-start fw-bold">
+                                                    <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                        class="text-decoration-none text-white d-flex align-items-center">
+                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;" loading="lazy" decoding="async">
+                                                        <span>{{ row.team.name }}</span>
+                                                    </a>
+                                                </td>
+                                                
+                                                {% if "Promedios" in group_name %}
+                                                    <td class="text-success fw-bold">{{ row.played }}</td>
+                                                    <td>{{ row.points_prev_prev_season|default:0 }}</td>
+                                                    <td>{{ row.points_prev_season|default:0 }}</td>
+                                                    <td>{{ row.points_curr_season|default:0 }}</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center gap-1">
+                                                            {% for res in row.form_history|slice:":5" %}
+                                                            <span
+                                                                class="badge {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %} p-1"
+                                                                style="width: 18px; height: 10px; display: inline-block;"></span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold fs-6">{{ row.points }}</td>
+                                                    <td class="text-warning fw-bold">{{ row.points_per_game|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td class="text-secondary">{{ row.played }}</td>
+                                                    <td class="text-secondary">{{ row.won }}</td>
+                                                    <td class="text-secondary">{{ row.drawn }}</td>
+                                                    <td class="text-secondary">{{ row.lost }}</td>
+                                                    <td class="text-white">{{ row.goals_for }}</td>
+                                                    <td class="text-white-50">{{ row.goals_against }}</td>
+                                                    <td class="{% if row.goal_diff > 0 %}text-success{% elif row.goal_diff < 0 %}text-danger{% else %}text-secondary{% endif %} fw-bold">{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
+                                                    <td class="fw-bold text-white bg-white bg-opacity-10" style="font-size: 1.1rem; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);">{{ row.points }}</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center gap-1 align-items-center" style="height: 100%;">
+                                                            {% for res in row.form_history %}
+                                                            <span
+                                                                class="rounded-circle {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %}"
+                                                                style="width: 8px; height: 8px; display: inline-block; box-shadow: 0 0 3px rgba(0,0,0,0.5);"></span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                    <td class="pe-3 text-white fw-medium">{{ row.ppg_season }}</td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                        style="font-size: 0.9rem;">
+                                        <thead>
+                                            <tr class="text-secondary text-uppercase">
+                                                <th class="ps-3 text-start">#</th>
+                                                <th class="text-start">{% translate "Team" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Games Played" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GP" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Wins" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "W" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Draws" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "D" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Losses" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "L" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Goals For" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GF" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Goals Against" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GA" %}</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Goal Difference" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "GD" %}</th>
+                                                <th class="fw-bold text-white bg-white bg-opacity-10 rounded" title="{% translate "Points" %}" data-bs-toggle="tooltip" style="font-size: 1rem; border: 1px solid rgba(255,255,255,0.1); cursor: help; border-bottom: 1px dashed #6c757d;">PTS</th>
+                                                <th class="text-secondary fw-normal" title="{% translate "Form (Last 5 Matches)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Form" %}</th>
+                                                <th class="pe-3 text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">PPG</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in standings %}
+                                            <tr>
+                                                <td class="ps-3 text-start">
+                                                    <span
+                                                        class="badge {% if row.position <= 8 %}bg-success{% elif row.position >= 23 %}bg-danger{% else %}bg-secondary bg-opacity-50{% endif %} rounded-pill"
+                                                        style="width: 25px;">{{ row.position }}</span>
+                                                </td>
+                                                <td class="text-start fw-bold">
+                                                    <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                        class="text-decoration-none text-white d-flex align-items-center">
+                                                        <img src="{{ row.team.logo_url }}" alt="{{ row.team.name }}" width="24" height="24" class="me-2" style="object-fit: contain;" loading="lazy" decoding="async">
+                                                        <span>{{ row.team.name }}</span>
+                                                    </a>
+                                                </td>
+                                                <td class="text-secondary">{{ row.played }}</td>
+                                                <td class="text-secondary">{{ row.won }}</td>
+                                                <td class="text-secondary">{{ row.drawn }}</td>
+                                                <td class="text-secondary">{{ row.lost }}</td>
+                                                <td class="text-white">{{ row.goals_for }}</td>
+                                                <td class="text-white-50">{{ row.goals_against }}</td>
+                                                <td class="{% if row.goal_diff > 0 %}text-success{% elif row.goal_diff < 0 %}text-danger{% else %}text-secondary{% endif %} fw-bold">{% if row.goal_diff > 0 %}+{% endif %}{{ row.goal_diff }}</td>
+                                                <td class="fw-bold text-white bg-white bg-opacity-10" style="font-size: 1.1rem; border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);">{{ row.points }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-1 align-items-center" style="height: 100%;">
+                                                        {% for res in row.form_history %}
+                                                        <span
+                                                            class="rounded-circle {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %}"
+                                                            style="width: 8px; height: 8px; display: inline-block; box-shadow: 0 0 3px rgba(0,0,0,0.5);"></span>
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td class="pe-3 text-white fw-medium">{{ row.ppg_season }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if has_multiple_groups %}
+            <script>
+            (function() {
+                var btns = document.querySelectorAll('.standings-tab-btn');
+                btns.forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        // Hide all panels
+                        document.querySelectorAll('.standings-tab-panel').forEach(function(p) { p.classList.add('d-none'); });
+                        // Deactivate all buttons
+                        btns.forEach(function(b) {
+                            b.classList.remove('btn-light', 'text-dark');
+                            b.classList.add('btn-outline-secondary', 'text-white');
+                        });
+                        // Show target panel
+                        var target = document.getElementById(btn.dataset.target);
+                        if (target) target.classList.remove('d-none');
+                        // Activate clicked button
+                        btn.classList.add('btn-light', 'text-dark');
+                        btn.classList.remove('btn-outline-secondary', 'text-white');
+                    });
+                });
+            })();
+            </script>
+            {% endif %}
+                    <!-- Matches & Results Row -->
+            <div class="row g-4 mb-4">
+                <!-- Upcoming Matches -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div
+                            class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2 d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0 fw-bold">{% translate "Matches" %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto;">
+                                <div class="list-group list-group-flush bg-transparent">
+                                    {% for match in upcoming_matches %}
+                                    <div
+                                        class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
+                                        <div class="row align-items-center flex-nowrap">
+                                            <div class="col-auto text-secondary text-nowrap utc-datetime pe-1"
+                                                data-utc-datetime="{{ match.date|date:'c' }}">
+                                                <span class="js-local-date">{{ match.date|date:"D d M" }}</span>
+                                                <span class="text-success js-local-time ms-1">{{ match.date|date:"H:i" }}</span>
+                                            </div>
+                                            <div class="col px-1">
+                                                <div class="row align-items-center g-0 px-2">
+                                                    <div class="col-5 d-flex justify-content-end align-items-center pe-2">
+                                                        <span class="text-end text-truncate me-2">{{ match.home_team.name }}</span>
+                                                        {% if match.home_team.logo_url %}
+                                                            <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-2 text-center">
+                                                        <span class="badge bg-secondary bg-opacity-25 text-white px-1" style="font-size: 0.65rem;">vs</span>
+                                                    </div>
+                                                    <div class="col-5 d-flex justify-content-start align-items-center ps-2">
+                                                        {% if match.away_team.logo_url %}
+                                                            <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" class="me-2" loading="lazy" decoding="async" width="20" height="20">
+                                                        {% endif %}
+                                                        <span class="text-start text-truncate">{{ match.away_team.name }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto text-end ps-1">
+                                                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="btn btn-sm btn-success fw-bold text-nowrap" style="font-size: 0.7rem; padding: 4px 8px;" title="Match Analysis">
+                                                    {% translate "Analyze" %} <i class="fa-solid fa-arrow-right ms-1"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="list-group-item bg-transparent text-secondary text-center py-3">
+                                        {% translate "No upcoming matches." %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Latest Results -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 fw-bold">{% translate "Results" %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="custom-scrollbar" style="max-height: 350px; overflow-y: auto;">
+                                <div class="list-group list-group-flush bg-transparent">
+                                    {% for match in latest_results %}
+                                    <div
+                                        class="list-group-item bg-transparent border-bottom border-secondary border-opacity-10 py-2 text-white small">
+                                        <div class="row align-items-center flex-nowrap">
+                                            <div class="col-auto text-secondary text-nowrap utc-datetime pe-1"
+                                                data-utc-datetime="{{ match.date|date:'c' }}">
+                                                <span class="js-local-date">{{ match.date|date:"D d M" }}</span>
+                                            </div>
+                                            <div class="col px-1">
+                                                <div class="row align-items-center g-0 px-2">
+                                                    <div class="col-5 d-flex justify-content-end align-items-center pe-2">
+                                                        <span class="text-end text-truncate me-2">{{ match.home_team.name }}</span>
+                                                        {% if match.home_team.logo_url %}
+                                                            <img src="{{ match.home_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" loading="lazy" decoding="async" width="20" height="20">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-2 text-center">
+                                                        <span class="badge bg-white bg-opacity-25 text-white px-1">{{ match.home_score }} : {{ match.away_score }}</span>
+                                                    </div>
+                                                    <div class="col-5 d-flex justify-content-start align-items-center ps-2">
+                                                        {% if match.away_team.logo_url %}
+                                                            <img src="{{ match.away_team.logo_url }}" onerror="this.style.display='none'" style="width: 20px; height: 20px; object-fit: contain;" class="me-2" loading="lazy" decoding="async" width="20" height="20">
+                                                        {% endif %}
+                                                        <span class="text-start text-truncate">{{ match.away_team.name }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto text-end ps-1">
+                                                <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}"
+                                                    class="btn btn-sm btn-outline-secondary text-nowrap"
+                                                    style="font-size: 0.7rem; padding: 1px 5px;" title="Match Analysis">stats</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="list-group-item bg-transparent text-secondary text-center py-3">
+                                        {% translate "No recent results." %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                <!-- Estatísticas da Liga -->
+                    <!-- Win Distribution & Common Scores -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 small fw-bold text-uppercase" title="{% translate "Results Trend" %}">{% translate "Results Trend" %}</h6>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-center py-2">
+                            <p class="text-white-50 mb-2" style="font-size: 0.75rem; line-height: 1.2;">{% translate "In this league, who tends to win the most matches?" %}</p>
+                            <div class="progress w-100 mb-2" style="height: 10px; border-radius: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                    style="width: {{ league_stats.home_win_pct|unlocalize }}%;"
+                                    title="{% translate "Home Wins" %}: {{ league_stats.home_win_pct }}%">
+                                </div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    style="width: {{ league_stats.draw_pct|unlocalize }}%;"
+                                    title="{% translate "Draw" %}: {{ league_stats.draw_pct }}%">
+                                </div>
+                                <div class="progress-bar bg-danger" role="progressbar"
+                                    style="width: {{ league_stats.away_win_pct|unlocalize }}%;"
+                                    title="{% translate "Away Wins" %}: {{ league_stats.away_win_pct }}%">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between text-light mt-1" style="font-size: 0.75rem; font-weight: 500;">
+                                <span><i class="fa-solid fa-square text-success me-1"></i>{% translate "Home" %} ({{ league_stats.home_win_pct }}%)</span>
+                                <span><i class="fa-solid fa-square text-secondary me-1"></i>{% translate "Draw" %} ({{ league_stats.draw_pct }}%)</span>
+                                <span><i class="fa-solid fa-square text-danger me-1"></i>{% translate "Away" %} ({{ league_stats.away_win_pct }}%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-2">
+                            <h6 class="mb-0 small fw-bold text-uppercase">{% translate "Most Common Scores" %}</h6>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-between py-2 px-4">
+                            {% for score in common_scores %}
+                            <div class="text-center">
+                                <h6 class="fw-bold mb-0 text-white">{{ score.score }}</h6>
+                                <span class="text-info fw-semibold" style="font-size: 0.75rem;">{{ score.pct }}%</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- Home vs Away Dependency -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">{% translate "Home vs Away Performance Dependency" %}</h5>
+                            <small class="text-secondary">{% translate "Which teams rely most on home advantage? Positive Diff = Stronger at Home." %}</small>
+                        </div>                        <div class="row g-0">
+                            <!-- Left Column -->
+                            <div class="col-lg-6 border-end border-secondary border-opacity-25">
+                                <div class="table-responsive h-100">
+                                    <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                        <thead>
+                                            <tr class="text-secondary text-uppercase">
+                                                <th class="ps-3 text-start">{% translate "Team" %}</th>
+                                                <th title="{% translate 'Points Per Game earned at Home' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Home PPG" %}</th>
+                                                <th title="{% translate 'Points Per Game earned Away' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Away PPG" %}</th>
+                                                <th title="{% translate 'Difference between Home and Away PPG' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Diff" %}</th>
+                                                <th class="ps-3 text-start" title="{% translate 'Visual balance showing home vs away strength' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Balance" %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in relative_table %}
+                                            {% if forloop.counter0|divisibleby:2 %}
+                                            <tr>
+                                                <td class="ps-3 text-start fw-bold">
+                                                    <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-decoration-none text-white text-truncate d-block" style="max-width: 130px;">
+                                                        {{ row.team.name }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-success">{{ row.ppg_home }}</td>
+                                                <td class="text-warning">{{ row.ppg_away }}</td>
+                                                <td class="fw-bold">
+                                                    {% if row.ppg_diff > 0 %}
+                                                    <span class="text-success">+{{ row.ppg_diff }}</span>
+                                                    {% elif row.ppg_diff < 0 %}
+                                                    <span class="text-info">{{ row.ppg_diff }}</span>
+                                                    {% else %}
+                                                    <span class="text-secondary">-</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="ps-3 text-start">
+                                                    <div class="progress" style="height: 10px; max-width: 120px;">
+                                                        {% if row.ppg_diff > 0 %}
+                                                        <div class="progress-bar bg-success" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="{% translate 'Better at Home' %}"></div>
+                                                        {% elif row.ppg_diff < 0 %}
+                                                        <div class="progress-bar bg-info" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="{% translate 'Better Away' %}"></div>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-lg-6">
+                                <div class="table-responsive h-100">
+                                    <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                        <thead>
+                                            <tr class="text-secondary text-uppercase">
+                                                <th class="ps-3 text-start">{% translate "Team" %}</th>
+                                                <th title="{% translate 'Points Per Game earned at Home' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Home PPG" %}</th>
+                                                <th title="{% translate 'Points Per Game earned Away' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Away PPG" %}</th>
+                                                <th title="{% translate 'Difference between Home and Away PPG' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Diff" %}</th>
+                                                <th class="ps-3 text-start" title="{% translate 'Visual balance showing home vs away strength' %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Balance" %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in relative_table %}
+                                            {% if not forloop.counter0|divisibleby:2 %}
+                                            <tr>
+                                                <td class="ps-3 text-start fw-bold">
+                                                    <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}" class="text-decoration-none text-white text-truncate d-block" style="max-width: 130px;">
+                                                        {{ row.team.name }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-success">{{ row.ppg_home }}</td>
+                                                <td class="text-warning">{{ row.ppg_away }}</td>
+                                                <td class="fw-bold">
+                                                    {% if row.ppg_diff > 0 %}
+                                                    <span class="text-success">+{{ row.ppg_diff }}</span>
+                                                    {% elif row.ppg_diff < 0 %}
+                                                    <span class="text-info">{{ row.ppg_diff }}</span>
+                                                    {% else %}
+                                                    <span class="text-secondary">-</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="ps-3 text-start">
+                                                    <div class="progress" style="height: 10px; max-width: 120px;">
+                                                        {% if row.ppg_diff > 0 %}
+                                                        <div class="progress-bar bg-success" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="{% translate 'Better at Home' %}"></div>
+                                                        {% elif row.ppg_diff < 0 %}
+                                                        <div class="progress-bar bg-info" role="progressbar" style="--w: {{ row.bar_width }}px; width: var(--w);" title="{% translate 'Better Away' %}"></div>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>  </div>
+                </div>
+            </div>
+                
+                    
+                    <!-- Pre-Match Analysis Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">{% translate "Pre-Match Analysis" %}</h5>
+                        </div>
+                        <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table
+                                            class="table table-dark table-hover table-sm mb-0 align-middle text-center small"
+                                            style="font-size: 0.9rem;">
+                                            <thead>
+                                                <tr class="text-secondary text-uppercase">
+                                                    <th class="ps-3 text-start">{% translate "Match" %}</th>
+                                                    <th class="text-start">{% translate "Team" %}</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Points Per Game" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">PPG</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Win Percentage" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">W%</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Draw Percentage" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">D%</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Loss Percentage" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">L%</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Average Goals Scored" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">GF</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Average Goals Conceded" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">GA</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Total Goals Average (Scored + Conceded)" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">TG</th>
+                                                    <th class="text-secondary fw-normal" title="{% translate "Percentage of Matches with Over 2.5 Goals" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">2.5+</th>
+                                                    <th class="pe-3 text-end text-secondary fw-normal" title="{% translate "Form in Last 4 Games" %}" style="cursor: help; border-bottom: 1px dashed #6c757d;" data-bs-toggle="tooltip">{% translate "Last 4" %}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in pre_match_analysis %}
+                                                <tr class="border-bottom-0">
+                                                    <td rowspan="2"
+                                                        class="ps-3 text-start align-middle border-bottom border-secondary border-opacity-25 utc-datetime"
+                                                        data-utc-datetime="{{ item.match.date|date:'c' }}">
+                                                        <div class="d-flex flex-column">
+                                                            <span class="text-white fw-bold js-local-date">{{ item.match.date|date:"d M" }}</span>
+                                                            <span class="text-secondary small js-local-time">{{ item.match.date|date:"H:i" }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-start fw-bold text-white">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-success me-1">H</span>
+                                                            <img src="{{ item.match.home_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;" loading="lazy" decoding="async">
+                                                            <span>{{ item.match.home_team.name }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-white">
+                                                        {{ item.home.home.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.home.home.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.home.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.home.home.l_pct }}%</td>
+                                                    <td class="text-white">{{ item.home.home.gf_avg }}</td>
+                                                    <td class="text-white-50">{{ item.home.home.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.home.home.tg_avg }}</td>
+                                                    <td
+                                                        class="text-white">
+                                                        {{ item.home.home.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.home.home.form|slice:"-4:" %}
+                                                            <span
+                                                                class="rounded-circle {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %}"
+                                                                style="width: 8px; height: 8px; display: inline-block; box-shadow: 0 0 3px rgba(0,0,0,0.5);"></span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-secondary border-opacity-25">
+                                                    <td class="text-start fw-bold text-white">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-danger me-1">A</span>
+                                                            <img src="{{ item.match.away_team.logo_url }}" alt="Logo" width="20" height="20" class="me-1" style="object-fit: contain;" loading="lazy" decoding="async">
+                                                            <span>{{ item.match.away_team.name }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="fw-bold text-white">
+                                                        {{ item.away.away.ppg }}</td>
+                                                    <td class="text-secondary">{{ item.away.away.w_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.away.d_pct }}%</td>
+                                                    <td class="text-secondary">{{ item.away.away.l_pct }}%</td>
+                                                    <td class="text-white">{{ item.away.away.gf_avg }}</td>
+                                                    <td class="text-white-50">{{ item.away.away.ga_avg }}</td>
+                                                    <td class="fw-bold">{{ item.away.away.tg_avg }}</td>
+                                                    <td
+                                                        class="text-white">
+                                                        {{ item.away.away.over_25_pct }}%</td>
+                                                    <td class="pe-3 text-end">
+                                                        <div class="d-flex justify-content-end gap-1">
+                                                            {% for res in item.away.away.form|slice:"-4:" %}
+                                                            <span
+                                                                class="rounded-circle {% if res == 'W' %}bg-success{% elif res == 'D' %}bg-warning text-dark{% else %}bg-danger{% endif %}"
+                                                                style="width: 8px; height: 8px; display: inline-block; box-shadow: 0 0 3px rgba(0,0,0,0.5);"></span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="11" class="text-center py-4 text-muted">{% translate "No upcoming matches analysis available." %}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                (function () {
+                    var elements = document.querySelectorAll('.utc-datetime[data-utc-datetime]');
+                    if (!elements.length) return;
+                    elements.forEach(function (el) {
+                        var iso = el.getAttribute('data-utc-datetime');
+                        if (!iso) return;
+                        var dt = new Date(iso);
+                        if (isNaN(dt.getTime())) return;
+                        var dateOptions = { weekday: 'short', day: '2-digit', month: 'short' };
+                        var timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+                        var localDate = dt.toLocaleDateString('{{ request.LANGUAGE_CODE|default:"en" }}', dateOptions);
+                        var localTime = dt.toLocaleTimeString(undefined, timeOptions);
+                        var dateSpan = el.querySelector('.js-local-date');
+                        var timeSpan = el.querySelector('.js-local-time');
+                        if (dateSpan) dateSpan.textContent = localDate;
+                        if (timeSpan) timeSpan.textContent = localTime;
+                    });
+                })();
+            </script>
+                    <!-- Relative Form & Performance -->
+            <div class="row g-4 mb-4">
+                <!-- Relative Form -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">{% translate "Relative Form (Last 8 Matches)" %}</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3">Time</th>
+                                        <th class="text-center" title="{% translate "Average points per game across the entire season" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Overall PPG" %}</th>
+                                        <th class="text-center" title="{% translate "Average points per game in the last 8 matches" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "PPG (Last 8)" %}</th>
+                                        <th class="text-center" title="{% translate "Difference between recent form and overall average" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Diff." %}</th>
+                                        <th class="ps-4" title="{% translate "Graphical view: green (improving form), red (dropping form)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Trend" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings_by_form %}
+                                    <tr>
+                                        <td class="ps-3 fw-bold">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center text-secondary">{{ row.ppg_season }}</td>
+                                        <td class="text-center fw-bold">{{ row.ppg_8 }}</td>
+                                        <td class="text-center">
+                                            {% if row.ppg_diff > 0 %}
+                                            <span class="text-success">+{{ row.ppg_diff }}</span>
+                                            {% elif row.ppg_diff < 0 %} <span class="text-danger">{{ row.ppg_diff }}</span>
+                                                {% else %}
+                                                <span class="text-secondary">-</span>
+                                                {% endif %}
+                                        </td>
+                                        <td class="ps-4">
+                                            <div class="progress" style="height: 12px; max-width: 200px;">
+                                                {% if row.ppg_diff > 0 %}
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);">
+                                                </div>
+                                                {% else %}
+                                                <div class="progress-bar bg-danger" role="progressbar"
+                                                    style="--w: {{ row.relative_form_bar_width }}px; width: var(--w);">
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relative Performance -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">{% translate "Opponent Strength Index (OSI)" %}</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3">Time</th>
+                                        <th class="text-center" title="{% translate "Team average points per game (Total Points / Matches)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Team PPG" %}</th>
+                                        <th class="text-center" title="{% translate "Average points of faced opponents (Measures past schedule difficulty)" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Opp. PPG" %}</th>
+                                        <th class="text-center" title="Multiplicação do {% translate "Team PPG" %} pelo PPG dos Adversários" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Index" %}</th>
+                                        <th class="ps-4" title="{% translate "Graphical visualization of Team Strength in the season" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Strength Chart" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings_by_perf %}
+                                    <tr>
+                                        <td class="ps-3 fw-bold">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center">{{ row.ppg_season }}</td>
+                                        <td class="text-center text-info">{{ row.opponents_ppg }}</td>
+                                        <td class="text-center fw-bold">{{ row.performance_index }}</td>
+                                        <td class="ps-4">
+                                            <div class="progress" style="height: 8px; max-width: 200px;">
+                                                <div class="progress-bar bg-info" role="progressbar"
+                                                    style="--w-pct: {{ row.perf_width_pct }}%; width: var(--w-pct);">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- Run-in & Projected -->
+            <div class="row g-4 mb-4">
+                <!-- Run-in Difficulty -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">{% translate "Run-in Difficulty (Remaining Matches)" %}</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">Time</th>
+                                        <th class="text-nowrap" title="{% translate "Average points of opponents already faced" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Opp. (Played)" %}</th>
+                                        <th class="text-nowrap" title="{% translate "Average points of opponents still to face" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Opp. (Rem.)" %}</th>
+                                        <th class="text-nowrap" title="{% translate "Percentage difference between remaining and played schedule difficulty" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Diff. %" %}</th>
+                                        <th class="text-nowrap" title="{% translate "Average points of the next 4 opponents" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Opp. (Next 4)" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings_by_runin %}
+                                    <tr>
+                                        <td class="ps-3 text-start fw-bold">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-secondary">{{ row.opp_played_ppg }}</td>
+                                        <td class="fw-bold">{{ row.opp_remaining_ppg }}</td>
+                                        <td class="text-nowrap">
+                                            {% if row.runin_diff_pct > 0 %}
+                                            <span class="text-danger fw-bold text-nowrap">+{{ row.runin_diff_pct }}% ({% translate "Harder" %})</span>
+                                            {% elif row.runin_diff_pct < 0 %} <span class="text-success fw-bold text-nowrap">{{ row.runin_diff_pct }}% ({% translate "Easier" %})</span>
+                                                {% else %}
+                                                <span class="text-secondary">0%</span>
+                                                {% endif %}
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="badge {% if row.next_4_ppg > 1.5 %}bg-danger{% elif row.next_4_ppg < 1.0 %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                                {{ row.next_4_ppg }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projected Points -->
+                <div class="col-lg-6">
+                    <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm h-100">
+                        <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                            <h5 class="mb-0 fw-bold">{% translate "Projected Final Standings" %}</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm mb-0 align-middle small text-center">
+                                <thead>
+                                    <tr class="text-secondary text-uppercase">
+                                        <th class="ps-3 text-start">Time</th>
+                                        <th title="{% translate "Points earned so far" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Current Pts" %}</th>
+                                        <th title="{% translate "Number of matches left to play" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Remaining" %}</th>
+                                        <th title="{% translate "Strength Multiplier: adjusts projection based on future games difficulty" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Mult." %}</th>
+                                        <th title="{% translate "Expected average points per game for the remainder of the season" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Proj. PPG" %}</th>
+                                        <th class="text-info fw-bold" title="{% translate "Projected total points at the end of the season" %}" data-bs-toggle="tooltip" style="cursor: help; border-bottom: 1px dashed #6c757d;">{% translate "Proj. Total" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in standings_by_proj %}
+                                    <tr>
+                                        <td class="ps-3 text-start fw-bold">
+                                            <a href="{% url 'matches:team_stats_full' country_name=league.country|country_en|slugify league_name=league.name|slugify team_name=row.team.name|slugify %}"
+                                                class="text-decoration-none text-white">
+                                                {{ row.team.name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ row.points }}</td>
+                                        <td>{{ row.games_remaining }}</td>
+                                        <td class="text-secondary">{{ row.proj_ratio }}</td>
+                                        <td>{{ row.proj_ppg }}</td>
+                                        <td class="text-info fw-bold">{{ row.proj_total|floatformat:0 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- Bottom Ad Slot (injected via JS to avoid cache) -->
+
+
+            <!-- SEO Text Block (Bottom of Page) -->
+        <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
+            <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">
+                <h5 class="mb-0 fw-bold text-info">
+                    <i class="fa-solid fa-chart-line me-2"></i>{% translate "Season Summary" %}: {{ league.name }}
+                </h5>
+            </div>
+            <div class="card-body p-4 seo-card-body" style="font-size: 0.92rem;">
+                <p class="mb-3">
+                    {% blocktranslate with league_name=league.name %}Follow the complete performance of the teams in the <strong>{{ league_name }}</strong>. The standings table above is updated in real time after each match, providing the latest positions and points accumulated by the teams.{% endblocktranslate %}
+                </p>
+                
+                {% if league_stats.avg_goals_match %}
+                <p class="mb-3">
+                    {% blocktranslate with avg_g=league_stats.avg_goals_match btts=league_stats.btts_pct over25=league_stats.over25_pct %}This season, the league features an average of <strong>{{ avg_g }} goals per match</strong>. Statistics show that in <strong>{{ btts }}%</strong> of the matches both teams score goals (BTTS), while <strong>{{ over25 }}%</strong> of the matches end with more than 2.5 goals in total.{% endblocktranslate %}
+                </p>
+                {% endif %}
+                
+                <p class="mb-0">
+                    {% blocktranslate %}Analyze the progression of each team, the average points per game (PPG), and win rates to make the best projections. StatsFut is your ultimate platform to follow world football with accurate data.{% endblocktranslate %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Right Sidebar (25% Width) for Ads -->
+    <div class="col-lg-3">
+        <div class="sticky-top" style="top: 20px; z-index: 100;">
+            {% include 'matches/includes/sidebar_widgets.html' %}
+            <div class="ad-placeholder mt-3" data-ad-slot="7384735802" data-ad-format="vertical"></div>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<style>
+    /* Custom Scrollbar for tables and lists */
+    .table-responsive::-webkit-scrollbar,
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 6px;
+        width: 6px;
+        /* Added width for vertical scrollbar */
+    }
+
+    .table-responsive::-webkit-scrollbar-track,
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb,
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover,
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
+
+    .letter-spacing-2 {
+        letter-spacing: 2px;
+    }
+</style>
+{% endcache %}
+
+
+{% endblock %}

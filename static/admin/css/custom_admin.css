@@ -1,0 +1,30 @@
+/* ═══════════════════════════════════════════════════════
+   StatsFut Admin — Dark Background Fix
+   Apenas corrige o fundo branco da área de conteúdo.
+   NÃO mexe em botões, links ou cards (o Darkly já cuida).
+   ═══════════════════════════════════════════════════════ */
+
+.content-wrapper {
+    background-color: #222 !important;
+}
+
+.main-footer {
+    background-color: #222 !important;
+    border-top: 1px solid #444 !important;
+}
+
+.login-page {
+    background-color: #222 !important;
+}
+
+/* Conserta as migalhas de pão (Breadcrumbs) no topo direito */
+.breadcrumb {
+    background-color: transparent !important;
+    border: none !important;
+}
+.breadcrumb-item a {
+    color: #00d4ff !important;
+}
+.breadcrumb-item.active {
+    color: #a0aec0 !important;
+}

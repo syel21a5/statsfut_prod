@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% translate "Create Account" %} | StatsFut{% endblock %}
+{% block meta_description %}{% translate "Create your StatsFut account to access premium football analytics and advanced statistics." %}{% endblock %}
+
+{% block header %}
+<h1 class="h3 mb-0 text-white"><i class="fa-solid fa-user-plus me-2 text-primary"></i>{% translate "Create Account" %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+        <div class="p-4 p-md-5 rounded-4 shadow-lg" style="background: var(--bg-panel); border: 1px solid var(--border);">
+            
+            <!-- Header Icon -->
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 72px; height: 72px; background: linear-gradient(135deg, #22c55e, #10b981);">
+                    <i class="fa-solid fa-user-plus fa-2x text-white"></i>
+                </div>
+                <h2 class="h4 text-white mb-1">{% translate "Join StatsFut" %}</h2>
+                <p class="text-secondary small mb-0">{% translate "Create your account and unlock advanced analytics" %}</p>
+            </div>
+
+            <!-- Messages -->
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-0 small" role="alert" style="background: rgba(34,197,94,0.15); color: #22c55e;">
+                {{ message }}
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- Form Errors -->
+            {% if form.errors %}
+            <div class="alert border-0 small mb-3" style="background: rgba(239,68,68,0.15); color: #ef4444;">
+                <i class="fa-solid fa-circle-exclamation me-1"></i>
+                <ul class="mb-0 ps-3">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Register Form -->
+            <form method="post" id="register-form">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_register_username" class="form-label text-secondary small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-user me-1"></i>{% translate "Username" %}
+                    </label>
+                    {{ form.username }}
+                    <div class="form-text text-secondary" style="font-size: 0.7rem;">{% translate "Letters, digits and @/./+/-/_ only." %}</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_register_email" class="form-label text-secondary small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-envelope me-1"></i>{% translate "Email" %}
+                    </label>
+                    {{ form.email }}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_register_password1" class="form-label text-secondary small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-lock me-1"></i>{% translate "Password" %}
+                    </label>
+                    {{ form.password1 }}
+                    <div class="form-text text-secondary" style="font-size: 0.7rem;">{% translate "At least 8 characters." %}</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_register_password2" class="form-label text-secondary small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-lock me-1"></i>{% translate "Confirm Password" %}
+                    </label>
+                    {{ form.password2 }}
+                </div>
+
+                <button type="submit" id="btn-register" class="btn w-100 py-2 fw-bold mt-2 text-white" style="background: linear-gradient(135deg, #22c55e, #10b981); border: none; border-radius: 10px; font-size: 1rem; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                    <i class="fa-solid fa-rocket me-2"></i>{% translate "Create Account" %}
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="d-flex align-items-center my-4">
+                <hr class="flex-grow-1 border-secondary border-opacity-25">
+                <span class="px-3 text-secondary small">{% translate "OR" %}</span>
+                <hr class="flex-grow-1 border-secondary border-opacity-25">
+            </div>
+
+            <!-- Login Link -->
+            <div class="text-center">
+                <p class="text-secondary small mb-2">{% translate "Already have an account?" %}</p>
+                <a href="{% url 'members:login' %}" id="link-login" class="btn btn-outline-light w-100 py-2" style="border-radius: 10px; border-color: var(--border);">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>{% translate "Sign In" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #register-form .form-control:focus {
+        border-color: #22c55e;
+        box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.25);
+    }
+    #btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35);
+    }
+    #link-login:hover {
+        background: rgba(255,255,255,0.05);
+        border-color: var(--primary);
+    }
+</style>
+{% endblock %}

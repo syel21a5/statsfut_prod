@@ -1,0 +1,109 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <script>
+        (function() {
+            var mode = localStorage.getItem('jazzmin-theme-mode') || 'light';
+            if (mode === 'auto') {
+                mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-bs-theme', mode);
+        })();
+    </script>
+
+    <title>Log in | StatsFut Admin</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/static/vendor/fontawesome-free/css/all.min.css">
+
+    <!-- Bootstrap and adminLTE -->
+    <link rel="stylesheet" href="/static/vendor/adminlte/css/adminlte.min.css">
+
+    <!-- Bootswatch theme -->
+    
+        <link rel="stylesheet" href="/static/vendor/bootswatch/darkly/bootstrap.min.css" id="jazzmin-theme" />
+    
+
+    <!-- Custom fixes for django -->
+    <link rel="stylesheet" href="/static/jazzmin/css/main.css">
+
+    
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/static/admin/css/custom_admin.css">
+    
+
+    <!-- favicons -->
+    <link rel="shortcut icon" href="/static/vendor/adminlte/img/AdminLTELogo.png" type="image/png">
+    <link rel="icon" href="/static/vendor/adminlte/img/AdminLTELogo.png" sizes="32x32" type="image/png">
+
+    
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    
+
+     
+     
+</head>
+<body class="login-page bg-body-secondary">
+
+<div class="login-box">
+    <div class="login-logo">
+        
+            <img class="logo-light" src="/static/vendor/adminlte/img/AdminLTELogo.png" alt="StatsFut">
+            <img class="logo-dark" src="/static/vendor/adminlte/img/AdminLTELogo.png" alt="StatsFut">
+        
+    </div>
+
+    <div class="card">
+        <div class="card-body login-card-body">
+            
+    <p class="login-box-msg">Bem-vindo ao Painel StatsFut</p>
+    <form action="/admin/login/?next=/admin/" method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value="p3YVc3RyTnl6kDNTXLlejukJkmrXJVOU1rCOUW9u3eoZeshfwEJqcmGteL3HugWX">
+        
+        
+        <div class="input-group mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
+            <span class="input-group-text">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <span class="input-group-text">
+                <i class="fas fa-lock"></i>
+            </span>
+        </div>
+        
+        
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+                Log in
+            </button>
+        </div>
+    </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<!-- Bootstrap 5 -->
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/vendor/adminlte/js/adminlte.min.js"></script>
+
+
+
+</body>
+</html>

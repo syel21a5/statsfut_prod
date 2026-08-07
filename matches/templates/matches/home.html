@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load static matches_extras i18n cache %}
+
+{% block title %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}StatsFut - Estatísticas de Futebol, Previsões e Análise de Confrontos{% elif request.LANGUAGE_CODE == 'es' %}StatsFut - Estadísticas de Fútbol, Pronósticos y Análisis de Enfrentamientos{% elif request.LANGUAGE_CODE == 'de' %}StatsFut - Fußball-Statistiken, Vorhersagen & Spielanalysen{% else %}StatsFut - Football Statistics, Predictions & Match Analysis{% endif %}
+{% endblock %}
+{% block meta_description %}
+{% if request.LANGUAGE_CODE == 'pt-br' %}Explore estatísticas avançadas de futebol, análise pré-jogo, previsões Over/Under e confrontos diretos das principais ligas do mundo. StatsFut - Sua vantagem baseada em dados.{% elif request.LANGUAGE_CODE == 'es' %}Explora estadísticas avanzadas de fútbol, análisis previo al partido, pronósticos Over/Under y enfrentamientos directos de las mejores ligas del mundo. StatsFut - Tu ventaja basada en datos.{% elif request.LANGUAGE_CODE == 'de' %}Entdecke erweiterte Fußball-Statistiken, Spielanalysen, Over/Under-Vorhersagen und direkte Vergleiche der besten Ligen der Welt. StatsFut – Dein datenbasierter Vorteil.{% else %}Explore advanced football statistics, pre-match analysis, Over/Under predictions and head-to-head data for the world's top leagues. StatsFut - Your data-driven edge.{% endif %}
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "StatsFut",
+  "url": "{{ request.build_absolute_uri }}"
+}
+</script>
+{% endblock %}
+
+{% block header %}
+<h1 class="h2 fw-bold text-white mb-0">{{ page_title }}</h1>
+{% endblock %}
+{% block content %}
+
+{% if tip_of_the_day %}
+<a href="{% url 'matches:match_detail' pk=tip_of_the_day.match.pk slug=tip_of_the_day.match.slug %}" class="text-decoration-none text-inherit d-block mb-4">
+    <div class="glass-card premium-tip-card p-4 rounded-4 position-relative overflow-hidden hover-effect" style="border: 1px solid rgba(255, 193, 7, 0.3); background: linear-gradient(135deg, rgba(20, 20, 20, 0.7) 0%, rgba(30, 30, 30, 0.7) 100%);">
+        
+        <!-- Banner indicator -->
+        <div class="position-absolute top-0 end-0 bg-warning text-black fw-bold px-3 py-1 rounded-bl-4 small shadow-sm" style="border-bottom-left-radius: 12px; letter-spacing: 0.5px;">
+            <i class="fa-solid fa-star me-1"></i>{% translate "Tip of the Day" %}
+        </div>
+
+        <div class="row align-items-center">
+            <!-- Left Info -->
+            <div class="col-lg-5 mb-3 mb-lg-0">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-warning bg-opacity-10 text-warning px-2.5 py-1.5 fw-bold small">{{ tip_of_the_day.match.league.name }}</span>
+                    <span class="text-white-50 text-xs">{{ tip_of_the_day.match.date|date:"d/m H:i" }}</span>
+                </div>
+                
+                <!-- Match display -->
+                <div class="d-flex align-items-center gap-3 my-3">
+                    <div class="d-flex align-items-center gap-2">
+                        {% if tip_of_the_day.match.home_team.logo_url %}
+                        <img src="{{ tip_of_the_day.match.home_team.logo_url }}" alt="{{ tip_of_the_day.match.home_team.name }}" style="width: 40px; height: 40px; object-fit: contain;" width="40" height="40">
+                        {% endif %}
+                        <span class="text-white fw-bold fs-5">{{ tip_of_the_day.match.home_team.name }}</span>
+                    </div>
+                    <span class="text-warning fw-bold fs-5">VS</span>
+                    <div class="d-flex align-items-center gap-2">
+                        {% if tip_of_the_day.match.away_team.logo_url %}
+                        <img src="{{ tip_of_the_day.match.away_team.logo_url }}" alt="{{ tip_of_the_day.match.away_team.name }}" style="width: 40px; height: 40px; object-fit: contain;" width="40" height="40">
+                        {% endif %}
+                        <span class="text-white fw-bold fs-5">{{ tip_of_the_day.match.away_team.name }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Middle -->
+            <div class="col-lg-4 mb-3 mb-lg-0 border-lg-start border-secondary border-opacity-25 px-lg-4">
+                <div class="small text-white-50 mb-2">{% translate "Key Statistics" %}</div>
+                <div class="d-flex flex-column gap-2 text-white small">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span><i class="fa-solid fa-chart-line text-primary me-2"></i>{% translate "Form (Home/Away)" %}</span>
+                        <span class="fw-bold">{{ tip_of_the_day.report.general_form.home.win_pct }}% / {{ tip_of_the_day.report.general_form.away.win_pct }}%</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span><i class="fa-solid fa-circle-arrow-up text-success me-2"></i>{% translate "Over 2.5 Goals" %}</span>
+                        <span class="fw-bold text-success">{{ tip_of_the_day.report.goals.over_25 }}%</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span><i class="fa-solid fa-envelope text-info me-2"></i>{% translate "Both Teams to Score" %}</span>
+                        <span class="fw-bold text-info">{{ tip_of_the_day.report.goals.btts }}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip/Action Right -->
+            <div class="col-lg-3 text-lg-end">
+                <div class="small text-white-50 mb-1">{% translate "Prediction" %}</div>
+                <div class="fs-4 text-warning fw-extrabold mb-3">{{ tip_of_the_day.tip_text }}</div>
+                <div class="btn btn-warning btn-sm fw-bold text-black rounded-pill px-4 py-2 hover-scale">
+                    {% translate "Analysis" %} <i class="fa-solid fa-arrow-right ms-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative background glow -->
+        <div class="position-absolute start-0 bottom-0 w-50 h-50 bg-warning opacity-10 rounded-circle blur-3xl pointer-events-none" style="filter: blur(80px); transform: translate(-20%, 20%);"></div>
+    </div>
+</a>
+{% endif %}
+
+<!-- Filters Row -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    
+    <!-- Date Filters -->
+    <div class="bg-dark p-1 rounded-3 d-inline-flex border border-secondary border-opacity-25">
+        <a href="?filter=today" class="btn btn-sm {% if current_filter == 'today' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">{% translate "Today" %}</a>
+        <a href="?filter=tomorrow" class="btn btn-sm {% if current_filter == 'tomorrow' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">{% translate "Tomorrow" %}</a>
+        <a href="?filter=next_round" class="btn btn-sm {% if current_filter == 'next_round' %}btn-primary active text-white fw-bold{% else %}btn-link text-decoration-none text-light opacity-75{% endif %} px-3 rounded-2">{% translate "Next Round" %}</a>
+    </div>
+
+    <!-- Status Filters -->
+    <div class="d-flex gap-2" id="status-filters">
+        <button onclick="filterStatus('upcoming')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-upcoming">{% translate "Upcoming" %}</button>
+        {% if current_filter != 'tomorrow' and current_filter != 'next_round' %}
+            <button onclick="filterStatus('finished')" class="btn btn-sm rounded-pill px-3 fw-bold status-btn" id="btn-finished">{% translate "Finished" %}</button>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    let currentFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // If viewing next round or tomorrow, force "All" filter (implicit)
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterType = urlParams.get('filter');
+
+        // Initial state is 'all' unless specified otherwise
+        // No button is active by default for 'all'
+    });
+
+    function filterStatus(status) {
+        const btn = document.getElementById('btn-' + status);
+        const wasActive = btn.classList.contains('active');
+
+        // Reset all buttons first
+        document.querySelectorAll('.status-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+
+        // Toggle logic: If clicking active button, revert to 'all'. Else set new filter.
+        if (wasActive) {
+            currentFilter = 'all';
+            // No button active = "All" mode
+        } else {
+            currentFilter = status;
+            // Activate clicked button
+            btn.classList.add('active');
+        }
+
+        // Apply filter to cards
+        const wrappers = document.querySelectorAll('.match-card-wrapper');
+        let visibleCount = 0;
+
+        wrappers.forEach(wrapper => {
+            const card = wrapper.querySelector('.match-card');
+            if (!card) return;
+            
+            const cardStatus = card.getAttribute('data-status');
+            let shouldShow = false;
+
+            if (currentFilter === 'all') {
+                shouldShow = true;
+            } else if (currentFilter === 'upcoming') {
+                shouldShow = (cardStatus === 'Scheduled' || cardStatus === 'TIMED' || cardStatus === 'Not Started' || cardStatus === 'Postponed');
+            } else if (currentFilter === 'finished') {
+                shouldShow = (cardStatus === 'Finished' || cardStatus === 'FT' || cardStatus === 'AET' || cardStatus === 'PEN');
+            }
+
+            wrapper.style.display = shouldShow ? 'block' : 'none';
+            if (shouldShow) visibleCount++;
+        });
+
+        // Hide empty leagues and countries
+        document.querySelectorAll('.league-group').forEach(league => {
+            const visibleMatches = league.querySelectorAll('.match-card-wrapper[style="display: block;"]').length;
+            league.style.display = visibleMatches > 0 ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.country-section').forEach(country => {
+            const visibleLeagues = country.querySelectorAll('.league-group[style="display: block;"]').length;
+            country.style.display = visibleLeagues > 0 ? 'block' : 'none';
+        });
+
+        // Show message if no cards visible
+        const emptyMsg = document.getElementById('empty-message');
+        if (visibleCount === 0) {
+             emptyMsg.classList.remove('d-none');
+        } else {
+             emptyMsg.classList.add('d-none');
+        }
+    }
+</script>
+
+<style>
+    /* Custom override for buttons */
+    .btn-link:hover { color: var(--text-main) !important; }
+    
+    /* Status Buttons Visibility Fix */
+    .status-btn {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.7);
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+    .status-btn:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #fff;
+    }
+    .status-btn.active {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+        color: #000 !important;
+        font-weight: bold;
+    }
+
+    /* Ensure grid works with Bootstrap */
+    .matches-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+    }
+</style>
+
+
+
+
+<div class="matches-container">
+    {% cache cache_timeout home_matches current_filter request.LANGUAGE_CODE %}
+    {% for country_data in grouped_matches %}
+    <div class="country-section mb-5" id="country-{{ forloop.counter }}">
+        <h2 class="h4 text-white fw-bold d-flex align-items-center gap-3 mb-4 section-title">
+            <span class="fi fi-{{ country_data.flag_code }} rounded-1 shadow-sm"></span>
+            {{ country_data.country|country_en }}
+            <div class="flex-grow-1 border-bottom border-secondary border-opacity-25 ms-2"></div>
+        </h2>
+        
+        {% for league_data in country_data.leagues %}
+        <div class="league-group mb-4" id="league-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
+            <div class="league-header-premium p-3 mb-3 d-flex justify-content-between align-items-center rounded-3">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-circle-nodes text-primary small"></i>
+                    <span class="fw-bold text-uppercase tracking-wider small">{{ league_data.name }}</span>
+                </div>
+                <div class="small text-muted fw-medium">
+                    <span class="match-count">{{ league_data.matches|length }}</span> {% translate "matches" %}
+                </div>
+            </div>
+            
+            <div class="matches-grid">
+                {% for match in league_data.matches %}
+                <a href="{% url 'matches:h2h_detail' country_name=match.league.country|slugify league_name=match.league.name|slugify team1_name=match.home_team.name|slugify team2_name=match.away_team.name|slugify %}" class="text-decoration-none text-inherit match-card-wrapper">
+                    <div class="match-card glass-card p-2 px-3 rounded-4 border border-secondary position-relative overflow-hidden hover-effect" data-status="{{ match.status }}">
+                        <div class="d-flex justify-content-between mb-2 small text-white">
+                            <div class="fw-bold d-flex align-items-center gap-2">
+                                {% if match.status == 'Live' %}
+                                <span class="text-success pulse-text">{% translate "LIVE" %}</span>
+                                <span class="live-dot"></span>
+                                {% else %}
+                                <i class="fa-regular fa-clock text-white-50"></i>
+                                {% endif %}
+                                
+                                {% if match.status == 'Scheduled' %}
+                                    {{ match.date|date:"H:i" }}
+                                {% elif match.status == 'Live' %}
+                                    {{ match.elapsed_time|default:"1" }}'
+                                {% else %}
+                                    {{ match.status }}
+                                {% endif %}
+                            </div>
+                            <div class="text-xs text-white-50 fw-medium">
+                                {{ match.round_name|default:"" }}
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-3 align-items-center">
+                            <!-- Teams Column -->
+                            <div class="d-flex flex-column gap-2 flex-grow-1">
+                                <div class="team-name d-flex align-items-center gap-2">
+                                    {% if match.home_team.logo_url %}
+                                    <img src="{{ match.home_team.logo_url }}" alt="{{ match.home_team.name }}" style="width: 32px; height: 32px; object-fit: contain;" width="32" height="32">
+                                    {% else %}
+                                    <div class="team-initial bg-primary bg-opacity-10 text-primary">{{ match.home_team.name|slice:":1" }}</div>
+                                    {% endif %}
+                                    <span class="{% if match.home_score > match.away_score %}text-white fw-bold{% else %}text-light{% endif %} text-truncate" style="max-width: 150px;">{{ match.home_team.name }}</span>
+                                </div>
+                                <div class="team-name d-flex align-items-center gap-2">
+                                    {% if match.away_team.logo_url %}
+                                    <img src="{{ match.away_team.logo_url }}" alt="{{ match.away_team.name }}" style="width: 32px; height: 32px; object-fit: contain;" loading="lazy" decoding="async" width="32" height="32">
+                                    {% else %}
+                                    <div class="team-initial bg-accent bg-opacity-10 text-accent">{{ match.away_team.name|slice:":1" }}</div>
+                                    {% endif %}
+                                    <span class="{% if match.away_score > match.home_score %}text-white fw-bold{% else %}text-light{% endif %} text-truncate" style="max-width: 150px;">{{ match.away_team.name }}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Scores Column -->
+                            <div class="d-flex flex-column gap-2 align-items-center justify-content-center px-3 py-2 rounded-4 border border-secondary border-opacity-25" style="background: rgba(0,0,0,0.2);">
+                                <div class="score-display {% if match.home_score > match.away_score %}active text-white{% else %}text-light{% endif %}">
+                                    {% if match.status == 'Scheduled' %}-{% else %}{{ match.home_score|default:"0" }}{% endif %}
+                                </div>
+                                <div class="score-display {% if match.away_score > match.home_score %}active text-white{% else %}text-light{% endif %}">
+                                    {% if match.status == 'Scheduled' %}-{% else %}{{ match.away_score|default:"0" }}{% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-stats-row mt-2">
+                            <div class="prob-badge prob-over position-relative overflow-hidden">
+                                <div class="position-absolute top-0 start-0 h-100 bg-success opacity-25 js-prob-bar" data-width="{{ match.over_25_prob }}%" style="width: 0%; transition: width 1s ease-in-out;"></div>
+                                <span class="label text-white fw-bold position-relative z-1"><i class="fa-solid fa-arrow-up text-success me-1"></i>O2.5</span>
+                                <span class="value fw-bold text-success position-relative z-1">{{ match.over_25_prob }}%</span>
+                            </div>
+                            <div class="prob-badge prob-under position-relative overflow-hidden">
+                                <div class="position-absolute top-0 start-0 h-100 bg-danger opacity-25 js-prob-bar" data-width="{{ match.under_15_prob }}%" style="width: 0%; transition: width 1s ease-in-out;"></div>
+                                <span class="label text-white fw-bold position-relative z-1"><i class="fa-solid fa-arrow-down text-danger me-1"></i>U1.5</span>
+                                <span class="value fw-bold text-danger position-relative z-1">{{ match.under_15_prob }}%</span>
+                            </div>
+                        </div>
+
+                        {% if match.status == 'Live' %}
+                        <div class="live-stats-row d-flex justify-content-between align-items-center mt-2 pt-2 border-top border-secondary border-opacity-25 small text-white-50">
+                            <span title="Chutes" class="d-inline-flex align-items-center gap-1"><i class="fa-solid fa-futbol text-primary me-1"></i>{{ match.home_shots|default:0 }}x{{ match.away_shots|default:0 }}</span>
+                            <span title="Chutes no gol" class="d-inline-flex align-items-center gap-1"><i class="fa-solid fa-bullseye text-success me-1"></i>{{ match.home_shots_on_target|default:0 }}x{{ match.away_shots_on_target|default:0 }}</span>
+                            <span title="Escanteios" class="d-inline-flex align-items-center gap-1"><i class="fa-solid fa-flag text-warning me-1"></i>{{ match.home_corners|default:0 }}x{{ match.away_corners|default:0 }}</span>
+                            <span title="Posse de bola" class="d-inline-flex align-items-center gap-1"><i class="fa-solid fa-circle-notch text-info me-1"></i>{{ match.home_possession|default:0 }}%</span>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="card-glow"></div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Ad placeholder (injected via JS to avoid cache) -->
+    {% if forloop.counter == 2 %}
+    <div class="ad-placeholder my-5" data-ad-slot="1511520655" data-ad-format="auto" data-ad-position="middle-home"></div>
+    {% endif %}
+
+    {% empty %}
+    <div class="text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
+        <i class="fa-solid fa-ghost mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+        <p class="mb-1">{% translate "No matches found for this period." %}</p>
+        <p class="small opacity-75">{% translate "Try checking another date or filter." %}</p>
+    </div>
+    {% endfor %}
+    {% endcache %}
+    
+    <div id="empty-message" class="d-none text-center p-5 text-muted rounded-4 border border-dashed border-secondary" style="background: var(--bg-panel);">
+        <i class="fa-solid fa-magnifying-glass mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+        <p class="mb-1">{% translate "No matches match your filter." %}</p>
+        <p class="small opacity-75">{% translate "Try resetting the status filter." %}</p>
+    </div>
+</div>
+
+
+
+<style>
+.hover-effect { transition: transform 0.2s, box-shadow 0.2s; }
+.hover-effect:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: var(--primary) !important; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial load bars
+    document.querySelectorAll('.js-prob-bar').forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        setTimeout(() => { bar.style.width = width; }, 100);
+    });
+
+    // Also handle when status filter is used
+    const originalFilterStatus = window.filterStatus;
+    if (typeof originalFilterStatus === 'function') {
+        window.filterStatus = function(status) {
+            originalFilterStatus(status);
+            // Re-trigger bars for visible elements
+            document.querySelectorAll('.match-card-wrapper[style="display: block;"] .js-prob-bar').forEach(bar => {
+                bar.style.width = '0%';
+                setTimeout(() => { bar.style.width = bar.getAttribute('data-width'); }, 50);
+            });
+        };
+    }
+});
+</script>
+
+<script>
+    // Forçar ocultação do botão Finished em filtros tomorrow/next_round
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterType = urlParams.get('filter');
+        
+        const finishedButton = document.getElementById('btn-finished');
+        if (finishedButton) {
+            if (filterType === 'tomorrow' || filterType === 'next_round') {
+                finishedButton.style.display = 'none';
+            } else {
+                finishedButton.style.display = 'inline-block';
+            }
+        }
+    });
+
+    // Atualizar ao mudar de filtro
+    const originalFilterStatus = window.filterStatus;
+    if (typeof originalFilterStatus === 'function') {
+        window.filterStatus = function(status) {
+            originalFilterStatus(status);
+            
+            // Forçar atualização do botão Finished
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterType = urlParams.get('filter');
+            const finishedButton = document.getElementById('btn-finished');
+            if (finishedButton) {
+                if (filterType === 'tomorrow' || filterType === 'next_round') {
+                    finishedButton.style.display = 'none';
+                } else {
+                    finishedButton.style.display = 'inline-block';
+                }
+            }
+        };
+    }
+</script>
+
+
+{% endblock %}

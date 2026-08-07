@@ -1,0 +1,18 @@
+UPDATE betstats.matches_team SET name = 'RSC Anderlecht', api_id = 'sofa_2900' WHERE name = 'Anderlecht' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Royal Antwerp FC', api_id = 'sofa_2889' WHERE name = 'Antwerp' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Cercle Brugge', api_id = 'sofa_2929' WHERE name = 'Cercle Brugge' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'RC Sporting Charleroi', api_id = 'sofa_2898' WHERE name = 'Charleroi' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Club Brugge KV', api_id = 'sofa_2888' WHERE name = 'Club Brugge' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'FCV Dender', api_id = 'sofa_389232' WHERE name = 'Dender' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'KRC Genk', api_id = 'sofa_2890' WHERE name = 'Genk' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'KAA Gent', api_id = 'sofa_2903' WHERE name = 'Gent' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'RAAL La Louvière', api_id = 'sofa_368506' WHERE name = 'La Louviere' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'RAAL La Louvière', api_id = 'sofa_368506' WHERE name = 'RAAL La Louvi?re' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'KV Mechelen', api_id = 'sofa_5044' WHERE name = 'Mechelen' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Oud-Heverlee Leuven', api_id = 'sofa_2918' WHERE name = 'OH Leuven' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Royale Union Saint-Gilloise', api_id = 'sofa_4860' WHERE name = 'Royale Union SG' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Sint-Truidense VV', api_id = 'sofa_2895' WHERE name = 'Sint-Truiden' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Standard Liège', api_id = 'sofa_2901' WHERE name = 'Standard Liege' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'Standard Liège', api_id = 'sofa_2901' WHERE name = 'Standard Li?ge' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'KVC Westerlo', api_id = 'sofa_2893' WHERE name = 'Westerlo' AND league_id = 32;
+UPDATE betstats.matches_team SET name = 'SV Zulte Waregem', api_id = 'sofa_2933' WHERE name = 'Zulte-Waregem' AND league_id = 32;

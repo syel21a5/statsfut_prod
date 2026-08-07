@@ -1,0 +1,634 @@
+= Brasil | Brasileirao 2025
+
+# Date       Sat Mar/29 2025 - Sun Dec/7 2025 (252d)
+# Teams      20
+# Matches    393
+# Stages     Regular Season (393)
+
+
+
+
+» Sat Mar/29
+    21.30  São Paulo                 v Sport Recife              0-0
+    21.30  Juventude                 v Vitória                   2-0
+    21.30  Grêmio                    v Atlético Mineiro          2-1
+    21.30  Fortaleza                 v Fluminense                2-0
+    21.30  Cruzeiro                  v Mirassol                  2-1
+
+» Sun Mar/30
+    00.00  Flamengo                  v Internacional             1-1
+    19.00  Palmeiras                 v Botafogo                  0-0
+    21.30  Vasco da Gama             v Santos                    2-1
+    23.00  Bahia                     v Corinthians               1-1
+
+» Mon Mar/31
+    23.00  Red Bull Bragantino       v Ceara                     2-2
+
+» Sat Apr/5
+    21.30  Corinthians               v Vasco da Gama             3-0
+    21.30  Ceara                     v Grêmio                    2-0
+
+» Sun Apr/6
+    00.00  Botafogo                  v Juventude                 2-0
+    19.00  Fluminense                v Red Bull Bragantino       2-1
+    19.00  Atlético Mineiro          v São Paulo                 0-0
+    21.30  Vitória                   v Flamengo                  1-2
+    21.30  Sport Recife              v Palmeiras                 1-2
+    21.30  Mirassol                  v Fortaleza                 1-1
+    21.30  Internacional             v Cruzeiro                  3-0
+    23.30  Santos                    v Bahia                     2-2
+
+» Sat Apr/12
+    19.00  Red Bull Bragantino       v Botafogo                  1-0
+    19.00  Juventude                 v Ceara                     2-1
+    21.30  Palmeiras                 v Corinthians               2-0
+
+» Sun Apr/13
+    00.00  Vasco da Gama             v Sport Recife              3-1
+    19.00  Bahia                     v Mirassol                  1-1
+    20.30  São Paulo                 v Cruzeiro                  1-1
+    20.30  Grêmio                    v Flamengo                  0-2
+    22.30  Fluminense                v Santos                    1-0
+    23.00  Fortaleza                 v Internacional             0-0
+    23.30  Atlético Mineiro          v Vitória                   2-2
+
+» Wed Apr/16
+    00.30  Ceara                     v Vasco da Gama             2-1
+    21.30  Botafogo                  v São Paulo                 2-2
+    22.00  Sport Recife              v Red Bull Bragantino       0-1
+    22.00  Mirassol                  v Grêmio                    4-1
+    22.30  Internacional             v Palmeiras                 0-1
+    22.30  Corinthians               v Fluminense                0-2
+
+» Thu Apr/17
+    00.30  Vitória                   v Fortaleza                 2-1
+    00.30  Santos                    v Atlético Mineiro          2-0
+    00.30  Flamengo                  v Juventude                 6-0
+
+» Fri Apr/18
+    00.30  Cruzeiro                  v Bahia                     3-0
+
+» Sat Apr/19
+    19.00  Corinthians               v Sport Recife              2-1
+    21.30  Vasco da Gama             v Flamengo                  0-0
+
+» Sun Apr/20
+    00.00  Grêmio                    v Internacional             1-1
+    14.00  Juventude                 v Mirassol                  2-2
+    19.00  São Paulo                 v Santos                    2-1
+    19.00  Atlético Mineiro          v Botafogo                  1-0
+    21.30  Fortaleza                 v Palmeiras                 1-2
+    21.30  Fluminense                v Vitória                   1-1
+    23.30  Red Bull Bragantino       v Cruzeiro                  1-0
+
+» Mon Apr/21
+    23.00  Bahia                     v Ceara                     1-0
+
+» Sat Apr/26
+    19.00  Internacional             v Juventude                 3-1
+    21.30  Mirassol                  v Atlético Mineiro          2-2
+    21.30  Ceara                     v São Paulo                 1-1
+    23.00  Sport Recife              v Fortaleza                 0-0
+
+» Sun Apr/27
+    00.00  Botafogo                  v Fluminense                2-0
+    19.00  Flamengo                  v Corinthians               4-0
+    21.30  Vitória                   v Grêmio                    1-1
+    21.30  Palmeiras                 v Bahia                     0-1
+    21.30  Cruzeiro                  v Vasco da Gama             1-0
+    23.30  Santos                    v Red Bull Bragantino       1-2
+
+» Sat May/3
+    00.30  São Paulo                 v Fortaleza                 0-0
+    21.30  Fluminense                v Sport Recife              2-1
+    21.30  Corinthians               v Internacional             4-2
+    21.30  Ceara                     v Vitória                   1-0
+
+» Sun May/4
+    00.00  Bahia                     v Botafogo                  1-0
+    19.00  Vasco da Gama             v Palmeiras                 0-1
+    19.00  Grêmio                    v Santos                    1-0
+    21.30  Cruzeiro                  v Flamengo                  2-1
+
+» Mon May/5
+    22.00  Red Bull Bragantino       v Mirassol                  1-0
+    23.00  Juventude                 v Atlético Mineiro          0-1
+
+» Sat May/10
+    19.00  Fortaleza                 v Juventude                 5-0
+    21.30  Vitória                   v Vasco da Gama             2-1
+    21.30  Mirassol                  v Corinthians               2-1
+    21.30  Grêmio                    v Red Bull Bragantino       1-1
+
+» Sun May/11
+    00.00  Flamengo                  v Bahia                     1-0
+    19.00  Sport Recife              v Cruzeiro                  0-4
+    20.30  Palmeiras                 v São Paulo                 1-0
+    20.30  Atlético Mineiro          v Fluminense                3-2
+    23.00  Botafogo                  v Internacional             4-0
+
+» Mon May/12
+    23.00  Santos                    v Ceara                     0-0
+
+» Sat May/17
+    19.00  Ceara                     v Sport Recife              2-0
+    21.30  Vasco da Gama             v Fortaleza                 3-0
+
+» Sun May/18
+    00.00  São Paulo                 v Grêmio                    2-1
+    19.00  Juventude                 v Fluminense                1-1
+    19.00  Corinthians               v Santos                    1-0
+    19.00  Bahia                     v Vitória                   2-1
+    21.30  Red Bull Bragantino       v Palmeiras                 1-2
+    21.30  Flamengo                  v Botafogo                  0-0
+    23.30  Internacional             v Mirassol                  1-1
+    23.30  Cruzeiro                  v Atlético Mineiro          0-0
+
+» Sat May/24
+    19.00  Botafogo                  v Ceara                     None-None
+    21.30  São Paulo                 v Mirassol                  0-2
+    21.30  Fluminense                v Vasco da Gama             2-1
+
+» Sun May/25
+    00.00  Atlético Mineiro          v Corinthians               0-0
+    14.00  Grêmio                    v Bahia                     1-0
+    19.00  Sport Recife              v Internacional             1-1
+    19.00  Palmeiras                 v Flamengo                  0-2
+    21.30  Vitória                   v Santos                    0-1
+    23.30  Fortaleza                 v Cruzeiro                  0-2
+
+» Mon May/26
+    23.00  Red Bull Bragantino       v Juventude                 1-0
+
+» Sat May/31
+    21.30  Bahia                     v São Paulo                 2-1
+
+» Sun Jun/1
+    00.00  Vasco da Gama             v Red Bull Bragantino       0-2
+    14.00  Mirassol                  v Sport Recife              1-0
+    19.00  Santos                    v Botafogo                  0-1
+    19.00  Juventude                 v Grêmio                    0-2
+    21.30  Flamengo                  v Fortaleza                 5-0
+    21.30  Corinthians               v Vitória                   0-0
+    21.30  Ceara                     v Atlético Mineiro          0-1
+    22.30  Cruzeiro                  v Palmeiras                 2-1
+    23.30  Internacional             v Fluminense                0-2
+
+» Wed Jun/4
+    23.00  Botafogo                  v Ceara                     3-2
+
+» Wed Jun/11
+    18.00  Sport Recife              v Flamengo                  None-None
+    18.00  Palmeiras                 v Juventude                 None-None
+    18.00  Fluminense                v Ceara                     None-None
+    18.00  Botafogo                  v Mirassol                  None-None
+
+» Thu Jun/12
+    22.00  Vitória                   v Cruzeiro                  0-0
+    22.00  Red Bull Bragantino       v Bahia                     0-3
+    22.30  Fortaleza                 v Santos                    2-3
+    23.00  Grêmio                    v Corinthians               1-1
+
+» Fri Jun/13
+    00.30  São Paulo                 v Vasco da Gama             1-3
+    00.30  Atlético Mineiro          v Internacional             2-0
+
+» Sat Jul/12
+    19.30  Internacional             v Vitória                   1-0
+    19.30  Flamengo                  v São Paulo                 2-0
+    21.30  Vasco da Gama             v Botafogo                  0-2
+
+» Sun Jul/13
+    00.00  Bahia                     v Atlético Mineiro          2-1
+    18.00  Santos                    v Palmeiras                 None-None
+    18.00  Mirassol                  v Fluminense                None-None
+    22.00  Corinthians               v Red Bull Bragantino       1-2
+    23.30  Fortaleza                 v Ceara                     0-1
+    23.30  Cruzeiro                  v Grêmio                    4-1
+
+» Mon Jul/14
+    23.00  Juventude                 v Sport Recife              2-0
+
+» Wed Jul/16
+    18.00  Juventude                 v Vasco da Gama             None-None
+    18.00  Bahia                     v Internacional             None-None
+    18.00  Atlético Mineiro          v Sport Recife              None-None
+    22.00  Palmeiras                 v Mirassol                  1-1
+    22.30  Ceara                     v Corinthians               0-1
+    23.00  Santos                    v Flamengo                  1-0
+
+» Thu Jul/17
+    00.30  Red Bull Bragantino       v São Paulo                 2-2
+    00.30  Botafogo                  v Vitória                   0-0
+    22.30  Fluminense                v Cruzeiro                  0-2
+
+» Sat Jul/19
+    19.00  Fortaleza                 v Bahia                     1-1
+    20.30  Vasco da Gama             v Grêmio                    1-1
+    21.30  Mirassol                  v Santos                    3-0
+
+» Sun Jul/20
+    00.00  São Paulo                 v Corinthians               2-0
+    14.00  Internacional             v Ceara                     1-0
+    19.00  Vitória                   v Red Bull Bragantino       1-0
+    19.00  Cruzeiro                  v Juventude                 4-0
+    20.30  Sport Recife              v Botafogo                  0-1
+    20.30  Palmeiras                 v Atlético Mineiro          3-2
+    22.30  Flamengo                  v Fluminense                1-0
+
+» Wed Jul/23
+    18.00  Atlético Mineiro          v Fortaleza                 None-None
+    22.00  Fluminense                v Palmeiras                 1-2
+    22.00  Ceara                     v Mirassol                  0-2
+    22.30  Corinthians               v Cruzeiro                  0-0
+
+» Thu Jul/24
+    00.30  Vitória                   v Sport Recife              2-2
+    00.30  Santos                    v Internacional             1-2
+    00.30  Red Bull Bragantino       v Flamengo                  1-2
+    22.00  Juventude                 v São Paulo                 0-1
+
+» Sat Jul/26
+    21.30  Sport Recife              v Santos                    2-2
+    21.30  Mirassol                  v Vitória                   1-1
+    21.30  Fortaleza                 v Red Bull Bragantino       3-1
+    21.30  Botafogo                  v Corinthians               1-1
+
+» Sun Jul/27
+    00.00  Palmeiras                 v Grêmio                    1-0
+    19.00  São Paulo                 v Fluminense                3-1
+    19.00  Cruzeiro                  v Ceara                     1-2
+    21.30  Internacional             v Vasco da Gama             1-1
+    21.30  Bahia                     v Juventude                 3-0
+    23.30  Flamengo                  v Atlético Mineiro          1-0
+
+» Tue Jul/29
+    23.30  Grêmio                    v Fortaleza                 2-1
+
+» Sat Aug/2
+    19.00  Sport Recife              v Bahia                     0-0
+    21.30  Mirassol                  v Vasco da Gama             3-2
+
+» Sun Aug/3
+    00.00  Fluminense                v Grêmio                    1-0
+    19.00  Corinthians               v Fortaleza                 1-1
+    19.00  Botafogo                  v Cruzeiro                  0-2
+    21.30  Ceara                     v Flamengo                  1-1
+    21.30  Atlético Mineiro          v Red Bull Bragantino       2-1
+    22.30  Vitória                   v Palmeiras                 2-2
+    23.30  Internacional             v São Paulo                 1-2
+
+» Mon Aug/4
+    23.00  Santos                    v Juventude                 3-1
+
+» Sat Aug/9
+    21.30  São Paulo                 v Vitória                   2-0
+    21.30  Red Bull Bragantino       v Internacional             1-3
+    21.30  Flamengo                  v Mirassol                  2-1
+    23.30  Fortaleza                 v Botafogo                  0-5
+
+» Sun Aug/10
+    00.00  Bahia                     v Fluminense                3-3
+    19.00  Vasco da Gama             v Atlético Mineiro          1-1
+    19.00  Palmeiras                 v Ceara                     2-1
+    21.30  Cruzeiro                  v Santos                    1-2
+    23.30  Grêmio                    v Sport Recife              0-1
+
+» Mon Aug/11
+    23.00  Juventude                 v Corinthians               2-1
+
+» Sat Aug/16
+    19.00  Fluminense                v Fortaleza                 2-1
+    19.00  Ceara                     v Red Bull Bragantino       1-0
+    21.30  Vitória                   v Juventude                 2-2
+    21.30  Sport Recife              v São Paulo                 2-2
+
+» Sun Aug/17
+    00.00  Corinthians               v Bahia                     1-2
+    19.00  Santos                    v Vasco da Gama             0-6
+    19.00  Atlético Mineiro          v Grêmio                    1-3
+    21.30  Internacional             v Flamengo                  1-3
+    23.30  Botafogo                  v Palmeiras                 0-1
+
+» Mon Aug/18
+    23.00  Mirassol                  v Cruzeiro                  1-1
+
+» Wed Aug/20
+    22.00  Juventude                 v Vasco da Gama             2-0
+
+» Sat Aug/23
+    19.00  Red Bull Bragantino       v Fluminense                4-2
+    21.30  Cruzeiro                  v Internacional             2-1
+
+» Sun Aug/24
+    00.00  Grêmio                    v Ceara                     0-0
+    19.00  Vasco da Gama             v Corinthians               2-3
+    19.00  Bahia                     v Santos                    2-0
+    21.30  Juventude                 v Botafogo                  1-3
+    21.30  Fortaleza                 v Mirassol                  0-1
+    22.30  Grêmio                    v Botafogo                  None-None
+    23.30  São Paulo                 v Atlético Mineiro          2-0
+
+» Mon Aug/25
+    22.00  Palmeiras                 v Sport Recife              3-0
+
+» Tue Aug/26
+    00.00  Flamengo                  v Vitória                   8-0
+
+» Sat Aug/30
+    19.00  Ceara                     v Juventude                 0-1
+    21.30  Botafogo                  v Red Bull Bragantino       4-1
+
+» Sun Aug/31
+    00.00  Cruzeiro                  v São Paulo                 1-0
+    19.00  Santos                    v Fluminense                0-0
+    19.00  Flamengo                  v Grêmio                    1-1
+    21.30  Vitória                   v Atlético Mineiro          1-0
+    21.30  Mirassol                  v Bahia                     5-1
+    21.30  Corinthians               v Palmeiras                 1-1
+    23.30  Sport Recife              v Vasco da Gama             2-3
+    23.30  Internacional             v Fortaleza                 2-1
+
+» Sat Sep/13
+    19.00  Grêmio                    v Mirassol                  0-1
+    19.00  Fortaleza                 v Vitória                   2-0
+    21.30  Palmeiras                 v Internacional             4-1
+
+» Sun Sep/14
+    00.00  Fluminense                v Corinthians               0-1
+    14.00  Red Bull Bragantino       v Sport Recife              1-1
+    19.00  Juventude                 v Flamengo                  0-2
+    19.00  Atlético Mineiro          v Santos                    1-1
+    20.30  São Paulo                 v Botafogo                  1-0
+    23.30  Vasco da Gama             v Ceara                     2-2
+
+» Mon Sep/15
+    23.00  Bahia                     v Cruzeiro                  1-2
+
+» Wed Sep/17
+    22.30  Botafogo                  v Mirassol                  3-3
+
+» Sat Sep/20
+    19.00  Vitória                   v Fluminense                0-1
+    21.30  Ceara                     v Bahia                     1-1
+    21.30  Botafogo                  v Atlético Mineiro          1-0
+
+» Sun Sep/21
+    00.00  Palmeiras                 v Fortaleza                 4-1
+    19.00  Mirassol                  v Juventude                 2-0
+    20.30  Sport Recife              v Corinthians               1-0
+    20.30  Internacional             v Grêmio                    2-3
+    20.30  Flamengo                  v Vasco da Gama             1-1
+    23.30  Santos                    v São Paulo                 1-0
+    23.30  Cruzeiro                  v Red Bull Bragantino       2-1
+
+» Wed Sep/24
+    22.30  Vasco da Gama             v Bahia                     3-1
+    22.30  Grêmio                    v Botafogo                  1-1
+
+» Sat Sep/27
+    19.00  Fortaleza                 v Sport Recife              1-0
+    21.30  Vasco da Gama             v Cruzeiro                  2-0
+    21.30  Juventude                 v Internacional             1-1
+
+» Sun Sep/28
+    00.00  Atlético Mineiro          v Mirassol                  1-0
+    14.00  Grêmio                    v Vitória                   3-1
+    19.00  Fluminense                v Botafogo                  2-0
+    19.00  Bahia                     v Palmeiras                 1-0
+    21.30  Red Bull Bragantino       v Santos                    2-2
+    23.30  Corinthians               v Flamengo                  1-2
+
+» Mon Sep/29
+    23.00  São Paulo                 v Ceara                     0-1
+
+» Wed Oct/1
+    00.30  Atlético Mineiro          v Juventude                 0-0
+    22.00  Sport Recife              v Fluminense                2-2
+    22.00  Palmeiras                 v Vasco da Gama             3-0
+    22.00  Mirassol                  v Red Bull Bragantino       1-1
+    22.30  Internacional             v Corinthians               1-1
+
+» Thu Oct/2
+    00.30  Santos                    v Grêmio                    1-1
+    00.30  Botafogo                  v Bahia                     2-1
+    22.00  Vitória                   v Ceara                     1-0
+    22.30  Fortaleza                 v São Paulo                 0-2
+    23.30  Flamengo                  v Cruzeiro                  0-0
+
+» Sat Oct/4
+    21.30  Red Bull Bragantino       v Grêmio                    1-0
+    21.30  Internacional             v Botafogo                  2-0
+    21.30  Fluminense                v Atlético Mineiro          3-0
+
+» Sun Oct/5
+    00.00  Corinthians               v Mirassol                  3-0
+    19.00  Vasco da Gama             v Vitória                   4-3
+    19.00  São Paulo                 v Palmeiras                 2-3
+    21.30  Juventude                 v Fortaleza                 1-2
+    21.30  Bahia                     v Flamengo                  1-0
+    23.30  Cruzeiro                  v Sport Recife              1-1
+    23.30  Ceara                     v Santos                    3-0
+
+» Wed Oct/8
+    22.00  Atlético Mineiro          v Sport Recife              3-1
+
+» Thu Oct/9
+    00.00  Mirassol                  v Fluminense                2-1
+
+» Sat Oct/11
+    22.00  Palmeiras                 v Juventude                 4-1
+
+» Wed Oct/15
+    22.00  Palmeiras                 v Red Bull Bragantino       5-1
+    22.30  Botafogo                  v Flamengo                  0-3
+    23.00  Sport Recife              v Ceara                     1-1
+    23.00  Mirassol                  v Internacional             3-1
+
+» Thu Oct/16
+    00.30  Santos                    v Corinthians               3-1
+    00.30  Fortaleza                 v Vasco da Gama             0-2
+    00.30  Atlético Mineiro          v Cruzeiro                  1-1
+    22.00  Grêmio                    v São Paulo                 2-0
+
+» Fri Oct/17
+    00.30  Vitória                   v Bahia                     2-1
+    00.30  Fluminense                v Juventude                 1-0
+
+» Sat Oct/18
+    21.30  Corinthians               v Atlético Mineiro          1-0
+
+» Sun Oct/19
+    00.00  Cruzeiro                  v Fortaleza                 1-0
+    19.00  Flamengo                  v Palmeiras                 3-2
+    21.30  Mirassol                  v São Paulo                 3-0
+    21.30  Internacional             v Sport Recife              2-0
+    21.30  Ceara                     v Botafogo                  0-2
+    23.30  Bahia                     v Grêmio                    4-0
+
+» Mon Oct/20
+    22.00  Juventude                 v Red Bull Bragantino       1-0
+    22.30  Vasco da Gama             v Fluminense                2-0
+
+» Tue Oct/21
+    00.30  Santos                    v Vitória                   0-1
+
+» Wed Oct/22
+    22.00  Bahia                     v Internacional             1-0
+
+» Sat Oct/25
+    19.00  Vitória                   v Corinthians               0-1
+    19.00  Atlético Mineiro          v Ceara                     1-0
+    20.30  Fluminense                v Internacional             1-0
+    21.30  Sport Recife              v Mirassol                  1-2
+    22.30  Fortaleza                 v Flamengo                  1-0
+
+» Sun Oct/26
+    00.30  São Paulo                 v Bahia                     2-0
+    19.00  Grêmio                    v Juventude                 3-1
+    19.00  Botafogo                  v Santos                    2-2
+    21.30  Red Bull Bragantino       v Vasco da Gama             0-3
+    23.30  Palmeiras                 v Cruzeiro                  0-0
+
+» Wed Oct/29
+    22.00  Fluminense                v Ceara                     1-0
+
+» Sat Nov/1
+    19.00  Santos                    v Fortaleza                 1-1
+    19.00  Cruzeiro                  v Vitória                   3-1
+    21.00  Mirassol                  v Botafogo                  0-0
+
+» Sun Nov/2
+    00.00  Flamengo                  v Sport Recife              3-0
+    19.00  Corinthians               v Grêmio                    2-0
+    19.00  Ceara                     v Fluminense                2-0
+    19.00  Bahia                     v Red Bull Bragantino       2-1
+    21.30  Juventude                 v Palmeiras                 0-2
+    21.30  Internacional             v Atlético Mineiro          0-0
+    23.30  Vasco da Gama             v São Paulo                 0-2
+
+» Wed Nov/5
+    22.00  Vitória                   v Internacional             1-0
+    22.00  Sport Recife              v Juventude                 0-2
+    22.00  Red Bull Bragantino       v Corinthians               2-1
+    22.30  Botafogo                  v Vasco da Gama             3-0
+    23.00  Grêmio                    v Cruzeiro                  0-1
+    23.00  Atlético Mineiro          v Bahia                     3-0
+
+» Thu Nov/6
+    00.30  São Paulo                 v Flamengo                  2-2
+    22.30  Fluminense                v Mirassol                  1-0
+    23.00  Ceara                     v Fortaleza                 1-1
+
+» Fri Nov/7
+    00.30  Palmeiras                 v Santos                    2-0
+
+» Sat Nov/8
+    19.00  Sport Recife              v Atlético Mineiro          2-4
+    21.00  Vasco da Gama             v Juventude                 1-3
+    21.30  Internacional             v Bahia                     2-2
+
+» Sun Nov/9
+    00.00  São Paulo                 v Red Bull Bragantino       0-1
+    19.00  Vitória                   v Botafogo                  0-0
+    19.00  Cruzeiro                  v Fluminense                0-0
+    19.00  Corinthians               v Ceara                     0-1
+    21.30  Flamengo                  v Santos                    3-2
+    23.30  Mirassol                  v Palmeiras                 2-1
+    23.30  Fortaleza                 v Grêmio                    2-2
+
+» Wed Nov/12
+    23.30  Atlético Mineiro          v Fortaleza                 3-3
+
+» Sat Nov/15
+    21.30  Sport Recife              v Flamengo                  1-5
+
+» Sun Nov/16
+    00.00  Santos                    v Palmeiras                 1-0
+    22.00  Red Bull Bragantino       v Atlético Mineiro          2-0
+
+» Tue Nov/18
+    23.30  Botafogo                  v Sport Recife              3-2
+
+» Wed Nov/19
+    18.00  Atlético Mineiro          v Palmeiras                 None-None
+    22.30  Palmeiras                 v Vitória                   0-0
+
+» Thu Nov/20
+    00.30  Santos                    v Mirassol                  1-1
+    00.30  Grêmio                    v Vasco da Gama             2-0
+    00.30  Fluminense                v Flamengo                  2-1
+    19.00  Juventude                 v Cruzeiro                  3-3
+    21.00  Bahia                     v Fortaleza                 2-3
+    22.30  Corinthians               v São Paulo                 3-1
+
+» Fri Nov/21
+    00.30  Ceara                     v Internacional             1-2
+
+» Sat Nov/22
+    22.30  Botafogo                  v Grêmio                    3-2
+
+» Sun Nov/23
+    00.30  Palmeiras                 v Fluminense                0-0
+    00.30  Flamengo                  v Red Bull Bragantino       3-0
+    19.00  São Paulo                 v Juventude                 2-1
+    19.00  Bahia                     v Vasco da Gama             1-0
+    21.30  Sport Recife              v Vitória                   1-3
+    23.30  Cruzeiro                  v Corinthians               3-0
+
+» Mon Nov/24
+    22.00  Mirassol                  v Ceara                     3-0
+
+» Tue Nov/25
+    00.00  Internacional             v Santos                    1-1
+
+» Wed Nov/26
+    00.30  Grêmio                    v Palmeiras                 3-2
+    00.30  Atlético Mineiro          v Flamengo                  1-1
+    22.00  Red Bull Bragantino       v Fortaleza                 0-1
+
+» Thu Nov/27
+    23.30  Fluminense                v São Paulo                 6-0
+
+» Fri Nov/28
+    22.00  Juventude                 v Bahia                     1-1
+    22.30  Vasco da Gama             v Internacional             5-1
+
+» Sat Nov/29
+    00.30  Santos                    v Sport Recife              3-0
+    19.00  Vitória                   v Mirassol                  2-0
+
+» Sun Nov/30
+    00.00  Ceara                     v Cruzeiro                  1-1
+    19.00  Corinthians               v Botafogo                  2-2
+    21.30  Fortaleza                 v Atlético Mineiro          1-0
+
+» Tue Dec/2
+    22.00  Vasco da Gama             v Mirassol                  0-2
+
+» Wed Dec/3
+    00.30  Grêmio                    v Fluminense                1-2
+    22.00  Fortaleza                 v Corinthians               2-1
+    22.00  Red Bull Bragantino       v Vitória                   4-0
+    22.30  Juventude                 v Santos                    0-3
+    23.00  São Paulo                 v Internacional             3-0
+    23.00  Bahia                     v Sport Recife              2-0
+
+» Thu Dec/4
+    00.30  Flamengo                  v Ceara                     1-0
+    00.30  Atlético Mineiro          v Palmeiras                 0-3
+    22.30  Cruzeiro                  v Botafogo                  2-2
+
+» Sat Dec/6
+    21.30  Mirassol                  v Flamengo                  3-3
+
+» Sun Dec/7
+    19.00  Vitória                   v São Paulo                 1-0
+    19.00  Sport Recife              v Grêmio                    0-4
+    19.00  Santos                    v Cruzeiro                  3-0
+    19.00  Internacional             v Red Bull Bragantino       3-1
+    19.00  Fluminense                v Bahia                     2-0
+    19.00  Corinthians               v Juventude                 1-1
+    19.00  Ceara                     v Palmeiras                 1-3
+    19.00  Botafogo                  v Fortaleza                 4-2
+    19.00  Atlético Mineiro          v Vasco da Gama             5-0

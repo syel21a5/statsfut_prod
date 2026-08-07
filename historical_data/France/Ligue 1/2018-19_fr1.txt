@@ -1,0 +1,627 @@
+= Franca | Ligue 1 2018/19
+
+# Date       Fri Aug/10 2018 - Fri May/24 2019 (287d)
+# Teams      20
+# Matches    380
+# Stages     Regular Season (380)
+
+
+
+
+» Fri Aug/10
+    00.00  Marseille                 v Toulouse                  4-0
+
+» Sat Aug/11
+    00.00  St Etienne                v Guingamp                  2-1
+    00.00  Nice                      v Reims                     0-1
+    00.00  Nantes                    v Monaco                    1-3
+    00.00  Montpellier               v Dijon                     1-2
+    00.00  Lille                     v Rennes                    3-1
+    00.00  Angers                    v Nimes                     3-4
+
+» Sun Aug/12
+    00.00  PSG                       v Caen                      3-0
+    00.00  Lyon                      v Amiens                    2-0
+    00.00  Bordeaux                  v Strasbourg                0-2
+
+» Fri Aug/17
+    00.00  Reims                     v Lyon                      1-0
+
+» Sat Aug/18
+    00.00  Rennes                    v Angers                    1-0
+    00.00  Monaco                    v Lille                     0-0
+    00.00  Guingamp                  v PSG                       1-3
+    00.00  Dijon                     v Nantes                    2-0
+    00.00  Caen                      v Nice                      1-1
+    00.00  Amiens                    v Montpellier               1-2
+
+» Sun Aug/19
+    00.00  Toulouse                  v Bordeaux                  2-1
+    00.00  Strasbourg                v St Etienne                1-1
+    00.00  Nimes                     v Marseille                 3-1
+
+» Fri Aug/24
+    00.00  Lyon                      v Strasbourg                2-0
+
+» Sat Aug/25
+    00.00  Toulouse                  v Nimes                     1-0
+    00.00  PSG                       v Angers                    3-1
+    00.00  Nice                      v Dijon                     0-4
+    00.00  Nantes                    v Caen                      1-1
+    00.00  Montpellier               v St Etienne                0-0
+    00.00  Amiens                    v Reims                     4-1
+
+» Sun Aug/26
+    00.00  Marseille                 v Rennes                    2-2
+    00.00  Lille                     v Guingamp                  3-0
+    00.00  Bordeaux                  v Monaco                    2-1
+
+» Fri Aug/31
+    00.00  Lyon                      v Nice                      0-1
+
+» Sat Sep/1
+    00.00  Strasbourg                v Nantes                    2-3
+    00.00  Reims                     v Montpellier               0-1
+    00.00  Nimes                     v PSG                       2-4
+    00.00  Guingamp                  v Toulouse                  1-2
+    00.00  Dijon                     v Caen                      0-2
+    00.00  Angers                    v Lille                     1-0
+
+» Sun Sep/2
+    00.00  St Etienne                v Amiens                    0-0
+    00.00  Rennes                    v Bordeaux                  2-0
+    00.00  Monaco                    v Marseille                 2-3
+
+» Fri Sep/14
+    00.00  PSG                       v St Etienne                4-0
+    00.00  Nice                      v Rennes                    2-1
+
+» Sat Sep/15
+    00.00  Toulouse                  v Monaco                    1-1
+    00.00  Montpellier               v Strasbourg                1-1
+    00.00  Dijon                     v Angers                    1-3
+    00.00  Caen                      v Lyon                      2-2
+    00.00  Amiens                    v Lille                     2-3
+
+» Sun Sep/16
+    00.00  Nantes                    v Reims                     0-0
+    00.00  Marseille                 v Guingamp                  4-0
+    00.00  Bordeaux                  v Nimes                     3-3
+
+» Fri Sep/21
+    00.00  Monaco                    v Nimes                     1-1
+
+» Sat Sep/22
+    00.00  Strasbourg                v Amiens                    3-1
+    00.00  St Etienne                v Caen                      2-1
+    00.00  Reims                     v Dijon                     0-0
+    00.00  Montpellier               v Nice                      1-0
+    00.00  Lille                     v Nantes                    2-1
+    00.00  Angers                    v Toulouse                  0-0
+
+» Sun Sep/23
+    00.00  Rennes                    v PSG                       1-3
+    00.00  Lyon                      v Marseille                 4-2
+    00.00  Guingamp                  v Bordeaux                  1-3
+
+» Tue Sep/25
+    00.00  Toulouse                  v St Etienne                2-3
+    00.00  Nantes                    v Nice                      1-2
+    00.00  Monaco                    v Angers                    0-1
+
+» Wed Sep/26
+    00.00  PSG                       v Reims                     4-1
+    00.00  Nimes                     v Guingamp                  0-0
+    00.00  Marseille                 v Strasbourg                3-2
+    00.00  Dijon                     v Lyon                      0-3
+    00.00  Caen                      v Montpellier               2-2
+    00.00  Bordeaux                  v Lille                     1-0
+    00.00  Amiens                    v Rennes                    2-1
+
+» Fri Sep/28
+    00.00  St Etienne                v Monaco                    2-0
+
+» Sat Sep/29
+    00.00  Strasbourg                v Dijon                     3-0
+    00.00  Reims                     v Bordeaux                  0-0
+    00.00  Nice                      v PSG                       0-3
+    00.00  Lyon                      v Nantes                    1-1
+    00.00  Caen                      v Amiens                    1-0
+    00.00  Angers                    v Guingamp                  0-1
+
+» Sun Sep/30
+    00.00  Rennes                    v Toulouse                  1-1
+    00.00  Montpellier               v Nimes                     3-0
+    00.00  Lille                     v Marseille                 3-0
+
+» Fri Oct/5
+    00.00  Toulouse                  v Nice                      1-1
+
+» Sat Oct/6
+    00.00  Nimes                     v Reims                     0-0
+    00.00  Lille                     v St Etienne                3-1
+    00.00  Guingamp                  v Montpellier               1-1
+    00.00  Angers                    v Strasbourg                2-2
+    00.00  Amiens                    v Dijon                     1-0
+
+» Sun Oct/7
+    00.00  PSG                       v Lyon                      5-0
+    00.00  Monaco                    v Rennes                    1-2
+    00.00  Marseille                 v Caen                      2-0
+    00.00  Bordeaux                  v Nantes                    3-0
+
+» Fri Oct/19
+    00.00  Lyon                      v Nimes                     2-0
+
+» Sat Oct/20
+    00.00  Strasbourg                v Monaco                    2-1
+    00.00  Reims                     v Angers                    1-1
+    00.00  PSG                       v Amiens                    5-0
+    00.00  Nantes                    v Toulouse                  4-0
+    00.00  Dijon                     v Lille                     1-2
+    00.00  Caen                      v Guingamp                  0-0
+
+» Sun Oct/21
+    00.00  St Etienne                v Rennes                    1-1
+    00.00  Nice                      v Marseille                 0-1
+    00.00  Montpellier               v Bordeaux                  2-0
+
+» Fri Oct/26
+    00.00  Nimes                     v St Etienne                1-1
+
+» Sat Oct/27
+    00.00  Toulouse                  v Montpellier               0-3
+    00.00  Monaco                    v Dijon                     2-2
+    00.00  Lille                     v Caen                      1-0
+    00.00  Guingamp                  v Strasbourg                1-1
+    00.00  Angers                    v Lyon                      1-2
+    00.00  Amiens                    v Nantes                    1-2
+
+» Sun Oct/28
+    00.00  Rennes                    v Reims                     0-2
+    00.00  Marseille                 v PSG                       0-2
+    00.00  Bordeaux                  v Nice                      0-1
+
+» Fri Nov/2
+    00.00  PSG                       v Lille                     2-1
+
+» Sat Nov/3
+    00.00  Strasbourg                v Toulouse                  1-1
+    00.00  Reims                     v Monaco                    1-0
+    00.00  Nice                      v Amiens                    1-0
+    00.00  Lyon                      v Bordeaux                  1-1
+    00.00  Dijon                     v Nimes                     0-4
+    00.00  Caen                      v Rennes                    1-2
+
+» Sun Nov/4
+    00.00  St Etienne                v Angers                    4-3
+    00.00  Nantes                    v Guingamp                  5-0
+    00.00  Montpellier               v Marseille                 3-0
+
+» Fri Nov/9
+    00.00  Lille                     v Strasbourg                0-0
+
+» Sat Nov/10
+    00.00  Toulouse                  v Amiens                    0-1
+    00.00  St Etienne                v Reims                     2-0
+    00.00  Nimes                     v Nice                      0-1
+    00.00  Guingamp                  v Lyon                      2-4
+    00.00  Angers                    v Montpellier               1-0
+
+» Sun Nov/11
+    00.00  Rennes                    v Nantes                    1-1
+    00.00  Monaco                    v PSG                       0-4
+    00.00  Marseille                 v Dijon                     2-0
+    00.00  Bordeaux                  v Caen                      0-0
+
+» Fri Nov/23
+    00.00  Lyon                      v St Etienne                1-0
+
+» Sat Nov/24
+    00.00  Strasbourg                v Nimes                     0-1
+    00.00  Reims                     v Guingamp                  2-1
+    00.00  PSG                       v Toulouse                  1-0
+    00.00  Nantes                    v Angers                    1-1
+    00.00  Dijon                     v Bordeaux                  0-0
+    00.00  Caen                      v Monaco                    0-1
+
+» Sun Nov/25
+    00.00  Nice                      v Lille                     2-0
+    00.00  Montpellier               v Rennes                    2-2
+    00.00  Amiens                    v Marseille                 1-3
+
+» Fri Nov/30
+    00.00  St Etienne                v Nantes                    3-0
+
+» Sat Dec/1
+    00.00  Nimes                     v Amiens                    3-0
+    00.00  Monaco                    v Montpellier               1-2
+    00.00  Lille                     v Lyon                      2-2
+    00.00  Guingamp                  v Nice                      0-0
+    00.00  Angers                    v Caen                      1-1
+
+» Sun Dec/2
+    00.00  Toulouse                  v Dijon                     2-2
+    00.00  Rennes                    v Strasbourg                1-4
+    00.00  Marseille                 v Reims                     0-0
+    00.00  Bordeaux                  v PSG                       2-2
+
+» Tue Dec/4
+    00.00  Nice                      v Angers                    0-0
+    00.00  Montpellier               v Lille                     0-1
+    00.00  Amiens                    v Monaco                    0-2
+
+» Wed Dec/5
+    00.00  Strasbourg                v PSG                       1-1
+    00.00  Reims                     v Toulouse                  0-1
+    00.00  Nantes                    v Marseille                 3-2
+    00.00  Lyon                      v Rennes                    0-2
+    00.00  Dijon                     v Guingamp                  2-1
+    00.00  Caen                      v Nimes                     1-2
+    00.00  Bordeaux                  v St Etienne                3-2
+
+» Sat Dec/8
+    00.00  Rennes                    v Dijon                     2-0
+    00.00  Guingamp                  v Amiens                    1-2
+
+» Sun Dec/9
+    00.00  Strasbourg                v Caen                      2-2
+    00.00  Lille                     v Reims                     1-1
+
+» Sat Dec/15
+    00.00  Reims                     v Strasbourg                2-1
+
+» Sun Dec/16
+    00.00  Nimes                     v Lille                     2-3
+    00.00  Nice                      v St Etienne                1-1
+    00.00  Lyon                      v Monaco                    3-0
+
+» Tue Dec/18
+    00.00  Caen                      v Toulouse                  2-1
+
+» Sat Dec/22
+    00.00  Strasbourg                v Nice                      2-0
+    00.00  St Etienne                v Dijon                     3-0
+    00.00  Rennes                    v Nimes                     4-0
+    00.00  Reims                     v Caen                      2-2
+    00.00  PSG                       v Nantes                    1-0
+    00.00  Montpellier               v Lyon                      1-1
+    00.00  Monaco                    v Guingamp                  0-2
+    00.00  Lille                     v Toulouse                  1-2
+    00.00  Angers                    v Marseille                 1-1
+
+» Sun Dec/23
+    00.00  Bordeaux                  v Amiens                    1-1
+
+» Tue Jan/8
+    00.00  Nantes                    v Montpellier               2-0
+    00.00  Amiens                    v Angers                    0-0
+
+» Fri Jan/11
+    00.00  Lyon                      v Reims                     1-1
+    00.00  Caen                      v Lille                     1-3
+
+» Sat Jan/12
+    00.00  Nice                      v Bordeaux                  1-0
+    00.00  Guingamp                  v St Etienne                0-1
+    00.00  Amiens                    v PSG                       0-3
+
+» Sun Jan/13
+    00.00  Toulouse                  v Strasbourg                1-2
+    00.00  Nantes                    v Rennes                    0-1
+    00.00  Marseille                 v Monaco                    1-1
+    00.00  Dijon                     v Montpellier               1-1
+
+» Tue Jan/15
+    00.00  Angers                    v Bordeaux                  1-2
+
+» Wed Jan/16
+    00.00  Toulouse                  v Lyon                      2-2
+    00.00  St Etienne                v Marseille                 2-1
+    00.00  Nimes                     v Nantes                    1-0
+    00.00  Monaco                    v Nice                      1-1
+    00.00  Guingamp                  v Rennes                    2-1
+
+» Fri Jan/18
+    00.00  Lille                     v Amiens                    2-1
+
+» Sat Jan/19
+    00.00  Reims                     v Nice                      1-1
+    00.00  PSG                       v Guingamp                  9-0
+    00.00  Nimes                     v Toulouse                  0-1
+    00.00  Monaco                    v Strasbourg                1-5
+
+» Sun Jan/20
+    00.00  St Etienne                v Lyon                      1-2
+    00.00  Rennes                    v Montpellier               0-0
+    00.00  Caen                      v Marseille                 0-1
+    00.00  Bordeaux                  v Dijon                     1-0
+    00.00  Angers                    v Nantes                    1-0
+
+» Wed Jan/23
+    00.00  Nimes                     v Angers                    3-1
+
+» Fri Jan/25
+    00.00  Marseille                 v Lille                     1-2
+
+» Sat Jan/26
+    00.00  Strasbourg                v Bordeaux                  1-0
+    00.00  Nice                      v Nimes                     2-0
+    00.00  Guingamp                  v Reims                     0-1
+    00.00  Dijon                     v Monaco                    2-0
+
+» Sun Jan/27
+    00.00  Toulouse                  v Angers                    0-0
+    00.00  PSG                       v Rennes                    4-1
+    00.00  Montpellier               v Caen                      2-0
+    00.00  Amiens                    v Lyon                      0-1
+
+» Wed Jan/30
+    00.00  Nantes                    v St Etienne                1-1
+
+» Fri Feb/1
+    00.00  Lille                     v Nice                      4-0
+
+» Sat Feb/2
+    00.00  Rennes                    v Amiens                    1-0
+    00.00  Reims                     v Marseille                 2-1
+    00.00  Monaco                    v Toulouse                  2-1
+    00.00  Angers                    v Dijon                     1-0
+
+» Sun Feb/3
+    00.00  Nimes                     v Montpellier               1-1
+    00.00  Lyon                      v PSG                       2-1
+
+» Tue Feb/5
+    00.00  Marseille                 v Bordeaux                  1-0
+
+» Fri Feb/8
+    00.00  Dijon                     v Marseille                 1-2
+
+» Sat Feb/9
+    00.00  Strasbourg                v Angers                    1-2
+    00.00  PSG                       v Bordeaux                  1-0
+    00.00  Amiens                    v Caen                      1-0
+
+» Sun Feb/10
+    00.00  Toulouse                  v Reims                     1-1
+    00.00  Rennes                    v St Etienne                3-0
+    00.00  Nice                      v Lyon                      1-0
+    00.00  Nantes                    v Nimes                     2-4
+    00.00  Montpellier               v Monaco                    2-2
+    00.00  Guingamp                  v Lille                     0-2
+
+» Wed Feb/13
+    00.00  St Etienne                v Strasbourg                2-1
+    00.00  Caen                      v Nantes                    0-1
+
+» Fri Feb/15
+    00.00  Nimes                     v Dijon                     2-0
+    00.00  Lyon                      v Guingamp                  2-1
+
+» Sat Feb/16
+    00.00  Monaco                    v Nantes                    1-0
+    00.00  Marseille                 v Amiens                    2-0
+    00.00  Angers                    v Nice                      3-0
+
+» Sun Feb/17
+    00.00  St Etienne                v PSG                       0-1
+    00.00  Reims                     v Rennes                    2-0
+    00.00  Lille                     v Montpellier               0-0
+    00.00  Caen                      v Strasbourg                0-0
+    00.00  Bordeaux                  v Toulouse                  2-1
+
+» Wed Feb/20
+    00.00  PSG                       v Montpellier               5-1
+    00.00  Bordeaux                  v Guingamp                  0-0
+
+» Fri Feb/22
+    00.00  Strasbourg                v Lille                     1-1
+    00.00  Dijon                     v St Etienne                0-1
+
+» Sat Feb/23
+    00.00  PSG                       v Nimes                     3-0
+    00.00  Guingamp                  v Angers                    1-0
+    00.00  Amiens                    v Nice                      1-0
+
+» Sun Feb/24
+    00.00  Toulouse                  v Caen                      1-1
+    00.00  Rennes                    v Marseille                 1-1
+    00.00  Nantes                    v Bordeaux                  1-0
+    00.00  Montpellier               v Reims                     2-4
+    00.00  Monaco                    v Lyon                      2-0
+
+» Sat Mar/2
+    00.00  Reims                     v Amiens                    2-2
+    00.00  Caen                      v PSG                       1-2
+    00.00  Angers                    v Monaco                    2-2
+
+» Sun Mar/3
+    00.00  Nice                      v Strasbourg                1-0
+    00.00  Marseille                 v St Etienne                2-0
+    00.00  Lyon                      v Toulouse                  5-1
+    00.00  Lille                     v Dijon                     1-0
+    00.00  Guingamp                  v Nantes                    0-0
+
+» Tue Mar/5
+    00.00  Bordeaux                  v Montpellier               1-2
+
+» Sat Mar/9
+    00.00  Strasbourg                v Lyon                      2-2
+    00.00  Monaco                    v Bordeaux                  1-1
+    00.00  Dijon                     v Reims                     1-1
+    00.00  Amiens                    v Nimes                     2-1
+
+» Sun Mar/10
+    00.00  Toulouse                  v Guingamp                  1-0
+    00.00  St Etienne                v Lille                     0-1
+    00.00  Rennes                    v Caen                      3-1
+    00.00  Montpellier               v Angers                    2-2
+    00.00  Marseille                 v Nice                      1-0
+
+» Tue Mar/12
+    00.00  Dijon                     v PSG                       0-4
+
+» Fri Mar/15
+    00.00  Nice                      v Toulouse                  1-1
+    00.00  Lille                     v Monaco                    0-1
+
+» Sat Mar/16
+    00.00  Nimes                     v Strasbourg                2-2
+    00.00  Guingamp                  v Dijon                     1-0
+    00.00  Caen                      v St Etienne                0-5
+    00.00  Angers                    v Amiens                    0-0
+
+» Sun Mar/17
+    00.00  Reims                     v Nantes                    1-0
+    00.00  PSG                       v Marseille                 3-1
+    00.00  Lyon                      v Montpellier               3-2
+    00.00  Bordeaux                  v Rennes                    1-1
+
+» Fri Mar/29
+    00.00  Rennes                    v Lyon                      0-1
+
+» Sat Mar/30
+    00.00  Marseille                 v Angers                    2-2
+
+» Sun Mar/31
+    00.00  Toulouse                  v PSG                       0-1
+    00.00  Nantes                    v Lille                     2-3
+    00.00  Monaco                    v Caen                      0-1
+    00.00  Dijon                     v Nice                      0-1
+    00.00  Amiens                    v Bordeaux                  0-0
+
+» Mon Apr/1
+    00.00  St Etienne                v Nimes                     2-1
+
+» Wed Apr/3
+    00.00  Strasbourg                v Reims                     4-0
+    00.00  Montpellier               v Guingamp                  2-0
+
+» Fri Apr/5
+    00.00  Bordeaux                  v Marseille                 2-0
+
+» Sat Apr/6
+    00.00  Nimes                     v Caen                      2-0
+    00.00  Lyon                      v Dijon                     1-3
+    00.00  Guingamp                  v Monaco                    1-1
+    00.00  Angers                    v Rennes                    3-3
+    00.00  Amiens                    v St Etienne                2-2
+
+» Sun Apr/7
+    00.00  Toulouse                  v Nantes                    1-0
+    00.00  Reims                     v Lille                     1-1
+    00.00  PSG                       v Strasbourg                2-2
+    00.00  Nice                      v Montpellier               1-0
+
+» Tue Apr/9
+    00.00  Nimes                     v Rennes                    3-1
+
+» Fri Apr/12
+    00.00  Nantes                    v Lyon                      2-1
+    00.00  Dijon                     v Amiens                    0-0
+
+» Sat Apr/13
+    00.00  Strasbourg                v Guingamp                  3-3
+    00.00  Monaco                    v Reims                     0-0
+    00.00  Marseille                 v Nimes                     2-1
+    00.00  Caen                      v Angers                    0-1
+
+» Sun Apr/14
+    00.00  St Etienne                v Bordeaux                  3-0
+    00.00  Rennes                    v Nice                      0-0
+    00.00  Montpellier               v Toulouse                  2-1
+    00.00  Lille                     v PSG                       5-1
+
+» Wed Apr/17
+    00.00  Nantes                    v PSG                       3-2
+
+» Fri Apr/19
+    00.00  Lyon                      v Angers                    2-1
+    00.00  Dijon                     v Rennes                    3-2
+
+» Sat Apr/20
+    00.00  Strasbourg                v Montpellier               1-3
+    00.00  Nimes                     v Bordeaux                  2-1
+    00.00  Nice                      v Caen                      0-1
+    00.00  Guingamp                  v Marseille                 1-3
+
+» Sun Apr/21
+    00.00  Toulouse                  v Lille                     0-0
+    00.00  Reims                     v St Etienne                0-2
+    00.00  PSG                       v Monaco                    3-1
+    00.00  Nantes                    v Amiens                    3-2
+
+» Fri Apr/26
+    00.00  Bordeaux                  v Lyon                      2-3
+
+» Sun Apr/28
+    00.00  St Etienne                v Toulouse                  2-0
+    00.00  Nice                      v Guingamp                  3-0
+    00.00  Marseille                 v Nantes                    1-2
+    00.00  Lille                     v Nimes                     5-0
+    00.00  Caen                      v Dijon                     1-0
+    00.00  Angers                    v Reims                     1-1
+    00.00  Amiens                    v Strasbourg                0-0
+
+» Tue Apr/30
+    00.00  Montpellier               v PSG                       3-2
+
+» Wed May/1
+    00.00  Rennes                    v Monaco                    2-2
+
+» Fri May/3
+    00.00  Strasbourg                v Marseille                 1-1
+
+» Sat May/4
+    00.00  Reims                     v Nimes                     0-3
+    00.00  PSG                       v Nice                      1-1
+    00.00  Guingamp                  v Caen                      0-0
+    00.00  Bordeaux                  v Angers                    0-1
+
+» Sun May/5
+    00.00  Toulouse                  v Rennes                    2-2
+    00.00  Nantes                    v Dijon                     3-0
+    00.00  Montpellier               v Amiens                    1-1
+    00.00  Monaco                    v St Etienne                2-3
+    00.00  Lyon                      v Lille                     2-2
+
+» Fri May/10
+    00.00  St Etienne                v Montpellier               0-1
+
+» Sat May/11
+    00.00  Nimes                     v Monaco                    1-0
+    00.00  Nice                      v Nantes                    1-1
+    00.00  Dijon                     v Strasbourg                2-1
+    00.00  Caen                      v Reims                     3-2
+    00.00  Angers                    v PSG                       1-2
+    00.00  Amiens                    v Toulouse                  0-0
+
+» Sun May/12
+    00.00  Rennes                    v Guingamp                  1-1
+    00.00  Marseille                 v Lyon                      0-3
+    00.00  Lille                     v Bordeaux                  1-0
+
+» Sat May/18
+    00.00  Toulouse                  v Marseille                 2-5
+    00.00  Strasbourg                v Rennes                    0-2
+    00.00  St Etienne                v Nice                      3-0
+    00.00  PSG                       v Dijon                     4-0
+    00.00  Montpellier               v Nantes                    1-1
+    00.00  Monaco                    v Amiens                    2-0
+    00.00  Lyon                      v Caen                      4-0
+    00.00  Lille                     v Angers                    5-0
+    00.00  Guingamp                  v Nimes                     2-2
+    00.00  Bordeaux                  v Reims                     0-1
+
+» Fri May/24
+    00.00  Rennes                    v Lille                     3-1
+    00.00  Reims                     v PSG                       3-1
+    00.00  Nimes                     v Lyon                      2-3
+    00.00  Nice                      v Monaco                    2-0
+    00.00  Nantes                    v Strasbourg                0-1
+    00.00  Marseille                 v Montpellier               1-0
+    00.00  Dijon                     v Toulouse                  2-1
+    00.00  Caen                      v Bordeaux                  0-1
+    00.00  Angers                    v St Etienne                1-1
+    00.00  Amiens                    v Guingamp                  2-1

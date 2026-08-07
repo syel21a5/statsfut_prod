@@ -1,0 +1,146 @@
+<div class="modal-header border-0" style="background: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.05)!important; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+    <div class="d-flex w-100 justify-content-between align-items-center">
+        <div>
+            <h5 class="modal-title text-white fw-bold mb-0">Radar Ao Vivo</h5>
+            <span class="text-secondary small">{{ match.league.name }}</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+</div>
+<div class="modal-body p-0" style="background: #0f172a;">
+    
+    <!-- Header Jogo -->
+    <div class="p-4 text-center" style="background: linear-gradient(180deg, rgba(30,41,59,1) 0%, rgba(15,23,42,1) 100%); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <span class="text-danger blink fw-bold me-2"><i class="fa-solid fa-circle small"></i> {{ match.elapsed_time|default:"HT" }}'</span>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center px-3">
+            <div class="text-end" style="flex: 1;">
+                <h4 class="text-white mb-0">{{ match.home_team.name }}</h4>
+                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mt-1">Casa</span>
+            </div>
+            
+            <div class="px-4 text-center">
+                <h1 class="text-white fw-bold mb-0 mx-2" style="font-size: 3rem; text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
+                    {{ match.home_score|default:"0" }} <span class="text-secondary">:</span> {{ match.away_score|default:"0" }}
+                </h1>
+            </div>
+            
+            <div class="text-start" style="flex: 1;">
+                <h4 class="text-white mb-0">{{ match.away_team.name }}</h4>
+                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mt-1">Fora</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas Gerais -->
+    <div class="p-3">
+        <h6 class="text-secondary text-uppercase fw-bold mb-2" style="font-size: 0.7rem; letter-spacing: 1px;">Estatísticas do Jogo (FT)</h6>
+        
+        <div class="row g-2 mb-2">
+            <!-- Chutes no Alvo -->
+            <div class="col-4">
+                <div class="px-2 py-1 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-1 text-secondary" style="font-size: 0.6rem;">Chutes no Alvo</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-6 text-success fw-bold">{{ match.home_shots_on_target|default:"0" }}</span>
+                        <span class="fs-6 text-danger fw-bold">{{ match.away_shots_on_target|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Chutes Totais -->
+            <div class="col-4">
+                <div class="px-2 py-1 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-1 text-secondary" style="font-size: 0.6rem;">Chutes</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-6 text-success fw-bold">{{ match.home_shots|default:"0" }}</span>
+                        <span class="fs-6 text-danger fw-bold">{{ match.away_shots|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Grandes Chances -->
+            <div class="col-4">
+                <div class="px-2 py-1 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-1 text-secondary" style="font-size: 0.6rem;">Grandes Chances</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-6 text-success fw-bold">{{ match.home_big_chances|default:"0" }}</span>
+                        <span class="fs-6 text-danger fw-bold">{{ match.away_big_chances|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-2 mb-1">
+            <!-- Escanteios -->
+            <div class="col-4">
+                <div class="px-2 py-1 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-1 text-secondary" style="font-size: 0.6rem;">Escanteios</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-6 text-success fw-bold">{{ match.home_corners|default:"0" }}</span>
+                        <span class="fs-6 text-danger fw-bold">{{ match.away_corners|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Ataques Perigosos -->
+            <div class="col-4">
+                <div class="px-2 py-1 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-1 text-secondary" style="font-size: 0.6rem;">Atq. Perigosos</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-6 text-success fw-bold">{{ match.home_dangerous_attacks|default:"0" }}</span>
+                        <span class="fs-6 text-danger fw-bold">{{ match.away_dangerous_attacks|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Faltas -->
+            <div class="col-4">
+                <div class="px-2 py-1 rounded-3 h-100 d-flex flex-column justify-content-center" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="text-center mb-1 text-secondary" style="font-size: 0.6rem;">Faltas</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-6 text-success fw-bold">{{ match.home_fouls|default:"0" }}</span>
+                        <span class="fs-6 text-danger fw-bold">{{ match.away_fouls|default:"0" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radar de Pressão Multi-Tempo -->
+        <h6 class="text-secondary text-uppercase fw-bold mb-2 mt-3 d-flex align-items-center gap-2" style="font-size: 0.7rem; letter-spacing: 1px;">
+            <i class="fa-solid fa-wave-square text-primary"></i> Índice de Pressão (Radar)
+        </h6>
+
+        <div class="d-flex flex-column gap-2">
+            {% for label, p in pressure_windows %}
+            <div class="pressure-block px-3 py-1 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="small fw-semibold text-white" style="font-size: 0.7rem;">{{ label }}</span>
+                    {% if p.status == 'Casa Dominando' %}
+                    <span class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); font-size: 0.6rem;"><i class="fa-solid fa-fire me-1"></i>Casa Dominando</span>
+                    {% elif p.status == 'Fora Dominando' %}
+                    <span class="badge" style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); font-size: 0.6rem;"><i class="fa-solid fa-fire me-1"></i>Fora Dominando</span>
+                    {% else %}
+                    <span class="badge" style="background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); font-size: 0.6rem;"><i class="fa-solid fa-scale-balanced me-1"></i>Equilibrado</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Barra de duelo com divisória central -->
+                <div class="pressure-bar d-flex align-items-center mt-1" style="height: 10px; background: #1e293b; border-radius: 999px; overflow: hidden; position: relative;">
+                    <div class="pressure-home h-100" style="width: {{ p.home_pressure }}%; background: linear-gradient(90deg, #059669, #10b981); transition: width 1s cubic-bezier(0.4,0,0.2,1); border-radius: 999px 0 0 999px;"></div>
+                    <div class="pressure-away h-100" style="width: {{ p.away_pressure }}%; background: linear-gradient(90deg, #ef4444, #f87171); transition: width 1s cubic-bezier(0.4,0,0.2,1); border-radius: 0 999px 999px 0;"></div>
+                    <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.35); transform: translateX(-50%);"></div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mt-1">
+                    <span class="fw-bold" style="color: #10b981; font-size: 0.7rem;">{{ p.home_pressure }}% <span class="text-secondary fw-normal" style="font-size: 0.55rem;">CASA</span></span>
+                    <span class="fw-bold" style="color: #f87171; font-size: 0.7rem;">{{ p.away_pressure }}% <span class="text-secondary fw-normal" style="font-size: 0.55rem;">FORA</span></span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer border-0" style="background: #0f172a; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+    <a href="{% url 'matches:match_detail' match.id match.slug %}" class="btn w-100" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2);">
+        Ver Análise Completa Pré-Live
+    </a>
+</div>

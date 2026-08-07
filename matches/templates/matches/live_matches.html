@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load matches_extras %}
+{% load flag_tags %}
+
+{% block header %}
+<h1 class="h3 mb-0 text-white">{% if request.LANGUAGE_CODE == 'pt-br' %}Placar ao Vivo e Estatísticas{% elif request.LANGUAGE_CODE == 'es' %}Resultados en Vivo y Estadísticas{% elif request.LANGUAGE_CODE == 'de' %}Live-Ergebnisse & Statistiken{% else %}Live Scores & Statistics{% endif %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header & Controls -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="text-white mb-0 fw-bold d-flex align-items-center">
+                <span class="position-relative me-3">
+                    <i class="fa-solid fa-satellite-dish text-danger"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle live-pulse">
+                        <span class="visually-hidden">{% translate "Live" %}</span>
+                    </span>
+                </span>
+                {% translate "Live Matches" %}
+            </h2>
+        </div>
+        <div class="col-md-6 mt-3 mt-md-0">
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" class="form-control bg-dark border-secondary text-white focus-ring-none" id="liveSearch" placeholder="{% translate 'Search leagues, teams...' %}">
+            </div>
+        </div>
+    </div>
+
+    {% if not matches %}
+    <!-- Empty State -->
+    <div class="card border-0 bg-dark bg-opacity-50 text-center py-5 rounded-4 dashed-border">
+        <div class="card-body">
+            <div class="mb-3">
+                <i class="fa-regular fa-calendar-xmark text-secondary display-1 opacity-25"></i>
+            </div>
+            <h4 class="text-white fw-light">{% translate "No live matches currently" %}</h4>
+            <p class="text-white opacity-75">{% translate "Check back later or view upcoming fixtures in the dashboard." %}</p>
+            <a href="/" class="btn btn-outline-primary btn-sm mt-2 rounded-pill px-4">{% translate "Go to Dashboard" %}</a>
+        </div>
+    </div>
+    {% else %}
+
+    <!-- Live Matches List -->
+    <div class="live-matches-container" id="liveMatchesContainer">
+        {% for league_name, data in grouped_matches.items %}
+        <div class="league-group mb-4" data-league-name="{{ league_name|lower }}">
+            <!-- Sticky League Header -->
+            <div class="league-header sticky-top bg-dark border-bottom border-secondary border-opacity-25 py-2 px-3 d-flex align-items-center justify-content-between z-2 shadow-sm" style="top: 0;">
+                <div class="d-flex align-items-center gap-2">
+                    {% if data.league.country %}
+                    <img src="{{ data.league.country|country_en|get_flag_url }}" alt="{{ data.league.country|country_en }}" class="rounded-1" style="height: 15px; width: auto;" loading="lazy" decoding="async" height="15">
+                    {% endif %}
+                    <span class="text-white fw-bold text-uppercase small tracking-wide">{{ league_name }}</span>
+                </div>
+                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 rounded-pill">{{ data.matches|length }} {% translate "Live" %}</span>
+            </div>
+
+            <!-- Matches Grid -->
+            <div class="row g-2 mt-1">
+                {% for match in data.matches %}
+                <div class="col-12 col-lg-6 match-item" data-teams="{{ match.home_team.name|lower }} {{ match.away_team.name|lower }}">
+                    <div class="card bg-dark bg-opacity-25 border border-secondary border-opacity-10 hover-lift h-100">
+                        <div class="card-body py-2 px-3">
+                            <div class="row align-items-center">
+                                <!-- Status/Time -->
+                                <div class="col-2 text-center border-end border-secondary border-opacity-10 pe-2">
+                                    <div class="text-danger fw-bold small live-pulse-text mb-1">
+                                        {% if match.status == 'Live' %}{% translate "LIVE" %}{% else %}{{ match.status }}{% endif %}
+                                    </div>
+                                    <div class="text-info small font-monospace">{{ match.elapsed_time }}'</div>
+                                </div>
+
+                                <!-- Teams & Scores -->
+                                <div class="col-10 ps-3">
+                                    <!-- Home -->
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="d-flex align-items-center gap-2 text-truncate">
+                                            <span class="text-white fw-medium">{{ match.home_team.name }}</span>
+                                        </div>
+                                        <span class="text-warning fw-bold fs-5 font-monospace">{{ match.home_score }}</span>
+                                    </div>
+                                    <!-- Away -->
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2 text-truncate">
+                                            <span class="text-white fw-medium">{{ match.away_team.name }}</span>
+                                        </div>
+                                        <span class="text-warning fw-bold fs-5 font-monospace">{{ match.away_score }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Footer/Actions (Optional) -->
+                        <a href="{% url 'matches:match_detail' pk=match.pk slug=match.slug %}" class="stretched-link"></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .tracking-wide { letter-spacing: 0.05em; }
+    .dashed-border { border: 2px dashed rgba(255,255,255,0.1) !important; }
+    .hover-lift { transition: transform 0.2s, background-color 0.2s; }
+    .hover-lift:hover { transform: translateY(-2px); background-color: rgba(255,255,255,0.05) !important; }
+    .live-pulse { animation: pulse-red 1.5s infinite; }
+    .live-pulse-text { animation: text-pulse 1.5s infinite; }
+    
+    @keyframes pulse-red {
+        0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        70% { box-shadow: 0 0 0 6px rgba(220, 53, 69, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+    }
+    
+    @keyframes text-pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.6; }
+        100% { opacity: 1; }
+    }
+</style>
+
+<script>
+// --- Função de Busca ---
+function applySearchFilter() {
+    const searchText = document.getElementById('liveSearch').value.toLowerCase();
+    const leagues = document.querySelectorAll('.league-group');
+    
+    leagues.forEach(league => {
+        const leagueName = league.getAttribute('data-league-name');
+        const matches = league.querySelectorAll('.match-item');
+        let hasVisibleMatch = false;
+        
+        const leagueMatch = leagueName.includes(searchText);
+        
+        matches.forEach(match => {
+            const teams = match.getAttribute('data-teams');
+            if (leagueMatch || teams.includes(searchText)) {
+                match.classList.remove('d-none');
+                hasVisibleMatch = true;
+            } else {
+                match.classList.add('d-none');
+            }
+        });
+        
+        if (hasVisibleMatch) {
+            league.classList.remove('d-none');
+        } else {
+            league.classList.add('d-none');
+        }
+    });
+}
+
+document.getElementById('liveSearch').addEventListener('keyup', applySearchFilter);
+
+// --- Atualização Automática (AJAX) ---
+function refreshLiveMatches() {
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            // Cria um elemento temporário para parsear o novo HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Pega o novo container de jogos
+            const newContainer = doc.getElementById('liveMatchesContainer');
+            const currentContainer = document.getElementById('liveMatchesContainer');
+            
+            if (newContainer && currentContainer) {
+                // Substitui o HTML interno
+                currentContainer.innerHTML = newContainer.innerHTML;
+                
+                // Reaplica o filtro de busca caso o usuário esteja pesquisando
+                applySearchFilter();
+            } else if (doc.querySelector('.card.border-0.bg-dark')) {
+                 // Se os jogos acabaram e voltou para a tela vazia
+                 const mainContainer = document.querySelector('.container-fluid.py-4');
+                 // Atualiza a página toda para mostrar a tela vazia corretamente se necessário
+                 window.location.reload();
+            }
+        })
+        .catch(err => console.error('Erro ao atualizar jogos ao vivo:', err));
+}
+
+// Atualiza a cada 30 segundos (30000 milissegundos)
+setInterval(refreshLiveMatches, 30000);
+
+</script>
+{% endblock %}
