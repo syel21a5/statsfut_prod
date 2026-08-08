@@ -2249,6 +2249,16 @@ class LeagueDetailView(DetailView):
             context['standings_by_runin'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'opp_remaining_ppg', 0), reverse=True)
             context['standings_by_proj'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'proj_total', 0), reverse=True)
 
+            # Season highlights (computed in memory over already-loaded standings — no extra queries)
+            if all_standings_flat:
+                context['season_best_attack'] = max(all_standings_flat, key=lambda s: s.goals_for)
+                context['season_best_defense'] = min(all_standings_flat, key=lambda s: s.goals_against)
+                context['season_best_form'] = context['standings_by_form'][0] if context['standings_by_form'] else None
+            else:
+                context['season_best_attack'] = None
+                context['season_best_defense'] = None
+                context['season_best_form'] = None
+
             context['standings'] = standings
             context['home_table'] = home_table
             context['away_table'] = away_table
@@ -2320,6 +2330,9 @@ class LeagueDetailView(DetailView):
                 for i, row in enumerate(relative_table, 1): row['position'] = i
             
             context['relative_table'] = relative_table
+
+            # Biggest home advantage (from already-built relative_table — no extra queries)
+            context['season_home_king'] = max(relative_table, key=lambda r: r['ppg_diff']) if relative_table else None
             
             if league.name == 'First League' and False:
                 if rf_override:
@@ -2645,6 +2658,10 @@ class LeagueDetailView(DetailView):
             context['home_table'] = []
             context['away_table'] = []
             context['upcoming_matches'] = []
+            context['season_best_attack'] = None
+            context['season_best_defense'] = None
+            context['season_best_form'] = None
+            context['season_home_king'] = None
             
         return context
 

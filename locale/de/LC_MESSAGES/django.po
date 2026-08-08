@@ -5887,3 +5887,23 @@ msgstr "Doppelte Chance 12"
 #, python-format
 msgid "%(team)s ou Empate"
 msgstr "%(team)s oder Unentschieden"
+
+#, python-format
+msgid "The current league leader is <strong>%(leader)s</strong> with <strong>%(points)s</strong> points."
+msgstr "Der aktuelle Tabellenführer ist <strong>%(leader)s</strong> mit <strong>%(points)s</strong> Punkten."
+
+#, python-format
+msgid "The best attack in the league belongs to <strong>%(team)s</strong> with <strong>%(goals)s</strong> goals scored."
+msgstr "Der beste Angriff der Liga gehört <strong>%(team)s</strong> mit <strong>%(goals)s</strong> erzielten Toren."
+
+#, python-format
+msgid "The strongest defense belongs to <strong>%(team)s</strong>, conceding only <strong>%(goals)s</strong> goals."
+msgstr "Die stärkste Abwehr gehört <strong>%(team)s</strong>, die nur <strong>%(goals)s</strong> Gegentore kassiert hat."
+
+#, python-format
+msgid "The team in the best form is <strong>%(team)s</strong>, with a recent PPG difference of <strong>%(diff)s</strong> versus its season average."
+msgstr "Das Team in bester Form ist <strong>%(team)s</strong> mit einer jüngsten PPG-Differenz von <strong>%(diff)s</strong> gegenüber dem Saisondurchschnitt."
+
+#, python-format
+msgid "The team that relies most on home advantage is <strong>%(team)s</strong>, with a home/away PPG difference of <strong>%(diff)s</strong>."
+msgstr "Das Team, das am stärksten vom Heimvorteil abhängt, ist <strong>%(team)s</strong> mit einer Heim-/Auswärts-PPG-Differenz von <strong>%(diff)s</strong>."
