@@ -2860,7 +2860,28 @@ class TeamDetailView(DetailView):
                  if slugify(t.name) == slugify(team_slug):
                      team = t
                      break
-         
+
+        # FALLBACK por old_slugs (mesma liga primeiro): URL antiga de time renomeado
+        # (ex: /ath-bilbao/ -> Athletic Club). O get() já fará redirect 301.
+        if not team and team_slug:
+            from django.utils.text import slugify as _slug
+            def _find_by_old_slugs(queryset):
+                for _t in queryset.exclude(old_slugs__isnull=True).exclude(old_slugs=[]):
+                    for _so in (_t.old_slugs or []):
+                        if _slug(_so) == _slug(team_slug):
+                            return _t
+                return None
+            if league:
+                cand = _find_by_old_slugs(Team.objects.filter(league=league))
+            else:
+                cand = None
+            if cand is None:
+                cand = _find_by_old_slugs(Team.objects.all())
+            if cand:
+                team = cand
+                league = team.league
+
+        # Fallback por nome GLOBAL (só se nada na liga nem old_slugs achou)
         if not team:
              team = Team.objects.filter(name__iexact=team_name_query).first() or \
                     Team.objects.filter(name__icontains=team_name_query).first()
@@ -5685,6 +5706,20 @@ class HeadToHeadView(TemplateView):
                             return team_obj
                 
                 if t: return t
+
+            # 1.5 FALLBACK por old_slugs (times renomeados): URL antiga -> time canônico
+            from django.utils.text import slugify as _slug2
+            # primeiro tenta na mesma liga
+            if league:
+                for _t in Team.objects.filter(league=league).exclude(old_slugs__isnull=True).exclude(old_slugs=[]):
+                    for _so in (_t.old_slugs or []):
+                        if _slug2(_so) == _slug2(slug):
+                            return _t
+            # depois global (na mesma liga de nada)
+            for _t in Team.objects.exclude(old_slugs__isnull=True).exclude(old_slugs=[]):
+                for _so in (_t.old_slugs or []):
+                    if _slug2(_so) == _slug2(slug):
+                        return _t
             
             # 2. Global Fallback
             t = Team.objects.filter(name__iexact=name).first()

@@ -39,6 +39,7 @@ class Team(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='teams')
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na API")
     fd_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na Football-Data")
+    old_slugs = models.JSONField(default=list, blank=True, null=True, help_text="Slugs antigos das URLs para redirect 301")
 
     @property
     def logo_url(self):
