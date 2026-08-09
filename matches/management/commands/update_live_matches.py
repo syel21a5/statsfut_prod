@@ -791,6 +791,45 @@ class Command(BaseCommand):
                         pass
                 
                 if not match_obj:
+                    # ANTI-FANTASMA: se este jogo vem de fonte antiga (API-Football desativada —
+                    # api_id 7 dígitos na faixa 1490-1499 ou sem id) mas já existe o jogo canônico
+                    # do SofaScore (ap_id 8 dígitos 1666/1667) para o MESMO confronto na ~mesma
+                    # data (±7 dias), NÃO crie duplicata: atualize o canônico (data/id) e descarte.
+                    _aid = str(match_external_id) if match_external_id else ''
+                    _is_old = (not _aid) or (_aid.isdigit() and len(_aid) == 7 and _aid.startswith('149'))
+                    if _is_old and match_date is not None:
+                        try:
+                            from datetime import timedelta as _td7
+                            _probe = Match.objects.filter(
+                                league=league_obj,
+                                home_team=home_team,
+                                away_team=away_team,
+                                date__gte=match_date - _td7(days=7),
+                                date__lte=match_date + _td7(days=7),
+                            )
+                            _canon = None
+                            for _p in _probe:
+                                _pa = str(_p.api_id) if _p.api_id else ''
+                                if _pa.isdigit() and len(_pa) >= 8 and _pa[:4] in ('1666', '1667'):
+                                    _canon = _p
+                                    break
+                            if _canon is not None:
+                                _changed = False
+                                if _canon.date != match_date:
+                                    _canon.date = match_date
+                                    _changed = True
+                                if not _canon.api_id and match_external_id:
+                                    _canon.api_id = match_external_id
+                                    _changed = True
+                                if _changed:
+                                    _canon.save()
+                                self.stdout.write(self.style.WARNING(
+                                    f'  ⚠️ Fantasma descartado (canônico 8-dígitos existe): {home_team.name} vs {away_team.name}'))
+                                count_skipped += 1
+                                continue
+                        except Exception as _e:
+                            self.stdout.write(self.style.WARNING(f'  ⚠️ anti-fantasma check falhou: {_e}'))
+
                     # Se readonly_structure estiver ativo, NUNCA criamos jogos novos para evitar duplicatas do SofaScore
                     if readonly_structure:
                         self.stdout.write(self.style.WARNING(f'  ⚠️ Ignorado (Read-Only): {home_team.name} vs {away_team.name} não existe no banco.'))
