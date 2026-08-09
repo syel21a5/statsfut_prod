@@ -7504,4 +7504,9 @@ msgstr "2º Tempo"
 
 msgid "Extra Time"
 msgstr "Prorrogação"
-
+msgid "Dados não disponíveis"
+msgstr "Dados não disponíveis"
+msgid "Dados não disponiveis"
+msgstr "Dados não disponíveis"
+msgid "Os dados de pressão não estão disponíveis para este jogo neste momento."
+msgstr "Os dados de pressão não estão disponíveis para este jogo neste momento."

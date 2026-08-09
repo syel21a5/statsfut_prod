@@ -7127,4 +7127,9 @@ msgstr "2. Halbzeit"
 
 msgid "Extra Time"
 msgstr "Verlängerung"
-
+msgid "Dados não disponíveis"
+msgstr "Daten nicht verfügbar"
+msgid "Dados não disponiveis"
+msgstr "Daten nicht verfügbar"
+msgid "Os dados de pressão não estão disponíveis para este jogo neste momento."
+msgstr "Die Pressdaten sind für dieses Spiel derzeit nicht verfügbar."

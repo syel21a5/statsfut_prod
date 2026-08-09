@@ -133,6 +133,15 @@ class LiveRadarService:
         total_score = home_score + away_score
         
         if total_score == 0:
+            # Sem nenhum dado de pressão (graph do SofaScore indisponível E stats ricas zeradas) →
+            # informa que os dados não estão disponíveis, em vez de mostrar um radar falso 50/50.
+            tem_algum_dado = (
+                match.home_shots or match.away_shots
+                or match.home_corners or match.away_corners
+                or getattr(match, 'home_dangerous_attacks', 0) or getattr(match, 'away_dangerous_attacks', 0)
+            )
+            if not tem_algum_dado:
+                return {'home_pressure': 0, 'away_pressure': 0, 'status': 'dados_indisponiveis', 'source': 'nodata'}
             return {'home_pressure': 50, 'away_pressure': 50, 'status': 'Jogo Parado'}
             
         home_pressure = int((home_score / total_score) * 100)

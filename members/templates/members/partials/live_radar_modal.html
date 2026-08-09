@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="modal-header border-0" style="background: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.05)!important; border-top-left-radius: 16px; border-top-right-radius: 16px;">
     <div class="d-flex w-100 justify-content-between align-items-center">
         <div>
@@ -113,7 +114,9 @@
             <div class="pressure-block px-3 py-1 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="small fw-semibold text-white" style="font-size: 0.7rem;">{{ label }}</span>
-                    {% if p.status == 'Casa Dominando' %}
+                    {% if p.status == 'dados_indisponiveis' %}
+                    <span class="badge" style="background: rgba(148,163,184,0.12); color: #94a3b8; border: 1px solid rgba(148,163,184,0.3); font-size: 0.6rem;"><i class="fa-solid fa-circle-info me-1"></i>{% translate "Dados n\u00e3o dispon\u00edveis" %}</span>
+                    {% elif p.status == 'Casa Dominando' %}
                     <span class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); font-size: 0.6rem;"><i class="fa-solid fa-fire me-1"></i>Casa Dominando</span>
                     {% elif p.status == 'Fora Dominando' %}
                     <span class="badge" style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); font-size: 0.6rem;"><i class="fa-solid fa-fire me-1"></i>Fora Dominando</span>
@@ -122,6 +125,9 @@
                     {% endif %}
                 </div>
                 
+                {% if p.status == 'dados_indisponiveis' %}
+                <div class="text-center small text-secondary mt-2" style="font-size: 0.65rem;">{% translate "Os dados de press\u00e3o n\u00e3o est\u00e3o dispon\u00edveis para este jogo neste momento." %}</div>
+                {% else %}
                 <!-- Barra de duelo com divisória central -->
                 <div class="pressure-bar d-flex align-items-center mt-1" style="height: 10px; background: #1e293b; border-radius: 999px; overflow: hidden; position: relative;">
                     <div class="pressure-home h-100" style="width: {{ p.home_pressure }}%; background: linear-gradient(90deg, #059669, #10b981); transition: width 1s cubic-bezier(0.4,0,0.2,1); border-radius: 999px 0 0 999px;"></div>
@@ -133,6 +139,7 @@
                     <span class="fw-bold" style="color: #10b981; font-size: 0.7rem;">{{ p.home_pressure }}% <span class="text-secondary fw-normal" style="font-size: 0.55rem;">CASA</span></span>
                     <span class="fw-bold" style="color: #f87171; font-size: 0.7rem;">{{ p.away_pressure }}% <span class="text-secondary fw-normal" style="font-size: 0.55rem;">FORA</span></span>
                 </div>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
