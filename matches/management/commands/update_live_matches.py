@@ -262,8 +262,22 @@ class Command(BaseCommand):
                     status__in=['Scheduled', 'NS', 'SCHEDULED'],
                     date__lte=timezone.now() - timedelta(minutes=120),
                     api_id__isnull=False,
-                ).exclude(api_id__startswith='ignored_').exclude(api_id__startswith='sofa_')
-                sane_list = [m for m in sane_qs if len(str(m.api_id)) >= 8][:10]
+                ).exclude(api_id__startswith='ignored_')
+                # Processa mais jogos por ciclo (era [:10]) e inclui TODOS os IDs numéricos,
+                # inclusive os de 7 dígitos (API-Football) — o get_event_result tolera 404.
+                sane_list = [m for m in sane_qs if str(m.api_id).lstrip('-').isdigit()][:25]
+                # FALLBACK DETERMINÍSTICO: qualquer Scheduled cujo kickoff já passou há muito
+                # tempo (>3h, jogo de futebol dura ~2h) SEM resultado na fonte é marcado FT —
+                # evita jogo "upcoming" eterno e dispensa depender do Tor p/ sanear IDs antigos.
+                hard_stale = Match.objects.filter(
+                    status__in=['Scheduled', 'NS', 'SCHEDULED'],
+                    date__lte=timezone.now() - timedelta(hours=3),
+                ).exclude(api_id__startswith='ignored_')
+                for ms in hard_stale[:30]:
+                    if int((timezone.now() - ms.date).total_seconds() // 3600) > 3:
+                        ms.status = 'FT'
+                        ms.save()
+                        self.stdout.write(self.style.SUCCESS(f'  🏁 FT (falback): {ms.home_team} x {ms.away_team}'))
                 sane_fix = 0
                 for m in sane_list:
                     try:
@@ -300,6 +314,14 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS('✅ Snapshots capturados.'))
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f'❌ Erro ao capturar snapshots do Radar Ao Vivo: {e}'))
+
+        # PREVENÇÃO DUPLICATAS: remove duplicatas criadas por fontes distintas (ex: SofaScore
+        # vs API-Football) que inserem o mesmo jogo com nomes de times levemente diferentes,
+        # mantendo o registro da fonte mais completa (api_id SofaScore atual).
+        try:
+            self._dedupe_matches()
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'  ⚠️ Erro dedupe: {e}'))
         
         if mode == 'upcoming' or mode == 'both':
             # The Odds API for Australia (Special Handling - Upcoming)
@@ -435,6 +457,61 @@ class Command(BaseCommand):
                     return team
             raise e
 
+
+    def _dedupe_matches(self, lookahead_days=10):
+        """Remove duplicatas de partidas na janela futura: mesmo par de times (normalizado)
+        + mesma data, com mais de um registro. Mantém o registro mais completo (api_id com
+        8+ dígitos / com score) e apaga os demais. Só mexe em Scheduled/NS; nunca em Live."""
+        import re
+        from collections import defaultdict
+        from django.utils import timezone as _tz
+        from datetime import timedelta as _td
+
+        def _norm_club(name):
+            import unicodedata as _uni
+            s = str(name).lower()
+            # remove acentos/acentuação
+            s = _uni.normalize('NFD', s)
+            s = ''.join(c for c in s if not _uni.combining(c))
+            s = re.sub(r'\b(club atletico|club deportivo|club|c\.a\.|ca |fc |f\.c\.|ac |a\.c\.|de |del |da |do |dos |das |s\.a\.|sad|ltda|old boys|de cordoba|de santa fe|de santiago)\b', '', s)
+            # colapsa grafias argentinas (dentro da mesma liga; acentos já removidos)
+            s = re.sub(r'\bnewell.?s\b', 'newells', s)
+            s = re.sub(r'\bjuniors?\b|\bjrs?\b', 'juniors', s)
+            s = re.sub(r'\bgimnasia\b[ .]?l\.?p\.?|\bgimnasia y esgrima\b', 'gimnasia', s)
+            s = re.sub(r'\btalleres\b.*\bcordoba\b|\bca talleres\b', 'talleres', s)
+            s = re.sub(r'\bca lanus\b|\bclub atletico lanus\b', 'lanus', s)
+            s = re.sub(r'\bestudiantes\b[ .]?l\.?p\.?|\bestudiantes( | de | de la | la )plata', 'estudiantes', s)
+            s = re.sub(r'\bcentral cordoba( santiago)?\b', 'central cordoba', s)
+            return ' '.join(s.split())
+
+        now = _tz.now()
+        qs = Match.objects.filter(
+            date__gte=now,
+            date__lte=now + _td(days=lookahead_days),
+        ).select_related('home_team', 'away_team')
+        groups = defaultdict(list)
+        for m in qs:
+            key = (m.date.date(), m.league_id, frozenset([_norm_club(m.home_team), _norm_club(m.away_team)]))
+            groups[key].append(m)
+
+        removidos = 0
+        for _, ms in groups.items():
+            if len(ms) <= 1:
+                continue
+            def _rank(x):
+                a = str(x.api_id) if x.api_id else ''
+                s = 100 if (a.isdigit() and len(a) >= 8) else (50 if a.isdigit() else 0)
+                return s + (10 if x.home_score is not None else 0)
+            best = max(ms, key=_rank)
+            for m in ms:
+                if m.id == best.id:
+                    continue
+                if m.status == 'Live':
+                    continue  # nunca apagar ao vivo
+                m.delete()
+                removidos += 1
+        if removidos:
+            self.stdout.write(self.style.SUCCESS(f'  🧹 Dedupe: {removidos} duplicatas removidas'))
 
     def _has_changes(self, match_obj, defaults):
         """Compara os dados da API com o objeto existente no banco.
