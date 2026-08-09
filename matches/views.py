@@ -5500,7 +5500,7 @@ def calculate_team_season_stats(team, league, season):
         league=league, season=season
     ).filter(
         models.Q(home_team=team) | models.Q(away_team=team)
-    ).order_by('date').prefetch_related('goals')
+    ).select_related('home_team', 'away_team').order_by('date').prefetch_related('goals')
     
     played_matches = [m for m in all_matches if m.status in FINISHED_STATUSES and m.home_score is not None]
     
@@ -5776,7 +5776,7 @@ class HeadToHeadView(TemplateView):
             matches = Match.objects.filter(
                 (models.Q(home_team=team1) & models.Q(away_team=team2)) |
                 (models.Q(home_team=team2) & models.Q(away_team=team1))
-            ).filter(status__in=FINISHED_STATUSES).order_by('-date')
+            ).filter(status__in=FINISHED_STATUSES).select_related('home_team', 'away_team', 'league').order_by('-date')
             context['matches'] = matches
             
             # Upcoming Match (for CTA to full analysis)
@@ -6145,36 +6145,39 @@ class HeadToHeadView(TemplateView):
                     ).filter(
                         models.Q(home_team=team) | models.Q(away_team=team)
                     )
+                # select_related: evita N+1 (1.600+ queries de home/away_team no template)
+                qs = qs.select_related('home_team', 'away_team', 'league')
                 if status == 'Finished':
                     # Reverse order for played matches (newest first)
                     return list(qs.filter(status__in=FINISHED_STATUSES).order_by('-date'))
                 else:
-                    return qs.filter(status='Scheduled').order_by('date')
+                    return list(qs.filter(status='Scheduled').order_by('date'))
             
             context['t1_matches'] = get_matches(team1, 'Finished')
             context['t2_matches'] = get_matches(team2, 'Finished')
             
-            # Helper to calculate PPG for a team at a specific venue
+            # Helper to calculate PPG for a team at a specific venue (1 query SQL, sem loop N+1)
             def get_venue_ppg(team, venue):
-                # venue: 'home' or 'away'
+                from django.db.models import Sum, Count, F, Case, When, Value, IntegerField
                 if venue == 'home':
-                    ms = Match.objects.filter(league=league, season=latest_season, home_team=team, status__in=FINISHED_STATUSES)
-                    pts = 0
-                    for m in ms:
-                        if m.home_score is None or m.away_score is None:
-                            continue  # jogo sem placar (não conta)
-                        if m.home_score > m.away_score: pts += 3
-                        elif m.home_score == m.away_score: pts += 1
-                    return round(pts / ms.count(), 2) if ms.exists() else 0.0
+                    flt = dict(league=league, season=latest_season, home_team=team, status__in=FINISHED_STATUSES, home_score__isnull=False, away_score__isnull=False)
                 else:
-                    ms = Match.objects.filter(league=league, season=latest_season, away_team=team, status__in=FINISHED_STATUSES)
-                    pts = 0
-                    for m in ms:
-                        if m.home_score is None or m.away_score is None:
-                            continue  # jogo sem placar (não conta)
-                        if m.away_score > m.home_score: pts += 3
-                        elif m.away_score == m.home_score: pts += 1
-                    return round(pts / ms.count(), 2) if ms.exists() else 0.0
+                    flt = dict(league=league, season=latest_season, away_team=team, status__in=FINISHED_STATUSES, home_score__isnull=False, away_score__isnull=False)
+                ms = Match.objects.filter(**flt)
+                if venue == 'home':
+                    pts = ms.aggregate(
+                        tot=Sum(Case(
+                            When(home_score__gt=F('away_score'), then=Value(3)),
+                            When(home_score=F('away_score'), then=Value(1)),
+                            default=Value(0), output_field=IntegerField())))
+                else:
+                    pts = ms.aggregate(
+                        tot=Sum(Case(
+                            When(away_score__gt=F('home_score'), then=Value(3)),
+                            When(away_score=F('home_score'), then=Value(1)),
+                            default=Value(0), output_field=IntegerField())))
+                gp = ms.count()
+                return round((pts['tot'] or 0) / gp, 2) if gp else 0.0
 
             # Fixtures (Run-in) with Analysis
             def process_fixtures(team):
@@ -6273,7 +6276,7 @@ class HeadToHeadView(TemplateView):
                             league=lg, season=s
                         ).filter(
                             models.Q(home_team=team) | models.Q(away_team=team)
-                        ).filter(status__in=FINISHED_STATUSES).order_by('date')[:limit_gp]
+                        ).filter(status__in=FINISHED_STATUSES).select_related('home_team', 'away_team').prefetch_related('goals__team').order_by('date')[:limit_gp]
                         
                         # Must have exactly limit_gp matches? 
                         # Image says "after 24 matches". If a season had fewer, maybe skip or show what exists.
@@ -6332,7 +6335,7 @@ class HeadToHeadView(TemplateView):
                         league=lg, season=season, status__in=FINISHED_STATUSES
                     ).filter(
                         models.Q(home_team=team) | models.Q(away_team=team)
-                    ).order_by('-date')
+                    ).select_related('home_team', 'away_team').prefetch_related('goals__team').order_by('-date')
 
                     # Helper to check streaks
                     def get_seq(matches_subset):
@@ -6629,7 +6632,7 @@ class HeadToHeadView(TemplateView):
 
                 def calculate_team_comparison(team, lg, season, league_avg):
 
-                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team))
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team)).select_related('home_team', 'away_team').prefetch_related('goals__team')
                     n_matches = matches.count()
                     if n_matches == 0: return []
                     
@@ -6989,7 +6992,7 @@ class HeadToHeadView(TemplateView):
                     # Get leading/trailing stats first for complex metrics
                     lt_stats = calculate_leading_trailing_stats(team, lg, season)
                     
-                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team))
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team)).select_related('home_team', 'away_team').prefetch_related('goals__team')
                     n_matches = matches.count()
                     if n_matches == 0: return []
                     
