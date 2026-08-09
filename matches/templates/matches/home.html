@@ -420,5 +420,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 </script>
 
+<script>
+// ===== AUTO-REFRESH AO VIVO (home) =====
+// Atualiza os cards de jogos ao vivo a cada 30s via AJAX, sem recarregar a página.
+// Só roda quando há pelo menos um jogo ao vivo na página (evita tráfego desnecessário).
+document.addEventListener('DOMContentLoaded', function() {
+    function temJogoAoVivo() {
+        return document.querySelectorAll('.match-card[data-status="Live"], .match-card[data-status="1H"], .match-card[data-status="2H"], .match-card[data-status="HT"], .match-card[data-status="ET"]').length > 0;
+    }
+
+    function atualizar() {
+        if (!temJogoAoVivo()) return;
+        var url = window.location.pathname + window.location.search + (window.location.search ? '&' : '?') + 'cb=' + Date.now();
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(function(r) { return r.text(); })
+            .then(function(html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var novo = doc.querySelector('.matches-container');
+                var atual = document.querySelector('.matches-container');
+                if (novo && atual) {
+                    atual.innerHTML = novo.innerHTML;
+                    // re-aplica barras de probabilidade nos novos cards
+                    document.querySelectorAll('.js-prob-bar').forEach(function(bar) {
+                        bar.style.width = bar.getAttribute('data-width');
+                    });
+                }
+            })
+            .catch(function(e) { console.error('Erro ao atualizar ao vivo:', e); });
+    }
+
+    setInterval(atualizar, 30000); // a cada 30s
+});
+</script>
+
 
 {% endblock %}

@@ -2437,7 +2437,7 @@
             <div class="sticky-top" style="top: 20px; z-index: 100;">
                 {% if live_match %}
                 <!-- AMBIENTE DE TESTE: Live Radar banner (abre o popup grande) -->
-                <div class="card mb-3 border-0 shadow-sm" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 14px; overflow: hidden;">
+                <div class="card mb-3 border-0 shadow-sm" id="live-match-summary" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 14px; overflow: hidden;">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="badge bg-danger fw-bold" style="font-size: 0.7rem;"><span class="live-pulse-dot me-1" style="font-size: 0.5rem;">●</span>{% translate "AO VIVO" %}</span>
@@ -2514,6 +2514,27 @@ function openLiveRadar(matchId) {
         .then(html => { modalContent.innerHTML = html; })
         .catch(err => { modalContent.innerHTML = '<div class="p-4 text-center text-white bg-dark rounded">Erro ao carregar o radar. Tente novamente.</div>'; });
 }
+</script>
+<script>
+// ===== AUTO-REFRESH AO VIVO (H2H sidebar) =====
+// Atualiza o card "AO VIVO" a cada 30s via AJAX, sem recarregar a página.
+document.addEventListener('DOMContentLoaded', function() {
+    function atualizarCard() {
+        var card = document.getElementById('live-match-summary');
+        if (!card) return;
+        var url = window.location.pathname + window.location.search + (window.location.search ? '&' : '?') + 'cb=' + Date.now();
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(function(r) { return r.text(); })
+            .then(function(html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var novo = doc.getElementById('live-match-summary');
+                if (novo) { card.innerHTML = novo.innerHTML; }
+            })
+            .catch(function(e) { console.error('Erro ao atualizar card ao vivo:', e); });
+    }
+    setInterval(atualizarCard, 30000);
+});
 </script>
 {% endif %}
 {% endblock %}
