@@ -5643,6 +5643,33 @@ def calculate_team_season_stats(team, league, season):
 class HeadToHeadView(TemplateView):
     template_name = 'matches/h2h_detail.html'
 
+    def get(self, request, *args, **kwargs):
+        # REDIRECT 301 CANÔNICO: se a URL usa slug alternativo/antigo (ex: /maringa/ em vez de
+        # /maringa-fc/), redireciona permanentemente p/ a URL canônica. Evita mesmo jogo em 2 URLs
+        # e consolida o SEO no nome canônico do SofaScore.
+        league_slug = self.kwargs.get('league_name')
+        team1_slug = self.kwargs.get('team1_name')
+        team2_slug = self.kwargs.get('team2_name')
+
+        # reutiliza a lógica local de resolução chamando get_context_data num objeto temporário p/ pegar os times
+        from django.http import HttpResponsePermanentRedirect
+        from django.utils.text import slugify as _slugify
+        from matches.utils import COUNTRY_TRANSLATIONS as _CT
+        try:
+            ctx = self.get_context_data(**kwargs)
+            t1 = ctx.get('team1')
+            t2 = ctx.get('team2')
+            if t1 and t2 and team1_slug and team2_slug:
+                _c1 = _slugify(t1.name)
+                _c2 = _slugify(t2.name)
+                if _c1 != team1_slug or _c2 != team2_slug:
+                    _ce = _CT.get(t1.league.country, t1.league.country)
+                    _canon = f"/stats/{_slugify(_ce)}/{_slugify(t1.league.name)}/h2h/{_c1}/{_c2}/"
+                    return HttpResponsePermanentRedirect(_canon)
+        except Exception:
+            pass
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         league_slug = self.kwargs.get('league_name')
