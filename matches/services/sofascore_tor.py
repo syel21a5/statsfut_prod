@@ -333,30 +333,37 @@ class SofaScoreTorService:
         }
         status_out = sofa_to_padrao.get(str(st_type or "").lower(), str(st or st_type or ""))
 
-        # Minuto decorrido — mesmo cálculo que o site do SofaScore/Google usa.
-        # NÃO usa startTimestamp (pode estar errado se o jogo atrasar!). Baseia-se no
-        # período ATUAL (currentPeriodStartTimestamp) + duração padrão dos períodos
-        # anteriores. Códigos SofaScore: 6=1st half, 7=2nd half, 8=Half time,
-        # 10=Extra time break, 11=Extra time 1st, 13=Extra time 2nd, 100=FT.
-        elapsed = status.get("minute")
-        if elapsed is None:
-            t = ev.get("time") or {}
-            cur_ts = t.get("currentPeriodStartTimestamp")  # início do período ATUAL
-            code = status.get("code")
-            if cur_ts:
-                try:
-                    min_do_periodo = max(0, int((time.time() - int(cur_ts)) / 60))
-                    # Minutos padrão já completados ANTES do período atual
-                    base = 0
-                    if code in (7, 8):          # 2º tempo / intervalo
-                        base = 45
-                    elif code in (10, 11, 12, 13):  # prorrogação
-                        base = 90
-                    elapsed = base + min_do_periodo
-                except Exception:
-                    elapsed = None
+        # PERÍODO + MINUTO RELATIVO — para o placar ao vivo não “acumular” 45→90→120.
+        # Códigos SofaScore: 6=1st half, 8=Intervalo, 7=2nd half, 10=Intervalo ET,
+        # 11=ET 1º, 13=ET 2º, (demais durante live = ainda 1º/2º).
+        code = status.get("code")
+        periodo = ""
+        elapsed = status.get("minute")  # minute do SofaScore já vem relativo ao período
+        if status_out == "LIVE":
+            if code == 6:
+                periodo, base = "1H", 0
+            elif code == 8:
+                periodo, base = "HT", 0
+            elif code == 7:
+                periodo, base = "2H", 45
+            elif code in (10, 11, 12, 13):
+                periodo, base = "ET", 90
             else:
-                elapsed = None
+                # sem código claro: assume 1º tempo (código 0/undefined durante 1H)
+                periodo, base = "1H", 0
+            # se o SofaScore não entregar minute, estima a partir do início do período atual
+            if elapsed is None:
+                t = ev.get("time") or {}
+                cur_ts = t.get("currentPeriodStartTimestamp")
+                if cur_ts:
+                    try:
+                        min_do_periodo = max(0, int((time.time() - int(cur_ts)) / 60))
+                        elapsed = min_do_periodo  # relativo ao período (base já aplicada no display)
+                    except Exception:
+                        elapsed = None
+            # status final em vez de genérico LIVE, para o template saber o período
+            if periodo:
+                status_out = periodo
 
         return {
             "source_api": "sofascore",
@@ -373,6 +380,7 @@ class SofaScoreTorService:
             "home_score": hs.get("current"),
             "away_score": as_.get("current"),
             "elapsed": elapsed,
+            "period": periodo,
         }
 
 

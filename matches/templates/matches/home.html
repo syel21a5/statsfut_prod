@@ -249,7 +249,7 @@
                     <div class="match-card glass-card p-2 px-3 rounded-4 border border-secondary position-relative overflow-hidden hover-effect" data-status="{{ match.status }}">
                         <div class="d-flex justify-content-between mb-2 small text-white">
                             <div class="fw-bold d-flex align-items-center gap-2">
-                                {% if match.status == 'Live' %}
+                            {% if match.status == 'Live' or match.status == '1H' or match.status == '2H' or match.status == 'HT' or match.status == 'ET' %}
                                 <span class="text-success pulse-text">{% translate "LIVE" %}</span>
                                 <span class="live-dot"></span>
                                 {% else %}
@@ -258,8 +258,8 @@
                                 
                                 {% if match.status == 'Scheduled' %}
                                     {{ match.date|date:"H:i" }}
-                                {% elif match.status == 'Live' %}
-                                    {{ match.elapsed_time|default:"1" }}'
+                                {% elif match.status == 'Live' or match.status == '1H' or match.status == '2H' or match.status == 'HT' or match.status == 'ET' %}
+                                    {{ match|live_time }}
                                 {% else %}
                                     {{ match.status }}
                                 {% endif %}

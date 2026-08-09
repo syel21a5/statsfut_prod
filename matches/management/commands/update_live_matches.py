@@ -174,7 +174,7 @@ class Command(BaseCommand):
                 live_ids = {str(f.get('id')) for f in all_live_fixtures if f.get('id')}
                 # Qualquer jogo Live que começou há >2h e não está mais no radar do SofaScore terminou
                 stale = Match.objects.filter(
-                    status__in=['LIVE', 'Live', '1H', '2H', 'HT', 'Halftime'],
+                    status__in=['LIVE', 'Live', '1H', '2H', 'HT', 'ET', 'Halftime'],
                     date__lte=timezone.now(),
                 )
                 marcados = 0
@@ -197,7 +197,7 @@ class Command(BaseCommand):
                 from matches.models import LiveMatchSnapshot as _Snapshot
                 svc_rich = _SofaSvc()
                 live_qs = Match.objects.filter(
-                    status__in=['Live', 'LIVE', '1H', '2H', 'HT', 'Halftime'],
+                    status__in=['Live', 'LIVE', '1H', '2H', 'HT', 'ET', 'Halftime'],
                     date__lte=timezone.now(),
                 )  # SEM LIMITE: rich data (chutes/escanteios/posse) para TODOS os jogos ao vivo
                 for m in live_qs:
@@ -728,6 +728,7 @@ class Command(BaseCommand):
                     '1H': '1H',  # First Half
                     'HT': 'HT',  # Half Time
                     '2H': '2H',  # Second Half
+                    'ET': 'ET',  # Extra Time (prorrogação)
                     'FT': 'FT',  # Full Time - PADRONIZADO com SofaScore
                     'AET': 'AET',  # After Extra Time
                     'PEN': 'PEN',  # Penalties

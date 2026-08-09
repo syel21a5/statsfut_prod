@@ -83,3 +83,29 @@ def translated_url(context, language):
     if not request:
         return ''
     return translate_url(request.path, language)
+
+
+@register.filter(name='live_time')
+def live_time(match):
+    """Exibe o cronômetro ao vivo de forma legível e traduzida, baseado no período.
+    Aceita um objeto Match (ou dict) com 'status' e 'elapsed_time'.
+    status esperados: '1H', '2H', 'HT', 'ET', 'Live', 'FT'.
+    Retorna ex: '1º Tempo 33'', 'Intervalo', '2º Tempo 12'', 'Prorrogação 5''."""
+    from django.utils.translation import gettext as _
+    status = getattr(match, 'status', None) if not isinstance(match, dict) else match.get('status')
+    elapsed = getattr(match, 'elapsed_time', None) if not isinstance(match, dict) else match.get('elapsed_time')
+    if not elapsed:
+        elapsed = getattr(match, 'elapsed', None) if not isinstance(match, dict) else match.get('elapsed')
+    elapsed = elapsed or 1
+    s = str(status or '').upper()
+    if s in ('1H',):
+        return f"{_('1st Half')} {elapsed}'"
+    if s in ('HT', 'HALFTIME'):
+        return _('Half Time')
+    if s in ('2H',):
+        return f"{_('2nd Half')} {elapsed}'"
+    if s in ('ET', 'AET', 'EXTRA'):
+        return f"{_('Extra Time')} {elapsed}'"
+    if s in ('LIVE', 'IN PLAY', 'IN_PLAY'):
+        return f"{_('LIVE')} {elapsed}'"
+    return f"{elapsed}'"
