@@ -1529,6 +1529,16 @@ class LeagueDetailView(DetailView):
         ).select_related('home_team', 'away_team').order_by('-date')[:15]
         context['finished_matches'] = finished_matches
         context['latest_results'] = finished_matches
+
+        # Cache dinâmico: 0s se houver jogo ao vivo (placar atualizado na hora), 60s senão.
+        # (29/08/2026: antes o template usava cache 300 fixo = até 5min de atraso no placar,
+        # inutilizável para apostas ao vivo. Reduzido para o mesmo padrão da home.)
+        live_statuses_now = ['1H', '2H', 'HT', 'ET', 'P', 'BT', 'LIVE', 'IN_PLAY', 'PAUSED', 'INT', 'SUSP', 'BREAK', 'PEN_LIVE']
+        has_live = Match.objects.filter(
+            league=league, status__in=live_statuses_now
+        ).exists()
+        context['has_live_matches'] = has_live
+        context['cache_timeout'] = 0 if has_live else 60
         
         # --- NEW: Standing Groups Logic ---
         latest_season_standing = league.standings.order_by('-season__year').first()

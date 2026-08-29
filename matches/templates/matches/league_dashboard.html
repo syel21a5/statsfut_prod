@@ -54,7 +54,7 @@
 {% endblock %}
 
 {% block content %}
-{% cache 300 league_dashboard_v18 league.id request.LANGUAGE_CODE is_country_hub request.user.is_authenticated request.user.profile.is_premium %}
+{% cache cache_timeout|default:300 league_dashboard_v18 league.id request.LANGUAGE_CODE is_country_hub request.user.is_authenticated request.user.profile.is_premium %}
 <div class="container-fluid py-4">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
