@@ -416,8 +416,16 @@ class Command(BaseCommand):
             if external_id:
                 if source_api == 'football_data':
                     if not team.fd_id:
-                        team.fd_id = str(external_id)
-                        team.save()
+                        # PROTEÇÃO: fd_id é unique GLOBAL (não por liga). O mesmo clube pode
+                        # existir em várias ligas. Se outro time já usa esse fd_id, NÃO seta
+                        # aqui — deixa None. Evita 'Duplicate entry' no live loop.
+                        if not Team.objects.filter(fd_id=str(external_id)).exists():
+                            team.fd_id = str(external_id)
+                            team.save()
+                    elif team.fd_id != str(external_id):
+                        if not Team.objects.filter(fd_id=str(external_id)).exists():
+                            team.fd_id = str(external_id)
+                            team.save()
                 else:
                     if not team.api_id:
                         # PROTEÇÃO: api_id é unique GLOBAL (não por liga). O mesmo clube pode
@@ -865,18 +873,29 @@ class Command(BaseCommand):
                             )
                         except IntegrityError:
                             # Corrida: outro processo criou este api_id entre nosso check e o create.
-                            # Re-busca e apenas atualiza os campos (não cria duplicata).
-                            match_obj = Match.objects.get(api_id=match_external_id)
-                            for key, value in defaults_no_id.items():
-                                setattr(match_obj, key, value)
-                            match_obj.league = league_obj
-                            match_obj.season = season_obj
-                            match_obj.home_team = home_team
-                            match_obj.away_team = away_team
-                            match_obj.save()
-                            created = False
-                            self.stdout.write(self.style.WARNING(
-                                f'  ⚠️ Corrida concorrente resolvida (atualizei em vez de duplicar): {home_team.name} vs {away_team.name}'))
+                            # OU: o SofaScore está retornando um fixture com api_id diferente
+                            # do registro canônico (mesmo jogo, api_id diferente). Tenta re-buscar
+                            # por api_id primeiro; se falhar, busca por (date, home, away).
+                            match_obj = Match.objects.filter(api_id=match_external_id).first()
+                            if not match_obj:
+                                # Busca pela constraint unique_match_fixture (date+home+away)
+                                match_obj = Match.objects.filter(
+                                    date=match_date, home_team=home_team, away_team=away_team
+                                ).first()
+                            if match_obj:
+                                for key, value in defaults_no_id.items():
+                                    setattr(match_obj, key, value)
+                                match_obj.league = league_obj
+                                match_obj.season = season_obj
+                                match_obj.home_team = home_team
+                                match_obj.away_team = away_team
+                                match_obj.save()
+                                created = False
+                                self.stdout.write(self.style.WARNING(
+                                    f'  ⚠️ Duplicata resolvida (atualizei existente): {home_team.name} vs {away_team.name}'))
+                            else:
+                                # Último recurso: cria com ignore da constraint
+                                raise
                     else:
                         match_obj, created = Match.objects.update_or_create(
                             league=league_obj,
