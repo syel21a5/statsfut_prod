@@ -742,7 +742,20 @@ class Command(BaseCommand):
                 }
                 
                 status = status_map.get(fixture['status'], 'Scheduled')
-                
+
+                # GUARD ANTI-ROBO (29/08/2026): o SofaScore entrega temporadas pré-carregadas
+                # com status 'finished' e placar para jogos que ainda NÃO aconteceram
+                # (ex: sync_upcoming_tor com days_ahead=45 puxa jogos de setembro/outubro
+                # que já vêm com resultado simulado). Se a data do jogo ainda não passou,
+                # NUNCA aceitar status final/placar — força 'Scheduled' e zera o placar.
+                if match_date is not None and status in ('FT', 'Finished', 'AET', 'PEN', 'FINISHED'):
+                    now_utc = timezone.now()
+                    if match_date > now_utc + timedelta(minutes=30):
+                        status = 'Scheduled'
+                        self.stdout.write(self.style.WARNING(
+                            f'  ⚠️ Guard: jogo futuro ({match_date:%Y-%m-%d %H:%M}) veio com status "{fixture.get("status")}" → forçado Scheduled'
+                        ))
+
                 # Dados para salvar
                 match_external_id = str(fixture['id']) if fixture.get('id') else None
                 
