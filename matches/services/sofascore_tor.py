@@ -428,6 +428,8 @@ class SofaScoreTorService:
                         elapsed = min_do_periodo  # relativo ao período (base já aplicada no display)
                     except Exception:
                         elapsed = None
+                else:
+                    elapsed = None
             # SE AINDA SEM MINUTO: estima pela hora de início do jogo (startTimestamp).
             # Garante que o minuto nunca fique travado/None durante uma partida ao vivo.
             if elapsed is None:
@@ -435,17 +437,21 @@ class SofaScoreTorService:
                 if sts:
                     try:
                         minutos_desde_inicio = max(0, int((time.time() - int(sts)) / 60))
+                        # PERMITE ACRÉSCIMOS: não trava em 45. O juiz pode dar +3/+5 min.
+                        # Cap generoso de 55 por período (45 + ~10 de acréscimo) evita "estourar".
                         if code == 7:
-                            # 2º tempo: subtrai o intervalo (~15min). cap em 45+45=90.
-                            elapsed = max(1, min(45, minutos_desde_inicio - 45 - 15))
+                            # 2º tempo: subtrai o intervalo (~15min). cap 55.
+                            elapsed = max(1, min(55, minutos_desde_inicio - 45 - 15))
                         elif code == 6:
-                            elapsed = max(1, min(45, minutos_desde_inicio))
+                            elapsed = max(1, min(55, minutos_desde_inicio))
                         elif code == 8:
                             elapsed = 45
+                        elif code == 31:
+                            elapsed = 45
                         elif code in (10, 11, 12, 13):
-                            elapsed = max(1, min(30, minutos_desde_inicio - 90 - 15))
+                            elapsed = max(1, min(35, minutos_desde_inicio - 90 - 15))
                         else:
-                            elapsed = max(1, min(45, minutos_desde_inicio))
+                            elapsed = max(1, min(55, minutos_desde_inicio))
                     except Exception:
                         elapsed = 1
                 else:
