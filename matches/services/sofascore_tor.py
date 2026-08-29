@@ -409,6 +409,10 @@ class SofaScoreTorService:
                 periodo, base = "HT", 0
             elif code == 7:
                 periodo, base = "2H", 45
+            elif code == 31:
+                # Intervalo (Halftime) — código 31 no SofaScore. NÃO é 1º tempo!
+                periodo, base = "HT", 0
+                elapsed = 45
             elif code in (10, 11, 12, 13):
                 periodo, base = "ET", 90
             else:
