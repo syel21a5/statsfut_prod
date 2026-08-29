@@ -1520,9 +1520,12 @@ class LeagueDetailView(DetailView):
         
         # Include all statuses that indicate a finished match
         # REMOVED date__lte=now to avoid timezone issues hiding finished matches
+        # Só exibe se houver placar (None-None = jogo não começou ou status bugado)
         finished_matches = Match.objects.filter(
             league=league,
-            status__in=FINISHED_STATUSES
+            status__in=FINISHED_STATUSES,
+            home_score__isnull=False,
+            away_score__isnull=False,
         ).select_related('home_team', 'away_team').order_by('-date')[:15]
         context['finished_matches'] = finished_matches
         context['latest_results'] = finished_matches
