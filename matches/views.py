@@ -2243,16 +2243,22 @@ class LeagueDetailView(DetailView):
                 context['league_stats'] = {}
                 context['common_scores'] = []
 
-            # Prepare sorted versions of all_standings_flat for the analytics cards
-            context['standings_by_form'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'ppg_diff', 0), reverse=True)
-            context['standings_by_perf'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'performance_index', 0), reverse=True)
-            context['standings_by_runin'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'opp_remaining_ppg', 0), reverse=True)
-            context['standings_by_proj'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'proj_total', 0), reverse=True)
+            # Prepare sorted versions of standings for the analytics cards
+            # Usa a tabela exibida (standings = primeiro grupo, ex: 'Regular Season'/'Anual')
+            # NÃO all_standings_flat (que inclui Promedios, grupos extras com dados
+            # agregados de várias temporadas, gerando GA=0 e J=96 — inválidos para destaques).
+            _highlights_src = [s for s in standings if s.played >= 3] if standings else all_standings_flat
+            if not _highlights_src:
+                _highlights_src = all_standings_flat
+            context['standings_by_form'] = sorted(_highlights_src, key=lambda x: getattr(x, 'ppg_diff', 0), reverse=True)
+            context['standings_by_perf'] = sorted(_highlights_src, key=lambda x: getattr(x, 'performance_index', 0), reverse=True)
+            context['standings_by_runin'] = sorted(_highlights_src, key=lambda x: getattr(x, 'opp_remaining_ppg', 0), reverse=True)
+            context['standings_by_proj'] = sorted(_highlights_src, key=lambda x: getattr(x, 'proj_total', 0), reverse=True)
 
-            # Season highlights (computed in memory over already-loaded standings — no extra queries)
-            if all_standings_flat:
-                context['season_best_attack'] = max(all_standings_flat, key=lambda s: s.goals_for)
-                context['season_best_defense'] = min(all_standings_flat, key=lambda s: s.goals_against)
+            # Season highlights (computed over the main displayed table only)
+            if _highlights_src:
+                context['season_best_attack'] = max(_highlights_src, key=lambda s: s.goals_for)
+                context['season_best_defense'] = min(_highlights_src, key=lambda s: s.goals_against)
                 context['season_best_form'] = context['standings_by_form'][0] if context['standings_by_form'] else None
             else:
                 context['season_best_attack'] = None

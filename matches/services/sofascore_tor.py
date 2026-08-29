@@ -75,6 +75,64 @@ SOFA_LEAGUE_IDS = {
     "A-League Men": [136],               # Austrália
 }
 
+# -------------------------------------------------------------------------
+# MAPA POR (nome, país) — desambigua ligas com o MESMO nome em países
+# diferentes (ex: "Super League" na Suíça e na Grécia; "Bundesliga" na
+# Alemanha e na Áustria). Chave = (nome da liga, país no banco).
+# Usado pelo recalculate_standings para atualizar TODAS as ligas, mesmo as
+# que compartilham nome.
+# -------------------------------------------------------------------------
+SOFA_LEAGUE_ID_COUNTRY = {
+    ("Brasileirão", "Brasil"): [325],
+    ("Série B", "Brasil"): [390],
+    ("Série C", "Brasil"): [1281],
+    ("Copa do Brasil", "Brasil"): [373],
+    ("La Liga", "Espanha"): [8],
+    ("Premier League", "Inglaterra"): [17],
+    ("Serie A", "Italia"): [23],
+    ("Ligue 1", "Franca"): [34],
+    ("Bundesliga", "Alemanha"): [35],
+    ("Bundesliga", "Austria"): [45],
+    ("Primeira Liga", "Portugal"): [238],
+    ("Eredivisie", "Holanda"): [37],
+    ("Süper Lig", "Turquia"): [52],
+    ("Superliga", "Dinamarca"): [39],
+    ("Super League", "Suica"): [215],
+    ("Super League", "Grecia"): [185],
+    ("Pro League", "Belgica"): [38],
+    ("Championship", "Inglaterra"): [18],
+    ("Premiership", "Escocia"): [36],
+    ("Ekstraklasa", "Polonia"): [202],
+    ("First League", "Republica Tcheca"): [172],
+    ("Premier Liga", "Russia"): [203],
+    ("Premier League", "Ucrania"): [218],
+    ("J1 League", "Japao"): [196],
+    ("Liga MX", "Mexico"): [11621],
+    ("Liga Profesional", "Argentina"): [155],
+    ("Primera B", "Argentina"): [703],
+    ("Primera B", "Chile"): [1240],
+    ("Primera A", "Colombia"): [11539],
+    ("Primera Division", "Chile"): [11653],
+    ("Primera Division", "Paraguai"): [11541],
+    ("Primera Division", "Uruguai"): [30743],
+    ("Liga 1", "Peru"): [406],
+    ("Liga Pro", "Equador"): [240],
+    ("Serie B", "Equador"): [10240],
+    ("Copa Libertadores", "America do Sul"): [384],
+    ("Copa Sul-Americana", "America do Sul"): [480],
+    ("MLS", "Estados Unidos"): [242],
+    ("USL Championship", "Estados Unidos"): [13363],
+    ("Eliteserien", "Noruega"): [20],
+    ("1st Division", "Noruega"): [22],
+    ("Allsvenskan", "Suecia"): [40],
+    ("Superettan", "Suecia"): [46],
+    ("Veikkausliiga", "Finlandia"): [41],
+    ("Ykkösliiga", "Finlandia"): [55],
+    ("Besta deild karla", "Islandia"): [188],
+    ("1. deild", "Islandia"): [675],
+    ("A-League Men", "Australia"): [136],
+}
+
 
 def _fmt_ts(ts):
     """Converte timestamp unix para ISO 8601 (formato esperado pelo update_live_matches)."""

@@ -8,6 +8,7 @@ from datetime import timedelta
 from matches.models import League, Season, Team, Match, LeagueStanding
 from matches.utils_odds_api import resolve_team
 from matches.services.sofascore_tor import SofaScoreTorService, SOFA_LEAGUE_IDS
+from matches.services.sofascore_tor import SOFA_LEAGUE_ID_COUNTRY
 
 # ============================================================================
 # 11/08/2026: Standings agora via SofaScore (Tor). API-Football desligada
@@ -28,11 +29,27 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Iniciando Atualização de Classificação (Standings) via SofaScore/Tor"))
 
         # Liga -> unique-tournament do SofaScore
+        # Usa SOFA_LEAGUE_ID_COUNTRY (que tem (nome, país) → tids) para
+        # desambiguar ligas com mesmo nome em países diferentes
+        # (ex: "Super League" Suíça vs Grécia; "Premier League" Ucrânia).
         target = []
+        seen_ids = set()
+
+        for (l_name, l_country), tids in SOFA_LEAGUE_ID_COUNTRY.items():
+            db_league = League.objects.filter(name__iexact=l_name, country=l_country).first()
+            if not db_league:
+                continue
+            if db_league.id in seen_ids:
+                continue
+            target.append({'tids': tids, 'db_obj': db_league})
+            seen_ids.add(db_league.id)
+
+        # Fallback por nome apenas (cobre ligas não listadas no mapping por país)
         for l_name, tids in SOFA_LEAGUE_IDS.items():
             db_league = League.objects.filter(name__iexact=l_name).first() or League.objects.filter(name__icontains=l_name).first()
-            if db_league:
+            if db_league and db_league.id not in seen_ids:
                 target.append({'tids': tids, 'db_obj': db_league})
+                seen_ids.add(db_league.id)
 
         if options.get("smart"):
             yesterday = timezone.now() - timedelta(days=1)
