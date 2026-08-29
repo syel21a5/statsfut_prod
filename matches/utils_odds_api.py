@@ -383,6 +383,17 @@ def resolve_team(name, league):
         elif country in ['espanha', 'spain']:
             name = "Ath Bilbao"
 
+    # Reverse: SofaScore manda "Ath Bilbao" / "Atletico Goianiense" também pro BRASIL
+    # (nome canônico no banco: Athletic Club / Atletico-GO)
+    if name == "Ath Bilbao" and league and league.country.lower() in ['brasil', 'brazil']:
+        name = "Athletic"
+    if name == "Atletico Goianiense" and league and league.country.lower() in ['brasil', 'brazil']:
+        name = "Atletico-GO"
+    if name in ("America Mineiro", "América Mineiro") and league and league.country.lower() in ['brasil', 'brazil']:
+        name = "America-MG"
+    if name == "Vila Nova" and league and league.country.lower() in ['brasil', 'brazil']:
+        name = "Vila Nova FC"
+
     # 1. Check manual mapping
     if name in ODDS_API_TEAM_MAPPINGS:
         mapped_name = ODDS_API_TEAM_MAPPINGS[name]

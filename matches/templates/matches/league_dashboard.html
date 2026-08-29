@@ -74,7 +74,7 @@
     <!-- Top Ad Slot (injected via JS to avoid cache) -->
 
     {% if intro_text %}
-    <!-- Custom SEO Intro Text -->
+    <!-- Custom SEO Intro Text (Seção A) -->
     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4 league-intro">
         <div class="card-body p-4" style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.7;">
             {{ intro_text|safe|linebreaks }}
@@ -82,29 +82,44 @@
     </div>
     {% endif %}
 
-    <!-- SEO TEXT DYNAMIC GENERATION (SofaScore / SoccerStats Premium Style) -->
+    <!-- SEO: Season in Numbers (Seção B) — snapshot dinâmico da temporada atual, diferenciado da intro acima -->
     <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
         <div class="card-body p-4">
             <h5 class="fw-bold mb-3 text-info">
-                <i class="fa-solid fa-circle-info me-2"></i>{% translate "About" %} {{ league.name }}
+                <i class="fa-solid fa-chart-simple me-2"></i>{{ league.name }} — {{ latest_season.year|default:'' }} {% translate "Season Statistical Analysis" %}
             </h5>
-            
-<div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
+            <div class="row g-3" style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.7;">
                 <div class="col-md-6">
-                    <p class="mb-2">
-                        {% blocktranslate with league_name=league.name country=league.country|country_en %}The <strong>{{ league_name }}</strong> is the main professional football league in <strong>{{ country }}</strong>.{% endblocktranslate %}
+                    <ul class="list-unstyled mb-0 small">
                         {% if standings %}
-                            {% with leader=standings.0.team.name %}
-                                {% blocktranslate with leader=leader %}Currently, the competition leader is <strong>{{ leader }}</strong>, leading the league table this season.{% endblocktranslate %}
-                            {% endwith %}
+                            <li class="mb-2">
+                                <i class="fa-solid fa-trophy text-warning me-2"></i>
+                                {% with leader=standings.0.team.name points=standings.0.points %}
+                                    {% blocktranslate %}The current league leader is <strong>{{ leader }}</strong> with <strong>{{ points }}</strong> points.{% endblocktranslate %}
+                                {% endwith %}
+                            </li>
                         {% endif %}
-                    </p>
-                    <p class="mb-0">
-                        {% blocktranslate %}StatsFut tracks live football scores, detailed statistics, standings, and performance analysis for all rounds of the competition.{% endblocktranslate %}
-                    </p>
+                        {% if season_best_attack %}
+                            <li class="mb-2">
+                                <i class="fa-solid fa-arrow-trend-up text-success me-2"></i>
+                                {% blocktranslate with team=season_best_attack.team.name goals=season_best_attack.goals_for %}The best attack in the league belongs to <strong>{{ team }}</strong> with <strong>{{ goals }}</strong> goals scored.{% endblocktranslate %}
+                            </li>
+                        {% endif %}
+                        {% if season_best_defense %}
+                            <li class="mb-2">
+                                <i class="fa-solid fa-shield-halved text-info me-2"></i>
+                                {% blocktranslate with team=season_best_defense.team.name goals=season_best_defense.goals_against %}The strongest defense belongs to <strong>{{ team }}</strong>, conceding only <strong>{{ goals }}</strong> goals.{% endblocktranslate %}
+                            </li>
+                        {% endif %}
+                        {% if season_best_form %}
+                            <li class="mb-0">
+                                <i class="fa-solid fa-fire text-danger me-2"></i>
+                                {% blocktranslate with team=season_best_form.team.name diff=season_best_form.ppg_diff|floatformat:2 %}The team in the best form is <strong>{{ team }}</strong>, with a recent PPG difference of <strong>{{ diff }}</strong> versus its season average.{% endblocktranslate %}
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
                 <div class="col-md-6 border-start border-secondary border-opacity-25 ps-md-4">
-                    <h6 class="fw-bold text-white mb-2 small text-uppercase">{% translate "Season Statistical Analysis" %}</h6>
                     <ul class="list-unstyled mb-0 small">
                         {% if league_stats %}
                             <li class="mb-2">
@@ -117,11 +132,17 @@
                             </li>
                         {% endif %}
                         {% if common_scores %}
-                            <li class="mb-0">
+                            <li class="mb-2">
                                 <i class="fa-regular fa-futbol text-info me-2"></i>
                                 {% with most_common=common_scores.0 %}
                                     {% blocktranslate with score=most_common.score pct=most_common.pct %}The most common result recorded this season is the score of <strong>{{ score }}</strong>, occurring in <strong>{{ pct }}%</strong> of all matches played.{% endblocktranslate %}
                                 {% endwith %}
+                            </li>
+                        {% endif %}
+                        {% if season_home_king %}
+                            <li class="mb-0">
+                                <i class="fa-solid fa-house text-success me-2"></i>
+                                {% blocktranslate with team=season_home_king.team.name diff=season_home_king.ppg_diff|floatformat:2 %}The team that relies most on home advantage is <strong>{{ team }}</strong>, with a home/away PPG difference of <strong>{{ diff }}</strong>.{% endblocktranslate %}
                             </li>
                         {% endif %}
                     </ul>
@@ -132,6 +153,8 @@
 
     {% include 'matches/includes/league_tabs.html' with active_tab='overview' %}
 
+    <!-- Ad: topo do conteudo (acima da dobra) -->
+    <div class="ad-placeholder my-4" data-ad-slot="1511520655" data-ad-format="auto" data-ad-position="top-league"></div>
 
     <div class="row">
         <!-- Main Content Column (75% Width) -->

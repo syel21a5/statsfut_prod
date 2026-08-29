@@ -39,6 +39,7 @@ class Team(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE, related_name='teams')
     api_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na API")
     fd_id = models.CharField(max_length=50, unique=True, null=True, blank=True, help_text="ID do Time na Football-Data")
+    old_slugs = models.JSONField(default=list, blank=True, null=True, help_text="Slugs antigos das URLs para redirect 301")
 
     @property
     def logo_url(self):
@@ -52,6 +53,22 @@ class Team(models.Model):
             if duplicate:
                 api_id_to_use = duplicate.api_id
                 country_to_use = duplicate.league.country if duplicate.league else country_to_use
+
+        if not api_id_to_use:
+            # Fallback 2: busca por nome contido (ex: "RC Deportivo La Coruna" → "Deportivo de A Coruna")
+            # Remove prefixos comuns para tentar achar o canônico
+            import re
+            nome_limpo = re.sub(r'^(AFC|FC|SC|SV|BK|IF|FK|SK|IK|SS|AC|AS|CD|CA|RA|KS|MKS|GKS|NK|HNK|TSV|VfB|VfL|1\.\s?FC\s?|2\.\s?)', '', self.name.strip())
+            # Palavras-chave: primeiras 2 palavras significativas do nome
+            palavras = [p for p in nome_limpo.split() if len(p) > 2]
+            if palavras:
+                chave = ' '.join(palavras[:2])
+                candidato = Team.objects.filter(
+                    name__icontains=chave, api_id__isnull=False
+                ).exclude(id=self.id).first()
+                if candidato:
+                    api_id_to_use = candidato.api_id
+                    country_to_use = candidato.league.country if candidato.league else country_to_use
 
         if api_id_to_use and country_to_use:
             country_slug = slugify(country_to_use)
@@ -200,6 +217,8 @@ class Match(models.Model):
     away_possession = models.IntegerField(null=True, blank=True)
     home_dangerous_attacks = models.IntegerField(null=True, blank=True)
     away_dangerous_attacks = models.IntegerField(null=True, blank=True)
+    home_big_chances = models.IntegerField(null=True, blank=True)
+    away_big_chances = models.IntegerField(null=True, blank=True)
     
     class Meta:
         ordering = ['date']

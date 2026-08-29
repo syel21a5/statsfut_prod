@@ -13,12 +13,26 @@ from matches.models import Match
 
 logger = logging.getLogger(__name__)
 
+
+def _norm_team_name(nome):
+    """Normaliza nome de time para casamento por substring:
+    minúsculas, sem acentos, sem hífens, sem 'FC/F.C.' duplicado."""
+    import unicodedata
+    if not nome:
+        return ''
+    n = unicodedata.normalize('NFD', str(nome))
+    n = ''.join(c for c in n if unicodedata.category(c) != 'Mn')  # remove acentos
+    n = n.lower().replace('-', ' ').replace('.', '').replace('fc', '').strip()
+    return ' '.join(n.split())
+
+
 class Command(BaseCommand):
     help = "Daemon Ao Vivo Secundário via SofaScore (Salva-vidas para ligas menores)"
 
     def handle(self, *args, **options):
         # 1. Pega a configuração de Proxy do .env
-        proxy_url = os.getenv("RESIDENTIAL_PROXY")
+        # AMBIENTE DE TESTE: Tor no lugar do proxy residencial (validado 03/08/2026)
+        proxy_url = os.getenv("TOR_PROXY", "socks5h://127.0.0.1:9050")
         
         # 2. Busca jogos que podem precisar de ajuda do SofaScore
         # Jogos de hoje (começaram há menos de 4 horas ou começam nos próximos 15 min)
@@ -80,7 +94,7 @@ class Command(BaseCommand):
         
         if proxy_url:
             session.proxies = {"http": proxy_url, "https": proxy_url}
-            self.stdout.write(f"🌐 Usando proxy residencial")
+            self.stdout.write(f"🌐 Usando proxy Tor: {proxy_url}")
             
         try:
             # 2. Chama a API diretamente
@@ -94,15 +108,15 @@ class Command(BaseCommand):
                 
                 with transaction.atomic():
                     for db_match in all_today_matches:
-                        db_home = db_match.home_team.name.lower().replace('-', ' ').strip()
-                        db_away = db_match.away_team.name.lower().replace('-', ' ').strip()
+                        db_home = _norm_team_name(db_match.home_team.name)
+                        db_away = _norm_team_name(db_match.away_team.name)
                         
                         sofa_event = None
                         
                         # Tenta encontrar no pacotão do SofaScore
                         for ev in events:
-                            home_team_name = ev.get('homeTeam', {}).get('name', '').lower().replace('-', ' ').strip()
-                            away_team_name = ev.get('awayTeam', {}).get('name', '').lower().replace('-', ' ').strip()
+                            home_team_name = _norm_team_name(ev.get('homeTeam', {}).get('name', ''))
+                            away_team_name = _norm_team_name(ev.get('awayTeam', {}).get('name', ''))
                             
                             if (db_home in home_team_name or home_team_name in db_home) and \
                                (db_away in away_team_name or away_team_name in db_away):

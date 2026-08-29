@@ -50,12 +50,8 @@ class Command(BaseCommand):
         #     'env_key': 'ODDS_API_KEY_SWITZERLAND_UPCOMING',
         #     'db_name': 'Super League',
         #     'country': 'Suica'
-        # },
-        'soccer_denmark_superliga': {
-            'env_key': 'ODDS_API_KEY_DENMARK_UPCOMING',
-            'db_name': 'Superliga',
-            'country': 'Dinamarca'
-        },
+        # }
+        # 11/08/2026: Dinamarca removida — não há ODDS_API_KEY_DENMARK_UPCOMING no .env
         'soccer_germany_bundesliga': {
             'env_key': 'ODDS_API_KEY_GERMANY_UPCOMING',
             'db_name': 'Bundesliga',
@@ -94,7 +90,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.WARNING("⚠️ AVISO: Este script (The Odds API) está OBSOLETO. Use 'python manage.py update_pro_odds' que centraliza tudo via API-Football PRO."))
+        # 11/08/2026: API-Football desligada — as odds passam a ser via The Odds API
+        # (este script voltou a ser a fonte válida de odds). Removido o aviso de obsoleto.
         league_arg = options['league']
         
         if league_arg == 'ALL':
@@ -133,19 +130,11 @@ class Command(BaseCommand):
             'ODDS_API_KEY_GERMANY_UPCOMING',
             'ODDS_API_KEY_FRANCE_UPCOMING',
             'ODDS_API_KEY_ENGLAND_UPCOMING',
-            'ODDS_API_KEY_DENMARK_UPCOMING',
-            'ODDS_API_KEY_BRAZIL_LIVE_2',
-            'ODDS_API_KEY_BRAZIL_LIVE_3',
-            'ODDS_API_KEY_ENGLAND_LIVE_1',
-            'ODDS_API_KEY_ENGLAND_LIVE_2',
-            'ODDS_API_KEY_ENGLAND_LIVE_3',
-            'ODDS_API_KEY_AUSTRIA_LIVE_1',
-            'ODDS_API_KEY_AUSTRIA_LIVE_2',
-            'ODDS_API_KEY_AUSTRIA_LIVE_3',
-            'ODDS_API_KEY_AUSTRALIA_LIVE_1',
-            'ODDS_API_KEY_AUSTRALIA_LIVE_2',
-            'ODDS_API_KEY_AUSTRALIA_LIVE_3',
+            'ODDS_API_KEY_ENGLAND_LIVE_1',  # única com crédito real p/ odds (SofaScore não tem odds)
         ]
+        # 11/08/2026: removidas do pool as *_LIVE_* mortas (BRAZIL/AUSTRIA/AUSTRALIA/etc)
+        # e DENMARK (sem chave no .env) — só geravam tentativas 401 e poluíam o log.
+        # MANTIDA ENGLAND_LIVE_1 (fallback funcional de odds).
         
         for var in env_vars:
             if var != primary_env_key:

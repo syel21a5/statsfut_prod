@@ -51,3 +51,9 @@ def sidebar_context(request):
     
     return {'sidebar_countries': sorted_countries}
 
+
+
+def ads_context(request):
+    """Context processor: controla exibição de anúncios (AdSense/Ezoic) via settings.ADS_ENABLED."""
+    from django.conf import settings
+    return {'ads_enabled': settings.ADS_ENABLED}

@@ -32,6 +32,7 @@ class APIManager:
         'Brasileirão Série B': {'api_football': [72], 'football_data': []},
         'Brasileirão Série C': {'api_football': [75], 'football_data': []},
         'Copa do Brasil': {'api_football': [73], 'football_data': []},
+        'Liga Pro': {'api_football': [], 'football_data': []},  # Equador (LigaPro Serie A) — via SofaScore/Tor
         'Liga Profesional': {'api_football': [128], 'football_data': []},    # Argentina
         'Primera Division': {'api_football': [265], 'football_data': []},    # Chile
         'A-League': {'api_football': [188], 'football_data': []},            # Australia
@@ -71,7 +72,8 @@ class APIManager:
     }
 
     # FLAG TO DISABLE API-FOOTBALL (User request: "não a use")
-    USE_API_FOOTBALL = True
+    # AMBIENTE DE TESTE (statsfut2): API-Football DESLIGADA — usar SofaScore via Tor
+    USE_API_FOOTBALL = False
 
     # Ligas que NÃO existem na Football-Data.org e precisam da API-Football
     # 119: Superliga (Dinamarca)
@@ -240,14 +242,24 @@ class APIManager:
     def get_live_fixtures(self, league_ids=None, exclude_apis=None):
         """
         Busca fixtures ao vivo - OTIMIZADO PARA USAR APENAS API-FOOTBALL (1 request global v3)
+        AMBIENTE DE TESTE: com API-Football desligada, usa SofaScore via Tor (1 request global).
         """
         exclude_apis = exclude_apis or []
         
         # Check if API-Football is allowed
-        # Se USE_API_FOOTBALL for False, retornamos vazio imediatamente
+        # Se USE_API_FOOTBALL for False, usamos o SofaScore via Tor
         if not self.USE_API_FOOTBALL:
-            print("[APIManager] API-Football está DESATIVADA por configuração.")
-            return []
+            print("[APIManager] API-Football DESATIVADA — usando SofaScore via Tor (live).")
+            try:
+                from matches.services.sofascore_tor import SofaScoreTorService
+                fixtures = SofaScoreTorService().get_live_fixtures()
+                if fixtures:
+                    return fixtures
+                print("[APIManager] SofaScore via Tor não retornou dados ao vivo.")
+                return []
+            except Exception as e:
+                print(f"[APIManager] Erro SofaScore via Tor: {e}")
+                return []
         
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
@@ -298,8 +310,25 @@ class APIManager:
         
         # Check if API-Football is allowed
         if not self.USE_API_FOOTBALL:
-             print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca para {league_name or 'leagues'}.")
-             return []
+             print(f"[APIManager] API-Football DESATIVADA — usando SofaScore via Tor (upcoming).")
+             try:
+                 from matches.services.sofascore_tor import SofaScoreTorService, SOFA_LEAGUE_IDS
+                 svc = SofaScoreTorService()
+                 fixtures = svc.get_upcoming_fixtures(days_ahead=days_ahead)
+                 if not fixtures:
+                     return []
+                 # Filtra pelas ligas mapeadas (ids SofaScore)
+                 sofa_ids = set()
+                 for name in (league_name or '').split(',') if league_name else []:
+                     sofa_ids.update(SOFA_LEAGUE_IDS.get(name.strip(), []))
+                 if league_name and sofa_ids:
+                     fixtures = [f for f in fixtures if f.get('league_id') in sofa_ids]
+                 elif league_ids:
+                     fixtures = [f for f in fixtures if f.get('league_id') in set(league_ids)]
+                 return fixtures
+             except Exception as e:
+                 print(f"[APIManager] Erro SofaScore via Tor (upcoming): {e}")
+                 return []
 
         af_keys = [f'api_football_{i}' for i in range(1, 3)]
         api_af = self._choose_best_api_from_list(af_keys, exclude_apis=exclude_apis)
@@ -316,8 +345,15 @@ class APIManager:
         Busca próximos jogos para a principal liga de um país automaticamente (API-Football).
         """
         if not self.USE_API_FOOTBALL:
-            print(f"[APIManager] API-Football está DESATIVADA. Ignorando busca por país: {country}")
-            return []
+            print(f"[APIManager] API-Football DESATIVADA — usando SofaScore via Tor (país: {country}).")
+            try:
+                from matches.services.sofascore_tor import SofaScoreTorService
+                fixtures = SofaScoreTorService().get_upcoming_fixtures(days_ahead=7)
+                # Filtra pelo país
+                return [f for f in fixtures if f.get('country') and country.lower() in str(f.get('country')).lower()]
+            except Exception as e:
+                print(f"[APIManager] Erro SofaScore via Tor (país): {e}")
+                return []
 
         exclude_apis = exclude_apis or []
         af_keys = [f'api_football_{i}' for i in range(1, 3)]

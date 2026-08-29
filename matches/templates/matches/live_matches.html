@@ -69,9 +69,9 @@
                                 <!-- Status/Time -->
                                 <div class="col-2 text-center border-end border-secondary border-opacity-10 pe-2">
                                     <div class="text-danger fw-bold small live-pulse-text mb-1">
-                                        {% if match.status == 'Live' %}{% translate "LIVE" %}{% else %}{{ match.status }}{% endif %}
+                                        {% if match.status == 'Live' or match.status == '1H' or match.status == '2H' or match.status == 'HT' or match.status == 'ET' %}{% translate "LIVE" %}{% else %}{{ match.status }}{% endif %}
                                     </div>
-                                    <div class="text-info small font-monospace">{{ match.elapsed_time }}'</div>
+                                    <div class="text-info small font-monospace">{{ match|live_time }}</div>
                                 </div>
 
                                 <!-- Teams & Scores -->

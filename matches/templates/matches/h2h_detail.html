@@ -37,6 +37,9 @@
             <!-- PREMIUM CTA BANNER (topo da coluna principal - não empurra a sidebar/ads) -->
             {% include 'matches/includes/h2h_premium_cta.html' %}
 
+            <!-- Ad: topo do conteudo (acima da dobra) -->
+            <div class="ad-placeholder my-4" data-ad-slot="1511520655" data-ad-format="auto" data-ad-position="top-h2h"></div>
+
             <!-- Matchup Header Card -->
             <div class="card border-0 bg-white bg-opacity-10 text-white shadow-sm mb-4">
                 <div class="card-body p-4">
@@ -2435,6 +2438,43 @@
         <!-- Right Sidebar (25% Width) for Ads -->
         <div class="col-lg-3">
             <div class="sticky-top" style="top: 20px; z-index: 100;">
+                {% if live_match %}
+                <!-- AMBIENTE DE TESTE: Live Radar banner (abre o popup grande) -->
+                <div class="card mb-3 border-0 shadow-sm" id="live-match-summary" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 14px; overflow: hidden;">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge bg-danger fw-bold" style="font-size: 0.7rem;"><span class="live-pulse-dot me-1" style="font-size: 0.5rem;">●</span>{% translate "AO VIVO" %}</span>
+                            {% if live_match.elapsed_time %}<span class="text-secondary small fw-bold">{{ live_match|live_time }}</span>{% endif %}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                            <div class="text-center" style="width: 38%;">
+                                <span class="d-block small text-truncate" style="color: #94a3b8;">{{ live_match.home_team.name }}</span>
+                            </div>
+                            <div class="text-center fw-bold text-white" style="width: 24%; font-size: 1.2rem;">{{ live_match.home_score|default:"0" }} - {{ live_match.away_score|default:"0" }}</div>
+                            <div class="text-center" style="width: 38%;">
+                                <span class="d-block small text-truncate" style="color: #94a3b8;">{{ live_match.away_team.name }}</span>
+                            </div>
+                        </div>
+                        {% if live_match.home_corners is not None %}
+                        <div class="d-flex justify-content-between small text-secondary mb-1">
+                            <span>{% translate "Escanteios" %}: <span class="text-light fw-bold">{{ live_match.home_corners }}x{{ live_match.away_corners }}</span></span>
+                            <span>{% translate "Chutes" %}: <span class="text-light fw-bold">{{ live_match.home_shots }}x{{ live_match.away_shots }}</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between small text-secondary mb-1">
+                            <span>{% translate "No Alvo" %}: <span class="text-light fw-bold">{{ live_match.home_shots_on_target|default:"0" }}x{{ live_match.away_shots_on_target|default:"0" }}</span></span>
+                            <span>{% translate "Posse" %}: <span class="text-light fw-bold">{{ live_match.home_possession|default:"0" }}%x{{ live_match.away_possession|default:"0" }}%</span></span>
+                        </div>
+                        <div class="d-flex justify-content-between small text-secondary mb-1">
+                            <span>{% translate "Atq. Perig." %}: <span class="text-light fw-bold">{{ live_match.home_dangerous_attacks|default:"0" }}x{{ live_match.away_dangerous_attacks|default:"0" }}</span></span>
+                            <span>{% translate "Grd. Chanc." %}: <span class="text-light fw-bold">{{ live_match.home_big_chances|default:"0" }}x{{ live_match.away_big_chances|default:"0" }}</span></span>
+                        </div>
+                        {% endif %}
+                        <button class="btn btn-sm btn-success w-100 fw-bold mt-1" onclick="openLiveRadar({{ live_match.id }})">
+                            📡 {% translate "Ver Radar Completo" %}
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
                 {% include 'matches/includes/sidebar_widgets.html' %}
                 <div class="ad-placeholder mt-3" data-ad-slot="7384735802" data-ad-format="vertical"></div>
             </div>
@@ -2457,4 +2497,47 @@
         });
     });
 </script>
+
+{% if live_match %}
+<!-- AMBIENTE DE TESTE: Live Radar Modal + JS (reutiliza a view /live-radar/<id>/) -->
+<div class="modal fade" id="liveRadarModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
+        <div class="modal-content shadow-lg" style="background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden;" id="liveRadarModalContent">
+        </div>
+    </div>
+</div>
+<script>
+function openLiveRadar(matchId) {
+    const modalContent = document.getElementById('liveRadarModalContent');
+    modalContent.innerHTML = '<div class="text-center p-5 text-white"><div class="spinner-border text-success" role="status"></div><div class="mt-3 small">Carregando dados ao vivo...</div></div>';
+    const myModal = new bootstrap.Modal(document.getElementById('liveRadarModal'));
+    myModal.show();
+    fetch(`/live-radar/${matchId}/`)
+        .then(response => response.text())
+        .then(html => { modalContent.innerHTML = html; })
+        .catch(err => { modalContent.innerHTML = '<div class="p-4 text-center text-white bg-dark rounded">Erro ao carregar o radar. Tente novamente.</div>'; });
+}
+</script>
+<script>
+// ===== AUTO-REFRESH AO VIVO (H2H sidebar) =====
+// Atualiza o card "AO VIVO" a cada 30s via AJAX, sem recarregar a página.
+document.addEventListener('DOMContentLoaded', function() {
+    function atualizarCard() {
+        var card = document.getElementById('live-match-summary');
+        if (!card) return;
+        var url = window.location.pathname + window.location.search + (window.location.search ? '&' : '?') + 'cb=' + Date.now();
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(function(r) { return r.text(); })
+            .then(function(html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var novo = doc.getElementById('live-match-summary');
+                if (novo) { card.innerHTML = novo.innerHTML; }
+            })
+            .catch(function(e) { console.error('Erro ao atualizar card ao vivo:', e); });
+    }
+    setInterval(atualizarCard, 30000);
+});
+</script>
+{% endif %}
 {% endblock %}

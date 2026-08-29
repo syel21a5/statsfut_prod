@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.text import slugify
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.db.models import Q
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -1045,6 +1045,9 @@ class HomeView(ListView):
     def get_queryset(self):
         filter_type = self.request.GET.get('filter', 'today')
         
+        # Jogos finalizados não aparecem mais nos cards (detectados pelo Tor/SofaScore)
+        finished_statuses = ['Finished', 'FT', 'AET', 'PEN', 'FINISHED', 'Postponed', 'PST', 'AWD', 'CANC']
+        
         # Use Brazil timezone for day boundaries so matches at 21:00 BRT
         # (which is 00:00 UTC next day) are correctly attributed to the right day
         br_tz = ZoneInfo('America/Sao_Paulo')
@@ -1054,23 +1057,29 @@ class HomeView(ListView):
         if filter_type == 'tomorrow':
             start_date = start_of_day + timedelta(days=1)
             end_date = start_date + timedelta(days=1)
-            return Match.objects.filter(date__range=(start_date, end_date)).select_related('league', 'home_team', 'away_team').order_by('date')
+            return Match.objects.filter(date__range=(start_date, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('date')
             
         elif filter_type == 'next_round':
             # Próximos 14 dias para garantir
             start_date = start_of_day + timedelta(days=2)
             end_date = start_date + timedelta(days=14)
-            return Match.objects.filter(date__range=(start_date, end_date)).select_related('league', 'home_team', 'away_team').order_by('date')
+            return Match.objects.filter(date__range=(start_date, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('date')
             
         else: # today
             end_date = start_of_day + timedelta(days=1)
-            return Match.objects.filter(date__range=(start_of_day, end_date)).select_related('league', 'home_team', 'away_team').order_by('status', 'date')
+            return Match.objects.filter(date__range=(start_of_day, end_date)).exclude(status__in=finished_statuses).select_related('league', 'home_team', 'away_team').order_by('status', 'date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         matches = context['matches']
         filter_type = self.request.GET.get('filter', 'today')
         context['current_filter'] = filter_type
+        
+        # Jogo ao vivo não pode ficar em cache de 5min (placar/minuto/estatísticas mudam)
+        # → quando há Live, o timeout do cache vira 0 (regenera a cada request).
+        live_statuses = ['Live', 'LIVE', '1H', '2H', 'HT', 'IN_PLAY', 'In Play']
+        context['has_live_matches'] = any(m.status in live_statuses for m in matches)
+        context['cache_timeout'] = 0 if context['has_live_matches'] else 60
         
         # Group matches by Country -> League
         grouped = {}
@@ -1115,6 +1124,8 @@ class HomeView(ListView):
             
             candidates = Match.objects.filter(
                 date__range=(start_of_day, end_of_tomorrow)
+            ).exclude(
+                status__in=['Finished', 'FT', 'AET', 'PEN', 'FINISHED', 'Postponed', 'PST', 'AWD', 'CANC']
             ).select_related('league', 'home_team', 'away_team')
             
             def get_league_priority(m):
@@ -2238,6 +2249,16 @@ class LeagueDetailView(DetailView):
             context['standings_by_runin'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'opp_remaining_ppg', 0), reverse=True)
             context['standings_by_proj'] = sorted(all_standings_flat, key=lambda x: getattr(x, 'proj_total', 0), reverse=True)
 
+            # Season highlights (computed in memory over already-loaded standings — no extra queries)
+            if all_standings_flat:
+                context['season_best_attack'] = max(all_standings_flat, key=lambda s: s.goals_for)
+                context['season_best_defense'] = min(all_standings_flat, key=lambda s: s.goals_against)
+                context['season_best_form'] = context['standings_by_form'][0] if context['standings_by_form'] else None
+            else:
+                context['season_best_attack'] = None
+                context['season_best_defense'] = None
+                context['season_best_form'] = None
+
             context['standings'] = standings
             context['home_table'] = home_table
             context['away_table'] = away_table
@@ -2309,6 +2330,9 @@ class LeagueDetailView(DetailView):
                 for i, row in enumerate(relative_table, 1): row['position'] = i
             
             context['relative_table'] = relative_table
+
+            # Biggest home advantage (from already-built relative_table — no extra queries)
+            context['season_home_king'] = max(relative_table, key=lambda r: r['ppg_diff']) if relative_table else None
             
             if league.name == 'First League' and False:
                 if rf_override:
@@ -2411,7 +2435,9 @@ class LeagueDetailView(DetailView):
                 h_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 h_form_4 = []
                 for m in h_matches[:4]:
-                    if m.home_score > m.away_score: h_form_4.append('W')
+                    if m.home_score is None or m.away_score is None:
+                        h_form_4.append('-')
+                    elif m.home_score > m.away_score: h_form_4.append('W')
                     elif m.home_score == m.away_score: h_form_4.append('D')
                     else: h_form_4.append('L')
                     
@@ -2419,7 +2445,9 @@ class LeagueDetailView(DetailView):
                 a_matches.sort(key=lambda x: (x.date if x.date else epoch, x.id), reverse=True)
                 a_form_4 = []
                 for m in a_matches[:4]:
-                    if m.away_score > m.home_score: a_form_4.append('W')
+                    if m.home_score is None or m.away_score is None:
+                        a_form_4.append('-')
+                    elif m.away_score > m.home_score: a_form_4.append('W')
                     elif m.away_score == m.home_score: a_form_4.append('D')
                     else: a_form_4.append('L')
                         
@@ -2630,6 +2658,10 @@ class LeagueDetailView(DetailView):
             context['home_table'] = []
             context['away_table'] = []
             context['upcoming_matches'] = []
+            context['season_best_attack'] = None
+            context['season_best_defense'] = None
+            context['season_best_form'] = None
+            context['season_home_king'] = None
             
         return context
 
@@ -2828,7 +2860,28 @@ class TeamDetailView(DetailView):
                  if slugify(t.name) == slugify(team_slug):
                      team = t
                      break
-         
+
+        # FALLBACK por old_slugs (mesma liga primeiro): URL antiga de time renomeado
+        # (ex: /ath-bilbao/ -> Athletic Club). O get() já fará redirect 301.
+        if not team and team_slug:
+            from django.utils.text import slugify as _slug
+            def _find_by_old_slugs(queryset):
+                for _t in queryset.exclude(old_slugs__isnull=True).exclude(old_slugs=[]):
+                    for _so in (_t.old_slugs or []):
+                        if _slug(_so) == _slug(team_slug):
+                            return _t
+                return None
+            if league:
+                cand = _find_by_old_slugs(Team.objects.filter(league=league))
+            else:
+                cand = None
+            if cand is None:
+                cand = _find_by_old_slugs(Team.objects.all())
+            if cand:
+                team = cand
+                league = team.league
+
+        # Fallback por nome GLOBAL (só se nada na liga nem old_slugs achou)
         if not team:
              team = Team.objects.filter(name__iexact=team_name_query).first() or \
                     Team.objects.filter(name__icontains=team_name_query).first()
@@ -3707,6 +3760,8 @@ class TeamDetailView(DetailView):
                 pld = 0
                 for om in opp_matches:
                     pld += 1
+                    if om.home_score is None or om.away_score is None:
+                        continue
                     if om.home_score > om.away_score: pts += 3
                     elif om.home_score == om.away_score: pts += 1
                 return round(pts / pld, 2) if pld > 0 else 0
@@ -3716,6 +3771,8 @@ class TeamDetailView(DetailView):
                 pld = 0
                 for om in opp_matches:
                     pld += 1
+                    if om.home_score is None or om.away_score is None:
+                        continue
                     if om.away_score > om.home_score: pts += 3
                     elif om.away_score == om.home_score: pts += 1
                 return round(pts / pld, 2) if pld > 0 else 0
@@ -4539,22 +4596,23 @@ class LeagueGoalsView(TemplateView):
                         away_scored_first += 1
                         away_first_goal_mins.append(first_goal.minute)
 
-                if m.home_score > m.away_score:
-                    home_wins += 1
-                elif m.away_score > m.home_score:
-                    away_wins += 1
-                else:
-                    draws += 1
+                if m.home_score is not None and m.away_score is not None:
+                    if m.home_score > m.away_score:
+                        home_wins += 1
+                    elif m.away_score > m.home_score:
+                        away_wins += 1
+                    else:
+                        draws += 1
 
-                if (m.home_score + m.away_score) > 1.5:
-                    over_1_5 += 1
-                if (m.home_score + m.away_score) > 2.5:
-                    over_2_5 += 1
-                if (m.home_score + m.away_score) > 3.5:
-                    over_3_5 += 1
-                
-                if m.home_score > 0 and m.away_score > 0:
-                    btts_yes += 1
+                    if (m.home_score + m.away_score) > 1.5:
+                        over_1_5 += 1
+                    if (m.home_score + m.away_score) > 2.5:
+                        over_2_5 += 1
+                    if (m.home_score + m.away_score) > 3.5:
+                        over_3_5 += 1
+                    
+                    if m.home_score > 0 and m.away_score > 0:
+                        btts_yes += 1
 
         # Calculate Averages for First Goal Minutes
         avg_home_first_min = sum(home_first_goal_mins) / len(home_first_goal_mins) if home_first_goal_mins else 0
@@ -5442,7 +5500,7 @@ def calculate_team_season_stats(team, league, season):
         league=league, season=season
     ).filter(
         models.Q(home_team=team) | models.Q(away_team=team)
-    ).order_by('date').prefetch_related('goals')
+    ).select_related('home_team', 'away_team').order_by('date').prefetch_related('goals')
     
     played_matches = [m for m in all_matches if m.status in FINISHED_STATUSES and m.home_score is not None]
     
@@ -5585,6 +5643,49 @@ def calculate_team_season_stats(team, league, season):
 class HeadToHeadView(TemplateView):
     template_name = 'matches/h2h_detail.html'
 
+    def get(self, request, *args, **kwargs):
+        league_slug = self.kwargs.get('league_name')
+        team1_slug = self.kwargs.get('team1_name')
+        team2_slug = self.kwargs.get('team2_name')
+
+        # CACHE manual: a URL canônica serve do cache (aliviando 1.000+ queries).
+        # O redirect (URLs antigas) roda fora do cache e resolve os times 1x.
+        from django.core.cache import cache
+        from django.http import HttpResponse, HttpResponsePermanentRedirect
+        lang = getattr(request, 'LANGUAGE_CODE', 'en')
+        ck_key = f"h2h:{lang}:{request.get_full_path()}"
+        cached = cache.get(ck_key)
+        if cached is not None:
+            return HttpResponse(cached, content_type='text/html; charset=utf-8')
+
+        # Resolve os times p/ o redirect canônico via get_context_data (1x).
+        from django.utils.text import slugify as _slugify
+        from matches.utils import COUNTRY_TRANSLATIONS as _CT
+        try:
+            _ctx = self.get_context_data(**kwargs)
+            _t1 = _ctx.get('team1')
+            _t2 = _ctx.get('team2')
+            self._last_has_live = bool(_ctx.get('live_match'))
+            if _t1 and _t2 and team1_slug and team2_slug:
+                _c1 = _slugify(_t1.name)
+                _c2 = _slugify(_t2.name)
+                if _c1 != team1_slug or _c2 != team2_slug:
+                    _ce = _CT.get(_t1.league.country, _t1.league.country)
+                    _canon = f"/stats/{_slugify(_ce)}/{_slugify(_t1.league.name)}/h2h/{_c1}/{_c2}/"
+                    return HttpResponsePermanentRedirect(_canon)
+        except Exception:
+            pass
+
+        response = super().get(request, *args, **kwargs)
+        # cacheia apenas quando SEM jogo ao vivo entre os 2 times (live_match nunca congela)
+        if not getattr(self, '_last_has_live', False):
+            try:
+                response.render()
+                cache.set(ck_key, response.content, 300)
+            except Exception:
+                pass
+        return response
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         league_slug = self.kwargs.get('league_name')
@@ -5648,6 +5749,20 @@ class HeadToHeadView(TemplateView):
                             return team_obj
                 
                 if t: return t
+
+            # 1.5 FALLBACK por old_slugs (times renomeados): URL antiga -> time canônico
+            from django.utils.text import slugify as _slug2
+            # primeiro tenta na mesma liga
+            if league:
+                for _t in Team.objects.filter(league=league).exclude(old_slugs__isnull=True).exclude(old_slugs=[]):
+                    for _so in (_t.old_slugs or []):
+                        if _slug2(_so) == _slug2(slug):
+                            return _t
+            # depois global (na mesma liga de nada)
+            for _t in Team.objects.exclude(old_slugs__isnull=True).exclude(old_slugs=[]):
+                for _so in (_t.old_slugs or []):
+                    if _slug2(_so) == _slug2(slug):
+                        return _t
             
             # 2. Global Fallback
             t = Team.objects.filter(name__iexact=name).first()
@@ -5672,12 +5787,18 @@ class HeadToHeadView(TemplateView):
         context['team1'] = team1
         context['team2'] = team2
 
+        # Time inexistente no banco => 404 limpo (em vez de renderizar o H2H
+        # com dezenas de chaves de stats ausentes, que causava 500
+        # VariableDoesNotExist em t1_stats/t2_stats/h2h_stats etc).
+        if not (team1 and team2):
+            raise Http404("Team not found")
+
         if team1 and team2:
             # Direct Matches
             matches = Match.objects.filter(
                 (models.Q(home_team=team1) & models.Q(away_team=team2)) |
                 (models.Q(home_team=team2) & models.Q(away_team=team1))
-            ).filter(status__in=FINISHED_STATUSES).order_by('-date')
+            ).filter(status__in=FINISHED_STATUSES).select_related('home_team', 'away_team', 'league').order_by('-date')
             context['matches'] = matches
             
             # Upcoming Match (for CTA to full analysis)
@@ -5686,6 +5807,13 @@ class HeadToHeadView(TemplateView):
                 (models.Q(home_team=team2) & models.Q(away_team=team1))
             ).filter(status__in=['Scheduled', 'Not Started', 'TIMED', 'UTC', '1H', '2H', 'HT', 'In Progress', 'Live']).order_by('date').first()
             context['next_match'] = next_match
+
+            # AMBIENTE DE TESTE: jogo AO VIVO entre os dois times (Live Radar na sidebar)
+            live_match = Match.objects.filter(
+                (models.Q(home_team=team1) & models.Q(away_team=team2)) |
+                (models.Q(home_team=team2) & models.Q(away_team=team1))
+            ).filter(status__in=['Live', 'LIVE', '1H', '2H', 'HT', 'Halftime', 'IN_PLAY']).order_by('-id').first()
+            context['live_match'] = live_match
             
             # Calculate H2H Summary
             h2h_stats = {
@@ -6039,32 +6167,39 @@ class HeadToHeadView(TemplateView):
                     ).filter(
                         models.Q(home_team=team) | models.Q(away_team=team)
                     )
+                # select_related: evita N+1 (1.600+ queries de home/away_team no template)
+                qs = qs.select_related('home_team', 'away_team', 'league')
                 if status == 'Finished':
                     # Reverse order for played matches (newest first)
                     return list(qs.filter(status__in=FINISHED_STATUSES).order_by('-date'))
                 else:
-                    return qs.filter(status='Scheduled').order_by('date')
+                    return list(qs.filter(status='Scheduled').order_by('date'))
             
             context['t1_matches'] = get_matches(team1, 'Finished')
             context['t2_matches'] = get_matches(team2, 'Finished')
             
-            # Helper to calculate PPG for a team at a specific venue
+            # Helper to calculate PPG for a team at a specific venue (1 query SQL, sem loop N+1)
             def get_venue_ppg(team, venue):
-                # venue: 'home' or 'away'
+                from django.db.models import Sum, Count, F, Case, When, Value, IntegerField
                 if venue == 'home':
-                    ms = Match.objects.filter(league=league, season=latest_season, home_team=team, status__in=FINISHED_STATUSES)
-                    pts = 0
-                    for m in ms:
-                        if m.home_score > m.away_score: pts += 3
-                        elif m.home_score == m.away_score: pts += 1
-                    return round(pts / ms.count(), 2) if ms.exists() else 0.0
+                    flt = dict(league=league, season=latest_season, home_team=team, status__in=FINISHED_STATUSES, home_score__isnull=False, away_score__isnull=False)
                 else:
-                    ms = Match.objects.filter(league=league, season=latest_season, away_team=team, status__in=FINISHED_STATUSES)
-                    pts = 0
-                    for m in ms:
-                        if m.away_score > m.home_score: pts += 3
-                        elif m.away_score == m.home_score: pts += 1
-                    return round(pts / ms.count(), 2) if ms.exists() else 0.0
+                    flt = dict(league=league, season=latest_season, away_team=team, status__in=FINISHED_STATUSES, home_score__isnull=False, away_score__isnull=False)
+                ms = Match.objects.filter(**flt)
+                if venue == 'home':
+                    pts = ms.aggregate(
+                        tot=Sum(Case(
+                            When(home_score__gt=F('away_score'), then=Value(3)),
+                            When(home_score=F('away_score'), then=Value(1)),
+                            default=Value(0), output_field=IntegerField())))
+                else:
+                    pts = ms.aggregate(
+                        tot=Sum(Case(
+                            When(away_score__gt=F('home_score'), then=Value(3)),
+                            When(away_score=F('home_score'), then=Value(1)),
+                            default=Value(0), output_field=IntegerField())))
+                gp = ms.count()
+                return round((pts['tot'] or 0) / gp, 2) if gp else 0.0
 
             # Fixtures (Run-in) with Analysis
             def process_fixtures(team):
@@ -6163,7 +6298,7 @@ class HeadToHeadView(TemplateView):
                             league=lg, season=s
                         ).filter(
                             models.Q(home_team=team) | models.Q(away_team=team)
-                        ).filter(status__in=FINISHED_STATUSES).order_by('date')[:limit_gp]
+                        ).filter(status__in=FINISHED_STATUSES).select_related('home_team', 'away_team').prefetch_related('goals__team').order_by('date')[:limit_gp]
                         
                         # Must have exactly limit_gp matches? 
                         # Image says "after 24 matches". If a season had fewer, maybe skip or show what exists.
@@ -6222,7 +6357,7 @@ class HeadToHeadView(TemplateView):
                         league=lg, season=season, status__in=FINISHED_STATUSES
                     ).filter(
                         models.Q(home_team=team) | models.Q(away_team=team)
-                    ).order_by('-date')
+                    ).select_related('home_team', 'away_team').prefetch_related('goals__team').order_by('-date')
 
                     # Helper to check streaks
                     def get_seq(matches_subset):
@@ -6519,7 +6654,7 @@ class HeadToHeadView(TemplateView):
 
                 def calculate_team_comparison(team, lg, season, league_avg):
 
-                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team))
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team)).select_related('home_team', 'away_team').prefetch_related('goals__team')
                     n_matches = matches.count()
                     if n_matches == 0: return []
                     
@@ -6879,7 +7014,7 @@ class HeadToHeadView(TemplateView):
                     # Get leading/trailing stats first for complex metrics
                     lt_stats = calculate_leading_trailing_stats(team, lg, season)
                     
-                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team))
+                    matches = Match.objects.filter(league=lg, season=season, status__in=FINISHED_STATUSES).filter(models.Q(home_team=team) | models.Q(away_team=team)).select_related('home_team', 'away_team').prefetch_related('goals__team')
                     n_matches = matches.count()
                     if n_matches == 0: return []
                     
@@ -7018,7 +7153,7 @@ from django.shortcuts import get_object_or_404, render
 from matches.services.live_radar import LiveRadarService
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='members:login')
+# AMBIENTE DE TESTE: radar publico (pagina H2H e publica) — sem login
 def live_radar_partial(request, match_id):
     match = get_object_or_404(Match, pk=match_id)
     
@@ -7033,6 +7168,12 @@ def live_radar_partial(request, match_id):
         'pressure_10': pressure_10,
         'pressure_15': pressure_15,
         'pressure_ft': pressure_ft,
+        'pressure_windows': [
+            ('Últimos 5 Minutos', pressure_5),
+            ('Últimos 10 Minutos', pressure_10),
+            ('Últimos 15 Minutos', pressure_15),
+            ('Jogo Todo (FT)', pressure_ft),
+        ],
     }
     return render(request, 'members/partials/live_radar_modal.html', context)
 

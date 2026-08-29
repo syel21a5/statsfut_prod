@@ -52,9 +52,37 @@ class LiveRadarService:
     @staticmethod
     def calculate_pressure(match, window_minutes=5):
         """
-        Calcula a pressão dos últimos X minutos usando o Snapshot antigo.
-        Retorna um dicionário com a porcentagem de pressão (Casa vs Fora).
+        Calcula a pressão dos últimos X minutos.
+        AMBIENTE DE TESTE: usa o gráfico de pressão do SofaScore (graph_points em
+        statistics_data) quando disponível — soma os values dos últimos N minutos.
+        Fallback: método clássico por snapshots (diferença de stats).
         """
+        # --- NOVO: gráfico de pressão do SofaScore ---
+        try:
+            sd = match.statistics_data or {}
+            pts = sd.get('graph_points') or []
+            elapsed = match.elapsed_time or 0
+            if pts and elapsed > 0:
+                home = away = 0
+                corte = max(0, elapsed - window_minutes)
+                for p in pts:
+                    minute = p.get('minute', 0)
+                    if minute > corte:
+                        v = p.get('value', 0) or 0
+                        if v > 0:
+                            home += v
+                        else:
+                            away += abs(v)
+                total = home + away
+                if total > 0:
+                    hp = int((home / total) * 100)
+                    ap = 100 - hp
+                    status = 'Casa Dominando' if hp > 60 else 'Fora Dominando' if ap > 60 else 'Equilibrado'
+                    return {'home_pressure': hp, 'away_pressure': ap, 'status': status, 'source': 'graph'}
+        except Exception:
+            pass
+
+        # --- FALLBACK: método clássico por snapshots ---
         # Pega as estatísticas atuais do jogo (Momento T0)
         current_stats = {
             'home_shots': match.home_shots or 0,
@@ -105,6 +133,15 @@ class LiveRadarService:
         total_score = home_score + away_score
         
         if total_score == 0:
+            # Sem nenhum dado de pressão (graph do SofaScore indisponível E stats ricas zeradas) →
+            # informa que os dados não estão disponíveis, em vez de mostrar um radar falso 50/50.
+            tem_algum_dado = (
+                match.home_shots or match.away_shots
+                or match.home_corners or match.away_corners
+                or getattr(match, 'home_dangerous_attacks', 0) or getattr(match, 'away_dangerous_attacks', 0)
+            )
+            if not tem_algum_dado:
+                return {'home_pressure': 0, 'away_pressure': 0, 'status': 'dados_indisponiveis', 'source': 'nodata'}
             return {'home_pressure': 50, 'away_pressure': 50, 'status': 'Jogo Parado'}
             
         home_pressure = int((home_score / total_score) * 100)
