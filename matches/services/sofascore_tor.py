@@ -424,6 +424,28 @@ class SofaScoreTorService:
                         elapsed = min_do_periodo  # relativo ao período (base já aplicada no display)
                     except Exception:
                         elapsed = None
+            # SE AINDA SEM MINUTO: estima pela hora de início do jogo (startTimestamp).
+            # Garante que o minuto nunca fique travado/None durante uma partida ao vivo.
+            if elapsed is None:
+                sts = ev.get("startTimestamp")
+                if sts:
+                    try:
+                        minutos_desde_inicio = max(0, int((time.time() - int(sts)) / 60))
+                        if code == 7:
+                            # 2º tempo: subtrai o intervalo (~15min). cap em 45+45=90.
+                            elapsed = max(1, min(45, minutos_desde_inicio - 45 - 15))
+                        elif code == 6:
+                            elapsed = max(1, min(45, minutos_desde_inicio))
+                        elif code == 8:
+                            elapsed = 45
+                        elif code in (10, 11, 12, 13):
+                            elapsed = max(1, min(30, minutos_desde_inicio - 90 - 15))
+                        else:
+                            elapsed = max(1, min(45, minutos_desde_inicio))
+                    except Exception:
+                        elapsed = 1
+                else:
+                    elapsed = 1  # último recurso: nunca deixa None em jogo ao vivo
             # status final em vez de genérico LIVE, para o template saber o período
             if periodo:
                 status_out = periodo

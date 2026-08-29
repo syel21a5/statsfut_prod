@@ -162,6 +162,51 @@ class Command(BaseCommand):
                     enabled_names = {_sofa_league_name.get(f.get('league_id'), f.get('league')) for f in filtered_fixtures}
                     self.process_fixtures(filtered_fixtures, is_live=True, readonly_structure=True)
                     # Rich data (chutes/escanteios/posse) roda no bloco abaixo para cada jogo live
+
+                # ======================================================================
+                # FALLBACK INDIVIDUAL (29/08/2026): o feed global do SofaScore
+                # (/sport/football/events/live) é instável e às vezes NÃO inclui jogos
+                # de certas ligas (ex: Série C brasileira). Para não deixar o placar
+                # congelado, busca INDIVIDUALMENTE (via api_id) qualquer jogo que está
+                # marcado como ao vivo no banco mas não apareceu no feed global.
+                # ======================================================================
+                try:
+                    from matches.models import Match as _M
+                    from matches.services.sofascore_tor import SofaScoreTorService as _SofaSvc
+                    live_db_ids = {str(f.get('id')) for f in all_live_fixtures if f.get('id')}
+                    _live_qs = _M.objects.filter(
+                        status__in=['LIVE', 'Live', '1H', '2H', 'HT', 'ET', 'Halftime'],
+                        api_id__isnull=False,
+                        date__lte=timezone.now(),
+                    ).exclude(api_id='')
+                    _svc_fb = _SofaSvc()
+                    _extra_fixtures = []
+                    for _m2 in _live_qs:
+                        _aid = str(_m2.api_id).replace('sofa_', '')
+                        if not _aid.isdigit():
+                            continue
+                        if _aid in live_db_ids:
+                            continue  # já veio no feed global
+                        try:
+                            _evdata = _svc_fb._fetch(f"https://www.sofascore.com/api/v1/event/{_aid}")
+                            if not _evdata:
+                                continue
+                            _ev = _evdata.get('event') or {}
+                            _st = (_ev.get('status') or {}).get('type')
+                            if str(_st or '').lower() in ('finished', 'postponed', 'cancelled', 'abandoned'):
+                                # saiu do radar: o bloco de stale marca FT em seguida
+                                continue
+                            _extra = _svc_fb._normalize(_ev)
+                            _extra['source_api'] = 'sofascore'
+                            _extra_fixtures.append(_extra)
+                        except Exception as _e:
+                            self.stdout.write(self.style.WARNING(f'  ⚠️ fallback individual {_aid} falhou: {_e}'))
+                    if _extra_fixtures:
+                        self.stdout.write(self.style.SUCCESS(f"  🔧 Fallback individual: {len(_extra_fixtures)} jogos ao vivo recuperados"))
+                        self.process_fixtures(_extra_fixtures, is_live=True, readonly_structure=True)
+                except Exception as _e2:
+                    self.stdout.write(self.style.WARNING(f'  ⚠️ Erro no fallback individual: {_e2}'))
+
                 else:
                     self.stdout.write('  (nenhum jogo ao vivo das ligas monitoradas agora)')
 
