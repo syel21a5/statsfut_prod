@@ -1219,25 +1219,55 @@ class LiveMatchesView(ListView):
             'INT', 'SUSP', 'BREAK', 'PEN_LIVE', 'Live', 'In Play', 'IN PLAY'
         ]
         return Match.objects.filter(
-            status__in=live_statuses,
-            league__standings__isnull=False
+            status__in=live_statuses
         ).select_related('league', 'home_team', 'away_team').distinct().order_by('league__name', 'date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        matches = context['matches']
+        matches = list(context['matches'])
         
-        # Agrupar por Liga
-        grouped_matches = {}
-        for match in matches:
-            league_name = match.league.name
-            if league_name not in grouped_matches:
-                grouped_matches[league_name] = {'league': match.league, 'matches': []}
-            grouped_matches[league_name]['matches'].append(match)
+        # Agrupar por País -> Liga (mesmo formato da home)
+        grouped = {}
+        for m in matches:
+            country = m.league.country
+            league_name = m.league.name
+            if country not in grouped:
+                grouped[country] = {}
+            if league_name not in grouped[country]:
+                grouped[country][league_name] = []
+            grouped[country][league_name].append(m)
             
-        context['grouped_matches'] = grouped_matches
+        # Ordenar: Brasil primeiro, depois alfabético (como na home)
+        sorted_countries = sorted(grouped.keys(), key=lambda x: (x != 'Brasil', x))
+        
+        grouped_list = []
+        for country in sorted_countries:
+            leagues = []
+            for league_name, league_matches in grouped[country].items():
+                leagues.append({
+                    'name': league_name,
+                    'matches': league_matches,
+                    'league_obj': league_matches[0].league
+                })
+            leagues.sort(key=lambda x: x['name'])
+            grouped_list.append({
+                'country': country,
+                'flag_code': get_flag_code(country),
+                'leagues': leagues
+            })
+            
+        context['grouped_matches'] = grouped_list
         context['page_title'] = _('Live Matches')
+        context['cache_timeout'] = 0
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        # Zero cache: nada de Cloudflare, nada de navegador
+        response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response['Pragma'] = 'no-cache'
+        response['Expires'] = '0'
+        return response
 
 class StatsDispatchView(View):
     """

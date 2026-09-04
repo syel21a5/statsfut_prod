@@ -145,33 +145,6 @@ class Command(BaseCommand):
                         is_green = m.away_corners > m.home_corners
                     else: continue
 
-                elif tip.market.startswith('TLGRM_UNDER_'):
-                    # Robô Under do Telegram — alertas de Under 4.5/5.5/3.5 durante jogo
-                    # Market: TLGRM_UNDER_{X}_GOLS (X = gols no momento do alerta)
-                    try:
-                        goals_at_alert = int(tip.market.replace('TLGRM_UNDER_', '').replace('_GOLS', ''))
-                    except ValueError:
-                        goals_at_alert = 0
-                    # Linha de referência: Regra de Ouro = Under 4.5
-                    # Para alertas com 4+ gols, sobe a linha (Under 5.5, 6.5...)
-                    if goals_at_alert >= 4:
-                        ref_line = goals_at_alert + 0.5
-                    else:
-                        ref_line = 4.5
-                    is_green = total_goals < ref_line
-
-                elif tip.market.startswith('LAY_CS_'):
-                    # Lay Correct Score — apostar CONTRA um placar específico
-                    # Market: LAY_CS_X_Y (ex: LAY_CS_2_2 = "Lay Score 2-2")
-                    # GREEN se o placar final NÃO for X-Y
-                    parts = tip.market.replace('LAY_CS_', '').split('_')
-                    if len(parts) == 2:
-                        try:
-                            lay_h, lay_a = int(parts[0]), int(parts[1])
-                            is_green = not (m.home_score == lay_h and m.away_score == lay_a)
-                        except ValueError:
-                            pass
-
                 tip.status = 'GREEN' if is_green else 'RED'
                 tip.save(update_fields=['status', 'updated_at'])
                 

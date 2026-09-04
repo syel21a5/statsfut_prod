@@ -30,7 +30,9 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-ag%%ixyoe(tcagidf45lbnq^&a
 
 # Configuração do Telegram Bot (Radar Ao Vivo)
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '8984489557:AAGEfYKwUWVoJFRAiCwJvtlCiqvwlbLJaW4')
-TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '7883491565') # Será preenchido via .env no servidor
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '7883491565') # Chat do grupo UNDER (não usar no Over)
+# Chat DEDICADO do robô Over 1.5 (separado do Under). Vazio = Over não envia nada.
+TELEGRAM_CHAT_ID_OVER = os.getenv('TELEGRAM_CHAT_ID_OVER', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'

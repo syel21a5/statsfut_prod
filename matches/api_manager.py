@@ -249,11 +249,22 @@ class APIManager:
         # Check if API-Football is allowed
         # Se USE_API_FOOTBALL for False, usamos o SofaScore via Tor
         if not self.USE_API_FOOTBALL:
-            print("[APIManager] API-Football DESATIVADA — usando SofaScore via Tor (live).")
+            print("[APIManager] API-Football DESATIVADA — usando SofaScore (live).")
+            from matches.services.sofascore_tor import SofaScoreTorService
+            svc = SofaScoreTorService()
+            # 1. Tenta conexão DIRETA primeiro (sem Tor) — mais rápido e às vezes liberado
             try:
-                from matches.services.sofascore_tor import SofaScoreTorService
+                fixtures = svc.get_live_fixtures(use_direct=True)
+                if fixtures:
+                    print(f"[APIManager] SofaScore DIRETO retornou {len(fixtures)} jogos ao vivo.")
+                    return fixtures
+            except Exception as e:
+                print(f"[APIManager] SofaScore direto falhou: {e}")
+            # 2. Fallback: SofaScore via Tor
+            try:
                 fixtures = SofaScoreTorService().get_live_fixtures()
                 if fixtures:
+                    print(f"[APIManager] SofaScore via Tor retornou {len(fixtures)} jogos ao vivo.")
                     return fixtures
                 print("[APIManager] SofaScore via Tor não retornou dados ao vivo.")
                 return []

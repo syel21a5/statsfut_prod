@@ -179,12 +179,23 @@ class Command(BaseCommand):
                         api_id__isnull=False,
                         date__lte=timezone.now(),
                     ).exclude(api_id='')
+                    # Também cobre jogos Scheduled com hora já passada (começaram mas o feed
+                    # global não os incluiu — ex: começou há 10+ min e continua 'Scheduled').
+                    _stale_qs = _M.objects.filter(
+                        status__in=['Scheduled', 'NS', 'SCHEDULED'],
+                        api_id__isnull=False,
+                        date__lte=timezone.now() - timedelta(minutes=10),
+                    ).exclude(api_id='')
                     _svc_fb = _SofaSvc()
                     _extra_fixtures = []
-                    for _m2 in _live_qs:
+                    _checked = set()
+                    for _m2 in list(_live_qs) + list(_stale_qs):
                         _aid = str(_m2.api_id).replace('sofa_', '')
                         if not _aid.isdigit():
                             continue
+                        if _aid in _checked:
+                            continue
+                        _checked.add(_aid)
                         if _aid in live_db_ids:
                             continue  # já veio no feed global
                         try:
@@ -323,7 +334,29 @@ class Command(BaseCommand):
                     if int((timezone.now() - ms.date).total_seconds() // 3600) > 3:
                         ms.status = 'FT'
                         ms.save()
-                        self.stdout.write(self.style.SUCCESS(f'  🏁 FT (falback): {ms.home_team} x {ms.away_team}'))
+                        self.stdout.write(self.style.SUCCESS(f'  🏁 FT (fallback Scheduled): {ms.home_team} x {ms.away_team}'))
+                # FALLBACK DETERMINÍSTICO #2 (02/09/2026): jogos "ao vivo" congelados (fix delay).
+                # Quando o Tor cai (403 SofaScore) e o feed rápido não cobre a liga, jogos que
+                # JÁ TERMINARAM ficam presos como live com minuto congelado. Regras:
+                #   - status live/2H/1H/HT + kickoff há >100min + minuto congelado <50 → FT
+                #   - status live/2H/HT + elapsed >= 105' → FT (jogo passou do tempo real max)
+                live_stuck = Match.objects.filter(
+                    status__in=['1H', '2H', 'HT', 'Live', 'In Progress', 'Halftime'],
+                    date__lte=timezone.now() - timedelta(minutes=100),
+                    elapsed_time__lt=50,
+                )[:25]
+                for ms2 in live_stuck:
+                    ms2.status = 'FT'
+                    ms2.save()
+                    self.stdout.write(self.style.SUCCESS(f'  🏁 FT (live congelado): {ms2.home_team} x {ms2.away_team}'))
+                overtime = Match.objects.filter(
+                    status__in=['1H', '2H', 'Live', 'In Progress', 'Halftime'],
+                    elapsed_time__gte=105,
+                )[:15]
+                for ms2 in overtime:
+                    ms2.status = 'FT'
+                    ms2.save()
+                    self.stdout.write(self.style.SUCCESS(f'  🏁 FT (tempo esgotado {ms2.elapsed_time}\'): {ms2.home_team} x {ms2.away_team}'))
                 sane_fix = 0
                 for m in sane_list:
                     try:

@@ -19,7 +19,12 @@ from datetime import datetime, timedelta, timezone
 from curl_cffi import requests
 
 TOR_PROXY = os.getenv("TOR_PROXY", "socks5h://127.0.0.1:9050")
+SOFASCORE_DIRECT = os.getenv("SOFASCORE_DIRECT")  # "true" para pular Tor e tentar direto
 BASE_URL = "https://www.sofascore.com/api/v1"
+
+# Proxy HTTP direto (sem Tor) — pode ser residencial, datacenter, ou None
+# Se configurado, tenta primeiro sem Tor (direto), depois fallback Tor
+DIRECT_PROXY = os.getenv("SOFASCORE_DIRECT_PROXY")
 
 # Nome da liga (padrão do projeto) -> IDs unique-tournament no SofaScore
 # MAPA COMPLETO (04/08/2026): todas as 53 ligas do banco, validado via API
@@ -145,7 +150,14 @@ def _fmt_ts(ts):
 
 
 class SofaScoreTorService:
-    """Cliente SofaScore via Tor com rotação automática de circuito."""
+    """Cliente SofaScore via Tor com rotação automática de circuito.
+
+    Fluxo 2026-08-30:
+      1. Se DIRECT_PROXY está configurado, tenta via proxy HTTP direto primeiro.
+      2. Se falha, tenta via Tor. Se Tor falha (403 continuo), tenta direto
+         (sem proxy) como último recurso — o SofaScore pode liberar IPs de
+         datacenter para o endpoint de live.
+    """
 
     def __init__(self, proxy=None):
         self.proxy = proxy or TOR_PROXY
@@ -155,6 +167,10 @@ class SofaScoreTorService:
     # ---------- infra ----------
 
     def _create_session(self):
+        # IMPORTANTE (30/08/2026): curl_cffi 0.6.2 só suporta chrome110/chrome120
+        # para REQUESTS REAIS. chrome124/chrome131 criam a Session mas falham no
+        # GET com "Impersonating X is not supported". NÃO adicionar fingerprints
+        # novos sem antes fazer upgrade do curl_cffi no venv.
         impersonate = random.choice(["chrome110", "chrome120"])
         self.session = requests.Session(impersonate=impersonate)
         self.session.headers.update({
@@ -166,6 +182,46 @@ class SofaScoreTorService:
             "Cache-Control": "no-cache",
         })
         self.session.proxies = {"http": self.proxy, "https": self.proxy}
+
+    def _create_session_direct(self):
+        """Cria sessão SEM proxy (conexão direta do servidor)."""
+        impersonate = random.choice(["chrome110", "chrome120"])
+        self.session = requests.Session(impersonate=impersonate)
+        self.session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Origin": "https://www.sofascore.com",
+            "Referer": "https://www.sofascore.com/",
+            "Cache-Control": "no-cache",
+        })
+        # Sem proxy = conexão direta do servidor
+        self.session.proxies = {}
+
+    def _fetch_direct(self, url, retries=2):
+        """Tenta fetch SEM proxy (conexão direta do servidor).
+        Pode funcionar se o SofaScore liberar IPs de datacenter para o endpoint de live.
+        """
+        if not self.session:
+            self._create_session_direct()
+        else:
+            self.session.proxies = {}
+        for attempt in range(retries):
+            try:
+                time.sleep(random.uniform(0.3, 1.0))
+                r = self.session.get(url, timeout=30)
+                if r.status_code == 200:
+                    self.consecutive_errors = 0
+                    return r.json()
+                if r.status_code in (403, 429):
+                    print(f"  ⚠️ Direto {r.status_code} — tentativa {attempt + 1}/{retries}")
+                    self._create_session_direct()
+                    continue
+                return None
+            except Exception as e:
+                print(f"  ⚠️ Direto erro: {str(e)[:60]}")
+                return None
+        return None
 
     def _rotate_tor(self):
         """Força novo circuito no Tor (novo IP de saída)."""
@@ -206,8 +262,17 @@ class SofaScoreTorService:
 
     # ---------- dados ----------
 
-    def get_live_fixtures(self):
-        """Todos os jogos ao vivo do mundo (1 request), no formato padrão do projeto."""
+    def get_live_fixtures(self, use_direct=False):
+        """Todos os jogos ao vivo do mundo (1 request), no formato padrão do projeto.
+
+        Se use_direct=True, tenta HTTP direto (sem proxy) — útil como fallback
+        quando o Tor está bloqueado. O update_live_matches chama direto primeiro.
+        """
+        if use_direct:
+            data = self._fetch_direct(f"{BASE_URL}/sport/football/events/live")
+            if data:
+                events = data.get("events", [])
+                return [self._normalize(ev) for ev in events if ev.get("id")]
         data = self._fetch(f"{BASE_URL}/sport/football/events/live")
         if not data:
             return []
